@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore 9.37.6
+ToyScore 9.37.6.0
 </title>
 </head>
 <body style="font-size:160%" >
@@ -41,6 +41,9 @@ CSV<input type="file" id="selfile2" style="font-size:100%">
 <input type="range"  name="r_msr" value="0" min="0" max="99" step="1" onChange="measure2()" style="font-size:100%" >
 <input type="tel"    name="x_msr" value="0" size="1" style="font-size:100%" >
 <input type="button" name="b_|" value="|" onClick="measure1()" style="font-size:100%" >
+<input type="tel"    name="x_msrf" value="0" size="1" style="font-size:100%" >
+<input type="tel"    name="x_msrt" value="0" size="1" style="font-size:100%" >
+<input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
 <br>
 <input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
 <input type="button" name="b_+" value="+" onClick="transpose1()" style="font-size:100%" >
@@ -1878,6 +1881,7 @@ for(i=0;i<trnnr0.length;i++){
 
 
 
+
 function instrument1(){
 ctx2.font="25px Arial";
 ctx2.fillStyle="black";
@@ -2160,11 +2164,11 @@ touch_sound1();
 }else if(document.form1.sv1.options[6].selected==true){
 instrument1();
 }else if(document.form1.sv1.options[7].selected==true){
-//keyw1();
+keyw1();
 }else if(document.form1.sv1.options[8].selected==true){
-//keyw3();
+keyw3();
 }else if(document.form1.sv1.options[9].selected==true){
-//keyw4();
+keyw4();
 }else if(document.form1.sv1.options[10].selected==true){
 download1();
 }else if(document.form1.sv1.options[11].selected==true){
