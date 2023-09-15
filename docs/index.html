@@ -3,6 +3,7 @@
 <head>
 </head>
 <title>
+index 1.1
 </title>
 <body bgcolor="lightgray">
 <font face="Arial">
@@ -17,11 +18,32 @@
 </h3>
 <input type="button" value="I agree" onClick="window.location.href='ToyScore.html'" style="font-size:100%" >
 </font>
-</font>
 <p>
 <img src="data/pr1.png" width="400" hight="400">
 <img src="data/pr3.png" width="400" hight="400">
 </p>
+<h3>1 Download mid and csv files from the table below.</h3>
+<h3>2 Click "I agree", if you agree. </h3>
+<h3>3 Choose mid file from the button on "MID" and csv file from the button on "CSV".</h3>
+<h3>4 Select "CSV Fingers" or "CSV Lyrics" from left pull down menu.</h3>
+<h3>5 Select "Scroll M" or "Scroll L" or "Still M or "Still L" from right pull down menu.</h3>
+<h3>6 Click "~>" button on top to play the song.</h3>
+<table border='1' width='400' bgcolor="lightyellow"><tr><th>Title</th><th>MID</th><th>CSV</th></tr>
+<script>
+files=new Array();
+files[0]="Menuet BWV Anh.114";
+files[1]="Amazing Grace";
+files[2]="Auld Lang Syne";
+files[3]="Sakura Sakura";
+files[4]="Wellerman";
+for(i=0;i<files.length;i++){
+document.write ("<tr><td>",files[i],"</td>");
+document.write ("<td><a href='data/",files[i],".mid'>mid</a></td>");
+document.write ("<td><a href='data/",files[i],".csv'>csv</a></td></tr>");
+}
+</script>
+</table>
+</font>
 </body>
 </html>
 
