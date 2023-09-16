@@ -26,8 +26,8 @@ CSV<input type="file" id="selfile2" style="font-size:100%">
 <br>
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
 <input type="tel"    name="x_bpm" value="" size="1" style="font-size:100%" >
-<input type="button" name="b_-|>" value="Silent1" onClick="silent1()" style="font-size:100%" >
-<input type="button" name="b_~|>" value="Silent2" onClick="silent2()" style="font-size:100%" >
+<input type="button" name="b_-|>" value="SilentFix" onClick="silent1()" style="font-size:100%" >
+<input type="button" name="b_~|>" value="SilentOrigin" onClick="silent2()" style="font-size:100%" >
 <input type="range"  name="r_hgh" value="5" min="1" max="20" step="1" onChange="height1()">
 <input type="tel"    name="x_hgh" value="5" size="1" style="font-size:100%" >
 <input type="button" name="b_<->" value="<->" onClick="height2()" style="font-size:100%" >
@@ -48,7 +48,7 @@ CSV<input type="file" id="selfile2" style="font-size:100%">
 <input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
 <input type="button" name="b_+" value="+" onClick="transpose1()" style="font-size:100%" >
 <input type="tel"    name="x_ch" value="" size="1" style="font-size:100%" >
-<input type="button" name="b_ch" value="[ ]" onClick="channel1()" style="font-size:100%" >
+<input type="button" name="b_ch" value="Ch" onClick="channel1()" style="font-size:100%" >
 <input type="tel"    name="x_rl" value="" size="1" style="font-size:100%" >
 <input type="button" name="b_rl" value="] [" onClick="rightleft1()" style="font-size:100%" >
 
@@ -1660,8 +1660,8 @@ newWin2.document.writeln ('<pre><font color="#000080">CSV Choose File </font>Cho
 newWin2.document.writeln ('<pre><font color="#000080">                </font>A.NoteID, B.Finger number, C.Memo, D.Lyrics, E.Notation Left, F.Notation Right. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Play            </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">||              </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Silent1         </font>Scroll screen or move a horizontal line silently at the bpm in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Silent2         </font>Scroll screen or move a horizontal line silently at the original bpm.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SilentFix       </font>Scroll screen or move a horizontal line silently at the bpm in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SilentOrigin    </font>Scroll screen or move a horizontal line silently at the original bpm.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080"><->             </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">|<              </font>Show the first measure.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080"><<              </font>Show the previous screen.</font></pre>'.fontsize(5));
@@ -1672,7 +1672,7 @@ newWin2.document.writeln ('<pre><font color="#000080">>|              </font>Sho
 newWin2.document.writeln ('<pre><font color="#000080">|               </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">K               </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">+               </font>Transpose key by the number in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">[]              </font>Show the notes of the channel number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Ch              </font>Show the notes of the channel number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">                You can enter two numbers sepalated by "*".</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">][              </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">No Letters      </font>Select to show note letters, lyrics, finger numbers, memos, or CSV lyrics on notes.</font></pre>'.fontsize(5));
