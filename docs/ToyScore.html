@@ -18,7 +18,7 @@ Progress <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
 <br>
-MIDI<input type="file" id="selfile1" style="font-size:100%">
+MID<input type="file" id="selfile1" style="font-size:100%">
 <br>
 CSV<input type="file" id="selfile2" style="font-size:100%">
 </font>
@@ -1653,43 +1653,44 @@ window.name="openerWin";
 newWin2=window.open();
 newWin2.document.writeln ('<pre align="left" ><b><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font></b><hr color="#ff0000"></font></pre>'.fontsize(6));
 newWin2.document.writeln ('<pre>Information</pre>'.fontsize(6));
-newWin2.document.writeln ('<pre><font color="#000080">MIDI Choose File</font>Choose a mid or midi file. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">CSV Choose File </font>Choose a csv file for mid file to show additional information as follows: </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">                </font>A.NoteID, B.Finger number, C.Memo, D.Lyrics, E.Notation Left, F.Notation Right. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Play            </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">||              </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">SilentBPM       </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">SilentOrigin    </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080"><->             </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">|<              </font>Show the first measure.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080"><<              </font>Show the previous screen.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080"><               </font>Show the previous measure.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">>               </font>Show the next measure.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">>>              </font>Show the next screen.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">>|              </font>Show the last measure.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">|               </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">K               </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">+               </font>Transpose key by the number in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Ch              </font>Show the notes of the channel number in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000000">                Two numbers can be set sepalated by "*".</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">][              </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Left list box   </font>Select to show note letters, lyrics, finger numbers, memos, or CSV lyrics on notes.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Right list box  </font>Select to switch program below.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Scroll M        </font>Setting to scroll screen in a medium font.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Scroll L        </font>Setting to scroll screen in a large font.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Still M         </font>Setting to move a horisontal line on still screen in a medium font.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Still L         </font>Setting to move a horisontal line on still screen in a large font.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Color Sample    </font>Color sample to print and set on the keyboad.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Touch Sound     </font>Setting to play by touching screen.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Channel Colors  </font>Table of channel colors, channel numbers and instruments.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Key 10          </font>Estimate key of the song by time window 10%.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Key 20          </font>Estimate key of the song by time window 20%.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Key 25          </font>Estimate key of the song by time window 25%.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Download Files  </font>Download files.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Information     </font>This page.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Licenses        </font>Third party licenses.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Privacy Poliy   </font>Link to Privacy Policy, Terms and Conditions, Cookies Policy and Diclaimer.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Contact         </font>Feel free to contact us by e-mail.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">MID Choose File  </font>Choose a mid file. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">CSV Choose File  </font>Choose a csv file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">                 </font>A.NoteID, B.Finger number, C.Memo, D.Lyrics, E.Notation Left, F.Notation Right. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Play             </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">||               </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SilentBPM        </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SilentOrigin     </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><->              </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">|<               </font>Show the first measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><<               </font>Show the previous screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><                </font>Show the previous measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>                </font>Show the next measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>>               </font>Show the next screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>|               </font>Show the last measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">|                </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">K                </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">+                </font>Transpose key by the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Ch               </font>Show the notes of the channel number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000000">                 Two numbers can be set sepalated by "*".</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">][               </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Left list box    </font>Select to show note letters, lyrics, finger numbers, memos, or CSV lyrics on notes.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Right list box   </font>Select to switch program below.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Scroll M         </font>Setting to scroll screen in a medium font.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Scroll L         </font>Setting to scroll screen in a large font.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Still M          </font>Setting to move a horisontal line on still screen in a medium font.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Still L          </font>Setting to move a horisontal line on still screen in a large font.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Color Sample     </font>Color sample to print and set on the keyboad.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Touch Sound      </font>Setting to play by touching screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Channel Colors   </font>Table of channel colors, channel numbers and instruments.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 10           </font>Estimate key of the song by time window 10%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 20           </font>Estimate key of the song by time window 20%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 25           </font>Estimate key of the song by time window 25%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Download Files   </font>Download files.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Information      </font>This page.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Licenses         </font>Third party licenses.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Privacy Poliy    </font>Link to Privacy Policy, Terms and Conditions, Cookies Policy and Diclaimer.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Contact          </font>Feel free to contact us by e-mail.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font></font><font color="#000000">        Registered Trademark in Japan No.6706042.</font></pre>'.fontsize(5));
 }
 
 function licenses1(){
