@@ -18,8 +18,6 @@ Progress <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
 <br>
-MID<input type="file" id="selfile1" style="font-size:100%">
-<br>
 CSV<input type="file" id="selfile2" style="font-size:100%">
 </font>
 <br>
@@ -419,7 +417,8 @@ let csvst0=0;
 //var obj1=document.getElementById("selfile1");
 //obj1.addEventListener("change", function(evt){
 var xhr=createXMLHttpRequest();
-xhr.open("get","/data/Amazing_Grace.mid",true);
+alert(xhr);
+xhr.open("get","data/Amazing_Grace.mid",true);
 //var file1=evt.target.files[0];
 var file1=xhr.response;
 alert(file1.name);
