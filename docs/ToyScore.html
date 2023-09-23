@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore 9.38.8
+ToyScore 9.38.7
 </title>
 </head>
 <body style="font-size:160%" >
@@ -416,10 +416,9 @@ let csv4=[];
 let csv5=[];
 let csvst0=0;
 
-//var obj1=document.getElementById("selfile1");
-//obj1.addEventListener("change", function(evt){
-//var file1=evt.target.files[0];
-var file1="data/Amazing_Grace.mid";
+var obj1=document.getElementById("selfile1");
+obj1.addEventListener("change", function(evt){
+var file1=evt.target.files[0];
 var reader1=new FileReader();
 reader1.readAsArrayBuffer(file1);
 reader1.onload=function(ev){
@@ -519,18 +518,17 @@ lyrics1();
 top1();
 
 }
-//},false);
+},false);
 
-//var obj2=document.getElementById("selfile2");
-//obj2.addEventListener("change", function(evt){
+var obj2=document.getElementById("selfile2");
+obj2.addEventListener("change", function(evt){
 csv0=[];
 csv1=[];
 csv2=[];
 csv3=[];
 csv4=[];
 csv5=[];
-//var file2=evt.target.files[0];
-var file2="data/Amazing_Grace.csv";
+var file2=evt.target.files[0];
 var reader2=new FileReader();
 reader2.readAsText(file2,"shift_JIS");
 reader2.onload=function(ev){
@@ -547,7 +545,7 @@ csvst0=(csv0[1].split(','))[0];
 top1();
 
 }//reader2
-//},false);//obj2
+},false);//obj2
 
 
 
