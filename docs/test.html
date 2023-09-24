@@ -432,17 +432,19 @@ alert(songname1);
 	if (res2.ok){
 		data2=await res2.text
 	}
-alert(res1.type);
-alert(res2.type);
+alert(data1);
+alert(data2);
 	
 //var file1=evt.target.files[0];
-var file1=data1;
-var reader1=new FileReader();
-reader1.readAsArrayBuffer(file1);
+//var file1=data1;
+//var reader1=new FileReader();
+//reader1.readAsArrayBuffer(file1);
 //reader1.onload=function(ev){
 picoAudio.init(); 
-midiData = new Uint8Array(reader1.result);
+//midiData = new Uint8Array(reader1.result);
+midiData = new Uint8Array(data1);
 parsedData = picoAudio.parseSMF(midiData);
+alert(persedData);
 picoAudio.setData(parsedData);
 eott0 = parsedData.songLength;
 ppq = parsedData.header.resolution;
@@ -546,12 +548,13 @@ csv2=[];
 csv3=[];
 csv4=[];
 csv5=[];
-var file2=data2;
-var reader2=new FileReader();
-reader2.readAsText(file2,"shift_JIS");
+//var file2=data2;
+//var reader2=new FileReader();
+//reader2.readAsText(file2,"shift_JIS");
 //reader2.onload=function(ev){
 
-csv0=reader2.result.split('\n');
+//csv0=reader2.result.split('\n');
+csv0=data2.split('\n');
 for (i=0;i<csv0.length;i++){
 csv1.push([(csv0[i].split(','))[1]]);
 csv2.push([(csv0[i].split(','))[2]]);
