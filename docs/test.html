@@ -424,17 +424,15 @@ let songname1=document.getElementById("song1").value;
 alert(songname1);
 	let url1="https://www.toyscore.app/data/"+songname1+".mid";
 	let url2="https://www.toyscore.app/data/"+songname1+".csv";
-	let data1=await fetch(url1);
-	let data2=await fetch(url2);
-	let res1=data1.response;
-	let res2=data2.response;
+	let res1=await fetch(url1);
+	let res2=await fetch(url2);
 alert(url1);
 alert(url2);
-alert(res1);
-alert(res2);
+alert(res1.ok);
+alert(res2.ok);
 	
 //var file1=evt.target.files[0];
-var file1=data1;
+var file1=res1;
 var reader1=new FileReader();
 reader1.readAsArrayBuffer(file1);
 reader1.onload=function(ev){
@@ -544,7 +542,7 @@ csv2=[];
 csv3=[];
 csv4=[];
 csv5=[];
-var file2=data2;
+var file2=res2;
 var reader2=new FileReader();
 reader2.readAsText(file2,"shift_JIS");
 reader2.onload=function(ev){
