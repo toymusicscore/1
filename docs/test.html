@@ -22,9 +22,6 @@ Progress <span id="prgrs"></span>
 <option value="0" style="font-size:100%" selected="selected"> Select Song </option>
 <option value="Amazing_Grace" style="font-size:100%"> Amazing_Grace </option>
 </select>
-MID<input type="file" id="selfile1" style="font-size:100%">
-<br>
-CSV<input type="file" id="selfile2" style="font-size:100%">
 </font>
 <br>
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
@@ -426,8 +423,12 @@ async function fetch1(){
 	let url1="/data/Amazin_Grace.mid";
 	let data1=await fetch(url1);
 	let res1=data1.blob();
+	let url2="/data/Amazin_Grace.csv";
+	let data2=await fetch(url2);
+	let res2=data2.blob();
 }
 alert(data1.name);
+alert(data2.name);
 	
 //var file1=evt.target.files[0];
 var file1=data1;
@@ -532,15 +533,15 @@ top1();
 }
 //},false);
 
-var obj2=document.getElementById("selfile2");
-obj2.addEventListener("change", function(evt){
+//var obj2=document.getElementById("selfile2");
+//obj2.addEventListener("change", function(evt){
 csv0=[];
 csv1=[];
 csv2=[];
 csv3=[];
 csv4=[];
 csv5=[];
-var file2=evt.target.files[0];
+var file2=data2;
 var reader2=new FileReader();
 reader2.readAsText(file2,"shift_JIS");
 reader2.onload=function(ev){
@@ -557,7 +558,7 @@ csvst0=(csv0[1].split(','))[0];
 top1();
 
 }//reader2
-},false);//obj2
+//},false);//obj2
 
 
 
