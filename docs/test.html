@@ -432,19 +432,17 @@ alert(songname1);
 	if (res2.ok){
 		data2=await res2.text
 	}
-alert(url1);
-alert(url2);
+alert(res1.type);
+alert(res2.type);
 	
 //var file1=evt.target.files[0];
 var file1=data1;
 var reader1=new FileReader();
 reader1.readAsArrayBuffer(file1);
-reader1.onload=function(ev){
+//reader1.onload=function(ev){
 picoAudio.init(); 
 midiData = new Uint8Array(reader1.result);
 parsedData = picoAudio.parseSMF(midiData);
-alert(persedData);
-
 picoAudio.setData(parsedData);
 eott0 = parsedData.songLength;
 ppq = parsedData.header.resolution;
@@ -537,7 +535,7 @@ lyrics1();
 
 top1();
 
-}
+//}
 //},false);
 
 //var obj2=document.getElementById("selfile2");
@@ -551,7 +549,7 @@ csv5=[];
 var file2=data2;
 var reader2=new FileReader();
 reader2.readAsText(file2,"shift_JIS");
-reader2.onload=function(ev){
+//reader2.onload=function(ev){
 
 csv0=reader2.result.split('\n');
 for (i=0;i<csv0.length;i++){
@@ -564,7 +562,7 @@ csv5.push([(csv0[i].split(','))[5]]);
 csvst0=(csv0[1].split(','))[0];
 top1();
 
-}//reader2
+//}//reader2
 //},false);//obj2
 }
 fetch1();
