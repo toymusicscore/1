@@ -18,6 +18,10 @@ Progress <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
 <br>
+<select name="song1" onChange="fetch1()" style="font-size:100%">
+<option value="0" style="font-size:100%" selected="selected"> Select Song </option>
+<option value="Amazing_Grace" style="font-size:100%"> Amazing_Grace </option>
+</select>
 MID<input type="file" id="selfile1" style="font-size:100%">
 <br>
 CSV<input type="file" id="selfile2" style="font-size:100%">
@@ -416,14 +420,13 @@ let csv4=[];
 let csv5=[];
 let csvst0=0;
 
-var obj1=document.getElementById("selfile1");
-obj1.addEventListener("change", function(evt){
+//var obj1=document.getElementById("selfile1");
+//obj1.addEventListener("change", function(evt){
 async function fetch1(){
 	let url1="/data/Amazin_Grace.mid";
 	let data1=await fetch(url1);
 	let res1=data1.blob();
 }
-fetch1();
 alert(data1.name);
 	
 //var file1=evt.target.files[0];
@@ -527,7 +530,7 @@ lyrics1();
 top1();
 
 }
-},false);
+//},false);
 
 var obj2=document.getElementById("selfile2");
 obj2.addEventListener("change", function(evt){
