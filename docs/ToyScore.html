@@ -425,7 +425,6 @@ reader1.onload=function(ev){
 picoAudio.init(); 
 midiData = new Uint8Array(reader1.result);
 parsedData = picoAudio.parseSMF(midiData);
-alert("persedData"+persedData);
 picoAudio.setData(parsedData);
 eott0 = parsedData.songLength;
 ppq = parsedData.header.resolution;
