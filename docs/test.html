@@ -434,8 +434,6 @@ alert(songname1);
 	}
 alert(url1);
 alert(url2);
-alert(data1);
-alert(data2);
 	
 //var file1=evt.target.files[0];
 var file1=data1;
@@ -445,6 +443,8 @@ reader1.onload=function(ev){
 picoAudio.init(); 
 midiData = new Uint8Array(reader1.result);
 parsedData = picoAudio.parseSMF(midiData);
+alert(persedData);
+
 picoAudio.setData(parsedData);
 eott0 = parsedData.songLength;
 ppq = parsedData.header.resolution;
