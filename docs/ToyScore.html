@@ -419,10 +419,10 @@ let csvst0=0;
 
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
-	let url1="./data/"+songname1+".mid";
-	let url2="./data/"+songname1+".csv";
-	let res1=await fetch(url1);
-	let res2=await fetch(url2);
+	let uri1="./data/"+songname1+".mid";
+	let uri2="./data/"+songname1+".csv";
+	let res1=await fetch(uri1);
+	let res2=await fetch(uri2);
 	if (res1.ok){
 		data1=await res1.arrayBuffer();
 	}
