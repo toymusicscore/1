@@ -426,19 +426,22 @@ alert(songname1);
 	let url2="./data/"+songname1+".csv";
 	let res1=await fetch(url1);
 	let res2=await fetch(url2);
+	if (res1.ok){
+		data1=await res1.arrayBuffer;
+	}
+	if (res2.ok){
+		data2=await res2.text
+	}
 alert(url1);
 alert(url2);
 alert(res1.body);
 alert(res2.body);
 	
 //var file1=evt.target.files[0];
-var file1=res1.body;
-alert(file1);
+var file1=data1;
 var reader1=new FileReader();
 reader1.readAsArrayBuffer(file1);
 reader1.onload=function(ev){
-alert(reader1.result);
-
 picoAudio.init(); 
 midiData = new Uint8Array(reader1.result);
 parsedData = picoAudio.parseSMF(midiData);
@@ -545,12 +548,10 @@ csv2=[];
 csv3=[];
 csv4=[];
 csv5=[];
-var file2=res2.body;
-alert(file2);
+var file2=data2;
 var reader2=new FileReader();
 reader2.readAsText(file2,"shift_JIS");
 reader2.onload=function(ev){
-alert(reader2.result);
 
 csv0=reader2.result.split('\n');
 for (i=0;i<csv0.length;i++){
