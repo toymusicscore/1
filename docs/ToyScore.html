@@ -434,19 +434,10 @@ let songname1=document.getElementById("song1").value;
 		data2=await res2.text();
 	}
 
-picoAudio.init(); 
 midiData = new Uint8Array(data1);
 csv0=data2.split('\n');
-alert(midiData);
-alert(csv0);
-alert("test1");
-}
-fetch1();
 
-function read1(){
-alert(midiData);
-alert(csv0);
-alert("test2");
+picoAudio.init(); 
 parsedData = picoAudio.parseSMF(midiData);
 picoAudio.setData(parsedData);
 eott0 = parsedData.songLength;
@@ -556,7 +547,7 @@ csvst0=(csv0[1].split(','))[0];
 top1();
 
 }
-read1();
+fetch1();
 
 //scroll M
 function scroll1(){
