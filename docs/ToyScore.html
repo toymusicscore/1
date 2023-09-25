@@ -435,9 +435,6 @@ let songname1=document.getElementById("song1").value;
 	}
 
 midiData = new Uint8Array(data1);
-csv0=data2.split('\n');
-alert(midiData);
-alert(csv0);
 picoAudio.init(); 
 parsedData = picoAudio.parseSMF(midiData);
 picoAudio.setData(parsedData);
@@ -536,7 +533,7 @@ csv2=[];
 csv3=[];
 csv4=[];
 csv5=[];
-
+csv0=data2.split('\n');
 for (i=0;i<csv0.length;i++){
 csv1.push([(csv0[i].split(','))[1]]);
 csv2.push([(csv0[i].split(','))[2]]);
