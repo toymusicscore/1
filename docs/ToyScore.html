@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore 9.39.1
+ToyScore 9.39.3
 </title>
 </head>
 <body style="font-size:160%" >
@@ -22,6 +22,10 @@ Progress <span id="prgrs"></span>
 <option value="Amazing_Grace" style="font-size:100%" selected="selected"> Amazing Grace </option>
 <option value="Auld_Lang_Syne" style="font-size:100%"> Auld Lang Syne </option>
 </select>
+<br>
+MID<input type="file" id="selfile1" style="font-size:100%">
+<br>
+CSV<input type="file" id="selfile2" style="font-size:100%">
 </font>
 <br>
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
@@ -432,6 +436,14 @@ let songname1=document.getElementById("song1").value;
 
 picoAudio.init(); 
 midiData = new Uint8Array(data1);
+csv0=data2.split('\n');
+alert(midiData);
+alert(csv0);
+}
+
+function read1(){
+alert(midiData);
+alert(csv0);
 parsedData = picoAudio.parseSMF(midiData);
 picoAudio.setData(parsedData);
 eott0 = parsedData.songLength;
@@ -530,7 +542,6 @@ csv3=[];
 csv4=[];
 csv5=[];
 
-csv0=data2.split('\n');
 for (i=0;i<csv0.length;i++){
 csv1.push([(csv0[i].split(','))[1]]);
 csv2.push([(csv0[i].split(','))[2]]);
@@ -543,6 +554,7 @@ top1();
 
 }
 fetch1();
+read1();
 
 //scroll M
 function scroll1(){
