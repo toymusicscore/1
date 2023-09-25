@@ -421,6 +421,9 @@ let csv4=[];
 let csv5=[];
 let csvst0=0;
 
+let data1="";
+let data2="";
+
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
 	let uri1="./data/"+songname1+".mid";
@@ -433,7 +436,10 @@ let songname1=document.getElementById("song1").value;
 	if (res2.ok){
 		data2=await res2.text();
 	}
+}
+fetch1();
 
+fiunction read1(){
 midiData = new Uint8Array(data1);
 picoAudio.init(); 
 parsedData = picoAudio.parseSMF(midiData);
@@ -545,7 +551,7 @@ csvst0=(csv0[1].split(','))[0];
 top1();
 
 }
-fetch1();
+read1();
 
 //scroll M
 function scroll1(){
