@@ -424,6 +424,142 @@ let csvst0=0;
 let data1="";
 let data2="";
 
+
+var obj1=document.getElementById("selfile1");
+obj1.addEventListener("change", function(evt){
+var file1=evt.target.files[0];
+var reader1=new FileReader();
+reader1.readAsArrayBuffer(file1);
+reader1.onload=function(ev){
+picoAudio.init(); 
+midiData = new Uint8Array(reader1.result);
+parsedData = picoAudio.parseSMF(midiData);
+toneData = new Midi(midiData);
+picoAudio.setData(parsedData);
+eott0 = parsedData.songLength;
+ppq = parsedData.header.resolution;
+bttl = parsedData.beatTrack[0].value[0];
+ntvl = parsedData.beatTrack[0].value[1];
+bpm = Math.round(parsedData.tempoTrack[0].value);
+document.form1.x_bpm.value=bpm;
+document.getElementById("ttl").innerHTML=toneData.header.name;
+document.getElementById("ts").innerHTML=bttl+"/"+ntvl;
+if(Math.floor(picoAudio.getTime(eott0)%60)<10){
+document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":0"+Math.floor(picoAudio.getTime(eott0)%60);
+}else{
+document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":"+Math.floor(picoAudio.getTime(eott0)%60);
+}
+document.getElementById("prgrs").innerHTML=prgrs1;
+
+r1=[];
+r2=[];
+r3=[];
+r4=[];
+r5=[];
+r6=[];
+
+midi_max=21;
+midi_min=108;
+midi_min0=0;
+midi_max0=0;
+n_id=1;
+ch_max=-1;
+ch_num=0;
+
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop,note.channel+1,n_id]);
+n_id+=1;
+r2.push(note.start);
+r2.push(note.stop);
+  if(Number(note.pitch)>Number(midi_max)){
+  midi_max=note.pitch;
+  }
+  if(Number(note.pitch)<Number(midi_min)){
+  midi_min=note.pitch;
+  }
+  if(note.channel>ch_max){
+  ch_max=note.channel;
+  ch_num+=1;
+  r6.push([note.channel+1, note.instrument]);
+  }
+})
+})
+
+i=0;
+j=0;
+
+document.getElementById("channels").innerHTML=ch_num;
+
+midi_min0=midi_min;
+midi_max0=midi_max;
+[midi0,start0,stop0,channel0]=r1[0];
+
+if(start0==0){
+document.form1.x_msr.value=1;
+document.form1.x_msrf.value=1;
+document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4);
+}else{
+document.form1.x_msr.value=0;
+document.form1.x_msrf.value=0;
+document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4-1);
+}
+
+r2.sort(function(m,n){return m-n;});
+
+let n=0;
+for(let i=0;i<=r2.length;i++){
+if(r2[i]<r2[i+1]){
+r3.push([n,r2[i],r2[i+1]]);
+n=n+1;
+}
+}
+r2=[];
+
+parsedData.tempoTrack.forEach(tempoTrack => { 
+r4.push([tempoTrack.timing,tempoTrack.value]);
+});
+
+parsedData.beatTrack.forEach(beatTrack => { 
+r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
+});
+
+lyrics1();
+
+top1();
+
+}
+},false);
+
+var obj2=document.getElementById("selfile2");
+obj2.addEventListener("change", function(evt){
+csv0=[];
+csv1=[];
+csv2=[];
+csv3=[];
+csv4=[];
+csv5=[];
+var file2=evt.target.files[0];
+var reader2=new FileReader();
+reader2.readAsText(file2,"shift_JIS");
+reader2.onload=function(ev){
+csv0=reader2.result.split('\n');
+
+for (i=0;i<csv0.length;i++){
+csv1.push([(csv0[i].split(','))[1]]);
+csv2.push([(csv0[i].split(','))[2]]);
+csv3.push([(csv0[i].split(','))[3]]);
+csv4.push([(csv0[i].split(','))[4]]);
+csv5.push([(csv0[i].split(','))[5]]);
+}
+csvst0=(csv0[1].split(','))[0];
+top1();
+
+}//reader2
+},false);//obj2
+
+
+
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
 	let uri1="./data/"+songname1+".mid";
@@ -436,10 +572,7 @@ let songname1=document.getElementById("song1").value;
 	if (res2.ok){
 		data2=await res2.text();
 	}
-}
-fetch1();
 
-fiunction read1(){
 midiData = new Uint8Array(data1);
 picoAudio.init(); 
 parsedData = picoAudio.parseSMF(midiData);
@@ -551,7 +684,7 @@ csvst0=(csv0[1].split(','))[0];
 top1();
 
 }
-read1();
+fetch1();
 
 //scroll M
 function scroll1(){
