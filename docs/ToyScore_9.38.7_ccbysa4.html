@@ -1,0 +1,2191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charaset="UTF-8" />
+<title>
+ToyScore 9.38.7
+</title>
+</head>
+<body style="font-size:160%" >
+<font face="Arial">
+<font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg
+<br>
+<form name="form1" >
+<span id="ts"></span>
+Channel(s) <span id="channels"></span>
+PlayTime <span id="pt"></span>
+Progress <span id="prgrs"></span>
+<input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
+<input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
+<br>
+MID<input type="file" id="selfile1" style="font-size:100%">
+<br>
+CSV<input type="file" id="selfile2" style="font-size:100%">
+</font>
+<br>
+<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
+<input type="tel"    name="x_bpm" value="" size="1" style="font-size:100%" >
+<input type="button" name="b_-|>" value="SilentBPM" onClick="silent1()" style="font-size:100%" >
+<input type="button" name="b_~|>" value="SilentOrigin" onClick="silent2()" style="font-size:100%" >
+<input type="range"  name="r_hgh" value="5" min="1" max="20" step="1" onChange="height1()">
+<input type="tel"    name="x_hgh" value="5" size="1" style="font-size:100%" >
+<input type="button" name="b_<->" value="<->" onClick="height2()" style="font-size:100%" >
+<input type="button" name="b_?" value="?" onClick="information1()" style="font-size:100%" >
+<br>
+<input type="button" name="b_|<" value="|<" onClick="top1()" style="font-size:100%" >
+<input type="button" name="b_<<" value="<<" onClick="reverses()" style="font-size:100%" >
+<input type="button" name="b_<" value="<" onClick="reverse1()" style="font-size:100%" >
+<input type="button" name="b_>" value=">" onClick="forward1()" style="font-size:100%" >
+<input type="button" name="b_>>" value=">>" onClick="forwards()" style="font-size:100%" >
+<input type="button" name="b_>|" value=">|" onClick="end1()" style="font-size:100%" >
+<input type="range"  name="r_msr" value="0" min="0" max="99" step="1" onChange="measure2()" style="font-size:100%" >
+<input type="tel"    name="x_msr" value="0" size="1" style="font-size:100%" >
+<input type="button" name="b_|" value="|" onClick="measure1()" style="font-size:100%" >
+<input type="tel"    name="x_msrf" value="0" size="1" style="font-size:100%" >
+<input type="tel"    name="x_msrt" value="0" size="1" style="font-size:100%" >
+<input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
+<br>
+<input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
+<input type="button" name="b_+" value="+" onClick="transpose1()" style="font-size:100%" >
+<input type="tel"    name="x_ch" value="" size="1" style="font-size:100%" >
+<input type="button" name="b_ch" value="Ch" onClick="channel1()" style="font-size:100%" >
+<input type="tel"    name="x_rl" value="" size="1" style="font-size:100%" >
+<input type="button" name="b_rl" value="] [" onClick="rightleft1()" style="font-size:100%" >
+
+<select name="nl1" onChange="selview1()" style="font-size:100%">
+<option value="0" style="font-size:100%"> No Letters </option>
+<option value="1" style="font-size:100%"> DoReMi_# </option>
+<option value="2" style="font-size:100%"> DoReMi_b </option>
+<option value="3" style="font-size:100%"> ABC_E_# </option>
+<option value="4" style="font-size:100%"> ABC_E_b </option>
+<option value="5" style="font-size:100%"> ABC_G_# </option>
+<option value="6" style="font-size:100%"> ABC_G_b </option>
+<option value="7" style="font-size:100%"> Pitch Classes </option>
+<option value="8" style="font-size:100%"> Note Numbers </option>
+<option value="9" style="font-size:100%"> Note IDs </option>
+<option value="10" style="font-size:100%"> Lyrics </option>
+<option value="11" style="font-size:100%"> CSV Fingering </option>
+<option value="12" style="font-size:100%"> CSV Memos </option>
+<option value="13" style="font-size:100%" selected="selected"> CSV Lyrics </option>
+
+</select>
+<select name="sv1" onChange="selview1()" style="font-size:100%">
+<option value="0" style="font-size:100%"> Scroll M </option>
+<option value="1" style="font-size:100%"> Scroll L </option>
+<option value="2" style="font-size:100%"> Still M </option>
+<option value="3" style="font-size:100%" selected="selected"> Still L </option>
+<option value="4" style="font-size:100%"> Color Sample </option>
+<option value="5" style="font-size:100%"> Touch Sound </option>
+<option value="6" style="font-size:100%"> Channel Colors </option>
+<option value="7" style="font-size:100%"> ***</option>
+<option value="8" style="font-size:100%"> ***</option>
+<option value="9" style="font-size:100%"> ***</option>
+<option value="10" style="font-size:100%"> *** </option>
+<option value="11" style="font-size:100%"> Information </option>
+<option value="12" style="font-size:100%"> Licenses </option>
+<option value="13" style="font-size:100%"> Privacy Policy </option>
+<option value="14" style="font-size:100%"> Contact </option>
+
+</select>
+</form>
+<div id="target">
+<canvas id="cv2" width="1200" height="1300">
+</canvas>
+<h6>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+</h6>
+</font>
+</div>
+
+<script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
+<script src="https://unpkg.com/tone"></script>
+<script>
+const canvas2=document.getElementById("cv2");
+const ctx2=canvas2.getContext("2d");
+const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#6666ff","#9933ff","#ff00ff","#ff007f"];
+const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
+const col3=["#ffffff","#ffd700","#e0ffff","#ff69b4","#fffacd","#ffc0cb","#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#ff007f"];
+const drms1=["Do","Di","Re","Ri","Mi","Fa","Fi","Sol","Si","La","Li","Ti"];
+const drmf1=["Do","Ra","Re","Me","Mi","Fa","Se","Sol","Le","La","Te","Ti"];
+const engs1=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const engf1=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
+const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
+const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
+const scaler1=["major","minor"];
+const scaleMjr0=[0,2,4,5,7,9,11];
+const scaleMnr1=[0,2,4,5,8,9,11];
+const scaleMnr2=[0,2,4,5,6,7,8,9,11];
+const engMnr1=["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
+const instName=[
+'Acoustic Grand Piano',
+'Bright Acoustic Piano',
+'Electric Grand Piano',
+'Honky-tonk Piano',
+'Rhodes Piano',
+'Chorused Piano',
+'Harpsichord',
+'Clavinet',
+'Celesta',
+'Glockenspiel',
+'Music box',
+'Vibraphone',
+'Marimba',
+'Xylophone',
+'Tubular Bells',
+'Dulcimer',
+'Hammond Organ',
+'Percussive Organ',
+'Rock Organ',
+'Church Organ',
+'Reed Organ',
+'Accordion',
+'Harmonica',
+'Tango Accordion',
+'Acoustic Guitar (nylon)',
+'Acoustic Guitar (steel)',
+'Electric Guitar (jazz)',
+'Electric Guitar (clean)',
+'Electric Guitar (muted)',
+'Overdriven Guitar',
+'Distortion Guitar',
+'Guitar Harmonics',
+'Acoustic Bass',
+'Electric Bass (finger)',
+'Electric Bass (pick)',
+'Fretless Bass',
+'Slap Bass 1',
+'Slap Bass 2',
+'Synth Bass 1',
+'Synth Bass 2',
+'Violin',
+'Viola',
+'Cello',
+'Contrabass',
+'Tremolo Strings',
+'Pizzicato Strings',
+'Orchestral Harp',
+'Timpani',
+'String Ensemble 1',
+'String Ensemble 2',
+'Synth Strings 1',
+'Synth Strings 2',
+'Choir Aahs',
+'Voice Oohs',
+'Synth Voice',
+'Orchestra Hit',
+'Trumpet',
+'Trombone',
+'Tuba',
+'Muted Trumpet',
+'French Horn',
+'Brass Section',
+'Synth Brass 1',
+'Synth Brass 2',
+'Soprano Sax',
+'Alto Sax',
+'Tenor Sax',
+'Baritone Sax',
+'Oboe',
+'English Horn',
+'Bassoon',
+'Clarinet',
+'Piccolo',
+'Flute',
+'Recorder',
+'Pan Flute',
+'Bottle Blow',
+'Shakuhachi',
+'Whistle',
+'Ocarina',
+'Lead 1 (square)',
+'Lead 2 (sawtooth)',
+'Lead 3 (calliope lead)',
+'Lead 4 (chiffer lead)',
+'Lead 5 (charang)',
+'Lead 6 (voice)',
+'Lead 7 (fifths)',
+'Lead 8 (brass + lead)',
+'Pad 1 (new age)',
+'Pad 2 (warm)',
+'Pad 3 (polysynth)',
+'Pad 4 (choir)',
+'Pad 5 (bowed)',
+'Pad 6 (metallic)',
+'Pad 7 (halo)',
+'Pad 8 (sweep)',
+'FX 1 (rain)',
+'FX 2 (soundtrack)',
+'FX 3 (crystal)',
+'FX 4 (atmosphere)',
+'FX 5 (brightness)',
+'FX 6 (goblins)',
+'FX 7 (echoes)',
+'FX 8 (sci-fi)',
+'Sitar',
+'Banjo',
+'Shamisen',
+'Koto',
+'Kalimba',
+'Bagpipe',
+'Fiddle',
+'Shana',
+'Tinkle Bell',
+'Agogo',
+'Steel Drums',
+'Woodblock',
+'Taiko Drum',
+'Melodic Tom',
+'Synth Drum',
+'Reverse Cymbal',
+'Guitar Fret Noise',
+'Breath Noise',
+'Seashore',
+'Bird Tweet',
+'Telephone Ring',
+'Helicopter',
+'Applause',
+'Gunshot',
+];
+const picoAudio = new PicoAudio();
+const synth=new Tone.Synth().toMaster();
+let parsedData ="";
+let toneData = "";
+let r1=[];
+let r2=[];
+let r3=[];
+let r4=[];
+let r5=[];
+let r6=[];
+let midiData = "";
+let midi=0;
+let midi0=0;
+let start0=0;
+let stop0=0;
+let channel0=0;
+let sb1=0;
+let h_from=0;
+let h_to=0;
+let r3w=[];
+let vmn0=0;
+
+let ppq=0;
+let format1=0;
+let bpm=0;
+let bttl=0;
+let ntvl=0;
+let bttl2=0;
+let ntvl2=0;
+let eott0=0;
+
+let tbpm1=[];
+let wait1=0;
+let time1=[];
+let i=0;
+let j=0;
+let k=0;
+let l=0;
+let m=0;
+let n=0;
+let o=0;
+
+let r3i0=0;
+let r3i1=0;
+let midi_max=21;
+let midi_min=108;
+let midi_min0=0;
+let midi_max0=0;
+let ch_max=-1;
+let ch_num=0;
+let ht1=5;
+
+let x_ch1="";
+let chr=[];
+let ch0=0;
+let ch1=0;
+let trs1=0;
+let trs2=0;
+let x_rl1="";
+let fg_rl1=-1;
+let prgrs1=0;
+let p=0;
+let p2=0;
+let n_id=1;
+
+let kx0=0;
+let kx1=0;
+let kx2=0;
+let kx3=0;
+let kx4=0;
+let kx5=0;
+let kx6=0;
+let kx7=0;
+let kx8=0;
+let kx9=0;
+let kx10=0;
+let kx11=0;
+let kxttl=0;
+let tone_ks=0;
+let midi_ks=0;
+let keyrp10_0=[];
+let keyrp10_1=[];
+let keyrp10_2=[];
+let keyrp10_3=[];
+let keyrp10_4=[];
+let keyrp10_5=[];
+let keyrp100_1=[];
+let keyrp100_2=[];
+let keyrp100_3=[];
+let keyrp100_4=[];
+let tfmjr0=0;
+let tfmjr7=0;
+let tfmnr0=0;
+let tfmnr7=0;
+let tfmjr07=0;
+let tfmnr07=0;
+let tfmjr_mnr=0;
+let mslbl0=0;
+let msr_from=0;
+let msr_to=0;
+let tk_from=0;
+let tk_to=0;
+let w0=0;
+let w1=0;
+let num0=0;
+let num1=0;
+let num2=0;
+let num3=0;
+let num4=0;
+let lyrict0="";
+let lyricr0=[];
+let lyricr1=[];
+let dtflg0=0;
+let trln0=0;
+let trdt0=0;
+let trtk0=0;
+let trtk1=0;
+let trnn0=0;
+let trnnr0=[];
+let trnnr1=[];
+let trnn2=0;
+let trtk2=0;
+let gt=0;
+let midid0="";
+let midid1="";
+let midit00=0;
+let midit01=0;
+let midit02=0;
+let midit03=0;
+let midit04=0;
+let midit05=0;
+let midit06=0;
+let midit07=0;
+let midit08=0;
+let midit09=0;
+let midit0a=0;
+let midit0b=0;
+let midit0c=0;
+let midit0d=0;
+let midit0e=0;
+let midit0f=0;
+let midit20=0;
+let midit51=0;
+let midit54=0;
+let midit56=0;
+let midit59=0;
+let miditxt=0;
+
+let newWin1="";
+let newWin2="";
+let newWin3="";
+let newWin4="";
+let newWin5="";
+let newWin6="";
+let newWin7="";
+let newWin8="";
+let newWin9="";
+let newWin10="";
+let newWin11="";
+let newWin12="";
+let newWin13="";
+
+let csv0=[];
+let csv1=[];
+let csv2=[];
+let csv3=[];
+let csv4=[];
+let csv5=[];
+let csvst0=0;
+
+var obj1=document.getElementById("selfile1");
+obj1.addEventListener("change", function(evt){
+var file1=evt.target.files[0];
+var reader1=new FileReader();
+reader1.readAsArrayBuffer(file1);
+reader1.onload=function(ev){
+picoAudio.init(); 
+midiData = new Uint8Array(reader1.result);
+parsedData = picoAudio.parseSMF(midiData);
+picoAudio.setData(parsedData);
+eott0 = parsedData.songLength;
+ppq = parsedData.header.resolution;
+bttl = parsedData.beatTrack[0].value[0];
+ntvl = parsedData.beatTrack[0].value[1];
+bpm = Math.round(parsedData.tempoTrack[0].value);
+document.form1.x_bpm.value=bpm;
+document.getElementById("ts").innerHTML=bttl+"/"+ntvl;
+if(Math.floor(picoAudio.getTime(eott0)%60)<10){
+document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":0"+Math.floor(picoAudio.getTime(eott0)%60);
+}else{
+document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":"+Math.floor(picoAudio.getTime(eott0)%60);
+}
+document.getElementById("prgrs").innerHTML=prgrs1;
+
+r1=[];
+r2=[];
+r3=[];
+r4=[];
+r5=[];
+r6=[];
+
+midi_max=21;
+midi_min=108;
+midi_min0=0;
+midi_max0=0;
+n_id=1;
+ch_max=-1;
+ch_num=0;
+
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop,note.channel+1,n_id]);
+n_id+=1;
+r2.push(note.start);
+r2.push(note.stop);
+  if(Number(note.pitch)>Number(midi_max)){
+  midi_max=note.pitch;
+  }
+  if(Number(note.pitch)<Number(midi_min)){
+  midi_min=note.pitch;
+  }
+  if(note.channel>ch_max){
+  ch_max=note.channel;
+  ch_num+=1;
+  r6.push([note.channel+1, note.instrument]);
+  }
+})
+})
+
+i=0;
+j=0;
+
+document.getElementById("channels").innerHTML=ch_num;
+
+midi_min0=midi_min;
+midi_max0=midi_max;
+[midi0,start0,stop0,channel0]=r1[0];
+
+if(start0==0){
+document.form1.x_msr.value=1;
+document.form1.x_msrf.value=1;
+document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4);
+}else{
+document.form1.x_msr.value=0;
+document.form1.x_msrf.value=0;
+document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4-1);
+}
+
+r2.sort(function(m,n){return m-n;});
+
+let n=0;
+for(let i=0;i<=r2.length;i++){
+if(r2[i]<r2[i+1]){
+r3.push([n,r2[i],r2[i+1]]);
+n=n+1;
+}
+}
+r2=[];
+
+parsedData.tempoTrack.forEach(tempoTrack => { 
+r4.push([tempoTrack.timing,tempoTrack.value]);
+});
+
+parsedData.beatTrack.forEach(beatTrack => { 
+r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
+});
+
+lyrics1();
+
+top1();
+
+}
+},false);
+
+var obj2=document.getElementById("selfile2");
+obj2.addEventListener("change", function(evt){
+csv0=[];
+csv1=[];
+csv2=[];
+csv3=[];
+csv4=[];
+csv5=[];
+var file2=evt.target.files[0];
+var reader2=new FileReader();
+reader2.readAsText(file2,"shift_JIS");
+reader2.onload=function(ev){
+csv0=reader2.result.split('\n');
+
+for (i=0;i<csv0.length;i++){
+csv1.push([(csv0[i].split(','))[1]]);
+csv2.push([(csv0[i].split(','))[2]]);
+csv3.push([(csv0[i].split(','))[3]]);
+csv4.push([(csv0[i].split(','))[4]]);
+csv5.push([(csv0[i].split(','))[5]]);
+}
+csvst0=(csv0[1].split(','))[0];
+top1();
+
+}//reader2
+},false);//obj2
+
+
+
+//scroll M
+function scroll1(){
+let kn=Number(midi_max)-Number(midi_min)+1;
+let kw=Math.round(900/kn);
+ctx2.clearRect(0,0,1200,1300);
+ctx2.lineWidth=1;
+
+for(l=0;l<Number(kn);l++){
+let k=Number(midi_min)+l;
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect(50+(l+1)*kw,30,kw,35);
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(50+(l+1)*kw,65,kw,35);
+
+if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+ctx2.fillStyle="lightgrey";
+ctx2.fillRect(50+(l+1)*kw,100,kw,1300);
+}else if (k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(50+(l+1)*kw,0);
+ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="25px Arial";
+ctx2.fillText(k,50+(l+1)*kw,25);
+}else if (k%12===5){
+ctx2.beginPath();
+ctx2.moveTo(50+(l+1)*kw,0);
+ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+}
+}
+
+for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
+let vmn0=m/ppq/bttl*ntvl/4;
+ctx2.beginPath();
+ctx2.moveTo(0,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.strokeStyle="red";
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="25px Arial";
+ if(start0==0){
+ ctx2.fillText(vmn0+1,0,125+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ }else{
+ ctx2.fillText(vmn0,0,125+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ }
+
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
+ctx2.beginPath();
+ctx2.moveTo(0,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.strokeStyle="green";
+ctx2.stroke();
+}
+}
+
+for(i=0;i<r1.length;i++){
+let [midi, start, stop, channel, n_id]=r1[i];
+gt=stop-start;
+if(100+stop>=j && start<=j+ht1*ppq*bttl){
+ctx2.fillStyle=col[midi%12];
+ctx2.fillRect((midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.beginPath();
+ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+ctx2.fillStyle=col3[channel];
+ctx2.fill();
+ctx2.fillStyle="black";
+
+if (document.form1.nl1.options[0].selected==true){
+ctx2.fillText("",(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[1].selected==true){
+ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[2].selected==true){
+ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[3].selected==true){
+ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[4].selected==true){
+ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[5].selected==true){
+ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[6].selected==true){
+ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[7].selected==true){
+ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[8].selected==true){
+ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv finger numbers
+}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv memos
+}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics
+}else if (document.form1.nl1.options[13].selected==true && csv3[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv3[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+//csv notations left
+if (csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+//csv notations right
+if (csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+
+}//if(100+stop>j..)
+}//for(i=0;)
+
+//smf Lyrics
+for(n=0;n<lyricr1.length;n+=1){
+if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
+trnn0=lyricr1[n][0];
+trtk0=lyricr1[n][1];
+lyrict0=lyricr1[n][3];
+ctx2.fillStyle="black";
+ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+(trtk0-j)*1100/ht1/ppq/bttl*ntvl/4);
+}
+}//for(n=0..)
+
+}
+
+//scroll L
+function scroll2(){
+let kn=Number(midi_max)-Number(midi_min)+1;
+let kw=Math.round(900/kn);
+ctx2.clearRect(0,0,1200,1300);
+ctx2.lineWidth=1;
+
+for(l=0;l<Number(kn);l++){
+let k=Number(midi_min)+l;
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect(50+(l+1)*kw,40,kw,30);
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(50+(l+1)*kw,70,kw,30);
+
+if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+ctx2.fillStyle="lightgrey";
+ctx2.fillRect(50+(l+1)*kw,100,kw,1300);
+}else if (k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(50+(l+1)*kw,0);
+ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="40px Arial";
+ctx2.fillText(k,50+(l+1)*kw,40);
+}else if (k%12===5){
+ctx2.beginPath();
+ctx2.moveTo(50+(l+1)*kw,0);
+ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+}
+}
+
+
+for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
+let vmn0=m/ppq/bttl*ntvl/4;
+ctx2.beginPath();
+ctx2.moveTo(0,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.strokeStyle="red";
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="40px Arial";
+ if(start0==0){
+ ctx2.fillText(vmn0+1,0,140+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ }else{
+ ctx2.fillText(vmn0,0,140+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ }
+
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
+ctx2.beginPath();
+ctx2.moveTo(0,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.strokeStyle="green";
+ctx2.stroke();
+}
+}
+
+for(i=0;i<r1.length;i++){
+let [midi, start, stop, channel, n_id]=r1[i];
+gt=stop-start;
+if(100+stop>=j && start<=j+ht1*ppq*bttl){
+ctx2.fillStyle=col[midi%12];
+ctx2.fillRect((midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.beginPath();
+ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+ctx2.fillStyle=col3[channel];
+ctx2.fill();
+ctx2.fillStyle="black";
+
+if (document.form1.nl1.options[0].selected==true){
+ctx2.fillText("",(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[1].selected==true){
+ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[2].selected==true){
+ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[3].selected==true){
+ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[4].selected==true){
+ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[5].selected==true){
+ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[6].selected==true){
+ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[7].selected==true){
+ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[8].selected==true){
+ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv finger numbers
+}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv memos
+}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics
+}else if (document.form1.nl1.options[13].selected==true && csv3[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv3[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+//csv notations left
+if (csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+//csv notations right
+if (csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+
+}//if(100+stop>j..)
+}//for(i=0;)
+
+//smf Lyrics
+for(n=0;n<lyricr1.length;n+=1){
+if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
+trnn0=lyricr1[n][0];
+trtk0=lyricr1[n][1];
+lyrict0=lyricr1[n][3];
+ctx2.fillStyle="black";
+ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+(trtk0-j)*1100/ht1/ppq/bttl*ntvl/4);
+}
+}//for(n=0..)
+
+}
+
+//still M
+function still1(){
+let kn=Number(midi_max)-Number(midi_min)+1;
+let kw=Math.round(900/kn);
+ctx2.clearRect(0,0,1200,1300);
+ctx2.lineWidth=1;
+
+for(l=0;l<Number(kn);l++){
+let k=Number(midi_min)+l;
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect(50+(l+1)*kw,30,kw,35);
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(50+(l+1)*kw,65,kw,35);
+
+if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+ctx2.fillStyle="lightgrey";
+ctx2.fillRect(50+(l+1)*kw,100,kw,1300);
+}else if (k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(50+(l+1)*kw,0);
+ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="25px Arial";
+ctx2.fillText(k,50+(l+1)*kw,25);
+}else if (k%12===5){
+ctx2.beginPath();
+ctx2.moveTo(50+(l+1)*kw,0);
+ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+}
+
+}
+
+ctx2.beginPath();
+ctx2.fillStyle="lightyellow";
+ctx2.fillRect(0,70+j%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),1200,30);
+
+ctx2.beginPath();
+ctx2.moveTo(0,1200);
+ctx2.lineTo(1000,1200);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+
+for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+if(m%(bttl*ppq/ntvl*4)===0 && m>j-bttl*ppq/ntvl*4 && m<=(j+(ht1-1)*bttl*ppq/ntvl*4)){
+let vmn0=m/(bttl*ppq/ntvl*4);
+ctx2.beginPath();
+ctx2.moveTo(0,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.strokeStyle="red";
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="25px Arial";
+ if(start0==0){
+ ctx2.fillText(vmn0+1,0,125+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ }else{
+ ctx2.fillText(vmn0,0,125+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ }
+
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+(ht1-1)*bttl*ppq/ntvl*4)){
+ctx2.beginPath();
+ctx2.moveTo(0,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.strokeStyle="green";
+ctx2.stroke();
+}
+}
+
+
+for(i=0;i<r1.length;i++){
+let [midi, start, stop, channel, n_id]=r1[i];
+gt=stop-start;
+if(stop>j && stop<=j+(ht1-1)*bttl*ppq/ntvl*4){
+ctx2.fillStyle=col[midi%12];
+ctx2.fillRect((midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.beginPath();
+ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+ctx2.fillStyle=col3[channel];
+ctx2.fill();
+ctx2.fillStyle="black";
+
+if (document.form1.nl1.options[0].selected==true){
+ctx2.fillText("",(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[1].selected==true){
+ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[2].selected==true){
+ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[3].selected==true){
+ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[4].selected==true){
+ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[5].selected==true){
+ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[6].selected==true){
+ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[7].selected==true){
+ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[8].selected==true){
+ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv finger number
+}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv memos
+}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics
+}else if (document.form1.nl1.options[13].selected==true && csv3[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv3[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+//csv notations left
+if (csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1], 40,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+//csv notations right
+if (csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1], 1050,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+}//if(stop>j..)
+}//for(i=0;)
+
+//smf Lyrics
+for(n=0;n<lyricr1.length;n+=1){
+if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
+trnn0=lyricr1[n][0];
+trtk0=lyricr1[n][1];
+lyrict0=lyricr1[n][3];
+ctx2.fillStyle="black";
+ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+trtk0%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+}//for(n=0..)
+
+}
+
+//still L
+function still2(){
+let kn=Number(midi_max)-Number(midi_min)+1;
+let kw=Math.round(900/kn);
+ctx2.clearRect(0,0,1200,1300);
+ctx2.lineWidth=1;
+
+for(l=0;l<Number(kn);l++){
+let k=Number(midi_min)+l;
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect(50+(l+1)*kw,40,kw,30);
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(50+(l+1)*kw,70,kw,30);
+
+if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+ctx2.fillStyle="lightgrey";
+ctx2.fillRect(50+(l+1)*kw,100,kw,1300);
+}else if (k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(50+(l+1)*kw,0);
+ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="40px Arial";
+ctx2.fillText(k,50+(l+1)*kw,40);
+}else if (k%12===5){
+ctx2.beginPath();
+ctx2.moveTo(50+(l+1)*kw,0);
+ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+}
+
+}
+
+ctx2.beginPath();
+ctx2.fillStyle="lightyellow";
+ctx2.fillRect(0,70+j%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),1200,30);
+
+ctx2.beginPath();
+ctx2.moveTo(0,1200);
+ctx2.lineTo(1000,1200);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+
+for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+if(m%(bttl*ppq/ntvl*4)===0 && m>j-bttl*ppq/ntvl*4 && m<=(j+(ht1-1)*bttl*ppq/ntvl*4)){
+let vmn0=m/(bttl*ppq/ntvl*4);
+ctx2.beginPath();
+ctx2.moveTo(0,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.strokeStyle="red";
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="40px Arial";
+ if(start0==0){
+ ctx2.fillText(vmn0+1,0,140+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ }else{
+ ctx2.fillText(vmn0,0,140+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ }
+
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+(ht1-1)*bttl*ppq/ntvl*4)){
+ctx2.beginPath();
+ctx2.moveTo(0,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.strokeStyle="green";
+ctx2.stroke();
+}
+}
+
+
+for(i=0;i<r1.length;i++){
+let [midi, start, stop, channel, n_id]=r1[i];
+gt=stop-start;
+if(stop>j && stop<=j+(ht1-1)*bttl*ppq/ntvl*4){
+ctx2.fillStyle=col[midi%12];
+ctx2.fillRect((midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.beginPath();
+ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+ctx2.fillStyle=col3[channel];
+ctx2.fill();
+ctx2.fillStyle="black";
+
+if (document.form1.nl1.options[0].selected==true){
+ctx2.fillText("",(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[1].selected==true){
+ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[2].selected==true){
+ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[3].selected==true){
+ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[4].selected==true){
+ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[5].selected==true){
+ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[6].selected==true){
+ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[7].selected==true){
+ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[8].selected==true){
+ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv finger number
+}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv memos
+}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics
+}else if (document.form1.nl1.options[13].selected==true && csv3[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv3[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+//csv notations left
+if (csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1], 40,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+//csv notations right
+if (csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1], 1050,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+}//if(stop>j..)
+}//for(i=0;)
+
+//smf Lyrics
+for(n=0;n<lyricr1.length;n+=1){
+if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
+trnn0=lyricr1[n][0];
+trtk0=lyricr1[n][1];
+lyrict0=lyricr1[n][3];
+ctx2.fillStyle="black";
+ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+trtk0%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+}
+}//for(n=0..)
+
+}
+
+
+const silent1= async () =>{
+for(let i=r3i0;i<r3.length;i++){
+r3i1=i;
+let [n,h_from,h_to]=r3[i]
+j=h_from;
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+if(start0==0){
+document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4+1);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+}else{
+document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+}
+r3w=r3.find(function(value){
+return (j<=value[1]);
+});
+
+wait1=60000/document.form1.x_bpm.value*(r3w[2]-r3w[1])/ppq;
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+await new Promise(r => timer=setTimeout(r,wait1));
+
+}
+}
+
+
+const silent2= async () =>{
+for(let i=r3i0;i<r3.length;i++){
+r3i1=i;
+let [n,h_from,h_to]=r3[i]
+j=h_from;
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+if(start0==0){
+document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4+1);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+}else{
+document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+}
+r3w=r3.find(function(value){
+return (j<=value[1]);
+});
+
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+
+wait1=60000/tbpm1[1]*(r3w[2]-r3w[1])/ppq;
+
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+await new Promise(r => timer=setTimeout(r,wait1));
+}
+}
+
+function bpmr1(){
+	document.form1.x_bpm.value=bpm*document.form1.r_bpm.value/100;
+}
+
+
+function pause1(){
+picoAudio.init();
+picoAudio.pause();
+clearTimeout(timer);
+r3i0=r3i1;
+}
+
+function measure1(){
+if(start0==0){
+j=(Number(document.form1.x_msr.value)-1)*ppq*bttl/ntvl*4;
+}else{
+j=(Number(document.form1.x_msr.value))*ppq*bttl/ntvl*4;
+}
+
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function measure2(){
+if(document.form1.r_msr.value==0){
+top1();
+}else{
+j=Math.ceil(eott0/(bttl*ppq/ntvl*4)*Number(document.form1.r_msr.value)/100);
+}
+document.form1.x_msr.value=j;
+measure1();
+}
+
+function top1(){
+r3i0=0;
+j=0;
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+if(start0==0){
+document.form1.x_msr.value=1;
+}else{
+document.form1.x_msr.value=0;
+}
+picoAudio.setData(parsedData);
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function end1(){
+j=Math.ceil(eott0/(bttl*ppq/ntvl*4)-1)*(bttl*ppq/ntvl*4);
+if(start0==0){
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+}else{
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4));
+}
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+document.form1.r_msr.value=Math.round(j/eott0*100);
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function reverse1(){
+if(start0==0){
+if(document.form1.x_msr.value-1>=1){
+j=(document.form1.x_msr.value-2)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
+}
+}else{
+ if(document.form1.x_msr.value-1>=0){
+ j=(document.form1.x_msr.value-1)*(bttl*ppq/ntvl*4);
+ document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4));
+ }
+}
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function forward1(){
+if(start0==0){
+if((Number(document.form1.x_msr.value))*(bttl*ppq/ntvl*4)<=eott0){
+j=(Number(document.form1.x_msr.value))*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
+}
+}else{
+if((Number(document.form1.x_msr.value)+1)*(bttl*ppq/ntvl*4)<=eott0){
+j=(Number(document.form1.x_msr.value)+1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4));
+}
+}
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+
+function reverses(){
+ht1=document.form1.x_hgh.value;
+if(start0==0){
+if((Number(document.form1.x_msr.value)-ht1-1)*(bttl*ppq/ntvl*4)>=0){
+j=(Number(document.form1.x_msr.value)-ht1-1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
+}else{
+top1();	
+}
+}else{
+if((Number(document.form1.x_msr.value)-ht1)*(bttl*ppq/ntvl*4)>=0){
+j=(Number(document.form1.x_msr.value)-ht1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4));
+}else{
+top1();	
+}
+}
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function forwards(){
+if(start0==0){
+if((Number(document.form1.x_msr.value)+(ht1-1))*(bttl*ppq/ntvl*4)<=eott0){
+j=(Number(document.form1.x_msr.value)+(ht1-1))*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
+}else{
+end1();	
+}
+}else{
+if((Number(document.form1.x_msr.value)+Number(ht1))*(bttl*ppq/ntvl*4)<=eott0){
+j=(Number(document.form1.x_msr.value)+Number(ht1))*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4));
+}else{
+end1();	
+}
+}
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+
+const play1= async () =>{
+picoAudio.init();
+picoAudio.play();
+picoAudio.addEventListener('noteOn', (note) => {
+j=note.start;
+
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+if(start0==0){
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+document.form1.r_msr.value=Math.round(j/eott0*100);
+}else{
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4));
+document.form1.r_msr.value=Math.round(j/eott0*100);
+}
+
+
+r3w=r3.find(function(value){
+return (j<=value[1]);
+});
+
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+});
+
+
+}
+
+
+function touch_sound1(){
+var state=true;
+window.addEventListener('click',playSound);
+window.addEventListener('touchend',offSound);
+
+playSound(e);
+offSound(e);
+}
+
+function playSound(e){
+let kn=Number(midi_max)-Number(midi_min)+1;
+let kw=Math.round(900/kn);
+
+if(!state)return;
+p=Math.round((e.offsetX-50)/kw)-2+Number(midi_min);
+p2=engs1[p%12]+Math.floor(p/12-1);
+if(e.offsetY>=100 && document.form1.sv1.options[5].selected==true){
+synth.triggerAttackRelease(p2,'8n');
+state=false;
+}
+}
+
+function offSound(e){
+synth.triggerRelease();
+state=true;
+}
+
+function setbpm1(){
+document.form1.x_bpm.value=Math.round(bpm*document.form1.r_bpm.value/100);
+}
+
+function height1(){
+ht1=document.form1.r_hgh.value;
+document.form1.x_hgh.value=ht1;
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function height2(){
+ht1=document.form1.x_hgh.value;
+document.form1.r_hgh.value=ht1;
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function transpose1(){
+document.form1.x_ch.value="";
+document.form1.x_rl.value="";
+trs1=document.form1.x_trs.value;
+midi_min=Number(midi_min0)+Number(trs1);
+midi_max=Number(midi_max0)+Number(trs1);
+r1=[]
+n_id=1;
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => { 
+let trs2=Number(note.pitch)+Number(trs1);
+r1.push([trs2,note.start,note.stop, note.channel,n_id]);
+n_id=n_id+1;
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function channel1(){
+x_ch1=document.form1.x_ch.value;
+chr=x_ch1.split("*");
+let ch0=chr[0];
+let ch1=chr[1];
+let trs1=document.form1.x_trs.value;
+r1=[];
+n_id=1;
+midi_min=108;
+midi_max=21;
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => { 
+if(note.channel+1==ch0 || note.channel+1==ch1){
+let trs2=Number(note.pitch)+Number(trs1);
+r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
+if(trs2>midi_max){
+midi_max=trs2;
+}
+if(trs2<midi_min){
+midi_min=trs2;
+}
+}
+n_id=n_id+1;
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function rightleft1(){
+x_rl1=document.form1.x_rl.value;
+fg_rl1=-fg_rl1;
+let trs1=document.form1.x_trs.value;
+if(fg_rl1>0){
+midi_min=x_rl1;
+midi_max=midi_max0+Number(trs1);
+}else{
+midi_min=midi_min0+Number(trs1);
+midi_max=x_rl1;
+}
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function information1(){
+window.name="openerWin";
+newWin2=window.open();
+newWin2.document.writeln ('<pre align="left" ><b><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg</b><hr color="#ff0000"></font></pre>'.fontsize(6));
+newWin2.document.writeln ('<pre>Information</pre>'.fontsize(6));
+newWin2.document.writeln ('<pre><font color="#000080">MID Choose File  </font>Choose a mid file. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">CSV Choose File  </font>Choose a csv file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">                 </font>A.NoteID, B.Finger number, C.Memo, D.Lyrics, E.Notation Left, F.Notation Right. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Play             </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">||               </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SilentBPM        </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SilentOrigin     </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><->              </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">|<               </font>Show the first measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><<               </font>Show the previous screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><                </font>Show the previous measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>                </font>Show the next measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>>               </font>Show the next screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>|               </font>Show the last measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">|                </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">K                </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">+                </font>Transpose key by the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Ch               </font>Show the notes of the channel number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000000">                 Two numbers can be set sepalated by "*".</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">][               </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Left list box    </font>Select to show note letters, lyrics, finger numbers, memos, or CSV lyrics on notes.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Right list box   </font>Select to switch program below.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Scroll M         </font>Setting to scroll screen in a medium font.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Scroll L         </font>Setting to scroll screen in a large font.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Still M          </font>Setting to move a horisontal line on still screen in a medium font.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Still L          </font>Setting to move a horisontal line on still screen in a large font.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Color Sample     </font>Color sample to print and set on the keyboad.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Touch Sound      </font>Setting to play by touching screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Channel Colors   </font>Table of channel colors, channel numbers and instruments.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 10           </font>Estimate key of the song by time window 10%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 20           </font>Estimate key of the song by time window 20%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 25           </font>Estimate key of the song by time window 25%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Download Files   </font>Download files.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Information      </font>This page.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Licenses         </font>Third party licenses.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Privacy Poliy    </font>Link to Privacy Policy, Terms and Conditions, Cookies Policy and Diclaimer.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Contact          </font>Feel free to contact us by e-mail.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg</font><font color="#000000">        Registered Trademark in Japan No.6706042.</font></pre>'.fontsize(5));
+}
+
+function licenses1(){
+window.name="openerWin";
+newWin3=window.open();
+newWin3.document.writeln ('<pre align="left" ><b><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg</b><hr color="#ff0000"></font></pre>'.fontsize(6));
+newWin3.document.writeln ('<pre>Third Party License</pre>'.fontsize(6));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>MIT License</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>Copyright (c) 2017-2021 cagpie / Shun Kobayashi (cagpie@gmail.com)</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>Permission is hereby granted, free of charge, to any person obtaining a copy</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>of this software and associated documentation files (the "Software"), to deal</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>in the Software without restriction, including without limitation the rights</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>copies of the Software, and to permit persons to whom the Software is</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>furnished to do so, subject to the following conditions:</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>The above copyright notice and this permission notice shall be included in all</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>copies or substantial portions of the Software.</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>SOFTWARE.</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>[The MIT License](http://opensource.org/licenses/MIT)</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>Copyright © 2016 Yotam Mann</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>Permission is hereby granted, free of charge, to any person obtaining a copy</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>of this software and associated documentation files (the "Software"), to deal</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>in the Software without restriction, including without limitation the rights</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>copies of the Software, and to permit persons to whom the Software is</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>furnished to do so, subject to the following conditions:</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>The above copyright notice and this permission notice shall be included in</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>all copies or substantial portions of the Software.</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre> </pre>');
+newWin3.document.writeln ('<pre>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</pre>'.fontsize(5));
+newWin3.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
+
+}
+
+function download1(){
+window.location.href="index.html";
+}
+
+function privacy1(){
+window.name="openerWin";
+newWin5=window.open();
+newWin5.document.writeln ('<pre align="left" ><b><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg</b><hr color="#ff0000"></font></pre>'.fontsize(6));
+newWin5.document.writeln ("<a href='https://www.termsfeed.com/live/ca36248b-3b53-457d-a909-496194bb7245'>Privacy Policy</a><br><br>".fontsize(5));
+newWin5.document.writeln ("<a href='https://www.termsfeed.com/live/c23b77d8-0260-4336-a691-6c96ba4b0ed2'>Terms and Conditions</a><br><br>".fontsize(5));
+newWin5.document.writeln ("<a href='https://www.termsfeed.com/live/16887ebd-38bd-41b8-8d53-74b8d5488bb7'>Cookies Policy</a><br><br>".fontsize(5));
+newWin5.document.writeln ("<a href='https://www.termsfeed.com/live/39c812ba-5d73-4fa5-b7a1-8ec7ab7a4227'>Disclaimer</a><br><br>".fontsize(5));
+}
+
+function contact1(){
+window.name="openerWin";
+newWin6=window.open();
+newWin6.document.writeln ('<pre align="left" ><b><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg</b><hr color="#ff0000"></font></pre>'.fontsize(6));
+newWin6.document.writeln ("<a href='mailto:toyscore2023@gmail.com'>toymusicscore@gmail.com</a>".fontsize(5));
+}
+
+//smf's lyrics
+function lyrics1(){
+lyrict0="";
+lyricr0=[];
+lyricr1=[];
+trnnr0=[];
+x_ch1=document.form1.x_ch.value;
+
+for(i=0;i<midiData.length;i++){
+//MTrk
+if(midiData[i]===0x4d && midiData[i+1]===0x54 && midiData[i+2]===0x72 && midiData[i+3]===0x6b){
+dtflg0=0;
+trln0=0;
+trdt0=0;
+trtk0=0;
+trnn0=0;
+	for(j=i+4;j<i+8;j++){
+		trln0=(trln0<<8)+Number(midiData[j]);
+	}
+	k=i+8;
+	while (k<i+8+trln0){
+		if(dtflg0===0){
+			while (midiData[k]>=0x80){
+				trdt0=(trdt0<<7)+Number(midiData[k])-0x80;
+				k++;
+				}
+			trtk0=trtk0+(trdt0<<7)+Number(midiData[k]);
+			dtflg0=1;
+			trdt0=0;
+			k++;
+		}else if(dtflg0===1){
+				 if(midiData[k]<0x80){
+					k+=2;
+				}else if((midiData[k]>=0x80 && midiData[k]<=0x8f) ||
+				   (midiData[k]>=0x90 && midiData[k]<=0x9f && midiData[k+2]===0)){
+					k+=3;
+				}else if(midiData[k]>=0x90 && midiData[k]<=0x9f && midiData[k+2]>0 ){
+					k+=3;
+				}else if(midiData[k]>=0xa0 && midiData[k]<=0xbf){
+					k+=3;
+				}else if(midiData[k]>=0xc0 && midiData[k]<=0xdf){
+					k+=2;
+				}else if(midiData[k]>=0xe0 && midiData[k]<=0xef){
+					k+=3;
+				}else if(midiData[k]===0xf0){
+					k+=3;
+					while(midiData[k]!=0xf7){
+						k++;
+						}
+					k++;
+				}else if(midiData[k]===0xff && midiData[k+1]===0x05){
+					for(l=0;l<midiData[k+2];l++){
+						lyrict0=lyrict0+String.fromCharCode(midiData[k+3+l]);
+					}
+					k+=3+midiData[k+2];
+					lyricr0.push([trtk0,lyrict0+"\n"]);
+					lyrict0="";
+				}else if(midiData[k]===0xff && midiData[k+1]!=0x2f){
+					k+=3+midiData[k+2];
+				}else if(midiData[k]===0xff && midiData[k+1]===0x2f){
+					k+=3;
+				}
+			dtflg0=0;
+}//else if(dtflg0===1)
+}//while(k<i+8+..)	
+}//if(midiData[i]...)
+}//for(i=0..)
+
+if(x_ch1!=""){
+	for(k=0;k<r1.length;k++){
+		if(r1[k][3]===Number(x_ch1)){
+			trnnr0.push([r1[k][0],r1[k][1],r1[k][2]]);
+		}
+	}	
+}else{
+	for(k=0;k<r1.length;k++){
+		if(r1[k][3]===4){
+			trnnr0.push([r1[k][0],r1[k][1],r1[k][2]],"\n");
+		}
+	}
+}
+
+for(i=0;i<trnnr0.length;i++){
+	for(j=0;j<lyricr0.length;j++){
+		if(trnnr0[i][1]===lyricr0[j][0]){
+			lyricr1.push([trnnr0[i][0],trnnr0[i][1],trnnr0[i][2],lyricr0[j][1]]);
+		}
+	}
+}
+
+}//lyrics1
+
+
+
+
+function instrument1(){
+ctx2.font="25px Arial";
+ctx2.fillStyle="black";
+ctx2.clearRect(0,0,1200,1300);
+ctx2.fillText("Color",100,50);
+ctx2.fillText("Channel",200,50);
+ctx2.fillText("Instrument",350,50);
+
+for(let i=0;i<=ch_max;i++){
+let [channel,instNumber]=r6[i];
+let instrument=instName[instNumber];
+ctx2.fillStyle=col3[channel];
+ctx2.beginPath();
+ctx2.arc(110,30*(i+1)+40,10,0,2*Math.PI,false);
+ctx2.fill();
+ctx2.fillStyle="black";
+if(channel===10){
+ctx2.fillText(channel,200,30*(i+1)+50);
+ctx2.fillText("Percussion",350,30*(i+1)+50);
+}else{
+ctx2.fillText(channel,200,30*(i+1)+50);
+ctx2.fillText(instrument,350,30*(i+1)+50);
+}
+}
+}
+
+function color_sample1(){
+let kw=77;
+let kw0=kw*12/7*3/5;
+let kw1=kw*12/7*4/7;
+let cl=kw/2;
+
+ctx2.clearRect(0,0,1080,1300);
+ctx2.font="25px Arial";
+ctx2.fillStyle="black";
+
+ctx2.lineWidth=1;
+for(let k=22;k<=107;k++){
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect((k-Math.floor(k/12)*12)*kw,(Math.floor(k/12)*2-2)*cl+10,kw,cl);
+ctx2.fillStyle=col[k%12];
+if(k%12<=4){
+ctx2.fillRect((k-Math.floor(k/12)*12)*kw0,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
+}else{
+ctx2.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1,(Math.floor(k/12)*2-1)*cl+10,kw1,cl);
+}
+ctx2.strokeStyle="black";
+
+if(Math.floor(k/12)<=8){
+ctx2.beginPath();
+ctx2.moveTo(0,(Math.floor(k/12)*2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(13*kw,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.stroke();
+if(k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+}
+if(k%12===5){
+ctx2.beginPath();
+ctx2.moveTo(5*kw0,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw0,(Math.floor(k/12)*2)*cl+10);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+}
+}
+}
+ctx2.fillStyle=col2[Math.floor(21/12)-1];
+ctx2.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-2)*cl+10,kw1,cl);
+ctx2.fillStyle=col[21%12];
+ctx2.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-1)*cl+10,kw1,cl);
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw*12/7,(Math.floor(21/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.stroke();
+
+ctx2.fillStyle=col2[Math.floor(108/12)-1];
+ctx2.fillRect(12*kw,(Math.floor(107/12)*2-2)*cl+10,kw,cl);
+ctx2.fillStyle=col[108%12];
+ctx2.fillRect(12*kw,(Math.floor(107/12)*2-1)*cl+10,kw,cl);
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(13*kw,(Math.floor(107/12)*2-1)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(23/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(23/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(107/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw0,(Math.floor(107/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw0,(Math.floor(107/12)*2)*cl+10);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+
+let x0=0;
+let y0=660;
+let l0=140;
+
+for(let l=0;l<=12;l++){
+if(l%12===1||l%12===3){
+ctx2.fillStyle="lightgray";
+ctx2.fillRect(l*kw0+x0,y0,kw0,l0);
+ctx2.beginPath();
+}else if(l%12===6||l%12===8||l%12===10){
+ctx2.fillStyle="lightgray";
+ctx2.fillRect(3*kw*12/7+(l-5)*kw1+x0,y0,kw1,l0);
+ctx2.beginPath();
+}
+}
+
+for(let m=0;m<=7;m++){
+if(m%7===0||m%7===3){
+ctx2.beginPath();
+ctx2.moveTo(m*kw*12/7+x0,y0);
+ctx2.lineTo(m*kw*12/7+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}else{
+ctx2.beginPath();
+ctx2.moveTo(m*kw*12/7+x0,l0+y0);
+ctx2.lineTo(m*kw*12/7+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}
+}
+
+ctx2.beginPath();
+ctx2.moveTo(x0,y0);
+ctx2.lineTo(kw*12+x0,y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(x0,l0*2+y0);
+ctx2.lineTo(kw*12+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+
+
+
+let x2=50;
+let y2=1000;
+
+let kw20=10;
+let kw21=kw20*12/7*3/5;
+let kw22=kw20*12/7*4/7;
+let kw23=12*kw20/7;
+let kl0=10*kw20;
+let kl1=14*kw20;
+
+for(let l=0;l<=51;l++){
+if((l+5)%7===0){
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,y2);
+ctx2.lineTo(l*kw23+x2,2*kw20+y2);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,2*kw20+y2);
+ctx2.lineTo(l*kw23+x2,kl1+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}else if((l+5)%7===3){
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,y2);
+ctx2.lineTo(l*kw23+x2,2*kw20+y2);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,2*kw20+y2);
+ctx2.lineTo(l*kw23+x2,kl1+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}else{
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,kl0+y2);
+ctx2.lineTo(l*kw23+x2,kl1+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}
+}
+
+for(let k=21;k<=108;k++){
+if(k%12>=0 && k%12<=4){
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
+}else{
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
+}
+
+if(k%12===1||k%12===3){
+ctx2.fillStyle="black";
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw21+x2,2*kw20+y2,kw21,8*kw20);
+}else if(k%12===6||k%12===8||k%12===10){
+ctx2.fillStyle="black";
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,8*kw20);
+}
+}
+
+
+ctx2.beginPath();
+ctx2.moveTo(x2,y2);
+ctx2.lineTo(52*kw23+x2,y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,2*kw20+y2);
+ctx2.lineTo(52*kw23+x2,2*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,14*kw20+y2);
+ctx2.lineTo(52*kw23+x2,14*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,15*kw20+y2);
+ctx2.lineTo(52*kw23+x2,15*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,y2);
+ctx2.lineTo(x2,15*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(52*kw23+x2,y2);
+ctx2.lineTo(52*kw23+x2,15*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+
+}
+
+
+function selview1(){
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}else if(document.form1.sv1.options[4].selected==true){
+color_sample1();
+}else if(document.form1.sv1.options[5].selected==true){
+touch_sound1();
+}else if(document.form1.sv1.options[6].selected==true){
+instrument1();
+}else if(document.form1.sv1.options[7].selected==true){
+keyw1();
+}else if(document.form1.sv1.options[8].selected==true){
+keyw3();
+}else if(document.form1.sv1.options[9].selected==true){
+keyw4();
+}else if(document.form1.sv1.options[10].selected==true){
+;
+}else if(document.form1.sv1.options[11].selected==true){
+information1();
+}else if(document.form1.sv1.options[12].selected==true){
+licenses1();
+}else if(document.form1.sv1.options[13].selected==true){
+privacy1();
+}else if(document.form1.sv1.options[14].selected==true){
+contact1();
+}
+}
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
