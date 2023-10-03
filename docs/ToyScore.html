@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore 9.39.1
+ToyScore 9.40.0
 </title>
 </head>
 <body style="font-size:160%" >
@@ -71,7 +71,10 @@ Progress <span id="prgrs"></span>
 <option value="10" style="font-size:100%"> Lyrics </option>
 <option value="11" style="font-size:100%"> CSV Fingering </option>
 <option value="12" style="font-size:100%"> CSV Memos </option>
-<option value="13" style="font-size:100%" selected="selected"> CSV Lyrics </option>
+<option value="13" style="font-size:100%" selected="selected"> CSV Lyrics1 </option>
+<option value="14" style="font-size:100%" > CSV Lyrics2 </option>
+<option value="15" style="font-size:100%" > CSV Lyrics3 </option>
+<option value="16" style="font-size:100%" > CSV Lyrics4 </option>
 
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
@@ -90,6 +93,7 @@ Progress <span id="prgrs"></span>
 <option value="12" style="font-size:100%"> Licenses Data </option>
 <option value="13" style="font-size:100%"> Privacy Policy </option>
 <option value="14" style="font-size:100%"> Contact </option>
+<option value="15" style="font-size:100%"> Open Local </option>
 
 </select>
 </form>
@@ -530,6 +534,10 @@ csv2=[];
 csv3=[];
 csv4=[];
 csv5=[];
+csv6=[];
+csv7=[];
+csv8=[];
+csv9=[];
 
 csv0=data2.split('\n');
 for (i=0;i<csv0.length;i++){
@@ -538,6 +546,10 @@ csv2.push([(csv0[i].split(','))[2]]);
 csv3.push([(csv0[i].split(','))[3]]);
 csv4.push([(csv0[i].split(','))[4]]);
 csv5.push([(csv0[i].split(','))[5]]);
+csv6.push([(csv0[i].split(','))[6]]);
+csv7.push([(csv0[i].split(','))[7]]);
+csv8.push([(csv0[i].split(','))[8]]);
+csv9.push([(csv0[i].split(','))[9]]);
 }
 csvst0=(csv0[1].split(','))[0];
 top1();
@@ -643,17 +655,26 @@ ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht
 //csv memos
 }else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
 ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics
+//csv Lyrics1
 }else if (document.form1.nl1.options[13].selected==true && csv3[n_id-csvst0+1]!=undefined){
 ctx2.fillText(csv3[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics2
+}else if (document.form1.nl1.options[14].selected==true && csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics3
+}else if (document.form1.nl1.options[15].selected==true && csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics4
+}else if (document.form1.nl1.options[16].selected==true && csv6[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv6[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
 //csv notations left
-if (csv4[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv4[n_id-csvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+if (csv7[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv7[n_id-csvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
 //csv notations right
-if (csv5[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv5[n_id-csvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+if (csv8[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv8[n_id-csvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
 
 }//if(100+stop>j..)
@@ -1763,6 +1784,10 @@ newWin6.document.writeln ('<pre align="left" ><b><font face="Arial"><font color=
 newWin6.document.writeln ("<a href='mailto:toyscore2023@gmail.com'>toymusicscore@gmail.com</a>".fontsize(5));
 }
 
+function openlocal1(){
+window.location.href="toyscore2.html"
+}
+
 //smf's lyrics
 function lyrics1(){
 lyrict0="";
@@ -2155,6 +2180,8 @@ licenses2();
 privacy1();
 }else if(document.form1.sv1.options[14].selected==true){
 contact1();
+}else if(document.form1.sv1.options[15].selected==true){
+openlocal1();
 }
 }
 
