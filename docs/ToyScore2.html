@@ -9,7 +9,6 @@ ToyScore2 10.0
 <body style="font-size:160%" >
 <font face="Arial">
 <font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg
-<span id="ttl"></span>
 <br>
 <form name="form1" >
 <span id="ts"></span>
@@ -101,7 +100,6 @@ CSV<input type="file" id="selfile2" style="font-size:100%">
 
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script src="https://unpkg.com/tone"></script>
-<script src="https://unpkg.com/@tonejs/midi"></script>
 <script>
 const canvas2=document.getElementById("cv2");
 const ctx2=canvas2.getContext("2d");
@@ -439,7 +437,6 @@ bttl = parsedData.beatTrack[0].value[0];
 ntvl = parsedData.beatTrack[0].value[1];
 bpm = Math.round(parsedData.tempoTrack[0].value);
 document.form1.x_bpm.value=bpm;
-document.getElementById("ttl").innerHTML=toneData.header.name;
 document.getElementById("ts").innerHTML=bttl+"/"+ntvl;
 if(Math.floor(picoAudio.getTime(eott0)%60)<10){
 document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":0"+Math.floor(picoAudio.getTime(eott0)%60);
