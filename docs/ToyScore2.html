@@ -429,7 +429,6 @@ reader1.onload=function(ev){
 picoAudio.init(); 
 midiData = new Uint8Array(reader1.result);
 parsedData = picoAudio.parseSMF(midiData);
-toneData = new Midi(midiData);
 picoAudio.setData(parsedData);
 eott0 = parsedData.songLength;
 ppq = parsedData.header.resolution;
@@ -533,6 +532,9 @@ csv2=[];
 csv3=[];
 csv4=[];
 csv5=[];
+csv6=[];
+csv7=[];
+csv8=[];
 var file2=evt.target.files[0];
 var reader2=new FileReader();
 reader2.readAsText(file2,"shift_JIS");
