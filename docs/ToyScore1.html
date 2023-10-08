@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.0
+ToyScore1 10.1
 </title>
 </head>
 <body style="font-size:160%" >
@@ -420,19 +420,31 @@ let csv2=[];
 let csv3=[];
 let csv4=[];
 let csv5=[];
+let csv6=[];
+let csv7=[];
+let csv8=[];
+let csv9=[];
 let csvst0=0;
+
+let LD0=[];
+let LD1=[];
 
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
 	let uri1="./data/"+songname1+".mid";
 	let uri2="./data/"+songname1+".csv";
+	let uri3="./data/License_Data.csv";
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
+	let res3=await fetch(uri3);
 	if (res1.ok){
 		data1=await res1.arrayBuffer();
 	}
 	if (res2.ok){
 		data2=await res2.text();
+	}
+	if (res3.ok){
+		data3=await res3.text();
 	}
 
 picoAudio.init(); 
@@ -552,6 +564,17 @@ csv8.push([(csv0[i].split(','))[8]]);
 csv9.push([(csv0[i].split(','))[9]]);
 }
 csvst0=(csv0[1].split(','))[0];
+
+LD0=[];
+LD1=[];
+
+LD0=data3.split('\n');
+for (i=0;i<LD0.length;i++){
+LD1.push([LD0[i].split(',')]);
+}
+alert(LD0);
+alert(LD1);
+
 top1();
 
 }
