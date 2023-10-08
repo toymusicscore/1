@@ -102,6 +102,8 @@ Progress <span id="prgrs"></span>
 </canvas>
 </font>
 </div>
+<div id="credit">
+</div>
 
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script src="https://unpkg.com/tone"></script>
@@ -429,6 +431,9 @@ let csvst0=0;
 let LD0=[];
 let LD1=[];
 
+let credit0="";
+let credit1="";
+
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
 	let uri1="./data/"+songname1+".mid";
@@ -571,9 +576,15 @@ LD1=[];
 LD0=data3.split('\n');
 for (i=0;i<LD0.length;i++){
 LD1.push([LD0[i].split(',')]);
+if((LD0[i].split(','))[0]===songname1+".mid"){
+	credit0=LD0[i].split(',');
 }
-alert(LD0);
-alert(LD1);
+if((LD0[i].split(','))[0]===songname1+".csv"){
+	credit1=LD0[i].split(',');
+}
+}
+
+document.getElementById("credit").innerHTML=credit0+credit1;
 
 top1();
 
