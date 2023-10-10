@@ -668,8 +668,13 @@ ctx2.beginPath();
 ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
 ctx2.fill();
-ctx2.fillStyle="black";
+}//if
+}//for
 
+for(i=0;i<r1.length;i++){
+let [midi, start, stop, channel, n_id]=r1[i];
+if(100+stop>=j && start<=j+ht1*ppq*bttl){
+ctx2.fillStyle="black";
 if (document.form1.nl1.options[0].selected==true){
 ctx2.fillText("",(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[1].selected==true){
