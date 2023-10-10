@@ -963,7 +963,7 @@ ctx2.stroke();
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
-if(stop>j && stop<=j+(ht1-1)*bttl*ppq/ntvl*4){
+if(stop>j && stop<j+(ht1-1)*bttl*ppq/ntvl*4){
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect((midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
@@ -975,7 +975,7 @@ ctx2.fill();
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
-if(stop>j && stop<=j+(ht1-1)*bttl*ppq/ntvl*4){
+if(stop>j && stop<j+(ht1-1)*bttl*ppq/ntvl*4){
 ctx2.fillStyle="black";
 
 if (document.form1.nl1.options[0].selected==true){
@@ -1120,7 +1120,7 @@ ctx2.stroke();
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
-if(stop>j && stop<=j+(ht1-1)*bttl*ppq/ntvl*4){
+if(stop>j && stop<j+(ht1-1)*bttl*ppq/ntvl*4){
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect((midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
