@@ -442,7 +442,7 @@ async function fetch1(){
 let songname1=document.getElementById("song1").value;
 	let uri1="./data/"+songname1+".mid";
 	let uri2="./data/"+songname1+".csv";
-	let uri3="./data/License_Data.csv";
+	let uri3="./data/License_Data.tsv";
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
 	let res3=await fetch(uri3);
@@ -562,27 +562,27 @@ csv9=[];
 
 csv0=data2.split('\n');
 for (i=0;i<csv0.length;i++){
-csv1.push([(csv0[i].split(','))[1]]);
-csv2.push([(csv0[i].split(','))[2]]);
-csv3.push([(csv0[i].split(','))[3]]);
-csv4.push([(csv0[i].split(','))[4]]);
-csv5.push([(csv0[i].split(','))[5]]);
-csv6.push([(csv0[i].split(','))[6]]);
-csv7.push([(csv0[i].split(','))[7]]);
-csv8.push([(csv0[i].split(','))[8]]);
-csv9.push([(csv0[i].split(','))[9]]);
+csv1.push([(csv0[i].split('\t'))[1]]);
+csv2.push([(csv0[i].split('\t'))[2]]);
+csv3.push([(csv0[i].split('\t'))[3]]);
+csv4.push([(csv0[i].split('\t'))[4]]);
+csv5.push([(csv0[i].split('\t'))[5]]);
+csv6.push([(csv0[i].split('\t'))[6]]);
+csv7.push([(csv0[i].split('\t'))[7]]);
+csv8.push([(csv0[i].split('\t'))[8]]);
+csv9.push([(csv0[i].split('\t'))[9]]);
 }
-csvst0=(csv0[1].split(','))[0];
+csvst0=(csv0[1].split('\t'))[0];
 
 LD0=[];
 
 LD0=data3.split('\n');
 for (i=0;i<LD0.length;i++){
-if((LD0[i].split(','))[0]===songname1+".mid"){
-	credit0=LD0[i].split(',');
+if((LD0[i].split('\t'))[0]===songname1+".mid"){
+	credit0=LD0[i].split('\t');
 }
-if((LD0[i].split(','))[0]===songname1+".csv"){
-	credit1=LD0[i].split(',');
+if((LD0[i].split('\t'))[0]===songname1+".tsv"){
+	credit1=LD0[i].split('\t');
 }
 }
 
