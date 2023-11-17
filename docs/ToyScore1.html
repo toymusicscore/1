@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.9
+ToyScore1 10.10
 </title>
 </head>
 <body style="font-size:160%" >
@@ -72,13 +72,13 @@ Progress <span id="prgrs"></span>
 <option value="8" style="font-size:100%"> Note Numbers </option>
 <option value="9" style="font-size:100%"> Note IDs </option>
 <option value="10" style="font-size:100%"> Lyrics </option>
-<option value="11" style="font-size:100%"> TSV Fingering </option>
-<option value="12" style="font-size:100%"> TSV Memos </option>
-<option value="13" style="font-size:100%" selected="selected"> TSV Lyrics1 </option>
-<option value="14" style="font-size:100%" > TSV Lyrics2 </option>
-<option value="15" style="font-size:100%" > TSV Lyrics3 </option>
-<option value="16" style="font-size:100%" > TSV Lyrics4 </option>
-<option value="17" style="font-size:100%" > TSV Lyrics5 </option>
+<option value="11" style="font-size:100%"> CSV Fingering </option>
+<option value="12" style="font-size:100%"> CSV Memos </option>
+<option value="13" style="font-size:100%" selected="selected"> CSV Lyrics1 </option>
+<option value="14" style="font-size:100%" > CSV Lyrics2 </option>
+<option value="15" style="font-size:100%" > CSV Lyrics3 </option>
+<option value="16" style="font-size:100%" > CSV Lyrics4 </option>
+<option value="17" style="font-size:100%" > CSV Lyrics5 </option>
 
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
@@ -419,17 +419,17 @@ let newWin11="";
 let newWin12="";
 let newWin13="";
 
-let tsv0=[];
-let tsv1=[];
-let tsv2=[];
-let tsv3=[];
-let tsv4=[];
-let tsv5=[];
-let tsv6=[];
-let tsv7=[];
-let tsv8=[];
-let tsv9=[];
-let tsvst0=0;
+let csv0=[];
+let csv1=[];
+let csv2=[];
+let csv3=[];
+let csv4=[];
+let csv5=[];
+let csv6=[];
+let csv7=[];
+let csv8=[];
+let csv9=[];
+let csvst0=0;
 
 let LD0=[];
 
@@ -439,8 +439,8 @@ let credit1="";
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
 	let uri1="./data/"+songname1+".mid";
-	let uri2="./data/"+songname1+".tsv";
-	let uri3="./data/License_Data.tsv";
+	let uri2="./data/"+songname1+".csv";
+	let uri3="./data/License_Data.csv";
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
 	let res3=await fetch(uri3);
@@ -547,50 +547,50 @@ r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
 
 lyrics1();
 
-tsv0=[];
-tsv1=[];
-tsv2=[];
-tsv3=[];
-tsv4=[];
-tsv5=[];
-tsv6=[];
-tsv7=[];
-tsv8=[];
-tsv9=[];
+csv0=[];
+csv1=[];
+csv2=[];
+csv3=[];
+csv4=[];
+csv5=[];
+csv6=[];
+csv7=[];
+csv8=[];
+csv9=[];
 
-tsv0=data2.split('\n');
-for (i=0;i<tsv0.length;i++){
-tsv1.push([(tsv0[i].split('\t'))[1]]);
-tsv2.push([(tsv0[i].split('\t'))[2]]);
-tsv3.push([(tsv0[i].split('\t'))[3]]);
-tsv4.push([(tsv0[i].split('\t'))[4]]);
-tsv5.push([(tsv0[i].split('\t'))[5]]);
-tsv6.push([(tsv0[i].split('\t'))[6]]);
-tsv7.push([(tsv0[i].split('\t'))[7]]);
-tsv8.push([(tsv0[i].split('\t'))[8]]);
-tsv9.push([(tsv0[i].split('\t'))[9]]);
+csv0=data2.split('\n');
+for (i=0;i<csv0.length;i++){
+csv1.push([(csv0[i].split(','))[1]]);
+csv2.push([(csv0[i].split(','))[2]]);
+csv3.push([(csv0[i].split(','))[3]]);
+csv4.push([(csv0[i].split(','))[4]]);
+csv5.push([(csv0[i].split(','))[5]]);
+csv6.push([(csv0[i].split(','))[6]]);
+csv7.push([(csv0[i].split(','))[7]]);
+csv8.push([(csv0[i].split(','))[8]]);
+csv9.push([(csv0[i].split(','))[9]]);
 }
-tsvst0=(tsv0[1].split('\t'))[0];
+csvst0=(csv0[1].split(','))[0];
 
 LD0=[];
 
 LD0=data3.split('\n');
 for (i=0;i<LD0.length;i++){
-if((LD0[i].split('\t'))[0]===songname1+".mid"){
-	credit0=LD0[i].split('\t');
+if((LD0[i].split(','))[0]===songname1+".mid"){
+	credit0=LD0[i].split(',');
 }
-if((LD0[i].split('\t'))[0]===songname1+".tsv"){
-	credit1=LD0[i].split('\t');
+if((LD0[i].split(','))[0]===songname1+".csv"){
+	credit1=LD0[i].split(',');
 }
 }
 
 document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+" Change(s):"+credit0[5]+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+" Change(s):"+credit1[5]+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
 "<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
 "<br>Disclaimer:No warranties are given."
 ;
@@ -697,35 +697,35 @@ ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+(start-j)*1100/
 ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
 ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv finger numbers
-}else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv memos
-}else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics1
-}else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics2
-}else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics3
-}else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics4
-}else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics5
-}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv finger numbers
+}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv memos
+}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics1
+}else if (document.form1.nl1.options[13].selected==true && csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics2
+}else if (document.form1.nl1.options[14].selected==true && csv6[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv6[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics3
+}else if (document.form1.nl1.options[15].selected==true && csv7[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv7[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics4
+}else if (document.form1.nl1.options[16].selected==true && csv8[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv8[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics5
+}else if (document.form1.nl1.options[17].selected==true && csv9[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv9[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
-//tsv notations left
-if (tsv3[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv3[n_id-tsvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv notations left
+if (csv3[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv3[n_id-csvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
-//tsv notations right
-if (tsv4[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv4[n_id-tsvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv notations right
+if (csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
 
 }//if(100+stop>j..)
@@ -843,35 +843,35 @@ ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+(start-j)*1100/
 ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
 ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv finger numbers
-}else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv memos
-}else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics1
-}else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics2
-}else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics3
-}else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics4
-}else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics5
-}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv finger numbers
+}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv memos
+}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics1
+}else if (document.form1.nl1.options[13].selected==true && csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics2
+}else if (document.form1.nl1.options[14].selected==true && csv6[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv6[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics3
+}else if (document.form1.nl1.options[15].selected==true && csv7[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv7[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics4
+}else if (document.form1.nl1.options[16].selected==true && csv8[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv8[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics5
+}else if (document.form1.nl1.options[17].selected==true && csv9[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv9[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
-//tsv notations left
-if (tsv3[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv3[n_id-tsvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv notations left
+if (csv3[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv3[n_id-csvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
-//tsv notations right
-if (tsv4[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv4[n_id-tsvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv notations right
+if (csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
 }
 
 }//if(100+stop>j..)
@@ -1000,35 +1000,35 @@ ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+start%(ht1*bttl
 ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
 ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv finger number
-}else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv memos
-}else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics1
-}else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics2
-}else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics3
-}else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics4
-}else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics5
-}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv finger number
+}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv memos
+}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics1
+}else if (document.form1.nl1.options[13].selected==true && csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics2
+}else if (document.form1.nl1.options[14].selected==true && csv6[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv6[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics3
+}else if (document.form1.nl1.options[15].selected==true && csv7[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv7[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics4
+}else if (document.form1.nl1.options[16].selected==true && csv8[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv8[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics5
+}else if (document.form1.nl1.options[17].selected==true && csv9[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv9[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
 }
-//tsv notations left
-if (tsv3[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv3[n_id-tsvst0+1], 40,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv notations left
+if (csv3[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv3[n_id-csvst0+1], 40,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
 }
-//tsv notations right
-if (tsv4[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv4[n_id-tsvst0+1], 1050,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv notations right
+if (csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1], 1050,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
 }
 
 }//if(stop>j..)
@@ -1157,35 +1157,35 @@ ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+start%(ht1*bttl
 ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
 ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv finger number
-}else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv memos
-}else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics1
-}else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics2
-}else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics3
-}else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics4
-}else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//tsv Lyrics5
-}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv finger number
+}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv memos
+}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics1
+}else if (document.form1.nl1.options[13].selected==true && csv5[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv5[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics2
+}else if (document.form1.nl1.options[14].selected==true && csv6[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv6[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics3
+}else if (document.form1.nl1.options[15].selected==true && csv7[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv7[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics4
+}else if (document.form1.nl1.options[16].selected==true && csv8[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv8[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv Lyrics5
+}else if (document.form1.nl1.options[17].selected==true && csv9[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv9[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
 }
-//tsv notations left
-if (tsv3[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv3[n_id-tsvst0+1], 40,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv notations left
+if (csv3[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv3[n_id-csvst0+1], 40,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
 }
-//tsv notations right
-if (tsv4[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv4[n_id-tsvst0+1], 1050,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+//csv notations right
+if (csv4[n_id-csvst0+1]!=undefined){
+ctx2.fillText(csv4[n_id-csvst0+1], 1050,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
 }
 
 }//if(stop>j..)
@@ -1778,7 +1778,7 @@ newWin2=window.open();
 newWin2.document.writeln ('<pre align="left" ><b><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg</b> Information<hr color="#ff0000"></font></pre>'.fontsize(6));
 newWin2.document.writeln ('<pre><font color="#000080">Song List         </font>Select a song. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">MID Choose File   </font>Choose a mid file. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">TSV Choose File   </font>Choose a tsv file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">CSV Choose File   </font>Choose a csv file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">                  A.NoteID, B.Fingering, C.Memo, D.Left, E.Right, F-J.Lyrics. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Play              </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">||                </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
@@ -1797,7 +1797,7 @@ newWin2.document.writeln ('<pre><font color="#000080">+                 </font>T
 newWin2.document.writeln ('<pre><font color="#000080">Ch                </font>Show the notes of the channel number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">                  Two numbers can be set sepalated by "*".</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">][                </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Left list box     </font>Select to show note letters, lyrics, finger numbers, memos, or TSV lyrics on notes.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Left list box     </font>Select to show note letters, lyrics, finger numbers, memos, or CSV lyrics on notes.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Right list box    </font>Select to switch program below.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Scroll M          </font>Setting to scroll screen in a medium font.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Scroll L          </font>Setting to scroll screen in a large font.</font></pre>'.fontsize(5));
