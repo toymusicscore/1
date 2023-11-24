@@ -82,10 +82,10 @@ Progress <span id="prgrs"></span>
 
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
-<option value="0" style="font-size:100%"> Scroll M </option>
-<option value="1" style="font-size:100%"> Scroll L </option>
-<option value="2" style="font-size:100%"> Still M </option>
-<option value="3" style="font-size:100%" selected="selected"> Still L </option>
+<option value="0" style="font-size:100%" selected="selected"> Still </option>
+<option value="1" style="font-size:100%"> Scroll  </option>
+<option value="2" style="font-size:100%"> Still 25 kb </option>
+<option value="3" style="font-size:100%"> Scroll 25 kb </option>
 <option value="4" style="font-size:100%"> Color Sample </option>
 <option value="5" style="font-size:100%"> Touch Sound </option>
 <option value="6" style="font-size:100%"> Channel Colors </option>
@@ -489,13 +489,7 @@ ch_num=0;
 
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-//r1.push([note.pitch,note.start,note.stop,note.channel+1,n_id]);
-if (note.channel===0) {
-r1.push([note.pitch%12+60,note.start,note.stop,note.channel+1,n_id]);
-}
-else if (note.channel===1){
-r1.push([note.pitch%12+48,note.start,note.stop,note.channel+1,n_id]);
-}
+r1.push([note.pitch,note.start,note.stop,note.channel+1,n_id]);
 n_id+=1;
 r2.push(note.start);
 r2.push(note.stop);
@@ -606,152 +600,9 @@ top1();
 }
 fetch1();
 
-//scroll M
-function scroll1(){
-let kn=Number(midi_max)-Number(midi_min)+1;
-let kw=Math.round(900/kn);
-ctx2.clearRect(0,0,1200,1300);
-ctx2.lineWidth=1;
-
-for(l=0;l<Number(kn);l++){
-let k=Number(midi_min)+l;
-ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(50+(l+1)*kw,30,kw,35);
-ctx2.fillStyle=col[k%12];
-ctx2.fillRect(50+(l+1)*kw,65,kw,35);
-
-if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-ctx2.fillStyle="lightgrey";
-ctx2.fillRect(50+(l+1)*kw,100,kw,1300);
-}else if (k%12===0){
-ctx2.beginPath();
-ctx2.moveTo(50+(l+1)*kw,0);
-ctx2.lineTo(50+(l+1)*kw,1300);
-ctx2.strokeStyle="blue";
-ctx2.stroke();
-ctx2.fillStyle="black";
-ctx2.font="25px Arial";
-ctx2.fillText("C"+(k/12-1),50+(l+1)*kw,25);
-}else if (k%12===5){
-ctx2.beginPath();
-ctx2.moveTo(50+(l+1)*kw,0);
-ctx2.lineTo(50+(l+1)*kw,1300);
-ctx2.strokeStyle="red";
-ctx2.stroke();
-}
-}
-
-for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
-let vmn0=m/ppq/bttl*ntvl/4;
-ctx2.beginPath();
-ctx2.moveTo(0,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(1000,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.strokeStyle="red";
-ctx2.stroke();
-ctx2.fillStyle="black";
-ctx2.font="25px Arial";
- if(start0==0){
- ctx2.fillText(vmn0+1,0,125+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
- }else{
- ctx2.fillText(vmn0,0,125+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
- }
-
-}else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
-ctx2.beginPath();
-ctx2.moveTo(0,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(1000,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.strokeStyle="green";
-ctx2.stroke();
-}
-}
-
-for(i=0;i<r1.length;i++){
-let [midi, start, stop, channel, n_id]=r1[i];
-gt=stop-start;
-if(100+stop>=j && start<=j+ht1*ppq*bttl){
-ctx2.fillStyle=col[midi%12];
-ctx2.fillRect((midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.beginPath();
-ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
-ctx2.fillStyle=col3[channel];
-ctx2.fill();
-}//if
-}//for
-
-for(i=0;i<r1.length;i++){
-let [midi, start, stop, channel, n_id]=r1[i];
-if(100+stop>=j && start<=j+ht1*ppq*bttl){
-ctx2.fillStyle="black";
-if (document.form1.nl1.options[0].selected==true){
-ctx2.fillText("",(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[1].selected==true){
-ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[2].selected==true){
-ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[3].selected==true){
-ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[4].selected==true){
-ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[5].selected==true){
-ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[6].selected==true){
-ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[7].selected==true){
-ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[9].selected==true){
-ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv finger numbers
-}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv memos
-}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics1
-}else if (document.form1.nl1.options[13].selected==true && csv5[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv5[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics2
-}else if (document.form1.nl1.options[14].selected==true && csv6[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv6[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics3
-}else if (document.form1.nl1.options[15].selected==true && csv7[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv7[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics4
-}else if (document.form1.nl1.options[16].selected==true && csv8[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv8[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics5
-}else if (document.form1.nl1.options[17].selected==true && csv9[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv9[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}
-//csv notations left
-if (csv3[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv3[n_id-csvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}
-//csv notations right
-if (csv4[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv4[n_id-csvst0+1], 1000,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
-}
-
-}//if(100+stop>j..)
-}//for(i=0;)
-
-//smf Lyrics
-if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
-for(n=0;n<lyricr1.length;n+=1){
-trnn0=lyricr1[n][0];
-trtk0=lyricr1[n][1];
-lyrict0=lyricr1[n][3];
-ctx2.fillStyle="black";
-ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+(trtk0-j)*1100/ht1/ppq/bttl*ntvl/4);
-}//for(n=0..)
-}
-
-}
 
 //scroll L
-function scroll2(){
+function scroll(){
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=Math.round(900/kn);
 ctx2.clearRect(0,0,1200,1300);
@@ -896,165 +747,9 @@ ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+(trtk0-j)*1100/ht1/ppq/bttl*n
 
 }
 
-//still M
-function still1(){
-let kn=Number(midi_max)-Number(midi_min)+1;
-let kw=Math.round(900/kn);
-ctx2.clearRect(0,0,1200,1300);
-ctx2.lineWidth=1;
-
-for(l=0;l<Number(kn);l++){
-let k=Number(midi_min)+l;
-ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(50+(l+1)*kw,30,kw,35);
-ctx2.fillStyle=col[k%12];
-ctx2.fillRect(50+(l+1)*kw,65,kw,35);
-
-if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-ctx2.fillStyle="lightgrey";
-ctx2.fillRect(50+(l+1)*kw,100,kw,1300);
-}else if (k%12===0){
-ctx2.beginPath();
-ctx2.moveTo(50+(l+1)*kw,0);
-ctx2.lineTo(50+(l+1)*kw,1300);
-ctx2.strokeStyle="blue";
-ctx2.stroke();
-ctx2.fillStyle="black";
-ctx2.font="25px Arial";
-ctx2.fillText("C"+(k/12-1),50+(l+1)*kw,25);
-}else if (k%12===5){
-ctx2.beginPath();
-ctx2.moveTo(50+(l+1)*kw,0);
-ctx2.lineTo(50+(l+1)*kw,1300);
-ctx2.strokeStyle="red";
-ctx2.stroke();
-}
-
-}
-
-ctx2.beginPath();
-ctx2.fillStyle="lightyellow";
-ctx2.fillRect(0,70+j%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),1200,30);
-
-ctx2.beginPath();
-ctx2.moveTo(0,1200);
-ctx2.lineTo(1000,1200);
-ctx2.strokeStyle="red";
-ctx2.stroke();
-
-for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-if(m%(bttl*ppq/ntvl*4)===0 && m>j-bttl*ppq/ntvl*4 && m<=(j+(ht1-1)*bttl*ppq/ntvl*4)){
-let vmn0=m/(bttl*ppq/ntvl*4);
-ctx2.beginPath();
-ctx2.moveTo(0,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(1000,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.strokeStyle="red";
-ctx2.stroke();
-ctx2.fillStyle="black";
-ctx2.font="25px Arial";
- if(start0==0){
- ctx2.fillText(vmn0+1,0,125+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
- }else{
- ctx2.fillText(vmn0,0,125+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
- }
-
-}else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+(ht1-1)*bttl*ppq/ntvl*4)){
-ctx2.beginPath();
-ctx2.moveTo(0,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(1000,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.strokeStyle="green";
-ctx2.stroke();
-}
-}
-
-
-for(i=0;i<r1.length;i++){
-let [midi, start, stop, channel, n_id]=r1[i];
-gt=stop-start;
-if(stop>j && stop<j+(ht1-1)*bttl*ppq/ntvl*4){
-ctx2.fillStyle=col[midi%12];
-ctx2.fillRect((midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.beginPath();
-ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
-ctx2.fillStyle=col3[channel];
-ctx2.fill();
-}//if
-}//for
-
-for(i=0;i<r1.length;i++){
-let [midi, start, stop, channel, n_id]=r1[i];
-if(stop>j && stop<j+(ht1-1)*bttl*ppq/ntvl*4){
-ctx2.fillStyle="black";
-
-if (document.form1.nl1.options[0].selected==true){
-ctx2.fillText("",(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[1].selected==true){
-ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[2].selected==true){
-ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[3].selected==true){
-ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[4].selected==true){
-ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[5].selected==true){
-ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[6].selected==true){
-ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[7].selected==true){
-ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}else if (document.form1.nl1.options[9].selected==true){
-ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv finger number
-}else if (document.form1.nl1.options[11].selected==true && csv1[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv1[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv memos
-}else if (document.form1.nl1.options[12].selected==true && csv2[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv2[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics1
-}else if (document.form1.nl1.options[13].selected==true && csv5[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv5[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics2
-}else if (document.form1.nl1.options[14].selected==true && csv6[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv6[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics3
-}else if (document.form1.nl1.options[15].selected==true && csv7[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv7[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics4
-}else if (document.form1.nl1.options[16].selected==true && csv8[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv8[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-//csv Lyrics5
-}else if (document.form1.nl1.options[17].selected==true && csv9[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv9[n_id-csvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}
-//csv notations left
-if (csv3[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv3[n_id-csvst0+1], 40,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}
-//csv notations right
-if (csv4[n_id-csvst0+1]!=undefined){
-ctx2.fillText(csv4[n_id-csvst0+1], 1000,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}
-
-}//if(stop>j..)
-}//for(i=0;)
-
-//smf Lyrics
-if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
-for(n=0;n<lyricr1.length;n+=1){
-trnn0=lyricr1[n][0];
-trtk0=lyricr1[n][1];
-lyrict0=lyricr1[n][3];
-ctx2.fillStyle="black";
-ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+trtk0%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-}//for(n=0..)
-}
-
-}
 
 //still L
-function still2(){
+function still(){
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=Math.round(900/kn);
 ctx2.clearRect(0,0,1200,1300);
@@ -3818,13 +3513,43 @@ ctx2.stroke();
 
 function selview1(){
 if(document.form1.sv1.options[0].selected==true){
-scroll1();
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop,note.channel+1,n_id]);
+})
+})
+still();
 }else if(document.form1.sv1.options[1].selected==true){
-scroll2();
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop,note.channel+1,n_id]);
+})
+})
+scroll();
 }else if(document.form1.sv1.options[2].selected==true){
-still1();
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if (note.channel===0) {
+r1.push([note.pitch%12+60,note.start,note.stop,note.channel+1,n_id]);
+}
+else if (note.channel===1){
+r1.push([note.pitch%12+48,note.start,note.stop,note.channel+1,n_id]);
+}
+})
+})
+still();
 }else if(document.form1.sv1.options[3].selected==true){
-still2();
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if (note.channel===0) {
+r1.push([note.pitch%12+60,note.start,note.stop,note.channel+1,n_id]);
+}
+else if (note.channel===1){
+r1.push([note.pitch%12+48,note.start,note.stop,note.channel+1,n_id]);
+}
+})
+})
+scroll();
 }else if(document.form1.sv1.options[4].selected==true){
 color_sample1();
 }else if(document.form1.sv1.options[5].selected==true){
