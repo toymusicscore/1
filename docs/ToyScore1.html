@@ -491,10 +491,10 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => {
 //r1.push([note.pitch,note.start,note.stop,note.channel+1,n_id]);
 if (note.channel===0) {
-r1.push([note.pitch,note.start%12+60,note.stop,note.channel+1,n_id]);
+r1.push([note.pitch%12+60,note.start,note.stop,note.channel+1,n_id]);
 }
 else if (note.channel===1){
-r1.push([note.pitch,note.start%12+48,note.stop,note.channel+1,n_id]);
+r1.push([note.pitch%12+48,note.start,note.stop,note.channel+1,n_id]);
 }
 n_id+=1;
 r2.push(note.start);
