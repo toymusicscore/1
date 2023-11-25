@@ -1664,7 +1664,7 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => { 
 let trs2=Number(note.pitch)+Number(trs1);
 r1.push([trs2,note.start,note.stop, note.channel,n_id]);
-n_id+=1;
+n_id=n_id+1;
 });
 });
 
@@ -1682,22 +1682,22 @@ still2();
 
 function k25(){
 midi_min=48;
-midi_max=71;
-n_id="x";
+midi_max=72;
 r1=[]
+n_id="x";
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-if(note.channel===0 && note.pitch=84){ 
-r1.push([72,note.start,note.stop, note.channel+1,n_id]);
+if(note.channel===0 && note.pitch>72){ 
+r1.push([(note.pitch-72)%12+60,note.start,note.stop, note.channel+1,n_id]);
 }
-else if(note.channel===0 && note.pitch>72){ 
-r1.push([note.pitch%12+60,note.start,note.stop, note.channel+1,n_id]);
-}
-else if(note.channel===0 && note.pitch<=72 && note.pitch>=48){ 
+if(note.channel===0 && note.pitch<=72){ 
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
-else if(note.channel===1 && note.pitch<48){ 
+if(note.channel===1 && note.pitch<48){ 
 r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch>=48){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
