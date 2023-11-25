@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.11
+ToyScore1 10.12
 </title>
 </head>
 <body style="font-size:160%" >
@@ -79,7 +79,6 @@ Progress <span id="prgrs"></span>
 <option value="15" style="font-size:100%" > CSV Lyrics3 </option>
 <option value="16" style="font-size:100%" > CSV Lyrics4 </option>
 <option value="17" style="font-size:100%" > CSV Lyrics5 </option>
-
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> Scroll M </option>
@@ -97,8 +96,8 @@ Progress <span id="prgrs"></span>
 <option value="12" style="font-size:100%"> Software Licenses </option>
 <option value="13" style="font-size:100%"> Privacy Policy </option>
 <option value="14" style="font-size:100%"> Contact </option>
-
 </select>
+<input type="button" name="KB25" value="kb25" onClick="kb25()" style="font-size:100%" >
 </form>
 <div id="target">
 <canvas id="cv2" width="1200" height="1300">
@@ -1695,6 +1694,36 @@ channel.notes.forEach(note => {
 let trs2=Number(note.pitch)+Number(trs1);
 r1.push([trs2,note.start,note.stop, note.channel,n_id]);
 n_id=n_id+1;
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+}
+
+function kb25(){
+document.form1.x_ch.value="";
+document.form1.x_rl.value="";
+trs1=document.form1.x_trs.value;
+midi_min=48;
+midi_max=72;
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.channel===0){ 
+r1.push([note.pitch%12+60,note.start,note.stop, note.channel,n_id]);
+}
+if(note.channel===1){ 
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel,n_id]);
+}
 });
 });
 
