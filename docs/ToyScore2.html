@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 10.11
+ToyScore2 10.12
 </title>
 </head>
 <body style="font-size:160%" >
@@ -17,6 +17,7 @@ PlayTime <span id="pt"></span>
 Progress <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
+<input type="button" name="KB25" value="25" onClick="kb25()" style="font-size:100%" >
 <br>
 MID<input type="file" id="selfile1" style="font-size:100%">
 <br>
@@ -1676,6 +1677,40 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }
+
+}
+
+function kb25(){
+midi_min=48;
+midi_max=72;
+r1=[]
+n_id=0;
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.channel===0){ 
+r1.push([note.pitch%12+60,note.start,note.stop, note.channel,n_id]);
+}
+if(note.channel===1){ 
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Arranged for keyboad with 25 keys."+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
 
 }
 
