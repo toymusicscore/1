@@ -17,7 +17,7 @@ PlayTime <span id="pt"></span>
 Progress <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
-<input type="button" name="K24" value="24" onClick="k24()" style="font-size:100%" >
+<input type="button" name="K25" value="25" onClick="k25()" style="font-size:100%" >
 <br>
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%" selected="selected"> Amazing_Grace </option>
@@ -1709,17 +1709,17 @@ still2();
 
 }
 
-function k24(){
+function k25(){
 midi_min=48;
-midi_max=71;
+midi_max=72;
 n_id="x";
 r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-if(note.channel===0){ 
+if(note.channel===0 && note.pitch>72){ 
 r1.push([note.pitch%12+60,note.start,note.stop, note.channel,n_id]);
 }
-if(note.channel===1){ 
+if(note.channel===1 && note.pitch<48){ 
 r1.push([note.pitch%12+48,note.start,note.stop, note.channel,n_id]);
 }
 });
