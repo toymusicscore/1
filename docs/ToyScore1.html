@@ -1716,8 +1716,10 @@ trs1=document.form1.x_trs.value;
 midi_min=48;
 midi_max=72;
 r1=[]
+n_id=1;
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
+n_id=n_id+1;
 if(note.channel===0){ 
 r1.push([note.pitch%12+60,note.start,note.stop, note.channel,n_id]);
 }
