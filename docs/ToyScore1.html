@@ -1717,16 +1717,16 @@ r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
 if(note.channel===0 && note.pitch>72){ 
-r1.push([(note.pitch-72)%12+60,note.start,note.stop, note.channel,n_id]);
+r1.push([(note.pitch-72)%12+60,note.start,note.stop, note.channel+1,n_id]);
 }
 if(note.channel===0 && note.pitch<=72){ 
-r1.push([note.pitch,note.start,note.stop, note.channel,n_id]);
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
 if(note.channel===1 && note.pitch<48){ 
-r1.push([note.pitch%12+48,note.start,note.stop, note.channel,n_id]);
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
 }
 if(note.channel===1 && note.pitch>=48){ 
-r1.push([note.pitch,note.start,note.stop, note.channel,n_id]);
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
