@@ -1713,10 +1713,8 @@ function kb25(){
 midi_min=48;
 midi_max=72;
 r1=[]
-n_id=0;
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-n_id+=1;
 if(note.channel===0){ 
 r1.push([note.pitch%12+60,note.start,note.stop, note.channel,n_id]);
 }
