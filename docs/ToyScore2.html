@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 10.13
+ToyScore2 10.12
 </title>
 </head>
 <body style="font-size:160%" >
@@ -17,7 +17,7 @@ PlayTime <span id="pt"></span>
 Progress <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
-<input type="button" name="o1" value="O1" onClick="octave1()" style="font-size:100%" >
+<input type="button" name="K25" value="25" onClick="k25()" style="font-size:100%" >
 <br>
 MID<input type="file" id="selfile1" style="font-size:100%">
 <br>
@@ -1680,18 +1680,24 @@ still2();
 
 }
 
-function octave1(){
+function k25(){
 midi_min=48;
-midi_max=71;
+midi_max=72;
 r1=[]
 n_id="x";
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-if(note.channel===0){ 
-r1.push([note.pitch%12+60,note.start,note.stop, note.channel+1,n_id]);
+if(note.channel===0 && note.pitch>72){ 
+r1.push([(note.pitch-72)%12+60,note.start,note.stop, note.channel+1,n_id]);
 }
-if(note.channel===1){ 
+if(note.channel===0 && note.pitch<=72){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch<48){ 
 r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch>=48){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
@@ -1707,7 +1713,7 @@ still2();
 }
 
 document.getElementById("credit").innerHTML=
-"Moved notes to the same pitch class in range of C3-B3 or C4-B4."+
+"Moved notes to the same pitch class in range of C3-C5."+
 "<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
 "<br>Disclaimer:No warranties are given."
 ;
