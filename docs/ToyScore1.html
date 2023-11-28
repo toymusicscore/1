@@ -1750,6 +1750,46 @@ document.getElementById("credit").innerHTML=
 
 function octave2(){
 midi_min=48;
+midi_max=71;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.pitch>=60){ 
+r1.push([note.pitch%12+60,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch<=59){ 
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the same pitch class in range of C3-B4."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+function octave3(){
+midi_min=48;
 midi_max=72;
 n_id="x";
 r1=[]
@@ -1791,45 +1831,6 @@ document.getElementById("credit").innerHTML=
 
 }
 
-function octave3(){
-midi_min=48;
-midi_max=72;
-n_id="x";
-r1=[]
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
-if(note.pitch>=60){ 
-r1.push([note.pitch%12+60,note.start,note.stop, note.channel+1,n_id]);
-}
-if(note.pitch<=59){ 
-r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
-}
-});
-});
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}
-
-document.getElementById("credit").innerHTML=
-"Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Moved notes to the same pitch class in range of C3-C5."+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
-"<br>Disclaimer:No warranties are given."
-;
-
-}
 
 
 function octave4(){
