@@ -1722,6 +1722,9 @@ channel.notes.forEach(note => {
 if(note.pitch>72){ 
 r1.push([(note.pitch-1)%12+61,note.start,note.stop, note.channel+1,n_id]);
 }
+if(note.pitch<=48 && note.pitch<=72){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
 if(note.pitch<48){ 
 r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
 }
