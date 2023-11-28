@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 10.12
+ToyScore2 10.14
 </title>
 </head>
 <body style="font-size:160%" >
@@ -12,12 +12,15 @@ ToyScore2 10.12
 <br>
 <form name="form1" >
 <span id="ts"></span>
-Channel(s) <span id="channels"></span>
-PlayTime <span id="pt"></span>
-Progress <span id="prgrs"></span>
+C <span id="channels"></span>
+T <span id="pt"></span>
+P <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
-<input type="button" name="K25" value="25" onClick="k25()" style="font-size:100%" >
+<input type="button" name="O1" value="1" onClick="octave1()" style="font-size:100%" >
+<input type="button" name="O2" value="2" onClick="octave2()" style="font-size:100%" >
+<input type="button" name="O3" value="3" onClick="octave3()" style="font-size:100%" >
+<input type="button" name="O4" value="4" onClick="octave4()" style="font-size:100%" >
 <br>
 MID<input type="file" id="selfile1" style="font-size:100%">
 <br>
@@ -1680,24 +1683,22 @@ still2();
 
 }
 
-function k25(){
+
+function octave1(){
 midi_min=48;
 midi_max=72;
-r1=[]
 n_id="x";
+r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-if(note.channel===0 && note.pitch>72){ 
-r1.push([(note.pitch-72)%12+60,note.start,note.stop, note.channel+1,n_id]);
+if(note.pitch>72){ 
+r1.push([(note.pitch-1)%12+61,note.start,note.stop, note.channel+1,n_id]);
 }
-if(note.channel===0 && note.pitch<=72){ 
+if(note.pitch>=48 && note.pitch<=72){ 
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
-if(note.channel===1 && note.pitch<48){ 
+if(note.pitch<48){ 
 r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
-}
-if(note.channel===1 && note.pitch>=48){ 
-r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
@@ -1713,12 +1714,167 @@ still2();
 }
 
 document.getElementById("credit").innerHTML=
-"Moved notes to the same pitch class in range of C3-C5."+
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the same pitch class in range of C3-C5."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
 "<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
 "<br>Disclaimer:No warranties are given."
 ;
 
 }
+
+
+function octave2(){
+midi_min=48;
+midi_max=72;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.channel===0){ 
+r1.push([note.pitch%12+60,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1){ 
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the same pitch class in range of C3-C5."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+
+function octave3(){
+midi_min=48;
+midi_max=72;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.channel===0 && note.pitch>84){ 
+r1.push([(note.pitch-1)%12+61,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===0 && note.pitch>=60 && note.pitch<=84){ 
+r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===0 && note.pitch<60){ 
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch>72){ 
+r1.push([(note.pitch-1)%12+61,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch>=48 && note.pitch<=72){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch<48){ 
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the same pitch class in range of C3-C5."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+
+function octave4(){
+midi_min=48;
+midi_max=72;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.channel===0 && note.pitch>84){ 
+r1.push([(note.pitch-1)%12+61,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===0 && note.pitch>=60 && note.pitch<=84){ 
+r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===0 && note.pitch<60){ 
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch>60){ 
+r1.push([(note.pitch-1)%12+61,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch>=36 && note.pitch<=60){ 
+r1.push([note.pitch+12,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.channel===1 && note.pitch<36){ 
+r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the same pitch class in range of C3-C5."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+
 
 function channel1(){
 x_ch1=document.form1.x_ch.value;
