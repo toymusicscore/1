@@ -17,9 +17,9 @@ T <span id="pt"></span>
 P <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
-<input type="button" name="O12" value="12" onClick="octave12()" style="font-size:100%" >
-<input type="button" name="O24" value="24" onClick="octave24()" style="font-size:100%" >
+<input type="button" name="O13" value="13" onClick="octave13()" style="font-size:100%" >
 <input type="button" name="O25" value="25" onClick="octave25()" style="font-size:100%" >
+<input type="button" name="O37" value="37" onClick="octave37()" style="font-size:100%" >
 <input type="tel"    name="n_low" value="" size="1" style="font-size:100%" >
 <input type="tel"    name="n_high" value="" size="1" style="font-size:100%" >
 <input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
@@ -1715,53 +1715,25 @@ still2();
 
 }
 
-function octave12(){
+function octave13(){
 midi_min=60;
-midi_max=71;
+midi_max=72;
+rng_l=engs1[midi_min%12];
+rng_h=engs1[midi_max%12];
 n_id="x";
 r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-r1.push([note.pitch%12+60,note.start,note.stop, note.channel+1,n_id]);
-});
-});
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
+if(note.pitch>midi_max){
+pitch1= midi_max-12+(note.pitch-midi_max)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
 }
-
-document.getElementById("credit").innerHTML=
-"Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Moved notes to the nearest same pitch class in range of C4-B4."+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
-"<br>Disclaimer:No warranties are given."
-;
-
+if(note.pitch>=midi_min && note.pitch<=midi_max){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
-
-function octave24(){
-midi_min=48;
-midi_max=71;
-n_id="x";
-r1=[]
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
-if(note.pitch>=60){ 
-r1.push([note.pitch%12+60,note.start,note.stop, note.channel+1,n_id]);
-}
-if(note.pitch<=59){ 
-r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+if(note.pitch<midi_min){ 
+pitch1=Number(midi_min)+12+(note.pitch-midi_min)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
@@ -1780,7 +1752,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Moved notes to the nearest same pitch class in range of C3-B4."+
+"<br>Moved notes to the nearest same pitch class in range of "+rng_l+Math.floor(midi_min/12-1)+"-"+rng_h+Math.floor(midi_max/12-1)+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
@@ -1789,22 +1761,27 @@ document.getElementById("credit").innerHTML=
 ;
 
 }
+
 
 function octave25(){
 midi_min=48;
 midi_max=72;
+rng_l=engs1[midi_min%12];
+rng_h=engs1[midi_max%12];
 n_id="x";
 r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-if(note.pitch>72){ 
-r1.push([(note.pitch-1)%12+61,note.start,note.stop, note.channel+1,n_id]);
+if(note.pitch>midi_max){
+pitch1= midi_max-12+(note.pitch-midi_max)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
 }
-if(note.pitch>=48 && note.pitch<=72){ 
+if(note.pitch>=midi_min && note.pitch<=midi_max){ 
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
-if(note.pitch<48){ 
-r1.push([note.pitch%12+48,note.start,note.stop, note.channel+1,n_id]);
+if(note.pitch<midi_min){ 
+pitch1=Number(midi_min)+12+(note.pitch-midi_min)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
@@ -1823,7 +1800,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Moved notes to the nearest same pitch class in range of C3-C5."+
+"<br>Moved notes to the nearest same pitch class in range of "+rng_l+Math.floor(midi_min/12-1)+"-"+rng_h+Math.floor(midi_max/12-1)+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
@@ -1833,6 +1810,52 @@ document.getElementById("credit").innerHTML=
 
 }
 
+function octave37(){
+midi_min=48;
+midi_max=84;
+rng_l=engs1[midi_min%12];
+rng_h=engs1[midi_max%12];
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.pitch>midi_max){
+pitch1= midi_max-12+(note.pitch-midi_max)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch>=midi_min && note.pitch<=midi_max){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch<midi_min){ 
+pitch1=Number(midi_min)+12+(note.pitch-midi_min)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the nearest same pitch class in range of "+rng_l+Math.floor(midi_min/12-1)+"-"+rng_h+Math.floor(midi_max/12-1)+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
 
 
 function octaveA(){
