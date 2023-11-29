@@ -1839,9 +1839,6 @@ midi_min=document.form1.n_low.value;
 midi_max=document.form1.n_high.value;
 n_id="x";
 r1=[]
-if(midi_max-midi_min<11){
-	alert ("Range error");
-}
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
 if(note.pitch>midi_max){ 
