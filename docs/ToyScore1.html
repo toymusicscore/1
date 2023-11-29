@@ -1839,11 +1839,11 @@ midi_min=document.form1.n_low.value;
 midi_max=document.form1.n_high.value;
 n_id="x";
 r1=[]
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
 if(midi_max-midi_min<11){
 	alert ("Range error");
 }
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
 if(note.pitch>midi_max){ 
 r1.push([midi_max-12+(note.pitch-midi_max)%12,note.start,note.stop, note.channel+1,n_id]);
 }
