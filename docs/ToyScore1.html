@@ -1852,7 +1852,7 @@ if(note.pitch>=midi_min && note.pitch<=midi_max){
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 }
 if(note.pitch<midi_min){ 
-pitch1=midi_min+Number(12)+(note.pitch-midi_min)%12;
+pitch1=Number(midi_min)+Number(12)+(note.pitch-midi_min)%12;
 alert(pitch1);
 r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
 }
