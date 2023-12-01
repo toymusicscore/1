@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.11
+ToyScore1 10.15
 </title>
 </head>
 <body style="font-size:160%" >
@@ -12,11 +12,16 @@ ToyScore1 10.11
 <br>
 <form name="form1" >
 <span id="ts"></span>
-Channel(s) <span id="channels"></span>
-PlayTime <span id="pt"></span>
-Progress <span id="prgrs"></span>
+C <span id="channels"></span>
+T <span id="pt"></span>
+P <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
+<input type="button" name="O25" value="25" onClick="octave25()" style="font-size:100%" >
+<input type="button" name="O37" value="37" onClick="octave37()" style="font-size:100%" >
+<input type="tel"    name="n_low" value="" size="1" style="font-size:100%" >
+<input type="tel"    name="n_high" value="" size="1" style="font-size:100%" >
+<input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
 <br>
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%" selected="selected"> Amazing_Grace </option>
@@ -28,7 +33,9 @@ Progress <span id="prgrs"></span>
 <option value="Loch_Lomond_SATB" style="font-size:100%"> Loch_Lomond_SATB </option>
 <option value="Salley_Gardens_SATB" style="font-size:100%"> Salley_Gardens_SATB </option>
 <option value="Scarborough_Fair_SATB" style="font-size:100%"> Scarborough_Fair_SATB </option>
-<option value="The_Last_Rose_of_Summer" style="font-size:100%"> The_Last_Rose_of_Summer </option></select>
+<option value="The_Last_Rose_of_Summer" style="font-size:100%"> The_Last_Rose_of_Summer </option>
+<option value="Twinkle_Twinkle_Little_Star" style="font-size:100%"> Twinkle_Twinkle_Little_Star </option>
+</select>
 </font>
 <br>
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
@@ -79,7 +86,6 @@ Progress <span id="prgrs"></span>
 <option value="15" style="font-size:100%" > CSV Lyrics3 </option>
 <option value="16" style="font-size:100%" > CSV Lyrics4 </option>
 <option value="17" style="font-size:100%" > CSV Lyrics5 </option>
-
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> Scroll M </option>
@@ -97,7 +103,6 @@ Progress <span id="prgrs"></span>
 <option value="12" style="font-size:100%"> Software Licenses </option>
 <option value="13" style="font-size:100%"> Privacy Policy </option>
 <option value="14" style="font-size:100%"> Contact </option>
-
 </select>
 </form>
 <div id="target">
@@ -430,11 +435,12 @@ let csv7=[];
 let csv8=[];
 let csv9=[];
 let csvst0=0;
-
 let LD0=[];
-
 let credit0="";
 let credit1="";
+let rng_l="";
+let rng_h="";
+let pitch1=0;
 
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
@@ -1693,8 +1699,8 @@ n_id=1;
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => { 
 let trs2=Number(note.pitch)+Number(trs1);
-r1.push([trs2,note.start,note.stop, note.channel,n_id]);
-n_id=n_id+1;
+r1.push([trs2,note.start,note.stop, note.channel+1,n_id]);
+n_id+=1;
 });
 });
 
@@ -1709,6 +1715,150 @@ still2();
 }
 
 }
+
+
+function octave25(){
+midi_min=48;
+midi_max=72;
+rng_l=engs1[midi_min%12];
+rng_h=engs1[midi_max%12];
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.pitch>midi_max){
+pitch1= midi_max-12+(note.pitch-midi_max)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch>=midi_min && note.pitch<=midi_max){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch<midi_min){ 
+pitch1=Number(midi_min)+12+(note.pitch-midi_min)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the nearest same pitch class in range of "+rng_l+Math.floor(midi_min/12-1)+"-"+rng_h+Math.floor(midi_max/12-1)+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+function octave37(){
+midi_min=48;
+midi_max=84;
+rng_l=engs1[midi_min%12];
+rng_h=engs1[midi_max%12];
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.pitch>midi_max){
+pitch1= midi_max-12+(note.pitch-midi_max)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch>=midi_min && note.pitch<=midi_max){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch<midi_min){ 
+pitch1=Number(midi_min)+12+(note.pitch-midi_min)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the nearest same pitch class in range of "+rng_l+Math.floor(midi_min/12-1)+"-"+rng_h+Math.floor(midi_max/12-1)+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+
+function octaveA(){
+midi_min=document.form1.n_low.value;
+midi_max=document.form1.n_high.value;
+rng_l=engs1[midi_min%12];
+rng_h=engs1[midi_max%12];
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(note.pitch>midi_max){
+pitch1= midi_max-12+(note.pitch-midi_max)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch>=midi_min && note.pitch<=midi_max){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
+if(note.pitch<midi_min){ 
+pitch1=Number(midi_min)+12+(note.pitch-midi_min)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Moved notes to the nearest same pitch class in range of "+rng_l+Math.floor(midi_min/12-1)+"-"+rng_h+Math.floor(midi_max/12-1)+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
 
 function channel1(){
 x_ch1=document.form1.x_ch.value;
