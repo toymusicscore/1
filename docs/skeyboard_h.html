@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charaset="UTF-8" />
+<title>
+vkeyboad 1.0
+</title>
+</head>
+<body style="font-size:160%" >
+<font face="Arial">
+<font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>&reg
+</font>
+<canvas id="cv2" width="1200" height="900">
+</canvas>
+<script src="https://unpkg.com/tone"></script>
+<script>
+const canvas2=document.getElementById("cv2");
+const ctx2=canvas2.getContext("2d");
+const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#ff007f"];
+const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
+const col3=["#ffffff","#ffcccc","#ffffcc","#ccffcc","#ccffff","#ccccff","#ffccff","#ff9999","#ffcc99","#ffff99","#ccff99","#99ff99","#99ffcc","#99ffff","#99ccff","#9999ff","#cc99ff","#ff99ff","#00ffff","#ff99cc"];
+const drms1=["Do","Di","Re","Ri","Mi","Fa","Fi","Sol","Si","La","Li","Ti"];
+const drmf1=["Do","Ra","Re","Me","Mi","Fa","Se","Sol","Le","La","Te","Ti"];
+const engs1=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const engf1=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
+const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
+const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
+const scaler1=["major","minor"];
+const scaleMjr0=[0,2,4,5,7,9,11];
+const scaleMnr1=[0,2,4,5,8,9,11];
+const scaleMnr2=[0,2,4,5,6,7,8,9,11];
+const engMnr1=["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
+const synth=new Tone.Synth().toMaster();
+let toneData = "";
+
+ctx2.clearRect(0,0,1080,1300);
+
+let kw=90;
+let kw0=kw*12/7*3/5;
+let kw1=kw*12/7*4/7;
+let cl=kw/3;
+
+ctx2.lineWidth=1;
+for(let k=21;k<=107;k++){
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect((k-Math.floor(k/12)*12)*kw,(18-Math.floor(k/12)*2)*cl+10,kw,cl);
+if(k%12===0){
+ctx2.fillRect(kw*12,(20-Math.floor(k/12)*2)*cl+10,kw0,cl);
+}
+ctx2.fillStyle=col[k%12];
+if(k%12===0){
+ctx2.fillRect(kw*12,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
+}
+if(k%12<=4){
+ctx2.fillRect((k-Math.floor(k/12)*12)*kw0,(19-Math.floor(k/12)*2)*cl+10,kw0,cl);
+}else{
+ctx2.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1,(19-Math.floor(k/12)*2)*cl+10,kw1,cl);
+}
+ctx2.fillStyle=col[0];
+ctx2.fillRect(kw*12,17*cl+10,kw0,cl);
+ctx2.fillStyle=col[11];
+ctx2.fillRect(kw*12,2*cl+10,kw0,cl);
+}
+
+/*
+if(Math.floor(k/12)<=8){
+ctx2.beginPath();
+ctx2.moveTo(0,(Math.floor(k/12)*2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(13*kw,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.stroke();
+if(k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+}
+if(k%12===5){
+ctx2.beginPath();
+ctx2.moveTo(5*kw0,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw0,(Math.floor(k/12)*2)*cl+10);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+}
+}
+}
+ctx2.fillStyle=col2[Math.floor(21/12)-1];
+ctx2.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-2)*cl+10,kw1,cl);
+ctx2.fillStyle=col[21%12];
+ctx2.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-1)*cl+10,kw1,cl);
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw*12/7,(Math.floor(21/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.stroke();
+
+ctx2.fillStyle=col2[Math.floor(108/12)-1];
+ctx2.fillRect(12*kw,(Math.floor(107/12)*2-2)*cl+10,kw,cl);
+ctx2.fillStyle=col[108%12];
+ctx2.fillRect(12*kw,(Math.floor(107/12)*2-1)*cl+10,kw,cl);
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(13*kw,(Math.floor(107/12)*2-1)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(23/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(23/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(107/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw0,(Math.floor(107/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw0,(Math.floor(107/12)*2)*cl+10);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+
+let x0=0;
+let y0=660;
+let l0=140;
+
+for(let l=0;l<=12;l++){
+if(l%12===1||l%12===3){
+ctx2.fillStyle="lightgray";
+ctx2.fillRect(l*kw0+x0,y0,kw0,l0);
+ctx2.beginPath();
+}else if(l%12===6||l%12===8||l%12===10){
+ctx2.fillStyle="lightgray";
+ctx2.fillRect(3*kw*12/7+(l-5)*kw1+x0,y0,kw1,l0);
+ctx2.beginPath();
+}
+}
+
+for(let m=0;m<=7;m++){
+if(m%7===0||m%7===3){
+ctx2.beginPath();
+ctx2.moveTo(m*kw*12/7+x0,y0);
+ctx2.lineTo(m*kw*12/7+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}else{
+ctx2.beginPath();
+ctx2.moveTo(m*kw*12/7+x0,l0+y0);
+ctx2.lineTo(m*kw*12/7+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}
+}
+
+ctx2.beginPath();
+ctx2.moveTo(x0,y0);
+ctx2.lineTo(kw*12+x0,y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(x0,l0*2+y0);
+ctx2.lineTo(kw*12+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+
+*/
+
+function touch_sound1(){
+var state=true;
+window.addEventListener('click',playSound);
+window.addEventListener('touchend',offSound);
+
+playSound(e);
+offSound(e);
+}
+
+function playSound(e){
+let kn=Number(midi_max)-Number(midi_min)+1;
+let kw=Math.round(900/kn);
+
+if(!state)return;
+p=Math.round((e.offsetX-50)/kw)-2+Number(midi_min);
+p2=engs1[p%12]+Math.floor(p/12-1);
+if(e.offsetY>=100 && document.form1.sv1.options[5].selected==true){
+synth.triggerAttackRelease(p2,'8n');
+state=false;
+}
+}
+
+function offSound(e){
+synth.triggerRelease();
+state=true;
+}
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
