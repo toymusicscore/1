@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.17
+ToyScore1 10.18
 </title>
 </head>
 <body style="font-size:160%" >
@@ -1695,11 +1695,7 @@ still2();
 }
 
 
-function octave1(){
-/*
-midi_min=48;
-midi_max=72;
-*/
+function octave1(midi_min, midi_max){
 rng_l=engs1[midi_min%12];
 rng_h=engs1[midi_max%12];
 n_id="x";
@@ -1745,39 +1741,27 @@ document.getElementById("credit").innerHTML=
 }
 
 function octave25(){
-midi_min=48;
-midi_max=72;
-octave1();
+octave1(48,72);
 }
 
 function octave37(){
-midi_min=48;
-midi_max=84;
-octave1();
+octave1(48,84);
 }
 
 function octave49(){
-midi_min=36;
-midi_max=84;
-octave1();
+octave1(36,84);
 }
 
 function octave61(){
-midi_min=36;
-midi_max=96;
-octave1();
+octave1(36,96);
 }
 
 function octave73(){
-midi_min=24;
-midi_max=96;
-octave1();
+octave1(24,96);
 }
 
 function octave88(){
-midi_min=21;
-midi_max=108;
-octave1();
+octave1(21,108);
 }
 
 function octaveA(){
