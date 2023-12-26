@@ -95,7 +95,7 @@ P <span id="prgrs"></span>
 <option value="17" style="font-size:100%" > CSV Lyrics5 </option>
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
-<option value="0" style="font-size:100%"> Scroll M </option>
+<option value="0" style="font-size:100%"> Scroll LCD </option>
 <option value="1" style="font-size:100%" selected="selected"> Scroll L </option>
 <option value="2" style="font-size:100%"> Still M </option>
 <option value="3" style="font-size:100%"> Still L </option>
@@ -677,8 +677,10 @@ for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
 if(100+stop>=j && start<=j+ht1*ppq*bttl){
+/*
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect((midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
+*/
 ctx2.beginPath();
 ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
