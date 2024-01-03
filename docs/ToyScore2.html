@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 10.21
+ToyScore2 10.22
 </title>
 </head>
 <body style="font-size:160%" >
@@ -605,7 +605,6 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-//ctx2.fillText("C"+(k/12-1),50+(l+1)*kw,25);
 ctx2.fillText(k,50+(l+1)*kw,25);
 }else if (k%12===5){
 ctx2.beginPath();
@@ -750,7 +749,6 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="40px Arial";
-//ctx2.fillText("C"+(k/12-1),50+(l+1)*kw,40);
 ctx2.fillText(k,50+(l+1)*kw,40);
 }else if (k%12===5){
 ctx2.beginPath();
@@ -897,7 +895,6 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-//ctx2.fillText("C"+(k/12-1),50+(l+1)*kw,25);
 ctx2.fillText(k,50+(l+1)*kw,25);
 }else if (k%12===5){
 ctx2.beginPath();
@@ -1055,7 +1052,6 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="40px Arial";
-//ctx2.fillText("C"+(k/12-1),50+(l+1)*kw,40);
 ctx2.fillText(k,50+(l+1)*kw,40);
 }else if (k%12===5){
 ctx2.beginPath();
@@ -1742,7 +1738,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Moved notes to the nearest same pitch class in range of "+rng_l+Math.floor(midi_min/12-1)+"-"+rng_h+Math.floor(midi_max/12-1)+
+"<br>Moved notes from outside to the nearest same pitch class in the range."+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
@@ -1825,6 +1821,9 @@ newWin2.document.writeln ('<pre><font color="#000080">CSV Choose File   </font>C
 newWin2.document.writeln ('<pre><font color="#000080">                  A.NoteID, B.Fingering, C.Memo, D.Left, E.Right, F-J.Lyrics. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Play              </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">||                </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">25 37 49 61 73 88 </font>Show number of notes and move notes from outside to the nearest same pitchclass in the range.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Mn                </font>Show minimum range of notes of the song.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">A                 </font>Show the range of notes in text boxes and move notes from outside to the nearest same pitchclass in the range.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">SilentBPM         </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">SilentOrigin      </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080"><->               </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
