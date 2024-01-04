@@ -1772,6 +1772,7 @@ let ch1=chr[1];
 let trs1=document.form1.x_trs.value;
 r1=[];
 n_id=1;
+
 midi_min=108;
 midi_max=21;
 parsedData.channels.forEach(channel => { 
@@ -1789,6 +1790,11 @@ midi_min=trs2;
 n_id=n_id+1;
 });
 });
+
+if(document.form1.n_low.value>0 && document.form1.n_high.value>0){
+midi_min=document.form1.n_low.value;
+midi_max=document.form1.n_high.value;
+}
 
 if(document.form1.sv1.options[0].selected==true){
 scroll1();
