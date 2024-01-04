@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 10.25
+ToyScore2 10.26
 </title>
 </head>
 <body style="font-size:160%" >
@@ -1706,24 +1706,30 @@ document.form1.n_high.value=midi_max0;
 octaveA()
 }
 function octaveA(){
+x_ch1=document.form1.x_ch.value;
+chr=x_ch1.split("*");
+let ch0=chr[0];
+let ch1=chr[1];
+let trs1=document.form1.x_trs.value;
 midi_min=document.form1.n_low.value;
 midi_max=document.form1.n_high.value;
-rng_l=engs1[midi_min%12];
-rng_h=engs1[midi_max%12];
 n_id="x";
 r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-if(note.pitch>midi_max){
-pitch1= midi_max-12+(note.pitch-midi_max)%12;
+if(x_ch1==="" || note.channel+1==ch0 || note.channel+1==ch1){
+let trs2=Number(note.pitch)+Number(trs1);
+if(trs2>midi_max){
+pitch1= midi_max-12+(trs2-midi_max)%12;
 r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
 }
-if(note.pitch>=midi_min && note.pitch<=midi_max){ 
-r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+if(trs2>=midi_min && trs2<=midi_max){ 
+r1.push([trs2,note.start,note.stop, note.channel+1,n_id]);
 }
-if(note.pitch<midi_min){ 
-pitch1=Number(midi_min)+12+(note.pitch-midi_min)%12;
+if(trs2<midi_min){ 
+pitch1=Number(midi_min)+12+(trs2-midi_min)%12;
 r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
 }
 });
 });
