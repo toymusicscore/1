@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.27
+ToyScore1 10.28
 </title>
 </head>
 <body style="font-size:160%" >
@@ -17,6 +17,7 @@ T <span id="pt"></span>
 P <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
+<input type="button" name="13A" value="13" onClick="octave13A()" style="font-size:100%" >
 <input type="button" name="25A" value="25" onClick="octave25A()" style="font-size:100%" >
 <input type="button" name="37A" value="37" onClick="octave37A()" style="font-size:100%" >
 <input type="button" name="49A" value="49" onClick="octave49A()" style="font-size:100%" >
@@ -68,7 +69,7 @@ P <span id="prgrs"></span>
 <input type="button" name="b_L" value="L" onClick="channelL()" style="font-size:100%" >
 <input type="button" name="b_R" value="R" onClick="channelR()" style="font-size:100%" >
 <input type="button" name="b_B" value="B" onClick="channelB()" style="font-size:100%" >
-<input type="tel"    name="x_ch" value="" size="1" style="font-size:100%" >
+<input type="tel"    name="x_ch" value="1*2" size="1" style="font-size:100%" >
 <input type="button" name="b_ch" value="Ch" onClick="channel1()" style="font-size:100%" >
 <input type="tel"    name="x_rl" value="" size="1" style="font-size:100%" >
 <input type="button" name="b_rl" value="] [" onClick="rightleft1()" style="font-size:100%" >
@@ -520,6 +521,9 @@ r2.push(note.stop);
   }
 })
 })
+
+document.form1.n_low.value=midi_min;
+document.form1.n_high.value=midi_max;
 
 i=0;
 j=0;
@@ -1700,6 +1704,11 @@ still2();
 
 }
 
+function octave13A(){
+document.form1.n_low.value=60;
+document.form1.n_high.value=72;
+octaveA()
+}
 function octave25A(){
 document.form1.n_low.value=48;
 document.form1.n_high.value=72;
