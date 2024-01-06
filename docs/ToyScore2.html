@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 10.29
+ToyScore2 10.30
 </title>
 </head>
 <body style="font-size:160%" >
@@ -24,7 +24,7 @@ P <span id="prgrs"></span>
 <input type="button" name="61A" value="61" onClick="octave61A()" style="font-size:100%" >
 <input type="button" name="73A" value="73" onClick="octave73A()" style="font-size:100%" >
 <input type="button" name="88A" value="88" onClick="octave88A()" style="font-size:100%" >
-<input type="button" name="MnA" value="Mn" onClick="octaveMnA()" style="font-size:100%" >
+<input type="button" name="MaxA" value="Max" onClick="octaveMaxA()" style="font-size:100%" >
 <input type="tel"    name="n_low" value="" size="1" style="font-size:100%" >
 <input type="tel"    name="n_high" value="" size="1" style="font-size:100%" >
 <input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
@@ -67,14 +67,14 @@ CSV<input type="file" id="selfile2" style="font-size:100%">
 <input type="button" name="b_rl" value="] [" onClick="rightleft1()" style="font-size:100%" >
 
 <select name="nl1" onChange="selview1()" style="font-size:100%">
-<option value="0" style="font-size:100%"> No Letters </option>
+<option value="0" style="font-size:100%" selected="selected"> No Letters </option>
 <option value="1" style="font-size:100%"> DoReMi_# </option>
 <option value="2" style="font-size:100%"> DoReMi_b </option>
 <option value="3" style="font-size:100%"> ABC_E_# </option>
 <option value="4" style="font-size:100%"> ABC_E_b </option>
 <option value="5" style="font-size:100%"> ABC_G_# </option>
 <option value="6" style="font-size:100%"> ABC_G_b </option>
-<option value="7" style="font-size:100%" selected="selected"> Pitch Classes </option>
+<option value="7" style="font-size:100%"> Pitch Classes </option>
 <option value="8" style="font-size:100%"> Note Numbers </option>
 <option value="9" style="font-size:100%"> Note IDs </option>
 <option value="10" style="font-size:100%"> MIDI Lyrics </option>
@@ -88,8 +88,8 @@ CSV<input type="file" id="selfile2" style="font-size:100%">
 
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
-<option value="0" style="font-size:100%"> Scroll M </option>
-<option value="1" style="font-size:100%" selected="selected"> Scroll L </option>
+<option value="0" style="font-size:100%" selected="selected"> Scroll M </option>
+<option value="1" style="font-size:100%"> Scroll L </option>
 <option value="2" style="font-size:100%"> Still M </option>
 <option value="3" style="font-size:100%"> Still L </option>
 <option value="4" style="font-size:100%"> Color Sample </option>
@@ -658,6 +658,8 @@ ctx2.beginPath();
 ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
 ctx2.fill();
+ctx2.strokeStyle="black";
+ctx2.stroke();
 }//if
 }//for
 
@@ -1709,7 +1711,7 @@ document.form1.n_low.value=21;
 document.form1.n_high.value=108;
 octaveA()
 }
-function octaveMnA(){
+function octaveMaxA(){
 document.form1.n_low.value=midi_min0;
 document.form1.n_high.value=midi_max0;
 octaveA()

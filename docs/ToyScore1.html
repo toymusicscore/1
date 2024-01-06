@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.29
+ToyScore1 10.30
 </title>
 </head>
 <body style="font-size:160%" >
@@ -24,7 +24,7 @@ P <span id="prgrs"></span>
 <input type="button" name="61A" value="61" onClick="octave61A()" style="font-size:100%" >
 <input type="button" name="73A" value="73" onClick="octave73A()" style="font-size:100%" >
 <input type="button" name="88A" value="88" onClick="octave88A()" style="font-size:100%" >
-<input type="button" name="MnA" value="Mn" onClick="octaveMnA()" style="font-size:100%" >
+<input type="button" name="MaxA" value="Max" onClick="octaveMaxA()" style="font-size:100%" >
 <input type="tel"    name="n_low" value="" size="1" style="font-size:100%" >
 <input type="tel"    name="n_high" value="" size="1" style="font-size:100%" >
 <input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
@@ -688,6 +688,8 @@ ctx2.beginPath();
 ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
 ctx2.fill();
+ctx2.strokeStyle="black";
+ctx2.stroke();
 }//if
 }//for
 
@@ -1739,14 +1741,9 @@ document.form1.n_low.value=21;
 document.form1.n_high.value=108;
 octaveA()
 }
-function octaveMnA(){
+function octaveMaxA(){
 document.form1.n_low.value=midi_min0;
 document.form1.n_high.value=midi_max0;
-octaveA()
-}
-function octaveMxA(){
-document.form1.n_low.value=midi_min;
-document.form1.n_high.value=midi_max;
 octaveA()
 }
 
