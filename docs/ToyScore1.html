@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.32
+ToyScore1 10.33
 </title>
 </head>
 <body style="font-size:160%" >
@@ -17,14 +17,11 @@ T <span id="pt"></span>
 P <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
-<input type="button" name="13A" value="13" onClick="octave13A()" style="font-size:100%" >
 <input type="button" name="25A" value="25" onClick="octave25A()" style="font-size:100%" >
 <input type="button" name="37A" value="37" onClick="octave37A()" style="font-size:100%" >
 <input type="button" name="49A" value="49" onClick="octave49A()" style="font-size:100%" >
 <input type="button" name="61A" value="61" onClick="octave61A()" style="font-size:100%" >
-<input type="button" name="73A" value="73" onClick="octave73A()" style="font-size:100%" >
-<input type="button" name="88A" value="88" onClick="octave88A()" style="font-size:100%" >
-<input type="button" name="MaxA" value="Max" onClick="octaveMaxA()" style="font-size:100%" >
+<input type="button" name="OrgA" value="Org" onClick="octaveOrgA()" style="font-size:100%" >
 <input type="tel"    name="n_low" value="" size="1" style="font-size:100%" >
 <input type="tel"    name="n_high" value="" size="1" style="font-size:100%" >
 <input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
@@ -1704,11 +1701,6 @@ still2();
 
 }
 
-function octave13A(){
-document.form1.n_low.value=60;
-document.form1.n_high.value=72;
-octaveA()
-}
 function octave25A(){
 document.form1.n_low.value=48;
 document.form1.n_high.value=72;
@@ -1729,17 +1721,7 @@ document.form1.n_low.value=36;
 document.form1.n_high.value=96;
 octaveA()
 }
-function octave73A(){
-document.form1.n_low.value=24;
-document.form1.n_high.value=96;
-octaveA()
-}
-function octave88A(){
-document.form1.n_low.value=21;
-document.form1.n_high.value=108;
-octaveA()
-}
-function octaveMaxA(){
+function octaveOrgA(){
 document.form1.n_low.value=midi_min0;
 document.form1.n_high.value=midi_max0;
 octaveA()
@@ -1898,8 +1880,8 @@ newWin2.document.writeln ('<pre><font color="#000080">CSV Choose File   </font>C
 newWin2.document.writeln ('<pre><font color="#000080">                  A.NoteID, B.Fingering, C.Memo, D.Left, E.Right, F-J.Lyrics. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Play              </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">||                </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">13-88             </font>Show the range of notes for the number of keys and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Max               </font>Show maximum range of notes of the song.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">25 37 49 61       </font>Show the range of notes for the number of keys and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Org               </font>Show original range of notes of the song.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">A                 </font>Show the range of notes between the note numbers in the text boxes and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">SilentBPM         </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">SilentOrigin      </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
