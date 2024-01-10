@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.34
+ToyScore1 10.35
 </title>
 </head>
 <body style="font-size:160%" >
@@ -1724,7 +1724,7 @@ octaveA()
 function octaveOrgA(){
 document.form1.n_low.value=midi_min0;
 document.form1.n_high.value=midi_max0;
-octaveA()
+octaveA2()
 }
 
 function octaveA(){
@@ -1788,6 +1788,66 @@ document.getElementById("credit").innerHTML=
 
 }
 
+function octaveA2(){
+x_ch1=document.form1.x_ch.value;
+chr=x_ch1.split("*");
+let ch0=chr[0];
+let ch1=chr[1];
+let trs1=document.form1.x_trs.value;
+midi_min=document.form1.n_low.value;
+midi_max=document.form1.n_high.value;
+n_id=1;
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+if(x_ch1==="" || note.channel+1==ch0 || note.channel+1==ch1){
+let trs2=Number(note.pitch)+Number(trs1);
+if(trs2>midi_max && (trs2-midi_max)%12===0){
+pitch1= midi_max;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+if(trs2>midi_max && (trs2-midi_max)%12>0){
+pitch1= midi_max-12+(trs2-midi_max)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+if(trs2>=midi_min && trs2<=midi_max){ 
+r1.push([trs2,note.start,note.stop, note.channel+1,n_id]);
+}
+if(trs2<midi_min && (trs2-midi_min)%12===0){ 
+pitch1=midi_min;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+if(trs2<midi_min && (trs2-midi_min)%12<0){ 
+pitch1=Number(midi_min)+12+(trs2-midi_min)%12;
+r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
+}
+}
+n_id+=1;
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
 
 function channelL(){
 document.form1.x_ch.value=2;
