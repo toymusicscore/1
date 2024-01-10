@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.35
+ToyScore1 10.36
 </title>
 </head>
 <body style="font-size:160%" >
@@ -1851,15 +1851,15 @@ document.getElementById("credit").innerHTML=
 
 function channelL(){
 document.form1.x_ch.value=2;
-octaveA();
+channel1();
 }
 function channelR(){
 document.form1.x_ch.value=1;
-octaveA();
+channel1();
 }
 function channelB(){
 document.form1.x_ch.value="1*2";
-octaveA();
+channel1();
 }
 
 function channel1(){
@@ -1885,14 +1885,9 @@ if(trs2<midi_min){
 midi_min=trs2;
 }
 }
-n_id=n_id+1;
+n_id+=1;
 });
 });
-
-if(document.form1.n_low.value>0 && document.form1.n_high.value>0){
-midi_min=document.form1.n_low.value;
-midi_max=document.form1.n_high.value;
-}
 
 if(document.form1.sv1.options[0].selected==true){
 scroll1();
