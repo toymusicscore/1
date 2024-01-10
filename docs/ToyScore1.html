@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 10.36
+ToyScore1 10.37
 </title>
 </head>
 <body style="font-size:160%" >
@@ -1902,16 +1902,37 @@ still2();
 }
 
 function rightleft1(){
+r1=[];
+n_id=1;
 x_rl1=document.form1.x_rl.value;
 fg_rl1=-fg_rl1;
 let trs1=document.form1.x_trs.value;
 if(fg_rl1>0){
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => { 
+let trs2=Number(note.pitch)+Number(trs1);
+if(trs2>=x_rl1){
+r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
+}
+n_id+=1;
+});
+});
 midi_min=x_rl1;
 midi_max=midi_max0+Number(trs1);
 }else{
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => { 
+let trs2=Number(note.pitch)+Number(trs1);
+if(trs2<=x_rl1){
+r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
+}
+n_id+=1;
+});
+});
 midi_min=midi_min0+Number(trs1);
 midi_max=x_rl1;
 }
+
 
 if(document.form1.sv1.options[0].selected==true){
 scroll1();
