@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 11.0
+ToyScore2 11.1
 </title>
 </head>
 <body style="font-size:160%" >
@@ -55,10 +55,7 @@ TXT<input type="file" id="selfile2" style="font-size:100%">
 <br>
 <input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
 <input type="button" name="b_+" value="+" onClick="transpose1()" style="font-size:100%" >
-<input type="button" name="b_L" value="L" onClick="channelL()" style="font-size:100%" >
-<input type="button" name="b_R" value="R" onClick="channelR()" style="font-size:100%" >
-<input type="button" name="b_B" value="B" onClick="channelB()" style="font-size:100%" >
-<input type="tel"    name="x_ch" value="1*2" size="1" style="font-size:100%" >
+<input type="tel"    name="x_ch" value="" size="1" style="font-size:100%" >
 <input type="button" name="b_ch" value="Ch" onClick="channel1()" style="font-size:100%" >
 <input type="tel"    name="x_rl" value="" size="1" style="font-size:100%" >
 <input type="button" name="b_rl" value="] [" onClick="rightleft1()" style="font-size:100%" >
@@ -1818,18 +1815,6 @@ document.getElementById("credit").innerHTML=
 
 }
 
-function channelL(){
-document.form1.x_ch.value=2;
-channel1();
-}
-function channelR(){
-document.form1.x_ch.value=1;
-channel1();
-}
-function channelB(){
-document.form1.x_ch.value="1*2";
-channel1();
-}
 function channel1(){
 x_ch1=document.form1.x_ch.value;
 chr=x_ch1.split("*");
