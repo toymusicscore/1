@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 11.7
+ToyScore1 11.8
 </title>
 </head>
 <body style="font-size:160%" >
@@ -25,8 +25,15 @@ P <span id="prgrs"></span>
 <input type="tel"    name="n_low" value="" size="1" style="font-size:100%" >
 <input type="tel"    name="n_high" value="" size="1" style="font-size:100%" >
 <input type="button" name="OA" value="AJ" onClick="octaveA()" style="font-size:100%" >
-<input type="button" name="addallsd" value="ASD" onClick="addallsd1()" style="font-size:100%" >
-<input type="button" name="addbeatsd" value="BSD" onClick="addbeatsd1()" style="font-size:100%" >
+<br>
+<input type="button" name="addalld1" value="AD1" onClick="addalld1()" style="font-size:100%" >
+<input type="button" name="addbeatd1" value="BD1" onClick="addbeatd1()" style="font-size:100%" >
+<input type="button" name="addalld2" value="AD2" onClick="addalld2()" style="font-size:100%" >
+<input type="button" name="addbeatd2" value="BD2" onClick="addbeatd2()" style="font-size:100%" >
+<input type="button" name="addallsd1" value="ASD1" onClick="addallsd1()" style="font-size:100%" >
+<input type="button" name="addbeatsd1" value="BSD1" onClick="addbeatsd1()" style="font-size:100%" >
+<input type="button" name="addallsd2" value="ASD2" onClick="addallsd2()" style="font-size:100%" >
+<input type="button" name="addbeatsd2" value="BSD2" onClick="addbeatsd2()" style="font-size:100%" >
 <br>
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%" selected="selected"> Amazing_Grace </option>
@@ -1858,7 +1865,227 @@ document.getElementById("credit").innerHTML=
 
 }
 
+function addalld1(){
+midi_min=midi_min0-5;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-5,note.start,note.stop, note.channel+1,n_id]);
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added dominant notes below to the notes."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+function addbeatd1(){
+midi_min=midi_min0-5;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+if(note.start%(ppq*bttl/ntvl*4)===0){ 
+r1.push([note.pitch-5,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added dominant notes below to the notes at the first beat of every measure."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+function addalld2(){
+midi_min=midi_min0-17;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-17,note.start,note.stop, note.channel+1,n_id]);
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added dominant notes one octave below to the notes."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+function addbeatd2(){
+midi_min=midi_min0-17;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+if(note.start%(ppq*bttl/ntvl*4)===0){ 
+r1.push([note.pitch-17,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added dominant notes one octave below to the notes at the first beat of every measure."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
 function addallsd1(){
+midi_min=midi_min0-7;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-7,note.start,note.stop, note.channel+1,n_id]);
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added subdominant notes below to the notes."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+function addbeatsd1(){
+midi_min=midi_min0-7;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+if(note.start%(ppq*bttl/ntvl*4)===0){ 
+r1.push([note.pitch-7,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added subdominant notes below to the notes at the first beat of every measure."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+function addallsd2(){
 midi_min=midi_min0-19;
 midi_max=midi_max0;
 n_id="x";
@@ -1894,7 +2121,7 @@ document.getElementById("credit").innerHTML=
 
 }
 
-function addbeatsd1(){
+function addbeatsd2(){
 midi_min=midi_min0-19;
 midi_max=midi_max0;
 n_id="x";
