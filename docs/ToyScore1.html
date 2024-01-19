@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 11.12
+ToyScore1 11.13
 </title>
 </head>
 <body style="font-size:160%" >
@@ -26,7 +26,8 @@ P <span id="prgrs"></span>
 <input type="tel"    name="n_high" value="" size="1" style="font-size:100%" >
 <input type="button" name="OA" value="AJ" onClick="octaveA()" style="font-size:100%" >
 <br>
-<input type="button" name="a234" value="A234" onClick="add234()" style="font-size:100%" >
+<input type="button" name="a121924" value="A121924" onClick="add121924()" style="font-size:100%" >
+<input type="button" name="a121524" value="A121524" onClick="add121524()" style="font-size:100%" >
 <input type="tel"    name="x_diff" value="" size="1" style="font-size:100%" >
 <input type="button" name="AddDiff" value="AD" onClick="add_diff()" style="font-size:100%" >
 <br>
@@ -1860,7 +1861,7 @@ document.getElementById("credit").innerHTML=
 
 }
 
-function add234(){
+function add121924(){
 midi_min=midi_min0-24;
 midi_max=midi_max0;
 n_id="x";
@@ -1869,9 +1870,9 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => {
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-19,note.start,note.stop, note.channel+1,n_id]);
 r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-19,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
@@ -1890,7 +1891,47 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes 15 half tones below to the notes at the first beat of every measure."+
+"<br>Added notes 12,19,24 half tones below to the notes at the first beat of every measure."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+function add121524(){
+midi_min=midi_min0-24;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
+r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-15,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added notes 12,15,24 half tones below to the notes at the first beat of every measure."+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
@@ -1902,7 +1943,7 @@ document.getElementById("credit").innerHTML=
 
 function add_diff(){
 x_diff1=document.form1.x_diff.value;
-midi_min=midi_min0-x_diff1;
+midi_min=midi_min0-24;
 midi_max=midi_max0;
 n_id="x";
 r1=[]
@@ -1912,6 +1953,7 @@ r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
 r1.push([note.pitch-x_diff1,note.start,note.stop, note.channel+1,n_id]);
 r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
@@ -1930,7 +1972,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes 15 half tones below to the notes at the first beat of every measure."+
+"<br>Added notes 12,"+ x_diff +",24 half tones below to the notes at the first beat of every measure."+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
