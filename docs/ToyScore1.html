@@ -1902,10 +1902,7 @@ document.getElementById("credit").innerHTML=
 
 function add_diff(){
 x_diff1=document.form1.x_diff.value;
-diff=x_diff1.split("*");
-let diff0=diff[0];
-let diff1=diff[1];
-midi_min=midi_min0-max(diff0,diff1);
+midi_min=midi_min0-x_diff1;
 midi_max=midi_max0;
 n_id="x";
 r1=[]
@@ -1913,8 +1910,7 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => {
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-diff0,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-diff1,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-x_diff1,note.start,note.stop, note.channel+1,n_id]);
 r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
 }
 });
