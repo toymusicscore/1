@@ -27,6 +27,12 @@ P <span id="prgrs"></span>
 <input type="button" name="OA" value="AJ" onClick="octaveA()" style="font-size:100%" >
 <br>
 <input type="button" name="add-15" value="A15" onClick="add15()" style="font-size:100%" >
+<input type="button" name="add-16" value="A16" onClick="add16()" style="font-size:100%" >
+<input type="button" name="add-17" value="A17" onClick="add17()" style="font-size:100%" >
+<input type="button" name="add-18" value="A18" onClick="add18()" style="font-size:100%" >
+<input type="button" name="add-19" value="A19" onClick="add19()" style="font-size:100%" >
+<input type="button" name="add-20" value="A20" onClick="add20()" style="font-size:100%" >
+<input type="button" name="add-21" value="A21" onClick="add21()" style="font-size:100%" >
 <br>
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%" selected="selected"> Amazing_Grace </option>
@@ -454,6 +460,7 @@ let credit1="";
 let rng_l="";
 let rng_h="";
 let pitch1=0;
+let d~=0;
 
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
@@ -1859,7 +1866,29 @@ document.getElementById("credit").innerHTML=
 }
 
 function add15(){
-midi_min=midi_min0-15;
+addnote(15);
+}
+function add16(){
+addnote(16);
+}
+function add17(){
+addnote(17);
+}
+function add18(){
+addnote(18);
+}
+function add19(){
+addnote(19);
+}
+function add20(){
+addnote(20);
+}
+function add21(){
+addnote(21);
+}
+
+function addnote(d){
+midi_min=midi_min0-d;
 midi_max=midi_max0;
 n_id="x";
 r1=[]
@@ -1867,7 +1896,7 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => {
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-15,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-d,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
