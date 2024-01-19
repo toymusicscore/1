@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 11.10
+ToyScore1 11.11
 </title>
 </head>
 <body style="font-size:160%" >
@@ -26,8 +26,10 @@ P <span id="prgrs"></span>
 <input type="tel"    name="n_high" value="" size="1" style="font-size:100%" >
 <input type="button" name="OA" value="AJ" onClick="octaveA()" style="font-size:100%" >
 <br>
-<input type="button" name="addmj" value="MJ" onClick="addmajor1()" style="font-size:100%" >
-<input type="button" name="addmn" value="MN" onClick="addminor1()" style="font-size:100%" >
+<input type="button" name="add-15" value="A15" onClick="add-15()" style="font-size:100%" >
+<input type="button" name="add-17" value="A17" onClick="add-17()" style="font-size:100%" >
+<input type="button" name="add-19" value="A19" onClick="add-19()" style="font-size:100%" >
+<input type="button" name="add-21" value="A21" onClick="add-21()" style="font-size:100%" >
 <br>
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%" selected="selected"> Amazing_Grace </option>
@@ -1859,8 +1861,8 @@ document.getElementById("credit").innerHTML=
 
 }
 
-function addmajor1(){
-midi_min=midi_min0-24;
+function add-15(){
+midi_min=midi_min0-15;
 midi_max=midi_max0;
 n_id="x";
 r1=[]
@@ -1868,9 +1870,7 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => {
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-20,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-17,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-15,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
@@ -1898,8 +1898,9 @@ document.getElementById("credit").innerHTML=
 ;
 
 }
-function addminor1(){
-midi_min=midi_min0-24;
+
+function add-17(){
+midi_min=midi_min0-17;
 midi_max=midi_max0;
 n_id="x";
 r1=[]
@@ -1907,9 +1908,84 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => {
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-21,note.start,note.stop, note.channel+1,n_id]);
 r1.push([note.pitch-17,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added minor chord below to the notes at the first beat of every measure."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+function add-19(){
+midi_min=midi_min0-19;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
+r1.push([note.pitch-21,note.start,note.stop, note.channel+1,n_id]);
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added minor chord below to the notes at the first beat of every measure."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+
+function add-21(){
+midi_min=midi_min0-21;
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
+r1.push([note.pitch-21,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
