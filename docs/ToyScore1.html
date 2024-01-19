@@ -1861,7 +1861,7 @@ document.getElementById("credit").innerHTML=
 }
 
 function add234(){
-midi_min=midi_min0-36;
+midi_min=midi_min0-24;
 midi_max=midi_max0;
 n_id="x";
 r1=[]
@@ -1869,9 +1869,9 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => {
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-36,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-19,note.start,note.stop, note.channel+1,n_id]);
 r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-19,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
 }
 });
 });
