@@ -48,10 +48,10 @@ P <span id="prgrs"></span>
 </select>
 </font>
 <br>
-<input type="button" name="a1121924" value="A1121924" onClick="add1121924()" style="font-size:100%" >
+<input type="button" name="a112161924" value="A112161924" onClick="add112161924()" style="font-size:100%" >
 <input type="button" name="a119242831" value="A119242831" onClick="add119242831()" style="font-size:100%" >
 <input type="button" name="a124283136" value="A124283136" onClick="add124283136()" style="font-size:100%" >
-<input type="button" name="a2121924" value="A2121924" onClick="add2121924()" style="font-size:100%" >
+<input type="button" name="a212161924" value="A212161924" onClick="add212161924()" style="font-size:100%" >
 <input type="button" name="a219242831" value="A219242831" onClick="add219242831()" style="font-size:100%" >
 <input type="button" name="a224283136" value="A224283136" onClick="add224283136()" style="font-size:100%" >
 <br>
@@ -1876,7 +1876,7 @@ document.getElementById("credit").innerHTML=
 
 }
 
-function add1121924(){
+function add112161924(){
 midi_min=midi_min0-24;
 midi_max=midi_max0;
 n_id="x";
@@ -1886,6 +1886,7 @@ channel.notes.forEach(note => {
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
 r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
+r1.push([note.pitch-16,note.start,note.stop, note.channel+1,n_id]);
 r1.push([note.pitch-19,note.start,note.stop, note.channel+1,n_id]);
 r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
 }
