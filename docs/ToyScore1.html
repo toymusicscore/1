@@ -1896,7 +1896,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes 12,19,24 half tones below to the notes at the first beat of every measure."+
+"<br>Added notes 12,19 and 24 semitones below to the notes at the first beat of every measure."+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
@@ -1937,7 +1937,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes 12,15,24 half tones below to the notes at the first beat of every measure."+
+"<br>Added notes 19,24,28 and 31 semitones below to the notes at the first beat of every measure."+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
@@ -1977,7 +1977,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes 12,15,24 half tones below to the notes at the first beat of every measure."+
+"<br>Added notes 24,28,31 and 36 semitones below to the notes at the first beat of every measure."+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
@@ -1999,11 +1999,12 @@ n_id="x";
 r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(diff1>0){
 r1.push([note.pitch-diff1,note.start,note.stop, note.channel+1,n_id]);
 }
+/*
 if(diff2>0){
 r1.push([note.pitch-diff2,note.start,note.stop, note.channel+1,n_id]);
 }
@@ -2016,6 +2017,7 @@ r1.push([note.pitch-diff4,note.start,note.stop, note.channel+1,n_id]);
 if(diff5>0){
 r1.push([note.pitch-diff5,note.start,note.stop, note.channel+1,n_id]);
 }
+*/
 }
 });
 });
@@ -2034,7 +2036,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes 12,"+ x_diff +",24 half tones below to the notes at the first beat of every measure."+
+"<br>Added notes of "+ diff1 + "," + diff2 + "," + diff3 + "," + diff4 + "," +diff5 + " semitones below to the notes at the first beat of every measure."+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
