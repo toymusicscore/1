@@ -1877,126 +1877,27 @@ document.getElementById("credit").innerHTML=
 }
 
 function add112161924(){
-midi_min=midi_min0-24;
-midi_max=midi_max0;
-n_id="x";
-r1=[]
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
-r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
-if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-12,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-16,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-19,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
-}
-});
-});
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}
-
-document.getElementById("credit").innerHTML=
-"Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes of 12, 19 and 24 semitones below to the notes at the first beat of every measure."+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
-"<br>Disclaimer:No warranties are given."
-;
-
+document.form1.x_diff1.value=12;
+document.form1.x_diff2.value=16;
+document.form1.x_diff3.value=19;
+document.form1.x_diff4.value=24;
+add1_diff();
 }
 
 function add119242831(){
-midi_min=midi_min0-31;
-midi_max=midi_max0;
-n_id="x";
-r1=[]
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
-r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
-if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-19,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-28,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-31,note.start,note.stop, note.channel+1,n_id]);
-}
-});
-});
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}
-
-document.getElementById("credit").innerHTML=
-"Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes of 19, 24, 28 and 31 semitones below to the notes at the first beat of every measure."+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
-"<br>Disclaimer:No warranties are given."
-;
-
+document.form1.x_diff1.value=19;
+document.form1.x_diff2.value=24;
+document.form1.x_diff3.value=28;
+document.form1.x_diff4.value=31;
+add1_diff();
 }
 
 function add124283136(){
-midi_min=midi_min0-36;
-midi_max=midi_max0;
-n_id="x";
-r1=[]
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
-r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
-if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
-r1.push([note.pitch-24,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-28,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-31,note.start,note.stop, note.channel+1,n_id]);
-r1.push([note.pitch-36,note.start,note.stop, note.channel+1,n_id]);
-}
-});
-});
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}
-
-document.getElementById("credit").innerHTML=
-"Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes of 24, 28, 31 and 36 semitones below to the notes at the first beat of every measure."+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
-"<br>Disclaimer:No warranties are given."
-;
-
+document.form1.x_diff1.value=24;
+document.form1.x_diff2.value=28;
+document.form1.x_diff3.value=31;
+document.form1.x_diff4.value=36;
+add1_diff();
 }
 
 function add1_diff(){
@@ -2046,7 +1947,7 @@ document.getElementById("credit").innerHTML=
 "Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Added notes of "+ diff1 + " semitones below to the notes at the first beat of every measure."+
+"<br>Added notes of "+ diff1 +", "+ diff2 +", "+ diff3 +", "+ diff4 +", "+ diff5 + " semitones below to the notes at the first beat of every measure."+
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
