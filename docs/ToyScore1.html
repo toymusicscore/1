@@ -34,7 +34,7 @@ P <span id="prgrs"></span>
 <input type="tel"    name="x_diff3" value="" size="1" style="font-size:100%" >
 <input type="tel"    name="x_diff4" value="" size="1" style="font-size:100%" >
 <input type="tel"    name="x_diff5" value="" size="1" style="font-size:100%" >
-<input type="button" name="AddDiff" value="A1D" onClick="add1_diff()" style="font-size:100%" >
+<input type="button" name="Add1Diff" value="A1D" onClick="add1_diff()" style="font-size:100%" >
 <br>
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%"> Amazing_Grace </option>
@@ -1988,11 +1988,11 @@ document.getElementById("credit").innerHTML=
 }
 
 function add1_diff(){
-let diff1=document.form1.x_diff1.value;
-let diff2=document.form1.x_diff2.value;
-let diff3=document.form1.x_diff3.value;
-let diff4=document.form1.x_diff4.value;
-let diff5=document.form1.x_diff5.value;
+diff1=document.form1.x_diff1.value;
+diff2=document.form1.x_diff2.value;
+diff3=document.form1.x_diff3.value;
+diff4=document.form1.x_diff4.value;
+diff5=document.form1.x_diff5.value;
 midi_min=midi_min0-max(diff1,diff2,diff3,diff4,diff5);
 midi_max=midi_max0;
 n_id="x";
