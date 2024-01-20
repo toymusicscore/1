@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 11.16
+ToyScore1 11.17
 </title>
 </head>
 <body style="font-size:160%" >
@@ -35,6 +35,11 @@ P <span id="prgrs"></span>
 <input type="tel"    name="x_diff4" value="" size="1" style="font-size:100%" >
 <input type="tel"    name="x_diff5" value="" size="1" style="font-size:100%" >
 <input type="button" name="Add1Diff" value="A1D" onClick="add1_diff()" style="font-size:100%" >
+<input type="button" name="Add2Diff" value="A2D" onClick="add2_diff()" style="font-size:100%" >
+<br>
+<input type="button" name="a2121924" value="A2121924" onClick="add2121924()" style="font-size:100%" >
+<input type="button" name="a219242831" value="A219242831" onClick="add219242831()" style="font-size:100%" >
+<input type="button" name="a224283136" value="A224283136" onClick="add224283136()" style="font-size:100%" >
 <br>
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%"> Amazing_Grace </option>
@@ -1995,14 +2000,11 @@ document.getElementById("credit").innerHTML=
 
 function add1_diff(){
 diff1=document.form1.x_diff1.value;
-/*
 diff2=document.form1.x_diff2.value;
 diff3=document.form1.x_diff3.value;
 diff4=document.form1.x_diff4.value;
 diff5=document.form1.x_diff5.value;
-*/
-//midi_min=midi_min0-max(diff1,diff2,diff3,diff4,diff5);
-midi_min=midi_min0-diff1;
+midi_min=midi_min0-Math.max(diff1,diff2,diff3,diff4,diff5);
 midi_max=midi_max0;
 n_id="x";
 r1=[]
@@ -2013,7 +2015,6 @@ if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){
 if(diff1>0){
 r1.push([note.pitch-diff1,note.start,note.stop, note.channel+1,n_id]);
 }
-/*
 if(diff2>0){
 r1.push([note.pitch-diff2,note.start,note.stop, note.channel+1,n_id]);
 }
@@ -2026,7 +2027,6 @@ r1.push([note.pitch-diff4,note.start,note.stop, note.channel+1,n_id]);
 if(diff5>0){
 r1.push([note.pitch-diff5,note.start,note.stop, note.channel+1,n_id]);
 }
-*/
 }
 });
 });
