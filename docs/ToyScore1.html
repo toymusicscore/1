@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 11.17
+ToyScore1 11.18
 </title>
 </head>
 <body style="font-size:160%" >
@@ -1899,6 +1899,29 @@ document.form1.x_diff3.value=31;
 document.form1.x_diff4.value=36;
 add1_diff();
 }
+function add212161924(){
+document.form1.x_diff1.value=12;
+document.form1.x_diff2.value=16;
+document.form1.x_diff3.value=19;
+document.form1.x_diff4.value=24;
+add2_diff();
+}
+
+function add219242831(){
+document.form1.x_diff1.value=19;
+document.form1.x_diff2.value=24;
+document.form1.x_diff3.value=28;
+document.form1.x_diff4.value=31;
+add2_diff();
+}
+
+function add224283136(){
+document.form1.x_diff1.value=24;
+document.form1.x_diff2.value=28;
+document.form1.x_diff3.value=31;
+document.form1.x_diff4.value=36;
+add2_diff();
+}
 
 function add1_diff(){
 diff1=document.form1.x_diff1.value;
@@ -1914,6 +1937,63 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => {
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
+if(diff1>0){
+r1.push([note.pitch-diff1,note.start,note.stop, note.channel+1,n_id]);
+}
+if(diff2>0){
+r1.push([note.pitch-diff2,note.start,note.stop, note.channel+1,n_id]);
+}
+if(diff3>0){
+r1.push([note.pitch-diff3,note.start,note.stop, note.channel+1,n_id]);
+}
+if(diff4>0){
+r1.push([note.pitch-diff4,note.start,note.stop, note.channel+1,n_id]);
+}
+if(diff5>0){
+r1.push([note.pitch-diff5,note.start,note.stop, note.channel+1,n_id]);
+}
+}
+});
+});
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Added notes of "+ diff1 +", "+ diff2 +", "+ diff3 +", "+ diff4 +", "+ diff5 + " semitones below to the notes at the first beat of every measure."+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
+}
+
+function add2_diff(){
+diff1=document.form1.x_diff1.value;
+diff2=document.form1.x_diff2.value;
+diff3=document.form1.x_diff3.value;
+diff4=document.form1.x_diff4.value;
+diff5=document.form1.x_diff5.value;
+midi_min=midi_min0-Math.max(diff1,diff2,diff3,diff4,diff5);
+midi_max=midi_max0;
+n_id="x";
+r1=[]
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+if(note.channel===0 && (note.start%(ppq*bttl/ntvl*4)===0 || note.start%(ppq*bttl/ntvl*4)===ppq*bttl/ntvl*2)){ 
 if(diff1>0){
 r1.push([note.pitch-diff1,note.start,note.stop, note.channel+1,n_id]);
 }
