@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 11.23
+ToyScore1 11.24
 </title>
 </head>
 <body style="font-size:160%" >
@@ -1931,7 +1931,9 @@ n_id="x";
 r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
+if(note.channel===0){ 
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
 if(note.channel===0 && note.start%(ppq*bttl/ntvl*4)===0){ 
 if(diff1>0){
 r1.push([note.pitch-diff1,note.start,note.stop, note.channel+1,n_id]);
@@ -1988,7 +1990,9 @@ n_id="x";
 r1=[]
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
+if(note.channel===0){ 
 r1.push([note.pitch,note.start,note.stop, note.channel+1,n_id]);
+}
 if(note.channel===0 && (note.start%(ppq*bttl/ntvl*4)===0 || note.start%(ppq*bttl/ntvl*4)===ppq*bttl/ntvl*2)){ 
 if(diff1>0){
 r1.push([note.pitch-diff1,note.start,note.stop, note.channel+1,n_id]);
