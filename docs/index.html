@@ -28,13 +28,32 @@ Piano Roll Score and Key Estimation</h1>
 <font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
 !<h2>
 </p>
-<h3>By clicking "I agree", you agree to our  
+<br>
+<h3>
+This site is under construction and limited to registered members.<br>
+</h3>
+<form name="form1">
+UserID:<br>
+<input name="user" type="password"><br>
+Password:<br>
+<input name="pw" type="password"><br>
+<input type="button" value="Log in" onClick="login()" style="font-size:100%" >
+<h3>
+By log in to this site, you agree to our  
 <a href='https://www.termsfeed.com/live/d23c1e86-ec9a-4394-bb1a-9b42b8e7d81e'>Privacy Policy</a> and 
 <a href='https://www.termsfeed.com/live/71db5daa-03ce-4809-8729-4ca7948712c1'>Terms and Conditions</a>.
 </h3>
-<input type="button" value="I agree" onClick="window.location.href='ToyScore1.html'" style="font-size:200%" >
-</font>
-</font>
+</form>
+<script>
+function login(){
+let _user=document.form1.user.value;
+let _pw=document.form1.pw.value;
+let utc=new Date();
+if(_user%_pw===utc.getDate()){
+	window.location.href='ToyScore1.html';
+	}
+}
+</script>
 </body>
 </html>
 
