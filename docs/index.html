@@ -51,7 +51,7 @@ function login(){
 let _user=document.form1.user.value;
 let _pw=document.form1.pw.value;
 let utc=new Date();
-if(_user%_pw===utc.getDate()){
+if(_user%_pw===utc.getFullYear()*100000+utc.getMonth()*1000+utc.getDate()*10+utc.getDay()){
 	window.location.href='ToyScore1.html';
 	}
 }
