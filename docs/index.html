@@ -29,18 +29,16 @@ Piano Roll Score and Key Estimation</h1>
 !<h2>
 </p>
 <br>
+<form name="form1">
 <h3>
 No entry.<br>
 This site is under construction.<br>
 Restricted for staff only.<br>
-</h3>
-<form name="form1">
 UserID:<br>
 <input name="user" type="password"><br>
 Password:<br>
 <input name="pw" type="password"><br>
 <input type="button" value="Log in" onClick="login()" style="font-size:100%" >
-<h3>
 By logging in to this site, you agree to our  
 <a href='https://www.termsfeed.com/live/d23c1e86-ec9a-4394-bb1a-9b42b8e7d81e'>Privacy Policy</a> and 
 <a href='https://www.termsfeed.com/live/71db5daa-03ce-4809-8729-4ca7948712c1'>Terms and Conditions</a>.
@@ -51,7 +49,7 @@ function login(){
 let _user=document.form1.user.value;
 let _pw=document.form1.pw.value;
 let utc=new Date();
-if(_user%_pw===utc.getFullYear()*100000+utc.getMonth()*1000+utc.getDate()*10+utc.getDay()){
+if(_pw%_user===utc.getFullYear()*100000+utc.getMonth()*1000+utc.getDate()*10+utc.getDay()){
 	window.location.href='ToyScore1.html';
 	}
 }
