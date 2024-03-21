@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charaset="UTF-8" />
+<title>
+ToyScore3 1.0
+</title>
+</head>
+<body style="font-size:160%" >
+<font face="Arial">
+<font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
+<br>
+<form name="form1" >
+<input type="tel"    name="n_1" value="" size="1" style="font-size:100%" >
+<input type="tel"    name="n_2" value="" size="1" style="font-size:100%" >
+<input type="tel"    name="n_3" value="" size="1" style="font-size:100%" >
+<input type="tel"    name="n_4" value="" size="1" style="font-size:100%" >
+<input type="tel"    name="n_5" value="" size="1" style="font-size:100%" >
+<input type="button" name="JustIntonation" value="Just intonation" onClick="just1()" style="font-size:100%" >
+<input type="button" name="EqualTemperament" value="Equal temperament" onClick="equal1()" style="font-size:100%" >
+<br>
+</font>
+</form>
+<canvas id="cv2" width="1300" height="1300">
+</canvas>
+</font>
+<script>
+const canvas2=document.getElementById("cv2");
+const ctx2=canvas2.getContext("2d");
+//const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#ff007f"];
+const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00cc00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#cc00cc"];
+const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
+const col3=["#ffffff","#ffcccc","#ffffcc","#ccffcc","#ccffff","#ccccff","#ffccff","#ff9999","#ffcc99","#ffff99","#ccff99","#99ff99","#99ffcc","#99ffff","#99ccff","#9999ff","#cc99ff","#ff99ff","#00ffff","#ff99cc"];
+const drms1=["Do","Di","Re","Ri","Mi","Fa","Fi","Sol","Si","La","Li","Ti"];
+const drmf1=["Do","Ra","Re","Me","Mi","Fa","Se","Sol","Le","La","Te","Ti"];
+const engs1=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const engf1=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
+const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
+const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
+
+ctx2.font="25px Arial";
+ctx2.clearRect(0,0,1300,1300);
+ctx2.lineWidth=1;
+ctx2.fillStyle="black";
+ctx2.fillText("Note",0,60);
+ctx2.fillText("Num",0,90);
+ctx2.fillText("Hz",0,120);
+
+for(let k=0;k<=24;k++){
+ctx2.fillStyle=col2[Math.floor((60+k)/12)-1];
+ctx2.fillRect(60+50*k,0,50,30);
+ctx2.fillStyle=col[(60+k)%12];
+ctx2.fillRect(60+50*k,30,50,30);
+ctx2.fillStyle="black";
+ctx2.fillText(engs1[k%12],60+50*k,60);
+ctx2.fillText(60+k,60+50*k,90);
+}
+
+function equal1(){
+ctx2.clearRect(0,0,1300,5300);
+ctx2.lineWidth=1;
+ctx2.fillStyle="black";
+ctx2.fillText("Note",0,60);
+ctx2.fillText("Num",0,90);
+ctx2.fillText("Hz",0,120);
+
+for(let k=0;k<=24;k++){
+ctx2.fillStyle=col2[Math.floor((60+k)/12)-1];
+ctx2.fillRect(60+50*k,0,50,30);
+ctx2.fillStyle=col[(60+k)%12];
+ctx2.fillRect(60+50*k,30,50,30);
+ctx2.fillStyle="black";
+ctx2.fillText(engs1[k%12],60+50*k,60);
+ctx2.fillText(60+k,60+50*k,90);
+let note0=220*Math.pow(2,(1/12)*(k+3));
+ctx2.fillText(Math.round(note0),60+50*k,120);
+for(let l=0;l<=120;l++){
+if(k===0){
+ctx2.fillText(l,0,150+10000/note0*l);	
+}
+ctx2.beginPath();
+ctx2.strokeStyle=col[k%12];
+ctx2.moveTo(60+50*k,150+10000/note0*l);
+ctx2.lineTo(110+50*k,150+10000/note0*l);
+ctx2.stroke();
+}
+}
+
+let n1=document.form1.n_1.value;
+let n2=document.form1.n_2.value;
+let n3=document.form1.n_3.value;
+let n4=document.form1.n_4.value;
+let n5=document.form1.n_5.value;
+let n1hz=220*Math.pow(2,(1/12)*(n1-57));
+let n2hz=220*Math.pow(2,(1/12)*(n2-57));
+let n3hz=220*Math.pow(2,(1/12)*(n3-57));
+let n4hz=220*Math.pow(2,(1/12)*(n4-57));
+let n5hz=220*Math.pow(2,(1/12)*(n5-57));
+for(let i=0;i<=120;i++){
+for(let j=0;j<=120;j++){
+if(10000/n1hz*i*0.99<10000/n2hz*j && 10000/n1hz*i*1.01>10000/n2hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n1-60),150+10000/n1hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n1%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n2-60),150+10000/n2hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n2%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n1%12];
+ctx2.moveTo(85+50*(n1-60),150+10000/n1hz*i);
+ctx2.lineTo(85+50*(n2-60),150+10000/n2hz*j);
+ctx2.stroke();
+}
+if(10000/n1hz*i*0.99<10000/n3hz*j && 10000/n1hz*i*1.01>10000/n3hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n1-60),150+10000/n1hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n1%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n3-60),150+10000/n3hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n3%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n1%12];
+ctx2.moveTo(85+50*(n1-60),150+10000/n1hz*i);
+ctx2.lineTo(85+50*(n3-60),150+10000/n3hz*j);
+ctx2.stroke();
+}
+if(10000/n2hz*i*0.99<10000/n3hz*j && 10000/n2hz*i*1.01>10000/n3hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n2-60),150+10000/n2hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n2%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n3-60),150+10000/n3hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n3%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n2%12];
+ctx2.moveTo(85+50*(n2-60),150+10000/n2hz*i);
+ctx2.lineTo(85+50*(n3-60),150+10000/n3hz*j);
+ctx2.stroke();
+}
+if(10000/n1hz*i*0.99<10000/n4hz*j && 10000/n1hz*i*1.01>10000/n4hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n1-60),150+10000/n1hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n1%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n4-60),150+10000/n4hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n4%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n1%12];
+ctx2.moveTo(85+50*(n1-60),150+10000/n1hz*i);
+ctx2.lineTo(85+50*(n4-60),150+10000/n4hz*j);
+ctx2.stroke();
+}
+if(10000/n2hz*i*0.99<10000/n4hz*j && 10000/n2hz*i*1.01>10000/n4hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n2-60),150+10000/n2hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n2%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n4-60),150+10000/n4hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n4%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n2%12];
+ctx2.moveTo(85+50*(n2-60),150+10000/n2hz*i);
+ctx2.lineTo(85+50*(n4-60),150+10000/n4hz*j);
+ctx2.stroke();
+}
+if(10000/n3hz*i*0.99<10000/n4hz*j && 10000/n3hz*i*1.01>10000/n4hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n3-60),150+10000/n3hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n3%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n4-60),150+10000/n4hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n4%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n3%12];
+ctx2.moveTo(85+50*(n3-60),150+10000/n3hz*i);
+ctx2.lineTo(85+50*(n4-60),150+10000/n4hz*j);
+ctx2.stroke();
+}
+if(10000/n1hz*i*0.99<10000/n5hz*j && 10000/n1hz*i*1.01>10000/n5hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n1-60),150+10000/n1hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n1%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n5-60),150+10000/n5hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n5%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n1%12];
+ctx2.moveTo(85+50*(n1-60),150+10000/n1hz*i);
+ctx2.lineTo(85+50*(n5-60),150+10000/n5hz*j);
+ctx2.stroke();
+}
+if(10000/n2hz*i*0.99<10000/n5hz*j && 10000/n2hz*i*1.01>10000/n5hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n2-60),150+10000/n2hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n2%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n5-60),150+10000/n5hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n5%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n2%12];
+ctx2.moveTo(85+50*(n2-60),150+10000/n2hz*i);
+ctx2.lineTo(85+50*(n5-60),150+10000/n5hz*j);
+ctx2.stroke();
+}
+if(10000/n3hz*i*0.99<10000/n5hz*j && 10000/n3hz*i*1.01>10000/n5hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n3-60),150+10000/n3hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n3%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n5-60),150+10000/n5hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n5%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n3%12];
+ctx2.moveTo(85+50*(n3-60),150+10000/n3hz*i);
+ctx2.lineTo(85+50*(n5-60),150+10000/n5hz*j);
+ctx2.stroke();
+}
+if(10000/n4hz*i*0.99<10000/n5hz*j && 10000/n4hz*i*1.01>10000/n5hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n4-60),150+10000/n4hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n4%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n5-60),150+10000/n5hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n5%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n4%12];
+ctx2.moveTo(85+50*(n4-60),150+10000/n4hz*i);
+ctx2.lineTo(85+50*(n5-60),150+10000/n5hz*j);
+ctx2.stroke();
+}
+
+}
+}
+}
+
+
+function just1(){
+ctx2.clearRect(0,0,1300,1300);
+ctx2.lineWidth=1;
+ctx2.fillStyle="black";
+ctx2.fillText("Note",0,60);
+ctx2.fillText("Num",0,90);
+ctx2.fillText("Hz",0,120);
+
+let m60=440*3/5;
+let m61=m60*16/15;
+let m62=m60*9/8;
+let m63=m60*6/5;
+let m64=m60*5/4;
+let m65=m60*4/3;
+let m66=m60*45/32;
+let m67=m60*3/2;
+let m68=m60*8/5;
+let m69=440;
+let m70=m60*9/5;
+let m71=m60*15/8;
+let m72=m60*2;
+let m73=m61*2;
+let m74=m62*2;
+let m75=m63*2;
+let m76=m64*2;
+let m77=m65*2;
+let m78=m66*2;
+let m79=m67*2;
+let m80=m68*2;
+let m81=m69*2;
+let m82=m70*2;
+let m83=m71*2;
+let m84=m72*2;
+let ji=[m60,m61,m62,m63,m64,m65,m66,m67,m68,m69,m70,m71,m72,m73,m74,m75,m76,m77,m78,m79,m80,m81,m82,m83,m84];
+
+for(let k=0;k<=24;k++){
+ctx2.fillStyle=col2[Math.floor((60+k)/12)-1];
+ctx2.fillRect(60+50*k,0,50,30);
+ctx2.fillStyle=col[(60+k)%12];
+ctx2.fillRect(60+50*k,30,50,30);
+ctx2.fillStyle="black";
+ctx2.fillText(engs1[k%12],60+50*k,60);
+ctx2.fillText(60+k,60+50*k,90);
+ctx2.fillText(Math.round(ji[k]),60+50*k,120);
+for(let l=0;l<=120;l++){
+if(k===0){
+ctx2.fillText(l,0,150+10000/ji[k]*l);	
+}
+ctx2.beginPath();
+ctx2.strokeStyle=col[k%12];
+ctx2.moveTo(60+50*k,150+10000/ji[k]*l);
+ctx2.lineTo(110+50*k,150+10000/ji[k]*l);
+ctx2.stroke();
+}
+}
+
+let n1=document.form1.n_1.value;
+let n2=document.form1.n_2.value;
+let n3=document.form1.n_3.value;
+let n4=document.form1.n_4.value;
+let n5=document.form1.n_5.value;
+let n1hz=ji[n1-60];
+let n2hz=ji[n2-60];
+let n3hz=ji[n3-60];
+let n4hz=ji[n4-60];
+let n5hz=ji[n5-60];
+
+for(let i=0;i<=120;i++){
+for(let j=0;j<=120;j++){
+if(10000/n1hz*i*0.999<10000/n2hz*j && 10000/n1hz*i*1.001>10000/n2hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n1-60),150+10000/n1hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n1%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n2-60),150+10000/n2hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n2%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n1%12];
+ctx2.moveTo(85+50*(n1-60),150+10000/n1hz*i);
+ctx2.lineTo(85+50*(n2-60),150+10000/n2hz*j);
+ctx2.stroke();
+}
+if(10000/n1hz*i*0.999<10000/n3hz*j && 10000/n1hz*i*1.001>10000/n3hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n1-60),150+10000/n1hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n1%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n3-60),150+10000/n3hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n3%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n1%12];
+ctx2.moveTo(85+50*(n1-60),150+10000/n1hz*i);
+ctx2.lineTo(85+50*(n3-60),150+10000/n3hz*j);
+ctx2.stroke();
+}
+if(10000/n2hz*i*0.999<10000/n3hz*j && 10000/n2hz*i*1.001>10000/n3hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n2-60),150+10000/n2hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n2%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n3-60),150+10000/n3hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n3%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n2%12];
+ctx2.moveTo(85+50*(n2-60),150+10000/n2hz*i);
+ctx2.lineTo(85+50*(n3-60),150+10000/n3hz*j);
+ctx2.stroke();
+}
+if(10000/n1hz*i*0.999<10000/n4hz*j && 10000/n1hz*i*1.001>10000/n4hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n1-60),150+10000/n1hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n1%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n4-60),150+10000/n4hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n4%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n1%12];
+ctx2.moveTo(85+50*(n1-60),150+10000/n1hz*i);
+ctx2.lineTo(85+50*(n4-60),150+10000/n4hz*j);
+ctx2.stroke();
+}
+if(10000/n2hz*i*0.999<10000/n4hz*j && 10000/n2hz*i*1.001>10000/n4hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n2-60),150+10000/n2hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n2%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n4-60),150+10000/n4hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n4%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n2%12];
+ctx2.moveTo(85+50*(n2-60),150+10000/n2hz*i);
+ctx2.lineTo(85+50*(n4-60),150+10000/n4hz*j);
+ctx2.stroke();
+}
+if(10000/n3hz*i*0.999<10000/n4hz*j && 10000/n3hz*i*1.001>10000/n4hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n3-60),150+10000/n3hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n3%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n4-60),150+10000/n4hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n4%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n3%12];
+ctx2.moveTo(85+50*(n3-60),150+10000/n3hz*i);
+ctx2.lineTo(85+50*(n4-60),150+10000/n4hz*j);
+ctx2.stroke();
+}
+if(10000/n1hz*i*0.999<10000/n5hz*j && 10000/n1hz*i*1.001>10000/n5hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n1-60),150+10000/n1hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n1%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n5-60),150+10000/n5hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n5%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n1%12];
+ctx2.moveTo(85+50*(n1-60),150+10000/n1hz*i);
+ctx2.lineTo(85+50*(n5-60),150+10000/n5hz*j);
+ctx2.stroke();
+}
+if(10000/n2hz*i*0.999<10000/n5hz*j && 10000/n2hz*i*1.001>10000/n5hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n2-60),150+10000/n2hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n2%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n5-60),150+10000/n5hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n5%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n2%12];
+ctx2.moveTo(85+50*(n2-60),150+10000/n2hz*i);
+ctx2.lineTo(85+50*(n5-60),150+10000/n5hz*j);
+ctx2.stroke();
+}
+if(10000/n3hz*i*0.999<10000/n5hz*j && 10000/n3hz*i*1.001>10000/n5hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n3-60),150+10000/n3hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n3%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n5-60),150+10000/n5hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n5%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n3%12];
+ctx2.moveTo(85+50*(n3-60),150+10000/n3hz*i);
+ctx2.lineTo(85+50*(n5-60),150+10000/n5hz*j);
+ctx2.stroke();
+}
+if(10000/n4hz*i*0.999<10000/n5hz*j && 10000/n4hz*i*1.001>10000/n5hz*j){
+ctx2.beginPath();
+ctx2.arc(85+50*(n4-60),150+10000/n4hz*i,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n4%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.arc(85+50*(n5-60),150+10000/n5hz*j,15,0,2*Math.PI,false);
+ctx2.fillStyle=col[n5%12];
+ctx2.fill();
+ctx2.beginPath();
+ctx2.strokeStyle=col[n4%12];
+ctx2.moveTo(85+50*(n4-60),150+10000/n4hz*i);
+ctx2.lineTo(85+50*(n5-60),150+10000/n5hz*j);
+ctx2.stroke();
+}
+
+
+}
+}
+}
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
