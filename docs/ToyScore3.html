@@ -19,10 +19,10 @@ ToyScore3 1.7
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%" selected="selected"> Just intonation </option>
 <option value="1" style="font-size:100%"> Equal temperament </option>
-<option value="2" style="font-size:100%"> Animation 60 64 67 </option>
-<option value="3" style="font-size:100%"> Animation 60 64 67 71</option>
-<option value="4" style="font-size:100%"> Animation 69 72 76 </option>
-<option value="5" style="font-size:100%"> Animation 69 72 76 79</option>
+<option value="2" style="font-size:100%"> Chord 60 64 67 </option>
+<option value="3" style="font-size:100%"> Chord 60 64 67 71</option>
+<option value="4" style="font-size:100%"> Chord 69 72 76 </option>
+<option value="5" style="font-size:100%"> Chord 69 72 76 79</option>
 </select>
 <input type="button" name="start" value="Start" onClick="selview1()" style="font-size:100%" >
 <input type="button" name="stop" value="Stop" onClick="stop1()" style="font-size:100%" >
@@ -523,47 +523,63 @@ ctx1.strokeStyle=col[n3%12];
 ctx1.stroke();
 for(let m=0;m<=4;m++){
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/4))*10*(n1-56),y-Math.cos(Math.PI*(2*m/4))*10*(n1-56),4,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/4))*10*(n1-56),y-Math.cos(Math.PI*(2*m/4))*10*(n1-56),n1-56,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
 }
 for(let m=0;m<=10;m++){
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/5))*10*(n2-56),y-Math.cos(Math.PI*(2*m/5))*10*(n2-56),8,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/5))*10*(n2-56),y-Math.cos(Math.PI*(2*m/5))*10*(n2-56),n2-56,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n2%12];
 ctx1.stroke();
 }
 for(let m=0;m<=12;m++){
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/6))*10*(n3-56),y-Math.cos(Math.PI*(2*m/6))*10*(n3-56),12,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/6))*10*(n3-56),y-Math.cos(Math.PI*(2*m/6))*10*(n3-56),n3-56,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n3%12];
 ctx1.stroke();
 }
 for(let m=0;m<1;m++){
 ctx1.beginPath();
-ctx1.moveTo(x+Math.sin(Math.PI*(2*m/4))*10*(n1-56),y-Math.cos(Math.PI*(2*m/4))*10*(n1-56));
-ctx1.lineTo(x+Math.sin(Math.PI*(2*m/5))*10*(n2-56),y-Math.cos(Math.PI*(2*m/5))*10*(n2-56));
+ctx1.moveTo(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56));
+ctx1.lineTo(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
-}
-for(let m=0;m<3;m=m+2){
 ctx1.beginPath();
-ctx1.moveTo(x+Math.sin(Math.PI*(2*m/4))*10*(n1-56),y-Math.cos(Math.PI*(2*m/4))*10*(n1-56));
-ctx1.lineTo(x+Math.sin(Math.PI*(2*m/4))*10*(n3-56),y-Math.cos(Math.PI*(2*m/4))*10*(n3-56));
-ctx1.strokeStyle=col[n1%12];
-ctx1.stroke();
-}
-m+=1;
-ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/180))*10*(n1-56),y-Math.cos(Math.PI*(2*m/180))*10*(n1-56),4,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56),n1-56,0,2*Math.PI,false);
 ctx1.fillStyle=col[n1%12];
 ctx1.fill();
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/180))*10*(n2-56),y-Math.cos(Math.PI*(2*m/180))*10*(n2-56),8,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
+}
+for(let m=0;m<2;m++){
+ctx1.beginPath();
+ctx1.moveTo(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56));
+ctx1.lineTo(x+Math.sin(Math.PI*(2*m/2))*10*(n3-56),y-Math.cos(Math.PI*(2*m/2))*10*(n3-56));
+ctx1.strokeStyle=col[n1%12];
+ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n3-56),y-Math.cos(Math.PI*(2*m/2))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
+}
+m+=1;
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/180))*10*(n1-56),y-Math.cos(Math.PI*(2*m/180))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/180))*10*(n2-56),y-Math.cos(Math.PI*(2*m/180))*10*(n2-56),n2-56,0,2*Math.PI,false);
 ctx1.fillStyle=col[n2%12];
 ctx1.fill();
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/180))*10*(n3-56),y-Math.cos(Math.PI*(2*m/180))*10*(n3-56),12,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/180))*10*(n3-56),y-Math.cos(Math.PI*(2*m/180))*10*(n3-56),n3-56,0,2*Math.PI,false);
 ctx1.fillStyle=col[n3%12];
 ctx1.fill();
 timerID=requestAnimationFrame(anim21);
@@ -643,26 +659,65 @@ ctx1.arc(x+Math.sin(Math.PI*(2*m/15))*10*(n4-56),y-Math.cos(Math.PI*(2*m/15))*10
 ctx1.strokeStyle=col[n4%12];
 ctx1.stroke();
 }
-for(let m=0;m<8;m=m+2){
+for(let m=0;m<2;m++){
 ctx1.beginPath();
-ctx1.moveTo(x+Math.sin(Math.PI*(2*m/4))*10*(n1-56),y-Math.cos(Math.PI*(2*m/4))*10*(n1-56));
-ctx1.lineTo(x+Math.sin(Math.PI*(2*m/4))*10*(n2-56),y-Math.cos(Math.PI*(2*m/4))*10*(n2-56));
+ctx1.moveTo(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56));
+ctx1.lineTo(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
 }
-for(let m=0;m<8;m++){
+for(let m=0;m<4;m++){
 ctx1.beginPath();
 ctx1.moveTo(x+Math.sin(Math.PI*(2*m/4))*10*(n1-56),y-Math.cos(Math.PI*(2*m/4))*10*(n1-56));
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/4))*10*(n3-56),y-Math.cos(Math.PI*(2*m/4))*10*(n3-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
-}
-for(let m=0;m<4;m=m+4){
 ctx1.beginPath();
-ctx1.moveTo(x+Math.sin(Math.PI*(2*m/4))*10*(n1-56),y-Math.cos(Math.PI*(2*m/4))*10*(n1-56));
-ctx1.lineTo(x+Math.sin(Math.PI*(2*m/4))*10*(n4-56),y-Math.cos(Math.PI*(2*m/4))*10*(n4-56));
+ctx1.arc(x+Math.sin(Math.PI*(2*m/4))*10*(n1-56),y-Math.cos(Math.PI*(2*m/4))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/4))*10*(n3-56),y-Math.cos(Math.PI*(2*m/4))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
+}
+for(let m=0;m<1;m++){
+ctx1.beginPath();
+ctx1.moveTo(x+Math.sin(Math.PI*(2*m/1))*10*(n1-56),y-Math.cos(Math.PI*(2*m/1))*10*(n1-56));
+ctx1.lineTo(x+Math.sin(Math.PI*(2*m/1))*10*(n4-56),y-Math.cos(Math.PI*(2*m/1))*10*(n4-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/1))*10*(n1-56),y-Math.cos(Math.PI*(2*m/1))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/1))*10*(n4-56),y-Math.cos(Math.PI*(2*m/1))*10*(n4-56),n4-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n4%12];
+ctx1.fill();
+}
+for(let m=0;m<2;m++){
+ctx1.beginPath();
+ctx1.moveTo(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56));
+ctx1.lineTo(x+Math.sin(Math.PI*(2*m/2))*10*(n3-56),y-Math.cos(Math.PI*(2*m/2))*10*(n3-56));
+ctx1.strokeStyle=col[n2%12];
+ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n3-56),y-Math.cos(Math.PI*(2*m/2))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
 }
 for(let m=0;m<5;m++){
 ctx1.beginPath();
@@ -670,6 +725,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/5))*10*(n2-56),y-Math.cos(Math.PI*(2*m/5))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/5))*10*(n4-56),y-Math.cos(Math.PI*(2*m/5))*10*(n4-56));
 ctx1.strokeStyle=col[n2%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/5))*10*(n2-56),y-Math.cos(Math.PI*(2*m/5))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/5))*10*(n4-56),y-Math.cos(Math.PI*(2*m/5))*10*(n4-56),n4-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n4%12];
+ctx1.fill();
 }
 for(let m=0;m<3;m++){
 ctx1.beginPath();
@@ -677,6 +740,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/3))*10*(n3-56),y-Math.cos(Math.PI*(2*m/3))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/3))*10*(n4-56),y-Math.cos(Math.PI*(2*m/3))*10*(n4-56));
 ctx1.strokeStyle=col[n3%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*10*(n3-56),y-Math.cos(Math.PI*(2*m/3))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*10*(n4-56),y-Math.cos(Math.PI*(2*m/3))*10*(n4-56),n4-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n4%12];
+ctx1.fill();
 }
 m+=1;
 ctx1.beginPath();
@@ -764,6 +835,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
 }
 for(let m=0;m<5;m++){
 ctx1.beginPath();
@@ -771,6 +850,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/5))*10*(n1-56),y-Math.cos(Math.PI*(2*m/5))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/5))*10*(n3-56),y-Math.cos(Math.PI*(2*m/5))*10*(n3-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/5))*10*(n1-56),y-Math.cos(Math.PI*(2*m/5))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/5))*10*(n3-56),y-Math.cos(Math.PI*(2*m/5))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
 }
 for(let m=0;m<3;m++){
 ctx1.beginPath();
@@ -778,6 +865,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/3))*10*(n2-56),y-Math.cos(Math.PI*(2*m/3))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/3))*10*(n3-56),y-Math.cos(Math.PI*(2*m/3))*10*(n3-56));
 ctx1.strokeStyle=col[n2%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*10*(n2-56),y-Math.cos(Math.PI*(2*m/3))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*10*(n3-56),y-Math.cos(Math.PI*(2*m/3))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
 }
 m+=1;
 ctx1.beginPath();
@@ -870,6 +965,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n2-56),y-Math.cos(Math.PI*(2*m/2))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
 }
 for(let m=0;m<5;m++){
 ctx1.beginPath();
@@ -877,6 +980,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/5))*10*(n1-56),y-Math.cos(Math.PI*(2*m/5))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/5))*10*(n3-56),y-Math.cos(Math.PI*(2*m/5))*10*(n3-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/5))*10*(n1-56),y-Math.cos(Math.PI*(2*m/5))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/5))*10*(n3-56),y-Math.cos(Math.PI*(2*m/5))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
 }
 for(let m=0;m<2;m++){
 ctx1.beginPath();
@@ -884,6 +995,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/2))*10*(n4-56),y-Math.cos(Math.PI*(2*m/2))*10*(n4-56));
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n1-56),y-Math.cos(Math.PI*(2*m/2))*10*(n1-56),n1-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n1%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/2))*10*(n4-56),y-Math.cos(Math.PI*(2*m/2))*10*(n4-56),n4-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n4%12];
+ctx1.fill();
 }
 for(let m=0;m<3;m++){
 ctx1.beginPath();
@@ -891,6 +1010,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/3))*10*(n2-56),y-Math.cos(Math.PI*(2*m/3))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/3))*10*(n3-56),y-Math.cos(Math.PI*(2*m/3))*10*(n3-56));
 ctx1.strokeStyle=col[n2%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*10*(n2-56),y-Math.cos(Math.PI*(2*m/3))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*10*(n3-56),y-Math.cos(Math.PI*(2*m/3))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
 }
 for(let m=0;m<12;m++){
 ctx1.beginPath();
@@ -898,6 +1025,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/6))*10*(n2-56),y-Math.cos(Math.PI*(2*m/6))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/6))*10*(n4-56),y-Math.cos(Math.PI*(2*m/6))*10*(n4-56));
 ctx1.strokeStyle=col[n2%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/6))*10*(n2-56),y-Math.cos(Math.PI*(2*m/6))*10*(n2-56),n2-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n2%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/6))*10*(n4-56),y-Math.cos(Math.PI*(2*m/6))*10*(n4-56),n4-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n4%12];
+ctx1.fill();
 }
 for(let m=0;m<3;m++){
 ctx1.beginPath();
@@ -905,6 +1040,14 @@ ctx1.moveTo(x+Math.sin(Math.PI*(2*m/3))*10*(n3-56),y-Math.cos(Math.PI*(2*m/3))*1
 ctx1.lineTo(x+Math.sin(Math.PI*(2*m/3))*10*(n4-56),y-Math.cos(Math.PI*(2*m/3))*10*(n4-56));
 ctx1.strokeStyle=col[n3%12];
 ctx1.stroke();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*10*(n3-56),y-Math.cos(Math.PI*(2*m/3))*10*(n3-56),n3-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n3%12];
+ctx1.fill();
+ctx1.beginPath();
+ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*10*(n4-56),y-Math.cos(Math.PI*(2*m/3))*10*(n4-56),n4-56,0,2*Math.PI,false);
+ctx1.fillStyle=col[n4%12];
+ctx1.fill();
 }
 m+=1;
 ctx1.beginPath();
