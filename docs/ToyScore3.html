@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore3 1.9
+ToyScore3 1.11
 </title>
 </head>
 <body style="font-size:160%" >
@@ -19,12 +19,12 @@ ToyScore3 1.9
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%" selected="selected"> Just intonation </option>
 <option value="1" style="font-size:100%"> Equal temperament </option>
-<option value="2" style="font-size:100%"> CM  60 64 67 </option>
-<option value="3" style="font-size:100%"> CM7 60 64 67 71</option>
-<option value="4" style="font-size:100%"> CM9 60 64 67 71 74</option>
-<option value="5" style="font-size:100%"> Am  69 72 76 </option>
-<option value="6" style="font-size:100%"> Am7 69 72 76 79</option>
-<option value="7" style="font-size:100%"> Am9 69 72 76 79 83</option>
+<option value="2" style="font-size:100%"> CM  CEG </option>
+<option value="3" style="font-size:100%"> CM7 CEGB</option>
+<option value="4" style="font-size:100%"> CM9 CEGBD</option>
+<option value="5" style="font-size:100%"> Am  ACE </option>
+<option value="6" style="font-size:100%"> Am7 ACEG</option>
+<option value="7" style="font-size:100%"> Am9 ACEGB</option>
 </select>
 <input type="button" name="start" value="Start" onClick="selview1()" style="font-size:100%" >
 <input type="button" name="stop" value="Stop" onClick="stop1()" style="font-size:100%" >
@@ -58,8 +58,8 @@ ctx2.clearRect(0,0,1300,1300);
 ctx2.lineWidth=1;
 ctx2.fillStyle="black";
 ctx2.fillText("Note",0,60);
-ctx2.fillText("Num",0,90);
-ctx2.fillText("Hz",0,120);
+ctx2.fillText("Midi",0,90);
+ctx2.fillText("Freq",0,120);
 
 for(let k=0;k<=24;k++){
 ctx2.fillStyle=col2[Math.floor((60+k)/12)-1];
@@ -76,8 +76,8 @@ ctx2.clearRect(0,0,1300,1300);
 ctx2.lineWidth=1;
 ctx2.fillStyle="black";
 ctx2.fillText("Note",0,60);
-ctx2.fillText("Num",0,90);
-ctx2.fillText("Hz",0,120);
+ctx2.fillText("Midi",0,90);
+ctx2.fillText("Freq",0,120);
 
 for(let k=0;k<=24;k++){
 ctx2.fillStyle=col2[Math.floor((60+k)/12)-1];
@@ -275,8 +275,8 @@ ctx2.clearRect(0,0,1300,1300);
 ctx2.lineWidth=1;
 ctx2.fillStyle="black";
 ctx2.fillText("Note",0,60);
-ctx2.fillText("Num",0,90);
-ctx2.fillText("Hz",0,120);
+ctx2.fillText("Midi",0,90);
+ctx2.fillText("Freq",0,120);
 
 let m60=440*3/5;
 let m61=m60*16/15;
@@ -508,10 +508,86 @@ document.form1.n_2.value=64;
 document.form1.n_3.value=67;
 document.form1.n_4.value="";
 document.form1.n_5.value="";
-let x=500;
+
+ctx1.font="25px Arial";
+ctx1.clearRect(0,0,1300,600);
+ctx1.lineWidth=1;
+ctx1.fillStyle="black";
+
+ctx1.fillText("",0,30);
+ctx1.fillText("1",300,30);
+ctx1.fillText("2",400,30);
+ctx1.fillText("3",500,30);
+ctx1.fillText("4",600,30);
+ctx1.fillText("5",700,30);
+
+ctx1.fillText("Note",0,60);
+ctx1.fillText("C",300,60);
+ctx1.fillText("E",400,60);
+ctx1.fillText("G",500,60);
+ctx1.fillText("",600,60);
+ctx1.fillText("",700,60);
+
+ctx1.fillText("Frequency of note",0,90);
+ctx1.fillText("264",300,90);
+ctx1.fillText("330",400,90);
+ctx1.fillText("396",500,90);
+ctx1.fillText("",600,90);
+ctx1.fillText("",700,90);
+
+ctx1.fillText("Frequency of chord",0,120);
+ctx1.fillText("66",300,120);
+ctx1.fillText("66",400,120);
+ctx1.fillText("66",500,120);
+ctx1.fillText("",600,120);
+ctx1.fillText("",700,120);
+
+ctx1.fillText("Number of waves",0,150);
+ctx1.fillText("4",300,150);
+ctx1.fillText("5",400,150);
+ctx1.fillText("6",500,150);
+ctx1.fillText("",600,150);
+ctx1.fillText("",700,150);
+
+ctx1.fillText("Frequency of chord is the GCM of frequency of notes.",0,210);
+ctx1.fillText("Notes meet by the number of waves.",0,240);
+
+ctx1.fillText("Note1",0,300);
+ctx1.fillText("Note2",100,300);
+ctx1.fillText("Freq1",200,300);
+ctx1.fillText("Freq2",300,300);
+ctx1.fillText("GCM",400,300);
+ctx1.fillText("Num1",500,300);
+ctx1.fillText("Num2 ",600,300);
+
+ctx1.fillText("C",0,330);
+ctx1.fillText("E",100,330);
+ctx1.fillText("264",200,330);
+ctx1.fillText("330",300,330);
+ctx1.fillText("66",400,330);
+ctx1.fillText("4",500,330);
+ctx1.fillText("5",600,330);
+
+ctx1.fillText("C",0,360);
+ctx1.fillText("G",100,360);
+ctx1.fillText("264",200,360);
+ctx1.fillText("396",300,360);
+ctx1.fillText("132",400,360);
+ctx1.fillText("2",500,360);
+ctx1.fillText("3",600,360);
+
+ctx1.fillText("E",0,390);
+ctx1.fillText("G",100,390);
+ctx1.fillText("330",200,390);
+ctx1.fillText("396",300,390);
+ctx1.fillText("66",400,390);
+ctx1.fillText("5",500,390);
+ctx1.fillText("6",600,390);
+
+let x=1000;
 let y=300;
 let r=5;
-ctx1.clearRect(0,0,1300,600);
+//ctx1.clearRect(0,0,800,600);
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
@@ -619,10 +695,110 @@ document.form1.n_2.value=64;
 document.form1.n_3.value=67;
 document.form1.n_4.value=71;
 document.form1.n_5.value="";
-let x=500;
+
+ctx1.font="25px Arial";
+ctx1.clearRect(0,0,1300,600);
+ctx1.lineWidth=1;
+ctx1.fillStyle="black";
+
+ctx1.fillText("",0,30);
+ctx1.fillText("1",300,30);
+ctx1.fillText("2",400,30);
+ctx1.fillText("3",500,30);
+ctx1.fillText("4",600,30);
+ctx1.fillText("5",700,30);
+
+ctx1.fillText("Note",0,60);
+ctx1.fillText("C",300,60);
+ctx1.fillText("E",400,60);
+ctx1.fillText("G",500,60);
+ctx1.fillText("B",600,60);
+ctx1.fillText("",700,60);
+
+ctx1.fillText("Frequency of note",0,90);
+ctx1.fillText("264",300,90);
+ctx1.fillText("330",400,90);
+ctx1.fillText("396",500,90);
+ctx1.fillText("495",600,90);
+ctx1.fillText("",700,90);
+
+ctx1.fillText("Frequency of chord",0,120);
+ctx1.fillText("33",300,120);
+ctx1.fillText("33",400,120);
+ctx1.fillText("33",500,120);
+ctx1.fillText("33",600,120);
+ctx1.fillText("",700,120);
+
+ctx1.fillText("Number of waves",0,150);
+ctx1.fillText("8",300,150);
+ctx1.fillText("10",400,150);
+ctx1.fillText("12",500,150);
+ctx1.fillText("15",600,150);
+ctx1.fillText("",700,150);
+
+ctx1.fillText("Frequency of chord is the GCM of frequency of notes.",0,210);
+ctx1.fillText("Notes meet by the number of waves.",0,240);
+
+ctx1.fillText("Note1",0,300);
+ctx1.fillText("Note2",100,300);
+ctx1.fillText("Freq1",200,300);
+ctx1.fillText("Freq2",300,300);
+ctx1.fillText("GCM",400,300);
+ctx1.fillText("Num1",500,300);
+ctx1.fillText("Num2 ",600,300);
+
+ctx1.fillText("C",0,330);
+ctx1.fillText("E",100,330);
+ctx1.fillText("264",200,330);
+ctx1.fillText("330",300,330);
+ctx1.fillText("66",400,330);
+ctx1.fillText("4",500,330);
+ctx1.fillText("5",600,330);
+
+ctx1.fillText("C",0,360);
+ctx1.fillText("G",100,360);
+ctx1.fillText("264",200,360);
+ctx1.fillText("396",300,360);
+ctx1.fillText("132",400,360);
+ctx1.fillText("2",500,360);
+ctx1.fillText("3",600,360);
+
+ctx1.fillText("C",0,390);
+ctx1.fillText("B",100,390);
+ctx1.fillText("264",200,390);
+ctx1.fillText("495",300,390);
+ctx1.fillText("33",400,390);
+ctx1.fillText("8",500,390);
+ctx1.fillText("15",600,390);
+
+ctx1.fillText("E",0,420);
+ctx1.fillText("G",100,420);
+ctx1.fillText("330",200,420);
+ctx1.fillText("396",300,420);
+ctx1.fillText("66",400,420);
+ctx1.fillText("5",500,420);
+ctx1.fillText("6",600,420);
+
+ctx1.fillText("E",0,450);
+ctx1.fillText("B",100,450);
+ctx1.fillText("330",200,450);
+ctx1.fillText("495",300,450);
+ctx1.fillText("165",400,450);
+ctx1.fillText("2",500,450);
+ctx1.fillText("3",600,450);
+
+ctx1.fillText("G",0,480);
+ctx1.fillText("B",100,480);
+ctx1.fillText("396",200,480);
+ctx1.fillText("495",300,480);
+ctx1.fillText("99",400,480);
+ctx1.fillText("4",500,480);
+ctx1.fillText("5",600,480);
+
+let x=1000;
 let y=300;
 let r=5;
-ctx1.clearRect(0,0,1300,600);
+//ctx1.clearRect(0,0,1300,600);
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
@@ -799,10 +975,142 @@ document.form1.n_2.value=64;
 document.form1.n_3.value=67;
 document.form1.n_4.value=71;
 document.form1.n_5.value=74;
-let x=500;
+
+ctx1.font="25px Arial";
+ctx1.clearRect(0,0,1300,600);
+ctx1.lineWidth=1;
+ctx1.fillStyle="black";
+
+ctx1.fillText("",0,30);
+ctx1.fillText("1",300,30);
+ctx1.fillText("2",400,30);
+ctx1.fillText("3",500,30);
+ctx1.fillText("4",600,30);
+ctx1.fillText("5",700,30);
+
+ctx1.fillText("Note",0,60);
+ctx1.fillText("C",300,60);
+ctx1.fillText("E",400,60);
+ctx1.fillText("G",500,60);
+ctx1.fillText("B",600,60);
+ctx1.fillText("D",700,60);
+
+ctx1.fillText("Frequency of note",0,90);
+ctx1.fillText("264",300,90);
+ctx1.fillText("330",400,90);
+ctx1.fillText("396",500,90);
+ctx1.fillText("495",600,90);
+ctx1.fillText("594",700,90);
+
+ctx1.fillText("Frequency of chord",0,120);
+ctx1.fillText("33",300,120);
+ctx1.fillText("33",400,120);
+ctx1.fillText("33",500,120);
+ctx1.fillText("33",600,120);
+ctx1.fillText("33",700,120);
+
+ctx1.fillText("Number of waves",0,150);
+ctx1.fillText("8",300,150);
+ctx1.fillText("10",400,150);
+ctx1.fillText("12",500,150);
+ctx1.fillText("15",600,150);
+ctx1.fillText("18",700,150);
+
+ctx1.fillText("Frequency of chord is the GCM of frequency of notes.",0,210);
+ctx1.fillText("Notes meet by the number of waves.",0,240);
+
+ctx1.fillText("Note1",0,300);
+ctx1.fillText("Note2",100,300);
+ctx1.fillText("Freq1",200,300);
+ctx1.fillText("Freq2",300,300);
+ctx1.fillText("GCM",400,300);
+ctx1.fillText("Num1",500,300);
+ctx1.fillText("Num2 ",600,300);
+
+ctx1.fillText("C",0,330);
+ctx1.fillText("E",100,330);
+ctx1.fillText("264",200,330);
+ctx1.fillText("330",300,330);
+ctx1.fillText("66",400,330);
+ctx1.fillText("4",500,330);
+ctx1.fillText("5",600,330);
+
+ctx1.fillText("C",0,360);
+ctx1.fillText("G",100,360);
+ctx1.fillText("264",200,360);
+ctx1.fillText("396",300,360);
+ctx1.fillText("132",400,360);
+ctx1.fillText("2",500,360);
+ctx1.fillText("3",600,360);
+
+ctx1.fillText("C",0,390);
+ctx1.fillText("B",100,390);
+ctx1.fillText("264",200,390);
+ctx1.fillText("495",300,390);
+ctx1.fillText("33",400,390);
+ctx1.fillText("8",500,390);
+ctx1.fillText("15",600,390);
+
+ctx1.fillText("C",0,420);
+ctx1.fillText("D",100,420);
+ctx1.fillText("264",200,420);
+ctx1.fillText("594",300,420);
+ctx1.fillText("66",400,420);
+ctx1.fillText("4",500,420);
+ctx1.fillText("9",600,420);
+
+ctx1.fillText("E",0,450);
+ctx1.fillText("G",100,450);
+ctx1.fillText("330",200,450);
+ctx1.fillText("396",300,450);
+ctx1.fillText("66",400,450);
+ctx1.fillText("5",500,450);
+ctx1.fillText("6",600,450);
+
+ctx1.fillText("E",0,480);
+ctx1.fillText("B",100,480);
+ctx1.fillText("330",200,480);
+ctx1.fillText("495",300,480);
+ctx1.fillText("165",400,480);
+ctx1.fillText("2",500,480);
+ctx1.fillText("3",600,480);
+
+ctx1.fillText("E",0,510);
+ctx1.fillText("D",100,510);
+ctx1.fillText("330",200,510);
+ctx1.fillText("594",300,510);
+ctx1.fillText("66",400,510);
+ctx1.fillText("5",500,510);
+ctx1.fillText("9",600,510);
+
+ctx1.fillText("G",0,540);
+ctx1.fillText("B",100,540);
+ctx1.fillText("396",200,540);
+ctx1.fillText("495",300,540);
+ctx1.fillText("99",400,540);
+ctx1.fillText("4",500,540);
+ctx1.fillText("5",600,540);
+
+ctx1.fillText("G",0,570);
+ctx1.fillText("D",100,570);
+ctx1.fillText("396",200,570);
+ctx1.fillText("594",300,570);
+ctx1.fillText("198",400,570);
+ctx1.fillText("2",500,570);
+ctx1.fillText("3",600,570);
+
+ctx1.fillText("B",0,600);
+ctx1.fillText("D",100,600);
+ctx1.fillText("495",200,600);
+ctx1.fillText("594",300,600);
+ctx1.fillText("99",400,600);
+ctx1.fillText("5",500,600);
+ctx1.fillText("6",600,600);
+
+let x=1000;
 let y=300;
 let r=5;
-ctx1.clearRect(0,0,1300,600);
+//ctx1.clearRect(0,0,1300,600);
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
@@ -973,18 +1281,18 @@ ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*40*r,y-Math.cos(Math.PI*(2*m/3))*40*r,4*r,0
 ctx1.fillStyle=col[n4%12];
 ctx1.fill();
 }
-for(let m=0;m<3;m++){
+for(let m=0;m<6;m++){
 ctx1.beginPath();
-ctx1.moveTo(x+Math.sin(Math.PI*(2*m/3))*30*r,y-Math.cos(Math.PI*(2*m/3))*30*r);
-ctx1.lineTo(x+Math.sin(Math.PI*(2*m/3))*50*r,y-Math.cos(Math.PI*(2*m/3))*50*r);
+ctx1.moveTo(x+Math.sin(Math.PI*(2*m/6))*30*r,y-Math.cos(Math.PI*(2*m/6))*30*r);
+ctx1.lineTo(x+Math.sin(Math.PI*(2*m/6))*50*r,y-Math.cos(Math.PI*(2*m/6))*50*r);
 ctx1.strokeStyle=col[n3%12];
 ctx1.stroke();
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*30*r,y-Math.cos(Math.PI*(2*m/3))*30*r,3*r,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/6))*30*r,y-Math.cos(Math.PI*(2*m/6))*30*r,3*r,0,2*Math.PI,false);
 ctx1.fillStyle=col[n3%12];
 ctx1.fill();
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/3))*50*r,y-Math.cos(Math.PI*(2*m/3))*50*r,5*r,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/6))*50*r,y-Math.cos(Math.PI*(2*m/6))*50*r,5*r,0,2*Math.PI,false);
 ctx1.fillStyle=col[n5%12];
 ctx1.fill();
 }
@@ -1570,20 +1878,28 @@ timerID=requestAnimationFrame(anim71);
 
 function selview1(){
 if(document.form1.sv1.options[0].selected==true){
+stop1();
 just1();
 }else if(document.form1.sv1.options[1].selected==true){
+stop1();
 equal1();
 }else if(document.form1.sv1.options[2].selected==true){
+stop1();
 anim2();
 }else if(document.form1.sv1.options[3].selected==true){
+stop1();
 anim3();
 }else if(document.form1.sv1.options[4].selected==true){
+stop1();
 anim4();
 }else if(document.form1.sv1.options[5].selected==true){
+stop1();
 anim5();
 }else if(document.form1.sv1.options[6].selected==true){
+stop1();
 anim6();
 }else if(document.form1.sv1.options[7].selected==true){
+stop1();
 anim7();
 }
 }
