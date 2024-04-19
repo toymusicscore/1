@@ -3083,21 +3083,18 @@ function gcd(x, y){
 
 
 function anim101(){
+/*
 document.form1.n_1.value=62;
 document.form1.n_2.value=65;
 document.form1.n_3.value=69;
 document.form1.n_4.value="";
 document.form1.n_5.value="";
+*/
 let n1=document.form1.n_1.value;
 let n2=document.form1.n_2.value;
 let n3=document.form1.n_3.value;
 let n4=document.form1.n_4.value;
 let n5=document.form1.n_5.value;
-
-ctx1.font="25px Arial";
-ctx1.clearRect(0,0,1300,600);
-ctx1.lineWidth=1;
-ctx1.fillStyle="black";
 
 let GCD12=gcd(ji[n1-60], ji[n2-60]);
 let GCD13=gcd(ji[n1-60], ji[n3-60]);
@@ -3111,6 +3108,11 @@ let GCD12A=GCD12/GCD123;
 let GCD13A=GCD13/GCD123;
 let GCD23A=GCD23/GCD123;
 
+ctx1.font="25px Arial";
+ctx1.clearRect(0,0,1300,600);
+ctx1.lineWidth=1;
+ctx1.fillStyle="black";
+
 ctx1.fillText("",0,30);
 ctx1.fillText("1",300,30);
 ctx1.fillText("2",400,30);
@@ -3119,9 +3121,9 @@ ctx1.fillText("4",600,30);
 ctx1.fillText("5",700,30);
 
 ctx1.fillText("Note",0,60);
-ctx1.fillText(engs1[n1-60],300,60);
-ctx1.fillText(engs1[n2-60],400,60);
-ctx1.fillText(engs1[n3-60],500,60);
+ctx1.fillText(engs1[n1%12],300,60);
+ctx1.fillText(engs1[n2%12],400,60);
+ctx1.fillText(engs1[n3%12],500,60);
 ctx1.fillText("",600,60);
 ctx1.fillText("",700,60);
 
@@ -3132,7 +3134,7 @@ ctx1.fillText(ji[n3-60],500,90);
 ctx1.fillText("",600,90);
 ctx1.fillText("",700,90);
 
-ctx1.fillText("Frequency of chord",0,120);
+ctx1.fillText("Greatest Common Divisor",0,120);
 ctx1.fillText(GCD123,300,120);
 ctx1.fillText(GCD123,400,120);
 ctx1.fillText(GCD123,500,120);
@@ -3157,24 +3159,24 @@ ctx1.fillText("GCD",400,300);
 ctx1.fillText("Num1",500,300);
 ctx1.fillText("Num2 ",600,300);
 
-ctx1.fillText(engs1[n1-60],0,330);
-ctx1.fillText(engs1[n2-60],100,330);
+ctx1.fillText(engs1[n1%12],0,330);
+ctx1.fillText(engs1[n2%12],100,330);
 ctx1.fillText(ji[n1-60],200,330);
 ctx1.fillText(ji[n2-60],300,330);
 ctx1.fillText(GCD12,400,330);
 ctx1.fillText(ji[n1-60]/GCD12,500,330);
 ctx1.fillText(ji[n2-60]/GCD12,600,330);
 
-ctx1.fillText(engs1[n1-60],0,360);
-ctx1.fillText(engs1[n3-60],100,360);
+ctx1.fillText(engs1[n1%12],0,360);
+ctx1.fillText(engs1[n3%12],100,360);
 ctx1.fillText(ji[n1-60],200,360);
 ctx1.fillText(ji[n3-60],300,360);
 ctx1.fillText(GCD13,400,360);
 ctx1.fillText(ji[n1-60]/GCD13,500,360);
 ctx1.fillText(ji[n3-60]/GCD13,600,360);
 
-ctx1.fillText(engs1[n2-60],0,390);
-ctx1.fillText(engs1[n3-60],100,390);
+ctx1.fillText(engs1[n2%12],0,390);
+ctx1.fillText(engs1[n3%12],100,390);
 ctx1.fillText(ji[n2-60],200,390);
 ctx1.fillText(ji[n3-60],300,390);
 ctx1.fillText(GCD23,400,390);
@@ -3278,10 +3280,10 @@ ctx1.fill();
 timerID=requestAnimationFrame(anim101);
 }
 
-function anim10(){
-document.form1.n_1.value=62;
-document.form1.n_2.value=65;
-document.form1.n_3.value=69;
+function anim10(a,b,c){
+document.form1.n_1.value=a;
+document.form1.n_2.value=b;
+document.form1.n_3.value=c;
 document.form1.n_4.value="";
 document.form1.n_5.value="";
 let n1=document.form1.n_1.value;
@@ -3294,16 +3296,41 @@ timerID=requestAnimationFrame(anim101);
 }
 
 function anim111(){
-let n1=document.form1.n_1.value;
-let n2=document.form1.n_2.value;
-let n3=document.form1.n_3.value;
-let n4=document.form1.n_4.value;
-let n5=document.form1.n_5.value;
+/*
 document.form1.n_1.value=62;
 document.form1.n_2.value=65;
 document.form1.n_3.value=69;
 document.form1.n_4.value=72;
 document.form1.n_5.value="";
+*/
+let n1=document.form1.n_1.value;
+let n2=document.form1.n_2.value;
+let n3=document.form1.n_3.value;
+let n4=document.form1.n_4.value;
+let n5=document.form1.n_5.value;
+
+let GCD12=gcd(ji[n1-60], ji[n2-60]);
+let GCD13=gcd(ji[n1-60], ji[n3-60]);
+let GCD14=gcd(ji[n1-60], ji[n4-60]);
+let GCD23=gcd(ji[n2-60], ji[n3-60]);
+let GCD24=gcd(ji[n2-60], ji[n4-60]);
+let GCD34=gcd(ji[n3-60], ji[n4-60]);
+let GCD1213=gcd(GCD12,GCD13);
+let GCD1423=gcd(GCD14,GCD23);
+let GCD2434=gcd(GCD24,GCD34);
+let GCD12131423=gcd(GCD1213,GCD2434);
+let GCD1234=gcd(GCD12131423,GCD2434);
+let ji1A=ji[n1-60]/GCD1234;
+let ji2A=ji[n2-60]/GCD1234;
+let ji3A=ji[n3-60]/GCD1234;
+let ji4A=ji[n4-60]/GCD1234;
+let GCD12A=GCD12/GCD1234;
+let GCD13A=GCD13/GCD1234;
+let GCD14A=GCD14/GCD1234;
+let GCD23A=GCD23/GCD1234;
+let GCD24A=GCD24/GCD1234;
+let GCD34A=GCD34/GCD1234;
+
 ctx1.font="25px Arial";
 ctx1.clearRect(0,0,1400,600);
 ctx1.lineWidth=1;
@@ -3317,96 +3344,96 @@ ctx1.fillText("4",600,30);
 ctx1.fillText("5",700,30);
 
 ctx1.fillText("Note",0,60);
-ctx1.fillText("D",300,60);
-ctx1.fillText("F",400,60);
-ctx1.fillText("A",500,60);
-ctx1.fillText("C",600,60);
+ctx1.fillText(engs1[n1%12],300,60);
+ctx1.fillText(engs1[n2%12],400,60);
+ctx1.fillText(engs1[n3%12],500,60);
+ctx1.fillText(engs1[n4%12],600,60);
 ctx1.fillText("",700,60);
 
 ctx1.fillText("Frequency of note",0,90);
-ctx1.fillText("297",300,90);
-ctx1.fillText("352",400,90);
-ctx1.fillText("440",500,90);
-ctx1.fillText("528",600,90);
+ctx1.fillText(ji[n1-60],300,90);
+ctx1.fillText(ji[n2-60],400,90);
+ctx1.fillText(ji[n3-60],500,90);
+ctx1.fillText(ji[n4-60],600,90);
 ctx1.fillText("",700,90);
 
-ctx1.fillText("Frequency of chord",0,120);
-ctx1.fillText("11",300,120);
-ctx1.fillText("11",400,120);
-ctx1.fillText("11",500,120);
-ctx1.fillText("11",600,120);
+ctx1.fillText("Greatest common divisor",0,120);
+ctx1.fillText(GCD1234,300,120);
+ctx1.fillText(GCD1234,400,120);
+ctx1.fillText(GCD1234,500,120);
+ctx1.fillText(GCD1234,600,120);
 ctx1.fillText("",700,120);
 
-ctx1.fillText("Number of waves",0,150);
-ctx1.fillText("27",300,150);
-ctx1.fillText("32",400,150);
-ctx1.fillText("40",500,150);
-ctx1.fillText("48",600,150);
+ctx1.fillText("Wave number in chord",0,150);
+ctx1.fillText(ji1A,300,150);
+ctx1.fillText(ji2A,400,150);
+ctx1.fillText(ji3A,500,150);
+ctx1.fillText(ji4A,600,150);
 ctx1.fillText("",700,150);
 
-ctx1.fillText("Period of a wave is the inverse of the frequency.",0,210);
-ctx1.fillText("Periods of waves meet at the period of chord.",0,240);
+ctx1.fillText("Cycle of a wave is the inverse of the frequency.",0,210);
+ctx1.fillText("Cycles of waves meet in each cycle of chord.",0,240);
 
 ctx1.fillText("Note1",0,300);
 ctx1.fillText("Note2",100,300);
 ctx1.fillText("Freq1",200,300);
 ctx1.fillText("Freq2",300,300);
-ctx1.fillText("GCM",400,300);
+ctx1.fillText("GCD",400,300);
 ctx1.fillText("Num1",500,300);
 ctx1.fillText("Num2 ",600,300);
 
-ctx1.fillText("D",0,330);
-ctx1.fillText("F",100,330);
-ctx1.fillText("297",200,330);
-ctx1.fillText("352",300,330);
-ctx1.fillText("11",400,330);
-ctx1.fillText("27",500,330);
-ctx1.fillText("32",600,330);
+ctx1.fillText(engs1[n1%12],0,330);
+ctx1.fillText(engs1[n2%12],100,330);
+ctx1.fillText(ji[n1-60],200,330);
+ctx1.fillText(ji[n2-60],300,330);
+ctx1.fillText(GCD12,400,330);
+ctx1.fillText(ji[n1-60]/GCD12,500,330);
+ctx1.fillText(ji[n2-60]/GCD12,600,330);
 
-ctx1.fillText("D",0,360);
-ctx1.fillText("A",100,360);
-ctx1.fillText("297",200,360);
-ctx1.fillText("440",300,360);
-ctx1.fillText("11",400,360);
-ctx1.fillText("27",500,360);
-ctx1.fillText("40",600,360);
+ctx1.fillText(engs1[n1%12],0,360);
+ctx1.fillText(engs1[n3%12],100,360);
+ctx1.fillText(ji[n1-60],200,360);
+ctx1.fillText(ji[n3-60],300,360);
+ctx1.fillText(GCD13,400,360);
+ctx1.fillText(ji[n1-60]/GCD13,500,360);
+ctx1.fillText(ji[n3-60]/GCD13,600,360);
 
-ctx1.fillText("D",0,390);
-ctx1.fillText("C",100,390);
-ctx1.fillText("297",200,390);
-ctx1.fillText("528",300,390);
-ctx1.fillText("11",400,390);
-ctx1.fillText("27",500,390);
-ctx1.fillText("48",600,390);
+ctx1.fillText(engs1[n1%12],0,390);
+ctx1.fillText(engs1[n4%12],100,390);
+ctx1.fillText(ji[n1-60],200,390);
+ctx1.fillText(ji[n4-60],300,390);
+ctx1.fillText(GCD14,400,390);
+ctx1.fillText(ji[n1-60]/GCD14,500,390);
+ctx1.fillText(ji[n4-60]/GCD14,600,390);
 
-ctx1.fillText("F",0,420);
-ctx1.fillText("A",100,420);
-ctx1.fillText("352",200,420);
-ctx1.fillText("440",300,420);
-ctx1.fillText("88",400,420);
-ctx1.fillText("4",500,420);
-ctx1.fillText("5",600,420);
+ctx1.fillText(engs1[n2%12],0,420);
+ctx1.fillText(engs1[n3%12],100,420);
+ctx1.fillText(ji[n2-60],200,420);
+ctx1.fillText(ji[n3-60],300,420);
+ctx1.fillText(GCD23,400,420);
+ctx1.fillText(ji[n2-60]/GCD23,500,420);
+ctx1.fillText(ji[n3-60]/GCD23,600,420);
 
-ctx1.fillText("F",0,450);
-ctx1.fillText("C",100,450);
-ctx1.fillText("352",200,450);
-ctx1.fillText("528",300,450);
-ctx1.fillText("176",400,450);
-ctx1.fillText("2",500,450);
-ctx1.fillText("3",600,450);
+ctx1.fillText(engs1[n2%12],0,450);
+ctx1.fillText(engs1[n4%12],100,450);
+ctx1.fillText(ji[n2-60],200,450);
+ctx1.fillText(ji[n4-60],300,450);
+ctx1.fillText(GCD24,400,450);
+ctx1.fillText(ji[n2-60]/GCD24,500,450);
+ctx1.fillText(ji[n4-60]/GCD24,600,450);
 
-ctx1.fillText("A",0,480);
-ctx1.fillText("C",100,480);
-ctx1.fillText("440",200,480);
-ctx1.fillText("528",300,480);
-ctx1.fillText("88",400,480);
-ctx1.fillText("5",500,480);
-ctx1.fillText("6",600,480);
+ctx1.fillText(engs1[n3%12],0,480);
+ctx1.fillText(engs1[n4%12],100,480);
+ctx1.fillText(ji[n3-60],200,480);
+ctx1.fillText(ji[n4-60],300,480);
+ctx1.fillText(GCD34,400,480);
+ctx1.fillText(ji[n3-60]/GCD34,500,480);
+ctx1.fillText(ji[n4-60]/GCD34,600,480);
 
 let x=1000;
 let y=300;
 let r=5;
-//ctx1.clearRect(0,0,1300,600);
+
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
@@ -3423,42 +3450,42 @@ ctx1.beginPath();
 ctx1.arc(x,y,40*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n4%12];
 ctx1.stroke();
-for(let m=0;m<=27;m++){
+for(let m=0;m<=ji1A;m++){
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/27))*10*r,y-Math.cos(Math.PI*(2*m/27))*10*r,r,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/ji1A))*10*r,y-Math.cos(Math.PI*(2*m/ji1A))*10*r,r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
 }
-for(let m=0;m<=32;m++){
+for(let m=0;m<=ji2A;m++){
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/32))*20*r,y-Math.cos(Math.PI*(2*m/32))*20*r,2*r,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/ji2A))*20*r,y-Math.cos(Math.PI*(2*m/ji2A))*20*r,2*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n2%12];
 ctx1.stroke();
 }
-for(let m=0;m<=40;m++){
+for(let m=0;m<=ji3A;m++){
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/40))*30*r,y-Math.cos(Math.PI*(2*m/40))*30*r,2.3*r,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/ji3A))*30*r,y-Math.cos(Math.PI*(2*m/ji3A))*30*r,2.3*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n3%12];
 ctx1.stroke();
 }
-for(let m=0;m<=48;m++){
+for(let m=0;m<=ji4A;m++){
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/48))*40*r,y-Math.cos(Math.PI*(2*m/48))*40*r,2.4*r,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/ji4A))*40*r,y-Math.cos(Math.PI*(2*m/ji4A))*40*r,2.4*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n4%12];
 ctx1.stroke();
 }
-for(let m=0;m<1;m++){
+for(let m=0;m<GCD12A;m++){
 ctx1.beginPath();
-ctx1.moveTo(x+Math.sin(Math.PI*(2*m/1))*10*r,y-Math.cos(Math.PI*(2*m/1))*10*r);
-ctx1.lineTo(x+Math.sin(Math.PI*(2*m/1))*20*r,y-Math.cos(Math.PI*(2*m/1))*20*r);
+ctx1.moveTo(x+Math.sin(Math.PI*(2*m/GCD12A))*10*r,y-Math.cos(Math.PI*(2*m/GCD12A))*10*r);
+ctx1.lineTo(x+Math.sin(Math.PI*(2*m/GCD12A))*20*r,y-Math.cos(Math.PI*(2*m/GCD12A))*20*r);
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/1))*10*r,y-Math.cos(Math.PI*(2*m/1))*10*r,r,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/GCD12A))*10*r,y-Math.cos(Math.PI*(2*m/GCD12A))*10*r,r,0,2*Math.PI,false);
 ctx1.fillStyle=col[n1%12];
 ctx1.fill();
 ctx1.beginPath();
-ctx1.arc(x+Math.sin(Math.PI*(2*m/1))*20*r,y-Math.cos(Math.PI*(2*m/1))*20*r,2*r,0,2*Math.PI,false);
+ctx1.arc(x+Math.sin(Math.PI*(2*m/GCD12A))*20*r,y-Math.cos(Math.PI*(2*m/GCD12A))*20*r,2*r,0,2*Math.PI,false);
 ctx1.fillStyle=col[n2%12];
 ctx1.fill();
 }
@@ -3537,6 +3564,7 @@ ctx1.arc(x+Math.sin(Math.PI*(2*m/8))*40*r,y-Math.cos(Math.PI*(2*m/8))*40*r,2.4*r
 ctx1.fillStyle=col[n4%12];
 ctx1.fill();
 }
+if(document.form1.sv2.value==1){
 m+=1;
 ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/180))*10*r,y-Math.cos(Math.PI*(2*m/180))*10*r,r,0,2*Math.PI,false);
@@ -3554,20 +3582,21 @@ ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/180))*40*r,y-Math.cos(Math.PI*(2*m/180))*40*r,2.4*r,0,2*Math.PI,false);
 ctx1.fillStyle=col[n4%12];
 ctx1.fill();
+}
 timerID=requestAnimationFrame(anim111);
 }
 
-function anim110(){
+function anim110(a,b,c,d){
+document.form1.n_1.value=a;
+document.form1.n_2.value=b;
+document.form1.n_3.value=c;
+document.form1.n_4.value=d;
+document.form1.n_5.value="";
 let n1=document.form1.n_1.value;
 let n2=document.form1.n_2.value;
 let n3=document.form1.n_3.value;
 let n4=document.form1.n_4.value;
 let n5=document.form1.n_5.value;
-document.form1.n_1.value=62;
-document.form1.n_2.value=65;
-document.form1.n_3.value=69;
-document.form1.n_4.value=72;
-document.form1.n_5.value="";
 just1();
 timerID=requestAnimationFrame(anim111);
 }
@@ -3995,10 +4024,10 @@ stop1();
 anim9();
 }else if(document.form1.sv1.options[11].selected==true){
 stop1();
-anim10();
+anim10(62,65,69);
 }else if(document.form1.sv1.options[12].selected==true){
 stop1();
-anim110();
+anim110(62,65,69,72);
 }else if(document.form1.sv1.options[13].selected==true){
 stop1();
 anim120();
