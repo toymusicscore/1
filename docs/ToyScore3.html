@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore3 1.23
+ToyScore3 1.24
 </title>
 </head>
 <body style="font-size:160%" >
@@ -329,6 +329,24 @@ ctx2.fillStyle="black";
 ctx2.fillText(engs1[k%12],60+50*k,60);
 ctx2.fillText(60+k,60+50*k,90);
 ctx2.fillText(Math.round(ji[k]),60+50*k,120);
+
+if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+ctx2.fillStyle="lightgrey";
+ctx2.fillRect(60+50*k,130,50,1300);
+}else if (k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(60+50*k,0);
+ctx2.lineTo(60+50*k,1300);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+}else if (k%12===5){
+ctx2.beginPath();
+ctx2.moveTo(60+50*k,0);
+ctx2.lineTo(60+50*k,1300);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+}
+
 for(let l=0;l<=120;l++){
 if(k===0){
 ctx2.fillText(l,0,150+10000/ji[k]*l);	
