@@ -17,30 +17,28 @@ ToyScore3 1.23
 <input type="tel"    name="n_4" value="" size="2" onChange="selview1()" style="font-size:100%" >
 <input type="tel"    name="n_5" value="" size="2" onChange="selview1()" style="font-size:100%" >
 <select name="sv1" onChange="selview1()" style="font-size:100%">
-<option value="0" style="font-size:100%" selected="selected"> Chord3 </option>
-<option value="1" style="font-size:100%"> Chord4 </option>
-<option value="2" style="font-size:100%"> Chord5 </option>
-<option value="3" style="font-size:100%"> C  CEG </option>
-<option value="4" style="font-size:100%"> C7 CEGB</option>
-<option value="5" style="font-size:100%"> C9 CEGBD</option>
-<option value="6" style="font-size:100%"> Dm DFA </option>
-<option value="7" style="font-size:100%"> Dm7 DFAC</option>
-<option value="8" style="font-size:100%"> Dm9 DFACE</option>
-<option value="9" style="font-size:100%"> Em  EGB </option>
-<option value="10" style="font-size:100%"> Em7 EGBD</option>
-<option value="11" style="font-size:100%"> Em9 EGBDF</option>
-<option value="12" style="font-size:100%"> F FAC </option>
-<option value="13" style="font-size:100%"> F7 FACE</option>
-<option value="14" style="font-size:100%"> F9 FACEG</option>
-<option value="15" style="font-size:100%"> G GBD </option>
-<option value="16" style="font-size:100%"> G7 GBDF</option>
-<option value="17" style="font-size:100%"> G9 GBDFA</option>
-<option value="18" style="font-size:100%"> Am  ACE </option>
-<option value="19" style="font-size:100%"> Am7 ACEG</option>
-<option value="20" style="font-size:100%"> Am9 ACEGB</option>
-<option value="21" style="font-size:100%"> Bmb5 BDF </option>
-<option value="22" style="font-size:100%"> Bm7b5 BDFA</option>
-<option value="23" style="font-size:100%"> Bm9b5 BDFAC</option>
+<option value="0" style="font-size:100%" selected="selected"> Free </option>
+<option value="1" style="font-size:100%"> C  CEG </option>
+<option value="2" style="font-size:100%"> C7 CEGB</option>
+<option value="3" style="font-size:100%"> C9 CEGBD</option>
+<option value="4" style="font-size:100%"> Dm DFA </option>
+<option value="5" style="font-size:100%"> Dm7 DFAC</option>
+<option value="6" style="font-size:100%"> Dm9 DFACE</option>
+<option value="7" style="font-size:100%"> Em  EGB </option>
+<option value="8" style="font-size:100%"> Em7 EGBD</option>
+<option value="9" style="font-size:100%"> Em9 EGBDF</option>
+<option value="10" style="font-size:100%"> F FAC </option>
+<option value="11" style="font-size:100%"> F7 FACE</option>
+<option value="12" style="font-size:100%"> F9 FACEG</option>
+<option value="13" style="font-size:100%"> G GBD </option>
+<option value="14" style="font-size:100%"> G7 GBDF</option>
+<option value="15" style="font-size:100%"> G9 GBDFA</option>
+<option value="16" style="font-size:100%"> Am  ACE </option>
+<option value="17" style="font-size:100%"> Am7 ACEG</option>
+<option value="18" style="font-size:100%"> Am9 ACEGB</option>
+<option value="19" style="font-size:100%"> Bmb5 BDF </option>
+<option value="20" style="font-size:100%"> Bm7b5 BDFA</option>
+<option value="21" style="font-size:100%"> Bm9b5 BDFAC</option>
 </select>
 <select name="sv2" style="font-size:100%">
 <option value="0" style="font-size:100%"> No Action </option>
@@ -512,28 +510,20 @@ ctx2.stroke();
 
 }
 
-function chord3(){
-let n1=document.form1.n_1.value;
-let n2=document.form1.n_2.value;
-let n3=document.form1.n_3.value;
-	circle3(n1,n2,n3);
-}
 
-function chord4(){
-let n1=document.form1.n_1.value;
-let n2=document.form1.n_2.value;
-let n3=document.form1.n_3.value;
-let n4=document.form1.n_4.value;
-	circle4(n1,n2,n3,n4);
-}
-
-function chord5(){
+function free1(){
 let n1=document.form1.n_1.value;
 let n2=document.form1.n_2.value;
 let n3=document.form1.n_3.value;
 let n4=document.form1.n_4.value;
 let n5=document.form1.n_5.value;
+if(n4==""){
+	circle3(n1,n2,n3);
+}else if(n5==""){
+	circle4(n1,n2,n3,n4);
+}else{
 	circle5(n1,n2,n3,n4,n5);
+}
 }
 
 
@@ -1475,74 +1465,68 @@ timerID=requestAnimationFrame(circle51);
 function selview1(){
 if(document.form1.sv1.options[0].selected==true){
 stop1();
-chord3();
+free1();
 }else if(document.form1.sv1.options[1].selected==true){
 stop1();
-chord4();
+circle3(60,64,67);
 }else if(document.form1.sv1.options[2].selected==true){
 stop1();
-chord5();
+circle4(60,64,67,71);
 }else if(document.form1.sv1.options[3].selected==true){
 stop1();
-circle3(60,64,67);
+circle5(60,64,67,71,74);
 }else if(document.form1.sv1.options[4].selected==true){
 stop1();
-circle4(60,64,67,71);
+circle3(62,65,69);
 }else if(document.form1.sv1.options[5].selected==true){
 stop1();
-circle5(60,64,67,71,74);
+circle4(62,65,69,72);
 }else if(document.form1.sv1.options[6].selected==true){
 stop1();
-circle3(62,65,69);
+circle5(62,65,69,72,76);
 }else if(document.form1.sv1.options[7].selected==true){
 stop1();
-circle4(62,65,69,72);
+circle3(64,67,71);
 }else if(document.form1.sv1.options[8].selected==true){
 stop1();
-circle5(62,65,69,72,76);
+circle4(64,67,71,74);
 }else if(document.form1.sv1.options[9].selected==true){
 stop1();
-circle3(64,67,71);
+circle5(64,67,71,74,77);
 }else if(document.form1.sv1.options[10].selected==true){
 stop1();
-circle4(64,67,71,74);
+circle3(65,69,72);
 }else if(document.form1.sv1.options[11].selected==true){
 stop1();
-circle5(64,67,71,74,77);
+circle4(65,69,72,76);
 }else if(document.form1.sv1.options[12].selected==true){
 stop1();
-circle3(65,69,72);
+circle5(65,69,72,76,79);
 }else if(document.form1.sv1.options[13].selected==true){
 stop1();
-circle4(65,69,72,76);
+circle3(67,71,74);
 }else if(document.form1.sv1.options[14].selected==true){
 stop1();
-circle5(65,69,72,76,79);
+circle4(67,71,74,77);
 }else if(document.form1.sv1.options[15].selected==true){
 stop1();
-circle3(67,71,74);
+circle5(67,71,74,77,81);
 }else if(document.form1.sv1.options[16].selected==true){
 stop1();
-circle4(67,71,74,77);
+circle3(69,72,76);
 }else if(document.form1.sv1.options[17].selected==true){
 stop1();
-circle5(67,71,74,77,81);
+circle4(69,72,76,79);
 }else if(document.form1.sv1.options[18].selected==true){
 stop1();
-circle3(69,72,76);
+circle5(69,72,76,79,83);
 }else if(document.form1.sv1.options[19].selected==true){
 stop1();
-circle4(69,72,76,79);
+circle3(71,74,77);
 }else if(document.form1.sv1.options[20].selected==true){
 stop1();
-circle5(69,72,76,79,83);
-}else if(document.form1.sv1.options[21].selected==true){
-stop1();
-circle3(71,74,77);
-}else if(document.form1.sv1.options[22].selected==true){
-stop1();
 circle4(71,74,77,81);
-}else if(document.form1.sv1.options[23].selected==true){
+}else if(document.form1.sv1.options[21].selected==true){
 stop1();
 circle5(71,74,77,81,84);
 }
