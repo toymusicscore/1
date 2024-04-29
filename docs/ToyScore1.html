@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 12.6
+ToyScore1 13.０
 </title>
 </head>
 <body style="font-size:160%" >
@@ -17,15 +17,6 @@ T <span id="pt"></span>
 P <span id="prgrs"></span>
 <input type="button" name="b_~>" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
-<input type="button" name="25A" value="25" onClick="octave25A()" style="font-size:100%" >
-<input type="button" name="37A" value="37" onClick="octave37A()" style="font-size:100%" >
-<input type="button" name="49A" value="49" onClick="octave49A()" style="font-size:100%" >
-<input type="button" name="61A" value="61" onClick="octave61A()" style="font-size:100%" >
-<input type="button" name="OrgA" value="Org" onClick="octaveOrgA()" style="font-size:100%" >
-<input type="tel"    name="n_low" value="" size="2" style="font-size:100%" >
-<input type="tel"    name="n_high" value="" size="2" style="font-size:100%" >
-<input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
-<br>
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%"> Amazing_Grace </option>
 <option value="Annie_Laurie" style="font-size:100%"> Annie_Laurie </option>
@@ -47,36 +38,10 @@ P <span id="prgrs"></span>
 <option value="IMSLP190005-WIMA.5f40-Bach_Aria_Suite_n3_organversion" style="font-size:100%"> IMSLP190005-WIMA.5f40-Bach_Aria_Suite_n3_organversion </option>
 </select>
 </font>
-<br>
-<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
-<input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
-<input type="button" name="b_-|>" value="SilentBPM" onClick="silent1()" style="font-size:100%" >
-<input type="button" name="b_~|>" value="SilentOrigin" onClick="silent2()" style="font-size:100%" >
-<input type="range"  name="r_hgh" value="5" min="1" max="20" step="1" onChange="height1()">
-<input type="tel"    name="x_hgh" value="5" size="2" style="font-size:100%" >
-<input type="button" name="b_<->" value="<->" onClick="height2()" style="font-size:100%" >
-<input type="button" name="b_?" value="?" onClick="information1()" style="font-size:100%" >
-<br>
 <input type="button" name="b_|<" value="|<" onClick="top1()" style="font-size:100%" >
 <input type="button" name="b_<<" value="<<" onClick="reverses()" style="font-size:100%" >
-<input type="button" name="b_<" value="<" onClick="reverse1()" style="font-size:100%" >
-<input type="button" name="b_>" value=">" onClick="forward1()" style="font-size:100%" >
 <input type="button" name="b_>>" value=">>" onClick="forwards()" style="font-size:100%" >
 <input type="button" name="b_>|" value=">|" onClick="end1()" style="font-size:100%" >
-<input type="range"  name="r_msr" value="0" min="0" max="99" step="1" onChange="measure2()" style="font-size:100%" >
-<input type="tel"    name="x_msr" value="0" size="3" style="font-size:100%" >
-<input type="button" name="b_|" value="|" onClick="measure1()" style="font-size:100%" >
-<input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
-<input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
-<input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
-<br>
-<input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
-<input type="button" name="b_+" value="+" onClick="transpose1()" style="font-size:100%" >
-<input type="tel"    name="x_ch" value="" size="1" style="font-size:100%" >
-<input type="button" name="b_ch" value="Ch" onClick="channel1()" style="font-size:100%" >
-<input type="tel"    name="x_rl" value="" size="2" style="font-size:100%" >
-<input type="button" name="b_rl" value="] [" onClick="rightleft1()" style="font-size:100%" >
-
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> No Letters </option>
 <option value="1" style="font-size:100%"> DoReMi_# </option>
@@ -99,9 +64,9 @@ P <span id="prgrs"></span>
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> Scroll M </option>
-<option value="1" style="font-size:100%" selected="selected"> Scroll L </option>
+<option value="1" style="font-size:100%"> Scroll L </option>
 <option value="2" style="font-size:100%"> Still M </option>
-<option value="3" style="font-size:100%"> Still L </option>
+<option value="3" style="font-size:100%" selected="selected"> Still L </option>
 <option value="4" style="font-size:100%"> Color Sample </option>
 <option value="5" style="font-size:100%"> Touch Sound </option>
 <option value="6" style="font-size:100%"> Channel Colors </option>
@@ -116,7 +81,7 @@ P <span id="prgrs"></span>
 </select>
 </form>
 <div id="target">
-<canvas id="cv2" width="1200" height="1300">
+<canvas id="cv2" width="2400" height="600">
 </canvas>
 </font>
 </div>
