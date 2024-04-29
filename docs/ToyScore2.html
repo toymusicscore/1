@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 11.5
+ToyScore2 12.0
 </title>
 </head>
 <body style="font-size:160%" >
@@ -11,6 +11,10 @@ ToyScore2 11.5
 <font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
 <br>
 <form name="form1" >
+	MID<input type="file" id="selfile1" style="font-size:100%">
+	TXT<input type="file" id="selfile2" style="font-size:100%">
+</font>
+<br>
 <span id="ts"></span>
 C <span id="channels"></span>
 T <span id="pt"></span>
@@ -25,21 +29,14 @@ P <span id="prgrs"></span>
 <input type="tel"    name="n_low" value="" size="2" style="font-size:100%" >
 <input type="tel"    name="n_high" value="" size="2" style="font-size:100%" >
 <input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
-<br>
-MID<input type="file" id="selfile1" style="font-size:100%">
-<br>
-TXT<input type="file" id="selfile2" style="font-size:100%">
-</font>
-<br>
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
 <input type="tel"    name="x_bpm" value="" size="2" style="font-size:100%" >
 <input type="button" name="b_-|>" value="SilentBPM" onClick="silent1()" style="font-size:100%" >
 <input type="button" name="b_~|>" value="SilentOrigin" onClick="silent2()" style="font-size:100%" >
-<input type="range"  name="r_hgh" value="5" min="1" max="20" step="1" onChange="height1()">
+<input type="range"  name="r_hgh" value="5" min="2" max="10" step="1" onChange="height1()">
 <input type="tel"    name="x_hgh" value="5" size="2" style="font-size:100%" >
 <input type="button" name="b_<->" value="<->" onClick="height2()" style="font-size:100%" >
 <input type="button" name="b_?" value="?" onClick="information1()" style="font-size:100%" >
-<br>
 <input type="button" name="b_|<" value="|<" onClick="top1()" style="font-size:100%" >
 <input type="button" name="b_<<" value="<<" onClick="reverses()" style="font-size:100%" >
 <input type="button" name="b_<" value="<" onClick="reverse1()" style="font-size:100%" >
@@ -52,7 +49,6 @@ TXT<input type="file" id="selfile2" style="font-size:100%">
 <input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
 <input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
 <input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
-<br>
 <input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
 <input type="button" name="b_+" value="+" onClick="transpose1()" style="font-size:100%" >
 <input type="tel"    name="x_ch" value="" size="1" style="font-size:100%" >
@@ -83,8 +79,8 @@ TXT<input type="file" id="selfile2" style="font-size:100%">
 </select>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> Scroll M </option>
-<option value="1" style="font-size:100%" selected="selected"> Scroll L </option>
-<option value="2" style="font-size:100%"> Still M </option>
+<option value="1" style="font-size:100%"> Scroll L </option>
+<option value="2" style="font-size:100%" selected="selected"> Still M </option>
 <option value="3" style="font-size:100%"> Still L </option>
 <option value="4" style="font-size:100%"> Color Sample </option>
 <option value="5" style="font-size:100%"> Touch Sound </option>
@@ -590,17 +586,17 @@ ctx2.lineWidth=1;
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(50+(l+1)*kw,30,kw,35);
+ctx2.fillRect(50+(l+1)*kw,0,kw,20);
 ctx2.fillStyle=col[k%12];
-ctx2.fillRect(50+(l+1)*kw,65,kw,35);
+ctx2.fillRect(50+(l+1)*kw,20,kw,20);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
-ctx2.fillRect(50+(l+1)*kw,100,kw,1300);
+ctx2.fillRect(50+(l+1)*kw,40,kw,660);
 }else if (k%12===0){
 ctx2.beginPath();
 ctx2.moveTo(50+(l+1)*kw,0);
-ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.lineTo(50+(l+1)*kw,700);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
@@ -609,7 +605,7 @@ ctx2.font="25px Arial";
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(50+(l+1)*kw,0);
-ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.lineTo(50+(l+1)*kw,700);
 ctx2.strokeStyle="red";
 ctx2.stroke();
 }
@@ -619,22 +615,22 @@ for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 let vmn0=m/ppq/bttl*ntvl/4;
 ctx2.beginPath();
-ctx2.moveTo(0,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(1000,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.moveTo(0,40+(m-j)*600/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,40+(m-j)*600/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="red";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
  if(start0==0){
- ctx2.fillText(vmn0+1,0,125+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ ctx2.fillText(vmn0+1,0,80+(m-j)*600/(ht1*bttl*ppq/ntvl*4));
  }else{
- ctx2.fillText(vmn0,0,125+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ ctx2.fillText(vmn0,0,80+(m-j)*600/(ht1*bttl*ppq/ntvl*4));
  }
 
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 ctx2.beginPath();
-ctx2.moveTo(0,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(1000,100+(m-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.moveTo(50+kw,40+(m-j)*600/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,40+(m-j)*600/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="green";
 ctx2.stroke();
 }
@@ -645,9 +641,9 @@ let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
 if(100+stop>=j && start<=j+ht1*ppq*bttl){
 ctx2.fillStyle=col[midi%12];
-ctx2.fillRect((midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillRect((midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4),kw,gt*600/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
-ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+ctx2.arc((midi-midi_min+1)*kw+kw/2+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
 ctx2.fill();
 }//if
@@ -658,54 +654,54 @@ let [midi, start, stop, channel, n_id]=r1[i];
 if(100+stop>=j && start<=j+ht1*ppq*bttl){
 ctx2.fillStyle="black";
 if (document.form1.nl1.options[0].selected==true){
-ctx2.fillText("",(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText("",(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[1].selected==true){
-ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[2].selected==true){
-ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[3].selected==true){
-ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[4].selected==true){
-ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[5].selected==true){
-ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[6].selected==true){
-ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[7].selected==true){
-ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(midi,(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
-ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv finger numbers
 }else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv memos
 }else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics1
 }else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics2
 }else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics3
 }else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics4
 }else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics5
 }else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations left
 if (tsv3[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv3[n_id-tsvst0+1], 40,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv3[n_id-tsvst0+1], 40,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations right
 if (tsv4[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv4[n_id-tsvst0+1], 1050,100+(start-j)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv4[n_id-tsvst0+1], 1050,40+(start-j)*600/(ht1*bttl*ppq/ntvl*4));
 }
 
 }//if(100+stop>j..)
@@ -718,7 +714,7 @@ trnn0=lyricr1[n][0];
 trtk0=lyricr1[n][1];
 lyrict0=lyricr1[n][3];
 ctx2.fillStyle="black";
-ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+(trtk0-j)*1100/ht1/ppq/bttl*ntvl/4);
+ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,40+(trtk0-j)*600/ht1/ppq/bttl*ntvl/4);
 }//for(n=0..)
 }
 
@@ -880,26 +876,25 @@ ctx2.lineWidth=1;
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(50+(l+1)*kw,30,kw,35);
+ctx2.fillRect(50+(l+1)*kw,0,kw,20);
 ctx2.fillStyle=col[k%12];
-ctx2.fillRect(50+(l+1)*kw,65,kw,35);
+ctx2.fillRect(50+(l+1)*kw,20,kw,20);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
-ctx2.fillRect(50+(l+1)*kw,100,kw,1300);
+ctx2.fillRect(50+(l+1)*kw,40,kw,660);
 }else if (k%12===0){
 ctx2.beginPath();
 ctx2.moveTo(50+(l+1)*kw,0);
-ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.lineTo(50+(l+1)*kw,700);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-//ctx2.fillText(k,50+(l+1)*kw,25);
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(50+(l+1)*kw,0);
-ctx2.lineTo(50+(l+1)*kw,1300);
+ctx2.lineTo(50+(l+1)*kw,700);
 ctx2.strokeStyle="red";
 ctx2.stroke();
 }
@@ -908,11 +903,11 @@ ctx2.stroke();
 
 ctx2.beginPath();
 ctx2.fillStyle="lightyellow";
-ctx2.fillRect(0,70+j%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),1200,30);
+ctx2.fillRect(50+kw,10+j%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4),950-kw,30);
 
 ctx2.beginPath();
-ctx2.moveTo(0,1200);
-ctx2.lineTo(1000,1200);
+ctx2.moveTo(0,640);
+ctx2.lineTo(1000,640);
 ctx2.strokeStyle="red";
 ctx2.stroke();
 
@@ -920,22 +915,22 @@ for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 if(m%(bttl*ppq/ntvl*4)===0 && m>j-bttl*ppq/ntvl*4 && m<=(j+(ht1-1)*bttl*ppq/ntvl*4)){
 let vmn0=m/(bttl*ppq/ntvl*4);
 ctx2.beginPath();
-ctx2.moveTo(0,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(1000,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.moveTo(0,40+m%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,40+m%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="red";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
  if(start0==0){
- ctx2.fillText(vmn0+1,0,125+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ ctx2.fillText(vmn0+1,0,80+m%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
  }else{
- ctx2.fillText(vmn0,0,125+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ ctx2.fillText(vmn0,0,80+m%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
  }
 
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+(ht1-1)*bttl*ppq/ntvl*4)){
 ctx2.beginPath();
-ctx2.moveTo(0,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(1000,100+m%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.moveTo(50+kw,40+m%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1000,40+m%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="green";
 ctx2.stroke();
 }
@@ -947,9 +942,9 @@ let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
 if(stop>j && stop<j+(ht1-1)*bttl*ppq/ntvl*4){
 ctx2.fillStyle=col[midi%12];
-ctx2.fillRect((midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillRect((midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4),kw,gt*600/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
-ctx2.arc((midi-midi_min+1)*kw+kw/2+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+ctx2.arc((midi-midi_min+1)*kw+kw/2+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
 ctx2.fill();
 }//if
@@ -961,54 +956,54 @@ if(stop>j && stop<j+(ht1-1)*bttl*ppq/ntvl*4){
 ctx2.fillStyle="black";
 
 if (document.form1.nl1.options[0].selected==true){
-ctx2.fillText("",(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText("",(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[1].selected==true){
-ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(drms1[midi%12],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[2].selected==true){
-ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(drmf1[midi%12],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[3].selected==true){
-ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(engs1[midi%12],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[4].selected==true){
-ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(engf1[midi%12],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[5].selected==true){
-ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(gers1[midi%12],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[6].selected==true){
-ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(gerf1[midi%12],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[7].selected==true){
-ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText((midi%12).toString(12),(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(midi,(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
-ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(n_id,(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv finger number
 }else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv memos
 }else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics1
 }else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics2
 }else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics3
 }else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics4
 }else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 //tsv Lyrics5
 }else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+50,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations left
 if (tsv3[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv3[n_id-tsvst0+1], 40,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv3[n_id-tsvst0+1], 40,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations right
 if (tsv4[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv4[n_id-tsvst0+1], 1050,100+start%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv4[n_id-tsvst0+1], 1050,40+start%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }
 
 
@@ -1022,7 +1017,7 @@ trnn0=lyricr1[n][0];
 trtk0=lyricr1[n][1];
 lyrict0=lyricr1[n][3];
 ctx2.fillStyle="black";
-ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,100+trtk0%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,40+trtk0%(ht1*bttl*ppq/ntvl*4)*600/(ht1*bttl*ppq/ntvl*4));
 }//for(n=0..)
 }
 
@@ -1066,7 +1061,7 @@ ctx2.stroke();
 
 ctx2.beginPath();
 ctx2.fillStyle="lightyellow";
-ctx2.fillRect(0,70+j%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),1200,30);
+ctx2.fillRect(50+kw,70+j%(ht1*bttl*ppq/ntvl*4)*1100/(ht1*bttl*ppq/ntvl*4),950-kw,30);
 
 ctx2.beginPath();
 ctx2.moveTo(0,1200);
