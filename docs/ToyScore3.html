@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore3 1.38
+ToyScore3 1.39
 </title>
 </head>
 <body style="font-size:160%" >
@@ -63,8 +63,8 @@ ToyScore3 1.38
 <option value="1" style="font-size:100%" selected="selected"> Show Circles </option>
 </select>
 <select name="sv4" style="font-size:100%">
-<option value="0" style="font-size:100%"> Hide Unmatch Points</option>
-<option value="1" style="font-size:100%" selected="selected"> Show Unmatch Points</option>
+<option value="0" style="font-size:100%"> Hide Mismatch</option>
+<option value="1" style="font-size:100%" selected="selected"> Show Mismatch</option>
 </select>
 <input type="button" name="bk" value="Back" onClick="back1()" style="font-size:100%" >
 </font>
@@ -96,11 +96,11 @@ let m62=m60*9/8;
 let m63=m60*6/5;
 let m64=m60*5/4;
 let m65=m60*4/3;
-let m66=m60*11/8;
+let m66=m60*45/32;
 let m67=m60*3/2;
 let m68=m60*8/5;
 let m69=440;
-let m70=m60*7/4;
+let m70=m60*9/5;
 let m71=m60*15/8;
 let m72=m60*2;
 let m73=m61*2;
@@ -402,7 +402,7 @@ ctx1.fillText("",500,60);
 ctx1.fillText("",600,60);
 ctx1.fillText("",700,60);
 
-ctx1.fillText("Frequency of note",0,90);
+ctx1.fillText("Frequency",0,90);
 ctx1.fillText(ji[n1-60],300,90);
 ctx1.fillText("",400,90);
 ctx1.fillText("",500,90);
@@ -416,23 +416,20 @@ ctx1.fillText("",500,120);
 ctx1.fillText("",600,120);
 ctx1.fillText("",700,120);
 
-ctx1.fillText("Wave number in chord",0,150);
+ctx1.fillText("Quotient",0,150);
 ctx1.fillText(ji1A,300,150);
 ctx1.fillText("",400,150);
 ctx1.fillText("",500,150);
 ctx1.fillText("",600,150);
 ctx1.fillText("",700,150);
 
-ctx1.fillText("Cycle of a wave is the inverse of the frequency.",0,210);
-ctx1.fillText("Cycles of waves meet in each cycle of chord.",0,240);
-
-ctx1.fillText("Note1",0,300);
-ctx1.fillText("Note2",100,300);
-ctx1.fillText("Freq1",200,300);
-ctx1.fillText("Freq2",300,300);
-ctx1.fillText("GCD",400,300);
-ctx1.fillText("Num1",500,300);
-ctx1.fillText("Num2 ",600,300);
+ctx1.fillText("Note1",0,240);
+ctx1.fillText("Note2",100,240);
+ctx1.fillText("Freq1",200,240);
+ctx1.fillText("Freq2",300,240);
+ctx1.fillText("GCD",400,240);
+ctx1.fillText("Quot1",500,240);
+ctx1.fillText("Quot2 ",600,240);
 
 let x=1000;
 let y=300;
@@ -473,6 +470,7 @@ let n2=document.form1.n_2.value;
 let n3=document.form1.n_3.value;
 let n4=document.form1.n_4.value;
 let n5=document.form1.n_5.value;
+
 just1();
 timerID=requestAnimationFrame(circle11);
 }
@@ -508,7 +506,7 @@ ctx1.fillText("",500,60);
 ctx1.fillText("",600,60);
 ctx1.fillText("",700,60);
 
-ctx1.fillText("Frequency of note",0,90);
+ctx1.fillText("Frequency",0,90);
 ctx1.fillText(ji[n1-60],300,90);
 ctx1.fillText(ji[n2-60],400,90);
 ctx1.fillText("",500,90);
@@ -522,31 +520,28 @@ ctx1.fillText("",500,120);
 ctx1.fillText("",600,120);
 ctx1.fillText("",700,120);
 
-ctx1.fillText("Wave number in chord",0,150);
+ctx1.fillText("Quotient",0,150);
 ctx1.fillText(ji1A,300,150);
 ctx1.fillText(ji2A,400,150);
 ctx1.fillText("",500,150);
 ctx1.fillText("",600,150);
 ctx1.fillText("",700,150);
 
-ctx1.fillText("Cycle of a wave is the inverse of the frequency.",0,210);
-ctx1.fillText("Cycles of waves meet in each cycle of chord.",0,240);
+ctx1.fillText("Note1",0,240);
+ctx1.fillText("Note2",100,240);
+ctx1.fillText("Freq1",200,240);
+ctx1.fillText("Freq2",300,240);
+ctx1.fillText("GCD",400,240);
+ctx1.fillText("Quot1",500,240);
+ctx1.fillText("Quot2 ",600,240);
 
-ctx1.fillText("Note1",0,300);
-ctx1.fillText("Note2",100,300);
-ctx1.fillText("Freq1",200,300);
-ctx1.fillText("Freq2",300,300);
-ctx1.fillText("GCD",400,300);
-ctx1.fillText("Num1",500,300);
-ctx1.fillText("Num2 ",600,300);
-
-ctx1.fillText(engs1[n1%12],0,330);
-ctx1.fillText(engs1[n2%12],100,330);
-ctx1.fillText(ji[n1-60],200,330);
-ctx1.fillText(ji[n2-60],300,330);
-ctx1.fillText(GCD12,400,330);
-ctx1.fillText(ji[n1-60]/GCD12,500,330);
-ctx1.fillText(ji[n2-60]/GCD12,600,330);
+ctx1.fillText(engs1[n1%12],0,270);
+ctx1.fillText(engs1[n2%12],100,270);
+ctx1.fillText(ji[n1-60],200,270);
+ctx1.fillText(ji[n2-60],300,270);
+ctx1.fillText(GCD12,400,270);
+ctx1.fillText(ji[n1-60]/GCD12,500,270);
+ctx1.fillText(ji[n2-60]/GCD12,600,270);
 
 let x=1000;
 let y=300;
@@ -658,7 +653,7 @@ ctx1.fillText(engs1[n3%12],500,60);
 ctx1.fillText("",600,60);
 ctx1.fillText("",700,60);
 
-ctx1.fillText("Frequency of note",0,90);
+ctx1.fillText("Frequency",0,90);
 ctx1.fillText(ji[n1-60],300,90);
 ctx1.fillText(ji[n2-60],400,90);
 ctx1.fillText(ji[n3-60],500,90);
@@ -672,47 +667,44 @@ ctx1.fillText(GCD123,500,120);
 ctx1.fillText("",600,120);
 ctx1.fillText("",700,120);
 
-ctx1.fillText("Wave number in chord",0,150);
+ctx1.fillText("Quotient",0,150);
 ctx1.fillText(ji1A,300,150);
 ctx1.fillText(ji2A,400,150);
 ctx1.fillText(ji3A,500,150);
 ctx1.fillText("",600,150);
 ctx1.fillText("",700,150);
 
-ctx1.fillText("Cycle of a wave is the inverse of the frequency.",0,210);
-ctx1.fillText("Cycles of waves meet in each cycle of chord.",0,240);
+ctx1.fillText("Note1",0,240);
+ctx1.fillText("Note2",100,240);
+ctx1.fillText("Freq1",200,240);
+ctx1.fillText("Freq2",300,240);
+ctx1.fillText("GCD",400,240);
+ctx1.fillText("Quot1",500,240);
+ctx1.fillText("Quot2 ",600,240);
 
-ctx1.fillText("Note1",0,300);
-ctx1.fillText("Note2",100,300);
-ctx1.fillText("Freq1",200,300);
-ctx1.fillText("Freq2",300,300);
-ctx1.fillText("GCD",400,300);
-ctx1.fillText("Num1",500,300);
-ctx1.fillText("Num2 ",600,300);
+ctx1.fillText(engs1[n1%12],0,270);
+ctx1.fillText(engs1[n2%12],100,270);
+ctx1.fillText(ji[n1-60],200,270);
+ctx1.fillText(ji[n2-60],300,270);
+ctx1.fillText(GCD12,400,270);
+ctx1.fillText(ji[n1-60]/GCD12,500,270);
+ctx1.fillText(ji[n2-60]/GCD12,600,270);
 
-ctx1.fillText(engs1[n1%12],0,330);
-ctx1.fillText(engs1[n2%12],100,330);
-ctx1.fillText(ji[n1-60],200,330);
-ctx1.fillText(ji[n2-60],300,330);
-ctx1.fillText(GCD12,400,330);
-ctx1.fillText(ji[n1-60]/GCD12,500,330);
-ctx1.fillText(ji[n2-60]/GCD12,600,330);
+ctx1.fillText(engs1[n1%12],0,300);
+ctx1.fillText(engs1[n3%12],100,300);
+ctx1.fillText(ji[n1-60],200,300);
+ctx1.fillText(ji[n3-60],300,300);
+ctx1.fillText(GCD13,400,300);
+ctx1.fillText(ji[n1-60]/GCD13,500,300);
+ctx1.fillText(ji[n3-60]/GCD13,600,300);
 
-ctx1.fillText(engs1[n1%12],0,360);
-ctx1.fillText(engs1[n3%12],100,360);
-ctx1.fillText(ji[n1-60],200,360);
-ctx1.fillText(ji[n3-60],300,360);
-ctx1.fillText(GCD13,400,360);
-ctx1.fillText(ji[n1-60]/GCD13,500,360);
-ctx1.fillText(ji[n3-60]/GCD13,600,360);
-
-ctx1.fillText(engs1[n2%12],0,390);
-ctx1.fillText(engs1[n3%12],100,390);
-ctx1.fillText(ji[n2-60],200,390);
-ctx1.fillText(ji[n3-60],300,390);
-ctx1.fillText(GCD23,400,390);
-ctx1.fillText(ji[n2-60]/GCD23,500,390);
-ctx1.fillText(ji[n3-60]/GCD23,600,390);
+ctx1.fillText(engs1[n2%12],0,330);
+ctx1.fillText(engs1[n3%12],100,330);
+ctx1.fillText(ji[n2-60],200,330);
+ctx1.fillText(ji[n3-60],300,330);
+ctx1.fillText(GCD23,400,330);
+ctx1.fillText(ji[n2-60]/GCD23,500,330);
+ctx1.fillText(ji[n3-60]/GCD23,600,330);
 
 let x=1000;
 let y=300;
@@ -878,85 +870,82 @@ ctx1.fillText(engs1[n3%12],500,60);
 ctx1.fillText(engs1[n4%12],600,60);
 ctx1.fillText("",700,60);
 
-ctx1.fillText("Frequency of note",0,90);
+ctx1.fillText("Frequency",0,90);
 ctx1.fillText(ji[n1-60],300,90);
 ctx1.fillText(ji[n2-60],400,90);
 ctx1.fillText(ji[n3-60],500,90);
 ctx1.fillText(ji[n4-60],600,90);
 ctx1.fillText("",700,90);
 
-ctx1.fillText("Greatest common divisor",0,120);
+ctx1.fillText("Greatest Common Divisor",0,120);
 ctx1.fillText(GCD1234,300,120);
 ctx1.fillText(GCD1234,400,120);
 ctx1.fillText(GCD1234,500,120);
 ctx1.fillText(GCD1234,600,120);
 ctx1.fillText("",700,120);
 
-ctx1.fillText("Wave number in chord",0,150);
+ctx1.fillText("Quotient",0,150);
 ctx1.fillText(ji1A,300,150);
 ctx1.fillText(ji2A,400,150);
 ctx1.fillText(ji3A,500,150);
 ctx1.fillText(ji4A,600,150);
 ctx1.fillText("",700,150);
 
-ctx1.fillText("Cycle of a wave is the inverse of the frequency.",0,210);
-ctx1.fillText("Cycles of waves meet in each cycle of chord.",0,240);
+ctx1.fillText("Note1",0,240);
+ctx1.fillText("Note2",100,240);
+ctx1.fillText("Freq1",200,240);
+ctx1.fillText("Freq2",300,240);
+ctx1.fillText("GCD",400,240);
+ctx1.fillText("Quot1",500,240);
+ctx1.fillText("Quot2 ",600,240);
 
-ctx1.fillText("Note1",0,300);
-ctx1.fillText("Note2",100,300);
-ctx1.fillText("Freq1",200,300);
-ctx1.fillText("Freq2",300,300);
-ctx1.fillText("GCD",400,300);
-ctx1.fillText("Num1",500,300);
-ctx1.fillText("Num2 ",600,300);
+ctx1.fillText(engs1[n1%12],0,270);
+ctx1.fillText(engs1[n2%12],100,270);
+ctx1.fillText(ji[n1-60],200,270);
+ctx1.fillText(ji[n2-60],300,270);
+ctx1.fillText(GCD12,400,270);
+ctx1.fillText(ji[n1-60]/GCD12,500,270);
+ctx1.fillText(ji[n2-60]/GCD12,600,270);
+
+ctx1.fillText(engs1[n1%12],0,300);
+ctx1.fillText(engs1[n3%12],100,300);
+ctx1.fillText(ji[n1-60],200,300);
+ctx1.fillText(ji[n3-60],300,300);
+ctx1.fillText(GCD13,400,300);
+ctx1.fillText(ji[n1-60]/GCD13,500,300);
+ctx1.fillText(ji[n3-60]/GCD13,600,300);
 
 ctx1.fillText(engs1[n1%12],0,330);
-ctx1.fillText(engs1[n2%12],100,330);
+ctx1.fillText(engs1[n4%12],100,330);
 ctx1.fillText(ji[n1-60],200,330);
-ctx1.fillText(ji[n2-60],300,330);
-ctx1.fillText(GCD12,400,330);
-ctx1.fillText(ji[n1-60]/GCD12,500,330);
-ctx1.fillText(ji[n2-60]/GCD12,600,330);
+ctx1.fillText(ji[n4-60],300,330);
+ctx1.fillText(GCD14,400,330);
+ctx1.fillText(ji[n1-60]/GCD14,500,330);
+ctx1.fillText(ji[n4-60]/GCD14,600,330);
 
-ctx1.fillText(engs1[n1%12],0,360);
+ctx1.fillText(engs1[n2%12],0,360);
 ctx1.fillText(engs1[n3%12],100,360);
-ctx1.fillText(ji[n1-60],200,360);
+ctx1.fillText(ji[n2-60],200,360);
 ctx1.fillText(ji[n3-60],300,360);
-ctx1.fillText(GCD13,400,360);
-ctx1.fillText(ji[n1-60]/GCD13,500,360);
-ctx1.fillText(ji[n3-60]/GCD13,600,360);
+ctx1.fillText(GCD23,400,360);
+ctx1.fillText(ji[n2-60]/GCD23,500,360);
+ctx1.fillText(ji[n3-60]/GCD23,600,360);
 
-ctx1.fillText(engs1[n1%12],0,390);
+ctx1.fillText(engs1[n2%12],0,390);
 ctx1.fillText(engs1[n4%12],100,390);
-ctx1.fillText(ji[n1-60],200,390);
+ctx1.fillText(ji[n2-60],200,390);
 ctx1.fillText(ji[n4-60],300,390);
-ctx1.fillText(GCD14,400,390);
-ctx1.fillText(ji[n1-60]/GCD14,500,390);
-ctx1.fillText(ji[n4-60]/GCD14,600,390);
+ctx1.fillText(GCD24,400,390);
+ctx1.fillText(ji[n2-60]/GCD24,500,390);
+ctx1.fillText(ji[n4-60]/GCD24,600,390);
 
-ctx1.fillText(engs1[n2%12],0,420);
-ctx1.fillText(engs1[n3%12],100,420);
-ctx1.fillText(ji[n2-60],200,420);
-ctx1.fillText(ji[n3-60],300,420);
-ctx1.fillText(GCD23,400,420);
-ctx1.fillText(ji[n2-60]/GCD23,500,420);
-ctx1.fillText(ji[n3-60]/GCD23,600,420);
-
-ctx1.fillText(engs1[n2%12],0,450);
-ctx1.fillText(engs1[n4%12],100,450);
-ctx1.fillText(ji[n2-60],200,450);
-ctx1.fillText(ji[n4-60],300,450);
-ctx1.fillText(GCD24,400,450);
-ctx1.fillText(ji[n2-60]/GCD24,500,450);
-ctx1.fillText(ji[n4-60]/GCD24,600,450);
-
-ctx1.fillText(engs1[n3%12],0,480);
-ctx1.fillText(engs1[n4%12],100,480);
-ctx1.fillText(ji[n3-60],200,480);
-ctx1.fillText(ji[n4-60],300,480);
-ctx1.fillText(GCD34,400,480);
-ctx1.fillText(ji[n3-60]/GCD34,500,480);
-ctx1.fillText(ji[n4-60]/GCD34,600,480);
+ctx1.fillText(engs1[n3%12],0,420);
+ctx1.fillText(engs1[n4%12],100,420);
+ctx1.fillText(ji[n3-60],200,420);
+ctx1.fillText(ji[n4-60],300,420);
+ctx1.fillText(GCD34,400,420);
+ctx1.fillText(ji[n3-60]/GCD34,500,420);
+ctx1.fillText(ji[n4-60]/GCD34,600,420);
 
 let x=1000;
 let y=300;
@@ -1192,117 +1181,114 @@ ctx1.fillText(engs1[n3%12],500,60);
 ctx1.fillText(engs1[n4%12],600,60);
 ctx1.fillText(engs1[n5%12],700,60);
 
-ctx1.fillText("Frequency of note",0,90);
+ctx1.fillText("Frequency",0,90);
 ctx1.fillText(ji[n1-60],300,90);
 ctx1.fillText(ji[n2-60],400,90);
 ctx1.fillText(ji[n3-60],500,90);
 ctx1.fillText(ji[n4-60],600,90);
 ctx1.fillText(ji[n5-60],700,90);
 
-ctx1.fillText("Greatest common Divisor",0,120);
+ctx1.fillText("Greatest Common Divisor",0,120);
 ctx1.fillText(GCD12345,300,120);
 ctx1.fillText(GCD12345,400,120);
 ctx1.fillText(GCD12345,500,120);
 ctx1.fillText(GCD12345,600,120);
 ctx1.fillText(GCD12345,700,120);
 
-ctx1.fillText("Wave number in chord",0,150);
+ctx1.fillText("Quotient",0,150);
 ctx1.fillText(ji1A,300,150);
 ctx1.fillText(ji2A,400,150);
 ctx1.fillText(ji3A,500,150);
 ctx1.fillText(ji4A,600,150);
 ctx1.fillText(ji5A,700,150);
 
-ctx1.fillText("Cycle of a wave is the inverse of the frequency.",0,210);
-ctx1.fillText("Cycles of waves meet in each cycle of chord.",0,240);
+ctx1.fillText("Note1",0,240);
+ctx1.fillText("Note2",100,240);
+ctx1.fillText("Freq1",200,240);
+ctx1.fillText("Freq2",300,240);
+ctx1.fillText("GCD",400,240);
+ctx1.fillText("Quot1",500,240);
+ctx1.fillText("Quot2 ",600,240);
 
-ctx1.fillText("Note1",0,300);
-ctx1.fillText("Note2",100,300);
-ctx1.fillText("Freq1",200,300);
-ctx1.fillText("Freq2",300,300);
-ctx1.fillText("GCD",400,300);
-ctx1.fillText("Num1",500,300);
-ctx1.fillText("Num2 ",600,300);
+ctx1.fillText(engs1[n1%12],0,270);
+ctx1.fillText(engs1[n2%12],100,270);
+ctx1.fillText(ji[n1-60],200,270);
+ctx1.fillText(ji[n2-60],300,270);
+ctx1.fillText(GCD12,400,270);
+ctx1.fillText(ji[n1-60]/GCD12,500,270);
+ctx1.fillText(ji[n2-60]/GCD12,600,270);
+
+ctx1.fillText(engs1[n1%12],0,300);
+ctx1.fillText(engs1[n3%12],100,300);
+ctx1.fillText(ji[n1-60],200,300);
+ctx1.fillText(ji[n3-60],300,300);
+ctx1.fillText(GCD13,400,300);
+ctx1.fillText(ji[n1-60]/GCD13,500,300);
+ctx1.fillText(ji[n3-60]/GCD13,600,300);
 
 ctx1.fillText(engs1[n1%12],0,330);
-ctx1.fillText(engs1[n2%12],100,330);
+ctx1.fillText(engs1[n4%12],100,330);
 ctx1.fillText(ji[n1-60],200,330);
-ctx1.fillText(ji[n2-60],300,330);
-ctx1.fillText(GCD12,400,330);
-ctx1.fillText(ji[n1-60]/GCD12,500,330);
-ctx1.fillText(ji[n2-60]/GCD12,600,330);
+ctx1.fillText(ji[n4-60],300,330);
+ctx1.fillText(GCD14,400,330);
+ctx1.fillText(ji[n1-60]/GCD14,500,330);
+ctx1.fillText(ji[n4-60]/GCD14,600,330);
 
 ctx1.fillText(engs1[n1%12],0,360);
-ctx1.fillText(engs1[n3%12],100,360);
+ctx1.fillText(engs1[n5%12],100,360);
 ctx1.fillText(ji[n1-60],200,360);
-ctx1.fillText(ji[n3-60],300,360);
-ctx1.fillText(GCD13,400,360);
-ctx1.fillText(ji[n1-60]/GCD13,500,360);
-ctx1.fillText(ji[n3-60]/GCD13,600,360);
+ctx1.fillText(ji[n5-60],300,360);
+ctx1.fillText(GCD15,400,360);
+ctx1.fillText(ji[n1-60]/GCD15,500,360);
+ctx1.fillText(ji[n5-60]/GCD15,600,360);
 
-ctx1.fillText(engs1[n1%12],0,390);
-ctx1.fillText(engs1[n4%12],100,390);
-ctx1.fillText(ji[n1-60],200,390);
-ctx1.fillText(ji[n4-60],300,390);
-ctx1.fillText(GCD14,400,390);
-ctx1.fillText(ji[n1-60]/GCD14,500,390);
-ctx1.fillText(ji[n4-60]/GCD14,600,390);
+ctx1.fillText(engs1[n2%12],0,390);
+ctx1.fillText(engs1[n3%12],100,390);
+ctx1.fillText(ji[n2-60],200,390);
+ctx1.fillText(ji[n3-60],300,390);
+ctx1.fillText(GCD23,400,390);
+ctx1.fillText(ji[n2-60]/GCD23,500,390);
+ctx1.fillText(ji[n3-60]/GCD23,600,390);
 
-ctx1.fillText(engs1[n1%12],0,420);
-ctx1.fillText(engs1[n5%12],100,420);
-ctx1.fillText(ji[n1-60],200,420);
-ctx1.fillText(ji[n5-60],300,420);
-ctx1.fillText(GCD15,400,420);
-ctx1.fillText(ji[n1-60]/GCD15,500,420);
-ctx1.fillText(ji[n5-60]/GCD15,600,420);
+ctx1.fillText(engs1[n2%12],0,420);
+ctx1.fillText(engs1[n4%12],100,420);
+ctx1.fillText(ji[n2-60],200,420);
+ctx1.fillText(ji[n4-60],300,420);
+ctx1.fillText(GCD24,400,420);
+ctx1.fillText(ji[n2-60]/GCD24,500,420);
+ctx1.fillText(ji[n4-60]/GCD24,600,420);
 
 ctx1.fillText(engs1[n2%12],0,450);
-ctx1.fillText(engs1[n3%12],100,450);
+ctx1.fillText(engs1[n5%12],100,450);
 ctx1.fillText(ji[n2-60],200,450);
-ctx1.fillText(ji[n3-60],300,450);
-ctx1.fillText(GCD23,400,450);
-ctx1.fillText(ji[n2-60]/GCD23,500,450);
-ctx1.fillText(ji[n3-60]/GCD23,600,450);
+ctx1.fillText(ji[n5-60],300,450);
+ctx1.fillText(GCD25,400,450);
+ctx1.fillText(ji[n2-60]/GCD25,500,450);
+ctx1.fillText(ji[n5-60]/GCD25,600,450);
 
-ctx1.fillText(engs1[n2%12],0,480);
+ctx1.fillText(engs1[n3%12],0,480);
 ctx1.fillText(engs1[n4%12],100,480);
-ctx1.fillText(ji[n2-60],200,480);
+ctx1.fillText(ji[n3-60],200,480);
 ctx1.fillText(ji[n4-60],300,480);
-ctx1.fillText(GCD24,400,480);
-ctx1.fillText(ji[n2-60]/GCD24,500,480);
-ctx1.fillText(ji[n4-60]/GCD24,600,480);
+ctx1.fillText(GCD34,400,480);
+ctx1.fillText(ji[n3-60]/GCD34,500,480);
+ctx1.fillText(ji[n4-60]/GCD34,600,480);
 
-ctx1.fillText(engs1[n2%12],0,510);
+ctx1.fillText(engs1[n3%12],0,510);
 ctx1.fillText(engs1[n5%12],100,510);
-ctx1.fillText(ji[n2-60],200,510);
+ctx1.fillText(ji[n3-60],200,510);
 ctx1.fillText(ji[n5-60],300,510);
-ctx1.fillText(GCD25,400,510);
-ctx1.fillText(ji[n2-60]/GCD25,500,510);
-ctx1.fillText(ji[n5-60]/GCD25,600,510);
+ctx1.fillText(GCD35,400,510);
+ctx1.fillText(ji[n3-60]/GCD35,500,510);
+ctx1.fillText(ji[n5-60]/GCD35,600,510);
 
-ctx1.fillText(engs1[n3%12],0,540);
-ctx1.fillText(engs1[n4%12],100,540);
-ctx1.fillText(ji[n3-60],200,540);
-ctx1.fillText(ji[n4-60],300,540);
-ctx1.fillText(GCD34,400,540);
-ctx1.fillText(ji[n3-60]/GCD34,500,540);
-ctx1.fillText(ji[n4-60]/GCD34,600,540);
-
-ctx1.fillText(engs1[n3%12],0,570);
-ctx1.fillText(engs1[n5%12],100,570);
-ctx1.fillText(ji[n3-60],200,570);
-ctx1.fillText(ji[n5-60],300,570);
-ctx1.fillText(GCD35,400,570);
-ctx1.fillText(ji[n3-60]/GCD35,500,570);
-ctx1.fillText(ji[n5-60]/GCD35,600,570);
-
-ctx1.fillText(engs1[n4%12],0,600);
-ctx1.fillText(engs1[n5%12],100,600);
-ctx1.fillText(ji[n4-60],200,600);
-ctx1.fillText(ji[n5-60],300,600);
-ctx1.fillText(GCD45,400,600);
-ctx1.fillText(ji[n4-60]/GCD45,500,600);
-ctx1.fillText(ji[n5-60]/GCD45,600,600);
+ctx1.fillText(engs1[n4%12],0,540);
+ctx1.fillText(engs1[n5%12],100,540);
+ctx1.fillText(ji[n4-60],200,540);
+ctx1.fillText(ji[n5-60],300,540);
+ctx1.fillText(GCD45,400,540);
+ctx1.fillText(ji[n4-60]/GCD45,500,540);
+ctx1.fillText(ji[n5-60]/GCD45,600,540);
 
 let x=1000;
 let y=300;
@@ -1665,6 +1651,8 @@ circle3(65,71,74);
 function back1(){
 window.location.href="ToyScore1.html"
 }
+
+
 </script>
 </body>
 </html>
