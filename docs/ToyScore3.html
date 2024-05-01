@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore3 1.37
+ToyScore3 1.38
 </title>
 </head>
 <body style="font-size:160%" >
@@ -58,6 +58,14 @@ ToyScore3 1.37
 <option value="0" style="font-size:100%"> No Action </option>
 <option value="1" style="font-size:100%" selected="selected"> Rotate </option>
 </select>
+<select name="sv3" style="font-size:100%">
+<option value="0" style="font-size:100%"> Hide Circles </option>
+<option value="1" style="font-size:100%" selected="selected"> Show Circles </option>
+</select>
+<select name="sv4" style="font-size:100%">
+<option value="0" style="font-size:100%"> Hide Unmatch Points</option>
+<option value="1" style="font-size:100%" selected="selected"> Show Unmatch Points</option>
+</select>
 <input type="button" name="bk" value="Back" onClick="back1()" style="font-size:100%" >
 </font>
 </form>
@@ -111,7 +119,7 @@ let ji=[m60,m61,m62,m63,m64,m65,m66,m67,m68,m69,m70,m71,m72,m73,m74,m75,m76,m77,
 
 function just1(){
 ctx1.clearRect(0,0,1300,600);
-ctx2.clearRect(0,0,1300,1300);
+ctx2.clearRect(0,0,1320,1300);
 ctx2.font="25px Arial";
 ctx2.lineWidth=1;
 ctx2.fillStyle="black";
@@ -430,15 +438,19 @@ let x=1000;
 let y=300;
 let r=5;
 
+if(document.form1.sv3.value==1){
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+}
+if(document.form1.sv4.value==1){
 for(let m=0;m<=ji1A;m++){
 ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji1A))*10*r,y-Math.cos(Math.PI*(2*m/ji1A))*10*r,10/ji1A*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
 ctx1.stroke();
+}
 }
 if(document.form1.sv2.value==1){
 m+=1;
@@ -540,6 +552,7 @@ let x=1000;
 let y=300;
 let r=5;
 
+if(document.form1.sv3.value==1){
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
@@ -548,6 +561,8 @@ ctx1.beginPath();
 ctx1.arc(x,y,20*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n2%12];
 ctx1.stroke();
+}
+if(document.form1.sv4.value==1){
 for(let m=0;m<=ji1A;m++){
 ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji1A))*10*r,y-Math.cos(Math.PI*(2*m/ji1A))*10*r,10/ji1A*r,0,2*Math.PI,false);
@@ -559,6 +574,7 @@ ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji2A))*20*r,y-Math.cos(Math.PI*(2*m/ji2A))*20*r,20/ji2A*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n2%12];
 ctx1.stroke();
+}
 }
 for(let m=0;m<GCD12A;m++){
 ctx1.beginPath();
@@ -702,6 +718,7 @@ let x=1000;
 let y=300;
 let r=5;
 
+if(document.form1.sv3.value==1){
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
@@ -714,6 +731,8 @@ ctx1.beginPath();
 ctx1.arc(x,y,30*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n3%12];
 ctx1.stroke();
+}
+if(document.form1.sv4.value==1){
 for(let m=0;m<=ji1A;m++){
 ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji1A))*10*r,y-Math.cos(Math.PI*(2*m/ji1A))*10*r,10/ji1A*r,0,2*Math.PI,false);
@@ -731,6 +750,7 @@ ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji3A))*30*r,y-Math.cos(Math.PI*(2*m/ji3A))*30*r,30/ji3A*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n3%12];
 ctx1.stroke();
+}
 }
 for(let m=0;m<GCD12A;m++){
 ctx1.beginPath();
@@ -942,6 +962,7 @@ let x=1000;
 let y=300;
 let r=5;
 
+if(document.form1.sv3.value==1){
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
@@ -958,6 +979,8 @@ ctx1.beginPath();
 ctx1.arc(x,y,40*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n4%12];
 ctx1.stroke();
+}
+if(document.form1.sv4.value==1){
 for(let m=0;m<=ji1A;m++){
 ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji1A))*10*r,y-Math.cos(Math.PI*(2*m/ji1A))*10*r,10/ji1A*r,0,2*Math.PI,false);
@@ -981,6 +1004,7 @@ ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji4A))*40*r,y-Math.cos(Math.PI*(2*m/ji4A))*40*r,40/ji4A*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n4%12];
 ctx1.stroke();
+}
 }
 for(let m=0;m<GCD12A;m++){
 ctx1.beginPath();
@@ -1284,6 +1308,7 @@ let x=1000;
 let y=300;
 let r=5;
 
+if(document.form1.sv3.value==1){
 ctx1.beginPath();
 ctx1.arc(x,y,10*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n1%12];
@@ -1304,6 +1329,8 @@ ctx1.beginPath();
 ctx1.arc(x,y,50*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n5%12];
 ctx1.stroke();
+}
+if(document.form1.sv4.value==1){
 for(let m=0;m<=ji1A;m++){
 ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji1A))*10*r,y-Math.cos(Math.PI*(2*m/ji1A))*10*r,10/ji1A*r,0,2*Math.PI,false);
@@ -1333,6 +1360,7 @@ ctx1.beginPath();
 ctx1.arc(x+Math.sin(Math.PI*(2*m/ji5A))*50*r,y-Math.cos(Math.PI*(2*m/ji5A))*50*r,50/ji5A*r,0,2*Math.PI,false);
 ctx1.strokeStyle=col[n5%12];
 ctx1.stroke();
+}
 }
 for(let m=0;m<GCD12A;m++){
 ctx1.beginPath();
