@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore3 1.39
+ToyScore3 1.40
 </title>
 </head>
 <body style="font-size:160%" >
@@ -66,6 +66,7 @@ ToyScore3 1.39
 <option value="0" style="font-size:100%"> Hide Mismatch</option>
 <option value="1" style="font-size:100%" selected="selected"> Show Mismatch</option>
 </select>
+<input type="button" name="play" value="Play" onClick="playSound()" style="font-size:100%" >
 <input type="button" name="bk" value="Back" onClick="back1()" style="font-size:100%" >
 </font>
 </form>
@@ -1650,6 +1651,59 @@ circle3(65,71,74);
 
 function back1(){
 window.location.href="ToyScore1.html"
+}
+
+
+function playSound(){
+
+let n1=document.form1.n_1.value;
+let n2=document.form1.n_2.value;
+let n3=document.form1.n_3.value;
+let n4=document.form1.n_4.value;
+let n5=document.form1.n_5.value;
+
+window.AudioContext = window.AudioContext||window.webkitAudioContext;
+  var audioCtx1 = new AudioContext();
+  var audioCtx2 = new AudioContext();
+  var audioCtx3 = new AudioContext();
+  var audioCtx4 = new AudioContext();
+  var audioCtx5 = new AudioContext();
+    var osc1 = audioCtx1.createOscillator();
+    var osc2 = audioCtx2.createOscillator();
+    var osc3 = audioCtx3.createOscillator();
+    var osc4 = audioCtx4.createOscillator();
+    var osc5 = audioCtx5.createOscillator();
+    osc1.frequency.value = ji[n1%12];
+    osc2.frequency.value = ji[n2%12];
+    osc3.frequency.value = ji[n3%12];
+    osc4.frequency.value = ji[n4%12];
+    osc5.frequency.value = ji[n5%12];
+    var audDes1 = audioCtx1.destination;
+    var audDes2 = audioCtx2.destination;
+    var audDes3 = audioCtx3.destination;
+    var audDes4 = audioCtx4.destination;
+    var audDes5 = audioCtx5.destination;
+    osc1.connect(audDes1);
+    osc2.connect(audDes2);
+    osc3.connect(audDes3);
+    osc4.connect(audDes4);
+    osc5.connect(audDes5);
+    osc1.start = osc1.start || osc1.noteOn;
+    osc2.start = osc2.start || osc2.noteOn;
+    osc3.start = osc3.start || osc3.noteOn;
+    osc4.start = osc4.start || osc4.noteOn;
+    osc5.start = osc5.start || osc5.noteOn;
+    osc1.start();
+    osc2.start();
+    osc3.start();
+    osc4.start();
+    osc5.start();
+
+    setTimeout(function() { osc1.stop(0);}, 2000);
+    setTimeout(function() { osc2.stop(0);}, 2000);
+    setTimeout(function() { osc3.stop(0);}, 2000);
+    setTimeout(function() { osc4.stop(0);}, 2000);
+    setTimeout(function() { osc5.stop(0);}, 2000);
 }
 
 
