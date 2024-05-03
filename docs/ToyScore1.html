@@ -616,6 +616,17 @@ document.getElementById("credit").innerHTML=
 ;
 */
 
+top1();
+
+}
+fetch1();
+
+//scroll landscape
+function scroll1(){
+canvas2.width = 2000;
+canvas2.height = 700;
+ctx2.clearRect(0,0,2000,700);
+ctx2.lineWidth=1;
 ctx2.fillText("Music by:"+credit0[1],1330,0);
 ctx2.fillText("Source:<a href="+credit0[2]+">"+credit0[2]+"</a>",1330,30);
 ctx2.fillText("License:<a href="+credit0[4]+">"+credit0[3]+"</a>",1330,60);
@@ -625,18 +636,8 @@ ctx2.fillText("License:<a href="+credit1[4]+">"+credit1[3]+"</a>",1330,150);
 ctx2.fillText("This work is licensed under the licenses above and of <a href=software.html>software</a>",1330,180);
 ctx2.fillText("Disclaimer:No warranties are given.",1330,210);
 
-top1();
-
-}
-fetch1();
-
-//scroll landscape
-function scroll1(){
-canvas2.height = 700;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=Math.round(900/kn);
-ctx2.clearRect(0,0,1200,1300);
-ctx2.lineWidth=1;
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
