@@ -609,7 +609,6 @@ document.getElementById("credit").innerHTML=
 "<br>Lyrics by:"+credit1[1]+
 "<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
 "<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
 "<br>Disclaimer:No warranties are given."
 ;
 
@@ -624,6 +623,13 @@ canvas2.width = 1200;
 canvas2.height = 700;
 ctx2.clearRect(0,0,1200,700);
 ctx2.lineWidth=1;
+ctx2.fillText("Music by:"+credit0[1],1100,30);
+ctx2.fillText("Source:"+credit0[2]+credit0[2],1100,60);
+ctx2.fillText("License:"+credit0[4]+credit0[3],1100,90);
+ctx2.fillText("Lyrics by:"+credit1[1],1100,120);
+ctx2.fillText("Source:"+credit1[2]+credit1[2],1100,150);
+ctx2.fillText("License:"+credit1[4]+credit1[3],1100,180);
+ctx2.fillText("Disclaimer:No warranties are given.",1100,240);
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=Math.round(900/kn);
 
