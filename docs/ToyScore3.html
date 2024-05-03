@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore3 1.40
+ToyScore3 1.41
 </title>
 </head>
 <body style="font-size:160%" >
@@ -65,6 +65,11 @@ ToyScore3 1.40
 <select name="sv4" style="font-size:100%">
 <option value="0" style="font-size:100%"> Hide Mismatch</option>
 <option value="1" style="font-size:100%" selected="selected"> Show Mismatch</option>
+</select>
+<select name="sv5" style="font-size:100%">
+<option value="0" style="font-size:100%" selected="selected"> Sine</option>
+<option value="1" style="font-size:100%"> Square</option>
+<option value="2" style="font-size:100%"> Sawtooth</option>
 </select>
 <input type="button" name="play" value="Play" onClick="playSound()" style="font-size:100%" >
 <input type="button" name="bk" value="Back" onClick="back1()" style="font-size:100%" >
@@ -1662,48 +1667,133 @@ let n3=document.form1.n_3.value;
 let n4=document.form1.n_4.value;
 let n5=document.form1.n_5.value;
 
-window.AudioContext = window.AudioContext||window.webkitAudioContext;
-  var audioCtx1 = new AudioContext();
-  var audioCtx2 = new AudioContext();
-  var audioCtx3 = new AudioContext();
-  var audioCtx4 = new AudioContext();
-  var audioCtx5 = new AudioContext();
-    var osc1 = audioCtx1.createOscillator();
-    var osc2 = audioCtx2.createOscillator();
-    var osc3 = audioCtx3.createOscillator();
-    var osc4 = audioCtx4.createOscillator();
-    var osc5 = audioCtx5.createOscillator();
+//window.AudioContext = window.AudioContext||window.webkitAudioContext;
+let audioCtx1 = new AudioContext();
+let audioCtx2 = new AudioContext();
+let audioCtx3 = new AudioContext();
+let audioCtx4 = new AudioContext();
+let audioCtx5 = new AudioContext();
+let osc1 = new OscillatorNode(audioCtx1);
+let osc2 = new OscillatorNode(audioCtx2);
+let osc3 = new OscillatorNode(audioCtx3);
+let osc4 = new OscillatorNode(audioCtx4);
+let osc5 = new OscillatorNode(audioCtx5);
     osc1.frequency.value = ji[n1%12];
     osc2.frequency.value = ji[n2%12];
     osc3.frequency.value = ji[n3%12];
     osc4.frequency.value = ji[n4%12];
     osc5.frequency.value = ji[n5%12];
-    var audDes1 = audioCtx1.destination;
-    var audDes2 = audioCtx2.destination;
-    var audDes3 = audioCtx3.destination;
-    var audDes4 = audioCtx4.destination;
-    var audDes5 = audioCtx5.destination;
-    osc1.connect(audDes1);
-    osc2.connect(audDes2);
-    osc3.connect(audDes3);
-    osc4.connect(audDes4);
-    osc5.connect(audDes5);
-    osc1.start = osc1.start || osc1.noteOn;
-    osc2.start = osc2.start || osc2.noteOn;
-    osc3.start = osc3.start || osc3.noteOn;
-    osc4.start = osc4.start || osc4.noteOn;
-    osc5.start = osc5.start || osc5.noteOn;
-    osc1.start();
-    osc2.start();
-    osc3.start();
-    osc4.start();
-    osc5.start();
+if (document.form1.sv5.value==0){
+    osc1.type="sine";
+    osc2.type="sine";
+    osc3.type="sine";
+    osc4.type="sine";
+    osc5.type="sine";
+}else if (document.form1.sv5.value==1){
+    osc1.type="square";
+    osc2.type="square";
+    osc3.type="square";
+    osc4.type="square";
+    osc5.type="square";
+}else if (document.form1.sv5.value==2){
+    osc1.type="sawtooth";
+    osc2.type="sawtooth";
+    osc3.type="sawtooth";
+    osc4.type="sawtooth";
+    osc5.type="sawtooth";
+}
+let mod1=new OscillatorNode(audioCtx1);
+let mod2=new OscillatorNode(audioCtx2);
+let mod3=new OscillatorNode(audioCtx3);
+let mod4=new OscillatorNode(audioCtx4);
+let mod5=new OscillatorNode(audioCtx5);
+mod1.frequency.value=2;
+mod2.frequency.value=2;
+mod3.frequency.value=2;
+mod4.frequency.value=2;
+mod5.frequency.value=2;
+let gain1= new GainNode(audioCtx1);
+let gain2= new GainNode(audioCtx2);
+let gain3= new GainNode(audioCtx3);
+let gain4= new GainNode(audioCtx4);
+let gain5= new GainNode(audioCtx5);
+gain1.gain.value=200;
+gain2.gain.value=200;
+gain3.gain.value=200;
+gain4.gain.value=200;
+gain5.gain.value=200;
+let freq1=new ConstantSourceNode(audioCtx1);
+let freq2=new ConstantSourceNode(audioCtx2);
+let freq3=new ConstantSourceNode(audioCtx3);
+let freq4=new ConstantSourceNode(audioCtx4);
+let freq5=new ConstantSourceNode(audioCtx5);
+freq1.offset.value=440;
+freq2.offset.value=440;
+freq3.offset.value=440;
+freq4.offset.value=440;
+freq5.offset.value=440;
+let lpf1=new BiquadFilterNode(audioCtx1);
+let lpf2=new BiquadFilterNode(audioCtx2);
+let lpf3=new BiquadFilterNode(audioCtx3);
+let lpf4=new BiquadFilterNode(audioCtx4);
+let lpf5=new BiquadFilterNode(audioCtx5);
+lpf1.type="lowpass";
+lpf2.type="lowpass";
+lpf3.type="lowpass";
+lpf4.type="lowpass";
+lpf5.type="lowpass";
+lpf1.frequency.value=0;
+lpf2.frequency.value=0;
+lpf3.frequency.value=0;
+lpf4.frequency.value=0;
+lpf5.frequency.value=0;
+lpf1.Q=20;
+lpf2.Q=20;
+lpf3.Q=20;
+lpf4.Q=20;
+lpf5.Q=20;
+mod1.connect(gain1);
+mod2.connect(gain2);
+mod3.connect(gain3);
+mod4.connect(gain4);
+mod5.connect(gain5);
+freq1.connect(lpf1.frequency);
+freq2.connect(lpf2.frequency);
+freq3.connect(lpf3.frequency);
+freq4.connect(lpf4.frequency);
+freq5.connect(lpf5.frequency);
+osc1.connect(lpf1);
+osc2.connect(lpf2);
+osc3.connect(lpf3);
+osc4.connect(lpf4);
+osc5.connect(lpf5);
+lpf1.connect(audioCtx1.destination);
+lpf2.connect(audioCtx2.destination);
+lpf3.connect(audioCtx3.destination);
+lpf4.connect(audioCtx4.destination);
+lpf5.connect(audioCtx5.destination);
+osc1.start();
+osc2.start();
+osc3.start();
+osc4.start();
+osc5.start();
+freq1.start();
+freq2.start();
+freq3.start();
+freq4.start();
+freq5.start();
+mod1.start();
+mod2.start();
+mod3.start();
+mod4.start();
+mod5.start();
 
-    setTimeout(function() { osc1.stop(0);}, 2000);
-    setTimeout(function() { osc2.stop(0);}, 2000);
-    setTimeout(function() { osc3.stop(0);}, 2000);
-    setTimeout(function() { osc4.stop(0);}, 2000);
-    setTimeout(function() { osc5.stop(0);}, 2000);
+setTimeout(function() { osc1.stop(0);}, 2000);
+setTimeout(function() { osc2.stop(0);}, 2000);
+setTimeout(function() { osc3.stop(0);}, 2000);
+setTimeout(function() { osc4.stop(0);}, 2000);
+setTimeout(function() { osc5.stop(0);}, 2000);
+
 }
 
 
