@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 13.6
+ToyScore1 13.7
 </title>
 </head>
 <body style="font-size:160%" >
@@ -83,8 +83,8 @@ P <span id="prgrs"></span>
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> Scroll Landscape </option>
 <option value="1" style="font-size:100%"> Scroll Portrait </option>
-<option value="2" style="font-size:100%"> Still Landscape </option>
-<option value="3" style="font-size:100%" selected="selected"> Still Portrait </option>
+<option value="2" style="font-size:100%" selected="selected"> Still Landscape </option>
+<option value="3" style="font-size:100%"> Still Portrait </option>
 <option value="4" style="font-size:100%"> Color Sample </option>
 <option value="5" style="font-size:100%"> Touch Sound </option>
 <option value="6" style="font-size:100%"> Channel Colors </option>
@@ -620,9 +620,9 @@ fetch1();
 
 //scroll landscape
 function scroll1(){
-canvas2.width = 1300;
+canvas2.width = 1200;
 canvas2.height = 700;
-ctx2.clearRect(0,0,1300,700);
+ctx2.clearRect(0,0,1200,700);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=Math.round(900/kn);
@@ -765,11 +765,12 @@ ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,40+(trtk0-j)*600/ht1/ppq/bttl*ntv
 
 //scroll portrait
 function scroll2(){
+canvas2.width = 1200;
 canvas2.height = 1300;
-let kn=Number(midi_max)-Number(midi_min)+1;
-let kw=Math.round(900/kn);
 ctx2.clearRect(0,0,1200,1300);
 ctx2.lineWidth=1;
+let kn=Number(midi_max)-Number(midi_min)+1;
+let kw=Math.round(900/kn);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -911,11 +912,12 @@ ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,40+(trtk0-j)*1200/ht1/ppq/bttl*nt
 
 //still landscape
 function still1(){
+canvas2.width = 1200;
 canvas2.height = 700;
+ctx2.clearRect(0,0,1200,700);
+ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=Math.round(900/kn);
-ctx2.clearRect(0,0,1200,1300);
-ctx2.lineWidth=1;
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1068,11 +1070,12 @@ ctx2.fillText(lyrict0,(trnn0-midi_min+1)*kw+50,40+trtk0%(ht1*bttl*ppq/ntvl*4)*60
 
 //still portrait
 function still2(){
+canvas2.width = 1200;
 canvas2.height = 1300;
+ctx2.clearRect(0,0,1200,700);
+ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=Math.round(900/kn);
-ctx2.clearRect(0,0,1200,1300);
-ctx2.lineWidth=1;
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
