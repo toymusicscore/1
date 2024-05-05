@@ -600,15 +600,8 @@ if((LD0[i].split('\t'))[0]===songname1+".txt"){
 }
 }
 
-let songname2=songname1;
-
-for (i=0;i<2;i++){
-	songname2=songname1.replace("_"," ");
-	songname1=songname2;
-}
-
 document.getElementById("credit").innerHTML=
-"Title:"+songname2+
+"Title:"+songname1.replaceall("_"," ")+
 "<br>Music by:"+credit0[1]+
 "<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
 "<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
