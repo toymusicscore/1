@@ -3,17 +3,17 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 12.5
+ToyScore2 12.6
 </title>
 </head>
 <body style="font-size:160%" >
 <font face="Arial">
 <font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
+</font>
 <br>
 <form name="form1" >
 	MID<input type="file" id="selfile1" style="font-size:100%">
 	TXT<input type="file" id="selfile2" style="font-size:100%">
-</font>
 <br>
 <span id="ts"></span>
 C <span id="channels"></span>
@@ -95,12 +95,13 @@ P <span id="prgrs"></span>
 <input type="button" name="b_?" value="?" onClick="information1()" style="font-size:100%" >
 
 </form>
-<div id="target">
 <canvas id="cv2" width="1200" height="1300">
 </canvas>
-</font>
-</div>
 <div id="credit">
+	<font face="Arial">
+		<font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
+		</font>
+	&copy 2024
 </div>
 
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
@@ -426,13 +427,6 @@ let tsv7=[];
 let tsv8=[];
 let tsv9=[];
 let tsvst0=0;
-
-/*
-document.getElementById("credit").innerHTML=
-"This work is licensed under the <a href=software.html>software licenses.</a>"+
-"<br>Disclaimer:No warranties are given."
-;
-*/
 
 var obj1=document.getElementById("selfile1");
 obj1.addEventListener("change", function(evt){
