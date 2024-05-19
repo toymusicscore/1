@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charaset="UTF-8" />
+<title>
+ToyScore4 0.1
+</title>
+</head>
+<body style="font-size:160%" >
+<font face="Arial">
+<font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
+</font>
+<br>
+<form name="form1" >
+<input type="button" name="bk" value="Back" onClick="back1()" style="font-size:100%" >
+</form>
+<div id="photo">
+</div>
+<font face="Arial" style="font-size:50%">
+&copy 2024
+<font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
+</font>    
+<script>
+window.addEventListener("load",function(){
+var ele=document.getElementById("photo");
+var myImg=new Image(1000,700);
+var i=0;
+myImg.src="data/p0.png";
+ele.appendChild(myImg);
+myImg.addEventListener("click",function(){
+i++;
+myImg.src="data/p"+i+".png";
+ele.appendChild(myImg);
+},false);
+myImg.addEventListener("mouseout",function(){
+i=0;
+myImg.src="data/p0.png";
+ele.appendChild(myImg);
+},false);
+},false);
+
+function back1(){
+window.location.href="ToyScore1.html"
+}
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
