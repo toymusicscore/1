@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore2 12.10
+ToyScore2 12.11
 </title>
 </head>
 <body style="font-size:160%" >
@@ -22,14 +22,14 @@ P <span id="prgrs"></span>
 <input type="button" name="37A" value="37" onClick="octave37A()" style="font-size:100%" >
 <input type="button" name="49A" value="49" onClick="octave49A()" style="font-size:100%" >
 <input type="button" name="61A" value="61" onClick="octave61A()" style="font-size:100%" >
-<input type="button" name="OrgA" value="Org" onClick="octaveOrgA()" style="font-size:100%" >
+<input type="button" name="OrgA" value="O" onClick="octaveOrgA()" style="font-size:100%" >
 <input type="tel"    name="n_low" value="" size="2" style="font-size:100%" >
 <input type="tel"    name="n_high" value="" size="2" style="font-size:100%" >
 <input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
 <input type="tel"    name="x_bpm" value="" size="2" style="font-size:100%" >
-<input type="button" name="b_sb" value="SilentBPM" onClick="silent1()" style="font-size:100%" >
-<input type="button" name="b_so" value="SilentOrigin" onClick="silent2()" style="font-size:100%" >
+<input type="button" name="b_sb" value="SB" onClick="silent1()" style="font-size:100%" >
+<input type="button" name="b_so" value="SO" onClick="silent2()" style="font-size:100%" >
 <input type="range"  name="r_hgh" value="5" min="2" max="10" step="1" onChange="height1()">
 <input type="tel"    name="x_hgh" value="5" size="2" style="font-size:100%" >
 <input type="button" name="b_hgh" value="H" onClick="height2()" style="font-size:100%" >
@@ -1905,20 +1905,12 @@ newWin2.document.writeln ('<pre><font color="#000080">Song List         </font>S
 newWin2.document.writeln ('<pre><font color="#000080">MID Choose File   </font>Choose a Standard MIDI File (SMF). </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">TXT Choose File   </font>Choose a txt file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">                  A.NoteID, B.Fingering, C.Memo, D.Left, E.Right, F-J.Lyrics. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Play              </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">||                </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">25 37 49 61       </font>Show the range of notes for the number of keys and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Org               </font>Show original range of notes of the song.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">O                 </font>Show original range of notes of the song.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">A                 </font>Show the range of notes between the note numbers in the text boxes and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">SilentBPM         </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">SilentOrigin      </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SB                </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SO                </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">H                 </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">|<                </font>Show the first measure.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080"><<                </font>Show the previous screen.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080"><                 </font>Show the previous measure.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">>                 </font>Show the next measure.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">>>                </font>Show the next screen.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">>|                </font>Show the last measure.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">M                 </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">K                 </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">T                 </font>Transpose key by the number in the text box. </font></pre>'.fontsize(5));
@@ -1927,6 +1919,14 @@ newWin2.document.writeln ('<pre><font color="#000000">                  Two numb
 newWin2.document.writeln ('<pre><font color="#000080">LR                </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Left list box     </font>Select to show note letters, lyrics, finger numbers, memos, or CSV lyrics on notes.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Right list box    </font>Select to switch program below.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Play              </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">||                </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">|<                </font>Show the first measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><<                </font>Show the previous screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><                 </font>Show the previous measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>                 </font>Show the next measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>>                </font>Show the next screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>|                </font>Show the last measure.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Scroll Landscape  </font>Setting to scroll landscape screen.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Scroll Portrait   </font>Setting to scroll portrait screen.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Still Landscape   </font>Setting to still landscape screen with a horisontal line move down.</font></pre>'.fontsize(5));
