@@ -3,14 +3,13 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 13.12
+ToyScore1 13.13
 </title>
 </head>
 <body style="font-size:160%" >
 <font face="Arial">
 <font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
 </font>
-<br>
 <form name="form1" >
 <select id="song1" onChange="fetch1()" style="font-size:100%">
 <option value="Amazing_Grace" style="font-size:100%"> Amazing_Grace </option>
@@ -42,23 +41,23 @@ P <span id="prgrs"></span>
 <input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
-<input type="button" name="b_-|>" value="SilentBPM" onClick="silent1()" style="font-size:100%" >
-<input type="button" name="b_~|>" value="SilentOrigin" onClick="silent2()" style="font-size:100%" >
+<input type="button" name="b_sb" value="SilentBPM" onClick="silent1()" style="font-size:100%" >
+<input type="button" name="b_so" value="SilentOrigin" onClick="silent2()" style="font-size:100%" >
 <input type="range"  name="r_hgh" value="5" min="1" max="20" step="1" onChange="height1()">
 <input type="tel"    name="x_hgh" value="5" size="2" style="font-size:100%" >
-<input type="button" name="b_<->" value="<->" onClick="height2()" style="font-size:100%" >
+<input type="button" name="b_hgh" value="H" onClick="height2()" style="font-size:100%" >
 <input type="range"  name="r_msr" value="0" min="0" max="99" step="1" onChange="measure2()" style="font-size:100%" >
 <input type="tel"    name="x_msr" value="0" size="3" style="font-size:100%" >
-<input type="button" name="b_|" value="|" onClick="measure1()" style="font-size:100%" >
+<input type="button" name="b_msr" value="M" onClick="measure1()" style="font-size:100%" >
 <input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
 <input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
 <input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
 <input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
-<input type="button" name="b_+" value="+" onClick="transpose1()" style="font-size:100%" >
+<input type="button" name="b_trs" value="T" onClick="transpose1()" style="font-size:100%" >
 <input type="tel"    name="x_ch" value="" size="1" style="font-size:100%" >
-<input type="button" name="b_ch" value="Ch" onClick="channel1()" style="font-size:100%" >
-<input type="tel"    name="x_rl" value="" size="2" style="font-size:100%" >
-<input type="button" name="b_rl" value="] [" onClick="rightleft1()" style="font-size:100%" >
+<input type="button" name="b_ch" value="C" onClick="channel1()" style="font-size:100%" >
+<input type="tel"    name="x_lr" value="" size="2" style="font-size:100%" >
+<input type="button" name="b_lr" value="LR" onClick="leftright1()" style="font-size:100%" >
 
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> No Letters </option>
@@ -113,11 +112,6 @@ P <span id="prgrs"></span>
 </canvas>
 <div id="credit" style="font-size:50%">
 </div>
-<font face="Arial" style="font-size:50%">
-&copy 2024
-<font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font>
-</font>
-
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script src="https://unpkg.com/tone"></script>
 <script>
@@ -326,8 +320,8 @@ let ch0=0;
 let ch1=0;
 let trs1=0;
 let trs2=0;
-let x_rl1="";
-let fg_rl1=-1;
+let x_lr1="";
+let fg_lr1=-1;
 let prgrs1=0;
 let p=0;
 let p2=0;
@@ -1687,7 +1681,7 @@ still2();
 
 function transpose1(){
 document.form1.x_ch.value="";
-document.form1.x_rl.value="";
+document.form1.x_lr.value="";
 trs1=document.form1.x_trs.value;
 midi_min=Number(midi_min0)+Number(trs1);
 midi_max=Number(midi_max0)+Number(trs1);
@@ -1911,36 +1905,36 @@ document.getElementById("credit").innerHTML=
 */
 }
 
-function rightleft1(){
+function leftright1(){
 r1=[];
 n_id=1;
-x_rl1=document.form1.x_rl.value;
-fg_rl1=-fg_rl1;
+x_lr1=document.form1.x_lr.value;
+fg_lr1=-fg_lr1;
 let trs1=document.form1.x_trs.value;
-if(fg_rl1>0){
+if(fg_lr1>0){
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => { 
 let trs2=Number(note.pitch)+Number(trs1);
-if(trs2>=x_rl1){
+if(trs2>=x_lr1){
 r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
 }
 n_id+=1;
 });
 });
-midi_min=x_rl1;
+midi_min=x_lr1;
 midi_max=midi_max0+Number(trs1);
 }else{
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => { 
 let trs2=Number(note.pitch)+Number(trs1);
-if(trs2<=x_rl1){
+if(trs2<=x_lr1){
 r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
 }
 n_id+=1;
 });
 });
 midi_min=midi_min0+Number(trs1);
-midi_max=x_rl1;
+midi_max=x_lr1;
 }
 
 
@@ -1971,19 +1965,19 @@ newWin2.document.writeln ('<pre><font color="#000080">Org               </font>S
 newWin2.document.writeln ('<pre><font color="#000080">A                 </font>Show the range of notes between the note numbers in the text boxes and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">SilentBPM         </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">SilentOrigin      </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080"><->               </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">H                 </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">|<                </font>Show the first measure.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080"><<                </font>Show the previous screen.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080"><                 </font>Show the previous measure.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">>                 </font>Show the next measure.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">>>                </font>Show the next screen.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">>|                </font>Show the last measure.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">|                 </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">M                 </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">K                 </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">+                 </font>Transpose key by the number in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">Ch                </font>Show the notes of the channel number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">C                 </font>Show the notes of the channel number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">                  Two numbers can be set sepalated by "*".</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">][                </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">LR                </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Left list box     </font>Select to show note letters, lyrics, finger numbers, memos, or CSV lyrics on notes.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Right list box    </font>Select to switch program below.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Scroll Landscape  </font>Setting to scroll landscape screen.</font></pre>'.fontsize(5));
