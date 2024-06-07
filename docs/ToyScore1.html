@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 13.26
+ToyScore1 13.27
 </title>
 </head>
 <body style="font-size:160%" >
@@ -31,6 +31,7 @@ ToyScore1 13.26
 C <span id="channels"></span>
 T <span id="pt"></span>
 P <span id="prgrs"></span>
+<input type="button" name="13A" value="13" onClick="octave13A()" style="font-size:100%" >
 <input type="button" name="25A" value="25" onClick="octave25A()" style="font-size:100%" >
 <input type="button" name="37A" value="37" onClick="octave37A()" style="font-size:100%" >
 <input type="button" name="49A" value="49" onClick="octave49A()" style="font-size:100%" >
@@ -1707,6 +1708,11 @@ still2();
 
 }
 
+function octave13A(){
+document.form1.n_low.value=60;
+document.form1.n_high.value=72;
+octaveA()
+}
 function octave25A(){
 document.form1.n_low.value=48;
 document.form1.n_high.value=72;
