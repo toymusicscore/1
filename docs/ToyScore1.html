@@ -778,7 +778,7 @@ let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
 ctx2.fillRect(mx+(l+1)*kw,0,kw,my/2);
 ctx2.fillStyle=col[k%12];
-ctx2.fillRect(30+(l+1)*kw,my/2,kw,my/2);
+ctx2.fillRect(mx+(l+1)*kw,my/2,kw,my/2);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
@@ -806,7 +806,7 @@ for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 let vmn0=m/ppq/bttl*ntvl/4;
 ctx2.beginPath();
-ctx2.moveTo(0,my+(m-j)*szx/(ht1*bttl*ppq/ntvl*4));
+ctx2.moveTo(0,my+(m-j)*(szx-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.lineTo(mx+szk+kw,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="red";
 ctx2.stroke();
