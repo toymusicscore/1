@@ -618,7 +618,7 @@ fetch1();
 function scroll1(){
 szx=1500;
 szy=640;
-szk=1200;
+szk=1300;
 canvas2.width = szx;
 canvas2.height = szy;
 ctx2.clearRect(0,0,szx,szy);
@@ -738,11 +738,11 @@ ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+1)*kw+mx,6/5*my+(start-j)*(szy-
 }
 //tsv notations left
 if (tsv3[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv3[n_id-tsvst0+1], 30,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv3[n_id-tsvst0+1], mx+szk+kw,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations right
 if (tsv4[n_id-tsvst0+1]!=undefined){
-ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk+kw,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk+2*kw,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 
 }//if(100+stop>j..)
