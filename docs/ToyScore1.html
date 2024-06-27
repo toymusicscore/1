@@ -85,7 +85,6 @@ P <span id="prgrs"></span>
 <option value="12" style="font-size:100%"> Software Licenses </option>
 <option value="13" style="font-size:100%"> Contact </option>
 <option value="14" style="font-size:100%"> Chord </option>
-<option value="15" style="font-size:100%"> Slideshow </option>
 </select>
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
@@ -1944,11 +1943,7 @@ newWin2.document.writeln ('<pre><font color="#000080">Song List         </font>S
 newWin2.document.writeln ('<pre><font color="#000080">MID Choose File   </font>Choose a Standard MIDI File (SMF). </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">TXT Choose File   </font>Choose a txt file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">                  A.NoteID, B.Fingering, C.Memo, D.Left, E.Right, F-J.Lyrics. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">25 37 49 61       </font>Show the range of notes for the number of keys and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">O                 </font>Show original range of notes of the song.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">A                 </font>Show the range of notes between the note numbers in the text boxes and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">SB                </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">SO                </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">H                 </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">M                 </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">K                 </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
@@ -1958,6 +1953,8 @@ newWin2.document.writeln ('<pre><font color="#000000">                  Two numb
 newWin2.document.writeln ('<pre><font color="#000080">LR                </font>Switch screen with the note number in the text box.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Left list box     </font>Select to show note letters, lyrics, finger numbers, memos, or CSV lyrics on notes.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Right list box    </font>Select to switch program below.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SB                </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">SO                </font>Scroll screen or move a horizontal line silently at the original BPM.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Play              </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">||                </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">|<                </font>Show the first measure.</font></pre>'.fontsize(5));
@@ -1981,7 +1978,6 @@ newWin2.document.writeln ('<pre><font color="#006400">Information       </font>T
 newWin2.document.writeln ('<pre><font color="#006400">Software Licenses </font>Software licenses.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Contact           </font>Feel free to contact us by e-mail.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Chord             </font>Change screen to learn chord.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Slideshow         </font>Change screen to slideshow. Click to show the next slide, mouseout to the first slide.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">MIDI              </font>MIDI is a trademark of The MIDI Manufacturers Association Inc., resistered in countries </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">                  </font>worldwide and of the Association of Musical Electronics Industry resistered in Japan.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font></font><font color="#000000">         Registered Trademark in Japan No.6706042.</font></pre>'.fontsize(5));
@@ -2058,10 +2054,6 @@ window.location.href="ToyScore2.html"
 
 function chord1(){
 window.location.href="ToyScore3.html"
-}
-
-function slide1(){
-window.location.href="ToyScore4.html"
 }
 
 //smf's lyrics
@@ -4021,8 +4013,6 @@ software1();
 contact1();
 }else if(document.form1.sv1.options[14].selected==true){
 chord1();
-}else if(document.form1.sv1.options[15].selected==true){
-slide1();
 }
 }
 
