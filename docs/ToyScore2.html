@@ -789,7 +789,7 @@ let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
 if(my+stop>=j && start<=j+ht1*ppq*bttl){
 ctx2.fillStyle=col[midi%12];
-ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*1100/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
 ctx2.arc((midi-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
@@ -889,7 +889,7 @@ let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
 ctx2.fillRect(mx+l*kw,0,kw,my/2);
 ctx2.fillStyle=col[k%12];
-ctx2.fillRect(my+l*kw,my/2,kw,my/2);
+ctx2.fillRect(mx+l*kw,my/2,kw,my/2);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
@@ -940,8 +940,8 @@ ctx2.font="25px Arial";
 
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+(ht1-1)*bttl*ppq/ntvl*4)){
 ctx2.beginPath();
-ctx2.moveTo(50+kw,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-ctx2.lineTo(950+kw,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="green";
 ctx2.stroke();
 }
