@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore1 13.34
+ToyScore1 13.35
 </title>
 </head>
 <body style="font-size:160%" >
@@ -112,8 +112,7 @@ const canvas2=document.getElementById("cv2");
 const ctx2=canvas2.getContext("2d");
 //const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#ff007f"];
 const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00cc00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#cc00cc"];
-//const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
-const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#9999ff","#ff00ff","#ff007f"];
+const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
 const col3=["#ffffff","#ffcccc","#ffffcc","#ccffcc","#ccffff","#ccccff","#ffccff","#ff9999","#ffcc99","#ffff99","#ccff99","#99ff99","#99ffcc","#99ffff","#99ccff","#9999ff","#cc99ff","#ff99ff","#00ffff","#ff99cc"];
 const drms1=["Do","Di","Re","Ri","Mi","Fa","Fi","Sol","Si","La","Li","Ti"];
 const drmf1=["Do","Ra","Re","Me","Mi","Fa","Se","Sol","Le","La","Te","Ti"];
@@ -631,9 +630,9 @@ let kw=szk/kn;
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(mx+l*kw,0,kw,my/2);
+ctx2.fillRect(mx+l*kw,my/2,kw,my/4);
 ctx2.fillStyle=col[k%12];
-ctx2.fillRect(mx+l*kw,my/2,kw,my/2);
+ctx2.fillRect(mx+l*kw,my*3/4,kw,my/4);
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
 ctx2.fillRect(mx+l*kw,my,kw,szy-my);
@@ -780,9 +779,9 @@ let kw=szk/kn;
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(mx+l*kw,0,kw,my/2);
+ctx2.fillRect(mx+l*kw,my/2,kw,my/4);
 ctx2.fillStyle=col[k%12];
-ctx2.fillRect(mx+l*kw,my/2,kw,my/2);
+ctx2.fillRect(mx+l*kw,my*3/4,kw,my/4);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
@@ -934,9 +933,9 @@ let kw=szk/kn;
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(mx+l*kw,0,kw,my/2);
+ctx2.fillRect(mx+l*kw,my/2,kw,my/4);
 ctx2.fillStyle=col[k%12];
-ctx2.fillRect(mx+l*kw,my/2,kw,my/2);
+ctx2.fillRect(mx+l*kw,my*3/4,kw,my/4);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
@@ -1098,9 +1097,9 @@ let kw=szk/kn;
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(mx+l*kw,0,kw,my/2);
+ctx2.fillRect(mx+l*kw,my/2,kw,my/4);
 ctx2.fillStyle=col[k%12];
-ctx2.fillRect(mx+l*kw,my/2,kw,my/2);
+ctx2.fillRect(mx+l*kw,my*3/4,kw,my/4);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
