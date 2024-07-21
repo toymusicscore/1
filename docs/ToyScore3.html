@@ -184,7 +184,6 @@ let n3hz=ji[n3-60];
 let n4hz=ji[n4-60];
 let n5hz=ji[n5-60];
 
-if (n1hz%11===0 && n2hz%11===0 && n3hz%11===0 && n4hz%11===0 && n5hz%11===0){
 for(let i=0;i<=120;i++){
 for(let j=0;j<=120;j++){
 if(10000/n1hz*i*0.99999<10000/n2hz*j && 10000/n1hz*i*1.00001>10000/n2hz*j){
@@ -342,7 +341,6 @@ ctx2.stroke();
 }
 
 }
-}
 
 function free1(){
 let n1=document.form1.n_1.value;
@@ -356,18 +354,16 @@ let n3hz=ji[n3-60];
 let n4hz=ji[n4-60];
 let n5hz=ji[n5-60];
 
-if (n1hz%11===0 && n2hz%11===0 && n3hz%11===0 && n4hz%11===0 && n5hz%11===0){
-if(n2==""){
+if(n2=="" && n1hz%11===0){
 	circle1(n1);
-}else if(n3==""){
+}else if(n3=="" && n1hz%11===0 && n2hz%11===0){
 	circle2(n1,n2);
-}else if(n4==""){
+}else if(n4=="" && n1hz%11===0 && n2hz%11===0 && n3hz%11===0){
 	circle3(n1,n2,n3);
-}else if(n5==""){
+}else if(n5=="" && n1hz%11===0 && n2hz%11===0 && n3hz%11===0 && n4hz%11===0){
 	circle4(n1,n2,n3,n4);
-}else{
+}else if(n1hz%11===0 && n2hz%11===0 && n3hz%11===0 && n4hz%11===0 && n5hz%11===0){
 	circle5(n1,n2,n3,n4,n5);
-}
 }
 }
 
