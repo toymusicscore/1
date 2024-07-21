@@ -3,7 +3,7 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-ToyScore3 1.54
+ToyScore3 1.55
 </title>
 </head>
 <body style="font-size:160%" >
@@ -184,6 +184,7 @@ let n3hz=ji[n3-60];
 let n4hz=ji[n4-60];
 let n5hz=ji[n5-60];
 
+if (n1hz%11===0 && n2hz%11===0 && n3hz%11===0 && n4hz%11===0 && n5hz%11===0){
 for(let i=0;i<=120;i++){
 for(let j=0;j<=120;j++){
 if(10000/n1hz*i*0.99999<10000/n2hz*j && 10000/n1hz*i*1.00001>10000/n2hz*j){
@@ -341,7 +342,7 @@ ctx2.stroke();
 }
 
 }
-
+}
 
 function free1(){
 let n1=document.form1.n_1.value;
@@ -349,6 +350,13 @@ let n2=document.form1.n_2.value;
 let n3=document.form1.n_3.value;
 let n4=document.form1.n_4.value;
 let n5=document.form1.n_5.value;
+let n1hz=ji[n1-60];
+let n2hz=ji[n2-60];
+let n3hz=ji[n3-60];
+let n4hz=ji[n4-60];
+let n5hz=ji[n5-60];
+
+if (n1hz%11===0 && n2hz%11===0 && n3hz%11===0 && n4hz%11===0 && n5hz%11===0){
 if(n2==""){
 	circle1(n1);
 }else if(n3==""){
@@ -361,7 +369,7 @@ if(n2==""){
 	circle5(n1,n2,n3,n4,n5);
 }
 }
-
+}
 
 //circle
 let m=0;
