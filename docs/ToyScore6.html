@@ -10,7 +10,7 @@ ToyScore6 1.00
 <font face="Arial">
 <b><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font></b>
 </font>
-<b> Pythagorean Tuning + Just Intonation </b>
+<b> Adjusted Pythagorean Tuning </b>
 <form name="form1" >
 <input type="tel"    name="n_1" value="" size="2" onChange="selview1()" style="font-size:100%" >
 <input type="tel"    name="n_2" value="" size="2" onChange="selview1()" style="font-size:100%" >
@@ -100,18 +100,18 @@ const enga1=["C","Da","D","Ea","E","F","Ga","G","Aa","A","Ba","B"];
 const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
 const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
 
-let m60=2607552000;
-let m61=2897280000;
-let m62=2933496000;
-let m63=3259440000;
-let m64=3300183000;
-let m65=3476736000;
-let m66=3863040000;
-let m67=3911328000;
-let m68=4345920000;
-let m69=4400244000;
-let m70=4889160000;
-let m71=4950274500;
+let m60=2640000
+let m61=1
+let m62=2970000
+let m63=1
+let m64=3300000
+let m65=3520000
+let m66=1
+let m67=3960000
+let m68=1
+let m69=4455000
+let m70=1
+let m71=5011875
 
 let m72=m60*2;
 let m73=m61*2;
@@ -131,7 +131,7 @@ let ji=[m60,m61,m62,m63,m64,m65,m66,m67,m68,m69,m70,m71,m72,m73,m74,m75,m76,m77,
 function just1(){
 ctx1.clearRect(0,0,1300,600);
 ctx2.clearRect(0,0,1320,1300);
-ctx2.font="15px Arial";
+ctx2.font="20px Arial";
 ctx2.lineWidth=1;
 ctx2.fillStyle="black";
 ctx2.fillText("Note",0,60);
@@ -398,7 +398,7 @@ let n5=document.form1.n_5.value;
 let GCD12=gcd(ji[n1-60], ji[n2-60]);
 let ji1A=ji[n1-60];
 
-ctx1.font="15px Arial";
+ctx1.font="20px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
@@ -502,7 +502,7 @@ let ji1A=ji[n1-60]/GCD12;
 let ji2A=ji[n2-60]/GCD12;
 let GCD12A=1;
 
-ctx1.font="15px Arial";
+ctx1.font="20px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
@@ -649,7 +649,7 @@ let GCD12A=GCD12/GCD123;
 let GCD13A=GCD13/GCD123;
 let GCD23A=GCD23/GCD123;
 
-ctx1.font="15px Arial";
+ctx1.font="20px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
@@ -866,7 +866,7 @@ let GCD23A=GCD23/GCD1234;
 let GCD24A=GCD24/GCD1234;
 let GCD34A=GCD34/GCD1234;
 
-ctx1.font="15px Arial";
+ctx1.font="20px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
@@ -1177,7 +1177,7 @@ let GCD34A=GCD34/GCD12345;
 let GCD35A=GCD35/GCD12345;
 let GCD45A=GCD45/GCD12345;
 
-ctx1.font="15px Arial";
+ctx1.font="20px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
