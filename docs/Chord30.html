@@ -99,17 +99,30 @@ const engf1=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
 const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
 const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
 
+2640000
+2819179.688
+2970000
+3171577.148
+3341250
+3520000
+3758906.25
+3960000
+4228769.531
+4455000
+4757365.723
+5011875
+
 let m60=2640000
-let m61=1
+let m61=2819179.688
 let m62=2970000
-let m63=1
+let m63=3171577.148
 let m64=3341250
 let m65=3520000
-let m66=1
+let m66=3758906.25
 let m67=3960000
-let m68=1
+let m68=4228769.51
 let m69=4455000
-let m70=1
+let m70=4757365.723
 let m71=5011875
 
 let m72=m60*2;
@@ -145,7 +158,7 @@ ctx2.fillRect(60+50*k,20,50,20);
 ctx2.fillStyle="black";
 ctx2.fillText(engs1[k%12],60+50*k,60);
 ctx2.fillText(60+k,60+50*k,90);
-ctx2.fillText(Math.round(ji[k]),60+50*k,120);
+ctx2.fillText(Math.round(ji[k]/10000),60+50*k,120);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
@@ -166,12 +179,12 @@ ctx2.stroke();
 
 for(let l=0;l<=120;l++){
 if(k===0){
-ctx2.fillText(l,0,160+10000/ji[k]*l);	
+ctx2.fillText(l,0,160+100000000/ji[k]*l);	
 }
 ctx2.beginPath();
 ctx2.strokeStyle=col[k%12];
-ctx2.moveTo(60+50*k,150+10000/ji[k]*l);
-ctx2.lineTo(110+50*k,150+10000/ji[k]*l);
+ctx2.moveTo(60+50*k,150+100000000/ji[k]*l);
+ctx2.lineTo(110+50*k,150+100000000/ji[k]*l);
 ctx2.stroke();
 }
 }
@@ -181,11 +194,11 @@ let n2=document.form1.n_2.value;
 let n3=document.form1.n_3.value;
 let n4=document.form1.n_4.value;
 let n5=document.form1.n_5.value;
-let n1hz=ji[n1-60];
-let n2hz=ji[n2-60];
-let n3hz=ji[n3-60];
-let n4hz=ji[n4-60];
-let n5hz=ji[n5-60];
+let n1hz=ji[n1-60]/10000;
+let n2hz=ji[n2-60]/10000;
+let n3hz=ji[n3-60]/10000;
+let n4hz=ji[n4-60]/10000;
+let n5hz=ji[n5-60]/10000;
 
 for(let i=0;i<=120;i++){
 for(let j=0;j<=120;j++){
