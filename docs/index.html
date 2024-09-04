@@ -60,15 +60,19 @@ async function digestMessage(message) {
   return hashHex;
 }
 
+let i=1;
 async function login(){
 	let _pw1=document.form1.pw1.value;
 	let _pw2=await digestMessage(_pw1);	
 
 //digestMessage(_pw1).then((digestHex1) => console.log(digestHex1));
-if(_pw2==="114391183008ede514aa40171e86d7b654a9ffcca1bc5980f8c1d94214ac420a"){
+if(i<=2 && _pw2==="114391183008ede514aa40171e86d7b654a9ffcca1bc5980f8c1d94214ac420a"){
 	window.location.href='ToyScore2.html';
-}else{
-	alert("Invalid Password");
+}else if(i<=2){
+	alert("Invalid password "+i+", you can try next "+(3-i)+".");
+	i++;
+}else if(i>2){
+	alert("Buy password");
 }
 }
 
