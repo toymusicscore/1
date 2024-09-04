@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charaset="UTF-8" />
+<meta charaset="UTF-8">
 <title>
 ToyScore1 13.38
 </title>
@@ -418,6 +418,8 @@ let tsv6=[];
 let tsv7=[];
 let tsv8=[];
 let tsv9=[];
+let tsva=[];
+let tsvb=[];
 let tsvst0=0;
 let LD0=[];
 let credit0="";
@@ -440,18 +442,13 @@ async function fetch1(){
 let songname1=document.getElementById("song1").value;
 	let uri1="./data/"+songname1+".mid";
 	let uri2="./data/"+songname1+".txt";
-	let uri3="./data/License_Data.txt";
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
-	let res3=await fetch(uri3);
 	if (res1.ok){
 		data1=await res1.arrayBuffer();
 	}
 	if (res2.ok){
 		data2=await res2.text();
-	}
-	if (res3.ok){
-		data3=await res3.text();
 	}
 
 picoAudio.init(); 
@@ -561,6 +558,8 @@ tsv6=[];
 tsv7=[];
 tsv8=[];
 tsv9=[];
+tsva=[];
+tsvb=[];
 
 tsv0=data2.split('\n');
 for (i=0;i<tsv0.length;i++){
@@ -573,32 +572,23 @@ tsv6.push([(tsv0[i].split('\t'))[6]]);
 tsv7.push([(tsv0[i].split('\t'))[7]]);
 tsv8.push([(tsv0[i].split('\t'))[8]]);
 tsv9.push([(tsv0[i].split('\t'))[9]]);
+tsva.push([(tsv0[i].split('\t'))[10]]);
+tsvb.push([(tsv0[i].split('\t'))[11]]);
 }
 tsvst0=(tsv0[1].split('\t'))[0];
 
-LD0=[];
-
-LD0=data3.split('\n');
-for (i=0;i<LD0.length;i++){
-if((LD0[i].split('\t'))[0]===songname1+".mid"){
-	credit0=LD0[i].split('\t');
-}
-if((LD0[i].split('\t'))[0]===songname1+".txt"){
-	credit1=LD0[i].split('\t');
-}
-}
-
 document.getElementById("credit").innerHTML=
-"Title:"+songname1.replaceAll("_"," ")+
-"<br>Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Arrange:"+credit0[5]+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>Arrange:"+credit1[5]+
-"<br>Disclaimer:No warranties are given."
+"Title:"+tsvb[1]+
+"<br>Music By:"+tsvb[2]+
+"<br>Music Source:<a href="+tsvb[3]+">"+tsvb[3]+"</a>"+
+"<br>Music License:<a href="+tsvb[5]+">"+tsvb[4]+"</a>"+
+"<br>Music Change:"+tsvb[6]+
+"<br>Lyrics By:"+tsvb[7]+
+"<br>Lyrics Source:<a href="+tsvb[8]+">"+tsvb[8]+"</a>"+
+"<br>Lyrics License:<a href="+tsvb[10]+">"+tsvb[9]+"</a>"+
+"<br>Lyrics Change:"+tsvb[11]+
+"<br>Disclaimer:No warranties are given."+
+"<br>https://www.toyscore.app"
 ;
 
 top1();
