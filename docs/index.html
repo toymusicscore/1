@@ -35,15 +35,13 @@ Let's play the piano, let's sing along, with
 <br>
 This site is restricted for members only.<br>
 You can open midi file and text file together to show lylics, memos and fingering on notes after login.<br> 
-You can also estimate the key of midi file by 10, 20, 25 percent part and total song.
-Password1:<br>
+You can also estimate the key of midi file by 10, 20, 25 percent part and total song.<br>
+Password:<br>
 <input name="pw1" type="password" style="font-size:100%" ><br>
-Password2:<br>
-<input name="pw2" type="password" style="font-size:100%" ><br>
 <input type="button" value="Log in" onClick="login()" style="font-size:100%" ><br>
 You can try demo from 
 <a href='https://www.toyscore.app/ToyScore1.html'>Demo.</a><br>
-//You can buy passwords from 
+//You can buy password from 
 //<a href='https://toyscore.base.shop/'>Base.</a><br>
 By logging in to this site, you agree to our  
 <a href='https://www.termsfeed.com/live/d23c1e86-ec9a-4394-bb1a-9b42b8e7d81e'>Privacy Policy</a> and 
@@ -51,14 +49,27 @@ By logging in to this site, you agree to our
 </h3>
 </form>
 <script>
+
+async function digestMessage(message) {
+  const msgUint8 = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  return hashHex;
+}
+
 function login(){
 let _pw1=document.form1.pw1.value;
-let _pw2=document.form1.pw2.value;
-//let utc=new Date();
-//utc.getFullYear()*100000+utc.getMonth()*1000+utc.getDate()*10+utc.getDay();
-if(_pw1==="Toy" && _pw2==="Score"){
+let _pw2=digestMessage(_pw1);
+//digestMessage(_pw1).then((digestHex1) => console.log(digestHex1));
+if(_pw2===114391183008ede514aa40171e86d7b654a9ffcca1bc5980f8c1d94214ac420a){
 	window.location.href='ToyScore2.html';
-	}
+}
+else{
+	alert("Invalid Password");
+}
 }
 
 </script>
