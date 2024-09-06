@@ -405,6 +405,8 @@ let newWin12="";
 let newWin13="";
 
 let tsv0=[];
+let tsvi=[];
+let tsvc=[];
 let tsv1=[];
 let tsv2=[];
 let tsv3=[];
@@ -414,8 +416,6 @@ let tsv6=[];
 let tsv7=[];
 let tsv8=[];
 let tsv9=[];
-let tsva=[];
-let tsvb=[];
 let tsvst0=0;
 let szx=1200;
 let szy=640;
@@ -534,6 +534,8 @@ top1();
 var obj2=document.getElementById("selfile2");
 obj2.addEventListener("change", function(evt){
 tsv0=[];
+tsvi=[];
+tsvc=[];
 tsv1=[];
 tsv2=[];
 tsv3=[];
@@ -543,8 +545,6 @@ tsv6=[];
 tsv7=[];
 tsv8=[];
 tsv9=[];
-tsva=[];
-tsvb=[];
 var file2=evt.target.files[0];
 var reader2=new FileReader();
 reader2.readAsText(file2,"shift_JIS");
@@ -552,32 +552,32 @@ reader2.onload=function(ev){
 tsv0=reader2.result.split('\n');
 
 for (i=0;i<tsv0.length;i++){
-tsv1.push([(tsv0[i].split('\t'))[1]]);
-tsv2.push([(tsv0[i].split('\t'))[2]]);
-tsv3.push([(tsv0[i].split('\t'))[3]]);
-tsv4.push([(tsv0[i].split('\t'))[4]]);
-tsv5.push([(tsv0[i].split('\t'))[5]]);
-tsv6.push([(tsv0[i].split('\t'))[6]]);
-tsv7.push([(tsv0[i].split('\t'))[7]]);
-tsv8.push([(tsv0[i].split('\t'))[8]]);
-tsv9.push([(tsv0[i].split('\t'))[9]]);
-tsva.push([(tsv0[i].split('\t'))[10]]);
-tsvb.push([(tsv0[i].split('\t'))[11]]);
+tsvi.push([(tsv0[i].split('\t'))[0]]);
+tsvc.push([(tsv0[i].split('\t'))[1]]);
+tsv1.push([(tsv0[i].split('\t'))[3]]);
+tsv2.push([(tsv0[i].split('\t'))[4]]);
+tsv3.push([(tsv0[i].split('\t'))[5]]);
+tsv4.push([(tsv0[i].split('\t'))[6]]);
+tsv5.push([(tsv0[i].split('\t'))[7]]);
+tsv6.push([(tsv0[i].split('\t'))[8]]);
+tsv7.push([(tsv0[i].split('\t'))[9]]);
+tsv8.push([(tsv0[i].split('\t'))[10]]);
+tsv9.push([(tsv0[i].split('\t'))[11]]);
 }
 tsvst0=(tsv0[1].split('\t'))[0];
 
 document.getElementById("credit").innerHTML=
-"Title:"+tsvb[1]+
-"<br>Music By:"+tsvb[2]+
-"<br>Music Source:<a href="+tsvb[3]+">"+tsvb[3]+"</a>"+
-"<br>Music License:<a href="+tsvb[5]+">"+tsvb[4]+"</a>"+
-"<br>Music Change:"+tsvb[6]+
-"<br>Lyrics By:"+tsvb[7]+
-"<br>Lyrics Source:<a href="+tsvb[8]+">"+tsvb[8]+"</a>"+
-"<br>Lyrics License:<a href="+tsvb[10]+">"+tsvb[9]+"</a>"+
-"<br>Lyrics Change:"+tsvb[11]+
-"<br>Disclaimer:No warranties are given."+
-"<br>https://www.toyscore.app"
+tsvc[1]+
+"<br>"+tsvi[2]+" "+tsvc[2]+
+"<br>"+tsvi[3]+" <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+"<br>"+tsvi[4]+" <a href="+tsvc[5]+">"+tsvc[4]+"</a>"+
+"<br>"+tsvi[6]+" "+tsvc[6]+
+"<br>"+tsvi[7]+" "+tsvc[7]+
+"<br>"+tsvi[8]+" <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
+"<br>"+tsvi[9]+" <a href="+tsvc[10]+">"+tsvc[9]+"</a>"+
+"<br>"+tsvi[11]+" "+tsvc[11]+
+"<br>No warranties are given."+
+"<br><a href=https://www.toyscore.app>https://www.toyscore.app</a>"
 ;
 
 top1();
