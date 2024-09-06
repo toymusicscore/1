@@ -409,6 +409,7 @@ let newWin1="";
 let newWin2="";
 
 let tsv0=[];
+let tsvc=[];
 let tsv1=[];
 let tsv2=[];
 let tsv3=[];
@@ -418,8 +419,6 @@ let tsv6=[];
 let tsv7=[];
 let tsv8=[];
 let tsv9=[];
-let tsva=[];
-let tsvb=[];
 let tsvst0=0;
 let LD0=[];
 let credit0="";
@@ -549,6 +548,7 @@ r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
 lyrics1();
 
 tsv0=[];
+tsvc=[];
 tsv1=[];
 tsv2=[];
 tsv3=[];
@@ -558,35 +558,32 @@ tsv6=[];
 tsv7=[];
 tsv8=[];
 tsv9=[];
-tsva=[];
-tsvb=[];
 
 tsv0=data2.split('\n');
 for (i=0;i<tsv0.length;i++){
-tsv1.push([(tsv0[i].split('\t'))[1]]);
-tsv2.push([(tsv0[i].split('\t'))[2]]);
-tsv3.push([(tsv0[i].split('\t'))[3]]);
-tsv4.push([(tsv0[i].split('\t'))[4]]);
-tsv5.push([(tsv0[i].split('\t'))[5]]);
-tsv6.push([(tsv0[i].split('\t'))[6]]);
-tsv7.push([(tsv0[i].split('\t'))[7]]);
-tsv8.push([(tsv0[i].split('\t'))[8]]);
-tsv9.push([(tsv0[i].split('\t'))[9]]);
-tsva.push([(tsv0[i].split('\t'))[10]]);
-tsvb.push([(tsv0[i].split('\t'))[11]]);
+tsvc.push([(tsv0[i].split('\t'))[1]]);
+tsv1.push([(tsv0[i].split('\t'))[3]]);
+tsv2.push([(tsv0[i].split('\t'))[4]]);
+tsv3.push([(tsv0[i].split('\t'))[5]]);
+tsv4.push([(tsv0[i].split('\t'))[6]]);
+tsv5.push([(tsv0[i].split('\t'))[7]]);
+tsv6.push([(tsv0[i].split('\t'))[8]]);
+tsv7.push([(tsv0[i].split('\t'))[9]]);
+tsv8.push([(tsv0[i].split('\t'))[10]]);
+tsv9.push([(tsv0[i].split('\t'))[11]]);
 }
 tsvst0=(tsv0[1].split('\t'))[0];
 
 document.getElementById("credit").innerHTML=
-"Title:"+tsvb[1]+
-"<br>Music By:"+tsvb[2]+
-"<br>Music Source:<a href="+tsvb[3]+">"+tsvb[3]+"</a>"+
-"<br>Music License:<a href="+tsvb[5]+">"+tsvb[4]+"</a>"+
-"<br>Music Change:"+tsvb[6]+
-"<br>Lyrics By:"+tsvb[7]+
-"<br>Lyrics Source:<a href="+tsvb[8]+">"+tsvb[8]+"</a>"+
-"<br>Lyrics License:<a href="+tsvb[10]+">"+tsvb[9]+"</a>"+
-"<br>Lyrics Change:"+tsvb[11]+
+"Title:"+tsvc[1]+
+"<br>Music By:"+tsvc[2]+
+"<br>Music Source:<a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+"<br>Music License:<a href="+tsvc[5]+">"+tsvc[4]+"</a>"+
+"<br>Music Change:"+tsvc[6]+
+"<br>Lyrics By:"+tsvc[7]+
+"<br>Lyrics Source:<a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
+"<br>Lyrics License:<a href="+tsvc[10]+">"+tsvc[9]+"</a>"+
+"<br>Lyrics Change:"+tsvc[11]+
 "<br>Disclaimer:No warranties are given."+
 "<br>https://www.toyscore.app"
 ;
