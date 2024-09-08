@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charaset="UTF-8">
+<meta charaset="UTF-8"/>
 <title>
 ToyScore2 12.30
 </title>
@@ -68,9 +68,11 @@ P <span id="prgrs"></span>
 <option value="7" style="font-size:100%"> Key 10</option>
 <option value="8" style="font-size:100%"> Key 20</option>
 <option value="9" style="font-size:100%"> Key 25</option>
-<option value="10" style="font-size:100%"> Go to IMSLP </option>
-<option value="11" style="font-size:100%"> Go to CPDL </option>
-<option value="12" style="font-size:100%"> Information </option>
+<option value="10" style="font-size:100%"> Index </option>
+<option value="11" style="font-size:100%"> Information </option>
+<option value="12" style="font-size:100%"> Pythagorean Tuning</option>
+<option value="13" style="font-size:100%"> Just Intonation</option>
+<option value="14" style="font-size:100%"> Download Demo </option>
 
 </select>
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
@@ -393,16 +395,6 @@ let miditxt=0;
 let newWin1="";
 let newWin2="";
 let newWin3="";
-let newWin4="";
-let newWin5="";
-let newWin6="";
-let newWin7="";
-let newWin8="";
-let newWin9="";
-let newWin10="";
-let newWin11="";
-let newWin12="";
-let newWin13="";
 
 let tsv0=[];
 let tsvi=[];
@@ -1160,7 +1152,7 @@ ctx2.fillText("",(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-m
 }else if (document.form1.nl1.options[1].selected==true){
 ctx2.fillText(drms1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[2].selected==true){
-ctx2.fillText(drmf1[midi%12],(midi-midi_min)*kw,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(drmf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[3].selected==true){
 ctx2.fillText(engs1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[4].selected==true){
@@ -1956,7 +1948,7 @@ newWin2=window.open();
 newWin2.document.writeln ('<pre align="left" ><b><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font></b> Information<hr color="#ff0000"></font></pre>'.fontsize(6));
 newWin2.document.writeln ('<pre><font color="#000080">Song List         </font>Select a song. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">MID Choose File   </font>Choose a Standard MIDI File (SMF). </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">TXT Choose File   </font>Choose a txt file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">TXT Choose File   </font>Choose a tab delimited txt file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">                  Credit, Fingering, Memo, Left notation, Right notation, Lyrics(1-5). </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">A                 </font>Show the range of notes between the note numbers in the text boxes and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">H                 </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
@@ -2046,12 +2038,45 @@ newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
 
 }
 
-function imslp1(){
-window.location.href="https://clara.imslp.org/"
+function download1(){
+files=new Array();
+files[0]="Annie_Laurie";
+files[1]="Amazing_Grace";
+files[2]="Auld_Lang_Syne";
+files[3]="Danny_Boy";
+files[4]="Greensleeves";
+files[5]="Greensleeves_Guitar";
+files[6]="Kodamadeshouka";
+files[7]="Loch_Lomond_SATB";
+files[8]="Prelude_and_Fugue_in_C_major,_BWV_846_(Bach,_Johann_Sebastian)";
+files[9]="Red_River_Valley";
+files[10]="Sakurasakura";
+files[11]="Salley_Gardens_SATB";
+files[12]="Scarborough_Fair_SATB";
+files[13]="The_Last_Rose_of_Summer";
+files[14]="Twinkle_Twinkle_Little_Star";
+
+window.name="openerWin";
+newWin1=window.open();
+newWin1.document.writeln ('<pre align="left" ><b><font face="Arial"><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font></b><hr color="#ff0000"></font></pre>'.fontsize(6));
+newWin1.document.writeln ("<pre>Download Demo Files</pre>".fontsize(6));
+newWin1.document.writeln ("<table border='1' width='400'><tr><th>Title</th></tr>");
+for(i=0;i<files.length;i++){
+newWin1.document.writeln ("<td><a href='data/",files[i],".zip'>",files[i],"</a></td></tr>");
+}
+newWin1.document.writeln ("</table>");
 }
 
-function cpdl1(){
-window.location.href="https://www.cpdl.org/"
+function index1(){
+window.location.href="index.html"
+}
+
+function chord30(){
+window.location.href="Chord30.html"
+}
+
+function chord40(){
+window.location.href="Chord40.html"
 }
 
 //smf's lyrics
@@ -4007,11 +4032,15 @@ keyw3();
 }else if(document.form1.sv1.options[9].selected==true){
 keyw4();
 }else if(document.form1.sv1.options[10].selected==true){
-imslp1();
+index1();
 }else if(document.form1.sv1.options[11].selected==true){
-cpdl1();
-}else if(document.form1.sv1.options[12].selected==true){
 information1();
+}else if(document.form1.sv1.options[12].selected==true){
+chord30();
+}else if(document.form1.sv1.options[13].selected==true){
+chord40();
+}else if(document.form1.sv1.options[14].selected==true){
+download1();
 }
 }
 
