@@ -55,14 +55,6 @@ Password<br>
 </form>
 <script>
 
-async function fetch1(message){
-	let uri1="./data/"+message+".txt";
-	let res1=await fetch(uri1);
-	if (res1.ok){
-		data1=await res1.txt();
-	}
-}
-
 async function digestMessage(message) {
   const msgUint8 = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
@@ -79,12 +71,15 @@ async function login(){
 	let _pw1=document.form1.pw1.value;
 	let _id2=await digestMessage(_id1);	
 	let _pw2=await digestMessage(_pw1);	
-	let data1=await fetch1(_id1); 
+	let uri1="./data/"+_id1+".txt";
+	let res1=await fetch(uri1);
+	if (res1.ok){
+		data1=await res1.txt();
+	}
 	let	data2=[];
 	data2=data1.split('\n');
-
 //digestMessage(_id1).then((digestHex1) => console.log(digestHex1));
-if(i<=2 && _id2===data2[0] &&_pw2===data2[1]){
+if(i<=2 && _id2==data2[0] &&_pw2==data2[1]){
 
 /*
 && _id2==="d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
