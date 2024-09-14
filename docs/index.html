@@ -38,7 +38,7 @@ You can open your midi file and text file together to show lylics, memos and fin
 You can also estimate the key of midi file by 10, 20 and 25 percent part and total song.<br>
 <br>
 You can try demo from 
-<a href='demo.html'>demo.</a><br>
+<a href='demo.html'>Demo.</a><br>
 You can get your ID and password at 
 <a href='https://toyscore.base.shop/'>the Base shop.</a><br>
 By logging in to this site, you agree to our  
@@ -54,6 +54,14 @@ Password<br>
 </h3>
 </form>
 <script>
+
+async function fetch1(message){
+	let uri1="./data/"+message+".txt";
+	let res1=await fetch(uri1);
+	if (res1.ok){
+		data1=await res1.txt();
+	}
+}
 
 async function digestMessage(message) {
   const msgUint8 = new TextEncoder().encode(message);
@@ -71,11 +79,17 @@ async function login(){
 	let _pw1=document.form1.pw1.value;
 	let _id2=await digestMessage(_id1);	
 	let _pw2=await digestMessage(_pw1);	
- 
+	let data1=await fetch1(_id1); 
+	let	data2=[];
+	data2=data1.split('\n');
+
 //digestMessage(_id1).then((digestHex1) => console.log(digestHex1));
-if(i<=2 
+if(i<=2 && _id2===data2[0] &&_pw2===data2[1]){
+
+/*
 && _id2==="d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
 && _pw2==="114391183008ede514aa40171e86d7b654a9ffcca1bc5980f8c1d94214ac420a"){
+*/
 	window.location.href=_pw1+_id1+'.html';
 }else if(i<=2){
 	document.getElementById('result').textContent="Invalid ID or password "+i+", you can try next "+(3-i)+".";
