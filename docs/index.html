@@ -34,11 +34,11 @@ Let's play the piano, let's sing along, with
 <form name="form1">
 <h3>
 This site is restricted for members only.<br>
-You can open midi file and text file together to show lylics, memos and fingering on notes after login.<br> 
+You can open your midi file and text file together to show lylics, memos and fingering on notes after login.<br> 
 You can also estimate the key of midi file by 10, 20 and 25 percent part and total song.<br>
 <br>
 You can try demo from 
-<a href='demo.html'>Demo.</a><br>
+<a href='demo.html'>demo.</a><br>
 You can get your ID and password at 
 <a href='https://toyscore.base.shop/'>the Base shop.</a><br>
 By logging in to this site, you agree to our  
@@ -54,14 +54,6 @@ Password<br>
 </h3>
 </form>
 <script>
-
-async function fetch1(message){
-	let uri1="./data/"+message+".txt";
-	let res1=await fetch(uri1);
-	if (res1.ok){
-		data1=await res1.txt();
-	}
-}
 
 async function digestMessage(message) {
   const msgUint8 = new TextEncoder().encode(message);
