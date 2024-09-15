@@ -3,14 +3,14 @@
 <head>
 <meta charaset="UTF-8" />
 <title>
-Chord30 1.00
+chord pt 1.56
 </title>
 </head>
 <body style="font-size:160%" >
 <font face="Arial">
 <b><font color="#ff0000">T</font><font color="#ff7f00">o</font><font color="#ffff00">y</font><font color="#00ff00">S</font><font color="#00ffff">c</font><font color="#0000ff">o</font><font color="#ff00ff">r</font><font color="#ff007f">e</font></b>
 </font>
-<b>Pythagorean Tuning (x10,000)</b>
+<b>Pythagorean Tuning</b>
 <form name="form1" >
 <input type="tel"    name="n_1" value="" size="2" onChange="selview1()" style="font-size:100%" >
 <input type="tel"    name="n_2" value="" size="2" onChange="selview1()" style="font-size:100%" >
@@ -99,19 +99,6 @@ const engf1=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
 const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
 const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
 
-2640000
-2819179.688
-2970000
-3171577.148
-3341250
-3520000
-3758906.25
-3960000
-4228769.531
-4455000
-4757365.723
-5011875
-
 let m60=264.0000
 let m61=281.9179688
 let m62=297.0000
@@ -124,7 +111,6 @@ let m68=422.876951
 let m69=445.5000
 let m70=475.7365723
 let m71=501.1875
-
 let m72=m60*2;
 let m73=m61*2;
 let m74=m62*2;
@@ -143,7 +129,7 @@ let ji=[m60,m61,m62,m63,m64,m65,m66,m67,m68,m69,m70,m71,m72,m73,m74,m75,m76,m77,
 function just1(){
 ctx1.clearRect(0,0,1300,600);
 ctx2.clearRect(0,0,1320,1300);
-ctx2.font="20px Arial";
+ctx2.font="25px Arial";
 ctx2.lineWidth=1;
 ctx2.fillStyle="black";
 ctx2.fillText("Note",0,60);
@@ -158,7 +144,7 @@ ctx2.fillRect(60+50*k,20,50,20);
 ctx2.fillStyle="black";
 ctx2.fillText(engs1[k%12],60+50*k,60);
 ctx2.fillText(60+k,60+50*k,90);
-ctx2.fillText(Math.round(ji[k]/10000),60+50*k,120);
+ctx2.fillText(Math.round(ji[k]),60+50*k,120);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
@@ -179,12 +165,12 @@ ctx2.stroke();
 
 for(let l=0;l<=120;l++){
 if(k===0){
-ctx2.fillText(l,0,160+100000000/ji[k]*l);	
+ctx2.fillText(l,0,160+10000/ji[k]*l);	
 }
 ctx2.beginPath();
 ctx2.strokeStyle=col[k%12];
-ctx2.moveTo(60+50*k,150+100000000/ji[k]*l);
-ctx2.lineTo(110+50*k,150+100000000/ji[k]*l);
+ctx2.moveTo(60+50*k,150+10000/ji[k]*l);
+ctx2.lineTo(110+50*k,150+10000/ji[k]*l);
 ctx2.stroke();
 }
 }
@@ -194,11 +180,11 @@ let n2=document.form1.n_2.value;
 let n3=document.form1.n_3.value;
 let n4=document.form1.n_4.value;
 let n5=document.form1.n_5.value;
-let n1hz=ji[n1-60]/10000;
-let n2hz=ji[n2-60]/10000;
-let n3hz=ji[n3-60]/10000;
-let n4hz=ji[n4-60]/10000;
-let n5hz=ji[n5-60]/10000;
+let n1hz=ji[n1-60];
+let n2hz=ji[n2-60];
+let n3hz=ji[n3-60];
+let n4hz=ji[n4-60];
+let n5hz=ji[n5-60];
 
 for(let i=0;i<=120;i++){
 for(let j=0;j<=120;j++){
@@ -410,7 +396,7 @@ let n5=document.form1.n_5.value;
 let GCD12=gcd(ji[n1-60], ji[n2-60]);
 let ji1A=ji[n1-60];
 
-ctx1.font="20px Arial";
+ctx1.font="25px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
@@ -514,7 +500,7 @@ let ji1A=ji[n1-60]/GCD12;
 let ji2A=ji[n2-60]/GCD12;
 let GCD12A=1;
 
-ctx1.font="20px Arial";
+ctx1.font="25px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
@@ -661,7 +647,7 @@ let GCD12A=GCD12/GCD123;
 let GCD13A=GCD13/GCD123;
 let GCD23A=GCD23/GCD123;
 
-ctx1.font="20px Arial";
+ctx1.font="25px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
@@ -878,7 +864,7 @@ let GCD23A=GCD23/GCD1234;
 let GCD24A=GCD24/GCD1234;
 let GCD34A=GCD34/GCD1234;
 
-ctx1.font="20px Arial";
+ctx1.font="25px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
@@ -1189,7 +1175,7 @@ let GCD34A=GCD34/GCD12345;
 let GCD35A=GCD35/GCD12345;
 let GCD45A=GCD45/GCD12345;
 
-ctx1.font="20px Arial";
+ctx1.font="25px Arial";
 ctx1.clearRect(0,0,1300,600);
 ctx1.lineWidth=1;
 ctx1.fillStyle="black";
