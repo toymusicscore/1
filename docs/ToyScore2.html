@@ -2039,14 +2039,8 @@ newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
 
 function download1(){
 fetch("./data/SongList.txt")
-.then(function(response){
-	return response.text();
-	alert(response);
-})
-.then(function(data){
-	let files=data.split('\n');
-	alert(data);
-})
+.then(response=> response.text())
+.then(data=> files=data.split('\n'))
 /*
 files=new Array();
 files[0]="Amazing_Grace";
