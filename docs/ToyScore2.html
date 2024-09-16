@@ -2038,10 +2038,11 @@ newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
 }
 
 function download1(){
-let files=fetch("./data/SongList.txt")
+let files=[];
+fetch("./data/SongList.txt")
 .then(response=> response.text())
-.then(data1=> data2=data1.split('\n'))
-alert(files.data2);
+.then(data1=> files=data1.split('\n'))
+alert(files);
 
 /*
 files=new Array();
