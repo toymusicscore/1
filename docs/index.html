@@ -72,22 +72,16 @@ async function login(){
 	let _pw1=document.form1.pw1.value;
 	let _id2=await digestMessage(_id1);	
 	let _pw2=await digestMessage(_pw1);	
-/*
- 	let uri1="./data/"+_id1+".txt";
-	let res1=await fetch(uri1);
-	if (res1.ok){
-	let	data1=await res1.txt();
-	}
-	let	data2=[];
-	data2=data1.split('\n');
-	alert(uri1);
-if(i<=2 && _id2==data2[0] && _pw2==data2[1]){
-*/
-	//digestMessage(_id1).then((digestHex1) => console.log(digestHex1));
+	let data1=(await(await fetch("./data/"+_id1+".txt")).text()).split('\n');
 
+if(i<=2 && _id2==data1[0] && _pw2==data1[1]){
+
+	//digestMessage(_id1).then((digestHex1) => console.log(digestHex1));
+/*
 if(i<=2 
 && _id2==="d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
 && _pw2==="114391183008ede514aa40171e86d7b654a9ffcca1bc5980f8c1d94214ac420a"){
+*/
 	window.location.href=_pw1+_id1+'.html';
 }else if(i<=2){
 	document.getElementById('result').textContent="Invalid ID or password "+i+", you can try next "+(3-i)+".";
