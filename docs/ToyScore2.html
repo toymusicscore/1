@@ -2037,12 +2037,14 @@ newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
 
 }
 
-function download1(){
-let files=[];
+async function download1(){
+let files=await(await fetch("./data/SongList.txt")).text();
+/*
 fetch("./data/SongList.txt")
 .then(response=> response.text())
 .then(data1=> files=data1.split('\n'))
 .then(files=> alert(files))
+*/
 alert(files)
 /*
 files=new Array();
