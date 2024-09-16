@@ -2038,7 +2038,7 @@ newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
 }
 
 async function download1(){
-let files=await(await fetch("./data/SongList.txt")).text();
+let files=(await(await fetch("./data/SongList.txt")).text()).split('\n');
 /*
 fetch("./data/SongList.txt")
 .then(response=> response.text())
