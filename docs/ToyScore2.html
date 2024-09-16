@@ -2040,7 +2040,7 @@ newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
 function download1(){
 fetch("./data/SongList.txt")
 .then(response=> response.text())
-.then(data=> files=data.split('\n'))
+.then(data=> files=data.split('\n').split('\t'))
 .then(files=>alert(files))
 
 /*
