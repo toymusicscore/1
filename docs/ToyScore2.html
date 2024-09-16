@@ -2040,10 +2040,12 @@ newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
 async function download1(){
 	let uri1="./data/SongList.txt";
 	let res1=await fetch(uri1);
+	let	data1=await res1.txt();
+/*
 	if (res1.ok){
-		data1=await res1.txt();
+	let	data1=await res1.txt();
 	}
-	alert(data1);
+*/	alert(data1);
 	let	files=data1.split('\n');
 
 /*
