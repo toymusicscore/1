@@ -2038,6 +2038,15 @@ newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
 }
 
 function download1(){
+fetch("./data/SongList.txt")
+.then(function(response){
+	return response.text();
+})
+.then(function(data){
+	let files=data.split('\n');
+})
+alert(files);
+/*
 files=new Array();
 files[0]="Amazing_Grace";
 files[1]="Annie_Laurie";
@@ -2052,6 +2061,7 @@ files[9]="Salley_Gardens_SATB";
 files[10]="Scarborough_Fair_SATB";
 files[11]="The_Last_Rose_of_Summer";
 files[12]="Twinkle_Twinkle_Little_Star";
+*/
 
 window.name="openerWin";
 newWin1=window.open();
