@@ -23,10 +23,6 @@ demo
 <option value="The_Last_Rose_of_Summer" style="font-size:100%"> The_Last_Rose_of_Summer </option>
 <option value="Twinkle_Twinkle_Little_Star" style="font-size:100%"> Twinkle_Twinkle_Little_Star </option>
 </select>
-<span id="ts"></span>
-C <span id="channels"></span>
-T <span id="pt"></span>
-P <span id="prgrs"></span>
 <input type="tel"    name="n_low" value="" size="2" style="font-size:100%" >
 <input type="tel"    name="n_high" value="" size="2" style="font-size:100%" >
 <input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
@@ -95,6 +91,10 @@ P <span id="prgrs"></span>
 <input type="button" name="b_>>" value=">>" onClick="forwards()" style="font-size:100%" >
 <input type="button" name="b_>|" value=">|" onClick="end1()" style="font-size:100%" >
 <input type="button" name="b_?" value="?" onClick="information1()" style="font-size:100%" >
+<span id="ts"></span>
+C <span id="channels"></span>
+T <span id="pt"></span>
+P <span id="prgrs"></span>
 
 </form>
 <canvas id="cv2" width="1200" height="1300">
@@ -1914,9 +1914,7 @@ function information1(){
 window.name="openerWin";
 newWin2=window.open();
 newWin2.document.writeln ('<pre>Information<hr color="#ff0000"></font></pre>'.fontsize(6));
-newWin2.document.writeln ('<pre><font color="#000080">MID Choose File   </font>Choose a Standard MIDI File (SMF). </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">TXT Choose File   </font>Choose a tab delimited   txt file for the mid file to show additional information as follows: </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">                  Credit, Fingering, Memo, Left notation, Right notation, Lyrics(1-5). </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Song List         </font>Select a song. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">A                 </font>Show the range of notes between the note numbers in the text boxes and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">H                 </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">M                 </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
