@@ -15,60 +15,22 @@ Pianorollscore
 <h2>
 Pianorollscore is a musical score that looks like the piano keyboard and it's  easy to find notes on the piano. <br>
 <br>
-You can open your midi and text files together to show lylics, memos and fingering on notes after login.<br> 
+You can open your midi and text files together to show lylics, memos and fingering on pianorollscore.<br> 
 You can also estimate the key of the song and draw geometric figures of chords in Pythagorean tuning and Just intonation.<br>
 <br>
 Try 
-<a href='demo.html'>Demo.</a><br>
-Get your ID and password at 
-<a href='https://toyscore.base.shop/'>the Base shop.</a><br>
+<a href='demo.html'>Demo</a> to select demo songs.<br>
+Try 
+<a href='local.html'>Local</a> to open your midi and text files.<br>
+You can download demo songs from "Download demo".
+
 By using this site, you agree to our  
 <a href='https://www.termsfeed.com/live/27f906bd-435e-4590-8169-6890b09de982'>Privacy Policy</a> and 
 <a href='https://www.termsfeed.com/live/1d04fc40-f6de-4932-a83c-5eda2ae27972'>Terms and Conditions</a>.
 <br><br>
-ID<br>
-<input name="id1" type="password" style="font-size:100%" ><br>
-Password<br>
-<input name="pw1" type="password" style="font-size:100%" ><br>
-<br>
-<input type="button" value="Log in" onClick="login()" style="font-size:100%" ><br>
-<font color=blue><p id="result"></p></font>
-<br>
 &copy2024 pianorollscore.com
 </h2>
 </form>
-<script>
-
-async function digestMessage(message) {
-  const msgUint8 = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-  return hashHex;
-}
-
-let i=1;
-async function login(){
-	let _id1=document.form1.id1.value;
-	let _pw1=document.form1.pw1.value;
-	let _id2=await digestMessage(_id1);	
-	let _pw2=await digestMessage(_pw1);	
-	let data1=(await(await fetch("./data/"+_id1+".txt")).text()).split('\n');
-	//digestMessage(_id1).then((digestHex1) => console.log(digestHex1));
-
-if(i<=2 && _id2==data1[0] && _pw2==data1[1]){
-	window.location.href=_pw1+_id1+'.html';
-}else if(i<=2){
-	document.getElementById('result').textContent="Invalid ID or password "+i+", you can try next "+(3-i)+".";
-	i++;
-}else if(i>2){
-	document.getElementById('result').textContent="You entered invalid ID or password 3 times. Get your ID and password at the Base shop.";
-}
-}
-  
-</script>
 </body>
 </html>
 
