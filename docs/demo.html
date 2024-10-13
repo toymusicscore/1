@@ -78,6 +78,7 @@ demo
 <option value="11" style="font-size:100%"> Information </option>
 <option value="12" style="font-size:100%"> Pythagorean Tuning</option>
 <option value="13" style="font-size:100%"> Just Intonation</option>
+<option value="14" style="font-size:100%"> 12 Equal Temperament</option>
 </select>
 <input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
@@ -1949,6 +1950,7 @@ newWin2.document.writeln ('<pre><font color="#006400">Key 25            </font>E
 newWin2.document.writeln ('<pre><font color="#006400">Index             </font>Change screen to index.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Pythagorean Tuning</font>Change screen to learn Pythagorean Tuning.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Just Intonation   </font>Change screen to learn Just Intonation.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">12 Equal Temperament   </font>Change screen to learn 12 Equal Temperament.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">MIDI              </font>MIDI is a trademark of The MIDI Manufacturers Association Inc., resistered in countries </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">                  </font>worldwide and of the Association of Musical Electronics Industry resistered in Japan.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Patent Pending    </font>Patent Application in Japan No.2023-143681.</font></pre>'.fontsize(5));
@@ -2014,6 +2016,10 @@ window.location.href="Chord_pt.html"
 
 function chord_ji(){
 window.location.href="Chord_ji.html"
+}
+
+function chord_12et(){
+window.location.href="Chord_12et.html"
 }
 
 //smf's lyrics
@@ -3974,6 +3980,8 @@ information1();
 chord_pt();
 }else if(document.form1.sv1.options[13].selected==true){
 chord_ji();
+}else if(document.form1.sv1.options[14].selected==true){
+chord_12et();
 }
 }
 
