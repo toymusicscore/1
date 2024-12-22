@@ -51,13 +51,13 @@ demo
 <option value="4" style="font-size:100%"> ABC_E_b </option>
 <option value="5" style="font-size:100%"> ABC_G_# </option>
 <option value="6" style="font-size:100%"> ABC_G_b </option>
-<option value="7" style="font-size:100%"> Pitch Classes </option>
-<option value="8" style="font-size:100%"> Note Numbers </option>
-<option value="9" style="font-size:100%"> Note IDs </option>
-<option value="10" style="font-size:100%"> MID Lyrics </option>
+<option value="7" style="font-size:100%"> Pitch Class </option>
+<option value="8" style="font-size:100%" selected="selected"> MIDI Duodecimal </option>
+<option value="9" style="font-size:100%"> MIDI Number </option>
+<option value="10" style="font-size:100%"> Note ID </option>
 <option value="11" style="font-size:100%"> TXT Fingering </option>
 <option value="12" style="font-size:100%"> TXT Memos </option>
-<option value="13" style="font-size:100%" selected="selected"> TXT Lyrics1 </option>
+<option value="13" style="font-size:100%"> TXT Lyrics1 </option>
 <option value="14" style="font-size:100%" > TXT Lyrics2 </option>
 <option value="15" style="font-size:100%" > TXT Lyrics3 </option>
 <option value="16" style="font-size:100%" > TXT Lyrics4 </option>
@@ -621,7 +621,7 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(k,mx+l*kw,my/2);
+ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -689,8 +689,10 @@ ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[10].selected==true){
 ctx2.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 //tsv finger numbers
 }else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
@@ -770,7 +772,7 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(k,mx+l*kw,my/2);
+ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -842,8 +844,10 @@ ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(midi.toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[10].selected==true){
 ctx2.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 //tsv finger numbers
 }else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
@@ -923,7 +927,7 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(k,mx+l*kw,my/2);
+ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -1005,8 +1009,10 @@ ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/nt
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[10].selected==true){
 ctx2.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 //tsv finger number
 }else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
@@ -1086,7 +1092,7 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(k,mx+l*kw,my/2);
+ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -1168,8 +1174,10 @@ ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/nt
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(midi.toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[10].selected==true){
 ctx2.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 //tsv finger number
 }else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
