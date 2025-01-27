@@ -80,7 +80,8 @@ demo
 <option value="13" style="font-size:100%"> Just Intonation</option>
 <option value="14" style="font-size:100%"> 12 Equal Temperament</option>
 </select>
-<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
+<label><input type="checkbox" name="touch" checked/>Touch</label>
+<label><input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">BPM</label>
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
 <input type="button" name="b_sb" value="SB" onClick="silent1()" style="font-size:100%" >
 <input type="button" name="b_so" value="SO" onClick="silent2()" style="font-size:100%" >
@@ -603,6 +604,10 @@ ctx2.clearRect(0,0,1400,1300);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
+
+if(document.form1.touch.checked){
+touch_sound1();
+}
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
