@@ -7,13 +7,10 @@ Local
 </title>
 </head>
 <body style="font-size:160%" >
-<basefont face="Times New Roman">
+<basefont face="Arial">
 <form name="form1" >
 MID<input type="file" id="selfile1" style="font-size:100%">
 TXT<input type="file" id="selfile2" style="font-size:100%">
-<input type="tel"    name="n_low" value="" size="2" style="font-size:100%" >
-<input type="tel"    name="n_high" value="" size="2" style="font-size:100%" >
-<input type="button" name="OA" value="A" onClick="octaveA()" style="font-size:100%" >
 <input type="range"  name="r_hgh" value="4" min="2" max="10" step="1" onChange="height1()">
 <input type="tel"    name="x_hgh" value="4" size="2" style="font-size:100%" >
 <input type="button" name="b_hgh" value="H" onClick="height2()" style="font-size:100%" >
@@ -69,7 +66,7 @@ TXT<input type="file" id="selfile2" style="font-size:100%">
 <option value="14" style="font-size:100%"> Download Demo </option>
 
 </select>
-<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()">
+<label>BPM<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()"></label>
 <input type="tel"    name="x_bpm" value="" size="2" style="font-size:100%" >
 <input type="button" name="b_sb" value="SB" onClick="silent1()" style="font-size:100%" >
 <input type="button" name="b_so" value="SO" onClick="silent2()" style="font-size:100%" >
@@ -472,9 +469,6 @@ r2.push(note.stop);
   }
 })
 })
-
-document.form1.n_low.value=midi_min;
-document.form1.n_high.value=midi_max;
 
 i=0;
 j=0;
@@ -1268,6 +1262,7 @@ return(j>=value[0]);
 wait1=60000/tbpm1[1]*(r3w[2]-r3w[1])/ppq;
 
 document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_bpm.value="100";
 
 time1=r5.findLast(function(value){
 return(j>=value[0]);
@@ -1577,6 +1572,7 @@ return(j>=value[0]);
 });
 
 document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_bpm.value="100";
 
 time1=r5.findLast(function(value){
 return(j>=value[0]);
@@ -1690,156 +1686,6 @@ still2();
 
 }
 
-function octave13A(){
-document.form1.n_low.value=60;
-document.form1.n_high.value=72;
-octaveA()
-}
-function octave25A(){
-document.form1.n_low.value=48;
-document.form1.n_high.value=72;
-octaveA()
-}
-function octave37A(){
-document.form1.n_low.value=48;
-document.form1.n_high.value=84;
-octaveA()
-}
-function octave49A(){
-document.form1.n_low.value=36;
-document.form1.n_high.value=84;
-octaveA()
-}
-function octave61A(){
-document.form1.n_low.value=36;
-document.form1.n_high.value=96;
-octaveA()
-}
-function octaveOrgA(){
-document.form1.n_low.value=midi_min0;
-document.form1.n_high.value=midi_max0;
-octaveA2()
-}
-function octaveA(){
-x_ch1=document.form1.x_ch.value;
-chr=x_ch1.split("*");
-let ch0=chr[0];
-let ch1=chr[1];
-let trs1=document.form1.x_trs.value;
-midi_min=document.form1.n_low.value;
-midi_max=document.form1.n_high.value;
-n_id="x";
-r1=[]
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
-if(x_ch1==="" || note.channel+1==ch0 || note.channel+1==ch1){
-let trs2=Number(note.pitch)+Number(trs1);
-if(trs2>midi_max && (trs2-midi_max)%12===0){
-pitch1= midi_max;
-r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
-}
-if(trs2>midi_max && (trs2-midi_max)%12>0){
-pitch1= midi_max-12+(trs2-midi_max)%12;
-r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
-}
-if(trs2>=midi_min && trs2<=midi_max){ 
-r1.push([trs2,note.start,note.stop, note.channel+1,n_id]);
-}
-if(trs2<midi_min && (trs2-midi_min)%12===0){ 
-pitch1=midi_min;
-r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
-}
-if(trs2<midi_min && (trs2-midi_min)%12<0){ 
-pitch1=Number(midi_min)+12+(trs2-midi_min)%12;
-r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
-}
-}
-});
-});
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}
-
-document.getElementById("credit").innerHTML=
-"Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Moved notes from outside to the nearest same pitch class in the range."+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
-"<br>Disclaimer:No warranties are given."
-;
-
-}
-function octaveA2(){
-x_ch1=document.form1.x_ch.value;
-chr=x_ch1.split("*");
-let ch0=chr[0];
-let ch1=chr[1];
-let trs1=document.form1.x_trs.value;
-midi_min=document.form1.n_low.value;
-midi_max=document.form1.n_high.value;
-n_id=1;
-r1=[]
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
-if(x_ch1==="" || note.channel+1==ch0 || note.channel+1==ch1){
-let trs2=Number(note.pitch)+Number(trs1);
-if(trs2>midi_max && (trs2-midi_max)%12===0){
-pitch1= midi_max;
-r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
-}
-if(trs2>midi_max && (trs2-midi_max)%12>0){
-pitch1= midi_max-12+(trs2-midi_max)%12;
-r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
-}
-if(trs2>=midi_min && trs2<=midi_max){ 
-r1.push([trs2,note.start,note.stop, note.channel+1,n_id]);
-}
-if(trs2<midi_min && (trs2-midi_min)%12===0){ 
-pitch1=midi_min;
-r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
-}
-if(trs2<midi_min && (trs2-midi_min)%12<0){ 
-pitch1=Number(midi_min)+12+(trs2-midi_min)%12;
-r1.push([pitch1,note.start,note.stop, note.channel+1,n_id]);
-}
-}
-n_id+=1;
-});
-});
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}
-
-document.getElementById("credit").innerHTML=
-"Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
-"<br>Disclaimer:No warranties are given."
-;
-
-}
 
 function channel1(){
 x_ch1=document.form1.x_ch.value;
