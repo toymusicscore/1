@@ -615,7 +615,11 @@ ctx2.strokeStyle="blue";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
+if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(k,mx+l*kw,my/2);
+}else{
 ctx2.fillText(k.toString(12),mx+l*kw,my/2);
+}
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -1794,7 +1798,6 @@ window.name="openerWin";
 newWin2=window.open();
 newWin2.document.writeln ('<pre>Information<hr color="#ff0000"></font></pre>'.fontsize(6));
 newWin2.document.writeln ('<pre><font color="#000080">Song List         </font>Select a song. </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">A                 </font>Show the range of notes between the note numbers in the text boxes and move notes from outside to the nearest same pitch class in the range.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">H                 </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">M                 </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">K                 </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
