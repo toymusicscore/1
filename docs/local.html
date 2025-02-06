@@ -2013,9 +2013,10 @@ for(i=0;i<trnnr0.length;i++){
 
 
 function keyw1(){
+canvas2.width = 1300;
 canvas2.height = 1300;
 ctx2.font="25px Arial";
-ctx2.clearRect(0,0,1200,1300);
+ctx2.clearRect(0,0,1300,1300);
 ctx2.lineWidth=1;
 ctx2.fillStyle="black";
 ctx2.fillText("Proportions of pitch classes in time windows and scatter plot of pitch classes and time",0,30);
@@ -3220,6 +3221,7 @@ ctx2.fillText("Unidentified" ,810,960+(11)*30);
 
 
 function keyw2(){
+canvas2.width = 1300;
 canvas2.height = 1300;
 msr_from=Number(document.form1.x_msrf.value);
 msr_to=Number(document.form1.x_msrt.value);
@@ -3233,7 +3235,7 @@ tk_to=(Number(document.form1.x_msrt.value)+1)*ppq*bttl/ntvl*4-1;
 }
 
 ctx2.font="25px Arial";
-ctx2.clearRect(0,0,1200,1300);
+ctx2.clearRect(0,0,1300,1300);
 ctx2.lineWidth=1;
 ctx2.fillStyle="black";
 ctx2.fillText("Proportions of pitch classes in time window and scatter plot of pitch classes and time",0,30);
@@ -3299,7 +3301,7 @@ keyrp10_0.push([midi%12, start]);
 }
 
 ctx2.fillStyle="black";
-ctx2.fillText("Proportions of keys and the best relative keys in time window",0,510);
+ctx2.fillText("Proportions of keys and the best relative keys in the pecified time window",0,510);
 ctx2.fillText("Major scale",0,540);
 ctx2.fillText("Minor scale",0,570);
 ctx2.fillText("Measure range",0,600);
