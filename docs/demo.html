@@ -118,8 +118,8 @@ const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
 const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
 const scaler1=["major","minor"];
 const scaleMjr0=[0,2,4,5,7,9,11];
-const scaleMnrH=[0,2,3,5,7,8,11];
-const scaleMnrM=[0,2,3,5,7,9,11];
+const scaleMnrH=[0,2,4,5,8,9,11];
+const scaleMnrM=[0,2,4,6,8,9,11];
 const engMnr1=["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
 const instName=[
 'Acoustic Grand Piano',
@@ -3483,14 +3483,14 @@ keyrp10_H3=[];
 	
 	for(i=0;i<keyrp10_H3.length;i++){
 	ctx2.fillStyle=col[keyrp10_H3[i][1]];
-	ctx2.fillRect(200+50*keyrp10_H3[i][1],600,50,30);
+	ctx2.fillRect(200+50*keyrp10_H3[i][1],660,50,30);
 	}
 
 	keyrp10_H3.sort(function(m,n){return n[4]-m[4];})
 	
 	ctx2.fillStyle="black";
 	if(keyrp10_H3[0][4]>0){
-	ctx2.fillText(keyrp10_H3[0][4]+1+" best pairs",810,630);
+	ctx2.fillText(keyrp10_H3[0][4]+1+" best pairs",810,660);
 	}
 
 	keyrp10_H3.sort(function(m,n){return m[1]-n[1];})
@@ -3546,14 +3546,14 @@ keyrp10_M3=[];
 	
 	for(i=0;i<keyrp10_M3.length;i++){
 	ctx2.fillStyle=col[keyrp10_M3[i][1]];
-	ctx2.fillRect(200+50*keyrp10_M3[i][1],600,50,30);
+	ctx2.fillRect(200+50*keyrp10_M3[i][1],690,50,30);
 	}
 
 	keyrp10_M3.sort(function(m,n){return n[4]-m[4];})
 	
 	ctx2.fillStyle="black";
 	if(keyrp10_M3[0][4]>0){
-	ctx2.fillText(keyrp10_M3[0][4]+1+" best pairs",810,630);
+	ctx2.fillText(keyrp10_M3[0][4]+1+" best pairs",810,690);
 	}
 
 	keyrp10_M3.sort(function(m,n){return m[1]-n[1];})
