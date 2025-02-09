@@ -3693,12 +3693,14 @@ if(tfmjr_mnr>0){
 	ctx2.fillText(engf1[keyrp10_3[i][1]] + " major / " + engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,850+30*i);
 }
 }
-/*
+
 keyrp10_4.sort(function(m,n){return n[0]-m[0]})
 l=keyrp10_3.length;
 ctx2.fillText("Conclusion",0,850+30*l);
 ctx2.fillText(keyrp10_4[0][1],810,850+30*l);
-*/
+if (keyrp10_4[0][1]==keyrp10_4[1][1]){
+	ctx2.fillText(" / " + keyrp10_4[1][1],850,850+30*l);
+}
 }
 
 
