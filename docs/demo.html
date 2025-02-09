@@ -3570,8 +3570,13 @@ if(tfmjr_mnr>0){
 keyrp10_4.sort(function(m,n){return n[0]-m[0]})
 l=keyrp10_3.length;
 ctx2.fillText("Conclusion",0,850+30*l);
-ctx2.fillText(keyrp10_4[0][0]+keyrp10_4[0][1]+keyrp10_4[1][0]+keyrp10_4[1][1],810,850+30*l);
+if(keyrp10_4[0][0]>keyrp10_4[1][0]){
+	ctx2.fillText(keyrp10_4[0][1],810,850+30*l);
+}else{
+	ctx2.fillText("",810,850+30*l);
 }
+}
+
 
 
 function instrument1(){
