@@ -3490,7 +3490,7 @@ keyrp10_H3=[];
 	
 	ctx2.fillStyle="black";
 	if(keyrp10_H3[0][4]>0){
-	ctx2.fillText(keyrp10_H3[0][4]+1+" best minor scales",810,660);
+	ctx2.fillText(keyrp10_H3[0][4]+1+" best harmonic minor scales",810,660);
 	}
 
 	keyrp10_H3.sort(function(m,n){return m[1]-n[1];})
@@ -3553,7 +3553,7 @@ keyrp10_M3=[];
 	
 	ctx2.fillStyle="black";
 	if(keyrp10_M3[0][4]>0){
-	ctx2.fillText(keyrp10_M3[0][4]+1+" best minor scales",810,690);
+	ctx2.fillText(keyrp10_M3[0][4]+1+" best melodic minor scales",810,690);
 	}
 
 	keyrp10_M3.sort(function(m,n){return m[1]-n[1];})
@@ -3690,14 +3690,15 @@ if(tfmjr_mnr>0){
 	ctx2.fillText(engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,850+30*i);
 }else{
 	ctx2.fillStyle="black";
-	ctx2.fillText(engf1[keyrp10_3[i][1]] + " major/" + engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,850+30*i);
+	ctx2.fillText(engf1[keyrp10_3[i][1]] + " major / " + engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,850+30*i);
 }
 }
-
+/*
 keyrp10_4.sort(function(m,n){return n[0]-m[0]})
 l=keyrp10_3.length;
 ctx2.fillText("Conclusion",0,850+30*l);
 ctx2.fillText(keyrp10_4[0][1],810,850+30*l);
+*/
 }
 
 
