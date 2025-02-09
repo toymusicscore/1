@@ -3566,7 +3566,7 @@ ctx2.fillText(-tfmjr_mnr,700,750+30*i);
 ctx2.fillText(-tfmjr_mnr,714,750+30*i);
 }
 ctx2.fillText(engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,750+30*i);
-}else if(tfmjr_mnr===0){
+}else{
 ctx2.fillStyle="black";
 ctx2.fillText(engf1[keyrp10_3[i][1]] + " major/" + engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,750+30*i);
 }
@@ -3575,7 +3575,11 @@ ctx2.fillText(engf1[keyrp10_3[i][1]] + " major/" + engMnr1[(keyrp10_3[i][1]+9)%1
 keyrp10_4.sort(function(m,n){return n[0]-m[0]})
 l=keyrp10_3.length;
 ctx2.fillText("Conclusion",0,750+30*l);
-ctx2.fillText(keyrp10_4[0][1],810,750+30*l);
+if(keyrp10_4[0][0]>keyrp10_4[1][0]){
+	ctx2.fillText(keyrp10_4[0][1],810,750+30*l);
+}else{
+	ctx2.fillText("",810,750+30*l);
+}
 }
 
 
