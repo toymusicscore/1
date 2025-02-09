@@ -118,8 +118,8 @@ const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
 const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
 const scaler1=["major","minor"];
 const scaleMjr0=[0,2,4,5,7,9,11];
-const scaleMnr1=[0,2,4,5,8,9,11];
-const scaleMnr2=[0,2,4,5,6,7,8,9,11];
+const scaleMnrH=[0,2,3,5,7,8,11];
+const scaleMnrM=[0,2,3,5,7,9,11];
 const engMnr1=["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
 const instName=[
 'Acoustic Grand Piano',
@@ -3446,29 +3446,129 @@ keyrp10_3=[];
 		}
 	}
 
-	w1=0;
-	for(i=0;i<keyrp10_2.length;i++){
+
+	keyrp10_H2=[];
+	for(j=0;j<12;j++){
+		num0=0;
+		for(k=0;k<12;k++){
+			if(scaleMnrH.includes((12-j+k)%12)){
+			num0=num0+Number(keyrp10_1[0][k+1]);
+			}
+		}
+		keyrp10_H2.push([0, j, num0,keyrp10_1[0][13]]);
+	}
+
+keyrp10_H2.sort(function(m,n){return n[2]-m[2];})
+
+keyrp10_H3=[];
+		num1=0;
+		num2=0;
+		num3=0;
+		num4=0;
+	for (j=0;j<keyrp10_2.length;j++){
+		if(num2<keyrp10_2[j][2]){
+		num1=keyrp10_2[j][1];
+		num2=keyrp10_2[j][2];
+		num3=keyrp10_2[j][3];
+		num4=0;
+		keyrp10_3.push([0,num1,num2,num3,num4]);
+		}else if(num2===keyrp10_2[j][2]){
+		num1=keyrp10_2[j][1];
+		num2=keyrp10_2[j][2];
+		num3=keyrp10_2[j][3];
+		num4+=1;	
+		keyrp10_3.push([0,num1,num2,num3,num4]);
+		}
+	}
+	
+	for(i=0;i<keyrp10_3.length;i++){
+	ctx2.fillStyle=col[keyrp10_3[i][1]];
+	ctx2.fillRect(200+50*keyrp10_H3[i][1],600,50,30);
+	}
+
+	keyrp10_H3.sort(function(m,n){return n[4]-m[4];})
+	
 	ctx2.fillStyle="black";
-	w1=Math.round(keyrp10_2[i][2]/keyrp10_2[i][3]*100)
+	if(keyrp10_H3[0][4]>0){
+	ctx2.fillText(keyrp10_H3[0][4]+1+" best pairs",810,630);
+	}
+
+	keyrp10_H3.sort(function(m,n){return m[1]-n[1];})
+	
+
+	w1=0;
+	for(i=0;i<keyrp10_H2.length;i++){
+	ctx2.fillStyle="black";
+	w1=Math.round(keyrp10_H2[i][2]/keyrp10_H2[i][3]*100)
 		if (w1===100){
-		ctx2.fillText(w1,200+50*keyrp10_2[i][1],660);
+		ctx2.fillText(w1,200+50*keyrp10_H2[i][1],660);
 		}else if(w1>=10){
-		ctx2.fillText(w1,214+50*keyrp10_2[i][1],660);
+		ctx2.fillText(w1,214+50*keyrp10_H2[i][1],660);
 		}else{
-		ctx2.fillText(w1,228+50*keyrp10_2[i][1],660);
+		ctx2.fillText(w1,228+50*keyrp10_H2[i][1],660);
 		}
 	}
 
-	w1=0;
-	for(i=0;i<keyrp10_2.length;i++){
+
+	keyrp10_M2=[];
+	for(j=0;j<12;j++){
+		num0=0;
+		for(k=0;k<12;k++){
+			if(scaleMnrM.includes((12-j+k)%12)){
+			num0=num0+Number(keyrp10_1[0][k+1]);
+			}
+		}
+		keyrp10_M2.push([0, j, num0,keyrp10_1[0][13]]);
+	}
+
+keyrp10_M2.sort(function(m,n){return n[2]-m[2];})
+
+keyrp10_M3=[];
+		num1=0;
+		num2=0;
+		num3=0;
+		num4=0;
+	for (j=0;j<keyrp10_M2.length;j++){
+		if(num2<keyrp10_M2[j][2]){
+		num1=keyrp10_M2[j][1];
+		num2=keyrp10_M2[j][2];
+		num3=keyrp10_M2[j][3];
+		num4=0;
+		keyrp10_M3.push([0,num1,num2,num3,num4]);
+		}else if(num2===keyrp10_M2[j][2]){
+		num1=keyrp10_M2[j][1];
+		num2=keyrp10_M2[j][2];
+		num3=keyrp10_M2[j][3];
+		num4+=1;	
+		keyrp10_M3.push([0,num1,num2,num3,num4]);
+		}
+	}
+	
+	for(i=0;i<keyrp10_M3.length;i++){
+	ctx2.fillStyle=col[keyrp10_M3[i][1]];
+	ctx2.fillRect(200+50*keyrp10_M3[i][1],600,50,30);
+	}
+
+	keyrp10_M3.sort(function(m,n){return n[4]-m[4];})
+	
 	ctx2.fillStyle="black";
-	w1=Math.round(keyrp10_2[i][2]/keyrp10_2[i][3]*100)
+	if(keyrp10_M3[0][4]>0){
+	ctx2.fillText(keyrp10_M3[0][4]+1+" best pairs",810,630);
+	}
+
+	keyrp10_M3.sort(function(m,n){return m[1]-n[1];})
+	
+
+	w1=0;
+	for(i=0;i<keyrp10_M2.length;i++){
+	ctx2.fillStyle="black";
+	w1=Math.round(keyrp10_M2[i][2]/keyrp10_M2[i][3]*100)
 		if (w1===100){
-		ctx2.fillText(w1,200+50*keyrp10_2[i][1],690);
+		ctx2.fillText(w1,200+50*keyrp10_M2[i][1],690);
 		}else if(w1>=10){
-		ctx2.fillText(w1,214+50*keyrp10_2[i][1],690);
+		ctx2.fillText(w1,214+50*keyrp10_M2[i][1],690);
 		}else{
-		ctx2.fillText(w1,228+50*keyrp10_2[i][1],690);
+		ctx2.fillText(w1,228+50*keyrp10_M2[i][1],690);
 		}
 	}
 
