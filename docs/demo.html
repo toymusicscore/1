@@ -3302,7 +3302,7 @@ ctx2.fillText("Minor scale",0,570);
 ctx2.fillText("Measure range",0,600);
 ctx2.fillText("Comments",810,600);
 ctx2.fillText("Harmonic Minor",0,660);
-ctx2.fillText("Melodic Minor",0,720);
+ctx2.fillText("Melodic Minor",0,690);
 if(msr_from>=1000){
 ctx2.fillText(msr_from,0,630);	
 }else if(msr_from>=100){
@@ -3446,6 +3446,31 @@ keyrp10_3=[];
 		}
 	}
 
+	w1=0;
+	for(i=0;i<keyrp10_2.length;i++){
+	ctx2.fillStyle="black";
+	w1=Math.round(keyrp10_2[i][2]/keyrp10_2[i][3]*100)
+		if (w1===100){
+		ctx2.fillText(w1,200+50*keyrp10_2[i][1],660);
+		}else if(w1>=10){
+		ctx2.fillText(w1,214+50*keyrp10_2[i][1],660);
+		}else{
+		ctx2.fillText(w1,228+50*keyrp10_2[i][1],660);
+		}
+	}
+
+	w1=0;
+	for(i=0;i<keyrp10_2.length;i++){
+	ctx2.fillStyle="black";
+	w1=Math.round(keyrp10_2[i][2]/keyrp10_2[i][3]*100)
+		if (w1===100){
+		ctx2.fillText(w1,200+50*keyrp10_2[i][1],690);
+		}else if(w1>=10){
+		ctx2.fillText(w1,214+50*keyrp10_2[i][1],690);
+		}else{
+		ctx2.fillText(w1,228+50*keyrp10_2[i][1],690);
+		}
+	}
 
 ctx2.fillStyle="black";
 ctx2.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",0,790);
