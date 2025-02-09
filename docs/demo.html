@@ -3465,24 +3465,24 @@ keyrp10_H3=[];
 		num2=0;
 		num3=0;
 		num4=0;
-	for (j=0;j<keyrp10_2.length;j++){
-		if(num2<keyrp10_2[j][2]){
-		num1=keyrp10_2[j][1];
-		num2=keyrp10_2[j][2];
-		num3=keyrp10_2[j][3];
+	for (j=0;j<keyrp10_H2.length;j++){
+		if(num2<keyrp10_H2[j][2]){
+		num1=keyrp10_H2[j][1];
+		num2=keyrp10_H2[j][2];
+		num3=keyrp10_H2[j][3];
 		num4=0;
-		keyrp10_3.push([0,num1,num2,num3,num4]);
-		}else if(num2===keyrp10_2[j][2]){
-		num1=keyrp10_2[j][1];
-		num2=keyrp10_2[j][2];
-		num3=keyrp10_2[j][3];
+		keyrp10_H3.push([0,num1,num2,num3,num4]);
+		}else if(num2===keyrp10_H2[j][2]){
+		num1=keyrp10_H2[j][1];
+		num2=keyrp10_H2[j][2];
+		num3=keyrp10_H2[j][3];
 		num4+=1;	
-		keyrp10_3.push([0,num1,num2,num3,num4]);
+		keyrp10_H3.push([0,num1,num2,num3,num4]);
 		}
 	}
 	
-	for(i=0;i<keyrp10_3.length;i++){
-	ctx2.fillStyle=col[keyrp10_3[i][1]];
+	for(i=0;i<keyrp10_H3.length;i++){
+	ctx2.fillStyle=col[keyrp10_H3[i][1]];
 	ctx2.fillRect(200+50*keyrp10_H3[i][1],600,50,30);
 	}
 
