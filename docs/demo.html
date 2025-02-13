@@ -3631,10 +3631,10 @@ tfmjr_mnr=((
 -Number(keyrp10_1[0][(keyrp10_3[i][1]+16)%12+1])
 )/keyrp10_1[0][13]*100).toFixed(2);
 
-keyrp10_4.push([tfmjr07, engf1[keyrp10_3[i][1]] + " major"]);
-keyrp10_4.push([tfmnr07, engMnr1[(keyrp10_3[i][1]+9)%12] + " minor"]);
-keyrp10_4.push([tfmnr07H, engMnr1[(keyrp10H_3[i][1]+9)%12] + " Harmonic minor"]);
-keyrp10_4.push([tfmnr07M, engMnr1[(keyrp10M_3[i][1]+9)%12] + " Melodic minor"]);
+keyrp10_4.push([keyrp10_3[0][2]*1000+tfmjr07, engf1[keyrp10_3[i][1]] + " major"]);
+keyrp10_4.push([keyrp10_3[0][2]*1000+tfmnr07, engMnr1[(keyrp10_3[i][1]+9)%12] + " minor"]);
+keyrp10_4.push([keyrp10H_3[0][2]*1000+tfmnr07H, engMnr1[(keyrp10H_3[i][1]+9)%12] + " Harmonic minor"]);
+keyrp10_4.push([keyrp10M_3[0][2]*1000+tfmnr07M, engMnr1[(keyrp10M_3[i][1]+9)%12] + " Melodic minor"]);
 
 ctx2.fillStyle=col[keyrp10_3[i][1]];
 ctx2.fillRect(200,820+30*i,tfmjr0,30);
