@@ -3298,7 +3298,7 @@ keyrp10_0.push([midi%12, start]);
 ctx2.fillStyle="black";
 ctx2.fillText("Proportions of keys and the best relative keys in the specified time window",0,510);
 ctx2.fillText("Major scale",0,540);
-ctx2.fillText("Natural Minor",0,570);
+ctx2.fillText("Minor Scale",0,570);
 ctx2.fillText("Measure range",0,600);
 ctx2.fillText("Comments",810,600);
 ctx2.fillText("Harmonic Minor",0,660);
@@ -3553,7 +3553,7 @@ keyrp10M_3=[];
 	
 	ctx2.fillStyle="black";
 	if(keyrp10M_3[0][4]>0){
-	ctx2.fillText(keyrp10M_3[0][4]+1+" best scaless",810,690);
+	ctx2.fillText(keyrp10M_3[0][4]+1+" best scales",810,690);
 	}
 
 	keyrp10M_3.sort(function(m,n){return m[1]-n[1];})
@@ -3581,7 +3581,7 @@ ctx2.fillText("Major",600,820);
 ctx2.fillText("Minor",700,820);
 ctx2.fillText("Estimated key",810,820);
 
-for(i=0;i<=keyrp10_3.length;i++){
+for(i=0;i<=keyrp10_3.length+2;i++){
 ctx2.beginPath();
 ctx2.moveTo(0,820+i*30);
 ctx2.lineTo(1050,820+i*30);
@@ -3632,7 +3632,7 @@ tfmjr_mnr=((
 )/keyrp10_1[0][13]*100).toFixed(2);
 
 keyrp10_4.push([tfmjr07, engf1[keyrp10_3[i][1]] + " major"]);
-keyrp10_4.push([tfmnr07, engMnr1[(keyrp10_3[i][1]+9)%12] + " Natural minor"]);
+keyrp10_4.push([tfmnr07, engMnr1[(keyrp10_3[i][1]+9)%12] + " minor"]);
 keyrp10_4.push([tfmnr07H, engMnr1[(keyrp10H_3[i][1]+9)%12] + " Harmonic minor"]);
 keyrp10_4.push([tfmnr07M, engMnr1[(keyrp10M_3[i][1]+9)%12] + " Melodic minor"]);
 
@@ -3646,14 +3646,14 @@ ctx2.fillStyle=col[(keyrp10_3[i][1]+16)%12];
 ctx2.fillRect(400+tfmnr0,820+30*i,tfmnr7,30);
 
 ctx2.fillStyle=col[(keyrp10H_3[i][1]+9)%12];
-ctx2.fillRect(400,820+30*i,tfmnr0H,30);
+ctx2.fillRect(400,850+30*i,tfmnr0H,30);
 ctx2.fillStyle=col[(keyrp10H_3[i][1]+16)%12];
-ctx2.fillRect(400+tfmnr0H,820+30*i,tfmnr7H,30);
+ctx2.fillRect(400+tfmnr0H,850+30*i,tfmnr7H,30);
 
 ctx2.fillStyle=col[(keyrp10M_3[i][1]+9)%12];
-ctx2.fillRect(400,820+30*i,tfmnr0M,30);
+ctx2.fillRect(400,880+30*i,tfmnr0M,30);
 ctx2.fillStyle=col[(keyrp10M_3[i][1]+16)%12];
-ctx2.fillRect(400+tfmnr0M,820+30*i,tfmnr7M,30);
+ctx2.fillRect(400+tfmnr0M,880+30*i,tfmnr7M,30);
 
 
 ctx2.fillStyle="black";
@@ -3746,7 +3746,7 @@ if(tfmjr_mnr>0){
 	ctx2.fillText(engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,850+30*i);
 }else{
 	ctx2.fillStyle="black";
-	ctx2.fillText(engf1[keyrp10_3[i][1]] + " major / " + engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,850+30*i);
+	ctx2.fillText(engf1[keyrp10_3[i][1]] + " major or " + engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,850+30*i);
 }
 ctx2.fillText(engMnr1[(keyrp10H_3[i][1]+9)%12] + " Harmonic minor",810,880+30*i);
 ctx2.fillText(engMnr1[(keyrp10M_3[i][1]+9)%12] + " Melodic minor",810,910+30*i);
