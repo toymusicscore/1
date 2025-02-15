@@ -118,8 +118,8 @@ const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
 const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
 const scaler1=["major","minor"];
 const scaleMjr0=[0,2,4,5,7,9,11];
-const scaleMnrH=[0,2,4,5,8,9,11];
-const scaleMnrM=[0,2,4,6,8,9,11];
+const scaleMjrH=[0,2,4,5,8,9,11];
+const scaleMjrM=[0,2,4,6,8,9,11];
 const engMnr1=["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
 const instName=[
 'Acoustic Grand Piano',
@@ -3451,7 +3451,7 @@ keyrp10_3=[];
 	for(j=0;j<12;j++){
 		num0=0;
 		for(k=0;k<12;k++){
-			if(scaleMnrH.includes((12-j+k)%12)){
+			if(scaleMjrH.includes((12-j+k)%12)){
 			num0=num0+Number(keyrp10_1[0][k+1]);
 			}
 		}
@@ -3490,7 +3490,7 @@ keyrp10H_3=[];
 	
 	ctx2.fillStyle="black";
 	if(keyrp10H_3[0][4]>0){
-	ctx2.fillText(keyrp10H_3[0][4]+1+" best scales",810,660);
+	ctx2.fillText(keyrp10H_3[0][4]+1+" best pairs",810,660);
 	}
 
 	keyrp10H_3.sort(function(m,n){return m[1]-n[1];})
@@ -3514,7 +3514,7 @@ keyrp10H_3=[];
 	for(j=0;j<12;j++){
 		num0=0;
 		for(k=0;k<12;k++){
-			if(scaleMnrM.includes((12-j+k)%12)){
+			if(scaleMjrM.includes((12-j+k)%12)){
 			num0=num0+Number(keyrp10_1[0][k+1]);
 			}
 		}
@@ -3553,7 +3553,7 @@ keyrp10M_3=[];
 	
 	ctx2.fillStyle="black";
 	if(keyrp10M_3[0][4]>0){
-	ctx2.fillText(keyrp10M_3[0][4]+1+" best scales",810,690);
+	ctx2.fillText(keyrp10M_3[0][4]+1+" best pairs",810,690);
 	}
 
 	keyrp10M_3.sort(function(m,n){return m[1]-n[1];})
@@ -3581,7 +3581,7 @@ ctx2.fillText("Major",600,820);
 ctx2.fillText("Minor",700,820);
 ctx2.fillText("Estimated key",810,820);
 
-for(i=0;i<=keyrp10_3.length+2;i++){
+for(i=0;i<=keyrp10_3.length+keyrp10H_3.length+keyrp10M_3.length;i++){
 ctx2.beginPath();
 ctx2.moveTo(0,820+i*30);
 ctx2.lineTo(1050,820+i*30);
@@ -3590,7 +3590,7 @@ ctx2.stroke();
 }
 
 keyrp10_4=[];
-for(i=0;i<keyrp10_3.length;i++){
+for(i=0;i<keyrp10_3.length+keyrp10H_3.length+keyrp10M_3.length;i++){
 if(msr_from>=1000){
 ctx2.fillText(msr_from,0,850+30*i);	
 }else if(msr_from>=100){
@@ -3615,14 +3615,19 @@ tfmjr0=Math.round(keyrp10_1[0][(keyrp10_3[i][1]+0)%12+1]/keyrp10_1[0][13]*100);
 tfmjr7=Math.round(keyrp10_1[0][(keyrp10_3[i][1]+7)%12+1]/keyrp10_1[0][13]*100);
 tfmnr0=Math.round(keyrp10_1[0][(keyrp10_3[i][1]+9)%12+1]/keyrp10_1[0][13]*100);
 tfmnr7=Math.round(keyrp10_1[0][(keyrp10_3[i][1]+16)%12+1]/keyrp10_1[0][13]*100);
+tfmjr0H=Math.round(keyrp10_1[0][(keyrp10H_3[i][1]+0)%12+1]/keyrp10_1[0][13]*100);
+tfmjr7H=Math.round(keyrp10_1[0][(keyrp10H_3[i][1]+7)%12+1]/keyrp10_1[0][13]*100);
 tfmnr0H=Math.round(keyrp10_1[0][(keyrp10H_3[i][1]+9)%12+1]/keyrp10_1[0][13]*100);
 tfmnr7H=Math.round(keyrp10_1[0][(keyrp10H_3[i][1]+16)%12+1]/keyrp10_1[0][13]*100);
+tfmjr0M=Math.round(keyrp10_1[0][(keyrp10M_3[i][1]+0)%12+1]/keyrp10_1[0][13]*100);
+tfmjr7M=Math.round(keyrp10_1[0][(keyrp10M_3[i][1]+7)%12+1]/keyrp10_1[0][13]*100);
 tfmnr0M=Math.round(keyrp10_1[0][(keyrp10M_3[i][1]+9)%12+1]/keyrp10_1[0][13]*100);
 tfmnr7M=Math.round(keyrp10_1[0][(keyrp10M_3[i][1]+16)%12+1]/keyrp10_1[0][13]*100);
-
 tfmjr07=((Number(keyrp10_1[0][(keyrp10_3[i][1]+0)%12+1])+Number(keyrp10_1[0][(keyrp10_3[i][1]+7)%12+1]))/keyrp10_1[0][13]*100).toFixed(2);
 tfmnr07=((Number(keyrp10_1[0][(keyrp10_3[i][1]+9)%12+1])+Number(keyrp10_1[0][(keyrp10_3[i][1]+16)%12+1]))/keyrp10_1[0][13]*100).toFixed(2);
+tfmjr07H=((Number(keyrp10_1[0][(keyrp10H_3[i][1]+0)%12+1])+Number(keyrp10_1[0][(keyrp10H_3[i][1]+7)%12+1]))/keyrp10_1[0][13]*100).toFixed(2);
 tfmnr07H=((Number(keyrp10_1[0][(keyrp10H_3[i][1]+9)%12+1])+Number(keyrp10_1[0][(keyrp10H_3[i][1]+16)%12+1]))/keyrp10_1[0][13]*100).toFixed(2);
+tfmjr07M=((Number(keyrp10_1[0][(keyrp10M_3[i][1]+0)%12+1])+Number(keyrp10_1[0][(keyrp10M_3[i][1]+7)%12+1]))/keyrp10_1[0][13]*100).toFixed(2);
 tfmnr07M=((Number(keyrp10_1[0][(keyrp10M_3[i][1]+9)%12+1])+Number(keyrp10_1[0][(keyrp10M_3[i][1]+16)%12+1]))/keyrp10_1[0][13]*100).toFixed(2);
 tfmjr_mnr=((
  Number(keyrp10_1[0][(keyrp10_3[i][1]+0)%12+1])
@@ -3630,10 +3635,25 @@ tfmjr_mnr=((
 -Number(keyrp10_1[0][(keyrp10_3[i][1]+9)%12+1])
 -Number(keyrp10_1[0][(keyrp10_3[i][1]+16)%12+1])
 )/keyrp10_1[0][13]*100).toFixed(2);
+tfmjr_mnrH=((
+ Number(keyrp10_1[0][(keyrp10H_3[i][1]+0)%12+1])
++Number(keyrp10_1[0][(keyrp10H_3[i][1]+7)%12+1])
+-Number(keyrp10_1[0][(keyrp10H_3[i][1]+9)%12+1])
+-Number(keyrp10_1[0][(keyrp10H_3[i][1]+16)%12+1])
+)/keyrp10_1[0][13]*100).toFixed(2);
+tfmjr_mnrM=((
+ Number(keyrp10_1[0][(keyrp10M_3[i][1]+0)%12+1])
++Number(keyrp10_1[0][(keyrp10M_3[i][1]+7)%12+1])
+-Number(keyrp10_1[0][(keyrp10M_3[i][1]+9)%12+1])
+-Number(keyrp10_1[0][(keyrp10M_3[i][1]+16)%12+1])
+)/keyrp10_1[0][13]*100).toFixed(2);
+
 
 keyrp10_4.push([keyrp10_3[0][2]*1000+tfmjr07, engf1[keyrp10_3[i][1]] + " major"]);
 keyrp10_4.push([keyrp10_3[0][2]*1000+tfmnr07, engMnr1[(keyrp10_3[i][1]+9)%12] + " minor"]);
+keyrp10_4.push([keyrp10H_3[0][2]*1000+tfmjr07H, engf1[keyrp10H_3[i][1]] + "Harmonic major"]);
 keyrp10_4.push([keyrp10H_3[0][2]*1000+tfmnr07H, engMnr1[(keyrp10H_3[i][1]+9)%12] + " Harmonic minor"]);
+keyrp10_4.push([keyrp10M_3[0][2]*1000+tfmjr07M, engf1[keyrp10M_3[i][1]] + "Melodic major"]);
 keyrp10_4.push([keyrp10M_3[0][2]*1000+tfmnr07M, engMnr1[(keyrp10M_3[i][1]+9)%12] + " Melodic minor"]);
 
 ctx2.fillStyle=col[keyrp10_3[i][1]];
@@ -3645,15 +3665,23 @@ ctx2.fillRect(400,820+30*i,tfmnr0,30);
 ctx2.fillStyle=col[(keyrp10_3[i][1]+16)%12];
 ctx2.fillRect(400+tfmnr0,820+30*i,tfmnr7,30);
 
+ctx2.fillStyle=col[keyrp10H_3[i][1]];
+ctx2.fillRect(200,820+30*i,tfmjr0H,30);
+ctx2.fillStyle=col[(keyrp10H_3[i][1]+7)%12];
+ctx2.fillRect(200+tfmjr0,820+30*i,tfmjr7H,30);
 ctx2.fillStyle=col[(keyrp10H_3[i][1]+9)%12];
-ctx2.fillRect(400,850+30*i,tfmnr0H,30);
+ctx2.fillRect(400,820+30*i,tfmnr0H,30);
 ctx2.fillStyle=col[(keyrp10H_3[i][1]+16)%12];
-ctx2.fillRect(400+tfmnr0H,850+30*i,tfmnr7H,30);
+ctx2.fillRect(400+tfmnr0H,820+30*i,tfmnr7H,30);
 
+ctx2.fillStyle=col[keyrp10M_3[i][1]];
+ctx2.fillRect(200,820+30*i,tfmjr0M,30);
+ctx2.fillStyle=col[(keyrp10M_3[i][1]+7)%12];
+ctx2.fillRect(200+tfmjr0,820+30*i,tfmjr7M,30);
 ctx2.fillStyle=col[(keyrp10M_3[i][1]+9)%12];
-ctx2.fillRect(400,880+30*i,tfmnr0M,30);
+ctx2.fillRect(400,820+30*i,tfmnr0M,30);
 ctx2.fillStyle=col[(keyrp10M_3[i][1]+16)%12];
-ctx2.fillRect(400+tfmnr0M,880+30*i,tfmnr7M,30);
+ctx2.fillRect(400+tfmnr0M,820+30*i,tfmnr7M,30);
 
 
 ctx2.fillStyle="black";
@@ -3689,38 +3717,66 @@ if(tfmnr07>=10){
 	ctx2.fillText("=  " + tfmnr07,480,850+30*i);
 }
 
-
-if(tfmnr0H>=10){
-	ctx2.fillText(tfmnr0H,400,880+30*i);
+if(tfmjr0H>=10){
+	ctx2.fillText(tfmjr0H,200,850+30*i);
 }else{
-	ctx2.fillText(tfmnr0H,414,880+30*i);
+	ctx2.fillText(tfmjr0H,214,850+30*i);
+}
+if(tfmjr7H>=10){
+	ctx2.fillText("+" + tfmjr7H,230,850+30*i);
+}else{
+	ctx2.fillText("+  " + tfmjr7H,230,850+30*i);
+}
+if(tfmjr07H>=10){
+	ctx2.fillText("= " + tfmjr07H,280,850+30*i);
+}else{
+	ctx2.fillText("=  " + tfmjr07H,280,850+30*i);
+}
+if(tfmnr0H>=10){
+	ctx2.fillText(tfmnr0H,400,850+30*i);
+}else{
+	ctx2.fillText(tfmnr0H,414,850+30*i);
 }
 if(tfmnr7H>=10){
-	ctx2.fillText("+" + tfmnr7H,430,880+30*i);
+	ctx2.fillText("+" + tfmnr7H,430,850+30*i);
 }else{
-	ctx2.fillText("+  " + tfmnr7H,430,880+30*i);
+	ctx2.fillText("+  " + tfmnr7H,430,850+30*i);
 }
 if(tfmnr07H>=10){
-	ctx2.fillText("= " + tfmnr07H,480,880+30*i);
+	ctx2.fillText("= " + tfmnr07H,480,850+30*i);
 }else{
-	ctx2.fillText("=  " + tfmnr07H,480,880+30*i);
+	ctx2.fillText("=  " + tfmnr07H,480,850+30*i);
 }
 
-
-if(tfmnr0M>=10){
-	ctx2.fillText(tfmnr0M,400,910+30*i);
+if(tfmjr0M>=10){
+	ctx2.fillText(tfmjr0M,200,850+30*i);
 }else{
-	ctx2.fillText(tfmnr0M,414,910+30*i);
+	ctx2.fillText(tfmjr0M,214,850+30*i);
+}
+if(tfmjr7M>=10){
+	ctx2.fillText("+" + tfmjr7M,230,850+30*i);
+}else{
+	ctx2.fillText("+  " + tfmjr7M,230,850+30*i);
+}
+if(tfmjr07M>=10){
+	ctx2.fillText("= " + tfmjr07M,280,850+30*i);
+}else{
+	ctx2.fillText("=  " + tfmjr07M,280,850+30*i);
+}
+if(tfmnr0M>=10){
+	ctx2.fillText(tfmnr0M,400,850+30*i);
+}else{
+	ctx2.fillText(tfmnr0M,414,850+30*i);
 }
 if(tfmnr7M>=10){
-	ctx2.fillText("+" + tfmnr7M,430,910+30*i);
+	ctx2.fillText("+" + tfmnr7M,430,850+30*i);
 }else{
-	ctx2.fillText("+  " + tfmnr7M,430,910+30*i);
+	ctx2.fillText("+  " + tfmnr7M,430,850+30*i);
 }
 if(tfmnr07M>=10){
-	ctx2.fillText("= " + tfmnr07M,480,910+30*i);
+	ctx2.fillText("= " + tfmnr07M,480,850+30*i);
 }else{
-	ctx2.fillText("=  " + tfmnr07M,480,910+30*i);
+	ctx2.fillText("=  " + tfmnr07M,480,850+30*i);
 }
 
 
@@ -3749,16 +3805,62 @@ if(tfmjr_mnr>0){
 	ctx2.fillText(engf1[keyrp10_3[i][1]] + " major or " + engMnr1[(keyrp10_3[i][1]+9)%12] + " minor",810,850+30*i);
 }
 
-ctx2.fillText("Harmonic minor",0,880+30*keyrp10_3[0][4]);
-ctx2.fillText("Melodic minor",0,910+30*keyrp10_3[0][4]);
 
-ctx2.fillText(engMnr1[(keyrp10H_3[i][1]+9)%12] + " Harmonic minor",810,880+30*keyrp10_3[0][4]);
-ctx2.fillText(engMnr1[(keyrp10M_3[i][1]+9)%12] + " Melodic minor",810,910+30*keyrp10_3[0][4]);
+if(tfmjr_mnrH>0){
+	ctx2.fillStyle=col[keyrp10H_3[i][1]];
+	ctx2.fillRect(600,820+30*i,tfmjr_mnrH,30);	
+	ctx2.fillStyle="black";
+	if(tfmjr_mnrH>=10){
+		ctx2.fillText(tfmjr_mnrH,600,850+30*i);
+	}else{
+		ctx2.fillText(tfmjr_mnrH,614,850+30*i);
+	}
+	ctx2.fillText(engf1[keyrp10H_3[i][1]] + "Harmonic major",810,850+30*i);
+}else if(tfmjr_mnrH<0){
+	ctx2.fillStyle=col[(keyrp10H_3[i][1]+9)%12];
+	ctx2.fillRect(700,820+30*i,-tfmjr_mnrH,30);
+	ctx2.fillStyle="black";
+	if(-tfmjr_mnrH>=10){
+		ctx2.fillText(-tfmjr_mnrH,700,850+30*i);
+	}else{
+		ctx2.fillText(-tfmjr_mnrH,714,850+30*i);
+	}
+	ctx2.fillText(engMnr1[(keyrp10H_3[i][1]+9)%12] + "Harmonic minor",810,850+30*i);
+}else{
+	ctx2.fillStyle="black";
+	ctx2.fillText(engf1[keyrp10H_3[i][1]] + "Harmonic major or " + engMnr1[(keyrp10H_3[i][1]+9)%12] + "Harmonic minor",810,850+30*i);
+}
+
+
+if(tfmjr_mnrM>0){
+	ctx2.fillStyle=col[keyrp10M_3[i][1]];
+	ctx2.fillRect(600,820+30*i,tfmjr_mnrM,30);	
+	ctx2.fillStyle="black";
+	if(tfmjr_mnrM>=10){
+		ctx2.fillText(tfmjr_mnrM,600,850+30*i);
+	}else{
+		ctx2.fillText(tfmjr_mnrM,614,850+30*i);
+	}
+	ctx2.fillText(engf1[keyrp10M_3[i][1]] + "Melodic major",810,850+30*i);
+}else if(tfmjr_mnr<0){
+	ctx2.fillStyle=col[(keyrp10M_3[i][1]+9)%12];
+	ctx2.fillRect(700,820+30*i,-tfmjr_mnrM,30);
+	ctx2.fillStyle="black";
+	if(-tfmjr_mnrM>=10){
+		ctx2.fillText(-tfmjr_mnrM,700,850+30*i);
+	}else{
+		ctx2.fillText(-tfmjr_mnrM,714,850+30*i);
+	}
+	ctx2.fillText(engMnr1[(keyrp10M_3[i][1]+9)%12] + "Melodic minor",810,850+30*i);
+}else{
+	ctx2.fillStyle="black";
+	ctx2.fillText(engf1[keyrp10M_3[i][1]] + "Melodic major or " + engMnr1[(keyrp10M_3[i][1]+9)%12] + "Melodic minor",810,850+30*i);
+}
 
 }
 
 keyrp10_4.sort(function(m,n){return n[0]-m[0]})
-l=keyrp10_3.length;
+l=keyrp10_3.length+keyrp10H_3.length+keyrp10M_3.length;
 ctx2.fillText("Conclusion",0,910+30*l);
 if(keyrp10_4[0][0]>keyrp10_4[1][0]){
 	ctx2.fillText(keyrp10_4[0][1],810,910+30*l);
