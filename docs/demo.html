@@ -3301,8 +3301,8 @@ ctx2.fillText("Major scale",0,540);
 ctx2.fillText("Minor Scale",0,570);
 ctx2.fillText("Measure range",0,600);
 ctx2.fillText("Comments",810,600);
-ctx2.fillText("Harmonic Minor",0,660);
-ctx2.fillText("Melodic Minor",0,690);
+ctx2.fillText("Harmonic",0,660);
+ctx2.fillText("Melodic",0,690);
 if(msr_from>=1000){
 ctx2.fillText(msr_from,0,630);	
 }else if(msr_from>=100){
@@ -3590,7 +3590,7 @@ ctx2.stroke();
 }
 
 keyrp10_4=[];
-for(i=0;i<keyrp10_3.length+keyrp10H_3.length+keyrp10M_3.length;i++){
+for(i=0;i<=keyrp10_3.length+keyrp10H_3.length+keyrp10M_3.length;i++){
 if(msr_from>=1000){
 ctx2.fillText(msr_from,0,850+30*i);	
 }else if(msr_from>=100){
@@ -3666,22 +3666,22 @@ ctx2.fillStyle=col[(keyrp10_3[i][1]+16)%12];
 ctx2.fillRect(400+tfmnr0,820+30*i,tfmnr7,30);
 
 ctx2.fillStyle=col[keyrp10H_3[i][1]];
-ctx2.fillRect(200,820+30*i,tfmjr0H,30);
+ctx2.fillRect(200,850+30*i,tfmjr0H,30);
 ctx2.fillStyle=col[(keyrp10H_3[i][1]+7)%12];
-ctx2.fillRect(200+tfmjr0,820+30*i,tfmjr7H,30);
+ctx2.fillRect(200+tfmjr0,850+30*i,tfmjr7H,30);
 ctx2.fillStyle=col[(keyrp10H_3[i][1]+9)%12];
-ctx2.fillRect(400,820+30*i,tfmnr0H,30);
+ctx2.fillRect(400,850+30*i,tfmnr0H,30);
 ctx2.fillStyle=col[(keyrp10H_3[i][1]+16)%12];
-ctx2.fillRect(400+tfmnr0H,820+30*i,tfmnr7H,30);
+ctx2.fillRect(400+tfmnr0H,850+30*i,tfmnr7H,30);
 
 ctx2.fillStyle=col[keyrp10M_3[i][1]];
-ctx2.fillRect(200,820+30*i,tfmjr0M,30);
+ctx2.fillRect(200,850+30*i,tfmjr0M,30);
 ctx2.fillStyle=col[(keyrp10M_3[i][1]+7)%12];
-ctx2.fillRect(200+tfmjr0,820+30*i,tfmjr7M,30);
+ctx2.fillRect(200+tfmjr0,850+30*i,tfmjr7M,30);
 ctx2.fillStyle=col[(keyrp10M_3[i][1]+9)%12];
-ctx2.fillRect(400,820+30*i,tfmnr0M,30);
+ctx2.fillRect(400,850+30*i,tfmnr0M,30);
 ctx2.fillStyle=col[(keyrp10M_3[i][1]+16)%12];
-ctx2.fillRect(400+tfmnr0M,820+30*i,tfmnr7M,30);
+ctx2.fillRect(400+tfmnr0M,850+30*i,tfmnr7M,30);
 
 
 ctx2.fillStyle="black";
@@ -3718,65 +3718,65 @@ if(tfmnr07>=10){
 }
 
 if(tfmjr0H>=10){
-	ctx2.fillText(tfmjr0H,200,850+30*i);
+	ctx2.fillText(tfmjr0H,200,880+30*i);
 }else{
-	ctx2.fillText(tfmjr0H,214,850+30*i);
+	ctx2.fillText(tfmjr0H,214,880+30*i);
 }
 if(tfmjr7H>=10){
-	ctx2.fillText("+" + tfmjr7H,230,850+30*i);
+	ctx2.fillText("+" + tfmjr7H,230,880+30*i);
 }else{
-	ctx2.fillText("+  " + tfmjr7H,230,850+30*i);
+	ctx2.fillText("+  " + tfmjr7H,230,880+30*i);
 }
 if(tfmjr07H>=10){
-	ctx2.fillText("= " + tfmjr07H,280,850+30*i);
+	ctx2.fillText("= " + tfmjr07H,280,880+30*i);
 }else{
-	ctx2.fillText("=  " + tfmjr07H,280,850+30*i);
+	ctx2.fillText("=  " + tfmjr07H,280,880+30*i);
 }
 if(tfmnr0H>=10){
-	ctx2.fillText(tfmnr0H,400,850+30*i);
+	ctx2.fillText(tfmnr0H,400,880+30*i);
 }else{
-	ctx2.fillText(tfmnr0H,414,850+30*i);
+	ctx2.fillText(tfmnr0H,414,880+30*i);
 }
 if(tfmnr7H>=10){
-	ctx2.fillText("+" + tfmnr7H,430,850+30*i);
+	ctx2.fillText("+" + tfmnr7H,430,880+30*i);
 }else{
-	ctx2.fillText("+  " + tfmnr7H,430,850+30*i);
+	ctx2.fillText("+  " + tfmnr7H,430,880+30*i);
 }
 if(tfmnr07H>=10){
-	ctx2.fillText("= " + tfmnr07H,480,850+30*i);
+	ctx2.fillText("= " + tfmnr07H,480,880+30*i);
 }else{
-	ctx2.fillText("=  " + tfmnr07H,480,850+30*i);
+	ctx2.fillText("=  " + tfmnr07H,480,880+30*i);
 }
 
 if(tfmjr0M>=10){
-	ctx2.fillText(tfmjr0M,200,850+30*i);
+	ctx2.fillText(tfmjr0M,200,910+30*i);
 }else{
-	ctx2.fillText(tfmjr0M,214,850+30*i);
+	ctx2.fillText(tfmjr0M,214,910+30*i);
 }
 if(tfmjr7M>=10){
-	ctx2.fillText("+" + tfmjr7M,230,850+30*i);
+	ctx2.fillText("+" + tfmjr7M,230,910+30*i);
 }else{
-	ctx2.fillText("+  " + tfmjr7M,230,850+30*i);
+	ctx2.fillText("+  " + tfmjr7M,230,910+30*i);
 }
 if(tfmjr07M>=10){
-	ctx2.fillText("= " + tfmjr07M,280,850+30*i);
+	ctx2.fillText("= " + tfmjr07M,280,910+30*i);
 }else{
-	ctx2.fillText("=  " + tfmjr07M,280,850+30*i);
+	ctx2.fillText("=  " + tfmjr07M,280,910+30*i);
 }
 if(tfmnr0M>=10){
-	ctx2.fillText(tfmnr0M,400,850+30*i);
+	ctx2.fillText(tfmnr0M,400,910+30*i);
 }else{
-	ctx2.fillText(tfmnr0M,414,850+30*i);
+	ctx2.fillText(tfmnr0M,414,910+30*i);
 }
 if(tfmnr7M>=10){
-	ctx2.fillText("+" + tfmnr7M,430,850+30*i);
+	ctx2.fillText("+" + tfmnr7M,430,910+30*i);
 }else{
-	ctx2.fillText("+  " + tfmnr7M,430,850+30*i);
+	ctx2.fillText("+  " + tfmnr7M,430,910+30*i);
 }
 if(tfmnr07M>=10){
-	ctx2.fillText("= " + tfmnr07M,480,850+30*i);
+	ctx2.fillText("= " + tfmnr07M,480,910+30*i);
 }else{
-	ctx2.fillText("=  " + tfmnr07M,480,850+30*i);
+	ctx2.fillText("=  " + tfmnr07M,480,910+30*i);
 }
 
 
@@ -3808,64 +3808,64 @@ if(tfmjr_mnr>0){
 
 if(tfmjr_mnrH>0){
 	ctx2.fillStyle=col[keyrp10H_3[i][1]];
-	ctx2.fillRect(600,820+30*i,tfmjr_mnrH,30);	
+	ctx2.fillRect(600,850+30*i,tfmjr_mnrH,30);	
 	ctx2.fillStyle="black";
 	if(tfmjr_mnrH>=10){
-		ctx2.fillText(tfmjr_mnrH,600,850+30*i);
+		ctx2.fillText(tfmjr_mnrH,600,880+30*i);
 	}else{
-		ctx2.fillText(tfmjr_mnrH,614,850+30*i);
+		ctx2.fillText(tfmjr_mnrH,614,880+30*i);
 	}
-	ctx2.fillText(engf1[keyrp10H_3[i][1]] + "Harmonic major",810,850+30*i);
+	ctx2.fillText(engf1[keyrp10H_3[i][1]] + "Harmonic major",810,880+30*i);
 }else if(tfmjr_mnrH<0){
 	ctx2.fillStyle=col[(keyrp10H_3[i][1]+9)%12];
-	ctx2.fillRect(700,820+30*i,-tfmjr_mnrH,30);
+	ctx2.fillRect(700,850+30*i,-tfmjr_mnrH,30);
 	ctx2.fillStyle="black";
 	if(-tfmjr_mnrH>=10){
-		ctx2.fillText(-tfmjr_mnrH,700,850+30*i);
+		ctx2.fillText(-tfmjr_mnrH,700,880+30*i);
 	}else{
-		ctx2.fillText(-tfmjr_mnrH,714,850+30*i);
+		ctx2.fillText(-tfmjr_mnrH,714,880+30*i);
 	}
-	ctx2.fillText(engMnr1[(keyrp10H_3[i][1]+9)%12] + "Harmonic minor",810,850+30*i);
+	ctx2.fillText(engMnr1[(keyrp10H_3[i][1]+9)%12] + "Harmonic minor",810,880+30*i);
 }else{
 	ctx2.fillStyle="black";
-	ctx2.fillText(engf1[keyrp10H_3[i][1]] + "Harmonic major or " + engMnr1[(keyrp10H_3[i][1]+9)%12] + "Harmonic minor",810,850+30*i);
+	ctx2.fillText(engf1[keyrp10H_3[i][1]] + "Harmonic major or " + engMnr1[(keyrp10H_3[i][1]+9)%12] + "Harmonic minor",810,880+30*i);
 }
 
 
 if(tfmjr_mnrM>0){
 	ctx2.fillStyle=col[keyrp10M_3[i][1]];
-	ctx2.fillRect(600,820+30*i,tfmjr_mnrM,30);	
+	ctx2.fillRect(600,880+30*i,tfmjr_mnrM,30);	
 	ctx2.fillStyle="black";
 	if(tfmjr_mnrM>=10){
-		ctx2.fillText(tfmjr_mnrM,600,850+30*i);
+		ctx2.fillText(tfmjr_mnrM,600,910+30*i);
 	}else{
-		ctx2.fillText(tfmjr_mnrM,614,850+30*i);
+		ctx2.fillText(tfmjr_mnrM,614,910+30*i);
 	}
-	ctx2.fillText(engf1[keyrp10M_3[i][1]] + "Melodic major",810,850+30*i);
+	ctx2.fillText(engf1[keyrp10M_3[i][1]] + "Melodic major",810,910+30*i);
 }else if(tfmjr_mnr<0){
 	ctx2.fillStyle=col[(keyrp10M_3[i][1]+9)%12];
-	ctx2.fillRect(700,820+30*i,-tfmjr_mnrM,30);
+	ctx2.fillRect(700,880+30*i,-tfmjr_mnrM,30);
 	ctx2.fillStyle="black";
 	if(-tfmjr_mnrM>=10){
-		ctx2.fillText(-tfmjr_mnrM,700,850+30*i);
+		ctx2.fillText(-tfmjr_mnrM,700,910+30*i);
 	}else{
-		ctx2.fillText(-tfmjr_mnrM,714,850+30*i);
+		ctx2.fillText(-tfmjr_mnrM,714,910+30*i);
 	}
-	ctx2.fillText(engMnr1[(keyrp10M_3[i][1]+9)%12] + "Melodic minor",810,850+30*i);
+	ctx2.fillText(engMnr1[(keyrp10M_3[i][1]+9)%12] + "Melodic minor",810,910+30*i);
 }else{
 	ctx2.fillStyle="black";
-	ctx2.fillText(engf1[keyrp10M_3[i][1]] + "Melodic major or " + engMnr1[(keyrp10M_3[i][1]+9)%12] + "Melodic minor",810,850+30*i);
+	ctx2.fillText(engf1[keyrp10M_3[i][1]] + "Melodic major or " + engMnr1[(keyrp10M_3[i][1]+9)%12] + "Melodic minor",810,910+30*i);
 }
 
 }
 
 keyrp10_4.sort(function(m,n){return n[0]-m[0]})
 l=keyrp10_3.length+keyrp10H_3.length+keyrp10M_3.length;
-ctx2.fillText("Conclusion",0,910+30*l);
+ctx2.fillText("Conclusion",0,940+30*l);
 if(keyrp10_4[0][0]>keyrp10_4[1][0]){
-	ctx2.fillText(keyrp10_4[0][1],810,910+30*l);
+	ctx2.fillText(keyrp10_4[0][1],810,940+30*l);
 }else{
-	ctx2.fillText("",810,910+30*l);
+	ctx2.fillText("",810,940+30*l);
 }
 }
 
