@@ -19,11 +19,6 @@ TXT<input type="file" id="selfile2" style="font-size:100%">
 <input type="button" name="b_msr" value="M" onClick="measure1()" style="font-size:100%" >
 <input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
 <input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
-<select name="sc1" onChange="scale1()" style="font-size:100%">
-<option value="0" style="font-size:100%" selected="selected"> Natural </option>
-<option value="1" style="font-size:100%"> Harmonic </option>
-<option value="2" style="font-size:100%"> Melodic </option>
-</select>
 <input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
 <input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
 <input type="button" name="b_trs" value="T" onClick="transpose1()" style="font-size:100%" >
@@ -110,9 +105,11 @@ const engf1=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
 const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
 const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
 const scaler1=["major","minor"];
-const scaleMjrN=[0,2,4,5,7,9,11];
-const scaleMjrH=[0,2,4,5,8,9,11];
-const scaleMjrM=[0,2,4,6,8,9,11];
+const scaleMjr0=[0,2,4,5,7,9,11];
+const scaleMjrH=[0,2,4,5,7,8,11];
+const scaleMjrM=[0,2,4,5,7,8,10];
+const scaleMnrH=[0,2,4,5,8,9,11];
+const scaleMnrM=[0,2,4,6,8,9,11];
 const engMnr1=["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
 const instName=[
 'Acoustic Grand Piano',
@@ -2019,7 +2016,6 @@ for(i=0;i<trnnr0.length;i++){
 
 
 function keyw1(){
-scale1();
 canvas2.width = 1300;
 canvas2.height = 1300;
 ctx2.font="25px Arial";
@@ -2434,7 +2430,6 @@ ctx2.fillText("Unidentified" ,810,960+(11)*30);
 }
 
 function keyw3(){
-scale1();
 canvas2.height = 1300;
 ctx2.font="25px Arial";
 ctx2.clearRect(0,0,1200,1300);
@@ -2833,7 +2828,6 @@ ctx2.fillText("Unidentified" ,810,960+(11)*30);
 }
 
 function keyw4(){
-scale1();
 canvas2.height = 1300;
 ctx2.font="25px Arial";
 ctx2.clearRect(0,0,1200,1300);
@@ -3230,7 +3224,6 @@ ctx2.fillText("Unidentified" ,810,960+(11)*30);
 
 
 function keyw2(){
-scale1();
 canvas2.width = 1300;
 canvas2.height = 1300;
 msr_from=Number(document.form1.x_msrf.value);
@@ -3897,17 +3890,6 @@ chord_pt();
 chord_ji();
 }else if(document.form1.sv1.options[14].selected==true){
 download1();
-}
-}
-
-
-function scale1(){
-if(document.form1.sc1.options[0].selected==true){
-	scaleMjr0=scaleMjrN;
-}else if(document.form1.sc1.options[1].selected==true){
-	scaleMjr0=scaleMjrH;
-}else if(document.form1.sc1.options[2].selected==true){
-	scaleMjr0=scaleMjrM;
 }
 }
 
