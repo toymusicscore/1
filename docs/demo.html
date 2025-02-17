@@ -573,17 +573,27 @@ for (i=0;i<tsv0.length;i++){
 }
 tsvst0=1;
 
-document.getElementById("credit").innerHTML=
-tsvi[1]+" "+tsvc[1]+
-"<br>"+tsvi[2]+" "+tsvc[2]+
-"<br>"+tsvi[3]+" <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
-"<br>"+tsvi[4]+" <a href="+tsvc[5]+">"+tsvc[4]+"</a>"+
-"<br>"+tsvi[6]+" "+tsvc[6]+
-"<br>"+tsvi[7]+" "+tsvc[7]+
-"<br>"+tsvi[8]+" <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
-"<br>"+tsvi[9]+" <a href="+tsvc[10]+">"+tsvc[9]+"</a>"+
-"<br>"+tsvi[11]+" "+tsvc[11]+
-"<br>"+tsvi[12]+" "+tsvc[12];
+if(len(tsvi[8])==0){
+	document.getElementById("credit").innerHTML=
+	tsvi[1]+" "+tsvc[1]+
+	"<br>"+tsvi[2]+" "+tsvc[2]+
+	"<br>"+tsvi[3]+" <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+	"<br>"+tsvi[4]+" <a href="+tsvc[5]+">"+tsvc[4]+"</a>"+
+	"<br>"+tsvi[6]+" "+tsvc[6]+
+	"<br>"+tsvi[7]+" "+tsvc[7];
+}else{
+	document.getElementById("credit").innerHTML=
+	tsvi[1]+" "+tsvc[1]+
+	"<br>"+tsvi[2]+" "+tsvc[2]+
+	"<br>"+tsvi[3]+" <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+	"<br>"+tsvi[4]+" <a href="+tsvc[5]+">"+tsvc[4]+"</a>"+
+	"<br>"+tsvi[6]+" "+tsvc[6]+
+	"<br>"+tsvi[7]+" "+tsvc[7]+
+	"<br>"+tsvi[8]+" <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
+	"<br>"+tsvi[9]+" <a href="+tsvc[10]+">"+tsvc[9]+"</a>"+
+	"<br>"+tsvi[11]+" "+tsvc[11]+
+	"<br>"+tsvi[12]+" "+tsvc[12];
+}
 
 top1();
 
