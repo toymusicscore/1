@@ -437,7 +437,7 @@ let my=40;
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
 	let uri1="./data/"+songname1+".mid";
-	let uri2="./data/"+songname1+".txt";
+	let uri2="./data/"+songname1+".tsv";
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
 	if (res1.ok){
@@ -556,19 +556,22 @@ tsv9=[];
 
 tsv0=data2.split('\n');
 for (i=0;i<tsv0.length;i++){
-tsvi.push([(tsv0[i].split('\t'))[0]]);
-tsvc.push([(tsv0[i].split('\t'))[1]]);
-tsv1.push([(tsv0[i].split('\t'))[3]]);
-tsv2.push([(tsv0[i].split('\t'))[4]]);
-tsv3.push([(tsv0[i].split('\t'))[5]]);
-tsv4.push([(tsv0[i].split('\t'))[6]]);
-tsv5.push([(tsv0[i].split('\t'))[7]]);
-tsv6.push([(tsv0[i].split('\t'))[8]]);
-tsv7.push([(tsv0[i].split('\t'))[9]]);
-tsv8.push([(tsv0[i].split('\t'))[10]]);
-tsv9.push([(tsv0[i].split('\t'))[11]]);
+	if((tsv0[i].split('\t'))[0]=="A"){
+		tsvi.push([(tsv0[i].split('\t'))[1]]);
+		tsvc.push([(tsv0[i].split('\t'))[2]]);
+	}else if((tsv0[i].split('\t'))[0]=="B"){
+		tsv1.push([(tsv0[i].split('\t'))[2]]);
+		tsv2.push([(tsv0[i].split('\t'))[3]]);
+		tsv3.push([(tsv0[i].split('\t'))[4]]);
+		tsv4.push([(tsv0[i].split('\t'))[5]]);
+		tsv5.push([(tsv0[i].split('\t'))[6]]);
+		tsv6.push([(tsv0[i].split('\t'))[7]]);
+		tsv7.push([(tsv0[i].split('\t'))[8]]);
+		tsv8.push([(tsv0[i].split('\t'))[9]]);
+		tsv9.push([(tsv0[i].split('\t'))[10]]);
+	}
 }
-tsvst0=(tsv0[1].split('\t'))[2];
+tsvst0=1;
 
 document.getElementById("credit").innerHTML=
 tsvi[1]+" "+tsvc[1]+
