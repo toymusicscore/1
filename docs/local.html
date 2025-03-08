@@ -63,7 +63,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 <option value="11" style="font-size:100%"> Information </option>
 <option value="12" style="font-size:100%"> Pythagorean Tuning</option>
 <option value="13" style="font-size:100%"> Just Intonation</option>
-<option value="14" style="font-size:100%"> Download Demo </option>
+<option value="14" style="font-size:100%"> 12 Equal Temperament</option>
 
 </select>
 <label>BPM<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()"></label>
@@ -1862,6 +1862,10 @@ window.location.href="Chord_pt.html"
 
 function chord_ji(){
 window.location.href="Chord_ji.html"
+}
+
+function chord_12et(){
+window.location.href="Chord_12et.html"
 }
 
 //smf's lyrics
@@ -3832,8 +3836,11 @@ chord_pt();
 }else if(document.form1.sv1.options[13].selected==true){
 chord_ji();
 }else if(document.form1.sv1.options[14].selected==true){
-download1();
+chord_12et();
+}else if(document.form1.sv1.options[15].selected==true){
+finger1();
 }
+
 }
 
 
