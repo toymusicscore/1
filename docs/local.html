@@ -91,8 +91,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 <option value="14" style="font-size:100%"> 12 Equal Temperament</option>
 <option value="15" style="font-size:100%"> Fingering Assistant</option>
 <option value="16" style="font-size:100%"> Fingering Recorder</option>
-<option value="17" style="font-size:100%"> Fingering Download</option>
-<option value="18" style="font-size:100%"> midi tsv Download</option>
+<option value="17" style="font-size:100%"> Download MIDI TSV</option>
 
 </select>
 <label>BPM<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()"></label>
@@ -2981,11 +2980,14 @@ if (f100.length>0){
 }
 
 const finger2= async () =>{
-	finger1();
+finger1();
+
 for (p=0;p<24;p++){
 	await new Promise(r => timer=setTimeout(r,10000));
 	forward1();
 }
+
+downloadCSV();
 
 }
 
@@ -4870,8 +4872,6 @@ finger1();
 }else if(document.form1.sv1.options[16].selected==true){
 finger2();
 }else if(document.form1.sv1.options[17].selected==true){
-downloadCSV();
-}else if(document.form1.sv1.options[18].selected==true){
 download1();
 }
 
