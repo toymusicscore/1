@@ -1923,8 +1923,7 @@ async function download1(){
 let files=(await(await fetch("./data/SongList.txt")).text()).split('\n');
 window.name="openerWin";
 newWin1=window.open();
-newWin1.document.writeln ('<pre>Download Demo<hr color="#ff0000"></font></pre>'.fontsize(6));
-newWin1.document.writeln ("<pre>Click to download files for demo songs.</pre>".fontsize(6));
+newWin1.document.writeln ('<pre>Download Files<hr color="#ff0000"></font></pre>'.fontsize(6));
 newWin1.document.writeln ("<table border='1' width='400'><tr><th>MIDI</th><th>TSV</th></tr>");
 for(i=0;i<files.length;i++){
 newWin1.document.writeln ("<td><a href='data/",files[i],".mid'>",files[i],".mid</a></td><td><a href='data/",files[i],".tsv'>",files[i],".tsv</a></td></tr>");
