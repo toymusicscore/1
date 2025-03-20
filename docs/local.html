@@ -45,7 +45,12 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 <option value="4" style="font-size:100%"> 1st=4 </option>
 <option value="5" style="font-size:100%"> 1st=5 </option>
 </select>
-			
+
+<select name="fg4" style="font-size:100%">
+<option value="0" style="font-size:100%" selected="selected"> Auto </option>
+<option value="1" style="font-size:100%"> Manual </option>
+</select>
+				
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> No Letters </option>
 <option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
@@ -86,8 +91,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 <option value="14" style="font-size:100%"> 12 Equal Temperament</option>
 <option value="15" style="font-size:100%"> Fingering Assistant</option>
 <option value="16" style="font-size:100%"> Fingering Recorder</option>
-<option value="17" style="font-size:100%"> Download midi tsv</option>
-<option value="18" style="font-size:100%"> Download Fingering</option>
+<option value="17" style="font-size:100%"> Fingering Download</option>
+<option value="18" style="font-size:100%"> midi tsv Download</option>
 
 </select>
 <label>BPM<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()"></label>
@@ -2886,20 +2891,21 @@ if (fc.length==5 && f4.length>0){
 
 f101=[];
 
-if (f103.length==0){
-	document.form1.fg3.options[0].selected=true;
-}else if (f103.at(-1)=="1"){
-	document.form1.fg3.options[1].selected=true;
-}else if (f103.at(-1)=="2"){
-	document.form1.fg3.options[2].selected=true;
-}else if (f103.at(-1)=="3"){
-	document.form1.fg3.options[3].selected=true;
-}else if (f103.at(-1)=="4"){
-	document.form1.fg3.options[4].selected=true;
-}else if (f103.at(-1)=="5"){
-	document.form1.fg3.options[5].selected=true;
+if (document.form1.fg4.options[0].selected==true){
+	if (f103.length==0){
+		document.form1.fg3.options[0].selected=true;
+	}else if (f103.at(-1)=="1"){
+		document.form1.fg3.options[1].selected=true;
+	}else if (f103.at(-1)=="2"){
+		document.form1.fg3.options[2].selected=true;
+	}else if (f103.at(-1)=="3"){
+		document.form1.fg3.options[3].selected=true;
+	}else if (f103.at(-1)=="4"){
+		document.form1.fg3.options[4].selected=true;
+	}else if (f103.at(-1)=="5"){
+		document.form1.fg3.options[5].selected=true;
+	}
 }
-
 
 if (f100.length>0){
 	if (document.form1.fg3.options[0].selected==true){
@@ -4858,9 +4864,9 @@ finger1();
 }else if(document.form1.sv1.options[16].selected==true){
 finger2();
 }else if(document.form1.sv1.options[17].selected==true){
-download1();
-}else if(document.form1.sv1.options[18].selected==true){
 downloadCSV();
+}else if(document.form1.sv1.options[18].selected==true){
+download1();
 }
 
 }
