@@ -527,7 +527,7 @@ ch_num=0;
 
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => {
-r1.push([note.pitch,note.start,note.stop,note.channel+1,n_id]);
+r1.push([note.pitch,note.start,note.stop,note.channel,n_id]);
 n_id+=1;
 r2.push(note.start);
 r2.push(note.stop);
@@ -540,7 +540,7 @@ r2.push(note.stop);
   if(note.channel>ch_max){
   ch_max=note.channel;
   ch_num+=1;
-  r6.push([note.channel+1, note.instrument]);
+  r6.push([note.channel, note.instrument]);
   }
 })
 })
@@ -1370,7 +1370,7 @@ r3i0=r3i1;
 }
 
 function measure1(){
-j=(Number(document.form1.x_msr.value)-1)*ppq*bttl/ntvl*4;
+j=(Number(document.form1.x_msr.value))*ppq*bttl/ntvl*4;
 
 let r3x=r3.findLast(function(value){
 return (j>=value[1])
