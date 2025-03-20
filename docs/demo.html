@@ -2045,6 +2045,18 @@ for(i=0;i<trnnr0.length;i++){
 
 }//lyrics1
 
+ // Define a function 'standardDeviation' to calculate the standard deviation of an array
+ const standardDeviation = (arr, usePopulation = false) => {
+  // Calculate the mean of the array
+  const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+  
+  // Calculate the sum of squared differences from the mean
+  const sumOfSquaredDifferences = arr.reduce((acc, val) => acc.concat((val - mean) ** 2), [])
+                                      .reduce((acc, val) => acc + val, 0);
+  
+  // Calculate the standard deviation
+  return Math.sqrt(sumOfSquaredDifferences / (arr.length - (usePopulation ? 0 : 1)));
+};
 
 function finger1(){
 szx=1400;
