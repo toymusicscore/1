@@ -725,12 +725,6 @@ ctx2.beginPath();
 ctx2.arc((midi-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
 ctx2.fill();
-}//if
-}//for
-
-for(i=0;i<r1.length;i++){
-let [midi, start, stop, channel, n_id]=r1[i];
-if(start>=j && start<j+ht1*ppq*bttl){
 ctx2.fillStyle="black";
 if (document.form1.nl1.options[0].selected==true){
 ctx2.fillText("",(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
@@ -876,19 +870,13 @@ ctx2.stroke();
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
-if(my+stop>=j && start<j+ht1*ppq*bttl){
+if(start>=j && start<j+ht1*ppq*bttl){
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
 ctx2.arc((midi-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
 ctx2.fill();
-}//if
-}//for
-
-for(i=0;i<r1.length;i++){
-let [midi, start, stop, channel, n_id]=r1[i];
-if(my+stop>=j && start<j+ht1*ppq*bttl){
 ctx2.fillStyle="black";
 
 if (document.form1.nl1.options[0].selected==true){
