@@ -53,7 +53,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 				
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> No Letters </option>
-<option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
+<option value="1" style="font-size:100%"> DoReMi_# </option>
 <option value="2" style="font-size:100%"> DoReMi_b </option>
 <option value="3" style="font-size:100%"> ABC_E_# </option>
 <option value="4" style="font-size:100%"> ABC_E_b </option>
@@ -63,7 +63,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 <option value="8" style="font-size:100%"> MIDI Duodecimal </option>
 <option value="9" style="font-size:100%"> MIDI Number </option>
 <option value="10" style="font-size:100%"> Note IDs </option>
-<option value="11" style="font-size:100%"> TSV Fingering </option>
+<option value="11" style="font-size:100%" selected="selected"> TSV Fingering </option>
 <option value="12" style="font-size:100%"> TSV Memo </option>
 <option value="13" style="font-size:100%"> TSV Lyrics1 </option>
 <option value="14" style="font-size:100%" > TSV Lyrics2 </option>
@@ -704,7 +704,7 @@ ctx2.strokeStyle="red";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(vmn0+1,0,2*my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(vmn0+1,0,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 ctx2.beginPath();
@@ -718,7 +718,7 @@ ctx2.stroke();
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
-if(100+stop>=j && start<j+ht1*ppq*bttl){
+if(start>=j && start<j+ht1*ppq*bttl){
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
@@ -730,7 +730,7 @@ ctx2.fill();
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
-if(100+stop>=j && start<j+ht1*ppq*bttl){
+if(start>=j && start<j+ht1*ppq*bttl){
 ctx2.fillStyle="black";
 if (document.form1.nl1.options[0].selected==true){
 ctx2.fillText("",(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
@@ -862,7 +862,7 @@ ctx2.strokeStyle="red";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(vmn0+1,0,2*my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(vmn0+1,0,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 ctx2.beginPath();
@@ -1026,7 +1026,7 @@ ctx2.strokeStyle="red";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(vmn0+1,0,2*my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(vmn0+1,0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+ht1*bttl*ppq/ntvl*4)){
 ctx2.beginPath();
@@ -1188,7 +1188,7 @@ ctx2.strokeStyle="red";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(vmn0+1,0,2*my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(vmn0+1,0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*bttl*ppq/ntvl*4)){
 ctx2.beginPath();
@@ -1939,7 +1939,8 @@ newWin1.document.writeln ('<pre>Download Demo<hr color="#ff0000"></font></pre>'.
 newWin1.document.writeln ("<pre>Click to download files for demo songs.</pre>".fontsize(6));
 newWin1.document.writeln ("<table border='1' width='400'><tr><th>Title</th></tr>");
 for(i=0;i<files.length;i++){
-newWin1.document.writeln ("<td><a href='data/",files[i],".tsv'>",files[i],"</a></td></tr>");
+newWin1.document.writeln ("<td><a href='data/",files[i],".mid'>",files[i],".mid</a></td></tr>");
+newWin1.document.writeln ("<td><a href='data/",files[i],".tsv'>",files[i],".tsv</a></td></tr>");
 }
 newWin1.document.writeln ("</table>");
 }
