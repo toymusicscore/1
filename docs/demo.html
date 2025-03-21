@@ -1750,7 +1750,7 @@ parsedData.channels.forEach(channel => {
 channel.notes.forEach(note => { 
 if(note.channel+1==ch0 || note.channel+1==ch1){
 let trs2=Number(note.pitch)+Number(trs1);
-r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
+r1.push([trs2,note.start,note.stop,note.channel,n_id]);
 if(trs2>midi_max){
 midi_max=trs2;
 }
@@ -1770,6 +1770,8 @@ scroll2();
 still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
+}else if(document.form1.sv1.options[15].selected==true){
+finger1();
 }
 }
 
