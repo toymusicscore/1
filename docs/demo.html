@@ -1748,7 +1748,7 @@ midi_min=108;
 midi_max=21;
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => { 
-if(note.channel+1==ch0 || note.channel+1==ch1){
+if(note.channel==ch0 || note.channel==ch1){
 let trs2=Number(note.pitch)+Number(trs1);
 r1.push([trs2,note.start,note.stop,note.channel,n_id]);
 if(trs2>midi_max){
