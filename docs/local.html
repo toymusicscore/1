@@ -45,11 +45,6 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 <option value="4" style="font-size:100%"> 4 </option>
 <option value="5" style="font-size:100%"> 5 </option>
 </select>
-
-<select name="fg4" style="font-size:100%">
-<option value="0" style="font-size:100%" selected="selected"> Auto </option>
-<option value="1" style="font-size:100%"> Manual </option>
-</select>
 				
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> No Letters </option>
@@ -2687,47 +2682,59 @@ if (f100.length>0){
 	if (document.form1.fg3.options[0].selected==true){
 		for (p=0;p<f100.length;p++){
 			f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			2*standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			standardDeviation(f100[p][1].slice(0,Math.round(f100[p][1].length/4-1)))+
+			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/4),Math.round(f100[p][1].length/2-1)))+
+			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),Math.round(f100[p][1].length*3/4-1)))+
+			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length*3/4),-1))]);
 		}
 	}if (document.form1.fg3.options[1].selected==true){
 		for (p=0;p<f100.length;p++){
 			if (f100[p][0][0]=="1"){
 				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			2*standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+				standardDeviation(f100[p][1].slice(0,Math.round(f100[p][1].length/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/4),Math.round(f100[p][1].length/2-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),Math.round(f100[p][1].length*3/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length*3/4),-1))]);
 			}
 		}
 	}if (document.form1.fg3.options[2].selected==true){
 		for (p=0;p<f100.length;p++){
 			if (f100[p][0][0]=="2"){
 				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			2*standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+				standardDeviation(f100[p][1].slice(0,Math.round(f100[p][1].length/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/4),Math.round(f100[p][1].length/2-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),Math.round(f100[p][1].length*3/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length*3/4),-1))]);
 			}
 		}
 	}if (document.form1.fg3.options[3].selected==true){
 		for (p=0;p<f100.length;p++){
 			if (f100[p][0][0]=="3"){
 				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			2*standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+				standardDeviation(f100[p][1].slice(0,Math.round(f100[p][1].length/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/4),Math.round(f100[p][1].length/2-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),Math.round(f100[p][1].length*3/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length*3/4),-1))]);
 			}
 		}
 	}if (document.form1.fg3.options[4].selected==true){
 		for (p=0;p<f100.length;p++){
 			if (f100[p][0][0]=="4"){
 				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			2*standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+				standardDeviation(f100[p][1].slice(0,Math.round(f100[p][1].length/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/4),Math.round(f100[p][1].length/2-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),Math.round(f100[p][1].length*3/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length*3/4),-1))]);
 			}
 		}
 	}if (document.form1.fg3.options[5].selected==true){
 		for (p=0;p<f100.length;p++){
 			if (f100[p][0][0]=="5"){
 				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			2*standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+				standardDeviation(f100[p][1].slice(0,Math.round(f100[p][1].length/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/4),Math.round(f100[p][1].length/2-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),Math.round(f100[p][1].length*3/4-1)))+
+				standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length*3/4),-1))]);
 			}
 		}
 	}
@@ -2736,8 +2743,10 @@ if (f100.length>0){
 		document.form1.fg3.options[0].selected=true;
 		for (p=0;p<f100.length;p++){
 			f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			2*standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			standardDeviation(f100[p][1].slice(0,Math.round(f100[p][1].length/4-1)))+
+			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/4),Math.round(f100[p][1].length/2-1)))+
+			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),Math.round(f100[p][1].length*3/4-1)))+
+			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length*3/4),-1))]);
 		}
 	}
 
