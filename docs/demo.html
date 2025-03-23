@@ -476,7 +476,6 @@ let fa=[];
 let f100=[];
 let f101=[];
 let f102=[];
-let f103=[];
 
 async function fetch1(){
 let songname1=document.getElementById("song1").value;
@@ -776,9 +775,6 @@ ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my
 //tsv Lyrics5
 }else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-//tsv fingering No.1
-}else if (document.form1.nl1.options[18].selected==true){
-ctx2.fillText(f102[n_id-1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations left
 if (tsv3[n_id-tsvst0+1]!=undefined){
@@ -930,9 +926,6 @@ ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my
 //tsv Lyrics5
 }else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-//tsv fingering No.1
-}else if (document.form1.nl1.options[18].selected==true){
-ctx2.fillText(f102[n_id-1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations left
 if (tsv3[n_id-tsvst0+1]!=undefined){
@@ -1094,9 +1087,6 @@ ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*p
 //tsv Lyrics5
 }else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-//tsv fingering No.1
-}else if (document.form1.nl1.options[18].selected==true){
-ctx2.fillText(f102[n_id-1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations left
 if (tsv3[n_id-tsvst0+1]!=undefined){
@@ -1258,9 +1248,6 @@ ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*p
 //tsv Lyrics5
 }else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-//tsv fingering No.1
-}else if (document.form1.nl1.options[18].selected==true){
-ctx2.fillText(f102[n_id-1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 //tsv notations left
 if (tsv3[n_id-tsvst0+1]!=undefined){
@@ -2061,7 +2048,7 @@ for(i=0;i<trnnr0.length;i++){
 }//lyrics1
 
  // Define a function 'standardDeviation' to calculate the standard deviation of an array
- const standardDeviation = (arr, usePopulation = false) => {
+ const standardDeviation = (arr, usePopulation = true) => {
   // Calculate the mean of the array
   const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
   
@@ -2073,6 +2060,7 @@ for(i=0;i<trnnr0.length;i++){
   return Math.sqrt(sumOfSquaredDifferences / (arr.length - (usePopulation ? 0 : 1)));
 };
 
+
 function finger1(){
 szx=1400;
 szy=280;
@@ -2083,7 +2071,6 @@ ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
-document.form1.nl1.options[18].selected=true;
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -2148,9 +2135,6 @@ for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	if (channel==document.form1.x_ch.value){
 		fa.push([n_id]);
-		if(start>=j && start<j+2*ppq*bttl){
-			f0.push([midi, n_id]);
-		}
 		if(start>=j && start<j+1*ppq*bttl){
 			fc.push([midi, n_id]);
 		}//if(start>=j && start<j+1*ppq*bttl)
@@ -2171,9 +2155,9 @@ let cp0=0;
 let cp1=0;
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
 
-for (p=1;p<f0.length;p++){
-	let [midi0, n_id0]=f0[p-1];
-	let [midi1, n_id1]=f0[p];
+for (p=1;p<fc.length;p++){
+	let [midi0, n_id0]=fc[p-1];
+	let [midi1, n_id1]=fc[p];
 	for(q=0;q<tsvmd.length;q++){
 		if(document.form1.fg1.options[0].selected==true && tsvmd[q]==midi1-midi0 && n_id0==n_id1-1 && tsvrc[q]<=fg2v){
 			if (tsvff[q]==1){
@@ -2198,7 +2182,7 @@ for (p=1;p<f0.length;p++){
 			}else if (tsvft[q]==5){
 				cp1=Number(midi1)+Number(tsvsc[5]);
 			}
-			f1.push([[n_id1],[tsvff[q],tsvft[q]],[cp0,cp1]]);
+			f1.push([[n_id0,n_id1],[tsvff[q],tsvft[q]],[cp0,cp1]]);
 		}else if(document.form1.fg1.options[1].selected==true && tsvmd[q]==midi0-midi1 && n_id0==n_id1-1 && tsvrc[q]<=fg2v){
 			if (tsvff[q]==1){
 				cp0=Number(midi0)-Number(tsvsc[1]);
@@ -2222,7 +2206,7 @@ for (p=1;p<f0.length;p++){
 			}else if (tsvft[q]==5){
 				cp1=Number(midi1)-Number(tsvsc[5]);
 			}
-			f1.push([[n_id1],[tsvff[q],tsvft[q]],[cp0,cp1]]);
+			f1.push([[n_id0,n_id1],[tsvff[q],tsvft[q]],[cp0,cp1]]);
 		}
 }
 }
@@ -2231,24 +2215,25 @@ for (p=1;p<f0.length;p++){
 f2=[];
 if(f1.length>0){
 	for (p=0;p<f1.length;p++){
-	let [[n_id0], [ff0, ft0], [cf0, ct0]]=f1[p];
+	let [[nf0, nt0], [ff0, ft0], [cf0, ct0]]=f1[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id1], [ff1, ft1], [cf1, ct1]]=f1[q];
-		if(n_id0==n_id1-1 && ft0==ff1-0 && n_id0==fc[1][1]){
-			f2.push([[n_id0, n_id1], [ff0, ft0, ft1], [cf0, ct0, ct1]]);
+		let [[nf1, nt1], [ff1, ft1], [cf1, ct1]]=f1[q];
+		if(nt0==nf1-0 && ft0==ff1-0 && nf0==fc[0][1]){
+			f2.push([[nf0, nt0, nt1], [ff0, ft0, ft1], [cf0, ct0, ct1]]);
 		}
 	}
 }
 }
 
+
 f3=[];
 if(f2.length>0){
 	for (p=0;p<f2.length;p++){
-	let [[n_id0, n_id1], [ff0, ft0, ft1], [cf0, ct0, ct1]]=f2[p];
+	let [[nf0, nt0, nt1], [ff0, ft0, ft1], [cf0, ct0, ct1]]=f2[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id2], [ff2, ft2], [cf2, ct2]]=f1[q];
-		if(n_id1==n_id2-1 && ft1==ff2-0){
-			f3.push([[n_id0, n_id2], [ff0, ft0, ft1, ft2], [cf0, ct0, ct1, ct2]]);
+		let [[nf2, nt2], [ff2, ft2], [cf2, ct2]]=f1[q];
+		if(nt1==nf2-0 && ft1==ff2-0){
+			f3.push([[nf0, nt0, nt1, nt2], [ff0, ft0, ft1, ft2], [cf0, ct0, ct1, ct2]]);
 		}
 	}
 }
@@ -2258,25 +2243,26 @@ if(f2.length>0){
 f4=[];
 if(f3.length>0){
 	for (p=0;p<f3.length;p++){
-	[[n_id0, n_id2], [ff0, ft0, ft1, ft2], [cf0, ct0, ct1, ct2]]=f3[p];
+	let [[nf0, nt0, nt1, nt2], [ff0, ft0, ft1, ft2], [cf0, ct0, ct1, ct2]]=f3[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id3], [ff3, ft3], [cf3, ct3]]=f1[q];
-		if(n_id2==n_id3-1 && ft2==ff3-0){
-			f4.push([[n_id0, n_id3], [ff0, ft0, ft1, ft2, ft3], [cf0, ct0, ct1, ct2, ct3]]);
+		let [[nf3, nt3], [ff3, ft3], [cf3, ct3]]=f1[q];
+		if(nt2==nf3-0 && ft2==ff3-0){
+			f4.push([[nf0, nt0, nt1, nt2, nt3], [ff0, ft0, ft1, ft2, ft3], [cf0, ct0, ct1, ct2, ct3]]);
 		}
 	}
 }
 }
 
 
+
 f5=[];
 if(f4.length>0){
 	for (p=0;p<f4.length;p++){
-	[[n_id0, n_id3], [ff0, ft0, ft1, ft2, ft3], [cf0, ct0, ct1, ct2, ct3]]=f4[p];
+	let [[nf0, nt0, nt1, nt2, nt3], [ff0, ft0, ft1, ft2, ft3], [cf0, ct0, ct1, ct2, ct3]]=f4[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id4], [ff4, ft4], [cf4, ct4]]=f1[q];
-		if(n_id3==n_id4-1 && ft3==ff4-0){
-			f5.push([[n_id0, n_id4], [ff0, ft0, ft1, ft2, ft3, ft4], [cf0, ct0, ct1, ct2, ct3, ct4]]);
+		let [[nf4, nt4], [ff4, ft4], [cf4, ct4]]=f1[q];
+		if(nt3==nf4-0 && ft3==ff4-0){
+			f5.push([[nf0, nt0, nt1, nt2, nt3, nt4], [ff0, ft0, ft1, ft2, ft3, ft4], [cf0, ct0, ct1, ct2, ct3, ct4]]);
 		}
 	}
 }
@@ -2286,29 +2272,30 @@ if(f4.length>0){
 f6=[];
 if(f5.length>0){
 	for (p=0;p<f5.length;p++){
-	[[n_id0, n_id4], [ff0, ft0, ft1, ft2, ft3, ft4], [cf0, ct0, ct1, ct2, ct3, ct4]]=f5[p];
+	let [[nf0, nt0, nt1, nt2, nt3, nt4], [ff0, ft0, ft1, ft2, ft3, ft4], [cf0, ct0, ct1, ct2, ct3, ct4]]=f5[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id5], [ff5, ft5], [cf5, ct5]]=f1[q];
-		if(n_id4==n_id5-1 && ft4==ff5-0){
-			f6.push([[n_id0, n_id5], [ff0, ft0, ft1, ft2, ft3, ft4, ft5], [cf0, ct0, ct1, ct2, ct3, ct4, ct5]]);
+		let [[nf5, nt5], [ff5, ft5], [cf5, ct5]]=f1[q];
+		if(nt4==nf5-0 && ft4==ff5-0){
+			f6.push([[nf0, nt0, nt1, nt2, nt3, nt4, nt5], [ff0, ft0, ft1, ft2, ft3, ft4, ft5], [cf0, ct0, ct1, ct2, ct3, ct4, ct5]]);
 		}
 	}
 }
 }
 
+
 f7=[];
 if(f6.length>0){
 	for (p=0;p<f6.length;p++){
-	[
-	 [n_id0, n_id5], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5]
 	]=f6[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id6], [ff6, ft6], [cf6, ct6]]=f1[q];
-		if(n_id5==n_id6-1 && ft5==ff6-0){
+		let [[nf6, nt6], [ff6, ft6], [cf6, ct6]]=f1[q];
+		if(nt5==nf6-0 && ft5==ff6-0){
 			f7.push([
-			[n_id0, n_id6], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6]
 			]);
@@ -2321,16 +2308,16 @@ if(f6.length>0){
 f8=[];
 if(f7.length>0){
 	for (p=0;p<f7.length;p++){
-	[
-	 [n_id0, n_id6], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6]
 	]=f7[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id7], [ff7, ft7], [cf7, ct7]]=f1[q];
-		if(n_id6==n_id7-1 && ft6==ff7-0){
+		let [[nf7, nt7], [ff7, ft7], [cf7, ct7]]=f1[q];
+		if(nt6==nf7-0 && ft6==ff7-0){
 			f8.push([
-			[n_id0, n_id7], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7]
 			]);
@@ -2342,16 +2329,16 @@ if(f7.length>0){
 f9=[];
 if(f8.length>0){
 	for (p=0;p<f8.length;p++){
-	[
-	 [n_id0, n_id7], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7]
 	]=f8[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id8], [ff8, ft8], [cf8, ct8]]=f1[q];
-		if(n_id7==n_id8-1 && ft7==ff8-0){
+		let [[nf8, nt8], [ff8, ft8], [cf8, ct8]]=f1[q];
+		if(nt7==nf8-0 && ft7==ff8-0){
 			f9.push([
-			[n_id0, n_id8], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8]
 			]);
@@ -2360,19 +2347,20 @@ if(f8.length>0){
 }
 }
 
+
 f10=[];
 if(f9.length>0){
 	for (p=0;p<f9.length;p++){
-	[
-	 [n_id0, n_id8], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8]
 	]=f9[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id9], [ff9, ft9], [cf9, ct9]]=f1[q];
-		if(n_id8==n_id9-1 && ft8==ff9-0){
+		let [[nf9, nt9], [ff9, ft9], [cf9, ct9]]=f1[q];
+		if(nt8==nf9-0 && ft8==ff9-0){
 			f10.push([
-			[n_id0, n_id9], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9]
 			]);
@@ -2381,19 +2369,20 @@ if(f9.length>0){
 }
 }
 
+
 f11=[];
 if(f10.length>0){
 	for (p=0;p<f10.length;p++){
-	[
-	 [n_id0, n_id9], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9]
 	]=f10[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id10], [ff10, ft10], [cf10, ct10]]=f1[q];
-		if(n_id9==n_id10-1 && ft9==ff10-0){
+		let [[nf10, nt10], [ff10, ft10], [cf10, ct10]]=f1[q];
+		if(nt9==nf10-0 && ft9==ff10-0){
 			f11.push([
-			[n_id0, n_id10], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10]
 			]);
@@ -2405,16 +2394,16 @@ if(f10.length>0){
 f12=[];
 if(f11.length>0){
 	for (p=0;p<f11.length;p++){
-	[
-	 [n_id0, n_id10], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10]
 	]=f11[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id11], [ff11, ft11], [cf11, ct11]]=f1[q];
-		if(n_id10==n_id11-1 && ft10==ff11-0){
+		let [[nf11, nt11], [ff11, ft11], [cf11, ct11]]=f1[q];
+		if(nt10==nf11-0 && ft10==ff11-0){
 			f12.push([
-			[n_id0, n_id11], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11]
 			]);
@@ -2426,16 +2415,16 @@ if(f11.length>0){
 f13=[];
 if(f12.length>0){
 	for (p=0;p<f12.length;p++){
-	[
-	 [n_id0, n_id11], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11]
 	]=f12[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id12], [ff12, ft12], [cf12, ct12]]=f1[q];
-		if(n_id11==n_id12-1 && ft11==ff12-0){
+		let [[nf12, nt12], [ff12, ft12], [cf12, ct12]]=f1[q];
+		if(nt11==nf12-0 && ft11==ff12-0){
 			f13.push([
-			[n_id0, n_id12], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12]
 			]);
@@ -2447,16 +2436,16 @@ if(f12.length>0){
 f14=[];
 if(f13.length>0){
 	for (p=0;p<f13.length;p++){
-	[
-	 [n_id0, n_id12], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12]
 	]=f13[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id13], [ff13, ft13], [cf13, ct13]]=f1[q];
-		if(n_id12==n_id13-1 && ft12==ff13-0){
+		let [[nf13, nt13], [ff13, ft13], [cf13, ct13]]=f1[q];
+		if(nt12==nf13-0 && ft12==ff13-0){
 			f14.push([
-			[n_id0, n_id13], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13]
 			]);
@@ -2468,16 +2457,16 @@ if(f13.length>0){
 f15=[];
 if(f14.length>0){
 	for (p=0;p<f14.length;p++){
-	[
-	 [n_id0, n_id13], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13]
 	]=f14[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id14], [ff14, ft14], [cf14, ct14]]=f1[q];
-		if(n_id13==n_id14-1 && ft13==ff14-0){
+		let [[nf14,nt14], [ff14, ft14], [cf14, ct14]]=f1[q];
+		if(nt13==nf14-0 && ft13==ff14-0){
 			f15.push([
-			[n_id0, n_id14], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14]
 			]);
@@ -2489,16 +2478,16 @@ if(f14.length>0){
 f16=[];
 if(f15.length>0){
 	for (p=0;p<f15.length;p++){
-	[
-	 [n_id0, n_id14], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14]
 	]=f15[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id15], [ff15, ft15], [cf15, ct15]]=f1[q];
-		if(n_id14==n_id15-1 && ft14==ff15-0){
+		let [[nf15, nt15], [ff15, ft15], [cf15, ct15]]=f1[q];
+		if(nt14==nf15-0 && ft14==ff15-0){
 			f16.push([
-			[n_id0, n_id15], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15]
 			]);
@@ -2510,16 +2499,16 @@ if(f15.length>0){
 f17=[];
 if(f16.length>0){
 	for (p=0;p<f16.length;p++){
-	[
-	 [n_id0, n_id15], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15]
 	]=f16[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id16], [ff16, ft16], [cf16, ct16]]=f1[q];
-		if(n_id15==n_id16-1 && ft15==ff16-0){
+		let [[nf16, nt16], [ff16, ft16], [cf16, ct16]]=f1[q];
+		if(nt15==nf16-0 && ft15==ff16-0){
 			f17.push([
-			[n_id0, n_id16], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16]
 			]);
@@ -2531,16 +2520,16 @@ if(f16.length>0){
 f18=[];
 if(f17.length>0){
 for (p=0;p<f17.length;p++){
-	[
-	 [n_id0, n_id16], 
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16], 
 	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16], 
 	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16]
 	]=f17[p];
 	for (q=0;q<f1.length;q++){
-		let [[n_id17], [ff17, ft17], [cf17, ct17]]=f1[q];
-		if(n_id17==n_id17-1 && ft17==ff17-0){
+		let [[nf17, nt17], [ff17, ft17], [cf17, ct17]]=f1[q];
+		if(nt16==nf17-0 && ft17==ff17-0){
 			f18.push([
-			[n_id0, n_id17], 
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17], 
 			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17], 
 			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17]
 			]);
@@ -2549,132 +2538,44 @@ for (p=0;p<f17.length;p++){
 }
 }
 
+
 f100=[];
 
-if (fc.at(-1)[1]<fa.at(-1)){
-if (fc.length==5 && f5.length>0){
-	for (p=0;p<f5.length-1;p++){
-		if (fc[1][1]==f5[p][0][0]){
+if (fc.length==2 && f1.length>0){
+	for (p=0;p<f1.length;p++){
+		if (fc[0][1]==f1[p][0][0]){
 			f100.push([
-			f5[p][1],
-			f5[p][2]
+			f1[p][0],
+			f1[p][1],
+			f1[p][2]
 			]);
 		}
 	}
-}else if (fc.length==6 && f6.length>0){
-	for (p=0;p<f6.length-1;p++){
-		if (fc[1][1]==f6[p][0][0]){
+}else if (fc.length==3 && f2.length>0){
+	for (p=0;p<f2.length;p++){
+		if (fc[0][1]==f2[p][0][0]){
 			f100.push([
-			f6[p][1],
-			f6[p][2]
+			f2[p][0],
+			f2[p][1],
+			f2[p][2]
 			]);
 		}
 	}
-}else if (fc.length==7 && f7.length>0){
-	for (p=0;p<f7.length-1;p++){
-		if (fc[1][1]==f7[p][0][0]){
+}else if (fc.length==4 && f3.length>0){
+	for (p=0;p<f3.length;p++){
+		if (fc[0][1]==f3[p][0][0]){
 			f100.push([
-			f7[p][1],
-			f7[p][2]
+			f3[p][0],
+			f3[p][1],
+			f3[p][2]
 			]);
 		}
 	}
-}else if (fc.length==8 && f8.length>0){
-	for (p=0;p<f8.length-1;p++){
-		if (fc[1][1]==f8[p][0][0]){
-			f100.push([
-			f8[p][1],
-			f8[p][2]
-			]);
-		}
-	}
-}else if (fc.length==9 && f9.length>0){	
-	for (p=0;p<f9.length-1;p++){
-		if (fc[1][1]==f9[p][0][0]){
-			f100.push([
-			f9[p][1],
-			f9[p][2]
-			]);
-		}
-	}
-}else if (fc.length==10 && f10.length>0){	
-	for (p=0;p<f10.length-1;p++){
-		if (fc[1][1]==f10[p][0][0]){
-			f100.push([
-			f10[p][1],
-			f10[p][2]
-			]);
-		}
-	}
-}else if (fc.length==11 && f11.length>0){
-	for (p=0;p<f11.length-1;p++){
-		if (fc[1][1]==f11[p][0][0]){
-			f100.push([
-			f11[p][1],
-			f11[p][2]
-			]);
-		}
-	}
-}else if (fc.length==12 && f12.length>0){
-	for (p=0;p<f12.length-1;p++){
-		if (fc[1][1]==f12[p][0][0]){
-			f100.push([
-			f12[p][1],
-			f12[p][2]
-			]);
-		}
-	}
-}else if (fc.length==13 && f13.length>0){
-	for (p=0;p<f13.length-1;p++){
-		if (fc[1][1]==f13[p][0][0]){
-			f100.push([
-			f13[p][1],
-			f13[p][2]
-			]);
-		}
-	}
-}else if (fc.length==14 && f14.length>0){
-	for (p=0;p<f14.length-1;p++){
-		if (fc[1][1]==f14[p][0][0]){
-			f100.push([
-			f14[p][1],
-			f14[p][2]
-			]);
-		}
-	}
-}else if (fc.length==15 && f15.length>0){
-	for (p=0;p<f15.length-1;p++){
-		if (fc[1][1]==f15[p][0][0]){
-			f100.push([
-			f15[p][1],
-			f15[p][2]
-			]);
-		}
-	}
-}else if (fc.length==16 && f16.length>0){
-	for (p=0;p<f16.length-1;p++){
-		if (fc[1][1]==f16[p][0][0]){
-			f100.push([
-			f16[p][1],
-			f16[p][2]
-			]);
-		}
-	}
-}else if (fc.length==17 && f17.length>0){
-	for (p=0;p<f17.length-1;p++){
-		if (fc[1][1]==f17[p][0][0]){
-			f100.push([
-			f17[p][1],
-			f17[p][2]
-			]);
-		}
-	}
-}
-}else if (fc.at(-1)[1]==fa.at(-1)){
-if (fc.length==5 && f4.length>0){
+}else if (fc.length==5 && f4.length>0){
 	for (p=0;p<f4.length;p++){
-		if (fc[1][1]==f4[p][0][0]){
+		if (fc[0][1]==f4[p][0][0]){
 			f100.push([
+			f4[p][0],
 			f4[p][1],
 			f4[p][2]
 			]);
@@ -2682,8 +2583,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==6 && f5.length>0){
 	for (p=0;p<f5.length;p++){
-		if (fc[1][1]==f5[p][0][0]){
+		if (fc[0][1]==f5[p][0][0]){
 			f100.push([
+			f5[p][0],
 			f5[p][1],
 			f5[p][2]
 			]);
@@ -2691,8 +2593,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==7 && f6.length>0){
 	for (p=0;p<f6.length;p++){
-		if (fc[1][1]==f6[p][0][0]){
+		if (fc[0][1]==f6[p][0][0]){
 			f100.push([
+			f6[p][0],
 			f6[p][1],
 			f6[p][2]
 			]);
@@ -2700,8 +2603,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==8 && f7.length>0){
 	for (p=0;p<f7.length;p++){
-		if (fc[1][1]==f7[p][0][0]){
+		if (fc[0][1]==f7[p][0][0]){
 			f100.push([
+			f7[p][0],
 			f7[p][1],
 			f7[p][2]
 			]);
@@ -2709,8 +2613,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==9 && f8.length>0){
 	for (p=0;p<f8.length;p++){
-		if (fc[1][1]==f8[p][0][0]){
+		if (fc[0][1]==f8[p][0][0]){
 			f100.push([
+			f8[p][0],
 			f8[p][1],
 			f8[p][2]
 			]);
@@ -2718,8 +2623,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==10 && f9.length>0){	
 	for (p=0;p<f9.length;p++){
-		if (fc[1][1]==f9[p][0][0]){
+		if (fc[0][1]==f9[p][0][0]){
 			f100.push([
+			f9[p][0],
 			f9[p][1],
 			f9[p][2]
 			]);
@@ -2727,8 +2633,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==11 && f10.length>0){	
 	for (p=0;p<f10.length;p++){
-		if (fc[1][1]==f10[p][0][0]){
+		if (fc[0][1]==f10[p][0][0]){
 			f100.push([
+			f10[p][0],
 			f10[p][1],
 			f10[p][2]
 			]);
@@ -2736,8 +2643,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==12 && f11.length>0){
 	for (p=0;p<f11.length;p++){
-		if (fc[1][1]==f11[p][0][0]){
+		if (fc[0][1]==f11[p][0][0]){
 			f100.push([
+			f11[p][0],
 			f11[p][1],
 			f11[p][2]
 			]);
@@ -2745,8 +2653,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==13 && f12.length>0){
 	for (p=0;p<f12.length;p++){
-		if (fc[1][1]==f12[p][0][0]){
+		if (fc[0][1]==f12[p][0][0]){
 			f100.push([
+			f12[p][0],
 			f12[p][1],
 			f12[p][2]
 			]);
@@ -2754,8 +2663,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==14 && f13.length>0){
 	for (p=0;p<f13.length;p++){
-		if (fc[1][1]==f13[p][0][0]){
+		if (fc[0][1]==f13[p][0][0]){
 			f100.push([
+			f13[p][0],
 			f13[p][1],
 			f13[p][2]
 			]);
@@ -2763,8 +2673,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==15 && f14.length>0){
 	for (p=0;p<f14.length;p++){
-		if (fc[1][1]==f14[p][0][0]){
+		if (fc[0][1]==f14[p][0][0]){
 			f100.push([
+			f14[p][0],
 			f14[p][1],
 			f14[p][2]
 			]);
@@ -2772,8 +2683,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==16 && f15.length>0){
 	for (p=0;p<f15.length;p++){
-		if (fc[1][1]==f15[p][0][0]){
+		if (fc[0][1]==f15[p][0][0]){
 			f100.push([
+			f15[p][0],
 			f15[p][1],
 			f15[p][2]
 			]);
@@ -2781,8 +2693,9 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==17 && f16.length>0){
 	for (p=0;p<f16.length;p++){
-		if (fc[1][1]==f16[p][0][0]){
+		if (fc[0][1]==f16[p][0][0]){
 			f100.push([
+			f16[p][0],
 			f16[p][1],
 			f16[p][2]
 			]);
@@ -2790,80 +2703,76 @@ if (fc.length==5 && f4.length>0){
 	}
 }else if (fc.length==18 && f17.length>0){
 	for (p=0;p<f17.length;p++){
-		if (fc[1][1]==f17[p][0][0]){
+		if (fc[0][1]==f17[p][0][0]){
 			f100.push([
+			f17[p][0],
 			f17[p][1],
 			f17[p][2]
 			]);
 		}
 	}
 }
-}
 
 
 f101=[];
 
-if (document.form1.fg4.options[0].selected==true){
-	if (f103.length==0){
-		document.form1.fg3.options[0].selected=true;
-	}else if (f103.at(-1)=="1"){
-		document.form1.fg3.options[1].selected=true;
-	}else if (f103.at(-1)=="2"){
-		document.form1.fg3.options[2].selected=true;
-	}else if (f103.at(-1)=="3"){
-		document.form1.fg3.options[3].selected=true;
-	}else if (f103.at(-1)=="4"){
-		document.form1.fg3.options[4].selected=true;
-	}else if (f103.at(-1)=="5"){
-		document.form1.fg3.options[5].selected=true;
-	}
-}
 
 if (f100.length>0){
 	if (document.form1.fg3.options[0].selected==true){
 		for (p=0;p<f100.length;p++){
-			f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			f101.push([f100[p][0],f100[p][1],
+			standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 		}
-	}if (document.form1.fg3.options[1].selected==true){
+	}else if (document.form1.fg3.options[1].selected==true){
 		for (p=0;p<f100.length;p++){
-			if (f100[p][0][0]=="1"){
-				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			if (f100[p][1][0]=="1"){
+				f101.push([f100[p][0],f100[p][1],
+				standardDeviation(f100[p][2])+
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 			}
 		}
-	}if (document.form1.fg3.options[2].selected==true){
+	}else if (document.form1.fg3.options[2].selected==true){
 		for (p=0;p<f100.length;p++){
-			if (f100[p][0][0]=="2"){
-				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			if (f100[p][1][0]=="2"){
+				f101.push([f100[p][0],f100[p][1],
+				standardDeviation(f100[p][2])+
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 			}
 		}
-	}if (document.form1.fg3.options[3].selected==true){
+	}else if (document.form1.fg3.options[3].selected==true){
 		for (p=0;p<f100.length;p++){
-			if (f100[p][0][0]=="3"){
-				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			if (f100[p][1][0]=="3"){
+				f101.push([f100[p][0],f100[p][1],
+				standardDeviation(f100[p][2])+
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 			}
 		}
-	}if (document.form1.fg3.options[4].selected==true){
+	}else if (document.form1.fg3.options[4].selected==true){
 		for (p=0;p<f100.length;p++){
-			if (f100[p][0][0]=="4"){
-				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			if (f100[p][1][0]=="4"){
+				f101.push([f100[p][0],f100[p][1],
+				standardDeviation(f100[p][2])+
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 			}
 		}
-	}if (document.form1.fg3.options[5].selected==true){
+	}else if (document.form1.fg3.options[5].selected==true){
 		for (p=0;p<f100.length;p++){
-			if (f100[p][0][0]=="5"){
-				f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			if (f100[p][1][0]=="5"){
+				f101.push([f100[p][0],f100[p][1],
+				standardDeviation(f100[p][2])+
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 			}
 		}
 	}
@@ -2871,14 +2780,14 @@ if (f100.length>0){
 	if (f101.length==0){
 		document.form1.fg3.options[0].selected=true;
 		for (p=0;p<f100.length;p++){
-			f101.push([f100[p][0],
-			standardDeviation(f100[p][1])+
-			standardDeviation(f100[p][1].slice(Math.round(f100[p][1].length/2),-1))]);
+			f101.push([f100[p][0],f100[p][1],
+			standardDeviation(f100[p][2])+
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 		}
 	}
 
 
-	f101.sort(function(a,b){return(a[1] - b[1]);});
+	f101.sort(function(a,b){return(a[2] - b[2]);});
 
 	for (p=0;p<f101.length;p++){
 		if (p<9){
@@ -2886,22 +2795,19 @@ if (f100.length>0){
 			}else{
 			ctx2.fillText(p+1,0,340+30*p);
 			}		
-	ctx2.fillText((f101[p][1]).toFixed(2),60,340+30*p);
-		for (q=0;q<=fc.length;q++){
-			ctx2.fillText(f101[p][0][q],150+50*q,340+30*p);
+		ctx2.fillText((f101[p][2]).toFixed(2),60,340+30*p);
+		for (q=0;q<fc.length;q++){
+			ctx2.fillText(f101[p][1][q],150+50*q,340+30*p);
 		}
 	}
 
 	for (p=0;p<fc.length;p++){
-		f102.push(f101[0][0][p]);
+		f102.push([f101[0][1][p]]);
 	}
-
-	f103.push(f101[0][0].at(-1));
-
 
 }else{
 	for (p=0;p<fc.length;p++){
-		f102.push(0);
+		f102.push([0]);
 	}
 }
 
@@ -2918,15 +2824,78 @@ for(i=0;i<r1.length;i++){
 			ctx2.fillStyle=col3[channel];
 			ctx2.fill();
 			ctx2.fillStyle="black";
-			ctx2.fillText(f102[n_id-1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			if (document.form1.nl1.options[0].selected==true){
+				ctx2.fillText("",(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[1].selected==true){
+				ctx2.fillText(drms1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[2].selected==true){
+				ctx2.fillText(drmf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[3].selected==true){
+				ctx2.fillText(engs1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[4].selected==true){
+				ctx2.fillText(engf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[5].selected==true){
+				ctx2.fillText(gers1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[6].selected==true){
+				ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[7].selected==true){
+				ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[8].selected==true){
+				ctx2.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[9].selected==true){
+				ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[10].selected==true){
+				ctx2.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			//tsv finger numbers
+			}else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
+				ctx2.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			//tsv memos
+			}else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
+				ctx2.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			//tsv Lyrics1
+			}else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
+				ctx2.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			//tsv Lyrics2
+			}else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
+				ctx2.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			//tsv Lyrics3
+			}else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
+				ctx2.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			//tsv Lyrics4
+			}else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
+				ctx2.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			//tsv Lyrics5
+			}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
+				ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[18].selected==true){
+				ctx2.fillText(f101[0][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[19].selected==true){
+				ctx2.fillText(f101[1][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[20].selected==true){
+				ctx2.fillText(f101[2][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[21].selected==true){
+				ctx2.fillText(f101[3][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[22].selected==true){
+				ctx2.fillText(f101[4][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[23].selected==true){
+				ctx2.fillText(f101[5][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[24].selected==true){
+				ctx2.fillText(f101[6][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[25].selected==true){
+				ctx2.fillText(f101[7][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[26].selected==true){
+				ctx2.fillText(f101[8][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}else if (document.form1.nl1.options[27].selected==true){
+				ctx2.fillText(f101[9][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+			}
 		}//if(start>=j && start<j+1*ppq*bttl)
 	}//if(channel==document.form1.x_ch.value)
 }//for(i=0;)
 
-
 }
 
 const finger2= async () =>{
+let f102=[];
 finger1();
 
 for (p=0;p<24;p++){
