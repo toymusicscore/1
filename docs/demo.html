@@ -48,11 +48,6 @@ demo
 <option value="5" style="font-size:100%"> 5 </option>
 </select>
 	
-<select name="fg4" style="font-size:100%">
-<option value="0" style="font-size:100%" selected="selected"> Auto </option>
-<option value="1" style="font-size:100%"> Manual </option>
-</select>
-	
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 <option value="0" style="font-size:100%"> No Letters </option>
 <option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
@@ -2783,17 +2778,6 @@ if (f100.length>0){
 				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
 				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 			}
-		}
-	}
-
-	if (f101.length==0){
-		document.form1.fg3.options[0].selected=true;
-		for (p=0;p<f100.length;p++){
-			f101.push([f100[p][0],f100[p][1],
-			standardDeviation(f100[p][2])+
-			standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 		}
 	}
 
