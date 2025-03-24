@@ -2064,7 +2064,6 @@ for(i=0;i<trnnr0.length;i++){
   return Math.sqrt(sumOfSquaredDifferences / (arr.length - (usePopulation ? 0 : 1)));
 };
 
-
 function finger1(){
 szx=1400;
 szy=280;
@@ -2143,14 +2142,6 @@ for(i=0;i<r1.length;i++){
 			fc.push([midi, n_id]);
 		}//if(start>=j && start<j+1*ppq*bttl)
 	}//if(channel==document.form1.x_ch.value)
-}//for(i=0;)
-
-ctx2.fillStyle="black";
-ctx2.fillText("No.",0,310);
-ctx2.fillText("std",60,310);
-
-for(i=0;i<fc.length;i++){
-	ctx2.fillText(fc[i][1],150+50*i,310);
 }//for(i=0;)
 
 
@@ -2720,23 +2711,49 @@ if (fc.length==2 && f1.length>0){
 
 f101=[];
 
+ctx2.fillStyle="black";
+ctx2.fillText("No.",0,310);
+ctx2.fillText("TTL",50,310);
+ctx2.fillText("SA",120,310);
+ctx2.fillText("S1",190,310);
+ctx2.fillText("S2",260,310);
+ctx2.fillText("S3",330,310);
+ctx2.fillText("S4",400,310);
+
+for(i=0;i<fc.length;i++){
+	ctx2.fillText(fc[i][1],500+50*i,310);
+}//for(i=0;)
+
 
 if (f100.length>0){
 	if (document.form1.fg3.options[0].selected==true){
 		for (p=0;p<f100.length;p++){
 			f101.push([f100[p][0],f100[p][1],
-			standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
+			standardDeviation(f100[p][2])+
+			standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4)))+
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2)))+
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4)))+
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4))),
+			standardDeviation(f100[p][2]),
+			standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4))),
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2))),
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4))),
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4)))]);
 		}
 	}else if (document.form1.fg3.options[1].selected==true){
 		for (p=0;p<f100.length;p++){
 			if (f100[p][1][0]=="1"){
 				f101.push([f100[p][0],f100[p][1],
 				standardDeviation(f100[p][2])+
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2]),
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4)))]);
 			}
 		}
 	}else if (document.form1.fg3.options[2].selected==true){
@@ -2744,9 +2761,15 @@ if (f100.length>0){
 			if (f100[p][1][0]=="2"){
 				f101.push([f100[p][0],f100[p][1],
 				standardDeviation(f100[p][2])+
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2]),
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4)))]);
 			}
 		}
 	}else if (document.form1.fg3.options[3].selected==true){
@@ -2754,9 +2777,15 @@ if (f100.length>0){
 			if (f100[p][1][0]=="3"){
 				f101.push([f100[p][0],f100[p][1],
 				standardDeviation(f100[p][2])+
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2]),
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4)))]);
 			}
 		}
 	}else if (document.form1.fg3.options[4].selected==true){
@@ -2764,9 +2793,15 @@ if (f100.length>0){
 			if (f100[p][1][0]=="4"){
 				f101.push([f100[p][0],f100[p][1],
 				standardDeviation(f100[p][2])+
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2]),
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4)))]);
 			}
 		}
 	}else if (document.form1.fg3.options[5].selected==true){
@@ -2774,26 +2809,37 @@ if (f100.length>0){
 			if (f100[p][1][0]=="5"){
 				f101.push([f100[p][0],f100[p][1],
 				standardDeviation(f100[p][2])+
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4)))+
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2]),
+				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length/2))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*3/4))),
+				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*3/4)))]);
 			}
 		}
 	}
 
 
 	f101.sort(function(a,b){return(a[2] - b[2]);});
-
+	
 	for (p=0;p<f101.length;p++){
 		if (p<9){
 			ctx2.fillText(p+1,13,340+30*p);
 			}else{
 			ctx2.fillText(p+1,0,340+30*p);
 			}		
-		ctx2.fillText((f101[p][2]).toFixed(2),60,340+30*p);
 		for (q=0;q<fc.length;q++){
-			ctx2.fillText(f101[p][1][q],150+50*q,340+30*p);
+			ctx2.fillText(f101[p][1][q],500+50*q,340+30*p);
 		}
+		ctx2.fillText((f101[p][2]).toFixed(2),50,340+30*p);
+		ctx2.fillText((f101[p][3]).toFixed(2),120,340+30*p);
+		ctx2.fillText((f101[p][4]).toFixed(2),190,340+30*p);
+		ctx2.fillText((f101[p][5]).toFixed(2),260,340+30*p);
+		ctx2.fillText((f101[p][6]).toFixed(2),330,340+30*p);
+		ctx2.fillText((f101[p][7]).toFixed(2),400,340+30*p);
 	}
 
 	for (p=0;p<fc.length;p++){
