@@ -2783,15 +2783,6 @@ if (f100.length>0){
 		}
 	}
 
-	if (f101.length==0){
-		document.form1.fg3.options[0].selected=true;
-		for (p=0;p<f100.length;p++){
-			f101.push([f100[p][0],f100[p][1],
-			standardDeviation(f100[p][2])+
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
-		}
-	}
-
 
 	f101.sort(function(a,b){return(a[2] - b[2]);});
 

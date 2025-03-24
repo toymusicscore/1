@@ -2791,6 +2791,8 @@ if (f100.length>0){
 		for (p=0;p<f100.length;p++){
 			f101.push([f100[p][0],f100[p][1],
 			standardDeviation(f100[p][2])+
+			standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
 			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),-1))]);
 		}
 	}
