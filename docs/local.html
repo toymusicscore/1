@@ -37,7 +37,12 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 <option value="1" style="font-size:100%"> Hard </option>
 </select>
 
-<select name="fg3"  onChange="finger1()" style="font-size:100%">
+<select name="fg30"  onChange="finger1()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> Auto </option>
+	<option value="1" style="font-size:100%"> Manual </option>
+	</select>
+
+<select name="fg31"  onChange="finger1()" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> 1stAll </option>
 	<option value="1" style="font-size:100%"> 1st1 </option>
 	<option value="2" style="font-size:100%"> 1st2 </option>
@@ -46,11 +51,15 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="5" style="font-size:100%"> 1st5 </option>
 	</select>
 
-<select name="fg4"  onChange="finger1()" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> Auto </option>
-	<option value="1" style="font-size:100%"> Manual </option>
+<select name="fg32"  onChange="finger1()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> 2ndAll </option>
+	<option value="1" style="font-size:100%"> 2nd1 </option>
+	<option value="2" style="font-size:100%"> 2nd2 </option>
+	<option value="3" style="font-size:100%"> 2nd3 </option>
+	<option value="4" style="font-size:100%"> 2nd4 </option>
+	<option value="5" style="font-size:100%"> 2nd5 </option>
 	</select>
-				
+						
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Letters </option>
 	<option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
@@ -2073,6 +2082,15 @@ for(i=0;i<trnnr0.length;i++){
   return Math.sqrt(sumOfSquaredDifferences / (arr.length - (usePopulation ? 0 : 1)));
 };
 
+const mstd3 = (p) => {
+		f101.push([f100[p][0],f100[p][1],
+		standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+		standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
+		standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
+		standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
+		standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
+		standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
+}
 
 function finger1(){
 szx=1400;
@@ -2163,9 +2181,9 @@ let cp0=0;
 let cp1=0;
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
 
-for (p=1;p<fc.length;p++){
-	let [midi0, n_id0]=fc[p-1];
-	let [midi1, n_id1]=fc[p];
+for (p=1;p<f0.length;p++){
+	let [midi0, n_id0]=f0[p-1];
+	let [midi1, n_id1]=f0[p];
 	for(q=0;q<tsvmd.length;q++){
 		if(document.form1.fg1.options[0].selected==true && tsvmd[q]==midi1-midi0 && n_id0==n_id1-1 && tsvrc[q]<=fg2v){
 			if (tsvff[q]==1){
@@ -2549,7 +2567,7 @@ for (p=0;p<f17.length;p++){
 
 f100=[];
 
-if (fc.length==2 && f1.length>0){
+if (fc.length==2 && f1.length>0 && f1[0].length==2){
 	for (p=0;p<f1.length;p++){
 		if (fc[0][1]==f1[p][0][0]){
 			f100.push([
@@ -2738,77 +2756,158 @@ for(i=0;i<fc.length;i++){
 
 
 if (f100.length>0){
-	if (document.form1.fg3.options[0].selected==true){
-		for (p=0;p<f100.length;p++){
-			f101.push([f100[p][0],f100[p][1],
-			standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
-			standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
-			standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
-		}
-	}else if (document.form1.fg3.options[1].selected==true){
-		for (p=0;p<f100.length;p++){
-			if (f100[p][1][0]=="1"){
-				f101.push([f100[p][0],f100[p][1],
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
-			}
-		}
-	}else if (document.form1.fg3.options[2].selected==true){
-		for (p=0;p<f100.length;p++){
-			if (f100[p][1][0]=="2"){
-				f101.push([f100[p][0],f100[p][1],
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
-			}
-		}
-	}else if (document.form1.fg3.options[3].selected==true){
-		for (p=0;p<f100.length;p++){
-			if (f100[p][1][0]=="3"){
-				f101.push([f100[p][0],f100[p][1],
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
-			}
-		}
-	}else if (document.form1.fg3.options[4].selected==true){
-		for (p=0;p<f100.length;p++){
-			if (f100[p][1][0]=="4"){
-				f101.push([f100[p][0],f100[p][1],
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
-			}
-		}
-	}else if (document.form1.fg3.options[5].selected==true){
-		for (p=0;p<f100.length;p++){
-			if (f100[p][1][0]=="5"){
-				f101.push([f100[p][0],f100[p][1],
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
-				standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
-			}
+	for (p=0;p<f100.length;p++){
+		if (document.form1.fg31.options[0].selected==true && 
+			document.form1.fg32.options[0].selected==true){
+			mstd3(p);
+		}else if (document.form1.fg31.options[1].selected==true &&
+			document.form1.fg32.options[0].selected==true &&
+			f100[p][1][0]=="1"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[2].selected==true &&
+			document.form1.fg32.options[0].selected==true &&
+			f100[p][1][0]=="2"){
+			mstd3(p);		
+		}else if (document.form1.fg31.options[3].selected==true &&
+			document.form1.fg32.options[0].selected==true &&
+			f100[p][1][0]=="3"){
+			mstd3(p);		
+		}else if (document.form1.fg31.options[4].selected==true &&
+			document.form1.fg32.options[0].selected==true &&
+			f100[p][1][0]=="4"){
+			mstd3(p);		
+		}else if (document.form1.fg31.options[5].selected==true &&
+			document.form1.fg32.options[0].selected==true &&
+			f100[p][1][0]=="5"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[1].selected==true &&
+			document.form1.fg32.options[1].selected==true &&
+			f100[p][1][0]=="1" &&
+			f100[p][1][1]=="1"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[1].selected==true &&
+			document.form1.fg32.options[2].selected==true &&
+			f100[p][1][0]=="1" &&
+			f100[p][1][1]=="2"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[1].selected==true &&
+			document.form1.fg32.options[3].selected==true &&
+			f100[p][1][0]=="1" &&
+			f100[p][1][1]=="3"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[1].selected==true &&
+			document.form1.fg32.options[4].selected==true &&
+			f100[p][1][0]=="1" &&
+			f100[p][1][1]=="4"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[1].selected==true &&
+			document.form1.fg32.options[5].selected==true &&
+			f100[p][1][0]=="1" &&
+			f100[p][1][1]=="5"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[2].selected==true &&
+			document.form1.fg32.options[1].selected==true &&
+			f100[p][1][0]=="2" &&
+			f100[p][1][1]=="1"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[2].selected==true &&
+			document.form1.fg32.options[2].selected==true &&
+			f100[p][1][0]=="2" &&
+			f100[p][1][1]=="2"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[2].selected==true &&
+			document.form1.fg32.options[3].selected==true &&
+			f100[p][1][0]=="2" &&
+			f100[p][1][1]=="3"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[2].selected==true &&
+			document.form1.fg32.options[4].selected==true &&
+			f100[p][1][0]=="2" &&
+			f100[p][1][1]=="4"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[2].selected==true &&
+			document.form1.fg32.options[5].selected==true &&
+			f100[p][1][0]=="2" &&
+			f100[p][1][1]=="5"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[3].selected==true &&
+			document.form1.fg32.options[1].selected==true &&
+			f100[p][1][0]=="3" &&
+			f100[p][1][1]=="1"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[3].selected==true &&
+			document.form1.fg32.options[2].selected==true &&
+			f100[p][1][0]=="3" &&
+			f100[p][1][1]=="2"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[3].selected==true &&
+			document.form1.fg32.options[3].selected==true &&
+			f100[p][1][0]=="3" &&
+			f100[p][1][1]=="3"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[3].selected==true &&
+			document.form1.fg32.options[4].selected==true &&
+			f100[p][1][0]=="3" &&
+			f100[p][1][1]=="4"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[3].selected==true &&
+			document.form1.fg32.options[5].selected==true &&
+			f100[p][1][0]=="3" &&
+			f100[p][1][1]=="5"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[4].selected==true &&
+			document.form1.fg32.options[1].selected==true &&
+			f100[p][1][0]=="4" &&
+			f100[p][1][1]=="1"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[4].selected==true &&
+			document.form1.fg32.options[2].selected==true &&
+			f100[p][1][0]=="4" &&
+			f100[p][1][1]=="2"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[4].selected==true &&
+			document.form1.fg32.options[3].selected==true &&
+			f100[p][1][0]=="4" &&
+			f100[p][1][1]=="3"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[4].selected==true &&
+			document.form1.fg32.options[4].selected==true &&
+			f100[p][1][0]=="4" &&
+			f100[p][1][1]=="4"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[4].selected==true &&
+			document.form1.fg32.options[5].selected==true &&
+			f100[p][1][0]=="4" &&
+			f100[p][1][1]=="5"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[5].selected==true &&
+			document.form1.fg32.options[1].selected==true &&
+			f100[p][1][0]=="5" &&
+			f100[p][1][1]=="1"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[5].selected==true &&
+			document.form1.fg32.options[2].selected==true &&
+			f100[p][1][0]=="5" &&
+			f100[p][1][1]=="2"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[5].selected==true &&
+			document.form1.fg32.options[3].selected==true &&
+			f100[p][1][0]=="5" &&
+			f100[p][1][1]=="3"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[5].selected==true &&
+			document.form1.fg32.options[4].selected==true &&
+			f100[p][1][0]=="5" &&
+			f100[p][1][1]=="4"){
+			mstd3(p);
+		}else if (document.form1.fg31.options[5].selected==true &&
+			document.form1.fg32.options[5].selected==true &&
+			f100[p][1][0]=="5" &&
+			f100[p][1][1]=="5"){
+			mstd3(p);
 		}
 	}
+
 
 
 	f101.sort(function(a,b){return(a[2] - b[2]);});
