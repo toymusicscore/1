@@ -38,12 +38,12 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 </select>
 
 <select name="fg3"  onChange="finger1()" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> FromAll </option>
-	<option value="1" style="font-size:100%"> From1 </option>
-	<option value="2" style="font-size:100%"> From2 </option>
-	<option value="3" style="font-size:100%"> From3 </option>
-	<option value="4" style="font-size:100%"> From4 </option>
-	<option value="5" style="font-size:100%"> From5 </option>
+	<option value="0" style="font-size:100%" selected="selected"> 1stAll </option>
+	<option value="1" style="font-size:100%"> 1st1 </option>
+	<option value="2" style="font-size:100%"> 1st2 </option>
+	<option value="3" style="font-size:100%"> 1st3 </option>
+	<option value="4" style="font-size:100%"> 1st4 </option>
+	<option value="5" style="font-size:100%"> 1st5 </option>
 	</select>
 
 <select name="fg4"  onChange="finger1()" style="font-size:100%">
@@ -2140,14 +2140,17 @@ ctx2.stroke();
 }
 }
 
-f0=[];
 fa=[];
+f0=[];
 fc=[];
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	if (channel==document.form1.x_ch.value){
 		fa.push([n_id]);
+		if(start>=j && start<=j+1*ppq*bttl){
+			f0.push([midi, n_id]);
+		}//if(start>=j && start<=j+1*ppq*bttl)
 		if(start>=j && start<j+1*ppq*bttl){
 			fc.push([midi, n_id]);
 		}//if(start>=j && start<j+1*ppq*bttl)
