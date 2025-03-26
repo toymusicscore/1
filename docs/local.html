@@ -2105,13 +2105,13 @@ for(i=0;i<trnnr0.length;i++){
 };
 
 const mstd3 = (p) => {
-		f101.push([f100[p][0],f100[p][1],
-		standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
-		standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
-		standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
-		standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
-		standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
-		standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
+	f101.push([f100[p][0],f100[p][1],
+	standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4)))+
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2))),
+	standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2))),
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
 }
 
 function finger1(){
@@ -3335,7 +3335,7 @@ let f102=[];
 
 	finger1();
 
-for (p=0;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
+for (p=1;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
 	await new Promise(r => timer=setTimeout(r,10000));
 	forward1();
 }
