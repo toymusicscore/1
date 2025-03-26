@@ -39,14 +39,14 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 
 <select name="fg3" onChange="finger1()" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> NoExclude </option>
-	<option value="1" style="font-size:100%"> ExB1 </option>
-	<option value="2" style="font-size:100%"> ExB5 </option>
-	<option value="3" style="font-size:100%"> ExB15 </option>
+	<option value="1" style="font-size:100%"> Exc-B1 </option>
+	<option value="2" style="font-size:100%"> Exc-B5 </option>
+	<option value="3" style="font-size:100%"> Exc-B15 </option>
 	</select>
 
 <select name="fg4"  onChange="finger1()" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected">  NoConnect </option>
-	<option value="1" style="font-size:100%"> Connect </option>
+	<option value="1" style="font-size:100%"> Connect1 </option>
 	</select>
 
 <select name="fg41"  onChange="finger1()" style="font-size:100%">
@@ -66,7 +66,16 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="4" style="font-size:100%"> 2nd4 </option>
 	<option value="5" style="font-size:100%"> 2nd5 </option>
 	</select>
-						
+
+<select name="fg5"  onChange="finger1()" style="font-size:100%">
+	<option value="0" style="font-size:100%"> Read0 </option>
+	<option value="1" style="font-size:100%" selected="selected"> Read1 </option>
+	<option value="2" style="font-size:100%"> Read2 </option>
+	<option value="3" style="font-size:100%"> Read3 </option>
+	<option value="4" style="font-size:100%"> Read4 </option>
+	<option value="5" style="font-size:100%"> Read5 </option>
+	</select>
+							
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Letters </option>
 	<option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
@@ -2167,15 +2176,17 @@ ctx2.stroke();
 }
 
 
+
 fc=[];
 fn=[];
+let fg5v=1+Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value/10);
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	if (channel==document.form1.x_ch.value && start>=j && start<j+1*ppq*bttl){
 		fc.push([midi, n_id]);
 	}
-	if (channel==document.form1.x_ch.value && start>=j && start<j+1.1*ppq*bttl){
+	if (channel==document.form1.x_ch.value && start>=j && start<j+fg5v*ppq*bttl){
 		fn.push([midi, n_id]);
 	}
 }
@@ -2730,6 +2741,48 @@ for (p=0;p<f20.length;p++){
 }
 }
 
+f22=[];
+if(f21.length>0){
+for (p=0;p<f21.length;p++){
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17, nt18, nt19, nt20], 
+	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17, ft18, ft19, ft20], 
+	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20]
+	]=f21[p];
+	for (q=0;q<f1.length;q++){
+		let [[nf21, nt21], [ff21, ft21], [cf21, ct21]]=f1[q];
+		if(nt20==nf21-0 && ft21==ff21-0){
+			f22.push([
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17, nt18, nt19, nt20, nt21], 
+			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17, ft18, ft19, ft20, ft21], 
+			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21]
+			]);
+		}
+	}
+}
+}
+
+f23=[];
+if(f22.length>0){
+for (p=0;p<f22.length;p++){
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17, nt18, nt19, nt20, nt21], 
+	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17, ft18, ft19, ft20, ft21], 
+	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21]
+	]=f22[p];
+	for (q=0;q<f1.length;q++){
+		let [[nf22, nt22], [ff22, ft22], [cf22, ct22]]=f1[q];
+		if(nt21==nf22-0 && ft22==ff22-0){
+			f23.push([
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17, nt18, nt19, nt20, nt21, nt22], 
+			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17, ft18, ft19, ft20, ft21, ft22], 
+			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22]
+			]);
+		}
+	}
+}
+}
+
 
 f100=[];
 
@@ -2943,6 +2996,27 @@ if (fn.length==2 && f1.length>0 && f1[0].length==2){
 			]);
 		}
 	}
+}else if (fn.length==23 && f22.length>0){
+	for (p=0;p<f22.length;p++){
+		if (fn[0][1]==f22[p][0][0]){
+			f100.push([
+			f22[p][0],
+			f22[p][1],
+			f22[p][2]
+			]);
+		}
+	}
+}else if (fn.length==24 && f23.length>0){
+	for (p=0;p<f23.length;p++){
+		if (fn[0][1]==f23[p][0][0]){
+			f100.push([
+			f23[p][0],
+			f23[p][1],
+			f23[p][2]
+			]);
+		}
+	}
+
 }
 
 
