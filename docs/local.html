@@ -45,8 +45,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="fg4"  onChange="finger1()" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected">  NoConnect </option>
-	<option value="1" style="font-size:100%"> Connect1 </option>
+	<option value="0" style="font-size:100%">  NoConnect </option>
+	<option value="1" style="font-size:100%" selected="selected"> Connect1 </option>
 	</select>
 
 <select name="fg41"  onChange="finger1()" style="font-size:100%">
@@ -71,8 +71,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="0" style="font-size:100%"> Read1.0 </option>
 	<option value="1" style="font-size:100%"> Read1.1 </option>
 	<option value="2" style="font-size:100%"> Read1.2 </option>
-	<option value="3" style="font-size:100%"> Read1.3 </option>
-	<option value="4" style="font-size:100%" selected="selected"> Read1.4 </option>
+	<option value="3" style="font-size:100%" selected="selected"> Read1.3 </option>
+	<option value="4" style="font-size:100%"> Read1.4 </option>
 	<option value="5" style="font-size:100%"> Read1.5 </option>
 	<option value="6" style="font-size:100%"> Read1.6 </option>
 	<option value="7" style="font-size:100%"> Read1.7 </option>
@@ -3026,10 +3026,6 @@ if (fn.length==2 && f1.length>0 && f1[0].length==2){
 }
 
 
-
-f101=[];
-
-
 ctx2.fillStyle="black";
 ctx2.fillText("No.",0,310);
 ctx2.fillText("TTL",60,310);
@@ -3059,6 +3055,7 @@ if (f103.length>0 && document.form1.fg4.options[1].selected==true){
 	}
 }
 
+f101=[];
 
 if (f100.length>0){
 	for (p=0;p<f100.length;p++){
@@ -3212,10 +3209,17 @@ if (f100.length>0){
 			mstd3(p);
 		}
 	}
+}
 
+if (f101.length==0){
+	document.form1.fg41.options[0].selected=true;
+	for (p=0;p<f100.length;p++){
+		mstd3(p);
+	}
+}	
 
+if (f101.length>0){
 	f101.sort(function(a,b){return(a[2] - b[2]);});
-
 	
 	for (p=0;p<f101.length;p++){
 		if (p<9){
@@ -3225,7 +3229,7 @@ if (f100.length>0){
 			}		
 		for (q=0;q<fn.length;q++){
 			ctx2.fillText(f101[p][1][q],400+50*q,340+30*p);
-		}
+			}
 		ctx2.fillText((f101[p][2]).toFixed(2),60,340+30*p);
 		ctx2.fillText((f101[p][3]).toFixed(2),140,340+30*p);
 		ctx2.fillText((f101[p][4]).toFixed(2),220,340+30*p);
@@ -3236,15 +3240,13 @@ if (f100.length>0){
 		f102.push([f101[0][1][p]]);
 	}
 
+	f103.push([[f101[0][0][fc.length]], [f101[0][1][fc.length]]]);
+
 }else{
 	for (p=0;p<fc.length;p++){
 		f102.push([0]);
 	}
 }
-
-
-f103.push([[f101[0][0][fc.length]], [f101[0][1][fc.length]]]);
-
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
