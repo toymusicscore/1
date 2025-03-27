@@ -73,10 +73,10 @@ demo
 
 <select name="fg5"  onChange="finger1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> Read1.0 </option>
-	<option value="1" style="font-size:100%"> Read1.1 </option>
+	<option value="1" style="font-size:100%" selected="selected"> Read1.1 </option>
 	<option value="2" style="font-size:100%"> Read1.2 </option>
 	<option value="3" style="font-size:100%"> Read1.3 </option>
-	<option value="4" style="font-size:100%" selected="selected"> Read1.4 </option>
+	<option value="4" style="font-size:100%"> Read1.4 </option>
 	<option value="5" style="font-size:100%"> Read1.5 </option>
 	<option value="6" style="font-size:100%"> Read1.6 </option>
 	<option value="7" style="font-size:100%"> Read1.7 </option>
@@ -3332,9 +3332,8 @@ for(i=0;i<r1.length;i++){
 }
 
 const finger2= async () =>{
-let f102=[];
-
-	finger1();
+let f102=[['','n_id', 'Finger\r\n']];
+finger1();
 
 for (p=1;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
 	await new Promise(r => timer=setTimeout(r,10000));
