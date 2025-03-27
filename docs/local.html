@@ -76,6 +76,24 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="5" style="font-size:100%"> 3rd5 </option>
 	</select>
 
+<select name="fg44"  onChange="finger1()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> 4thFree </option>
+	<option value="1" style="font-size:100%"> 4th1 </option>
+	<option value="2" style="font-size:100%"> 4th2 </option>
+	<option value="3" style="font-size:100%"> 4th3 </option>
+	<option value="4" style="font-size:100%"> 4th4 </option>
+	<option value="5" style="font-size:100%"> 4th5 </option>
+	</select>
+
+<select name="fg45"  onChange="finger1()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> 5thFree </option>
+	<option value="1" style="font-size:100%"> 5th1 </option>
+	<option value="2" style="font-size:100%"> 5th2 </option>
+	<option value="3" style="font-size:100%"> 5th3 </option>
+	<option value="4" style="font-size:100%"> 5th4 </option>
+	<option value="5" style="font-size:100%"> 5th5 </option>
+	</select>
+
 <select name="fg5"  onChange="finger1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> Read1.0 </option>
 	<option value="1" style="font-size:100%" selected="selected"> Read1.1 </option>
@@ -3130,28 +3148,52 @@ f101=[];
 let fg41v=document.form1.fg41.options[document.form1.fg41.options.selectedIndex].value;
 let fg42v=document.form1.fg42.options[document.form1.fg42.options.selectedIndex].value;
 let fg43v=document.form1.fg43.options[document.form1.fg43.options.selectedIndex].value;
+let fg44v=document.form1.fg44.options[document.form1.fg44.options.selectedIndex].value;
+let fg45v=document.form1.fg45.options[document.form1.fg45.options.selectedIndex].value;
 
 
 if (f100.length>0){
 	for (p=0;p<f100.length;p++){
 		if (document.form1.fg41.options[0].selected==true && 
 			document.form1.fg42.options[0].selected==true &&
-			document.form1.fg43.options[0].selected==true){
+			document.form1.fg43.options[0].selected==true &&
+			document.form1.fg44.options[0].selected==true &&
+			document.form1.fg45.options[0].selected==true){
 			mstd3(p);
 		}else if (document.form1.fg41.options[0].selected==false &&
 			document.form1.fg42.options[0].selected==true &&
 			document.form1.fg43.options[0].selected==true &&
+			document.form1.fg44.options[0].selected==true &&
+			document.form1.fg45.options[0].selected==true &&
 			f100[p][1][0]==fg41v){
 			mstd3(p);
 		}else if (document.form1.fg41.options[0].selected==false &&
 			document.form1.fg42.options[0].selected==false &&
 			document.form1.fg43.options[0].selected==true &&
+			document.form1.fg44.options[0].selected==true &&
+			document.form1.fg45.options[0].selected==true &&
 			f100[p][1][0]==fg41v && f100[p][1][1]==fg42v){
 			mstd3(p);		
 		}else if (document.form1.fg41.options[0].selected==false &&
 			document.form1.fg42.options[0].selected==false &&
 			document.form1.fg43.options[0].selected==false &&
+			document.form1.fg44.options[0].selected==true &&
+			document.form1.fg45.options[0].selected==true &&
 			f100[p][1][0]==fg41v && f100[p][1][1]==fg42v && f100[p][1][2]==fg43v){
+			mstd3(p);		
+		}else if (document.form1.fg41.options[0].selected==false &&
+			document.form1.fg42.options[0].selected==false &&
+			document.form1.fg43.options[0].selected==false &&
+			document.form1.fg44.options[0].selected==false &&
+			document.form1.fg45.options[0].selected==true &&
+			f100[p][1][0]==fg41v && f100[p][1][1]==fg42v && f100[p][1][2]==fg43v && f100[p][1][3]==fg44v){
+			mstd3(p);		
+		}else if (document.form1.fg41.options[0].selected==false &&
+			document.form1.fg42.options[0].selected==false &&
+			document.form1.fg43.options[0].selected==false &&
+			document.form1.fg44.options[0].selected==false &&
+			document.form1.fg45.options[0].selected==false &&
+			f100[p][1][0]==fg41v && f100[p][1][1]==fg42v && f100[p][1][2]==fg43v  && f100[p][1][3]==fg44v && f100[p][1][4]==fg45v){
 			mstd3(p);		
 		}
 	}
