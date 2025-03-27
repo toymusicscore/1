@@ -45,8 +45,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="fg4"  onChange="finger1()" style="font-size:100%">
-	<option value="0" style="font-size:100%">  NoConnect </option>
-	<option value="1" style="font-size:100%" selected="selected"> Connect1 </option>
+	<option value="0" style="font-size:100%" selected="selected"> AutoSelect </option>
+	<option value="1" style="font-size:100%">  ManualSelect </option>
 	</select>
 
 <select name="fg41"  onChange="finger1()" style="font-size:100%">
@@ -3109,7 +3109,7 @@ for(i=0;i<fc.length;i++){
 }//for(i=0;)
 
 
-if (f103.length>0 && f100.length>0 && document.form1.fg4.options[1].selected==true){
+if (f103.length>0 && f100.length>0 && document.form1.fg4.options[0].selected==true){
 	if(f103.at(-1)[0]==f100[0][0][0] && f103.at(-1)[1]=="1"){
 		document.form1.fg41.options[1].selected=true;
 	}else if(f103.at(-1)[0]==f100[0][0][0] && f103.at(-1)[1]=="2"){
@@ -3158,7 +3158,7 @@ if (f100.length>0){
 }
 
 
-if (f100.length>0 && f101.length==0 && document.form1.fg4.options[1].selected==true){
+if (f100.length>0 && f101.length==0 && document.form1.fg4.options[0].selected==true){
 	document.form1.fg41.options[0].selected=true;
 	for (p=0;p<f100.length;p++){
 		mstd3(p);
