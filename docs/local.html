@@ -2788,11 +2788,53 @@ for (p=0;p<f22.length;p++){
 }
 }
 
+f24=[];
+if(f23.length>0){
+for (p=0;p<f23.length;p++){
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17, nt18, nt19, nt20, nt21, nt22], 
+	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17, ft18, ft19, ft20, ft21, ft22], 
+	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22]
+	]=f23[p];
+	for (q=0;q<f1.length;q++){
+		let [[nf23, nt23], [ff23, ft23], [cf23, ct23]]=f1[q];
+		if(nt22==nf23-0 && ft22==ff23-0){
+			f24.push([
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17, nt18, nt19, nt20, nt21, nt22, nt23], 
+			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17, ft18, ft19, ft20, ft21, ft22, ft23], 
+			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22, ct23]
+			]);
+		}
+	}
+}
+}
+
+f25=[];
+if(f24.length>0){
+for (p=0;p<f24.length;p++){
+	let [
+	 [nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17, nt18, nt19, nt20, nt21, nt22, nt23], 
+	 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17, ft18, ft19, ft20, ft21, ft22, ft23], 
+	 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22, ct23]
+	]=f24[p];
+	for (q=0;q<f1.length;q++){
+		let [[nf24, nt24], [ff24, ft24], [cf24, ct24]]=f1[q];
+		if(nt23==nf24-0 && ft23==ff24-0){
+			f25.push([
+			[nf0, nt0, nt1, nt2, nt3, nt4, nt5, nt6, nt7, nt8, nt9, nt10, nt11, nt12, nt13, nt14, nt15, nt16, nt17, nt18, nt19, nt20, nt21, nt22, nt23, nt24], 
+			[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16, ft17, ft18, ft19, ft20, ft21, ft22, ft23, ft24], 
+			[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22, ct23, ct24]
+			]);
+		}
+	}
+}
+}
+
 
 
 f100=[];
 
-if (fn.length==2 && f1.length>0 && f1[0].length==2){
+if (fn.length==2 && f1.length>0){
 	for (p=0;p<f1.length;p++){
 		if (fn[0][1]==f1[p][0][0]){
 			f100.push([
@@ -3022,9 +3064,28 @@ if (fn.length==2 && f1.length>0 && f1[0].length==2){
 			]);
 		}
 	}
+}else if (fn.length==25 && f24.length>0){
+	for (p=0;p<f24.length;p++){
+		if (fn[0][1]==f24[p][0][0]){
+			f100.push([
+			f24[p][0],
+			f24[p][1],
+			f24[p][2]
+			]);
+		}
+	}
+}else if (fn.length==26 && f25.length>0){
+	for (p=0;p<f25.length;p++){
+		if (fn[0][1]==f25[p][0][0]){
+			f100.push([
+			f25[p][0],
+			f25[p][1],
+			f25[p][2]
+			]);
+		}
+	}
 
 }
-
 
 ctx2.fillStyle="black";
 ctx2.fillText("No.",0,310);
@@ -3039,7 +3100,7 @@ for(i=0;i<fc.length;i++){
 }//for(i=0;)
 
 
-if (f103.length>0 && document.form1.fg4.options[1].selected==true){
+if (f103.length>0 && f100.length>0 && document.form1.fg4.options[1].selected==true){
 	if(f103.at(-1)[0]==f100[0][0][0] && f103.at(-1)[1]=="1"){
 		document.form1.fg41.options[1].selected=true;
 	}else if(f103.at(-1)[0]==f100[0][0][0] && f103.at(-1)[1]=="2"){
@@ -3211,7 +3272,8 @@ if (f100.length>0){
 	}
 }
 
-if (f101.length==0){
+
+if (f100.length>0 && f101.length==0){
 	document.form1.fg41.options[0].selected=true;
 	for (p=0;p<f100.length;p++){
 		mstd3(p);
@@ -3219,6 +3281,7 @@ if (f101.length==0){
 }	
 
 if (f101.length>0){
+
 	f101.sort(function(a,b){return(a[2] - b[2]);});
 	
 	for (p=0;p<f101.length;p++){
@@ -3244,8 +3307,9 @@ if (f101.length>0){
 	f103.push([f101[0][0][fc.length], f101[0][1][fc.length]]);
 
 }else{
+
 	for (p=0;p<fc.length;p++){
-		f102.push(['0','0\r\n']);
+		f102.push([fc[p][1],'0\r\n']);
 	}
 }
 
@@ -3333,7 +3397,7 @@ for(i=0;i<r1.length;i++){
 }
 
 const finger2= async () =>{
-let f102=[['','n_id', 'Finger\r\n']];
+
 finger1();
 
 for (p=1;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
