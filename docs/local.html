@@ -1741,6 +1741,8 @@ scroll2();
 still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
+}else if(document.form1.sv1.options[15].selected==true){
+finger1();
 }
 
 }
@@ -1757,6 +1759,8 @@ scroll2();
 still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
+}else if(document.form1.sv1.options[15].selected==true){
+finger1();
 }
 
 }
@@ -2187,21 +2191,21 @@ ctx2.stroke();
 }
 
 for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+1*ppq*bttl/ntvl*4)){
+if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 let vmn0=m/ppq/bttl*ntvl/4;
 ctx2.beginPath();
-ctx2.moveTo(0,my+(m-j)*(szy-my)/(1*bttl*ppq/ntvl*4));
-ctx2.lineTo(mx+szk,my+(m-j)*(szy-my)/(1*bttl*ppq/ntvl*4));
+ctx2.moveTo(0,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(mx+szk,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="red";
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
-ctx2.fillText(vmn0+1,0,my+(m-j)*(szy-my)/(1*bttl*ppq/ntvl*4));
+ctx2.fillText(vmn0+1,0,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 
-}else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+1*ppq*bttl/ntvl*4)){
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 ctx2.beginPath();
-ctx2.moveTo(mx,my+(m-j)*(szy-my)/(1*bttl*ppq/ntvl*4));
-ctx2.lineTo(mx+szk,my+(m-j)*(szy-my)/(1*bttl*ppq/ntvl*4));
+ctx2.moveTo(mx,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(mx+szk,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="green";
 ctx2.stroke();
 }
@@ -2218,7 +2222,7 @@ for(i=0;i<r1.length;i++){
 	if (channel==document.form1.x_ch.value && start>=j && start<j+1*ppq*bttl){
 		fc.push([midi, n_id]);
 	}
-	if (channel==document.form1.x_ch.value && start>=j && start<j+fg5v*ppq*bttl){
+	if (channel==document.form1.x_ch.value && start>=j && start<j+fg5v*1*ppq*bttl){
 		fn.push([midi, n_id, start, stop]);
 	}
 }
@@ -3510,9 +3514,9 @@ for(i=0;i<r1.length;i++){
 	if (channel==document.form1.x_ch.value){
 		if(start>=j && start<j+1*ppq*bttl){
 			ctx2.fillStyle=col[midi%12];
-			ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(1*bttl*ppq/ntvl*4));
+			ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 			ctx2.beginPath();
-			ctx2.arc((midi-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+			ctx2.arc((midi-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 			ctx2.fillStyle=col3[channel];
 			ctx2.fill();
 			ctx2.fillStyle="black";
