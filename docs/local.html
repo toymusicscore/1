@@ -2214,7 +2214,7 @@ ctx2.stroke();
 
 fc=[];
 fp=[];
-let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value/10);
+let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value);
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
@@ -2228,9 +2228,6 @@ for(i=0;i<r1.length;i++){
 		fp.push([midi, n_id, start, stop]);
 	}
 }
-
-ctx2.fillText(fc.at(-1)[1],1300,310);
-ctx2.fillText(fp.at(-1)[1],1300,340);
 
 
 f0=[];
