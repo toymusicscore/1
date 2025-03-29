@@ -2197,6 +2197,7 @@ ctx2.stroke();
 }
 }
 
+/*
 for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 let vmn0=m/ppq/bttl*ntvl/4;
@@ -2217,7 +2218,7 @@ ctx2.strokeStyle="green";
 ctx2.stroke();
 }
 }
-
+*/
 
 
 fc=[];
@@ -2226,7 +2227,9 @@ let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIn
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==document.form1.x_ch.value && start>=j && start<j+1*ppq*bttl){
+	if (channel==document.form1.x_ch.value && f102.length==0 && n_id>=1 && n_id<=10){
+		fc.push([midi, n_id]);
+	}else if (channel==document.form1.x_ch.value && f102.length>0 && n_id>f102.at(-1)[0] && n_id<=f102.at(-1)[0]+10){
 		fc.push([midi, n_id]);
 	}
 }
