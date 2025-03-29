@@ -527,7 +527,7 @@ let f16=[];
 let f17=[];
 let f18=[];
 let fc=[];
-let fn=[];
+let fp=[];
 let f100=[];
 let f101=[];
 let f102=[['','n_id', 'Finger\r\n']];
@@ -650,7 +650,6 @@ tsvff=[];
 tsvft=[];
 tsvmd=[];
 tsvrc=[];
-tsvfn=[];
 tsvsc=[];
 var file2=evt.target.files[0];
 var reader2=new FileReader();
@@ -2237,9 +2236,9 @@ let cp1=0;
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
 let rst=ppq*bttl/ntvl/4;
 
-for (p=1;p<fn.length;p++){
-	let [midi0, n_id0, start0, stop0]=fn[p-1];
-	let [midi1, n_id1, start1, stop1]=fn[p];
+for (p=1;p<fp.length;p++){
+	let [midi0, n_id0, start0, stop0]=fp[p-1];
+	let [midi1, n_id1, start1, stop1]=fp[p];
 	for(q=0;q<tsvmd.length;q++){
 		if(document.form1.fg1.options[0].selected==true && 
 		start1-stop0<rst &&
@@ -3051,9 +3050,9 @@ for (p=0;p<f24.length;p++){
 
 f100=[];
 
-if (fn.length==2 && f1.length>0){
+if (fp.length==2 && f1.length>0){
 	for (p=0;p<f1.length;p++){
-		if (fn[0][1]==f1[p][0][0]){
+		if (fp[0][1]==f1[p][0][0]){
 			f100.push([
 			f1[p][0],
 			f1[p][1],
@@ -3061,9 +3060,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==3 && f2.length>0){
+}else if (fp.length==3 && f2.length>0){
 	for (p=0;p<f2.length;p++){
-		if (fn[0][1]==f2[p][0][0]){
+		if (fp[0][1]==f2[p][0][0]){
 			f100.push([
 			f2[p][0],
 			f2[p][1],
@@ -3071,9 +3070,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==4 && f3.length>0){
+}else if (fp.length==4 && f3.length>0){
 	for (p=0;p<f3.length;p++){
-		if (fn[0][1]==f3[p][0][0]){
+		if (fp[0][1]==f3[p][0][0]){
 			f100.push([
 			f3[p][0],
 			f3[p][1],
@@ -3081,9 +3080,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==5 && f4.length>0){
+}else if (fp.length==5 && f4.length>0){
 	for (p=0;p<f4.length;p++){
-		if (fn[0][1]==f4[p][0][0]){
+		if (fp[0][1]==f4[p][0][0]){
 			f100.push([
 			f4[p][0],
 			f4[p][1],
@@ -3091,9 +3090,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==6 && f5.length>0){
+}else if (fp.length==6 && f5.length>0){
 	for (p=0;p<f5.length;p++){
-		if (fn[0][1]==f5[p][0][0]){
+		if (fp[0][1]==f5[p][0][0]){
 			f100.push([
 			f5[p][0],
 			f5[p][1],
@@ -3101,9 +3100,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==7 && f6.length>0){
+}else if (fp.length==7 && f6.length>0){
 	for (p=0;p<f6.length;p++){
-		if (fn[0][1]==f6[p][0][0]){
+		if (fp[0][1]==f6[p][0][0]){
 			f100.push([
 			f6[p][0],
 			f6[p][1],
@@ -3111,9 +3110,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==8 && f7.length>0){
+}else if (fp.length==8 && f7.length>0){
 	for (p=0;p<f7.length;p++){
-		if (fn[0][1]==f7[p][0][0]){
+		if (fp[0][1]==f7[p][0][0]){
 			f100.push([
 			f7[p][0],
 			f7[p][1],
@@ -3121,9 +3120,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==9 && f8.length>0){
+}else if (fp.length==9 && f8.length>0){
 	for (p=0;p<f8.length;p++){
-		if (fn[0][1]==f8[p][0][0]){
+		if (fp[0][1]==f8[p][0][0]){
 			f100.push([
 			f8[p][0],
 			f8[p][1],
@@ -3131,9 +3130,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==10 && f9.length>0){	
+}else if (fp.length==10 && f9.length>0){	
 	for (p=0;p<f9.length;p++){
-		if (fn[0][1]==f9[p][0][0]){
+		if (fp[0][1]==f9[p][0][0]){
 			f100.push([
 			f9[p][0],
 			f9[p][1],
@@ -3141,9 +3140,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==11 && f10.length>0){	
+}else if (fp.length==11 && f10.length>0){	
 	for (p=0;p<f10.length;p++){
-		if (fn[0][1]==f10[p][0][0]){
+		if (fp[0][1]==f10[p][0][0]){
 			f100.push([
 			f10[p][0],
 			f10[p][1],
@@ -3151,9 +3150,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==12 && f11.length>0){
+}else if (fp.length==12 && f11.length>0){
 	for (p=0;p<f11.length;p++){
-		if (fn[0][1]==f11[p][0][0]){
+		if (fp[0][1]==f11[p][0][0]){
 			f100.push([
 			f11[p][0],
 			f11[p][1],
@@ -3161,9 +3160,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==13 && f12.length>0){
+}else if (fp.length==13 && f12.length>0){
 	for (p=0;p<f12.length;p++){
-		if (fn[0][1]==f12[p][0][0]){
+		if (fp[0][1]==f12[p][0][0]){
 			f100.push([
 			f12[p][0],
 			f12[p][1],
@@ -3171,9 +3170,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==14 && f13.length>0){
+}else if (fp.length==14 && f13.length>0){
 	for (p=0;p<f13.length;p++){
-		if (fn[0][1]==f13[p][0][0]){
+		if (fp[0][1]==f13[p][0][0]){
 			f100.push([
 			f13[p][0],
 			f13[p][1],
@@ -3181,9 +3180,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==15 && f14.length>0){
+}else if (fp.length==15 && f14.length>0){
 	for (p=0;p<f14.length;p++){
-		if (fn[0][1]==f14[p][0][0]){
+		if (fp[0][1]==f14[p][0][0]){
 			f100.push([
 			f14[p][0],
 			f14[p][1],
@@ -3191,9 +3190,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==16 && f15.length>0){
+}else if (fp.length==16 && f15.length>0){
 	for (p=0;p<f15.length;p++){
-		if (fn[0][1]==f15[p][0][0]){
+		if (fp[0][1]==f15[p][0][0]){
 			f100.push([
 			f15[p][0],
 			f15[p][1],
@@ -3201,9 +3200,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==17 && f16.length>0){
+}else if (fp.length==17 && f16.length>0){
 	for (p=0;p<f16.length;p++){
-		if (fn[0][1]==f16[p][0][0]){
+		if (fp[0][1]==f16[p][0][0]){
 			f100.push([
 			f16[p][0],
 			f16[p][1],
@@ -3211,9 +3210,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==18 && f17.length>0){
+}else if (fp.length==18 && f17.length>0){
 	for (p=0;p<f17.length;p++){
-		if (fn[0][1]==f17[p][0][0]){
+		if (fp[0][1]==f17[p][0][0]){
 			f100.push([
 			f17[p][0],
 			f17[p][1],
@@ -3221,9 +3220,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==19 && f18.length>0){
+}else if (fp.length==19 && f18.length>0){
 	for (p=0;p<f18.length;p++){
-		if (fn[0][1]==f18[p][0][0]){
+		if (fp[0][1]==f18[p][0][0]){
 			f100.push([
 			f18[p][0],
 			f18[p][1],
@@ -3231,9 +3230,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==20 && f19.length>0){
+}else if (fp.length==20 && f19.length>0){
 	for (p=0;p<f19.length;p++){
-		if (fn[0][1]==f19[p][0][0]){
+		if (fp[0][1]==f19[p][0][0]){
 			f100.push([
 			f19[p][0],
 			f19[p][1],
@@ -3241,9 +3240,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==21 && f20.length>0){
+}else if (fp.length==21 && f20.length>0){
 	for (p=0;p<f20.length;p++){
-		if (fn[0][1]==f20[p][0][0]){
+		if (fp[0][1]==f20[p][0][0]){
 			f100.push([
 			f20[p][0],
 			f20[p][1],
@@ -3251,9 +3250,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==22 && f21.length>0){
+}else if (fp.length==22 && f21.length>0){
 	for (p=0;p<f21.length;p++){
-		if (fn[0][1]==f21[p][0][0]){
+		if (fp[0][1]==f21[p][0][0]){
 			f100.push([
 			f21[p][0],
 			f21[p][1],
@@ -3261,9 +3260,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==23 && f22.length>0){
+}else if (fp.length==23 && f22.length>0){
 	for (p=0;p<f22.length;p++){
-		if (fn[0][1]==f22[p][0][0]){
+		if (fp[0][1]==f22[p][0][0]){
 			f100.push([
 			f22[p][0],
 			f22[p][1],
@@ -3271,9 +3270,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==24 && f23.length>0){
+}else if (fp.length==24 && f23.length>0){
 	for (p=0;p<f23.length;p++){
-		if (fn[0][1]==f23[p][0][0]){
+		if (fp[0][1]==f23[p][0][0]){
 			f100.push([
 			f23[p][0],
 			f23[p][1],
@@ -3281,9 +3280,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==25 && f24.length>0){
+}else if (fp.length==25 && f24.length>0){
 	for (p=0;p<f24.length;p++){
-		if (fn[0][1]==f24[p][0][0]){
+		if (fp[0][1]==f24[p][0][0]){
 			f100.push([
 			f24[p][0],
 			f24[p][1],
@@ -3291,9 +3290,9 @@ if (fn.length==2 && f1.length>0){
 			]);
 		}
 	}
-}else if (fn.length==26 && f25.length>0){
+}else if (fp.length==26 && f25.length>0){
 	for (p=0;p<f25.length;p++){
-		if (fn[0][1]==f25[p][0][0]){
+		if (fp[0][1]==f25[p][0][0]){
 			f100.push([
 			f25[p][0],
 			f25[p][1],
@@ -3408,7 +3407,7 @@ if (f101.length>0){
 			}else{
 			ctx2.fillText(p+1,0,340+30*p);
 			}		
-		for (q=0;q<fn.length;q++){
+		for (q=0;q<fp.length;q++){
 			ctx2.fillText(f101[p][1][q],400+50*q,340+30*p);
 			}
 		ctx2.fillText((f101[p][2]).toFixed(2),60,340+30*p);
