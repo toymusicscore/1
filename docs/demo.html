@@ -110,7 +110,15 @@ demo
 	<option value="9" style="font-size:100%"> Next9 </option>
 	<option value="10" style="font-size:100%"> Next10 </option>
 	</select>
-	
+
+<select name="fg6" style="font-size:100%">
+	<option value="0" style="font-size:100%"> Rest4 </option>
+	<option value="1" style="font-size:100%"> Rest8 </option>
+	<option value="2" style="font-size:100%" selected="selected"> Rest16 </option>
+	<option value="3" style="font-size:100%"> Rest32 </option>
+	<option value="4" style="font-size:100%"> Rest64 </option>
+	</select>
+
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Letters </option>
 	<option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
@@ -3307,10 +3315,15 @@ ctx2.fillText("TTL",60,310);
 ctx2.fillText("S1",140,310);
 ctx2.fillText("S2",220,310);
 ctx2.fillText("S3",300,310);
-ctx2.fillText("Next",400+50*fc.length,310);
 
-for(i=0;i<fc.length;i++){
-	ctx2.fillText(fc[i][1],400+50*i,310);
+ctx2.beginPath();
+ctx2.moveTo(380+50*fc.length,szy);
+ctx2.lineTo(380+50*fc.length,620);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+
+for(i=0;i<fp.length;i++){
+	ctx2.fillText(fp[i][1],400+50*i,310);
 }//for(i=0;)
 
 

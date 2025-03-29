@@ -28,8 +28,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 <input type="button" name="b_lr" value="LR" onClick="leftright1()" style="font-size:100%" >
 
 <select name="fg1" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> Right Hand </option>
-	<option value="1" style="font-size:100%"> Left Hand </option>
+	<option value="0" style="font-size:100%" selected="selected"> RightH </option>
+	<option value="1" style="font-size:100%"> LeftH</option>
 	</select>
 
 <select name="fg2" style="font-size:100%">
@@ -38,15 +38,15 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="fg3" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> NoExclude </option>
+	<option value="0" style="font-size:100%" selected="selected"> NoExc </option>
 	<option value="1" style="font-size:100%"> Exc-B1 </option>
 	<option value="2" style="font-size:100%"> Exc-B5 </option>
 	<option value="3" style="font-size:100%"> Exc-B15 </option>
 	</select>
 
 <select name="fg4" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> Independent </option>
-	<option value="1" style="font-size:100%">  Connect </option>
+	<option value="0" style="font-size:100%" selected="selected"> NoConnect </option>
+	<option value="1" style="font-size:100%"> Connect1st </option>
 	</select>
 
 <select name="fg41"  onChange="finger1()" style="font-size:100%">
@@ -95,7 +95,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="fg5" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> Next0 </option>
+	<option value="0" style="font-size:100%"> Next0 </option>
 	<option value="1" style="font-size:100%"> Next1 </option>
 	<option value="2" style="font-size:100%"> Next2 </option>
 	<option value="3" style="font-size:100%"> Next3 </option>
@@ -107,7 +107,15 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="9" style="font-size:100%"> Next9 </option>
 	<option value="10" style="font-size:100%"> Next10 </option>
 	</select>
-							
+
+<select name="fg6" style="font-size:100%">
+	<option value="0" style="font-size:100%"> Rest4 </option>
+	<option value="1" style="font-size:100%"> Rest8 </option>
+	<option value="2" style="font-size:100%" selected="selected"> Rest16 </option>
+	<option value="3" style="font-size:100%"> Rest32 </option>
+	<option value="4" style="font-size:100%"> Rest64 </option>
+	</select>
+
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Letters </option>
 	<option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
@@ -3309,10 +3317,15 @@ ctx2.fillText("TTL",60,310);
 ctx2.fillText("S1",140,310);
 ctx2.fillText("S2",220,310);
 ctx2.fillText("S3",300,310);
-ctx2.fillText("Next",400+50*fc.length,310);
 
-for(i=0;i<fc.length;i++){
-	ctx2.fillText(fc[i][1],400+50*i,310);
+ctx2.beginPath();
+ctx2.moveTo(380+50*fc.length,szy);
+ctx2.lineTo(380+50*fc.length,620);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+
+for(i=0;i<fp.length;i++){
+	ctx2.fillText(fp[i][1],400+50*i,310);
 }//for(i=0;)
 
 
