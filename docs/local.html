@@ -2243,112 +2243,34 @@ for (p=1;p<fn.length;p++){
 		tsvmd[q]==midi1-midi0 && 
 		n_id0==n_id1-1 && 
 		tsvrc[q]<=fg2v){
-			if (tsvff[q]==1){
-				cp0=Number(midi0)-Number(tsvsc[1]);
-			}else if (tsvff[q]==2){
-				cp0=Number(midi0)-Number(tsvsc[2]);
-			}else if (tsvff[q]==3){
-				cp0=Number(midi0)-Number(tsvsc[3]);
-			}else if (tsvff[q]==4){
-				cp0=Number(midi0)-Number(tsvsc[4]);
-			}else if (tsvff[q]==5){
-				cp0=Number(midi0)-Number(tsvsc[5]);
-			}
-			if (tsvft[q]==1){
-				cp1=Number(midi1)-Number(tsvsc[1]);
-			}else if (tsvft[q]==2){
-				cp1=Number(midi1)-Number(tsvsc[2]);
-			}else if (tsvft[q]==3){
-				cp1=Number(midi1)-Number(tsvsc[3]);
-			}else if (tsvft[q]==4){
-				cp1=Number(midi1)-Number(tsvsc[4]);
-			}else if (tsvft[q]==5){
-				cp1=Number(midi1)-Number(tsvsc[5]);
-			}
+			cp0=Number(midi0)-Number(tsvsc[tsvff[q]]);
+			cp1=Number(midi1)-Number(tsvsc[tsvft[q]]);
 			f0.push([[n_id0,n_id1],[tsvff[q],tsvft[q]],[cp0,cp1],[midi0, midi1],[start0, stop1]]);
 		}else if(document.form1.fg1.options[1].selected==true && 
 		start1-stop0<rst &&
 		tsvmd[q]==midi0-midi1 && 
 		n_id0==n_id1-1 && 
 		tsvrc[q]<=fg2v){
-			if (tsvff[q]==1){
-				cp0=Number(midi0)+Number(tsvsc[1]);
-			}else if (tsvff[q]==2){
-				cp0=Number(midi0)+Number(tsvsc[2]);
-			}else if (tsvff[q]==3){
-				cp0=Number(midi0)+Number(tsvsc[3]);
-			}else if (tsvff[q]==4){
-				cp0=Number(midi0)+Number(tsvsc[4]);
-			}else if (tsvff[q]==5){
-				cp0=Number(midi0)+Number(tsvsc[5]);
-			}
-			if (tsvft[q]==1){
-				cp1=Number(midi1)+Number(tsvsc[1]);
-			}else if (tsvft[q]==2){
-				cp1=Number(midi1)+Number(tsvsc[2]);
-			}else if (tsvft[q]==3){
-				cp1=Number(midi1)+Number(tsvsc[3]);
-			}else if (tsvft[q]==4){
-				cp1=Number(midi1)+Number(tsvsc[4]);
-			}else if (tsvft[q]==5){
-				cp1=Number(midi1)+Number(tsvsc[5]);
-			}
+			cp0=Number(midi0)+Number(tsvsc[tsvff[q]]);
+			cp1=Number(midi1)+Number(tsvsc[tsvft[q]]);
 			f0.push([[n_id0,n_id1],[tsvff[q],tsvft[q]],[cp0,cp1],[midi0, midi1],[start0, stop1]]);
 		}
 	}
-	for(q=1;q<=5;q++){
+}
+for(q=1;q<=5;q++){
+	for (r=1;r<=5;r++){
 		if(document.form1.fg1.options[0].selected==true && 
 		start1-stop0>=rst &&
 		n_id0==n_id1-1){
-			if (q==1){
-				cp0=Number(midi0)-Number(tsvsc[1]);
-			}else if (q==2){
-				cp0=Number(midi0)-Number(tsvsc[2]);
-			}else if (q==3){
-				cp0=Number(midi0)-Number(tsvsc[3]);
-			}else if (q==4){
-				cp0=Number(midi0)-Number(tsvsc[4]);
-			}else if (q==5){
-				cp0=Number(midi0)-Number(tsvsc[5]);
-			}
-			if (q==1){
-				cp1=Number(midi1)-Number(tsvsc[1]);
-			}else if (q==2){
-				cp1=Number(midi1)-Number(tsvsc[2]);
-			}else if (q==3){
-				cp1=Number(midi1)-Number(tsvsc[3]);
-			}else if (q==4){
-				cp1=Number(midi1)-Number(tsvsc[4]);
-			}else if (q==5){
-				cp1=Number(midi1)-Number(tsvsc[5]);
-			}
-			f0.push([[n_id0,n_id1],[tsvff[q],tsvft[q]],[cp0,cp1],[midi0, midi1],[start0, stop1]]);
+			cp0=Number(midi0)-Number(tsvsc[q]);
+			cp1=Number(midi1)-Number(tsvsc[r]);
+			f0.push([[n_id0,n_id1],[q,r],[cp0,cp1],[midi0, midi1],[start0, stop1]]);
 		}else if(document.form1.fg1.options[1].selected==true && 
 		start1-stop0>=rst &&
 		n_id0==n_id1-1){
-			if (q==1){
-				cp0=Number(midi0)+Number(tsvsc[1]);
-			}else if (q==2){
-				cp0=Number(midi0)+Number(tsvsc[2]);
-			}else if (q==3){
-				cp0=Number(midi0)+Number(tsvsc[3]);
-			}else if (q==4){
-				cp0=Number(midi0)+Number(tsvsc[4]);
-			}else if (q==5){
-				cp0=Number(midi0)+Number(tsvsc[5]);
-			}
-			if (q==1){
-				cp1=Number(midi1)+Number(tsvsc[1]);
-			}else if (q==2){
-				cp1=Number(midi1)+Number(tsvsc[2]);
-			}else if (q==3){
-				cp1=Number(midi1)+Number(tsvsc[3]);
-			}else if (q==4){
-				cp1=Number(midi1)+Number(tsvsc[4]);
-			}else if (q==5){
-				cp1=Number(midi1)+Number(tsvsc[5]);
-			}
-			f0.push([[n_id0,n_id1],[tsvff[q],tsvft[q]],[cp0,cp1],[midi0, midi1],[start0, stop1]]);
+			cp0=Number(midi0)+Number(tsvsc[q]);
+			cp1=Number(midi1)+Number(tsvsc[r]);
+			f0.push([[n_id0,n_id1],[q,r],[cp0,cp1],[midi0, midi1],[start0, stop1]]);
 		}
 	}
 }
