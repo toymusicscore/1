@@ -40,9 +40,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 
 <select name="fg3" style="font-size:100%">
 	<option value="0" style="font-size:100%"> NoExc </option>
-	<option value="1" style="font-size:100%"> Exc-B1 </option>
-	<option value="2" style="font-size:100%"> Exc-B5 </option>
-	<option value="3" style="font-size:100%" selected="selected"> Exc-B15 </option>
+	<option value="1" style="font-size:100%" selected="selected"> Exc-B15 </option>
 	</select>
 
 <select name="fg4" style="font-size:100%">
@@ -2310,60 +2308,6 @@ if(f0.length>0){
 		if (document.form1.fg3.options[0].selected==true){
 			f1.push([[nf0, nt0], [ff0, ft0], [cf0, ct0],[tf0,tt0]]);
 		}else if(document.form1.fg3.options[1].selected==true &&
-			(
-				(
-					(midif0%12==0||midif0%12==2||midif0%12==4||
-					midif0%12==5||midif0%12==7||midif0%12==9||midif0%12==11
-					) ||
-					(
-					(midif0%12==1||midif0%12==3||midif0%12==6||midif0%12==8||midif0%12==10
-					) &&
-					(ff0=="2"||ff0=="3"||ff0=="4"||ff0=="5"
-					)
-					)
-				) &&
-				(
-					(midit0%12==0||midit0%12==2||midit0%12==4||
-					midit0%12==5||midit0%12==7||midit0%12==9||midit0%12==11
-					) ||
-					(
-					(midit0%12==1||midit0%12==3||midit0%12==6||midit0%12==8||midit0%12==10
-					) &&
-					(ft0=="2"||ft0=="3"||ft0=="4"||ft0=="5"
-					)
-					)
-				)
-			)
-		){
-			f1.push([[nf0, nt0], [ff0, ft0], [cf0, ct0],[tf0,tt0]]);
-		}else if(document.form1.fg3.options[2].selected==true &&
-			(
-				(
-					(midif0%12==0||midif0%12==2||midif0%12==4||
-					midif0%12==5||midif0%12==7||midif0%12==9||midif0%12==11
-					) ||
-					(
-					(midif0%12==1||midif0%12==3||midif0%12==6||midif0%12==8||midif0%12==10
-					) &&
-					(ff0=="1"||ff0=="2"||ff0=="3"||ff0=="4"
-					)
-					) 
-				) &&
-				(
-					(midit0%12==0||midit0%12==2||midit0%12==4||midit0%12==5||
-					midit0%12==7||midit0%12==9||midit0%12==11
-					) ||
-					(
-					(midit0%12==1||midit0%12==3||midit0%12==6||midit0%12==8||midit0%12==10
-					) &&
-					(ft0=="1"||ft0=="2"||ft0=="3"||ft0=="4"
-					)
-					)
-				)
-			)
-		){
-			f1.push([[nf0, nt0], [ff0, ft0], [cf0, ct0],[tf0,tt0]]);
-		}else if(document.form1.fg3.options[3].selected==true &&
 			(
 				(
 					(midif0%12==0||midif0%12==2||midif0%12==4||midif0%12==5||
