@@ -2240,7 +2240,20 @@ f0=[];
 let cp0=0;
 let cp1=0;
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
-let rst=ppq*bttl/ntvl/4;
+
+
+if(document.form1.fg6.options[0].selected==true){
+	let rst=ppq*bttl/ntvl;
+}else if(document.form1.fg1.options[1].selected==true){
+	let rst=ppq*bttl/ntvl/2;
+}else if(document.form1.fg1.options[2].selected==true){
+	let rst=ppq*bttl/ntvl/4;
+}else if(document.form1.fg1.options[3].selected==true){
+	let rst=ppq*bttl/ntvl/8;
+}else if(document.form1.fg1.options[4].selected==true){
+	let rst=ppq*bttl/ntvl/16;
+}
+
 
 for (p=1;p<fp.length;p++){
 	let [midi0, n_id0, start0, stop0]=fp[p-1];
