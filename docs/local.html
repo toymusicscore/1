@@ -100,9 +100,9 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="2" style="font-size:100%"> Next2 </option>
 	<option value="3" style="font-size:100%"> Next3 </option>
 	<option value="4" style="font-size:100%"> Next4 </option>
-	<option value="5" style="font-size:100%"> Next5 </option>
+	<option value="5" style="font-size:100%" selected="selected"> Next5 </option>
 	<option value="6" style="font-size:100%"> Next6 </option>
-	<option value="7" style="font-size:100%" selected="selected"> Next7 </option>
+	<option value="7" style="font-size:100%"> Next7 </option>
 	<option value="8" style="font-size:100%"> Next8 </option>
 	<option value="9" style="font-size:100%"> Next9 </option>
 	<option value="10" style="font-size:100%"> Next10 </option>
@@ -536,6 +536,7 @@ let f17=[];
 let f18=[];
 let fc=[];
 let fp=[];
+let fa=[];
 let f100=[];
 let f101=[];
 let f102=[['','n_id', 'Finger\r\n']];
@@ -2197,7 +2198,6 @@ ctx2.stroke();
 }
 }
 
-/*
 for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 if(m%(ppq*bttl/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 let vmn0=m/ppq/bttl*ntvl/4;
@@ -2218,18 +2218,17 @@ ctx2.strokeStyle="green";
 ctx2.stroke();
 }
 }
-*/
 
 
 fc=[];
 fp=[];
+fa=[];
+
 let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value);
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==document.form1.x_ch.value && f102.length==0 && n_id>=1 && n_id<=10){
-		fc.push([midi, n_id]);
-	}else if (channel==document.form1.x_ch.value && f102.length>0 && n_id>f102.at(-1)[0] && n_id<=f102.at(-1)[0]+10){
+	if (channel==document.form1.x_ch.value && start>=j && start<j+1*ppq*bttl){
 		fc.push([midi, n_id]);
 	}
 }
@@ -3530,14 +3529,11 @@ for(i=0;i<r1.length;i++){
 }
 
 const finger2= async () =>{
-
 finger1();
-
-for (p=1;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
+for (p=0;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
 	await new Promise(r => timer=setTimeout(r,10000));
 	forward1();
 }
-
 }
 
 

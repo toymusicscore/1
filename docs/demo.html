@@ -41,7 +41,7 @@ demo
 	</select>
 	
 <select name="fg3" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> NoExclude </option>
+	<option value="0" style="font-size:100%" selected="selected"> NoExc </option>
 	<option value="1" style="font-size:100%"> Exc-B1 </option>
 	<option value="2" style="font-size:100%"> Exc-B5 </option>
 	<option value="3" style="font-size:100%"> Exc-B15 </option>
@@ -103,9 +103,9 @@ demo
 	<option value="2" style="font-size:100%"> Next2 </option>
 	<option value="3" style="font-size:100%"> Next3 </option>
 	<option value="4" style="font-size:100%"> Next4 </option>
-	<option value="5" style="font-size:100%"> Next5 </option>
+	<option value="5" style="font-size:100%" selected="selected"> Next5 </option>
 	<option value="6" style="font-size:100%"> Next6 </option>
-	<option value="7" style="font-size:100%" selected="selected"> Next7 </option>
+	<option value="7" style="font-size:100%"> Next7 </option>
 	<option value="8" style="font-size:100%"> Next8 </option>
 	<option value="9" style="font-size:100%"> Next9 </option>
 	<option value="10" style="font-size:100%"> Next10 </option>
@@ -2216,9 +2216,10 @@ ctx2.stroke();
 }
 
 
-
 fc=[];
 fp=[];
+fa=[];
+
 let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value);
 
 for(i=0;i<r1.length;i++){
@@ -2281,7 +2282,6 @@ for (p=1;p<fp.length;p++){
 		}
 	}
 }
-
 
 f1=[];
 
@@ -3525,14 +3525,11 @@ for(i=0;i<r1.length;i++){
 }
 
 const finger2= async () =>{
-
 finger1();
-
-for (p=1;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
+for (p=0;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
 	await new Promise(r => timer=setTimeout(r,10000));
 	forward1();
 }
-
 }
 
 
