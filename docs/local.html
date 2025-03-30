@@ -34,7 +34,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 
 <select name="fg2" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> Easy </option>
-	<option value="1" style="font-size:100%"> Hard </option>
+	<option value="1" style="font-size:100%"> Mid </option>
+	<option value="2" style="font-size:100%"> Hard </option>
 	</select>
 
 <select name="fg3" style="font-size:100%">
@@ -541,6 +542,7 @@ let f100=[];
 let f101=[];
 let f102=[['','n_id', 'Finger\r\n']];
 let f103=[];
+let rst=0;
 
 var obj1=document.getElementById("selfile1");
 obj1.addEventListener("change", function(evt){
@@ -2247,15 +2249,15 @@ let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].va
 
 
 if(document.form1.fg6.options[0].selected==true){
-	let rst=ppq*bttl/ntvl;
-}else if(document.form1.fg1.options[1].selected==true){
-	let rst=ppq*bttl/ntvl/2;
-}else if(document.form1.fg1.options[2].selected==true){
-	let rst=ppq*bttl/ntvl/4;
-}else if(document.form1.fg1.options[3].selected==true){
-	let rst=ppq*bttl/ntvl/8;
-}else if(document.form1.fg1.options[4].selected==true){
-	let rst=ppq*bttl/ntvl/16;
+	rst=ppq*bttl/ntvl;
+}else if(document.form1.fg6.options[1].selected==true){
+	rst=ppq*bttl/ntvl/2;
+}else if(document.form1.fg6.options[2].selected==true){
+	rst=ppq*bttl/ntvl/4;
+}else if(document.form1.fg6.options[3].selected==true){
+	rst=ppq*bttl/ntvl/8;
+}else if(document.form1.fg6.options[4].selected==true){
+	rst=ppq*bttl/ntvl/16;
 }
 
 
