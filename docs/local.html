@@ -107,6 +107,11 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="10" style="font-size:100%"> Next10 </option>
 	</select>
 
+<select name="fg6" style="font-size:100%">
+	<option value="0" style="font-size:100%"selected="selected"> Show Thumb </option>
+	<option value="1" style="font-size:100%"> Hide Thumb </option>
+	</select>
+
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Letters </option>
 	<option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
@@ -136,16 +141,6 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="25" style="font-size:100%" > Fingering No.8 </option>
 	<option value="26" style="font-size:100%" > Fingering No.9 </option>
 	<option value="27" style="font-size:100%" > Fingering No.10 </option>
-	<option value="28" style="font-size:100%" > Fingering No.1 T</option>
-	<option value="29" style="font-size:100%" > Fingering No.2 T</option>
-	<option value="30" style="font-size:100%" > Fingering No.3 T</option>
-	<option value="31" style="font-size:100%" > Fingering No.4 T</option>
-	<option value="32" style="font-size:100%" > Fingering No.5 T</option>
-	<option value="33" style="font-size:100%" > Fingering No.6 T</option>
-	<option value="34" style="font-size:100%" > Fingering No.7 T</option>
-	<option value="35" style="font-size:100%" > Fingering No.8 T</option>
-	<option value="36" style="font-size:100%" > Fingering No.9 T</option>
-	<option value="37" style="font-size:100%" > Fingering No.10 T</option>
 	</select>
 
 <select name="sv1" onChange="selview1()" style="font-size:100%">
@@ -2155,6 +2150,25 @@ const mstd3 = (p) => {
 }
 
 function finger1(){
+x_ch1=document.form1.x_ch.value;
+let trs1=document.form1.x_trs.value;
+
+midi_min=108;
+midi_max=21;
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => { 
+if(note.channel==x_ch1){
+let trs2=Number(note.pitch)+Number(trs1);
+if(trs2>midi_max){
+midi_max=trs2;
+}
+if(trs2<midi_min){
+midi_min=trs2;
+}
+}
+});
+});
+
 szx=1100;
 szy=280;
 szk=szx-2*mx;
@@ -2220,18 +2234,19 @@ ctx2.stroke();
 }
 }
 
-for (i=0;i<=6;i++){
+for (i=1;i<=5;i++){
 ctx2.beginPath();
 ctx2.moveTo(1080+50*i,40);
 ctx2.lineTo(1080+50*i,szy);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
+ctx2.fillText(i,1073+50*i,25);
 }
 
 for (i=0;i<=1;i++){
 ctx2.beginPath();
-ctx2.moveTo(1080,40+(szy-40)*i);
-ctx2.lineTo(1380,40+(szy-40)*i);
+ctx2.moveTo(1130,40+(szy-40)*i);
+ctx2.lineTo(1330,40+(szy-40)*i);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
 }
@@ -3463,9 +3478,15 @@ for(i=0;i<r1.length;i++){
 			}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
 				ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 			}else if (document.form1.nl1.options[18].selected==true){
+				if (document.form1.fg6.options[0].selected==true){
+					ctx2.beginPath();
+					ctx2.arc((f101[0][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
+					ctx2.fillStyle="red";
+					ctx2.fill();
+				}
 				ctx2.beginPath();
-				ctx2.moveTo(1080,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-				ctx2.lineTo(1380,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+				ctx2.moveTo(1130,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+				ctx2.lineTo(1330,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 				ctx2.strokeStyle="green";
 				ctx2.stroke();
 				ctx2.beginPath();
@@ -3476,7 +3497,24 @@ for(i=0;i<r1.length;i++){
 				ctx2.fillText(f101[0][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 				ctx2.fillText(f101[0][1][n_id-fc[0][1]],1073+Number(f101[0][1][n_id-fc[0][1]])*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 			}else if (document.form1.nl1.options[19].selected==true){
+				if (document.form1.fg6.options[0].selected==true){
+					ctx2.beginPath();
+					ctx2.arc((f101[1][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
+					ctx2.fillStyle="red";
+					ctx2.fill();
+				}
+				ctx2.beginPath();
+				ctx2.moveTo(1130,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+				ctx2.lineTo(1330,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+				ctx2.strokeStyle="green";
+				ctx2.stroke();
+				ctx2.beginPath();
+				ctx2.arc(1080+Number(f101[1][1][n_id-fc[0][1]])*50,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+				ctx2.fillStyle=col3[channel];
+				ctx2.fill();
+				ctx2.fillStyle="black";
 				ctx2.fillText(f101[1][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+				ctx2.fillText(f101[1][1][n_id-fc[0][1]],1073+Number(f101[1][1][n_id-fc[0][1]])*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 			}else if (document.form1.nl1.options[20].selected==true){
 				ctx2.fillText(f101[2][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 			}else if (document.form1.nl1.options[21].selected==true){
@@ -3493,22 +3531,6 @@ for(i=0;i<r1.length;i++){
 				ctx2.fillText(f101[8][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 			}else if (document.form1.nl1.options[27].selected==true){
 				ctx2.fillText(f101[9][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-			}else if (document.form1.nl1.options[28].selected==true){
-				ctx2.beginPath();
-				ctx2.moveTo(1080,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-				ctx2.lineTo(1380,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-				ctx2.strokeStyle="green";
-				ctx2.stroke();
-				ctx2.beginPath();
-				ctx2.arc(1080+Number(f101[0][1][n_id-fc[0][1]])*50,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
-				ctx2.fillStyle=col3[channel];
-				ctx2.fill();
-				ctx2.beginPath();
-				ctx2.arc((f101[0][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
-				ctx2.fillStyle="red";
-				ctx2.fill();
-				ctx2.fillStyle="black";
-				ctx2.fillText(f101[0][1][n_id-fc[0][1]],1073+Number(f101[0][1][n_id-fc[0][1]])*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 			}
 		}//if(start>=j && start<j+1*ppq*bttl)
 	}//if(channel==document.form1.x_ch.value)
