@@ -3503,8 +3503,11 @@ for(i=0;i<r1.length;i++){
 				ctx2.arc(1080+Number(f101[0][1][n_id-fc[0][1]])*50,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 				ctx2.fillStyle=col3[channel];
 				ctx2.fill();
+				ctx2.beginPath();
+				ctx2.arc((f101[0][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
+				ctx2.fillStyle="red";
+				ctx2.fill();
 				ctx2.fillStyle="black";
-				ctx2.fillText(f101[0][2][n_id-fc[0][1]],(f101[0][2][n_id-fc[0][1]]-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 				ctx2.fillText(f101[0][1][n_id-fc[0][1]],1073+Number(f101[0][1][n_id-fc[0][1]])*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 			}
 		}//if(start>=j && start<j+1*ppq*bttl)
