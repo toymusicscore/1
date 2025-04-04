@@ -2257,14 +2257,15 @@ ctx2.stroke();
 fc=[];
 fp=[];
 
-let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value);
-
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	if (channel==document.form1.x_ch.value && start>=j && start<j+1*ppq*bttl){
 		fc.push([midi, n_id]);
 	}
 }
+
+let fg5v=15+Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)-fc.length;
+
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	if (channel==document.form1.x_ch.value && n_id>=fc[0][1] && n_id<=fc.at(-1)[1]+fg5v){
