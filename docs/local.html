@@ -529,7 +529,7 @@ let fc=[];
 let fp=[];
 let f100=[];
 let f101=[];
-let f102=[['','n_id', 'Finger\r\n']];
+let f102=[['','n_id', 'Finger', 'DateTime\r\n']];
 let f103=[];
 let rst=0;
 
@@ -3413,7 +3413,7 @@ if (f101.length>0){
 
 
 	for (p=0;p<fc.length;p++){
-		f102.push([f101[0][0][p],f101[0][1][p]+'\r\n']);
+		f102.push([f101[0][0][p],f101[0][1][p], new Date()+'\r\n']);
 	}
 
 	f103.push([f101[0][0][fc.length], f101[0][1][fc.length]]);
@@ -3421,8 +3421,9 @@ if (f101.length>0){
 }else{
 
 	for (p=0;p<fc.length;p++){
-		f102.push([fc[p][1],'0\r\n']);
+		f102.push([fc[p][1], '0', new Date()+'\r\n']);
 	}
+
 }
 
 
