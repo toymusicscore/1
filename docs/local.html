@@ -2133,7 +2133,7 @@ for(i=0;i<trnnr0.length;i++){
   // Calculate the standard deviation
   return Math.sqrt(sumOfSquaredDifferences / (arr.length - (usePopulation ? 0 : 1)));
 };
-
+/*
 const mstd3 = (p) => {
 	f101.push([f100[p][0],f100[p][1],f100[p][2],
 	standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/2)))+
@@ -2143,6 +2143,22 @@ const mstd3 = (p) => {
 	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/4),Math.round(f100[p][2].length*3/4))),
 	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2)))]);
 }
+*/
+
+const mstd3 = (p) => {
+	f101.push([f100[p][0],f100[p][1],f100[p][2],
+	standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/3)))+
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/6),Math.round(f100[p][2].length/2)))+
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/3),Math.round(f100[p][2].length*2/3)))+
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*5/6)))+
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*2/3))),
+	standardDeviation(f100[p][2].slice(0, Math.round(f100[p][2].length/3))),
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/6),Math.round(f100[p][2].length/2))),
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/3),Math.round(f100[p][2].length*2/3))),
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length/2),Math.round(f100[p][2].length*5/6))),
+	standardDeviation(f100[p][2].slice(Math.round(f100[p][2].length*2/3)))]);
+}
+
 
 function finger1(){
 f102.push([['','', Date.now()+'\r\n']]);
