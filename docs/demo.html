@@ -3316,11 +3316,13 @@ ctx2.lineTo(165+50*fc.length,620);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
 
-ctx2.beginPath();
-ctx2.moveTo(0,315);
-ctx2.lineTo(1400,315);
-ctx2.strokeStyle=col2[7];
-ctx2.stroke();
+for(i=0;i<11;i++){
+	ctx2.beginPath();
+	ctx2.moveTo(0,320+30*i);
+	ctx2.lineTo(150+50*fp.length,320+30*i);
+	ctx2.strokeStyle=col[i];
+	ctx2.stroke();
+}
 
 for(i=0;i<fp.length;i++){
 	ctx2.fillText(fp[i][1],170+50*i,310);
