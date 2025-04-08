@@ -2143,7 +2143,7 @@ for(i=0;i<trnnr0.length;i++){
 }//lyrics1
 
  // Define a function 'standardDeviation' to calculate the standard deviation of an array
- const standardDeviation = (arr, usePopulation = true) => {
+ const standardDeviation = (arr, usePopulation = false) => {
   // Calculate the mean of the array
   const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
   
@@ -3318,24 +3318,24 @@ if (fp.length==2 && f1.length>0){
 
 ctx2.fillStyle="black";
 ctx2.fillText("No.",0,310);
-ctx2.fillText("S.mstd",50,310);
+ctx2.fillText("S.mstd",60,310);
 
 ctx2.beginPath();
-ctx2.moveTo(195+50*fc.length,szy);
-ctx2.lineTo(195+50*fc.length,620);
+ctx2.moveTo(175+50*fc.length,szy);
+ctx2.lineTo(175+50*fc.length,620);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
 
 for(i=0;i<11;i++){
 	ctx2.beginPath();
 	ctx2.moveTo(0,320+30*i);
-	ctx2.lineTo(200+50*fp.length,320+30*i);
+	ctx2.lineTo(180+50*fp.length,320+30*i);
 	ctx2.strokeStyle=col[i];
 	ctx2.stroke();
 }
 
 for(i=0;i<fp.length;i++){
-	ctx2.fillText(fp[i][1],200+50*i,310);
+	ctx2.fillText(fp[i][1],180+50*i,310);
 }//for(i=0;)
 
 
@@ -3431,7 +3431,7 @@ if (f101.length>0){
 			ctx2.fillText(p+1,0,345+30*p);
 			}		
 		for (q=0;q<fp.length;q++){
-			ctx2.fillText(f101[p][1][q],200+50*q,345+30*p);
+			ctx2.fillText(f101[p][1][q],180+50*q,345+30*p);
 			}
 		ctx2.fillText((f101[p][3]).toFixed(2),60,345+30*p);
 	}
