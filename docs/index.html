@@ -31,7 +31,10 @@ PW
 <input type="password"    name="x_pw" value="" size="20" style="font-size:100%" >
 <br>
 <br>
-<input type="button" name="b_login" value="Log in" onClick="login1()" style="font-size:100%" >
+<input type="button" name="b_demo" value="Log in 1" onClick="login1()" style="font-size:100%" >
+<br>
+<br>
+<input type="button" name="b_local" value="Log in 2" onClick="login2()" style="font-size:100%" >
 <br>
 <br>
 By using this site, you agree to our  
@@ -69,6 +72,36 @@ async function digestMessage(message) {
     if (d_id=="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" 
 && d_pw=="b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"){
     location.href="demo.html"
+}else{
+    alert('Invalid ID or PW');
+}
+
+})();
+
+
+}
+
+function login2(){
+let t_id = document.form1.x_id.value;
+let t_pw = document.form1.x_pw.value;
+
+async function digestMessage(message) {
+
+    const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+    return hashHex;
+}
+
+(async() => {
+
+    let d_id = await digestMessage(t_id);
+    let d_pw = await digestMessage(t_pw);
+
+    if (d_id=="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" 
+&& d_pw=="b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"){
+    location.href="local.html"
 }else{
     alert('Invalid ID or PW');
 }
