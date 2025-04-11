@@ -184,6 +184,14 @@ demo
 	<option value="18" style="font-size:100%"> MIDI TSV Downloader</option>
 	</select>
 
+<select name="fg8" style="font-size:100%">
+	<option value="0" style="font-size:100%"> r4 </option>
+	<option value="1" style="font-size:100%"> r8 </option>
+	<option value="2" style="font-size:100%" selected="selected"> r16 </option>
+	<option value="3" style="font-size:100%"> r32 </option>
+	<option value="4" style="font-size:100%"> r64 </option>
+	</select>
+	
 <label>BPM<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()"></label>
 
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
@@ -2295,7 +2303,8 @@ f0=[];
 let cp0=0;
 let cp1=0;
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
-let rst=ppq*bttl/ntvl/4;
+let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;
+let rst=ppq*bttl/ntvl/fg8v;
 
 for (p=1;p<fp.length;p++){
 	let [midi0, n_id0, start0, stop0]=fp[p-1];
