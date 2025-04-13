@@ -3076,6 +3076,62 @@ for (p=0;p<f24.length;p++){
 
 f100=[];
 
+
+if (fp.length==2 && f1.length>0){
+	f100=f1;
+}else if (fp.length==3 && f2.length>0){
+	f100=f2;
+}else if (fp.length==4 && f3.length>0){
+	f100=f3;
+}else if (fp.length==5 && f4.length>0){
+	f100=f4;
+}else if (fp.length==6 && f5.length>0){
+	f100=f5;
+}else if (fp.length==7 && f6.length>0){
+	f100=f6;
+}else if (fp.length==8 && f7.length>0){
+	f100=f7;
+}else if (fp.length==9 && f8.length>0){
+	f100=f8;
+}else if (fp.length==10 && f9.length>0){
+	f100=f9;
+}else if (fp.length==11 && f10.length>0){
+	f100=f10;
+}else if (fp.length==12 && f11.length>0){
+	f100=f11;
+}else if (fp.length==13 && f12.length>0){
+	f100=f12;
+}else if (fp.length==14 && f13.length>0){
+	f100=f13;
+}else if (fp.length==15 && f14.length>0){
+	f100=f14;
+}else if (fp.length==16 && f15.length>0){
+	f100=f15;
+}else if (fp.length==17 && f16.length>0){
+	f100=f16;
+}else if (fp.length==18 && f17.length>0){
+	f100=f17;
+}else if (fp.length==19 && f18.length>0){
+	f100=f18;
+}else if (fp.length==20 && f19.length>0){
+	f100=f19;
+}else if (fp.length==21 && f20.length>0){
+	f100=f20;
+}else if (fp.length==22 && f21.length>0){
+	f100=f21;
+}else if (fp.length==23 && f22.length>0){
+	f100=f22;
+}else if (fp.length==24 && f23.length>0){
+	f100=f23;
+}else if (fp.length==25 && f24.length>0){
+	f100=f24;
+}else if (fp.length==26 && f25.length>0){
+	f100=f25;
+}
+
+
+/*
+
 if (fp.length==2 && f1.length>0){
 	for (p=0;p<f1.length;p++){
 		if (fp[0][1]==f1[p][0][0]){
@@ -3328,11 +3384,10 @@ if (fp.length==2 && f1.length>0){
 	}
 
 }
+*/
 
 
-f101=[];
-
-if (f111.length>0){
+if (document.form1.fg4.options[0].selected==false && f111.length>0){
 	if (document.form1.fg4.options[1].selected==true){
 			if(f111[0][1]=="1"){
 				document.form1.fg41.options[1].selected=true;
@@ -3423,9 +3478,7 @@ if (f111.length>0){
 			}
 			document.form1.fg44.options[0].selected=true;
 			document.form1.fg45.options[0].selected=true;
-	}else if (document.form1.fg4.options[4].selected==true &&
-		f101[0][0][0]==f111[0][0]
-		){
+	}else if (document.form1.fg4.options[4].selected==true){
 			if(f111[0][1]=="1"){
 				document.form1.fg41.options[1].selected=true;
 			}else if(f111[0][1]=="2"){
@@ -3642,13 +3695,14 @@ if (f101.length>0){
 		ctx2.fillText((f101[p][3]).toFixed(2),60,345+30*p);
 	}
 
-
 	for (p=0;p<fc.length;p++){
 		f110.push([f101[0][0][p],f101[0][1][p]+'\r\n']);
 	}
 
-	for (p=fc.length;p<fp.length;p++){
+	if (document.form1.fg4.options[0].selected==false){
+		for (p=fc.length;p<fp.length;p++){
 		f111.push([f101[0][0][p],f101[0][1][p]]);
+		}
 	}
 
 }else{
