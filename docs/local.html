@@ -50,9 +50,10 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="3" style="font-size:100%"> Connect3 </option>
 	<option value="4" style="font-size:100%"> Connect4 </option>
 	<option value="5" style="font-size:100%" selected="selected"> Connect5 </option>
+	<option value="6" style="font-size:100%"> Manual </option>
 	</select>
 
-<select name="fg41"  onChange="finger1()" style="font-size:100%">
+<select name="fg41" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> 1stF </option>
 	<option value="1" style="font-size:100%"> 1st1 </option>
 	<option value="2" style="font-size:100%"> 1st2 </option>
@@ -61,7 +62,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="5" style="font-size:100%"> 1st5 </option>
 	</select>
 
-<select name="fg42"  onChange="finger1()" style="font-size:100%">
+<select name="fg42" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> 2ndF </option>
 	<option value="1" style="font-size:100%"> 2nd1 </option>
 	<option value="2" style="font-size:100%"> 2nd2 </option>
@@ -70,7 +71,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="5" style="font-size:100%"> 2nd5 </option>
 	</select>
 
-<select name="fg43"  onChange="finger1()" style="font-size:100%">
+<select name="fg43" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> 3rdF </option>
 	<option value="1" style="font-size:100%"> 3rd1 </option>
 	<option value="2" style="font-size:100%"> 3rd2 </option>
@@ -79,7 +80,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="5" style="font-size:100%"> 3rd5 </option>
 	</select>
 
-<select name="fg44"  onChange="finger1()" style="font-size:100%">
+<select name="fg44" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> 4thF </option>
 	<option value="1" style="font-size:100%"> 4th1 </option>
 	<option value="2" style="font-size:100%"> 4th2 </option>
@@ -88,7 +89,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="5" style="font-size:100%"> 4th5 </option>
 	</select>
 
-<select name="fg45"  onChange="finger1()" style="font-size:100%">
+<select name="fg45" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> 5thF </option>
 	<option value="1" style="font-size:100%"> 5th1 </option>
 	<option value="2" style="font-size:100%"> 5th2 </option>
@@ -3355,14 +3356,16 @@ if (
 		}else{
 			document.form1.fg45.options[0].selected=true;
 		}
-}else{
+	}else if (
+	document.form1.fg4.options[0].selected==true && 
+	f111.length>1
+	){
 		document.form1.fg41.options[0].selected=true;
 		document.form1.fg42.options[0].selected=true;
 		document.form1.fg43.options[0].selected=true;
 		document.form1.fg44.options[0].selected=true;
 		document.form1.fg45.options[0].selected=true;
 }
-
 
 
 let fg41v=document.form1.fg41.options[document.form1.fg41.options.selectedIndex].value;
