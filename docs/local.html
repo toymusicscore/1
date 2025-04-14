@@ -566,6 +566,7 @@ let f101=[];
 let f110=[];
 let f111=[];
 let rst=0;
+let n_idf=1;
 
 var obj1=document.getElementById("selfile1");
 obj1.addEventListener("change", function(evt){
@@ -2250,6 +2251,8 @@ let vmn0=m/ppq/bttl*ntvl/4;
 ctx2.beginPath();
 ctx2.moveTo(0,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.lineTo(mx+szk,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.moveTo(1130,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.lineTo(1330,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.strokeStyle="red";
 ctx2.stroke();
 ctx2.fillStyle="black";
@@ -2293,19 +2296,22 @@ ctx2.stroke();
 fc=[];
 fp=[];
 
+
+let fg5vp=Number(n_idf)+Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+14;
+let fg5vc=Number(n_idf)+Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+6;
+
+
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==document.form1.x_ch.value && start>=j && start<j+1*ppq*bttl){
-		fc.push([midi, n_id]);
+	if (channel==document.form1.x_ch.value && n_id>=n_idf && n_id<=fg5vp){
+		fp.push([midi, n_id, start, stop]);
 	}
 }
 
-let fg5v=15+Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)-fc.length;
-
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==document.form1.x_ch.value && n_id>=fc[0][1] && n_id<=fc.at(-1)[1]+fg5v){
-		fp.push([midi, n_id, start, stop]);
+	if (channel==document.form1.x_ch.value && n_id>=n_idf  && n_id<=fg5vc){
+		fc.push([midi, n_id]);
 	}
 }
 
@@ -3452,8 +3458,6 @@ if (f101.length==0){
 
 f101.sort(function(a,b){return(a[3] - b[3]);});
 
-f111=[];
-
 
 for (p=0;p<f101.length;p++){
 	if (p<9){
@@ -3808,11 +3812,33 @@ for(i=0;i<r1.length;i++){
 
 
 const finger2= async () =>{
-finger1();
-for (p=0;p<Math.ceil(eott0/(bttl*ppq/ntvl*4));p++){
-	await new Promise(r => timer=setTimeout(r,10000));
-	forward1();
+
+let rf1=[];
+
+for(i=0;i<r1.length;i++){
+	let [midi, start, stop, channel, n_id]=r1[i];
+		if (channel==document.form1.x_ch.value ){
+			rf1.push([n_id, start]);
+		}
 }
+
+n_idf=rf1[0][0];
+lpn=Math.ceil(rf1.length/10);
+
+finger1();
+
+for (p=0;p<lpn;p++){
+	await new Promise(r => timer=setTimeout(r,10000));
+	n_idf=n_idf+10;
+	for(i=0;i<r1.length;i++){
+		let [midi, start, stop, channel, n_id]=r1[i];
+		if (channel==document.form1.x_ch.value && n_id==n_idf){
+			j=start;
+			}
+	}
+	finger1();
+}
+
 }
 
 
