@@ -3466,13 +3466,15 @@ for (p=0;p<fc.length;p++){
 
 f111=[];
 
-if (fc.length<fp.length){
-	for (p=fc.length;p<fp.length;p++){
-	f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
-	}
-}else{
-	for (p=0;p<fp.length;p++){
-	f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
+if (document.form1.fg4.options[6].selected==false){
+	if (fc.length<fp.length){
+		for (p=fc.length;p<fp.length;p++){
+		f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
+		}
+	}else{
+		for (p=0;p<fp.length;p++){
+		f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
+		}
 	}
 }
 
