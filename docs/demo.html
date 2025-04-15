@@ -3060,9 +3060,8 @@ for (p=0;p<f24.length;p++){
 
 f100=[];
 
-
-if (fp.length==1 && f111.length>0){
-	f100=f111
+if (fp.length==1 ){
+	f100.push([[f111[0][0]],[f111[0][1]],[f111[0][2]]]);
 }else if (fp.length==2 && f1.length>0){
 	f100=f1;
 }else if (fp.length==3 && f2.length>0){
@@ -3463,13 +3462,17 @@ for (p=0;p<fc.length;p++){
 
 f111=[];
 
-if (document.form1.fg4.options[0].selected==false &&
-	f101[0][0].length==fg5v){
+if (document.form1.fg4.options[6].selected==false){
+	if (fc.length<fp.length){
 		for (p=fc.length;p<fp.length;p++){
 		f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
 		}
+	}else{
+		for (p=0;p<fp.length;p++){
+		f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
+		}
+	}
 }
-
 
 ctx2.fillStyle="black";
 ctx2.fillText("No.",0,310);
@@ -3798,7 +3801,8 @@ for(i=0;i<r1.length;i++){
 
 
 const finger2= async () =>{
-f110.push([['','',Date.now()]]);
+time0=Date.now();
+f110.push([['ID','Finger',time0]]);
 x_ch1=document.form1.x_ch.value;
 trs1=document.form1.x_trs.value;
 
@@ -3822,7 +3826,7 @@ for(i=0;i<r1.length;i++){
 }
 
 n_idf=rf1[0][0];
-lpn=Math.ceil(rf1.length/10);
+lpn=Math.floor(rf1.length/10);
 
 finger1();
 
@@ -3838,8 +3842,11 @@ for (p=0;p<lpn;p++){
 	finger1();
 }
 
-f110.push([['\r\n','',Date.now()]]);
-alert('End');
+time1=Date.now();
+timediff=(time1-time0)/60000;
+f110.push([['\r\n','',time1]]);
+f110.push([['\r\n','',timediff]]);
+alert('End '+timediff+' min');
 
 }
 
