@@ -3064,9 +3064,8 @@ for (p=0;p<f24.length;p++){
 
 f100=[];
 
-
-if (fp.length==1 && f111.length>0){
-	f100=f111;
+if (fp.length==1 ){
+	f100.push([[f111[0][0]],[f111[0][1]],[f111[0][2]]]);
 }else if (fp.length==2 && f1.length>0){
 	f100=f1;
 }else if (fp.length==3 && f2.length>0){
@@ -3467,13 +3466,15 @@ for (p=0;p<fc.length;p++){
 
 f111=[];
 
-if (document.form1.fg4.options[0].selected==false &&
-	f101[0][0].length==fg5v){
-		for (p=fc.length;p<fp.length;p++){
-		f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
-		}
+if (fc.length<fp.length){
+	for (p=fc.length;p<fp.length;p++){
+	f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
+	}
+}else{
+	for (p=0;p<fp.length;p++){
+	f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
+	}
 }
-
 
 ctx2.fillStyle="black";
 ctx2.fillText("No.",0,310);
