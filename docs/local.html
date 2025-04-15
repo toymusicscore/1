@@ -3805,7 +3805,8 @@ for(i=0;i<r1.length;i++){
 
 
 const finger2= async () =>{
-f110.push([['ID','Finger',Date.now()]]);
+time0=Date.now();
+f110.push([['ID','Finger',time0]]);
 x_ch1=document.form1.x_ch.value;
 trs1=document.form1.x_trs.value;
 
@@ -3845,7 +3846,9 @@ for (p=0;p<lpn;p++){
 	finger1();
 }
 
-f110.push([['\r\n','',Date.now()]]);
+time1=Date.now();
+f110.push([['\r\n','',time1]]);
+f110.push([['\r\n','',(time1-time0)/60000]]);
 alert('End');
 
 }
