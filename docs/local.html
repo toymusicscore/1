@@ -3065,8 +3065,8 @@ for (p=0;p<f24.length;p++){
 f100=[];
 
 
-if (fp.length==1 && f111[0].length>0){
-	f100.push([[f111[0][0]],[f111[0][1]],[f111[0][2]]]);
+if (fp.length==1 && f111.length>0){
+	f100=f111;
 }else if (fp.length==2 && f1.length>0){
 	f100=f1;
 }else if (fp.length==3 && f2.length>0){
@@ -3473,13 +3473,6 @@ if (document.form1.fg4.options[0].selected==false &&
 		f111.push([f101[0][0][p],f101[0][1][p],f101[0][2][p]]);
 		}
 }
-
-ctx2.fillText("f100:"+f100,1100,310);
-ctx2.fillText("f101:"+f101,1100,340);
-ctx2.fillText("f111:"+f111,1100,370);
-ctx2.fillText("fp:"+fp,1100,400);
-ctx2.fillText("fc:"+fc,1100,430);
-
 
 
 ctx2.fillStyle="black";
