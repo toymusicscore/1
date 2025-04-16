@@ -1477,7 +1477,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1513,7 +1513,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1537,7 +1537,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1567,7 +1567,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1597,9 +1597,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
-}else if(document.form1.sv1.options[16].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1633,7 +1631,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1665,7 +1663,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1763,7 +1761,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1811,7 +1809,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 }
@@ -1853,7 +1851,7 @@ still1();
 }else if(document.form1.sv1.options[3].selected==true){
 still2();
 }else if(document.form1.sv1.options[15].selected==true){
-finger1();
+finger3();
 }
 
 document.getElementById("credit").innerHTML=
@@ -3184,11 +3182,13 @@ ctx2.fillStyle="black";
 ctx2.fillText("No.",0,310);
 ctx2.fillText("S.mstd",60,310);
 
+if (document.form1.fg4.options[6].selected==false){
 ctx2.beginPath();
 ctx2.moveTo(175+50*fc.length,szy);
 ctx2.lineTo(175+50*fc.length,615);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
+}
 
 for(i=0;i<11;i++){
 	ctx2.beginPath();
@@ -3550,6 +3550,39 @@ for (p=0;p<lpn;p++){
 
 }
 
+
+
+const finger3= async () =>{
+document.form1.fg4.options[6].selected=true;
+
+x_ch1=document.form1.x_ch.value;
+trs1=document.form1.x_trs.value;
+
+midi_min=108;
+midi_max=21;
+
+let rf1=[];
+
+for(i=0;i<r1.length;i++){
+	let [midi, start, stop, channel, n_id]=r1[i];
+		if (channel==x_ch1 ){
+			rf1.push([n_id, start]);
+			let trs2=Number(midi)+Number(trs1);
+			if(trs2>midi_max){
+				midi_max=trs2;
+			}
+			if(trs2<midi_min){
+				midi_min=trs2;
+			}
+			if (j==start){
+				n_idf=n_id;
+			}
+		}
+}
+
+finger1();
+
+}
 
 function keyw1(){
 canvas2.width = 1300;
@@ -5427,8 +5460,7 @@ chord_ji();
 }else if(document.form1.sv1.options[14].selected==true){
 chord_12et();
 }else if(document.form1.sv1.options[15].selected==true){
-	document.form1.fg4.options[6].selected=true;
-	finger1();
+finger3();
 }else if(document.form1.sv1.options[16].selected==true){
 finger2();
 }else if(document.form1.sv1.options[17].selected==true){
