@@ -108,11 +108,6 @@ demo
 	</select>
 
 <select name="fg6" style="font-size:100%">
-	<option value="0" style="font-size:100%"selected="selected"> S1 </option>
-	<option value="1" style="font-size:100%"> H1 </option>
-	</select>
-	
-<select name="fg7" style="font-size:100%">
 	<option value="0" style="font-size:100%"> n2 </option>
 	<option value="1" style="font-size:100%"> n3 </option>
 	<option value="2" style="font-size:100%"> n4 </option>
@@ -122,7 +117,7 @@ demo
 	<option value="6" style="font-size:100%"> n8 </option>
 	</select>
 
-<select name="fg8" style="font-size:100%">
+<select name="fg7" style="font-size:100%">
 	<option value="0" style="font-size:100%"> r4 </option>
 	<option value="1" style="font-size:100%"> r8 </option>
 	<option value="2" style="font-size:100%" selected="selected"> r16 </option>
@@ -130,6 +125,11 @@ demo
 	<option value="4" style="font-size:100%"> r64 </option>
 	</select>
 
+<select name="fg8" style="font-size:100%">
+	<option value="0" style="font-size:100%"selected="selected"> S1 </option>
+	<option value="1" style="font-size:100%"> H1 </option>
+	</select>
+	
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Letters </option>
 	<option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
@@ -2152,9 +2152,9 @@ for(i=0;i<trnnr0.length;i++){
 
 const mstd = (p) => {
 	let	s0=0;
-	fg7v=Number(document.form1.fg7.value)+2;
-	for (q=0;q<f100[p][2].length-fg7v;q++){
-		s0=s0+standardDeviation(f100[p][2].slice(q, q+fg7v))
+	fg6v=Number(document.form1.fg6.value)+2;
+	for (q=0;q<f100[p][2].length-fg6v;q++){
+		s0=s0+standardDeviation(f100[p][2].slice(q, q+fg6v))
 		};
 	f101.push([f100[p][0],f100[p][1],f100[p][2],s0]);
 }
@@ -2281,8 +2281,8 @@ f0=[];
 let cp0=0;
 let cp1=0;
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
-let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;
-let rst=ppq*bttl/ntvl/fg8v;
+let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;
+let rst=ppq*bttl/ntvl/fg7v;
 
 for (p=1;p<fp.length;p++){
 	let [midi0, n_id0, start0, stop0]=fp[p-1];
@@ -3240,7 +3240,7 @@ for(i=0;i<r1.length;i++){
 			}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
 				ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 			}else if (document.form1.nl1.options[18].selected==true){
-				if (document.form1.fg6.options[0].selected==true){
+				if (document.form1.fg8.options[0].selected==true){
 					ctx2.beginPath();
 					ctx2.arc((f101[0][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 					ctx2.fillStyle="red";
