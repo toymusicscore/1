@@ -3555,10 +3555,16 @@ for(i=0;i<r1.length;i++){
 			if(trs2<midi_min){
 				midi_min=trs2;
 			}
-			if (j==start){
-				n_idf=n_id;
-			}
 		}
+}
+
+for (p=0;p<rf1.length;p++){
+	if (j==rf1[p][1]){
+		n_idf=rf1[p][0];
+	}else if(j==0){
+		n_idf=rf1[0][0];
+	}else if(j>rf1[p][1] && j<rf1[p+1][1]){
+		n_idf=rf1[p][0];	}
 }
 
 finger1();
