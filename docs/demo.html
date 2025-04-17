@@ -3192,7 +3192,7 @@ for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	gt=stop-start;
 	if (channel==document.form1.x_ch.value){
-		if(start>=j && start<j+1*ppq*bttl){
+		if(start>=j && start<j+ht1*ppq*bttl){
 			ctx2.fillStyle=col[midi%12];
 			ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 			ctx2.beginPath();
