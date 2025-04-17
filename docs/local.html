@@ -11,7 +11,7 @@ Local
 <form name="form1" >
 MIDI<input type="file" id="selfile1" style="font-size:100%">
 TSV<input type="file" id="selfile2" style="font-size:100%">
-<input type="range"  name="r_hgh" value="1" min="2" max="10" step="1" onChange="height1()">
+<input type="range"  name="r_hgh" value="1" min="1" max="10" step="1" onChange="height1()">
 <input type="tel"    name="x_hgh" value="1" size="2" style="font-size:100%" >
 <input type="button" name="b_hgh" value="H" onClick="height2()" style="font-size:100%" >
 <input type="range"  name="r_msr" value="1" min="1" max="99" step="1" onChange="measure2()" style="font-size:100%" >
@@ -3191,7 +3191,7 @@ for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	gt=stop-start;
 	if (channel==document.form1.x_ch.value){
-		if(start>=j && start<j+1*ppq*bttl){
+		if(start>=j && start<j+h1*ppq*bttl){
 			ctx2.fillStyle=col[midi%12];
 			ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 			ctx2.beginPath();
