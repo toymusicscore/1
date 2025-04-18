@@ -684,7 +684,9 @@ tsv9=[];
 tsvff=[];
 tsvft=[];
 tsvmd=[];
-tsvrc=[];
+tsvdl=[];
+tsvpf=[];
+tsvpt=[];
 tsvsc=[];
 
 tsv0=data2.split('\n');
@@ -706,11 +708,11 @@ for (i=0;i<tsv0.length;i++){
 		tsvff.push([(tsv0[i].split('\t'))[1]]);
 		tsvft.push([(tsv0[i].split('\t'))[2]]);
 		tsvmd.push([(tsv0[i].split('\t'))[3]]);
-		tsvrc.push([(tsv0[i].split('\t'))[4]]);
+		tsvdl.push([(tsv0[i].split('\t'))[4]]);
 		tsvff.push([(tsv0[i].split('\t'))[2]]);
 		tsvft.push([(tsv0[i].split('\t'))[1]]);
 		tsvmd.push([-(tsv0[i].split('\t'))[3]]);
-		tsvrc.push([(tsv0[i].split('\t'))[4]]);
+		tsvdl.push([(tsv0[i].split('\t'))[4]]);
 	}else if((tsv0[i].split('\t'))[0]=="D"){
 		tsvsc.push([(tsv0[i].split('\t'))[2]]);
 	}
@@ -2293,7 +2295,7 @@ for (p=1;p<fp.length;p++){
 		start1-stop0<rst &&
 		tsvmd[q]==midi1-midi0 && 
 		n_id0==n_id1-1 && 
-		tsvrc[q]<=fg2v &&
+		tsvdl[q]<=fg2v &&
 		tsvff[q]!=tsvft[q]){
 			cp0=Number(midi0)-Number(tsvsc[tsvff[q]]);
 			cp1=Number(midi1)-Number(tsvsc[tsvft[q]]);
@@ -2302,7 +2304,7 @@ for (p=1;p<fp.length;p++){
 		start1-stop0<rst &&
 		tsvmd[q]==midi0-midi1 && 
 		n_id0==n_id1-1 && 
-		tsvrc[q]<=fg2v &&
+		tsvdl[q]<=fg2v &&
 		tsvff[q]!=tsvft[q]){
 			cp0=Number(midi0)+Number(tsvsc[tsvff[q]]);
 			cp1=Number(midi1)+Number(tsvsc[tsvft[q]]);
