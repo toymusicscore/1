@@ -2019,20 +2019,8 @@ newWin1.document.writeln ("<td><a href='data/",files[i],".mid'>",files[i],".mid<
 newWin1.document.writeln ("</table>");
 }
 
-function downloadCSV() {
- const filename = "Fingering.csv"
- const data = f110
- const bom = new Uint8Array([0xef, 0xbb, 0xbf])
- const blob = new Blob([bom, data], { type: "text/csv" })
- const link = document.createElement('a')
- link.download = filename
- link.href = URL.createObjectURL(blob)
- link.click()
- URL.revokeObjectURL(link.href)
-}
 
 function downloadFile(fileName, urlData) {
-
 var aLink = document.createElement('a');
 var evt = document.createEvent("HTMLEvents");
 evt.initEvent("click");
@@ -2040,8 +2028,6 @@ aLink.download = fileName;
 aLink.href = urlData;
 aLink.dispatchEvent(evt);
 }
-
-//var data = '"Column One","Column Two","Column Three"';
 
 
 function index1(){
@@ -5467,7 +5453,6 @@ finger3();
 }else if(document.form1.sv1.options[16].selected==true){
 finger2();
 }else if(document.form1.sv1.options[17].selected==true){
-//downloadCSV();
 downloadFile('Fingering.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 }else if(document.form1.sv1.options[18].selected==true){
 download1();
