@@ -2266,7 +2266,7 @@ let fg5vc=fg5vp-Number(document.form1.fg4.options[document.form1.fg4.options.sel
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	if (channel==document.form1.x_ch.value && n_id>=n_idf && n_id<=fg5vp){
-		fp.push([midi, n_id, start, stop]);
+		fp.push([midi, start, stop, channel, n_id]);
 	}
 }
 
@@ -2286,8 +2286,8 @@ let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex]
 let rst=ppq*bttl/ntvl/fg7v;
 
 for (p=1;p<fp.length;p++){
-	let [midi0, n_id0, start0, stop0]=fp[p-1];
-	let [midi1, n_id1, start1, stop1]=fp[p];
+	let [midi0, start0, stop0,channel0, n_id0]=fp[p-1];
+	let [midi1, start1, stop1,channel1, n_id1]=fp[p];
 	for(q=0;q<tsvsd.length;q++){
 		if(document.form1.fg1.options[0].selected==true && 
 		start1-stop0<rst &&
@@ -3144,10 +3144,9 @@ for (p=0;p<f101.length;p++){
 	ctx2.fillText((f101[p][3]).toFixed(2),60,340+30*p);
 }
 
-time1=Date.now();
 
 for (p=0;p<fc.length;p++){
-	f110.push(['\r\n'+fc[p][1],f101[0][1][p],time1]);
+	f110.push(['\r\n'+fc[p][1],f101[0][1][p]]);
 }
 
 f111=[];
@@ -3155,11 +3154,11 @@ f111=[];
 if (document.form1.fg4.options[0].selected==false){
 	if (fc.length<fp.length){
 		for (p=fc.length;p<fp.length;p++){
-		f111.push([fp[p][1],f101[0][1][p],f101[0][2][p]]);
+		f111.push([fp[p][4],f101[0][1][p],f101[0][2][p]]);
 		}
 	}else{
 		for (p=0;p<fp.length;p++){
-		f111.push([fp[p][1],f101[0][1][p],f101[0][2][p]]);
+		f111.push([fp[p][4],f101[0][1][p],f101[0][2][p]]);
 		}
 	}
 	ctx2.beginPath();
@@ -3182,11 +3181,11 @@ ctx2.fillText("No.",0,310);
 ctx2.fillText("S.mstd",60,310);
 
 for(i=0;i<fp.length;i++){
-	ctx2.fillText(fp[i][1],180+50*i,310);
+	ctx2.fillText(fp[i][4],180+50*i,310);
 }
 
-for(i=0;i<r1.length;i++){
-	let [midi, start, stop, channel, n_id]=r1[i];
+for(i=0;i<fp.length;i++){
+	let [midi, start, stop, channel, n_id]=fp[i];
 	gt=stop-start;
 	if (channel==document.form1.x_ch.value){
 		if(start>=j && start<j+ht1*ppq*bttl){
@@ -3490,7 +3489,7 @@ for(i=0;i<r1.length;i++){
 
 const finger2= async () =>{
 time0=Date.now();
-f110.push([['ID','Finger',time0]]);
+f110.push([['ID','Finger','Min']]);
 x_ch1=document.form1.x_ch.value;
 trs1=document.form1.x_trs.value;
 
@@ -3502,33 +3501,41 @@ let rf1=[];
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 		if (channel==x_ch1 ){
-			rf1.push([n_id, start]);
+			rf1.push([midi, start, stop, channel, n_id]);
 			let trs2=Number(midi)+Number(trs1);
-			if(trs2>midi_max){
-			midi_max=trs2;
-			}
-			if(trs2<midi_min){
-			midi_min=trs2;
-			}
+				if(trs2>midi_max){
+				midi_max=trs2;
+				}
+				if(trs2<midi_min){
+				midi_min=trs2;
+				}
 		}
 }
 
-n_idf=rf1[0][0];
-lpn=Math.floor(rf1.length/10);
+let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+15;
+let fg5vp=n_idf+fg5v-1;
+let fg5vc=fg5vp-Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)-3;
 
-finger1();
+n_idf=rf1[0][4];
+lpn=Math.ceil(rf1.length/fg5vc);
 
-for (p=0;p<lpn;p++){
-	await new Promise(r => timer=setTimeout(r,10000));
-	n_idf=n_idf+10;
-	for(i=0;i<r1.length;i++){
-		let [midi, start, stop, channel, n_id]=r1[i];
-		if (channel==document.form1.x_ch.value && n_id==n_idf){
+for (s=0; s<lpn; s++){
+	for (t=0;t<rf1.length;t++){
+	let [midi, start, stop, channel, n_id]=rf1[t];
+		if (n_id==n_idf){
 			j=start;
-			}
+		}
 	}
 	finger1();
+	await new Promise(r => timer=setTimeout(r,1000));
+	n_idf=n_idf+fg5vc;
 }
+
+time1=Date.now();
+timed=(time1-time0)/60000;
+f110.push([['\r\n','',timed]]);
+
+alert(timed + 'min');
 
 }
 
@@ -3548,24 +3555,25 @@ let rf1=[];
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 		if (channel==x_ch1 ){
-			rf1.push([n_id, start]);
+			rf1.push([midi, start, stop, channel, n_id]);
 			let trs2=Number(midi)+Number(trs1);
-			if(trs2>midi_max){
-				midi_max=trs2;
-			}
-			if(trs2<midi_min){
-				midi_min=trs2;
-			}
+				if(trs2>midi_max){
+					midi_max=trs2;
+				}
+				if(trs2<midi_min){
+					midi_min=trs2;
+				}
 		}
 }
 
 for (p=0;p<rf1.length;p++){
 	if (j==rf1[p][1]){
-		n_idf=rf1[p][0];
+		n_idf=rf1[p][4];
 	}else if(j==0){
-		n_idf=rf1[0][0];
+		n_idf=rf1[0][4];
 	}else if(j>rf1[p][1] && j<rf1[p+1][1]){
-		n_idf=rf1[p][0];	}
+		n_idf=rf1[p][4];
+	}
 }
 
 finger1();
