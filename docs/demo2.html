@@ -3,78 +3,36 @@
 <head>
 <meta charaset="UTF-8"/>
 <title>
-Local
+demo
 </title>
 </head>
 <body style="font-size:160%" >
 <basefont face="Arial">
 <form name="form1" >
-MIDI<input type="file" id="selfile1" style="font-size:100%">
-TSV<input type="file" id="selfile2" style="font-size:100%">
-
-<select name="hg1" onChange="height1()" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> H1 </option>
-	<option value="1" style="font-size:100%"> H2</option>
-	<option value="2" style="font-size:100%"> H3</option>
-	<option value="3" style="font-size:100%"> H4</option>
-	<option value="4" style="font-size:100%"> H5</option>
-	<option value="5" style="font-size:100%"> H6</option>
-	<option value="6" style="font-size:100%"> H7</option>
-	<option value="7" style="font-size:100%"> H8</option>
-	<option value="8" style="font-size:100%"> H9</option>
-	<option value="9" style="font-size:100%"> H10</option>
+<select id="song1" onChange="fetch1()" style="font-size:100%">
+	<option value="bach-invention-13" style="font-size:100%" selected="selected"> bach-invention-13 </option>
+	<option value="Prelude_and_Fugue_in_C_major,_BWV_846_(Bach,_Johann_Sebastian)" style="font-size:100%"> Prelude_and_Fugue_in_C_major,_BWV_846_(Bach,_Johann_Sebastian) </option>
 	</select>
 
-<select name="tr1" onChange="transpose1()" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> T+0 </option>
-	<option value="1" style="font-size:100%"> T+1</option>
-	<option value="2" style="font-size:100%"> T+2</option>
-	<option value="3" style="font-size:100%"> T+3</option>
-	<option value="4" style="font-size:100%"> T+4</option>
-	<option value="5" style="font-size:100%"> T+5</option>
-	<option value="6" style="font-size:100%"> T+6</option>
-	<option value="7" style="font-size:100%"> T+7</option>
-	<option value="8" style="font-size:100%"> T+8</option>
-	<option value="9" style="font-size:100%"> T+9</option>
-	<option value="10" style="font-size:100%"> T+10</option>
-	<option value="11" style="font-size:100%"> T+11</option>
-	<option value="12" style="font-size:100%"> T+12</option>
-	<option value="13" style="font-size:100%"> T-1</option>
-	<option value="14" style="font-size:100%"> T-2</option>
-	<option value="15" style="font-size:100%"> T-3</option>
-	<option value="16" style="font-size:100%"> T-4</option>
-	<option value="17" style="font-size:100%"> T-5</option>
-	<option value="18" style="font-size:100%"> T-6</option>
-	<option value="19" style="font-size:100%"> T-7</option>
-	<option value="20" style="font-size:100%"> T-8</option>
-	<option value="21" style="font-size:100%"> T-9</option>
-	<option value="22" style="font-size:100%"> T-10</option>
-	<option value="23" style="font-size:100%"> T-11</option>
-	<option value="24" style="font-size:100%"> T-12</option>
-	</select>
-
-<select name="chn1" onChange="channel1()" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> Ch1 </option>
-	<option value="1" style="font-size:100%"> Ch2</option>
-	<option value="2" style="font-size:100%"> Ch3</option>
-	<option value="3" style="font-size:100%"> Ch4</option>
-	<option value="4" style="font-size:100%"> Ch5</option>
-	<option value="5" style="font-size:100%"> Ch6</option>
-	<option value="6" style="font-size:100%"> Ch7</option>
-	<option value="7" style="font-size:100%"> Ch8</option>
-	<option value="8" style="font-size:100%"> Ch9</option>
-	<option value="9" style="font-size:100%"> Ch10</option>
-	<option value="10" style="font-size:100%"> Ch11</option>
-	<option value="11" style="font-size:100%"> Ch12</option>
-	<option value="12" style="font-size:100%"> Ch13</option>
-	<option value="13" style="font-size:100%"> Ch14</option>
-	<option value="14" style="font-size:100%"> Ch15</option>
-	<option value="15" style="font-size:100%"> Ch16</option>
-	</select>
+<input type="range"  name="r_hgh" value="1" min="1" max="10" step="1" onChange="height1()">
+<input type="tel"    name="x_hgh" value="1" size="2" style="font-size:100%" >
+<input type="button" name="b_hgh" value="H" onClick="height2()" style="font-size:100%" >
+<input type="range"  name="r_msr" value="1" min="1" max="99" step="1" onChange="measure2()" style="font-size:100%" >
+<input type="tel"    name="x_msr" value="1" size="3" style="font-size:100%" >
+<input type="button" name="b_msr" value="M" onClick="measure1()" style="font-size:100%" >
+<input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
+<input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
+<input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
+<input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
+<input type="button" name="b_trs" value="T" onClick="transpose1()" style="font-size:100%" >
+<input type="tel"    name="x_ch" value="1" size="1" style="font-size:100%" >
+<input type="button" name="b_ch" value="C" onClick="channel1()" style="font-size:100%" >
+<input type="tel"    name="x_lr" value="" size="2" style="font-size:100%" >
+<input type="button" name="b_lr" value="LR" onClick="leftright1()" style="font-size:100%" >
 
 <select name="fg1" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> RH </option>
-	<option value="1" style="font-size:100%"> LH</option>
+	<option value="1" style="font-size:100%"> LH </option>
 	</select>
 
 <select name="fg2" style="font-size:100%">
@@ -85,7 +43,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 
 <select name="fg3" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> X0 </option>
-	<option value="1" style="font-size:100%"> X1 </option>
+	<option value="1" style="font-size:100%"> XB </option>
 	</select>
 
 <select name="fg4" style="font-size:100%">
@@ -168,19 +126,19 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="fg8" style="font-size:100%">
-	<option value="0" style="font-size:100%"> S0 </option>
-	<option value="1" style="font-size:100%" selected="selected"> S1 </option>
-	<option value="2" style="font-size:100%"> S2 </option>
+	<option value="0" style="font-size:100%"selected="selected"> S1 </option>
+	<option value="1" style="font-size:100%"> H1 </option>
+	<option value="2" style="font-size:100%"> HA </option>
 	</select>
-
+	
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Letters </option>
-	<option value="1" style="font-size:100%" selected="selected"> DoReMi # </option>
-	<option value="2" style="font-size:100%"> DoReMi b </option>
-	<option value="3" style="font-size:100%"> ABC E # </option>
-	<option value="4" style="font-size:100%"> ABC E b </option>
-	<option value="5" style="font-size:100%"> ABC G # </option>
-	<option value="6" style="font-size:100%"> ABC G b </option>
+	<option value="1" style="font-size:100%" selected="selected"> DoReMi_# </option>
+	<option value="2" style="font-size:100%"> DoReMi_b </option>
+	<option value="3" style="font-size:100%"> ABC_E_# </option>
+	<option value="4" style="font-size:100%"> ABC_E_b </option>
+	<option value="5" style="font-size:100%"> ABC_G_# </option>
+	<option value="6" style="font-size:100%"> ABC_G_b </option>
 	<option value="7" style="font-size:100%"> Pitch Class </option>
 	<option value="8" style="font-size:100%"> MIDI Duodecimal </option>
 	<option value="9" style="font-size:100%"> MIDI Number </option>
@@ -206,7 +164,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> Scroll Landscape </option>
-	<option value="1" style="font-size:100%"> Scroll Portrait</option>
+	<option value="1" style="font-size:100%"> Scroll Portrait </option>
 	<option value="2" style="font-size:100%"> Still Landscape </option>
 	<option value="3" style="font-size:100%"> Still Portrait </option>
 	<option value="4" style="font-size:100%"> Color Sample </option>
@@ -225,15 +183,10 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="17" style="font-size:100%"> Fingering Downloader</option>
 	<option value="18" style="font-size:100%"> MIDI TSV Downloader</option>
 	</select>
-
-<input type="tel"    name="x_msr" value="1" size="3" style="font-size:100%" >
-<input type="button" name="b_msr" value="M" onClick="measure1()" style="font-size:100%" >
-<input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
-<input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
-<input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
-<br>
+	
 <label>BPM<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()"></label>
-<input type="tel"    name="x_bpm" value="" size="2" style="font-size:100%" >
+
+<input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
 <input type="button" name="b_sb" value="SB" onClick="silent1()" style="font-size:100%" >
 <input type="button" name="b_so" value="SO" onClick="silent2()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="play1()" style="font-size:100%" >
@@ -250,6 +203,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 C <span id="channels"></span>
 T <span id="pt"></span>
 P <span id="prgrs"></span>
+
 </form>
 <canvas id="cv2" width="1200" height="1300">
 </canvas>
@@ -466,6 +420,7 @@ let ch0=0;
 let ch1=0;
 let trs1=0;
 let trs2=0;
+let x_lr1="";
 let fg_lr1=-1;
 let prgrs1=0;
 let p=0;
@@ -557,7 +512,6 @@ let miditxt=0;
 
 let newWin1="";
 let newWin2="";
-let newWin3="";
 
 let tsv0=[];
 let tsvi=[];
@@ -572,6 +526,17 @@ let tsv7=[];
 let tsv8=[];
 let tsv9=[];
 let tsvst0=0;
+let LD0=[];
+let credit0="";
+let credit1="";
+let rng_l="";
+let rng_h="";
+let pitch1=0;
+let diff1=0;
+let diff2=0;
+let diff3=0;
+let diff4=0;
+let diff5=0;
 let szx=1200;
 let szy=640;
 let szk=900;
@@ -599,19 +564,26 @@ let fc=[];
 let fp=[];
 let f100=[];
 let f101=[];
+let f102=[];
 let f110=[];
 let f111=[];
 let rst=0;
-let n_idf=1;
 
-var obj1=document.getElementById("selfile1");
-obj1.addEventListener("change", function(evt){
-var file1=evt.target.files[0];
-var reader1=new FileReader();
-reader1.readAsArrayBuffer(file1);
-reader1.onload=function(ev){
+async function fetch1(){
+let songname1=document.getElementById("song1").value;
+	let uri1="./data/"+songname1+".mid";
+	let uri2="./data/"+songname1+".tsv";
+	let res1=await fetch(uri1);
+	let res2=await fetch(uri2);
+	if (res1.ok){
+		data1=await res1.arrayBuffer();
+	}
+	if (res2.ok){
+		data2=await res2.text();
+	}
+
 picoAudio.init(); 
-midiData = new Uint8Array(reader1.result);
+midiData = new Uint8Array(data1);
 parsedData = picoAudio.parseSMF(midiData);
 picoAudio.setData(parsedData);
 eott0 = parsedData.songLength;
@@ -698,13 +670,6 @@ r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
 
 lyrics1();
 
-top1();
-
-}
-},false);
-
-var obj2=document.getElementById("selfile2");
-obj2.addEventListener("change", function(evt){
 tsv0=[];
 tsvi=[];
 tsvc=[];
@@ -723,12 +688,7 @@ tsvsd=[];
 tsvdl=[];
 tsvsc=[];
 
-var file2=evt.target.files[0];
-var reader2=new FileReader();
-reader2.readAsText(file2,"shift_JIS");
-reader2.onload=function(ev){
-tsv0=reader2.result.split('\n');
-
+tsv0=data2.split('\n');
 for (i=0;i<tsv0.length;i++){
 	if((tsv0[i].split('\t'))[0]=="A"){
 		tsvi.push([(tsv0[i].split('\t'))[1]]);
@@ -782,8 +742,8 @@ if(tsvi.length<9){
 
 top1();
 
-}//reader2
-},false);//obj2
+}
+fetch1();
 
 //scroll landscape
 function scroll1(){
@@ -804,7 +764,6 @@ ctx2.fillStyle=col2[Math.floor(k/12)-1];
 ctx2.fillRect(mx+l*kw,my/2,kw,my/4);
 ctx2.fillStyle=col[k%12];
 ctx2.fillRect(mx+l*kw,my*3/4,kw,my/4);
-
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
 ctx2.fillRect(mx+l*kw,my,kw,szy-my);
@@ -823,6 +782,7 @@ ctx2.fillText(k.toString(12),mx+l*kw,my/2);
 }else {
 ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
 }
+
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -843,7 +803,6 @@ ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
 ctx2.fillText(vmn0+1,0,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<=(j+ht1*ppq*bttl/ntvl*4)){
 ctx2.beginPath();
 ctx2.moveTo(mx,my+(m-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
@@ -978,6 +937,7 @@ ctx2.lineTo(mx+l*kw,szy);
 ctx2.strokeStyle="red";
 ctx2.stroke();
 }
+
 }
 
 
@@ -1007,7 +967,7 @@ let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
 if(start>=j && start<j+ht1*ppq*bttl){
 ctx2.fillStyle=col[midi%12];
-ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
 ctx2.arc((midi-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
@@ -1031,8 +991,10 @@ ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[9].selected==true){
+ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+}else if (document.form1.nl1.options[10].selected==true){
 ctx2.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 //tsv finger numbers
 }else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
@@ -1103,7 +1065,7 @@ ctx2.fillRect(mx+l*kw,my*3/4,kw,my/4);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 ctx2.fillStyle="lightgrey";
-ctx2.fillRect(mx+l*kw,my,kw,szy-my);
+ctx2.fillRect(mx+l*kw,my,kw,szy);
 }else if (k%12===0){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -1131,7 +1093,7 @@ ctx2.stroke();
 
 ctx2.beginPath();
 ctx2.fillStyle="white";
-ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),mx+szk,my);
+ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),mx+szx,my);
 
 ctx2.beginPath();
 ctx2.moveTo(0,szy);
@@ -1166,7 +1128,7 @@ let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
 if(start>=j && stop<j+ht1*bttl*ppq/ntvl*4){
 ctx2.fillStyle=col[midi%12];
-ctx2.fillRect((midi-midi_min)*kw+mx,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillRect((midi-midi_min)*kw+mx,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*szy/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
 ctx2.arc((midi-midi_min+0.5)*kw+mx,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
@@ -1225,7 +1187,6 @@ ctx2.fillText(tsv3[n_id-tsvst0+1], mx/2,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-
 if (tsv4[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
-
 
 }//if(stop>j..)
 }//for(i=0;)
@@ -1328,7 +1289,7 @@ let [midi, start, stop, channel, n_id]=r1[i];
 gt=stop-start;
 if(start>=j && stop<j+ht1*bttl*ppq/ntvl*4){
 ctx2.fillStyle=col[midi%12];
-ctx2.fillRect((midi-midi_min)*kw+mx,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillRect((midi-midi_min)*kw+mx,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*1200/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
 ctx2.arc((midi-midi_min+0.5)*kw+mx,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
 ctx2.fillStyle=col3[channel];
@@ -1388,6 +1349,7 @@ if (tsv4[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 
+
 }//if(stop>j..)
 }//for(i=0;)
 
@@ -1413,8 +1375,10 @@ j=h_from;
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 if(start0==0){
 document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4+1);
+document.form1.r_msr.value=Math.round(j/eott0*100);
 }else{
 document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4);
+document.form1.r_msr.value=Math.round(j/eott0*100);
 }
 r3w=r3.find(function(value){
 return (j<=value[1]);
@@ -1446,8 +1410,10 @@ j=h_from;
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 if(start0==0){
 document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4+1);
+document.form1.r_msr.value=Math.round(j/eott0*100);
 }else{
 document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4);
+document.form1.r_msr.value=Math.round(j/eott0*100);
 }
 r3w=r3.find(function(value){
 return (j<=value[1]);
@@ -1494,7 +1460,7 @@ r3i0=r3i1;
 }
 
 function measure1(){
-j=(Number(document.form1.x_msr.value)-1)*ppq*bttl/ntvl*4;
+j=(Number(document.form1.x_msr.value-1))*ppq*bttl/ntvl*4;
 
 let r3x=r3.findLast(function(value){
 return (j>=value[1])
@@ -1505,6 +1471,7 @@ tbpm1=r4.findLast(function(value){
 return(j>=value[0]);
 });
 document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+document.form1.r_msr.value=Math.round(j/eott0*100);
 
 time1=r5.findLast(function(value){
 return(j>=value[0]);
@@ -1527,10 +1494,20 @@ finger3();
 
 }
 
+function measure2(){
+if(document.form1.r_msr.value==0){
+top1();
+}else{
+j=Math.ceil(eott0/(bttl*ppq/ntvl*4)*Number(document.form1.r_msr.value)/100);
+}
+document.form1.x_msr.value=j;
+measure1();
+}
 
 function top1(){
 r3i0=0;
 j=0;
+document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1556,6 +1533,7 @@ finger3();
 function end1(){
 j=Math.ceil(eott0/(bttl*ppq/ntvl*4)-1)*(bttl*ppq/ntvl*4);
 document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1585,6 +1563,7 @@ let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
 r3i0=r3x[0];
+document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1614,6 +1593,7 @@ let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
 r3i0=r3x[0];
+document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1647,6 +1627,7 @@ let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
 r3i0=r3x[0];
+document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1678,6 +1659,7 @@ let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
 r3i0=r3x[0];
+document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1708,8 +1690,10 @@ j=note.start;
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 if(start0==0){
 document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+document.form1.r_msr.value=Math.round(j/eott0*100);
 }else{
 document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4));
+document.form1.r_msr.value=Math.round(j/eott0*100);
 }
 
 
@@ -1777,7 +1761,8 @@ document.form1.x_bpm.value=Math.round(bpm*document.form1.r_bpm.value/100);
 }
 
 function height1(){
-ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
+ht1=document.form1.r_hgh.value;
+document.form1.x_hgh.value=ht1;
 
 if(document.form1.sv1.options[0].selected==true){
 scroll1();
@@ -1793,16 +1778,28 @@ finger3();
 
 }
 
+function height2(){
+ht1=document.form1.x_hgh.value;
+document.form1.r_hgh.value=ht1;
 
-function transpose1(){
-
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}else if(document.form1.sv1.options[15].selected==true){
+finger3();
 }
 
+}
+
+function transpose1(){
+document.form1.x_ch.value="";
+document.form1.x_lr.value="";
+trs1=document.form1.x_trs.value;
 midi_min=Number(midi_min0)+Number(trs1);
 midi_max=Number(midi_max0)+Number(trs1);
 r1=[]
@@ -1810,8 +1807,8 @@ n_id=1;
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => { 
 let trs2=Number(note.pitch)+Number(trs1);
-r1.push([trs2,note.start,note.stop, note.channel,n_id]);
-n_id=n_id+1;
+r1.push([trs2,note.start,note.stop, note.channel+1,n_id]);
+n_id+=1;
 });
 });
 
@@ -1831,15 +1828,11 @@ finger3();
 
 
 function channel1(){
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
-}
-
+x_ch1=document.form1.x_ch.value;
+chr=x_ch1.split("*");
+let ch0=chr[0];
+let ch1=chr[1];
+let trs1=document.form1.x_trs.value;
 r1=[];
 n_id=1;
 
@@ -1847,7 +1840,7 @@ midi_min=108;
 midi_max=21;
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => { 
-if(note.channel==x_ch1){
+if(note.channel==ch0 || note.channel==ch1){
 let trs2=Number(note.pitch)+Number(trs1);
 r1.push([trs2,note.start,note.stop,note.channel,n_id]);
 if(trs2>midi_max){
@@ -1872,17 +1865,50 @@ still2();
 }else if(document.form1.sv1.options[15].selected==true){
 finger3();
 }
+}
 
-document.getElementById("credit").innerHTML=
-"Music by:"+credit0[1]+
-"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
-"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
-"<br>Lyrics by:"+credit1[1]+
-"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
-"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
-"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
-"<br>Disclaimer:No warranties are given."
-;
+function leftright1(){
+r1=[];
+n_id=1;
+x_lr1=document.form1.x_lr.value;
+fg_lr1=-fg_lr1;
+let trs1=document.form1.x_trs.value;
+if(fg_lr1>0){
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => { 
+let trs2=Number(note.pitch)+Number(trs1);
+if(trs2>=x_lr1){
+r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
+}
+n_id+=1;
+});
+});
+midi_min=x_lr1;
+midi_max=midi_max0+Number(trs1);
+}else{
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => { 
+let trs2=Number(note.pitch)+Number(trs1);
+if(trs2<=x_lr1){
+r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
+}
+n_id+=1;
+});
+});
+midi_min=midi_min0+Number(trs1);
+midi_max=x_lr1;
+}
+
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}
 
 }
 
@@ -1890,9 +1916,7 @@ function information1(){
 window.name="openerWin";
 newWin2=window.open();
 newWin2.document.writeln ('<pre>Information<hr color="#ff0000"></font></pre>'.fontsize(6));
-newWin2.document.writeln ('<pre><font color="#000080">MIDI Choose File   </font>Choose a Standard MIDI File (SMF). </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">TSV  Choose File   </font>Choose a tsv file for the midi file to show additional information as follows: </font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#000080">                  Credit, Fingering, Memo, Left notation, Right notation, Lyrics(1-5). </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Song List         </font>Select a song. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">H                 </font>Change number of measures shown on the screen to the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">M                 </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">K                 </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
@@ -1922,10 +1946,10 @@ newWin2.document.writeln ('<pre><font color="#006400">Channel Colors    </font>T
 newWin2.document.writeln ('<pre><font color="#006400">Key 10            </font>Estimate key of the song by time window 10%.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Key 20            </font>Estimate key of the song by time window 20%.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Key 25            </font>Estimate key of the song by time window 25%.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Information       </font>Information for this site.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Index             </font>Change screen to index.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Pythagorean Tuning</font>Change screen to learn Pythagorean Tuning.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Just Intonation   </font>Change screen to learn Just Intonation.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Download Demo     </font>Click to download zip file of midi and tsv for demo songs.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">12 Equal Temperament   </font>Change screen to learn 12 Equal Temperament.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">MIDI              </font>MIDI is a trademark of The MIDI Manufacturers Association Inc., resistered in countries </font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">                  </font>worldwide and of the Association of Musical Electronics Industry resistered in Japan.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Patent Pending    </font>Patent Application in Japan No.2023-143681.</font></pre>'.fontsize(5));
@@ -1933,7 +1957,7 @@ newWin2.document.writeln ('<pre><font color="#000080">Patent Pending    </font>P
 newWin2.document.writeln ('<pre><font color="#000080">Patent Pending    </font>Patent Application in Japan No.2024-141877.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000080">Contact           </font>toyscore2023@gmail.com</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre> </pre>');
-newWin2.document.writeln ('<pre>Software Licenses<hr color="#ff0000"></font></pre>'.fontsize(6));
+newWin2.document.writeln ('<pre>Software Licenses<hr color="#ff0000"></pre>'.fontsize(6));
 newWin2.document.writeln ('<pre> </pre>');
 newWin2.document.writeln ('<pre>MIT License</pre>'.fontsize(5));
 newWin2.document.writeln ('<pre> </pre>');
@@ -1979,8 +2003,8 @@ newWin2.document.writeln ('<pre>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY C
 newWin2.document.writeln ('<pre>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</pre>'.fontsize(5));
 newWin2.document.writeln ('<pre>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</pre>'.fontsize(5));
 newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
-
 }
+
 
 async function download1(){
 let files=(await(await fetch("./data/SongList.txt")).text()).split('\n');
@@ -2027,7 +2051,7 @@ lyrict0="";
 lyricr0=[];
 lyricr1=[];
 trnnr0=[];
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+x_ch1=document.form1.x_ch.value;
 
 for(i=0;i<midiData.length;i++){
 //MTrk
@@ -2126,6 +2150,8 @@ for(i=0;i<trnnr0.length;i++){
   return Math.sqrt(sumOfSquaredDifferences / (arr.length - (usePopulation ? 0 : 1)));
 };
 
+
+
 const mstd = (p) => {
 	let	s0=0;
 	fg6v=Number(document.form1.fg6.value)+2;
@@ -2146,18 +2172,17 @@ let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIn
 let fg5vp=n_idf+fg5v-1;
 let fg5vc=fg5vp-Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)-3;
 
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==x_ch1 && n_id>=n_idf && n_id<=fg5vp){
+	if (channel==document.form1.x_ch.value && n_id>=n_idf && n_id<=fg5vp){
 		fp.push([midi, start, stop, channel, n_id]);
 	}
 }
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==x_ch1 && n_id>=n_idf  && n_id<=fg5vc){
+	if (channel==document.form1.x_ch.value && n_id>=n_idf  && n_id<=fg5vc){
 		fc.push([midi, n_id]);
 	}
 }
@@ -3212,7 +3237,7 @@ for (p=0;p<f101.length;p++){
 				}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
 					ctx2.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 				}else if (document.form1.nl1.options[18].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[0][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3236,7 +3261,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[0][1][n_id-fc[0][1]],1073+(6-Number(f101[0][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[19].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[1][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3260,7 +3285,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[1][1][n_id-fc[0][1]],1073+(6-Number(f101[1][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[20].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[2][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3284,7 +3309,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[2][1][n_id-fc[0][1]],1073+(6-Number(f101[2][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[21].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[3][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3308,7 +3333,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[3][1][n_id-fc[0][1]],1073+(6-Number(f101[3][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[22].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[4][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3332,7 +3357,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[4][1][n_id-fc[0][1]],1073+(6-Number(f101[4][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[23].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[5][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3356,7 +3381,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[5][1][n_id-fc[0][1]],1073+(6-Number(f101[5][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[24].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[6][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3380,7 +3405,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[6][1][n_id-fc[0][1]],1073+(6-Number(f101[6][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[25].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[7][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3404,7 +3429,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[7][1][n_id-fc[0][1]],1073+(6-Number(f101[7][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[26].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[8][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3428,7 +3453,7 @@ for (p=0;p<f101.length;p++){
 						ctx2.fillText(f101[8][1][n_id-fc[0][1]],1073+(6-Number(f101[8][1][n_id-fc[0][1]]))*50,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 					}
 				}else if (document.form1.nl1.options[27].selected==true){
-					if (document.form1.fg8.options[1].selected==true){
+					if (document.form1.fg8.options[0].selected==true){
 						ctx2.beginPath();
 						ctx2.arc((f101[9][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/4,0,2*Math.PI,false);
 						ctx2.fillStyle="red";
@@ -3462,14 +3487,8 @@ for (p=0;p<f101.length;p++){
 const finger2= async () =>{
 time0=Date.now();
 f110.push([['ID','Finger','Min']]);
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
-}
+x_ch1=document.form1.x_ch.value;
+trs1=document.form1.x_trs.value;
 
 midi_min=108;
 midi_max=21;
@@ -3522,15 +3541,8 @@ alert(timed + 'min');
 const finger3= async () =>{
 document.form1.fg4.options[0].selected=true;
 
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-
-
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
-}
+x_ch1=document.form1.x_ch.value;
+trs1=document.form1.x_trs.value;
 
 midi_min=108;
 midi_max=21;
@@ -4855,7 +4867,7 @@ keyrp10_0.push([midi%12, start]);
 }
 
 ctx2.fillStyle="black";
-ctx2.fillText("Proportions of keys and the best relative keys in the specified time window",0,510);
+ctx2.fillText("Proportions of keys and the best relative keys in the pecified time window",0,510);
 ctx2.fillText("Major scale",0,540);
 ctx2.fillText("Minor scale",0,570);
 ctx2.fillText("Measure range",0,600);
@@ -5137,6 +5149,7 @@ if(keyrp10_4[0][0]>keyrp10_4[1][0]){
 }
 
 
+
 function instrument1(){
 canvas2.height = 1300;
 ctx2.font="25px Arial";
@@ -5170,13 +5183,11 @@ szy=1300;
 canvas2.width = szx;
 canvas2.height = szy;
 ctx2.clearRect(0,0,1400,1300);
-
 let kw=77;
 let kw0=kw*12/7*3/5;
 let kw1=kw*12/7*4/7;
 let cl=kw/2;
 
-ctx2.clearRect(0,0,1080,1300);
 ctx2.font="25px Arial";
 ctx2.fillStyle="black";
 
@@ -5450,7 +5461,6 @@ downloadFile('Fingering.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponen
 }else if(document.form1.sv1.options[18].selected==true){
 download1();
 }
-
 }
 
 
