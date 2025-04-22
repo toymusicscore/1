@@ -234,9 +234,7 @@ demo
 <input type="button" name="b_msr" value="M" onClick="measure1()" style="font-size:100%" >
 <input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
 <input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
-<input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
-<input type="tel"    name="x_ch" value="1" size="1" style="font-size:100%" >
-<input type="button" name="b_ch" value="C" onClick="channel1()" style="font-size:100%" >
+<input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >%" >
 <input type="tel"    name="x_lr" value="" size="2" style="font-size:100%" >
 <input type="button" name="b_lr" value="LR" onClick="leftright1()" style="font-size:100%" >
 
@@ -2077,7 +2075,7 @@ lyrict0="";
 lyricr0=[];
 lyricr1=[];
 trnnr0=[];
-x_ch1=document.form1.x_ch.value;
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 
 for(i=0;i<midiData.length;i++){
 //MTrk
@@ -2198,17 +2196,18 @@ let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIn
 let fg5vp=n_idf+fg5v-1;
 let fg5vc=fg5vp-Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)-3;
 
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==document.form1.x_ch.value && n_id>=n_idf && n_id<=fg5vp){
+	if (channel==x_ch1 && n_id>=n_idf && n_id<=fg5vp){
 		fp.push([midi, start, stop, channel, n_id]);
 	}
 }
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==document.form1.x_ch.value && n_id>=n_idf  && n_id<=fg5vc){
+	if (channel==dx_ch1 && n_id>=n_idf  && n_id<=fg5vc){
 		fc.push([midi, n_id]);
 	}
 }
@@ -3513,8 +3512,14 @@ for (p=0;p<f101.length;p++){
 const finger2= async () =>{
 time0=Date.now();
 f110.push([['ID','Finger','Min']]);
-x_ch1=document.form1.x_ch.value;
-trs1=document.form1.x_trs.value;
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+
+tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
+if (tr1v<13){
+	trs1=tr1v;
+}else{
+	trs1=12-tr1v;
+}
 
 midi_min=108;
 midi_max=21;
@@ -3567,8 +3572,14 @@ alert(timed + 'min');
 const finger3= async () =>{
 document.form1.fg4.options[0].selected=true;
 
-x_ch1=document.form1.x_ch.value;
-trs1=document.form1.x_trs.value;
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+
+tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
+if (tr1v<13){
+	trs1=tr1v;
+}else{
+	trs1=12-tr1v;
+}
 
 midi_min=108;
 midi_max=21;
