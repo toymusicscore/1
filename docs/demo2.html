@@ -235,8 +235,6 @@ demo
 <input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
 <input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
 <input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
-<input type="tel"    name="x_lr" value="" size="2" style="font-size:100%" >
-<input type="button" name="b_lr" value="LR" onClick="leftright1()" style="font-size:100%" >
 
 <label>BPM<input type="range"  name="r_bpm" value="100" min="1" max="100" step="1" onChange="bpmr1()"></label>
 
@@ -474,7 +472,6 @@ let ch0=0;
 let ch1=0;
 let trs1=0;
 let trs2=0;
-let x_lr1="";
 let fg_lr1=-1;
 let prgrs1=0;
 let p=0;
@@ -1891,50 +1888,6 @@ finger3();
 
 }
 
-function leftright1(){
-r1=[];
-n_id=1;
-x_lr1=document.form1.x_lr.value;
-fg_lr1=-fg_lr1;
-let trs1=document.form1.x_trs.value;
-if(fg_lr1>0){
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => { 
-let trs2=Number(note.pitch)+Number(trs1);
-if(trs2>=x_lr1){
-r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
-}
-n_id+=1;
-});
-});
-midi_min=x_lr1;
-midi_max=midi_max0+Number(trs1);
-}else{
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => { 
-let trs2=Number(note.pitch)+Number(trs1);
-if(trs2<=x_lr1){
-r1.push([trs2,note.start,note.stop,note.channel+1,n_id]);
-}
-n_id+=1;
-});
-});
-midi_min=midi_min0+Number(trs1);
-midi_max=x_lr1;
-}
-
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}
-
-}
 
 function information1(){
 window.name="openerWin";
