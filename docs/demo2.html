@@ -229,9 +229,6 @@ demo
 	<option value="18" style="font-size:100%"> MIDI TSV Downloader</option>
 	</select>
 
-<input type="range"  name="r_hgh" value="1" min="1" max="10" step="1" onChange="height1()">
-<input type="tel"    name="x_hgh" value="1" size="2" style="font-size:100%" >
-<input type="button" name="b_hgh" value="H" onClick="height2()" style="font-size:100%" >
 <input type="range"  name="r_msr" value="1" min="1" max="99" step="1" onChange="measure2()" style="font-size:100%" >
 <input type="tel"    name="x_msr" value="1" size="3" style="font-size:100%" >
 <input type="button" name="b_msr" value="M" onClick="measure1()" style="font-size:100%" >
@@ -1678,7 +1675,6 @@ finger3();
 
 
 function reverses(){
-ht1=document.form1.x_hgh.value;
 if((Number(document.form1.x_msr.value)-ht1-1)*(bttl*ppq/ntvl*4)>=0){
 j=(Number(document.form1.x_msr.value)-ht1-1)*(bttl*ppq/ntvl*4);
 document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
@@ -1823,8 +1819,7 @@ document.form1.x_bpm.value=Math.round(bpm*document.form1.r_bpm.value/100);
 }
 
 function height1(){
-ht1=document.form1.r_hgh.value;
-document.form1.x_hgh.value=ht1;
+ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
 
 if(document.form1.sv1.options[0].selected==true){
 scroll1();
@@ -1840,23 +1835,6 @@ finger3();
 
 }
 
-function height2(){
-ht1=document.form1.x_hgh.value;
-document.form1.r_hgh.value=ht1;
-
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}else if(document.form1.sv1.options[15].selected==true){
-finger3();
-}
-
-}
 
 function transpose1(){
 document.form1.x_ch.value="";
