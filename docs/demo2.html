@@ -235,8 +235,6 @@ demo
 <input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
 <input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
 <input type="button" name="b_k" value="K" onClick="keyw2()" style="font-size:100%" >
-<input type="tel"    name="x_trs" value="0" size="1" style="font-size:100%" >
-<input type="button" name="b_trs" value="T" onClick="transpose1()" style="font-size:100%" >
 <input type="tel"    name="x_ch" value="1" size="1" style="font-size:100%" >
 <input type="button" name="b_ch" value="C" onClick="channel1()" style="font-size:100%" >
 <input type="tel"    name="x_lr" value="" size="2" style="font-size:100%" >
@@ -1814,9 +1812,14 @@ finger3();
 
 
 function transpose1(){
-document.form1.x_ch.value="";
-document.form1.x_lr.value="";
-trs1=document.form1.x_trs.value;
+
+tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
+if (tr1v<13){
+	trs1=tr1v;
+}else{
+	trs1=12-tr1v;
+}
+
 midi_min=Number(midi_min0)+Number(trs1);
 midi_max=Number(midi_max0)+Number(trs1);
 r1=[]
