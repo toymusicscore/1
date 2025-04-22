@@ -229,7 +229,6 @@ demo
 	<option value="18" style="font-size:100%"> MIDI TSV Downloader</option>
 	</select>
 
-<input type="range"  name="r_msr" value="1" min="1" max="99" step="1" onChange="measure2()" style="font-size:100%" >
 <input type="tel"    name="x_msr" value="1" size="3" style="font-size:100%" >
 <input type="button" name="b_msr" value="M" onClick="measure1()" style="font-size:100%" >
 <input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
@@ -1434,10 +1433,8 @@ j=h_from;
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 if(start0==0){
 document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4+1);
-document.form1.r_msr.value=Math.round(j/eott0*100);
 }else{
 document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4);
-document.form1.r_msr.value=Math.round(j/eott0*100);
 }
 r3w=r3.find(function(value){
 return (j<=value[1]);
@@ -1469,10 +1466,8 @@ j=h_from;
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 if(start0==0){
 document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4+1);
-document.form1.r_msr.value=Math.round(j/eott0*100);
 }else{
 document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4);
-document.form1.r_msr.value=Math.round(j/eott0*100);
 }
 r3w=r3.find(function(value){
 return (j<=value[1]);
@@ -1530,7 +1525,6 @@ tbpm1=r4.findLast(function(value){
 return(j>=value[0]);
 });
 document.form1.x_bpm.value=Math.floor(tbpm1[1]);
-document.form1.r_msr.value=Math.round(j/eott0*100);
 
 time1=r5.findLast(function(value){
 return(j>=value[0]);
@@ -1553,20 +1547,10 @@ finger3();
 
 }
 
-function measure2(){
-if(document.form1.r_msr.value==0){
-top1();
-}else{
-j=Math.ceil(eott0/(bttl*ppq/ntvl*4)*Number(document.form1.r_msr.value)/100);
-}
-document.form1.x_msr.value=j;
-measure1();
-}
 
 function top1(){
 r3i0=0;
 j=0;
-document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1592,7 +1576,6 @@ finger3();
 function end1(){
 j=Math.ceil(eott0/(bttl*ppq/ntvl*4)-1)*(bttl*ppq/ntvl*4);
 document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
-document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1622,7 +1605,6 @@ let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
 r3i0=r3x[0];
-document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1652,7 +1634,6 @@ let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
 r3i0=r3x[0];
-document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1685,7 +1666,6 @@ let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
 r3i0=r3x[0];
-document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1717,7 +1697,6 @@ let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
 r3i0=r3x[0];
-document.form1.r_msr.value=Math.round(j/eott0*100);
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1748,10 +1727,8 @@ j=note.start;
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 if(start0==0){
 document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
-document.form1.r_msr.value=Math.round(j/eott0*100);
 }else{
 document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4));
-document.form1.r_msr.value=Math.round(j/eott0*100);
 }
 
 
