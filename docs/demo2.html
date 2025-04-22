@@ -1847,12 +1847,17 @@ finger3();
 }
 
 
+
 function channel1(){
-x_ch1=document.form1.x_ch.value;
-chr=x_ch1.split("*");
-let ch0=chr[0];
-let ch1=chr[1];
-let trs1=document.form1.x_trs.value;
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+
+tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
+if (tr1v<13){
+	trs1=tr1v;
+}else{
+	trs1=12-tr1v;
+}
+
 r1=[];
 n_id=1;
 
@@ -1860,7 +1865,7 @@ midi_min=108;
 midi_max=21;
 parsedData.channels.forEach(channel => { 
 channel.notes.forEach(note => { 
-if(note.channel==ch0 || note.channel==ch1){
+if(note.channel==x_ch1){
 let trs2=Number(note.pitch)+Number(trs1);
 r1.push([trs2,note.start,note.stop,note.channel,n_id]);
 if(trs2>midi_max){
@@ -1885,6 +1890,18 @@ still2();
 }else if(document.form1.sv1.options[15].selected==true){
 finger3();
 }
+
+document.getElementById("credit").innerHTML=
+"Music by:"+credit0[1]+
+"<br>Source:<a href="+credit0[2]+">"+credit0[2]+"</a>"+
+"<br>License:<a href="+credit0[4]+">"+credit0[3]+"</a>"+
+"<br>Lyrics by:"+credit1[1]+
+"<br>Source:<a href="+credit1[2]+">"+credit1[2]+"</a>"+
+"<br>License:<a href="+credit1[4]+">"+credit1[3]+"</a>"+
+"<br>This work is licensed under the licenses above and of <a href=software.html>software</a>."+
+"<br>Disclaimer:No warranties are given."
+;
+
 }
 
 function leftright1(){
