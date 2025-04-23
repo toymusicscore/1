@@ -722,7 +722,7 @@ document.getElementById("channels").innerHTML=ch_num;
 midi_min0=midi_min;
 midi_max0=midi_max;
 
-document.form1.x_msrf.value=1;
+document.form1.x_msrf.value=0;
 document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4)+1;
 
 r2.sort(function(m,n){return m-n;});
@@ -4778,8 +4778,8 @@ canvas2.height = 1300;
 msr_from=Number(document.form1.x_msrf.value);
 msr_to=Number(document.form1.x_msrt.value);
 
-tk_from=document.form1.x_msrf.value*ppq*bttl/ntvl*4;
-tk_to=document.form1.x_msrt.value*ppq*bttl/ntvl*4;
+tk_from=(msr_from-1)*ppq*bttl/ntvl*4;
+tk_to=(msr_to-1)*ppq*bttl/ntvl*4;
 
 
 ctx2.font="25px Arial";
@@ -4837,7 +4837,7 @@ ctx2.fillText((k%12).toString(12),220+50*k,120);
 keyrp10_0=[];
 for(let i=0;i<r1.length;i++){
 let [midi, start]=r1[i];
-if(start>=tk_from && start<=tk_to){
+if(start>=tk_from && start<tk_to){
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect(200+midi%12*50,120+start/eott0*300,50,1);
 keyrp10_0.push([midi%12, start]);
