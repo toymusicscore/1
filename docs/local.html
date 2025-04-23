@@ -721,10 +721,9 @@ document.getElementById("channels").innerHTML=ch_num;
 
 midi_min0=midi_min;
 midi_max0=midi_max;
-[midi0,start0,stop0,channel0]=r1[0];
 
 document.form1.x_msrf.value=1;
-document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4);
+document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4)+1;
 
 r2.sort(function(m,n){return m-n;});
 
@@ -3626,11 +3625,8 @@ ctx2.fillText("100",14,420);
 
 for(i=0;i<=10;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/ppq/bttl*ntvl/4*i/10);
-}else{
-mslbl0=Math.ceil((eott0/ppq/bttl*ntvl/4-1)*i/10);
-}
+
 if(i>0 && i<=10){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,120+i*30);
@@ -3688,11 +3684,8 @@ ctx2.fillText("100",14,870);
 
 for(i=0;i<=10;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/ppq/bttl*ntvl/4*i/10);
-}else{
-mslbl0=Math.ceil((eott0/ppq/bttl*ntvl/4-1)*i/10);
-}
+
 if(i>=1 && i<=10){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,570+i*30);
@@ -3871,11 +3864,8 @@ ctx2.fillText("Estimated Key",810,960);
 
 for(i=0;i<=10;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/ppq/bttl*ntvl/4*i/10);
-}else{
-mslbl0=Math.ceil((eott0/ppq/bttl*ntvl/4-1)*i/10);
-}
+
 if(i>=1 && i<=10){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,960+i*30);
@@ -4034,11 +4024,7 @@ ctx2.fillText("100",14,420);
 
 for(i=0;i<=5;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/ppq/bttl*ntvl/4*i/5);
-}else{
-mslbl0=Math.ceil((eott0/ppq/bttl*ntvl/4-1)*i/5);
-}
 if(i>0 && i<=5){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,120+i*60);
@@ -4091,11 +4077,7 @@ ctx2.fillText("100",14,870);
 
 for(i=0;i<=5;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/(ppq*bttl/ntvl*4)*i/5);
-}else{
-mslbl0=Math.ceil((eott0/(ppq*bttl/ntvl*4)-1)*i/5);
-}
 if(i>=1 && i<=5){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,570+i*60);
@@ -4268,11 +4250,7 @@ ctx2.fillText("Estimated Key",810,960);
 
 for(i=0;i<=5;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/(ppq*bttl/ntvl*4)*i/5);
-}else{
-mslbl0=Math.ceil((eott0/(ppq*bttl/ntvl*4)-1)*i/5);
-}
 if(i>=1 && i<=5){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,960+i*60);
@@ -4431,11 +4409,7 @@ ctx2.fillText("100",14,420);
 
 for(i=0;i<=4;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/ppq/bttl*ntvl/4*i/4);
-}else{
-mslbl0=Math.ceil((eott0/ppq/bttl*ntvl/4-1)*i/4);
-}
 if(i>0 && i<=4){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,120+i*75);
@@ -4487,11 +4461,7 @@ ctx2.fillText("100",14,870);
 
 for(i=0;i<=4;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/(ppq*bttl/ntvl*4)*i/4);
-}else{
-mslbl0=Math.ceil((eott0/(ppq*bttl/ntvl*4)-1)*i/4);
-}
 if(i>=1 && i<=4){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,570+i*75);
@@ -4663,11 +4633,7 @@ ctx2.fillText("Estimated Key",810,960);
 
 for(i=0;i<=4;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/(ppq*bttl/ntvl*4)*i/4);
-}else{
-mslbl0=Math.ceil((eott0/(ppq*bttl/ntvl*4)-1)*i/4);
-}
 if(i>=1 && i<=4){
 	if(mslbl0>=1000){
 		ctx2.fillText(mslbl0,100,960+i*75);
@@ -4815,13 +4781,8 @@ canvas2.height = 1300;
 msr_from=Number(document.form1.x_msrf.value);
 msr_to=Number(document.form1.x_msrt.value);
 
-if(start0==0){
 tk_from=(Number(document.form1.x_msrf.value)-1)*ppq*bttl/ntvl*4;
-tk_to=document.form1.x_msrt.value*ppq*bttl/ntvl*4-1;
-}else{
-tk_from=document.form1.x_msrf.value*ppq*bttl/ntvl*4;
-tk_to=(Number(document.form1.x_msrt.value)+1)*ppq*bttl/ntvl*4-1;
-}
+tk_to=document.form1.x_msrt.value*ppq*bttl/ntvl*4;
 
 ctx2.font="25px Arial";
 ctx2.clearRect(0,0,1300,1300);
@@ -4847,11 +4808,7 @@ ctx2.fillText("Total %",0,450);
 
 for(i=0;i<=10;i++){
 ctx2.fillStyle="black";
-if(start0==0){
 mslbl0=Math.ceil(eott0/ppq/bttl*ntvl/4*i/10);
-}else{
-mslbl0=Math.ceil((eott0/ppq/bttl*ntvl/4-1)*i/10);
-}
 if(mslbl0>=1000){
 ctx2.fillText(mslbl0,114,120+i*30);
 }else if(mslbl0>=100){
