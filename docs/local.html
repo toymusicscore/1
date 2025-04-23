@@ -1576,6 +1576,8 @@ finger3();
 function top1(){
 r3i0=0;
 j=0;
+document.form1.ms1.options[0].selected=true;
+
 time1=r5.findLast(function(value){
 return(j>=value[0]);
 });
@@ -1599,6 +1601,7 @@ finger3();
 
 function end1(){
 j=Math.ceil(eott0/(bttl*ppq/ntvl*4)-1)*(bttl*ppq/ntvl*4);
+document.form1.ms1.options[eott0/(bttl*ppq/ntvl*4)-1].selected=true;
 
 time1=r5.findLast(function(value){
 return(j>=value[0]);
@@ -1622,7 +1625,8 @@ finger3();
 
 function reverse1(){
 ms1v=Number(document.form1.ms1.options[document.form1.ms1.options.selectedIndex].value);
-j=ms1v*bttl*ppq/ntvl*4;
+j=(ms1v-1)*bttl*ppq/ntvl*4;
+document.form1.ms1.options[ms1v-1].selected=true;
 
 let r3x=r3.findLast(function(value){
 return (j>=value[1])
@@ -1651,9 +1655,11 @@ finger3();
 function forward1(){
 ms1v=Number(document.form1.ms1.options[document.form1.ms1.options.selectedIndex].value);
 
-if(ms1v*bttl*ppq/ntvl*4<=eott0){
-j=ms1v*bttl*ppq/ntvl*4;
+if((ms1v+1)*bttl*ppq/ntvl*4<=eott0){
+j=(ms1v+1)*bttl*ppq/ntvl*4;
+document.form1.ms1.options[ms1v+1].selected=true;
 }
+
 let r3x=r3.findLast(function(value){
 return (j>=value[1])
 });
@@ -1682,8 +1688,9 @@ finger3();
 function reverses(){
 ms1v=Number(document.form1.ms1.options[document.form1.ms1.options.selectedIndex].value);
 
-if((ms1-ht1-1)*(bttl*ppq/ntvl*4)>=0){
-j=(ms1-ht1-1)*(bttl*ppq/ntvl*4);
+if((ms1v-ht1)*(bttl*ppq/ntvl*4)>=0){
+j=(ms1v-ht1)*(bttl*ppq/ntvl*4);
+document.form1.ms1.options[ms1v-ht1].selected=true;
 }else{
 top1();	
 }
@@ -1716,6 +1723,7 @@ ms1v=Number(document.form1.ms1.options[document.form1.ms1.options.selectedIndex]
 
 if((ms1v+ht1)*(bttl*ppq/ntvl*4)<=eott0){
 j=(ms1v+ht1)*(bttl*ppq/ntvl*4);
+document.form1.ms1.options[ms1v+ht1].selected=true;
 }else{
 end1();	
 }
