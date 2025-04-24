@@ -333,6 +333,8 @@ demo
 	</select>
 
 <br>
+<input type="tel"    name="x_msr" value="" size="3" style="font-size:100%" >
+<input type="button" name="b_msr" value="M" onClick="measure2()" style="font-size:100%" >
 <input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
 <input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
 <input type="button" name="b_k" value="Key" onClick="keyw2()" style="font-size:100%" >
@@ -1601,6 +1603,41 @@ function measure1(){
 ms1v=Number(document.form1.ms1.options[document.form1.ms1.options.selectedIndex].value);
 
 j=ms1v*ppq*bttl/ntvl*4;
+
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+if(document.form1.sv1.options[0].selected==true){
+scroll1();
+}else if(document.form1.sv1.options[1].selected==true){
+scroll2();
+}else if(document.form1.sv1.options[2].selected==true){
+still1();
+}else if(document.form1.sv1.options[3].selected==true){
+still2();
+}else if(document.form1.sv1.options[15].selected==true){
+finger3();
+}
+
+}
+
+
+function measure2(){
+j=(Number(document.form1.x_msr.value-1))*ppq*bttl/ntvl*4;
 
 let r3x=r3.findLast(function(value){
 return (j>=value[1])
