@@ -231,7 +231,7 @@ demo
 	</select>
 
 	<br>
-	<select name="msr1" onChange="setbar1()" style="font-size:100%">
+	<select name="msr1" onChange="setmsr1()" style="font-size:100%">
 		<option value="0" style="font-size:100%" selected="selected"> 1 </option>
 		<option value="1" style="font-size:100%"> 2 </option>
 		<option value="2" style="font-size:100%"> 3 </option>
@@ -353,10 +353,10 @@ demo
 		<option value="118" style="font-size:100%"> 119 </option>
 		<option value="119" style="font-size:100%"> 120 </option>
 	</select>
-<input type="tel"    name="x_bar" value="1" size="3" style="font-size:100%" >
-<input type="button" name="b_bar" value="bar" onClick="bar1()" style="font-size:100%" >
-<input type="tel"    name="x_barf" value="0" size="3" style="font-size:100%" >
-<input type="tel"    name="x_bart" value="0" size="3" style="font-size:100%" >
+<input type="tel"    name="x_msr" value="1" size="3" style="font-size:100%" >
+<input type="button" name="b_msr" value="msr" onClick="msr1()" style="font-size:100%" >
+<input type="tel"    name="x_msrf" value="0" size="3" style="font-size:100%" >
+<input type="tel"    name="x_msrt" value="0" size="3" style="font-size:100%" >
 <input type="button" name="b_k" value="key" onClick="keyw2()" style="font-size:100%" >
 
 <select name="bpm1" onChange="setbpm1()" style="font-size:100%">
@@ -594,7 +594,7 @@ const instName=[
 'Soprano Sax',
 'Alto Sax',
 'Tenor Sax',
-'Baritone Sax',
+'msritone Sax',
 'Oboe',
 'English Horn',
 'Bassoon',
@@ -938,8 +938,8 @@ midi_max0=midi_max;
 [midi0,start0,stop0,channel0]=r1[0];
 
 
-document.form1.x_barf.value=1;
-document.form1.x_bart.value=Math.ceil(eott0/ppq/bttl*ntvl/4)+1;
+document.form1.x_msrf.value=1;
+document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4)+1;
 
 r2.sort(function(m,n){return m-n;});
 
@@ -1665,7 +1665,7 @@ r3i1=i;
 let [n,h_from,h_to]=r3[i]
 j=h_from;
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-document.form1.x_bar.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
 
 r3w=r3.find(function(value){
 return (j<=value[1]);
@@ -1694,9 +1694,9 @@ function setbpm1(){
 }
 
 
-function setbar1(){
-	document.form1.x_bar.value=Number(document.form1.msr1.options[document.form1.msr1.options.selectedIndex].value)+1;
-	bar1();
+function setmsr1(){
+	document.form1.x_msr.value=Number(document.form1.msr1.options[document.form1.msr1.options.selectedIndex].value)+1;
+	msr1();
 }
 
 
@@ -1708,9 +1708,9 @@ r3i0=r3i1;
 }
 
 
-function bar1(){
+function msr1(){
 
-j=(document.form1.x_bar.value-1)*ppq*bttl/ntvl*4;
+j=(document.form1.x_msr.value-1)*ppq*bttl/ntvl*4;
 
 let r3x=r3.findLast(function(value){
 return (j>=value[1])
@@ -1747,7 +1747,7 @@ finger3();
 function top1(){
 r3i0=0;
 j=0;
-document.form1.x_bar.value=1;
+document.form1.x_msr.value=1;
 
 time1=r5.findLast(function(value){
 return(j>=value[0]);
@@ -1772,7 +1772,7 @@ finger3();
 
 function end1(){
 j=Math.ceil(eott0/(bttl*ppq/ntvl*4)-1)*(bttl*ppq/ntvl*4);
-document.form1.x_bar.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
 
 time1=r5.findLast(function(value){
 return(j>=value[0]);
@@ -1795,9 +1795,9 @@ finger3();
 }
 
 function reverse1(){
-if(document.form1.x_bar.value-1>=1){
-j=(document.form1.x_bar.value-2)*(bttl*ppq/ntvl*4);
-document.form1.x_bar.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
+if(document.form1.x_msr.value-1>=1){
+j=(document.form1.x_msr.value-2)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
 }
 
 let r3x=r3.findLast(function(value){
@@ -1825,9 +1825,9 @@ finger3();
 }
 
 function forward1(){
-if((Number(document.form1.x_bar.value))*(bttl*ppq/ntvl*4)<eott0){
-j=(Number(document.form1.x_bar.value))*(bttl*ppq/ntvl*4);
-document.form1.x_bar.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
+if((Number(document.form1.x_msr.value))*(bttl*ppq/ntvl*4)<eott0){
+j=(Number(document.form1.x_msr.value))*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
 }
 
 let r3x=r3.findLast(function(value){
@@ -1856,9 +1856,9 @@ finger3();
 
 
 function reverses(){
-if((Number(document.form1.x_bar.value)-ht1-1)*(bttl*ppq/ntvl*4)>=0){
-j=(Number(document.form1.x_bar.value)-ht1-1)*(bttl*ppq/ntvl*4);
-document.form1.x_bar.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
+if((Number(document.form1.x_msr.value)-ht1-1)*(bttl*ppq/ntvl*4)>=0){
+j=(Number(document.form1.x_msr.value)-ht1-1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
 }else{
 top1();	
 }
@@ -1887,9 +1887,9 @@ finger3();
 }
 
 function forwards(){
-if((Number(document.form1.x_bar.value)+(ht1-1))*(bttl*ppq/ntvl*4)<eott0){
-j=(Number(document.form1.x_bar.value)+(ht1-1))*(bttl*ppq/ntvl*4);
-document.form1.x_bar.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
+if((Number(document.form1.x_msr.value)+(ht1-1))*(bttl*ppq/ntvl*4)<eott0){
+j=(Number(document.form1.x_msr.value)+(ht1-1))*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+1;
 }else{
 end1();	
 }
@@ -1925,7 +1925,7 @@ picoAudio.addEventListener('noteOn', (note) => {
 j=note.start;
 
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-document.form1.x_bar.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
 
 r3w=r3.find(function(value){
 return (j<=value[1]);
@@ -4942,8 +4942,8 @@ function keyw2(){
 canvas2.width = 1300;
 canvas2.height = 1300;
 
-tk_from=(Number(document.form1.x_barf.value)-1)*ppq*bttl/ntvl*4;
-tk_to=(Number(document.form1.x_bart.value)-1)*ppq*bttl/ntvl*4;
+tk_from=(Number(document.form1.x_msrf.value)-1)*ppq*bttl/ntvl*4;
+tk_to=(Number(document.form1.x_msrt.value)-1)*ppq*bttl/ntvl*4;
 
 ctx2.font="25px Arial";
 ctx2.clearRect(0,0,1300,1300);
