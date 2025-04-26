@@ -916,7 +916,7 @@ midi_min0=midi_min;
 midi_max0=midi_max;
 
 document.form1.x_msrf.value=1;
-document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4)+1;
+document.form1.x_msrt.value=Math.ceil(eott0/ppq/bttl*ntvl/4);
 
 r2.sort(function(m,n){return m-n;});
 
@@ -1652,7 +1652,7 @@ r3i1=i;
 let [n,h_from,h_to]=r3[i]
 j=h_from;
 document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-document.form1.x_msr.value=Math.floor(j/ppq/bttl*ntvl/4+1);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
 
 r3w=r3.find(function(value){
 return (j<=value[1]);
