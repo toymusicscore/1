@@ -1914,17 +1914,6 @@ finger3();
 
 const play1= async () =>{
 
-ctx2.font="100px Arial";
-
-for(i=1;i<5;i++){
-	ctx2.fillStyle="red";
-	ctx2.fillText(4-i,0,150*i);
-	wait0=60000/document.form1.x_bpm.value;
-	await new Promise(r => timer=setTimeout(r,wait0));
-}
-
-ctx2.font="25px Arial";
-
 picoAudio.init();
 picoAudio.play();
 picoAudio.addEventListener('noteOn', (note) => {
