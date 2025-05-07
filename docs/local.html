@@ -1648,32 +1648,44 @@ ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+trtk0%(ht1*bttl*ppq/ntvl*4)*
 
 
 const silent1= async () =>{
+
+ctx2.font="100px Arial";
+
+for(i=1;i<5;i++){
+	ctx2.fillStyle="red";
+	ctx2.fillText(4-i,0,150*i);
+	wait0=60000/document.form1.x_bpm.value;
+	await new Promise(r => timer=setTimeout(r,wait0));
+}
+
+ctx2.font="25px Arial";
+
 for(let i=r3i0;i<r3.length;i++){
-r3i1=i;
-let [n,h_from,h_to]=r3[i]
-j=h_from;
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+	r3i1=i;
+	let [n,h_from,h_to]=r3[i]
+	j=h_from;
+	document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+	document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
 
-r3w=r3.find(function(value){
-return (j<=value[1]);
-});
+	r3w=r3.find(function(value){
+	return (j<=value[1]);
+	});
 
-wait1=60000/document.form1.x_bpm.value*(r3w[2]-r3w[1])/ppq;
+	wait1=60000/document.form1.x_bpm.value*(r3w[2]-r3w[1])/ppq;
 
-if(document.form1.sv1.options[0].selected==true){
-scroll1();
-}else if(document.form1.sv1.options[1].selected==true){
-scroll2();
-}else if(document.form1.sv1.options[2].selected==true){
-still1();
-}else if(document.form1.sv1.options[3].selected==true){
-still2();
-}
+	if(document.form1.sv1.options[0].selected==true){
+		scroll1();
+	}else if(document.form1.sv1.options[1].selected==true){
+		scroll2();
+	}else if(document.form1.sv1.options[2].selected==true){
+		still1();
+	}else if(document.form1.sv1.options[3].selected==true){
+		still2();
+	}
 
-await new Promise(r => timer=setTimeout(r,wait1));
+	await new Promise(r => timer=setTimeout(r,wait1));
 
-}
+	}
 }
 
 
@@ -1901,6 +1913,18 @@ finger3();
 
 
 const play1= async () =>{
+
+ctx2.font="100px Arial";
+
+for(i=1;i<5;i++){
+	ctx2.fillStyle="red";
+	ctx2.fillText(4-i,0,150*i);
+	wait0=60000/document.form1.x_bpm.value;
+	await new Promise(r => timer=setTimeout(r,wait0));
+}
+
+ctx2.font="25px Arial";
+
 picoAudio.init();
 picoAudio.play();
 picoAudio.addEventListener('noteOn', (note) => {
