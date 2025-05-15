@@ -183,7 +183,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="5" style="font-size:100%"> ABC G # </option>
 	<option value="6" style="font-size:100%"> ABC G b </option>
 	<option value="7" style="font-size:100%"> Pitch Class </option>
-	<option value="8" style="font-size:100%"> MIDI Duodecimal </option>
+	<option value="8" style="font-size:100%"> MIDI Lyrics </option>
 	<option value="9" style="font-size:100%"> MIDI Number </option>
 	<option value="10" style="font-size:100%"> Note ID </option>
 	<option value="11" style="font-size:100%"> TSV Fingering </option>
@@ -1122,8 +1122,10 @@ ctx2.fillText(gers1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht
 ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+/*
 }else if (document.form1.nl1.options[8].selected==true){
 ctx2.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+*/
 }else if (document.form1.nl1.options[9].selected==true){
 ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[10].selected==true){
@@ -1163,7 +1165,7 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+(start-j)*(szy-my)/(ht1*bttl*pp
 }//for(i=0;)
 
 //smf Lyrics
-if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
+if (document.form1.nl1.options[8].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
 for(n=0;n<lyricr1.length;n+=1){
 trnn0=lyricr1[n][0];
 trtk0=lyricr1[n][1];
@@ -1272,8 +1274,10 @@ ctx2.fillText(gers1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht
 ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+/*
 }else if (document.form1.nl1.options[8].selected==true){
 ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+*/
 }else if (document.form1.nl1.options[9].selected==true){
 ctx2.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 //tsv finger numbers
@@ -1311,7 +1315,7 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+(start-j)*(szy-my)/(ht1*bttl*pp
 }//for(i=0;)
 
 //smf Lyrics
-if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
+if (document.form1.nl1.options[8].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
 for(n=0;n<lyricr1.length;n+=1){
 trnn0=lyricr1[n][0];
 trtk0=lyricr1[n][1];
@@ -1431,8 +1435,10 @@ ctx2.fillText(gers1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/nt
 ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+/*
 }else if (document.form1.nl1.options[8].selected==true){
 ctx2.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+*/
 }else if (document.form1.nl1.options[9].selected==true){
 ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[10].selected==true){
@@ -1473,7 +1479,7 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(sz
 }//for(i=0;)
 
 //smf Lyrics
-if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
+if (document.form1.nl1.options[8].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
 for(n=0;n<lyricr1.length;n+=1){
 trnn0=lyricr1[n][0];
 trtk0=lyricr1[n][1];
@@ -1593,8 +1599,10 @@ ctx2.fillText(gers1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/nt
 ctx2.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[7].selected==true){
 ctx2.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+/*
 }else if (document.form1.nl1.options[8].selected==true){
 ctx2.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+*/
 }else if (document.form1.nl1.options[9].selected==true){
 ctx2.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }else if (document.form1.nl1.options[10].selected==true){
@@ -1634,7 +1642,7 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(sz
 }//for(i=0;)
 
 //smf Lyrics
-if (document.form1.nl1.options[10].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
+if (document.form1.nl1.options[8].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
 for(n=0;n<lyricr1.length;n+=1){
 trnn0=lyricr1[n][0];
 trtk0=lyricr1[n][1];
