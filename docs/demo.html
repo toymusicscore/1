@@ -636,8 +636,8 @@ demo
 C <span id="channels"></span>
 T <span id="pt"></span>
 P <span id="prgrs"></span>
-<input type="button" name="PL" value="PL" onClick="pdf_l()" style="font-size:100%" >
-<input type="button" name="PP" value="PP" onClick="pdf_p()" style="font-size:100%" >
+<input type="button" name="PDFTitle" value="PT" onClick="pdf_t()" style="font-size:100%" >
+<input type="button" name="PDFScore" value="PS" onClick="pdf_s()" style="font-size:100%" >
 </form>
 <canvas id="cv2" width="1200" height="1300">
 </canvas>
@@ -3952,24 +3952,24 @@ finger1();
 }
 
 
-function pdf_l(){
-	var element		= canvas2;
+function pdf_t(){
+	var element		= document.getElementById("credit").innerHTML;
 	var opt = {
-	margin:       30,
-	filename:     'ToyScore_L.pdf',
+	margin:       100,
+	filename:     'ToyScore_T.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [1100,780], orientation: 'l' }
+	jsPDF:        { unit: 'pt', format: [780,1100], orientation: 'p' }
 	};
 
 	html2pdf().set(opt).from(element).save();
 };
 
-function pdf_p(){
+function pdf_s(){
 	var element		= canvas2;
 	var opt = {
 	margin:       50,
-	filename:     'ToyScore_P.pdf',
+	filename:     'ToyScore_S.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [780,1100], orientation: 'p' }
