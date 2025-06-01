@@ -636,7 +636,8 @@ demo
 C <span id="channels"></span>
 T <span id="pt"></span>
 P <span id="prgrs"></span>
-
+<input type="button" name="PL" value="PL" onClick="pdf_l()" style="font-size:100%" >
+<input type="button" name="PP" value="PP" onClick="pdf_p()" style="font-size:100%" >
 </form>
 <canvas id="cv2" width="1200" height="1300">
 </canvas>
@@ -2297,6 +2298,7 @@ newWin2.document.writeln ('<pre><font color="#000080">Contact           </font>t
 newWin2.document.writeln ('<pre> </pre>');
 newWin2.document.writeln ('<pre>Software Licenses<hr color="#ff0000"></pre>'.fontsize(6));
 newWin2.document.writeln ('<pre> </pre>');
+newWin2.document.writeln ('<pre>PicoAudio.js'.fontsize(5));
 newWin2.document.writeln ('<pre>MIT License</pre>'.fontsize(5));
 newWin2.document.writeln ('<pre> </pre>');
 newWin2.document.writeln ('<pre>Copyright (c) 2017-2021 cagpie / Shun Kobayashi (cagpie@gmail.com)</pre>'.fontsize(5));
@@ -2320,6 +2322,7 @@ newWin2.document.writeln ('<pre>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 newWin2.document.writeln ('<pre>SOFTWARE.</pre>'.fontsize(5));
 newWin2.document.writeln ('<pre> </pre>');
 newWin2.document.writeln ('<pre> </pre>');
+newWin2.document.writeln ('<pre> Tonejs</pre>');
 newWin2.document.writeln ('<pre>[The MIT License](http://opensource.org/licenses/MIT)</pre>'.fontsize(5));
 newWin2.document.writeln ('<pre> </pre>');
 newWin2.document.writeln ('<pre>Copyright © 2016 Yotam Mann</pre>'.fontsize(5));
@@ -2341,6 +2344,19 @@ newWin2.document.writeln ('<pre>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY C
 newWin2.document.writeln ('<pre>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</pre>'.fontsize(5));
 newWin2.document.writeln ('<pre>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</pre>'.fontsize(5));
 newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
+
+newWin2.document.writeln ('<pre>html2pdf'.fontsize(5));
+newWin2.document.writeln ('<pre>The MIT License</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>Copyright (c) 2017-2019 Erik Koopmans <http://www.erik-koopmans.com/></pre>'.fontsize(5));
+
+newWin2.document.writeln ('<pre>jsPDF'.fontsize(5));
+newWin2.document.writeln ('<pre>Copyright (c) 2010-2021 James Hall, https://github.com/MrRio/jsPDF (c) 2015-2021 yWorks GmbH, https://www.yworks.com/</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'.fontsize(5));
+
+newWin2.document.writeln ('<pre>html2canvas'.fontsize(5));
+newWin2.document.writeln ('<pre>Created by Niklas von Hertzen. Licensed under the MIT License.</pre>'.fontsize(5));
 }
 
 
@@ -3933,6 +3949,33 @@ for (p=0;p<rf1.length;p++){
 finger1();
 
 }
+
+
+function pdf_l(){
+	var element		= canvas2;
+	var opt = {
+	margin:       30,
+	filename:     'ToyScore_L.pdf',
+	image:        { type: 'jpeg', quality: 0.95 },
+	html2canvas:  { scale: 2 },
+	jsPDF:        { unit: 'pt', format: [1100,780], orientation: 'l' }
+	};
+
+	html2pdf().set(opt).from(element).save();
+};
+
+function pdf_p(){
+	var element		= canvas2;
+	var opt = {
+	margin:       50,
+	filename:     'ToyScore_P.pdf',
+	image:        { type: 'jpeg', quality: 0.95 },
+	html2canvas:  { scale: 2 },
+	jsPDF:        { unit: 'pt', format: [780,1100], orientation: 'p' }
+	};
+
+	html2pdf().set(opt).from(element).save();
+};
 
 
 function keyw1(){
