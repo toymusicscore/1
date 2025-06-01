@@ -499,7 +499,7 @@ P <span id="prgrs"></span>
 <input type="button" name="PDF_Landscape" value="PL" onClick="pdf_l()" style="font-size:100%" >
 <input type="button" name="PDF_Portrait" value="PP" onClick="pdf_p()" style="font-size:100%" >
 </form>
-<canvas id="cv2" width="1200" height="1300">
+<canvas id="cv2" width="1300" height="1300">
 </canvas>
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script src="https://unpkg.com/tone"></script>
@@ -1014,12 +1014,12 @@ top1();
 
 //scroll landscape
 function scroll1(){
-szx=1200;
+szx=1300;
 szy=760;
 szk=szx-2*mx;
 canvas2.width = szx;
 canvas2.height = 820;
-ctx2.clearRect(0,0,1400,1300);
+ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
@@ -1175,16 +1175,30 @@ ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+(trtk0-j)*(szy-my)/ht1/ppq/b
 
 //scroll portrait
 function scroll2(){
-canvas2.height = 1300;
-szx=900;
+szx=1000;
 szy=1300;
 szk=szx-2*mx;
 canvas2.width = szx;
-canvas2.height = szy;
-ctx2.clearRect(0,0,1400,1300);
+canvas2.height = 1400;
+ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
+
+ctx2.fillStyle="black";
+ctx2.font="12px Arial";
+
+if(tsvi.length<9){
+ctx2.fillText(tsvc[1]+" / "+tsvc[2],50,1312);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,1324);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,1336);
+}else{
+ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,1312);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,1324);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,1336);
+ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,1348);
+ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,1360);
+}
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1323,16 +1337,30 @@ ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+(trtk0-j)*(szy-my)/ht1/ppq/b
 
 //still landscape
 function still1(){
-canvas2.height = 760;
-szx=1400;
+szx=1300;
 szy=760;
 szk=szx-2*mx;
 canvas2.width = szx;
-canvas2.height = szy;
-ctx2.clearRect(0,0,1400,1300);
+canvas2.height = 760;
+ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
+
+ctx2.fillStyle="black";
+ctx2.font="12px Arial";
+
+if(tsvi.length<9){
+ctx2.fillText(tsvc[1]+" / "+tsvc[2],50,772);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,796);
+}else{
+ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,772);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,796);
+ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,808);
+ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,820);
+}
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1485,16 +1513,30 @@ ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+trtk0%(ht1*bttl*ppq/ntvl*4)*
 
 //still portrait
 function still2(){
-canvas2.height = 1300;
-szx=900;
+szx=1000;
 szy=1300;
 szk=szx-2*mx;
 canvas2.width = szx;
-canvas2.height = szy;
-ctx2.clearRect(0,0,1400,1300);
+canvas2.height = 1400;
+ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
+
+ctx2.fillStyle="black";
+ctx2.font="12px Arial";
+
+if(tsvi.length<9){
+ctx2.fillText(tsvc[1]+" / "+tsvc[2],50,1312);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,1324);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,1336);
+}else{
+ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,1312);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,1324);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,1336);
+ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,1348);
+ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,1360);
+}
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -3796,11 +3838,11 @@ finger1();
 function pdf_l(){
 	var element		= canvas2;
 	var opt = {
-	margin:       50,
+	margin:       70,
 	filename:     'ToyScore_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [1200,900], orientation: 'l' }
+	jsPDF:        { unit: 'pt', format: [1150,850], orientation: 'l' }
 	};
 
 	html2pdf().set(opt).from(element).save();
@@ -3809,11 +3851,11 @@ function pdf_l(){
 function pdf_p(){
 	var element		= canvas2;
 	var opt = {
-	margin:       50,
+	margin:       70,
 	filename:     'ToyScore_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [780,1100], orientation: 'p' }
+	jsPDF:        { unit: 'pt', format: [900,1200], orientation: 'p' }
 	};
 
 	html2pdf().set(opt).from(element).save();
