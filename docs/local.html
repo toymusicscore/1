@@ -496,13 +496,11 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 C <span id="channels"></span>
 T <span id="pt"></span>
 P <span id="prgrs"></span>
-<input type="button" name="PDFTitle" value="PT" onClick="pdf_t()" style="font-size:100%" >
-<input type="button" name="PDFScore" value="PS" onClick="pdf_s()" style="font-size:100%" >
+<input type="button" name="PDF_Landscape" value="PL" onClick="pdf_l()" style="font-size:100%" >
+<input type="button" name="PDF_Portrait" value="PP" onClick="pdf_p()" style="font-size:100%" >
 </form>
 <canvas id="cv2" width="1200" height="1300">
 </canvas>
-<div id="credit" style="font-size:50%">
-</div>
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script src="https://unpkg.com/tone"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1008,47 +1006,6 @@ for (i=0;i<tsv0.length;i++){
 }
 tsvst0=1;
 
-if(tsvi.length<9){
-ctx2.fillText(tsvc[1],10,710);
-ctx2.fillText(tsvc[2],10,740);
-ctx2.fillText(tsvi[3]+" : <a href="+tsvi[3]+">"+tsvi[3]+"</a>",10,770);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" <a href="+tsvc[5]+">"+tsvc[5]+"</a>",10,800);
-ctx2.fillText(tsvi[6]+" : "+tsvc[6],10,830);
-ctx2.fillText(tsvi[7]+" : "+tsvc[7],10,860);
-}else{
-ctx2.fillText(tsvc[1],10,710);
-ctx2.fillText(tsvc[2],10,740);
-ctx2.fillText(tsvi[3]+" : <a href="+tsvi[3]+">"+tsvi[3]+"</a>",10,770);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" <a href="+tsvc[5]+">"+tsvc[5]+"</a>",10,800);
-ctx2.fillText(tsvi[6]+" : "+tsvc[6],10,830);
-ctx2.fillText(tsvi[7]+" "+tsvc[7],10,860);
-ctx2.fillText(tsvi[8]+" <a href="+tsvc[8]+">"+tsvc[8]+"</a>",10,890);
-ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" <a href="+tsvc[10]+">"+tsvc[10]+"</a>",10,920);
-ctx2.fillText(tsvi[11]+" : "+tsvc[11],10,950);
-ctx2.fillText(tsvi[12]+" : "+tsvc[12],10,980);
-}
-
-/*document.getElementById("credit").innerHTML=
-	tsvc[1]+
-	"<br>"+tsvi[2]+" "+tsvc[2]+
-	"<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
-	"<br>"+tsvi[4]+" : "+tsvc[4]+" <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
-	"<br>"+tsvi[6]+" : "+tsvc[6]+
-	"<br>"+tsvi[7]+" : "+tsvc[7];
-}else{
-	document.getElementById("credit").innerHTML=
-	tsvc[1]+
-	"<br>"+tsvi[2]+" "+tsvc[2]+
-	"<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
-	"<br>"+tsvi[4]+" : "+tsvc[4]+" <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
-	"<br>"+tsvi[6]+" : "+tsvc[6]+
-	"<br>"+tsvi[7]+" "+tsvc[7]+
-	"<br>"+tsvi[8]+" <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
-	"<br>"+tsvi[9]+" : "+tsvc[9]+" <a href="+tsvc[10]+">"+tsvc[10]+"</a>"+
-	"<br>"+tsvi[11]+" : "+tsvc[11]+
-	"<br>"+tsvi[12]+" : "+tsvc[12];
-*/
-
 
 top1();
 
@@ -1057,16 +1014,29 @@ top1();
 
 //scroll landscape
 function scroll1(){
-canvas2.height = 760;
-szx=1400;
+szx=1200;
 szy=760;
 szk=szx-2*mx;
 canvas2.width = szx;
-canvas2.height = szy;
+canvas2.height = 820;
 ctx2.clearRect(0,0,1400,1300);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
+ctx2.fillStyle="black";
+ctx2.font="12px Arial";
+
+if(tsvi.length<9){
+ctx2.fillText(tsvc[1]+" / "+tsvc[2],50,772);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,796);
+}else{
+ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,772);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,796);
+ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,808);
+ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,820);
+}
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -3823,24 +3793,24 @@ finger1();
 
 
 
-function pdf_t(){
-	var element		= document.getElementById("credit").innerHTML;
+function pdf_l(){
+	var element		= canvas2;
 	var opt = {
-	margin:       100,
-	filename:     'ToyScore_T.pdf',
+	margin:       50,
+	filename:     'ToyScore_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [780,1100], orientation: 'p' }
+	jsPDF:        { unit: 'pt', format: [1200,900], orientation: 'l' }
 	};
 
 	html2pdf().set(opt).from(element).save();
 };
 
-function pdf_s(){
+function pdf_p(){
 	var element		= canvas2;
 	var opt = {
 	margin:       50,
-	filename:     'ToyScore_S.pdf',
+	filename:     'ToyScore_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [780,1100], orientation: 'p' }
