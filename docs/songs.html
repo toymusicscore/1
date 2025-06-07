@@ -4,147 +4,31 @@
 <meta charaset="UTF-8"/>
 </head>
 <title>
-index
+graph
 </title>
 <body bgcolor=white>
 <basefont face="Arial">
-<h1>
-    <font face="Arial">
-        <font color="ff0000">T</font><font color="ff7f00">o</font><font color="ffff00">y</font><font color="00ff00">S</font><font color="00ffff">c</font><font color="0000ff">o</font><font color="ff00ff">r</font><font color="ff007f">e</font>
-        </font>
-    </h1>
-<hr color="#ff0000">
-<h2>
-<font face="Arial"><font color="ff0000">T</font><font color="ff7f00">o</font><font color="ffff00">y</font><font color="00ff00">S</font><font color="00ffff">c</font><font color="0000ff">o</font><font color="ff00ff">r</font><font color="ff007f">e</font></font> is a piano roll score on a software keyboard. <br><br>
-You can see note names, fingering, lylics, memos and more to set on the notes.<br> 
-You can hear the sound of the notes when you tap the notes on your smartphone or tablet pc.<br>
-You can learn how to play the piano by tracing the notes on the screen.<br>
-
-<br>
 <form name="form1" >
-ID 
-<br>
-<input type="tel"  name="x_id" value="" size="20" style="font-size:100%" >
-<br>
-PW
-<br>
-<input type="password"    name="x_pw" value="" size="20" style="font-size:100%" >
-<br>
-<br>
-<input type="button" name="b_demo2" value="Log in 1" onClick="login1()" style="font-size:100%" >
-<br>
-<br>
-<input type="button" name="b_local" value="Log in 2" onClick="login2()" style="font-size:100%" >
-<br>
-<br>
-<input type="button" name="b_pdf" value="Log in 3" onClick="login3()" style="font-size:100%" >
-<br>
-<br>
-By using this site, you agree to our  
-<a href='https://www.termsfeed.com/live/422508a1-a000-4589-a0bd-f304fdd080b9'>Privacy Policy</a> and 
-<a href='https://www.termsfeed.com/live/b5ade0db-225b-4e7d-9dfb-daecd80a5a5d'>Terms and Conditions</a>.
-<br>
-</h2>
-<h4>
-&copy2023
-    <font face="Arial">
-    <font color="ff0000">T</font><font color="ff7f00">o</font><font color="ffff00">y</font><font color="00ff00">S</font><font color="00ffff">c</font><font color="0000ff">o</font><font color="ff00ff">r</font><font color="ff007f">e</font>
-    </font>
-</h4>
+    <input type="tel" name="d0">
+    <input type="tel" name="d1">
+    <input type="tel" name="d2">
+    <input type="tel" name="d3">
+    <input type="tel" name="d4">
+    <input type="tel" name="d5">
 </form>
+<canvas id="canvas1" width="400" height="300">
+</canvas>
 <script>
-
-function login1(){
-let t_id = document.form1.x_id.value;
-let t_pw = document.form1.x_pw.value;
-
-async function digestMessage(message) {
-
-    const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-    return hashHex;
-}
-
-(async() => {
-
-    let d_id = await digestMessage(t_id);
-    let d_pw = await digestMessage(t_pw);
-
-    if (d_id=="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" 
-&& d_pw=="b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"){
-    location.href="demo.html"
-}else{
-    alert('Invalid ID or PW');
-}
-
-})();
-
-
-}
-
-function login2(){
-let t_id = document.form1.x_id.value;
-let t_pw = document.form1.x_pw.value;
-
-async function digestMessage(message) {
-
-    const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-    return hashHex;
-}
-
-(async() => {
-
-    let d_id = await digestMessage(t_id);
-    let d_pw = await digestMessage(t_pw);
-
-    if (d_id=="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" 
-&& d_pw=="b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"){
-    location.href="local.html"
-}else{
-    alert('Invalid ID or PW');
-}
-
-})();
-
-
-}
-
-function login3(){
-let t_id = document.form1.x_id.value;
-let t_pw = document.form1.x_pw.value;
-
-async function digestMessage(message) {
-
-    const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-    return hashHex;
-}
-
-(async() => {
-
-    let d_id = await digestMessage(t_id);
-    let d_pw = await digestMessage(t_pw);
-
-    if (d_id=="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" 
-&& d_pw=="b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"){
-    location.href="data/JSB_Invention13.pdf"
-}else{
-    alert('Invalid ID or PW');
-}
-
-})();
-
-
-}
-
-
+var canvas=document.getElementById("canvas1")
+var ctx=canvas.getContext("2d")
+ctx.fillStyle="red"
+//for(i=0; i<9; i++){
+ctx.fillRect(10,10,10,10)
+ctx.fillRect(60,10,60,20)
+ctx.fillRect(110,10,110,30)
+ctx.fillRect(160,10,160,40)
+ctx.fillRect(210,10,210,50)
+//}
 </script>
 </body>
 </html>
