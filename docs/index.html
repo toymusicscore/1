@@ -37,6 +37,9 @@ PW
 <input type="button" name="b_local" value="Log in 2" onClick="login2()" style="font-size:100%" >
 <br>
 <br>
+<input type="button" name="b_pdf" value="Log in 3" onClick="login3()" style="font-size:100%" >
+<br>
+<br>
 By using this site, you agree to our  
 <a href='https://www.termsfeed.com/live/422508a1-a000-4589-a0bd-f304fdd080b9'>Privacy Policy</a> and 
 <a href='https://www.termsfeed.com/live/b5ade0db-225b-4e7d-9dfb-daecd80a5a5d'>Terms and Conditions</a>.
@@ -102,6 +105,36 @@ async function digestMessage(message) {
     if (d_id=="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" 
 && d_pw=="b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"){
     location.href="local.html"
+}else{
+    alert('Invalid ID or PW');
+}
+
+})();
+
+
+}
+
+function login3(){
+let t_id = document.form1.x_id.value;
+let t_pw = document.form1.x_pw.value;
+
+async function digestMessage(message) {
+
+    const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+    return hashHex;
+}
+
+(async() => {
+
+    let d_id = await digestMessage(t_id);
+    let d_pw = await digestMessage(t_pw);
+
+    if (d_id=="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" 
+&& d_pw=="b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"){
+    location.href="JSB_Invention13.pdf"
 }else{
     alert('Invalid ID or PW');
 }
