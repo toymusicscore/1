@@ -226,7 +226,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="16" style="font-size:100%"> Fingering Recorder</option>
 	<option value="17" style="font-size:100%"> Fingering Downloader</option>
 	<option value="18" style="font-size:100%"> MIDI TSV Downloader</option>
-	<option value="19" style="font-size:100%"> Cover Image</option>
+	<option value="19" style="font-size:100%"> Cover L</option>
+	<option value="20" style="font-size:100%"> Cover P</option>
 	</select>
 	
 <br>
@@ -3953,7 +3954,7 @@ function pdf_l(){
 	filename:     'ToyScore_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [1150,900], orientation: 'l' }
+	jsPDF:        { unit: 'pt', format: [1100,760], orientation: 'l' }
 	};
 
 	html2pdf().set(opt).from(element).save();
@@ -5502,9 +5503,9 @@ if(keyrp10_4[0][0]>keyrp10_4[1][0]){
 }
 
 
-function cover1(){
+function cover_L(){
 ctx2.clearRect(0,0,1400,1400);
-canvas2.height = 1000;
+canvas2.height = 760;
 
 ctx2.font="30px Arial";
 ctx2.fillStyle="black";
@@ -5512,23 +5513,23 @@ ctx2.fillText("12-Colors Piano Roll Score",50,100);
 ctx2.fillText("For Solfege and Fingering",50,140);
 
 ctx2.fillStyle="#ff0000";
-ctx2.fillText("T",50,900);
+ctx2.fillText("T",50,700);
 ctx2.fillStyle="#ff7f00";
-ctx2.fillText("o",67,900);
+ctx2.fillText("o",67,700);
 ctx2.fillStyle="#ffff00";
-ctx2.fillText("y",84,900);
+ctx2.fillText("y",84,700);
 ctx2.fillStyle="#00ff00";
-ctx2.fillText("S",101,900);
+ctx2.fillText("S",101,700);
 ctx2.fillStyle="#00ffff";
-ctx2.fillText("c",122,900);
+ctx2.fillText("c",122,700);
 ctx2.fillStyle="#0000ff";
-ctx2.fillText("o",139,900);
+ctx2.fillText("o",139,700);
 ctx2.fillStyle="#ff00ff";
-ctx2.fillText("r",156,900);
+ctx2.fillText("r",156,700);
 ctx2.fillStyle="#ff007f";
-ctx2.fillText("e",167,900);
+ctx2.fillText("e",167,700);
 ctx2.fillStyle="black";
-ctx2.fillText("https://www.toyscore.app",50,930);
+ctx2.fillText("https://www.toyscore.app",50,730);
 
 
 
@@ -5536,11 +5537,67 @@ if(tsvi.length<9){
 ctx2.font="50px Arial";
 ctx2.fillText(tsvc[1],50,300);
 ctx2.font="30px Arial";
-ctx2.fillText(tsvc[2],50,750);
+ctx2.fillText(tsvc[2],50,550);
 ctx2.font="15px Arial";
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,800);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5],50,820);
-ctx2.fillText(tsvc[6]+"  "+tsvc[7],50,840);
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,600);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5],50,620);
+ctx2.fillText(tsvc[6]+"  "+tsvc[7],50,640);
+
+}else{
+ctx2.font="50px Arial";
+ctx2.fillText(tsvc[1],50,100);
+ctx2.font="30px Arial";
+ctx2.fillText(tsvi[2]+" : "+tsvc[2],50,400);
+ctx2.fillText(tsvi[7]+" : "+tsvc[7],50,450);
+ctx2.font="15px Arial";
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,600);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4],50,620);
+ctx2.fillText(tsvc[5]+" "+tsvc[6],50,640);
+ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,640);
+ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10],50,660);
+ctx2.fillText(tsvc[11]+" "+tsvc[12],50,680);
+
+}
+
+}
+
+function cover_P(){
+ctx2.clearRect(0,0,1400,1400);
+canvas2.height = 900;
+
+ctx2.font="30px Arial";
+ctx2.fillStyle="black";
+ctx2.fillText("12-Colors Piano Roll Score",50,100);
+ctx2.fillText("For Solfege and Fingering",50,140);
+
+ctx2.fillStyle="#ff0000";
+ctx2.fillText("T",50,800);
+ctx2.fillStyle="#ff7f00";
+ctx2.fillText("o",67,800);
+ctx2.fillStyle="#ffff00";
+ctx2.fillText("y",84,800);
+ctx2.fillStyle="#00ff00";
+ctx2.fillText("S",101,800);
+ctx2.fillStyle="#00ffff";
+ctx2.fillText("c",122,800);
+ctx2.fillStyle="#0000ff";
+ctx2.fillText("o",139,800);
+ctx2.fillStyle="#ff00ff";
+ctx2.fillText("r",156,800);
+ctx2.fillStyle="#ff007f";
+ctx2.fillText("e",167,800);
+ctx2.fillStyle="black";
+ctx2.fillText("https://www.toyscore.app",50,830);
+
+if(tsvi.length<9){
+ctx2.font="50px Arial";
+ctx2.fillText(tsvc[1],50,300);
+ctx2.font="30px Arial";
+ctx2.fillText(tsvc[2],50,650);
+ctx2.font="15px Arial";
+ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,700);
+ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5],50,720);
+ctx2.fillText(tsvc[6]+"  "+tsvc[7],50,740);
 
 }else{
 ctx2.font="50px Arial";
@@ -5877,7 +5934,9 @@ downloadFile('Fingering.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponen
 }else if(document.form1.sv1.options[18].selected==true){
 download1();
 }else if(document.form1.sv1.options[19].selected==true){
-cover1();
+cover_L();
+}else if(document.form1.sv1.options[20].selected==true){
+cover_P();
 }
 
 }
