@@ -366,8 +366,8 @@ demo
 	<option value="16" style="font-size:100%"> Fingering Recorder</option>
 	<option value="17" style="font-size:100%"> Fingering Downloader</option>
 	<option value="18" style="font-size:100%"> MIDI TSV Downloader</option>
-	<option value="19" style="font-size:100%"> Cover L</option>
-	<option value="19" style="font-size:100%"> Cover P</option>
+	<option value="19" style="font-size:100%"> Cover Landscape</option>
+	<option value="20" style="font-size:100%"> Cover Portrait</option>
 	</select>
 
 	<br>
@@ -1171,40 +1171,22 @@ ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
 
-ctx2.font="15px Arial";
-ctx2.fillStyle="#ff0000";
-ctx2.fillText("T",1050,780);
-ctx2.fillStyle="#ff7f00";
-ctx2.fillText("o",1058,780);
-ctx2.fillStyle="#ffff00";
-ctx2.fillText("y",1066,780);
-ctx2.fillStyle="#00ff00";
-ctx2.fillText("S",1074,780);
-ctx2.fillStyle="#00ffff";
-ctx2.fillText("c",1084,780);
-ctx2.fillStyle="#0000ff";
-ctx2.fillText("o",1092,780);
-ctx2.fillStyle="#ff00ff";
-ctx2.fillText("r",1100,780);
-ctx2.fillStyle="#ff007f";
-ctx2.fillText("e",1105,780);
-ctx2.fillStyle="black";
-ctx2.fillText("https://www.toyscore.app",1050,800);
-
 
 ctx2.fillStyle="black";
 ctx2.font="12px Arial";
 
 if(tsvi.length<9){
-ctx2.fillText(tsvc[1]+" / "+tsvc[2],50,772);
+ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2],50,772);
 ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
 ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,796);
+ctx2.fillText("Design Source : https://www.toyscore.app",50,808);
 }else{
 ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,772);
 ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
 ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,796);
 ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,808);
 ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,820);
+ctx2.fillText("Design Source : https://www.toyscore.app",50,832);
 }
 
 for(l=0;l<Number(kn);l++){
@@ -2440,8 +2422,8 @@ newWin2.document.writeln ('<pre><font color="#006400">Fingering Assistant  </fon
 newWin2.document.writeln ('<pre><font color="#006400">Fingering Recorder   </font>It records fingering automatically.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">Fingering Downloader </font>Click to download fingering data.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">MIDI TSV Downloader  </font>Click to download MIDI and TSV files.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Cover L              </font>Click to show cover landscape image.</font></pre>'.fontsize(5));
-newWin2.document.writeln ('<pre><font color="#006400">Cover P              </font>Click to show cover portrait image.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Cover Landscape      </font>Click to show cover landscape image.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Cover Portrait       </font>Click to show cover portrait image.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">PL                   </font>Click to download pdf for landscape screen.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#006400">PP                   </font>Click to download pdf for portrait screen.</font></pre>'.fontsize(5));
 newWin2.document.writeln ('<pre><font color="#000000">MIDI                 </font>MIDI is a trademark of The MIDI Manufacturers Association Inc., resistered in countries </font></pre>'.fontsize(5));
