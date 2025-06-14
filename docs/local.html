@@ -1688,7 +1688,6 @@ ctx2.font="25px Arial";
 		r3i1=i;
 		let [n,h_from,h_to]=r3[i]
 		j=h_from;
-		alert(j);
 
 		document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 		document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
@@ -1698,18 +1697,17 @@ ctx2.font="25px Arial";
 		});
 
 		wait1=60000/document.form1.x_bpm.value*(r3w[2]-r3w[1])/ppq;
-		alert(wait1);
-/*
+
 		if(document.form1.sv1.options[0].selected==true){
-			scroll1();
+		scroll1();
 		}else if(document.form1.sv1.options[1].selected==true){
-			scroll2();
+		scroll2();
 		}else if(document.form1.sv1.options[2].selected==true){
-			still1();
+		still1();
 		}else if(document.form1.sv1.options[3].selected==true){
-			still2();
+		still2();
 		}
-*/
+
 		await new Promise(r => timer=setTimeout(r,wait1));
 
 	}
