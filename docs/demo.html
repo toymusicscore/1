@@ -642,6 +642,8 @@ P <span id="prgrs"></span>
 </form>
 <canvas id="cv2" width="1400" height="1400">
 </canvas>
+<div id="credit" style="font-size:50%">
+</div>
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script src="https://unpkg.com/tone"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1154,6 +1156,32 @@ for (i=0;i<tsv0.length;i++){
 }
 tsvst0=1;
 
+if(tsvi.length<9){
+    document.getElementById("credit").innerHTML=
+    tsvi[1]+" : "+tsvc[1]+
+    "<br>"+tsvi[2]+" : "+tsvc[2]+
+    "<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+    "<br>"+tsvi[4]+" : "+tsvc[4]+
+	"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
+    "<br>"+tsvi[6]+" : "+tsvc[6]+
+    "<br>"+tsvi[7]+" : "+tsvc[7];
+}else{
+    document.getElementById("credit").innerHTML=
+    tsvi[1]+" : "+tsvc[1]+
+    "<br>"+tsvi[2]+" : "+tsvc[2]+
+    "<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+    "<br>"+tsvi[4]+" : "+tsvc[4]+
+	"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
+    "<br>"+tsvi[6]+" : "+tsvc[6]+
+    "<br>"+tsvi[7]+" : "+tsvc[7]+
+    "<br>"+tsvi[8]+" : <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
+    "<br>"+tsvi[9]+" : "+tsvc[9]+
+	"<br>"+tsvi[10]+" : <a href="+tsvc[10]+">"+tsvc[10]+"</a>"+
+    "<br>"+tsvi[11]+" : "+tsvc[11]+
+    "<br>"+tsvi[12]+" : "+tsvc[12];
+}
+
+
 top1();
 
 }
@@ -1161,33 +1189,15 @@ fetch1();
 
 //scroll landscape
 function scroll1(){
-szx=1300;
-szy=760;
+szx=1200;
+szy=850;
 szk=szx-2*mx;
 canvas2.width = szx;
-canvas2.height = 820;
+canvas2.height = szy;
 ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
-
-
-ctx2.fillStyle="black";
-ctx2.font="12px Arial";
-
-if(tsvi.length<9){
-ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2],50,772);
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,796);
-ctx2.fillText("Design Source : https://www.toyscore.app",50,808);
-}else{
-ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,772);
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,796);
-ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,808);
-ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,820);
-ctx2.fillText("Design Source : https://www.toyscore.app",50,832);
-}
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1204,16 +1214,6 @@ ctx2.moveTo(mx+l*kw,0);
 ctx2.lineTo(mx+l*kw,szy);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
-ctx2.fillStyle="black";
-ctx2.font="25px Arial";
-if (document.form1.nl1.options[9].selected==true){
-ctx2.fillText(k,mx+l*kw,my/2);
-}else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(k.toString(12),mx+l*kw,my/2);
-}else {
-ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
-}
-
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -1245,14 +1245,8 @@ ctx2.stroke();
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
-
-if(stop<j+ht1*ppq*bttl){
-	gt=stop-start;
-}else{
-	gt=j+ht1*ppq*bttl-start;
-}
-
-if(start>=j && start<j+ht1*ppq*bttl){
+gt=stop-start;
+if(start>=j && start<j+ht1*ppq*bttl/ntvl*4){
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
@@ -1331,51 +1325,15 @@ ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+(trtk0-j)*(szy-my)/ht1/ppq/b
 
 //scroll portrait
 function scroll2(){
-szx=1000;
+szx=900;
 szy=1300;
 szk=szx-2*mx;
 canvas2.width = szx;
-canvas2.height = 1400;
+canvas2.height = szy;
 ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
-
-ctx2.font="15px Arial";
-ctx2.fillStyle="#ff0000";
-ctx2.fillText("T",750,1320);
-ctx2.fillStyle="#ff7f00";
-ctx2.fillText("o",758,1320);
-ctx2.fillStyle="#ffff00";
-ctx2.fillText("y",766,1320);
-ctx2.fillStyle="#00ff00";
-ctx2.fillText("S",774,1320);
-ctx2.fillStyle="#00ffff";
-ctx2.fillText("c",784,1320);
-ctx2.fillStyle="#0000ff";
-ctx2.fillText("o",792,1320);
-ctx2.fillStyle="#ff00ff";
-ctx2.fillText("r",800,1320);
-ctx2.fillStyle="#ff007f";
-ctx2.fillText("e",805,1320);
-ctx2.fillStyle="black";
-ctx2.fillText("https://www.toyscore.app",750,1340);
-
-ctx2.fillStyle="black";
-ctx2.font="12px Arial";
-
-if(tsvi.length<9){
-ctx2.fillText(tsvc[1]+" / "+tsvc[2],50,1312);
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,1324);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,1336);
-}else{
-ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,1312);
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,1324);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,1336);
-ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,1348);
-ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,1360);
-}
-
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1393,15 +1351,6 @@ ctx2.moveTo(mx+l*kw,0);
 ctx2.lineTo(mx+l*kw,szy);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
-ctx2.fillStyle="black";
-ctx2.font="25px Arial";
-if (document.form1.nl1.options[9].selected==true){
-ctx2.fillText(k,mx+l*kw,my/2);
-}else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(k.toString(12),mx+l*kw,my/2);
-}else {
-ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
-}
 }else if (k%12===5){
 ctx2.beginPath();
 ctx2.moveTo(mx+l*kw,0);
@@ -1436,12 +1385,8 @@ ctx2.stroke();
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
-if(stop<j+ht1*ppq*bttl){
-	gt=stop-start;
-}else{
-	gt=j+ht1*ppq*bttl-start;
-}
-if(start>=j && start<j+ht1*ppq*bttl){
+gt=stop-start;
+if(start>=j && start<j+ht1*ppq*bttl/ntvl*4){
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
@@ -1521,50 +1466,15 @@ ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+(trtk0-j)*(szy-my)/ht1/ppq/b
 
 //still landscape
 function still1(){
-szx=1300;
-szy=760;
+szx=1200;
+szy=850;
 szk=szx-2*mx;
 canvas2.width = szx;
-canvas2.height = 820;
+canvas2.height = szy;
 ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
-
-ctx2.font="15px Arial";
-ctx2.fillStyle="#ff0000";
-ctx2.fillText("T",1050,780);
-ctx2.fillStyle="#ff7f00";
-ctx2.fillText("o",1058,780);
-ctx2.fillStyle="#ffff00";
-ctx2.fillText("y",1066,780);
-ctx2.fillStyle="#00ff00";
-ctx2.fillText("S",1074,780);
-ctx2.fillStyle="#00ffff";
-ctx2.fillText("c",1084,780);
-ctx2.fillStyle="#0000ff";
-ctx2.fillText("o",1092,780);
-ctx2.fillStyle="#ff00ff";
-ctx2.fillText("r",1100,780);
-ctx2.fillStyle="#ff007f";
-ctx2.fillText("e",1105,780);
-ctx2.fillStyle="black";
-ctx2.fillText("https://www.toyscore.app",1050,800);
-
-ctx2.fillStyle="black";
-ctx2.font="12px Arial";
-
-if(tsvi.length<9){
-ctx2.fillText(tsvc[1]+" / "+tsvc[2],50,772);
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,796);
-}else{
-ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,772);
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,784);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,796);
-ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,808);
-ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,820);
-}
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1722,50 +1632,15 @@ ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+trtk0%(ht1*bttl*ppq/ntvl*4)*
 
 //still portrait
 function still2(){
-szx=1000;
+szx=900;
 szy=1300;
 szk=szx-2*mx;
 canvas2.width = szx;
-canvas2.height = 1400;
+canvas2.height = szy;
 ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
-
-ctx2.font="15px Arial";
-ctx2.fillStyle="#ff0000";
-ctx2.fillText("T",750,1320);
-ctx2.fillStyle="#ff7f00";
-ctx2.fillText("o",758,1320);
-ctx2.fillStyle="#ffff00";
-ctx2.fillText("y",766,1320);
-ctx2.fillStyle="#00ff00";
-ctx2.fillText("S",774,1320);
-ctx2.fillStyle="#00ffff";
-ctx2.fillText("c",784,1320);
-ctx2.fillStyle="#0000ff";
-ctx2.fillText("o",792,1320);
-ctx2.fillStyle="#ff00ff";
-ctx2.fillText("r",800,1320);
-ctx2.fillStyle="#ff007f";
-ctx2.fillText("e",805,1320);
-ctx2.fillStyle="black";
-ctx2.fillText("https://www.toyscore.app",750,1340);
-
-ctx2.fillStyle="black";
-ctx2.font="12px Arial";
-
-if(tsvi.length<9){
-ctx2.fillText(tsvc[1]+" / "+tsvc[2],50,1312);
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,1324);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6]+" "+tsvc[7],50,1336);
-}else{
-ctx2.fillText(tsvc[1]+" / "+tsvi[2]+" "+tsvc[2]+" / "+tsvi[7]+" "+tsvc[7],50,1312);
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,1324);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4]+" "+tsvc[5]+" "+tsvc[6],50,1336);
-ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,1348);
-ctx2.fillText(tsvi[9]+" : "+tsvc[9]+" "+tsvc[10]+" "+tsvc[11]+" "+tsvc[12],50,1360);
-}
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1836,12 +1711,14 @@ ctx2.stroke();
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
-if(start<j+ht1*ppq*bttl-j%(ht1*ppq*bttl) && stop<j+ht1*ppq*bttl-j%(ht1*ppq*bttl)){
+if(start<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)){
 	gt=stop-start;
-}else if(start<j+ht1*ppq*bttl-j%(ht1*ppq*bttl) && stop>=j+ht1*ppq*bttl-j%(ht1*ppq*bttl)){
-	gt=j+ht1*ppq*bttl-j%(ht1*ppq*bttl)-start;
-}else if(start>=j+ht1*ppq*bttl-j%(ht1*ppq*bttl) && start>=j+ht1*ppq*bttl-j%(ht1*ppq*bttl)){
-	gt=Math.min(stop-start, j+ht1*bttl*ppq/ntvl*3-start);
+}else if(start<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)){
+	gt=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)-start;
+}else if(start>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop<j+ht1*bttl*ppq/ntvl*3){
+	gt=stop-start;
+}else if(start>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+ht1*bttl*ppq/ntvl*3){
+	gt=j+ht1*bttl*ppq/ntvl*3-start;
 }
 if(start>=j && start<j+ht1*bttl*ppq/ntvl*3){
 ctx2.fillStyle=col[midi%12];
