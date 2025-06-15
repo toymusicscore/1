@@ -1553,12 +1553,14 @@ ctx2.stroke();
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
-if(start<j+ht1*ppq*bttl-j%(ht1*ppq*bttl) && stop<j+ht1*ppq*bttl-j%(ht1*ppq*bttl)){
+if(start<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)){
 	gt=stop-start;
-}else if(start<j+ht1*ppq*bttl-j%(ht1*ppq*bttl) && stop>=j+ht1*ppq*bttl-j%(ht1*ppq*bttl)){
-	gt=j+ht1*ppq*bttl-j%(ht1*ppq*bttl)-start;
-}else if(start>=j+ht1*ppq*bttl-j%(ht1*ppq*bttl) && start>=j+ht1*ppq*bttl-j%(ht1*ppq*bttl)){
-	gt=Math.min(stop-start, j+ht1*bttl*ppq/ntvl*3-start);
+}else if(start<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)){
+	gt=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)-start;
+}else if(start>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop<j+ht1*bttl*ppq/ntvl*3){
+	gt=stop-start;
+}else if(start>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+ht1*bttl*ppq/ntvl*3){
+	gt=j+ht1*bttl*ppq/ntvl*3-start;
 }
 if(start>=j && start<j+ht1*bttl*ppq/ntvl*3){
 ctx2.fillStyle=col[midi%12];
