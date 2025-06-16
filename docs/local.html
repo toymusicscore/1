@@ -1314,6 +1314,10 @@ ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
 
+ctx2.fillStyle="black";
+ctx2.font="15px Arial";
+ctx2.fillText(tsvc[1],0,15);
+
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
@@ -1326,22 +1330,13 @@ ctx2.fillStyle="lightgrey";
 ctx2.fillRect(mx+l*kw,my,kw,szy-my);
 }else if (k%12===0){
 ctx2.beginPath();
-ctx2.moveTo(mx+l*kw,0);
+ctx2.moveTo(mx+l*kw,my/2);
 ctx2.lineTo(mx+l*kw,szy);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
-ctx2.fillStyle="black";
-ctx2.font="25px Arial";
-if (document.form1.nl1.options[9].selected==true){
-ctx2.fillText(k,mx+l*kw,my/2);
-}else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(k.toString(12),mx+l*kw,my/2);
-}else {
-ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
-}
 }else if (k%12===5){
 ctx2.beginPath();
-ctx2.moveTo(mx+l*kw,0);
+ctx2.moveTo(mx+l*kw,my/2);
 ctx2.lineTo(mx+l*kw,szy);
 ctx2.strokeStyle="red";
 ctx2.stroke();
@@ -1472,6 +1467,10 @@ ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=szk/kn;
 
+ctx2.fillStyle="black";
+ctx2.font="15px Arial";
+ctx2.fillText(tsvc[1],0,15);
+
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
@@ -1484,22 +1483,13 @@ ctx2.fillStyle="lightgrey";
 ctx2.fillRect(mx+l*kw,my,kw,szy-my);
 }else if (k%12===0){
 ctx2.beginPath();
-ctx2.moveTo(mx+l*kw,0);
+ctx2.moveTo(mx+l*kw,my/2);
 ctx2.lineTo(mx+l*kw,szy);
 ctx2.strokeStyle="blue";
 ctx2.stroke();
-ctx2.fillStyle="black";
-ctx2.font="25px Arial";
-if (document.form1.nl1.options[9].selected==true){
-ctx2.fillText(k,mx+l*kw,my/2);
-}else if (document.form1.nl1.options[8].selected==true){
-ctx2.fillText(k.toString(12),mx+l*kw,my/2);
-}else {
-ctx2.fillText("C"+(k/12-1),mx+l*kw,my/2);
-}
 }else if (k%12===5){
 ctx2.beginPath();
-ctx2.moveTo(mx+l*kw,0);
+ctx2.moveTo(mx+l*kw,my/2);
 ctx2.lineTo(mx+l*kw,szy);
 ctx2.strokeStyle="red";
 ctx2.stroke();
