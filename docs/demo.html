@@ -1106,8 +1106,6 @@ parsedData.beatTrack.forEach(beatTrack => {
 r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
 });
 
-//lyrics1();
-
 tsv0=[];
 tsvi=[];
 tsvc=[];
@@ -1316,17 +1314,6 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+(start-j)*(szy-my)/(ht1*bttl*pp
 }//if(100+stop>j..)
 }//for(i=0;)
 
-//smf Lyrics
-if (document.form1.nl1.options[28].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
-for(n=0;n<lyricr1.length;n+=1){
-trnn0=lyricr1[n][0];
-trtk0=lyricr1[n][1];
-lyrict0=lyricr1[n][3];
-ctx2.fillStyle="black";
-ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+(trtk0-j)*(szy-my)/ht1/ppq/bttl*ntvl/4);
-}//for(n=0..)
-}
-
 }
 
 //scroll portrait
@@ -1460,17 +1447,6 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+(start-j)*(szy-my)/(ht1*bttl*pp
 
 }//if(100+stop>j..)
 }//for(i=0;)
-
-//smf Lyrics
-if (document.form1.nl1.options[28].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<=j+ht1*bttl*ppq/ntvl*4){
-for(n=0;n<lyricr1.length;n+=1){
-trnn0=lyricr1[n][0];
-trtk0=lyricr1[n][1];
-lyrict0=lyricr1[n][3];
-ctx2.fillStyle="black";
-ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+(trtk0-j)*(szy-my)/ht1/ppq/bttl*ntvl/4);
-}//for(n=0..)
-}
 
 }
 
@@ -1629,17 +1605,6 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(sz
 }//if(stop>j..)
 }//for(i=0;)
 
-//smf Lyrics
-if (document.form1.nl1.options[28].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
-for(n=0;n<lyricr1.length;n+=1){
-trnn0=lyricr1[n][0];
-trtk0=lyricr1[n][1];
-lyrict0=lyricr1[n][3];
-ctx2.fillStyle="black";
-ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+trtk0%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-}//for(n=0..)
-}
-
 }
 
 //still portrait
@@ -1797,17 +1762,6 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(sz
 
 }//if(stop>j..)
 }//for(i=0;)
-
-//smf Lyrics
-if (document.form1.nl1.options[28].selected==true && lyricr1[n]!=undefined && lyricr1[n][2]>=j && lyricr1[n][1]<j+(ht1-1)*bttl*ppq/ntvl*4){
-for(n=0;n<lyricr1.length;n+=1){
-trnn0=lyricr1[n][0];
-trtk0=lyricr1[n][1];
-lyrict0=lyricr1[n][3];
-ctx2.fillStyle="black";
-ctx2.fillText(lyrict0,(trnn0-midi_min)*kw+mx,6/5*my+trtk0%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-}//for(n=0..)s
-}
 
 }
 
@@ -2423,97 +2377,6 @@ function chord_12et(){
 window.location.href="Chord_12et.html"
 }
 
-//smf's lyrics
-function lyrics1(){
-lyrict0="";
-lyricr0=[];
-lyricr1=[];
-trnnr0=[];
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-
-for(i=0;i<midiData.length;i++){
-//MTrk
-if(midiData[i]===0x4d && midiData[i+1]===0x54 && midiData[i+2]===0x72 && midiData[i+3]===0x6b){
-dtflg0=0;
-trln0=0;
-trdt0=0;
-trtk0=0;
-trnn0=0;
-	for(j=i+4;j<i+8;j++){
-		trln0=(trln0<<8)+Number(midiData[j]);
-	}
-	k=i+8;
-	while (k<i+8+trln0){
-		if(dtflg0===0){
-			while (midiData[k]>=0x80){
-				trdt0=(trdt0<<7)+Number(midiData[k])-0x80;
-				k++;
-				}
-			trtk0=trtk0+(trdt0<<7)+Number(midiData[k]);
-			dtflg0=1;
-			trdt0=0;
-			k++;
-		}else if(dtflg0===1){
-				 if(midiData[k]<0x80){
-					k+=2;
-				}else if((midiData[k]>=0x80 && midiData[k]<=0x8f) ||
-				   (midiData[k]>=0x90 && midiData[k]<=0x9f && midiData[k+2]===0)){
-					k+=3;
-				}else if(midiData[k]>=0x90 && midiData[k]<=0x9f && midiData[k+2]>0 ){
-					k+=3;
-				}else if(midiData[k]>=0xa0 && midiData[k]<=0xbf){
-					k+=3;
-				}else if(midiData[k]>=0xc0 && midiData[k]<=0xdf){
-					k+=2;
-				}else if(midiData[k]>=0xe0 && midiData[k]<=0xef){
-					k+=3;
-				}else if(midiData[k]===0xf0){
-					k+=3;
-					while(midiData[k]!=0xf7){
-						k++;
-						}
-					k++;
-				}else if(midiData[k]===0xff && midiData[k+1]===0x05){
-					for(l=0;l<midiData[k+2];l++){
-						lyrict0=lyrict0+String.fromCharCode(midiData[k+3+l]);
-					}
-					k+=3+midiData[k+2];
-					lyricr0.push([trtk0,lyrict0+"\n"]);
-					lyrict0="";
-				}else if(midiData[k]===0xff && midiData[k+1]!=0x2f){
-					k+=3+midiData[k+2];
-				}else if(midiData[k]===0xff && midiData[k+1]===0x2f){
-					k+=3;
-				}
-			dtflg0=0;
-}//else if(dtflg0===1)
-}//while(k<i+8+..)	
-}//if(midiData[i]...)
-}//for(i=0..)
-
-if(x_ch1!=""){
-	for(k=0;k<r1.length;k++){
-		if(r1[k][3]===Number(x_ch1)){
-			trnnr0.push([r1[k][0],r1[k][1],r1[k][2]]);
-		}
-	}	
-}else{
-	for(k=0;k<r1.length;k++){
-		if(r1[k][3]===4){
-			trnnr0.push([r1[k][0],r1[k][1],r1[k][2]],"\n");
-		}
-	}
-}
-
-for(i=0;i<trnnr0.length;i++){
-	for(j=0;j<lyricr0.length;j++){
-		if(trnnr0[i][1]===lyricr0[j][0]){
-			lyricr1.push([trnnr0[i][0],trnnr0[i][1],trnnr0[i][2],lyricr0[j][1]]);
-		}
-	}
-}
-
-}//lyrics1
 
  // Define a function 'standardDeviation' to calculate the standard deviation of an array
  const standardDeviation = (arr, usePopulation = false) => {
