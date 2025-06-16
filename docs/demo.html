@@ -1019,6 +1019,9 @@ let songname1=document.getElementById("song1").value;
 		data2=await res2.text();
 	}
 
+file1Name=res1.name;
+file2Name=res2.name;
+
 picoAudio.init(); 
 midiData = new Uint8Array(data1);
 parsedData = picoAudio.parseSMF(midiData);
