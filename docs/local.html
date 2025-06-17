@@ -661,7 +661,6 @@ const instName=[
 const picoAudio = new PicoAudio();
 const synth=new Tone.Synth().toMaster();
 let file1Name="";
-let file2Name="";
 let parsedData ="";
 let toneData = "";
 let r1=[];
@@ -858,7 +857,7 @@ let n_idf=1;
 var obj1=document.getElementById("selfile1");
 obj1.addEventListener("change", function(evt){
 var file1=evt.target.files[0];
-file1Name = file1.name;
+file1Name = file1.name.split('.')[0];
 var reader1=new FileReader();
 reader1.readAsArrayBuffer(file1);
 reader1.onload=function(ev){
@@ -976,7 +975,6 @@ tsvdl=[];
 tsvsc=[];
 
 var file2=evt.target.files[0];
-file2Name=file2.name;
 var reader2=new FileReader();
 reader2.readAsText(file2,"shift_JIS");
 reader2.onload=function(ev){
@@ -1058,7 +1056,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name+" "+file2Name,0,15);
+ctx2.fillText(file1Name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1190,7 +1188,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name+" "+file2Name,0,15);
+ctx2.fillText(file1Name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1321,7 +1319,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name+" "+file2Name,0,15);
+ctx2.fillText(file1Name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1474,7 +1472,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name+" "+file2Name,0,15);
+ctx2.fillText(file1Name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -3684,7 +3682,7 @@ function pdf_l(){
 	var element		= canvas2;
 	var opt = {
 	margin:       100,
-	filename:     file1Name+"_"+file2Name+'_L.pdf',
+	filename:     file1Name+'_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [1200,850], orientation: 'l' }
@@ -3697,7 +3695,7 @@ function pdf_p(){
 	var element		= canvas2;
 	var opt = {
 	margin:       100,
-	filename:     file1Name+"_"+file2Name+'_P.pdf',
+	filename:     file1Name+'_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [900,1200], orientation: 'p' }

@@ -802,8 +802,6 @@ const picoAudio = new PicoAudio();
 const synth=new Tone.Synth().toMaster();
 let parsedData ="";
 let toneData = "";
-let file1Name="";
-let file2Name="";
 let r1=[];
 let r2=[];
 let r3=[];
@@ -1019,9 +1017,6 @@ let songname1=document.getElementById("song1").value;
 		data2=await res2.text();
 	}
 
-file1Name=songname1+".mid";
-file2Name=songname1+".tsv";
-
 picoAudio.init(); 
 midiData = new Uint8Array(data1);
 parsedData = picoAudio.parseSMF(midiData);
@@ -1206,7 +1201,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name+" "+file2Name,0,15);
+ctx2.fillText(songname1,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1336,7 +1331,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name+" "+file2Name,0,15);
+ctx2.fillText(songname1,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1471,7 +1466,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name+" "+file2Name,0,15);
+ctx2.fillText(songname1,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1624,7 +1619,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name+" "+file2Name,0,15);
+ctx2.fillText(songname1,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -3835,7 +3830,7 @@ function pdf_l(){
 	var element		= canvas2;
 	var opt = {
 	margin:       100,
-	filename:     file1Name+"_"+file2Name+'_L.pdf',
+	filename:     songname1+'_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [1200,850], orientation: 'l' }
@@ -3848,7 +3843,7 @@ function pdf_p(){
 	var element		= canvas2;
 	var opt = {
 	margin:       100,
-	filename:     file1Name+"_"+file2Name+'_P.pdf',
+	filename:     songname1+'_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [900,1200], orientation: 'p' }
