@@ -3298,7 +3298,7 @@ if (document.form1.fg4.options[0].selected==false){
 
 
 
-if (document.form1.fg8.options[2].selected==false){
+if (document.form1.fg8.options[0].selected==false){
 szx=1100;
 szy=280;
 szk=szx-2*mx;
@@ -3721,34 +3721,18 @@ for (p=0;p<f101.length;p++){
 }
 
 
+
 const finger2= async () =>{
 time0=Date.now();
 f110.push([['ID','Finger','Min']]);
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
-}
-
-midi_min=108;
-midi_max=21;
-
 let rf1=[];
 
 for(i=0;i<r1.length;i++){
-	let [midi, start, stop, channel, n_id]=r1[i];
+		let [midi, start, stop, channel, n_id]=r1[i];
 		if (channel==x_ch1 ){
 			rf1.push([midi, start, stop, channel, n_id]);
-			let trs2=Number(midi)+Number(trs1);
-				if(trs2>midi_max){
-				midi_max=trs2;
-				}
-				if(trs2<midi_min){
-				midi_min=trs2;
-				}
 		}
 }
 
@@ -3762,7 +3746,7 @@ lpn=Math.ceil(rf1.length/fg5vc);
 
 for (s=0; s<lpn; s++){
 	for (t=0;t<rf1.length;t++){
-	let [midi, start, stop, channel, n_id]=rf1[t];
+		let [midi, start, stop, channel, n_id]=rf1[t];
 		if (n_id==n_idf){
 			j=start;
 		}
@@ -3784,32 +3768,13 @@ alert(timed + 'min');
 
 const finger3= async () =>{
 document.form1.fg4.options[0].selected=true;
-
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
-}
-
-midi_min=108;
-midi_max=21;
-
 let rf1=[];
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 		if (channel==x_ch1 ){
 			rf1.push([midi, start, stop, channel, n_id]);
-			let trs2=Number(midi)+Number(trs1);
-				if(trs2>midi_max){
-					midi_max=trs2;
-				}
-				if(trs2<midi_min){
-					midi_min=trs2;
-				}
 		}
 }
 
