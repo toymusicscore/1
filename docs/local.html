@@ -3586,10 +3586,9 @@ for(i=0;i<r1.length;i++){
 n_idf=rf1[0][4];
 
 let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+15;
-let fg5vp=n_idf+fg5v-1;
-let fg5vc=fg5vp-Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)-3;
+let fg5vc0=fg5v-Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)-3;
 
-lpn=Math.ceil(rf1.length/fg5vc);
+lpn=Math.ceil(rf1.length/fg5vc0);
 
 for (s=0; s<lpn; s++){
 	for (t=0;t<rf1.length;t++){
@@ -3600,7 +3599,7 @@ for (s=0; s<lpn; s++){
 	}
 	finger1();
 	await new Promise(r => timer=setTimeout(r,1));
-	n_idf=n_idf+fg5vc;
+	n_idf=n_idf+fg5vc0;
 }
 
 time1=Date.now();
