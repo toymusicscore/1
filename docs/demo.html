@@ -366,8 +366,8 @@ demo
 	<option value="16" style="font-size:100%"> Fingering Recorder</option>
 	<option value="17" style="font-size:100%"> Fingering Downloader</option>
 	<option value="18" style="font-size:100%"> MIDI TSV Downloader</option>
-	<option value="19" style="font-size:100%"> Cover Landscape</option>
-	<option value="20" style="font-size:100%"> Cover Portrait</option>
+	<option value="19" style="font-size:100%"> Cover L Downloader</option>
+	<option value="20" style="font-size:100%"> Cover P Downloader</option>
 	</select>
 
 	<br>
@@ -5347,93 +5347,32 @@ if(keyrp10_4[0][0]>keyrp10_4[1][0]){
 }
 }
 
+
 function cover_l(){
-ctx2.clearRect(0,0,1400,1400);
-canvas2.height = 800;
+	var element	= document.getElementById("credit");
+	var opt = {
+	margin:       50,
+	filename:     file1Name+'_Cover_L.pdf',
+	image:        { type: 'jpeg', quality: 0.95 },
+	html2canvas:  { scale: 2 },
+	jsPDF:        { unit: 'pt', format: [600,450], orientation: 'l' }
+	};
 
-ctx2.font="30px Arial";
-ctx2.fillStyle="black";
-ctx2.fillText("ToyScore",50,100);
-ctx2.fillText("12-Colors Piano Roll Score for Solfege and Fingering",50,140);
-
-if(tsvi.length<9){
-ctx2.font="50px Arial";
-ctx2.fillText(tsvc[1],50,300);
-ctx2.font="30px Arial";
-ctx2.fillText(tsvc[2],50,550);
-ctx2.font="15px Arial";
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,600);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4],50,620);
-ctx2.fillText(tsvi[5]+" : "+tsvc[5],50,640);
-ctx2.fillText(tsvi[6]+" : "+tsvc[6],50,660);
-ctx2.fillText(tsvi[7]+" : "+tsvc[7],50,680);
-ctx2.fillText("Graphic Design : https://www.toyscore.app",50,700);
-
-}else{
-ctx2.font="50px Arial";
-ctx2.fillText(tsvc[1],50,300);
-ctx2.font="30px Arial";
-ctx2.fillText(tsvi[2]+" : "+tsvc[2],50,400);
-ctx2.font="15px Arial";
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,450);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4],50,470);
-ctx2.fillText(tsvi[5]+" : "+tsvc[5],50,490);
-ctx2.font="30px Arial";
-ctx2.fillText(tsvi[7]+" : "+tsvc[7],50,550);
-ctx2.font="15px Arial";
-ctx2.fillText(tsvi[6]+" : "+tsvc[6],50,600);
-ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,620);
-ctx2.fillText(tsvi[9]+" : "+tsvc[9],50,640);
-ctx2.fillText(tsvi[10]+" : "+tsvc[10],50,660);
-ctx2.fillText(tsvc[11]+" : "+tsvc[12],50,680);
-ctx2.fillText("Graphic Design : https://www.toyscore.app",50,700);
-
-}
+	html2pdf().set(opt).from(element).save();
 
 }
 
 function cover_p(){
-ctx2.clearRect(0,0,1400,1400);
-canvas2.height = 1200;
+	var element	= document.getElementById("credit");
+	var opt = {
+	margin:       50,
+	filename:     file1Name+'_Cover_P.pdf',
+	image:        { type: 'jpeg', quality: 0.95 },
+	html2canvas:  { scale: 2 },
+	jsPDF:        { unit: 'pt', format: [450,600], orientation: 'p' }
+	};
 
-ctx2.font="30px Arial";
-ctx2.fillStyle="black";
-ctx2.fillText("ToyScore",50,100);
-ctx2.fillText("12-Colors Piano Roll Score for Solfege and Fingering",50,140);
-
-if(tsvi.length<9){
-ctx2.font="50px Arial";
-ctx2.fillText(tsvc[1],50,300);
-ctx2.font="30px Arial";
-ctx2.fillText(tsvc[2],50,550);
-ctx2.font="15px Arial";
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,600);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4],50,620);
-ctx2.fillText(tsvi[5]+" : "+tsvc[5],50,640);
-ctx2.fillText(tsvi[6]+" : "+tsvc[6],50,660);
-ctx2.fillText(tsvi[7]+" : "+tsvc[7],50,680);
-ctx2.fillText("Graphic Design : https://www.toyscore.app",50,700);
-
-}else{
-ctx2.font="50px Arial";
-ctx2.fillText(tsvc[1],50,300);
-ctx2.font="30px Arial";
-ctx2.fillText(tsvi[2]+" : "+tsvc[2],50,400);
-ctx2.font="15px Arial";
-ctx2.fillText(tsvi[3]+" : "+tsvc[3],50,450);
-ctx2.fillText(tsvi[4]+" : "+tsvc[4],50,470);
-ctx2.fillText(tsvi[5]+" : "+tsvc[5],50,490);
-ctx2.font="30px Arial";
-ctx2.fillText(tsvi[7]+" : "+tsvc[7],50,550);
-ctx2.font="15px Arial";
-ctx2.fillText(tsvi[6]+" : "+tsvc[6],50,600);
-ctx2.fillText(tsvi[8]+" : "+tsvc[8],50,620);
-ctx2.fillText(tsvi[9]+" : "+tsvc[9],50,640);
-ctx2.fillText(tsvi[10]+" : "+tsvc[10],50,660);
-ctx2.fillText(tsvc[11]+" : "+tsvc[12],50,680);
-ctx2.fillText("Graphic Design : https://www.toyscore.app",50,700);
-
-}
+	html2pdf().set(opt).from(element).save();
 
 }
 
