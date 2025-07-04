@@ -1179,8 +1179,8 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+(start-j)*(szy-my)/(ht1*bttl*pp
 
 //scroll portrait
 function scroll2(){
-szx=900;
-szy=1300;
+szx=850;
+szy=1200;
 szk=szx-2*mx;
 canvas2.width = szx;
 canvas2.height = szy;
@@ -1463,8 +1463,8 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], mx+szk,6/5*my+start%(ht1*bttl*ppq/ntvl*4)*(sz
 
 //still portrait
 function still2(){
-szx=900;
-szy=1300;
+szx=850;
+szy=1200;
 szk=szx-2*mx;
 canvas2.width = szx;
 canvas2.height = szy;
@@ -3661,11 +3661,11 @@ finger1();
 function pdf_l(){
 	var element		= canvas2;
 	var opt = {
-	margin:       100,
+	margin:       30,
 	filename:     file1Name+'_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [1200,900], orientation: 'l' }
+	jsPDF:        { unit: 'pt', format: [1000,750], orientation: 'l' }
 	};
 
 	html2pdf().set(opt).from(element).save();
@@ -3674,11 +3674,11 @@ function pdf_l(){
 function pdf_p(){
 	var element		= canvas2;
 	var opt = {
-	margin:       100,
+	margin:       30,
 	filename:     file1Name+'_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [900,1200], orientation: 'p' }
+	jsPDF:        { unit: 'pt', format: [750,1000], orientation: 'p' }
 	};
 
 	html2pdf().set(opt).from(element).save();
