@@ -3812,11 +3812,11 @@ finger1();
 function pdf_l(){
 	var element		= canvas2;
 	var opt = {
-	margin:       100,
+	margin:       50,
 	filename:     songname1+'_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [1200,900], orientation: 'l' }
+	jsPDF:        { unit: 'pt', format: [1000,750], orientation: 'l' }
 	};
 
 	html2pdf().set(opt).from(element).save();
@@ -3825,11 +3825,11 @@ function pdf_l(){
 function pdf_p(){
 	var element		= canvas2;
 	var opt = {
-	margin:       100,
+	margin:       50,
 	filename:     songname1+'_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [900,1200], orientation: 'p' }
+	jsPDF:        { unit: 'pt', format: [750,1000], orientation: 'p' }
 	};
 
 	html2pdf().set(opt).from(element).save();
