@@ -3209,10 +3209,10 @@ f101=[];
 
 for (p=0;p<f100.length;p++){
 	if (document.form1.fg4.options[0].selected==true && 
-		f110.length==0){
+		f110.length<2){
 			mstd(p);
 		}else if (document.form1.fg4.options[0].selected==true && 
-		f100[p][1][0]!=f110[-1][1]){
+		f100[p][1][0]!=f110.at(-1).at(-1)){
 			mstd(p);
 		}else if (((
 		document.form1.fg41.options[0].selected==false &&
