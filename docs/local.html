@@ -161,17 +161,26 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="fg7" style="font-size:100%">
-	<option value="0" style="font-size:100%"> r4 </option>
-	<option value="1" style="font-size:100%"> r8 </option>
-	<option value="2" style="font-size:100%" selected="selected"> r16 </option>
-	<option value="3" style="font-size:100%"> r32 </option>
-	<option value="4" style="font-size:100%"> r64 </option>
+	<option value="0" style="font-size:100%"> R4 </option>
+	<option value="1" style="font-size:100%"> R8 </option>
+	<option value="2" style="font-size:100%" selected="selected"> R16 </option>
+	<option value="3" style="font-size:100%"> R32 </option>
+	<option value="4" style="font-size:100%"> R64 </option>
 	</select>
 
 <select name="fg8" style="font-size:100%">
 	<option value="0" style="font-size:100%"> S0 </option>
 	<option value="1" style="font-size:100%" selected="selected"> S1 </option>
 	<option value="2" style="font-size:100%"> S2 </option>
+	</select>
+
+	<select name="fg9" style="font-size:100%">
+	<option value="0" style="font-size:100%"> D0 </option>
+	<option value="1" style="font-size:100%" selected="selected"> D1 </option>
+	<option value="2" style="font-size:100%"> D2 </option>
+	<option value="3" style="font-size:100%"> D3 </option>
+	<option value="4" style="font-size:100%"> D4 </option>
+	<option value="5" style="font-size:100%"> D5 </option>
 	</select>
 
 <select name="nl1" onChange="selview1()" style="font-size:100%">
@@ -483,7 +492,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 </select>
 
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
-<input type="button" name="b_sb" value="bpm" onClick="silent1()" style="font-size:100%" >
+<input type="button" name="b_sb" value="BPM" onClick="silent1()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="play1()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="top1()" style="font-size:100%" >
@@ -2259,12 +2268,12 @@ let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIn
 let fg5vp=n_idf+fg5v-1;//last position of N
 let fg5vc=fg5vp
 -Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)
--Number(document.form1.fg4.options[document.form1.fg6.options.selectedIndex].value)-1;
-//member of group1=N-c-(n-1)=N-c-n+1
-//number of group2=c
-//number of group3=n-1
-//c=Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)
-//n=Number(document.form1.fg4.options[document.form1.fg6.options.selectedIndex].value)+2
+-Number(document.form1.fg9.options[document.form1.fg9.options.selectedIndex].value);
+//member of group1=N-C-D
+//number of group2=C
+//C=Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)
+//number of group3=D
+//D=Number(document.form1.fg9.options[document.form1.fg9.options.selectedIndex].value)
 
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 
