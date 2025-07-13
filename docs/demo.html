@@ -315,15 +315,6 @@ demo
 	<option value="2" style="font-size:100%"> S2 </option>
 	</select>
 	
-<select name="fg9" style="font-size:100%">
-	<option value="0" style="font-size:100%"> D0 </option>
-	<option value="1" style="font-size:100%" selected="selected"> D1 </option>
-	<option value="2" style="font-size:100%"> D2 </option>
-	<option value="3" style="font-size:100%"> D3 </option>
-	<option value="4" style="font-size:100%"> D4 </option>
-	<option value="5" style="font-size:100%"> D5 </option>
-	</select>
-
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Letters </option>
 	<option value="1" style="font-size:100%" selected="selected"> DoReMi # </option>
@@ -2420,12 +2411,12 @@ let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIn
 let fg5vp=n_idf+fg5v-1;//last position of N
 let fg5vc=fg5vp
 -Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)
--Number(document.form1.fg9.options[document.form1.fg9.options.selectedIndex].value);
+-Number(document.form1.fg6.options[document.form1.fg6.options.selectedIndex].value)-1;
 //member of group1=N-C-D
 //number of group2=C
 //C=Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)
 //number of group3=D
-//D=Number(document.form1.fg9.options[document.form1.fg9.options.selectedIndex].value)
+//D=Number(document.form1.fg6.options[document.form1.fg6.options.selectedIndex].value)+2-1
 
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 
@@ -3760,12 +3751,12 @@ n_idf=rf1[0][4];
 let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+15;//N
 let fg5vc0=fg5v
 -Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)
--Number(document.form1.fg9.options[document.form1.fg9.options.selectedIndex].value);
+-Number(document.form1.fg6.options[document.form1.fg6.options.selectedIndex].value)-1;
 //member of group1=N-C-D
 //number of group2=C
-//D=Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)
+//C=Number(document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value)
 //number of group3=D
-//D=Number(document.form1.fg9.options[document.form1.fg9.options.selectedIndex].value)
+//D=Number(document.form1.fg6.options[document.form1.fg6.options.selectedIndex].value)+2-1
 
 lpn=Math.ceil(rf1.length/fg5vc0);
 
