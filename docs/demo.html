@@ -2537,13 +2537,13 @@ if(f1.length>0){
 		for (q=0;q<f1.length;q++){
 			let [[nf1, nt1], [ff1, ft1], [cf1, ct1], [tf1, tt1]]=f1[q];
 			if(tf1-tt0<rst && nt0==nf1-0 && ft0==ff1-0 && nf0==fc[0][1] && ft0!=ft1){
-				f2.push([[nf0, nt1], [ff0, ft0, ft1], [cf0, ct0, ct1], [tt1]]);
+				f2.push([[nf0, nt1], [ff0, ft0, ft1], [cf0, ct0, ct1], [tf0, tt0, tt1]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
 			let [[nf1x, nt1x], [ff1x, ft1x], [cf1x, ct1x], [tf1x, tt1x]]=f1x1[r];
 			if(tf1x-tt0>=rst && nt0==nf1x-0 && nf0==fc[0][1]){
-				f2.push([[nf0, nt1x], [ff0, ft0, ft1x], [cf0, ct0, ct1x], [tt1x]]);
+				f2.push([[nf0, nt1x], [ff0, ft0, ft1x], [cf0, ct0, ct1x], [tf0, tt1, tt1x]]);
 			}
 		}
 	}
@@ -2552,17 +2552,17 @@ if(f1.length>0){
 f3=[];
 if(f2.length>0){
 	for (p=0;p<f2.length;p++){
-		let [[nf0, nt1], [ff0, ft0, ft1], [cf0, ct0, ct1],[tt1]]=f2[p];
+		let [[nf0, nt1], [ff0, ft0, ft1], [cf0, ct0, ct1],[tf0, tt0, tt1]]=f2[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf2, nt2], [ff2, ft2], [cf2, ct2], [tf2, tt2]]=f1[q];
 			if(tf2-tt1<rst && nt1==nf2-0 && ft1==ff2-0 && ft1!=ft2){
-				f3.push([[nf0, nt2], [ff0, ft0, ft1, ft2], [cf0, ct0, ct1, ct2], [tt2]]);
+				f3.push([[nf0, nt2], [ff0, ft0, ft1, ft2], [cf0, ct0, ct1, ct2], [tf0, tt0, tt1, tt2]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
 			let [[nf2x, nt2x], [ff2x, ft2x], [cf2x, ct2x], [tf2x, tt2x]]=f1x1[r];
 			if(tf2x-tt1>=rst && nt1==nf2x-0 ){
-				f3.push([[nf0, nt2x], [ff0, ft0, ft1, ft2x], [cf0, ct0, ct1, ct2x], [tt2x]]);
+				f3.push([[nf0, nt2x], [ff0, ft0, ft1, ft2x], [cf0, ct0, ct1, ct2x], [tf0, tt0, tt1, tt2x]]);
 			}
 		}
 	}
@@ -2571,17 +2571,17 @@ if(f2.length>0){
 f4=[];
 if(f3.length>0){
 	for (p=0;p<f3.length;p++){
-		let [[nf0, nt2], [ff0, ft0, ft1, ft2], [cf0, ct0, ct1, ct2],[tt2]]=f3[p];
+		let [[nf0, nt2], [ff0, ft0, ft1, ft2], [cf0, ct0, ct1, ct2],[tf0, tt0, tt1, tt2]]=f3[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf3, nt3], [ff3, ft3], [cf3, ct3], [tf3, tt3]]=f1[q];
 			if(tf3-tt2<rst && nt2==nf3-0 && ft2==ff3-0 && ft2!=ft3){
-				f4.push([[nf0, nt3], [ff0, ft0, ft1, ft2, ft3], [cf0, ct0, ct1, ct2, ct3], [tt3]]);
+				f4.push([[nf0, nt3], [ff0, ft0, ft1, ft2, ft3], [cf0, ct0, ct1, ct2, ct3], [tf0, tt0, tt1, tt2, tt3]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
 			let [[nf3x, nt3x], [ff3x, ft3x], [cf3x, ct3x], [tf3x, tt3x]]=f1x1[r];
 			if(tf3x-tt2>=rst && nt2==nf3x-0 ){
-				f4.push([[nf0, nt3x], [ff0, ft0, ft1, ft2, ft3x], [cf0, ct0, ct1, ct2, ct3x], [tt3x]]);
+				f4.push([[nf0, nt3x], [ff0, ft0, ft1, ft2, ft3x], [cf0, ct0, ct1, ct2, ct3x], [tf0, tt0, tt1, tt2, tt3x]]);
 			}
 		}
 	}
@@ -2594,13 +2594,13 @@ if(f4.length>0){
 		for (q=0;q<f1.length;q++){
 			let [[nf4, nt4], [ff4, ft4], [cf4, ct4], [tf4, tt4]]=f1[q];
 			if(tf4-tt3<rst && nt3==nf4-0 && ft3==ff4-0 && ft3!=ft4){
-				f5.push([[nf0, nt4], [ff0, ft0, ft1, ft2, ft3, ft4], [cf0, ct0, ct1, ct2, ct3, ct4], [tt4]]);
+				f5.push([[nf0, nt4], [ff0, ft0, ft1, ft2, ft3, ft4], [cf0, ct0, ct1, ct2, ct3, ct4], [tf0, tt0, tt1, tt2, tt3, tt4]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
 			let [[nf4x, nt4x], [ff4x, ft4x], [cf4x, ct4x], [tf4x, tt4x]]=f1x1[r];
 			if(tf4x-tt3>=rst && nt3==nf4x-0 ){
-				f5.push([[nf0, nt4x], [ff0, ft0, ft1, ft2, ft3, ft4x], [cf0, ct0, ct1, ct2, ct3, ct4x], [tt4x]]);
+				f5.push([[nf0, nt4x], [ff0, ft0, ft1, ft2, ft3, ft4x], [cf0, ct0, ct1, ct2, ct3, ct4x], [tf0, tt0, tt1, tt2, tt3, tt4x]]);
 			}
 		}
 	}
@@ -2609,17 +2609,17 @@ if(f4.length>0){
 f6=[];
 if(f5.length>0){
 	for (p=0;p<f5.length;p++){
-		let [[nf0, nt4], [ff0, ft0, ft1, ft2, ft3, ft4], [cf0, ct0, ct1, ct2, ct3, ct4],[tt4]]=f5[p];
+		let [[nf0, nt4], [ff0, ft0, ft1, ft2, ft3, ft4], [cf0, ct0, ct1, ct2, ct3, ct4],[tf0, tt0, tt1, tt2, tt3, tt4]]=f5[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf5, nt5], [ff5, ft5], [cf5, ct5], [tf5, tt5]]=f1[q];
 			if(tf5-tt4<rst && nt4==nf5-0 && ft4==ff5-0 && ft4!=ft5){
-				f6.push([[nf0, nt5], [ff0, ft0, ft1, ft2, ft3, ft4, ft5], [cf0, ct0, ct1, ct2, ct3, ct4, ct5], [tt5]]);
+				f6.push([[nf0, nt5], [ff0, ft0, ft1, ft2, ft3, ft4, ft5], [cf0, ct0, ct1, ct2, ct3, ct4, ct5], [tf0, tt0, tt1, tt2, tt3, tt4, tt5]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
 			let [[nf5x, nt5x], [ff5x, ft5x], [cf5x, ct5x], [tf5x, tt5x]]=f1x1[r];
 			if(tf5x-tt4>=rst && nt4==nf5x-0 ){
-				f6.push([[nf0, nt5x], [ff0, ft0, ft1, ft2, ft3, ft4, ft5x], [cf0, ct0, ct1, ct2, ct3, ct4, ct5x], [tt5x]]);
+				f6.push([[nf0, nt5x], [ff0, ft0, ft1, ft2, ft3, ft4, ft5x], [cf0, ct0, ct1, ct2, ct3, ct4, ct5x], [tf0, tt0, tt1, tt2, tt3, tt4, tt5x]]);
 			}
 		}
 	}
@@ -2628,17 +2628,17 @@ if(f5.length>0){
 f7=[];
 if(f6.length>0){
 	for (p=0;p<f6.length;p++){
-		let [[nf0, nt5], [ff0, ft0, ft1, ft2, ft3, ft4, ft5], [cf0, ct0, ct1, ct2, ct3, ct4, ct5],[tt5]]=f6[p];
+		let [[nf0, nt5], [ff0, ft0, ft1, ft2, ft3, ft4, ft5], [cf0, ct0, ct1, ct2, ct3, ct4, ct5],[tf0, tt0, tt1, tt2, tt3, tt4, tt5]]=f6[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf6, nt6], [ff6, ft6], [cf6, ct6], [tf6, tt6]]=f1[q];
 			if(tf6-tt5<rst && nt5==nf6-0 && ft5==ff6-0 && ft5!=ft6){
-				f7.push([[nf0, nt6], [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6], [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6], [tt6]]);
+				f7.push([[nf0, nt6], [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6], [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6], [tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
 			let [[nf6x, nt6x], [ff6x, ft6x], [cf6x, ct6x], [tf6x, tt6x]]=f1x1[r];
 			if(tf6x-tt5>=rst && nt5==nf6x-0 ){
-				f7.push([[nf0, nt6x], [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6x], [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6x], [tt6x]]);
+				f7.push([[nf0, nt6x], [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6x], [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6x], [tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6x]]);
 			}
 		}
 	}
@@ -2650,14 +2650,14 @@ if(f7.length>0){
 		let [[nf0, nt6], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6],
-		[tt6]]=f7[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6]]=f7[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf7, nt7], [ff7, ft7], [cf7, ct7], [tf7, tt7]]=f1[q];
 			if(tf7-tt6<rst && nt6==nf7-0 && ft6==ff7-0 && ft6!=ft7){
 				f8.push([[nf0, nt7], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7], 
-				[tt7]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2666,7 +2666,7 @@ if(f7.length>0){
 				f8.push([[nf0, nt7x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7x], 
-				[tt7x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7x]]);
 			}
 		}
 	}
@@ -2678,14 +2678,14 @@ if(f8.length>0){
 		let [[nf0, nt7], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7],
-		[tt7]]=f8[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7]]=f8[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf8, nt8], [ff8, ft8], [cf8, ct8], [tf8, tt8]]=f1[q];
 			if(tf8-tt7<rst && nt7==nf8-0 && ft7==ff8-0 && ft7!=ft8){
 				f9.push([[nf0, nt8], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8], 
-				[tt8]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2694,7 +2694,7 @@ if(f8.length>0){
 				f9.push([[nf0, nt8x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8x], 
-				[tt8x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8x]]);
 			}
 		}
 	}
@@ -2706,14 +2706,14 @@ if(f9.length>0){
 		let [[nf0, nt8], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8],
-		[tt8]]=f9[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8]]=f9[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf9, nt9], [ff9, ft9], [cf9, ct9], [tf9, tt9]]=f1[q];
 			if(tf9-tt8<rst && nt8==nf9-0 && ft8==ff9-0 && ft8!=ft9){
 				f10.push([[nf0, nt9], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9], 
-				[tt9]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2722,7 +2722,7 @@ if(f9.length>0){
 				f10.push([[nf0, nt9x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9x], 
-				[tt9x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9x]]);
 			}
 		}
 	}
@@ -2735,14 +2735,14 @@ if(f10.length>0){
 		let [[nf0, nt9], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9],
-		[tt9]]=f10[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9]]=f10[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf10, nt10], [ff10, ft10], [cf10, ct10], [tf10, tt10]]=f1[q];
 			if(tf10-tt9<rst && nt9==nf10-0 && ft9==ff10-0 && ft9!=ft10){
 				f11.push([[nf0, nt10], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10], 
-				[tt10]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2751,7 +2751,7 @@ if(f10.length>0){
 				f11.push([[nf0, nt10x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10x], 
-				[tt10x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10x]]);
 			}
 		}
 	}
@@ -2764,14 +2764,14 @@ if(f11.length>0){
 		let [[nf0, nt10], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10],
-		[tt10]]=f11[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10]]=f11[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf11, nt11], [ff11, ft11], [cf11, ct11], [tf11, tt11]]=f1[q];
 			if(tf11-tt10<rst && nt10==nf11-0 && ft10==ff11-0 && ft10!=ft11){
 				f12.push([[nf0, nt11], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11], 
-				[tt11]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2780,7 +2780,7 @@ if(f11.length>0){
 				f12.push([[nf0, nt11x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11x], 
-				[tt11x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11x]]);
 			}
 		}
 	}
@@ -2792,14 +2792,14 @@ if(f12.length>0){
 		let [[nf0, nt11], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11],
-		[tt11]]=f12[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11]]=f12[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf12, nt12], [ff12, ft12], [cf12, ct12], [tf12, tt12]]=f1[q];
 			if(tf12-tt11<rst && nt11==nf12-0 && ft11==ff12-0 && ft11!=ft12){
 				f13.push([[nf0, nt12], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12], 
-				[tt12]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2808,7 +2808,7 @@ if(f12.length>0){
 				f13.push([[nf0, nt12x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12x], 
-				[tt12x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12x]]);
 			}
 		}
 	}
@@ -2821,14 +2821,14 @@ if(f13.length>0){
 		let [[nf0, nt12], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12],
-		[tt12]]=f13[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12]]=f13[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf13, nt13], [ff13, ft13], [cf13, ct13], [tf13, tt13]]=f1[q];
 			if(tf13-tt12<rst && nt12==nf13-0 && ft12==ff13-0 && ft12!=ft13){
 				f14.push([[nf0, nt13], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13], 
-				[tt13]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2837,7 +2837,7 @@ if(f13.length>0){
 				f14.push([[nf0, nt13x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13x], 
-				[tt13x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13x]]);
 			}
 		}
 	}
@@ -2850,14 +2850,14 @@ if(f14.length>0){
 		let [[nf0, nt13], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13],
-		[tt13]]=f14[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13]]=f14[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf14, nt14], [ff14, ft14], [cf14, ct14], [tf14, tt14]]=f1[q];
 			if(tf14-tt13<rst && nt13==nf14-0 && ft13==ff14-0 && ft13!=ft14){
 				f15.push([[nf0, nt14], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14], 
-				[tt14]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13, tt14]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2866,7 +2866,7 @@ if(f14.length>0){
 				f15.push([[nf0, nt14x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14x], 
-				[tt14x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13, tt14x]]);
 			}
 		}
 	}
@@ -2878,14 +2878,14 @@ if(f15.length>0){
 		let [[nf0, nt14], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14],
-		[tt14]]=f15[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13, tt14]]=f15[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf15, nt15], [ff15, ft15], [cf15, ct15], [tf15, tt15]]=f1[q];
 			if(tf15-tt14<rst && nt14==nf15-0 && ft14==ff15-0 && ft14!=ft15){
 				f16.push([[nf0, nt15], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15], 
-				[tt15]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13, tt14, tt15]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2894,7 +2894,7 @@ if(f15.length>0){
 				f16.push([[nf0, nt15x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15x], 
-				[tt15x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13, tt14, tt15x]]);
 			}
 		}
 	}
@@ -2906,14 +2906,14 @@ if(f16.length>0){
 		let [[nf0, nt15], 
 		[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15], 
 		[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15],
-		[tt15]]=f16[p];
+		[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13, tt14, tt15]]=f16[p];
 		for (q=0;q<f1.length;q++){
 			let [[nf16, nt16], [ff16, ft16], [cf16, ct16], [tf16, tt16]]=f1[q];
 			if(tf16-tt15<rst && nt15==nf16-0 && ft15==ff16-0 && ft15!=ft16){
 				f17.push([[nf0, nt16], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16], 
-				[tt16]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13, tt14, tt15, tt16]]);
 			}
 		}
 		for (r=0;r<f1x1.length;r++){
@@ -2922,7 +2922,7 @@ if(f16.length>0){
 				f17.push([[nf0, nt16x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8, ft9, ft10, ft11, ft12, ft13, ft14, ft15, ft16x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16x], 
-				[tt16x]]);
+				[tf0, tt0, tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12, tt13, tt14, tt15, tt16x]]);
 			}
 		}
 	}
@@ -5705,7 +5705,7 @@ finger3();
 }else if(document.form1.sv1.options[16].selected==true){
 finger2();
 }else if(document.form1.sv1.options[17].selected==true){
-downloadFile(songname1+'_F.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
+downloadFile(file1Name+x_ch1+fg6v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 }else if(document.form1.sv1.options[18].selected==true){
 download1();
 }else if(document.form1.sv1.options[19].selected==true){
