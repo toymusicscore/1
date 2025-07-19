@@ -1005,12 +1005,12 @@ let f102=[];
 let f110=[];
 let f111=[];
 let rst=0;
-let file1Name="";
+let file1name="";
 
 async function fetch1(){
-file1Name=document.getElementById("song1").value;
-	let uri1="./data/"+file1Name+".mid";
-	let uri2="./data/"+file1Name+".tsv";
+file1name=document.getElementById("song1").value;
+	let uri1="./data/"+file1name+".mid";
+	let uri2="./data/"+file1name+".tsv";
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
 	if (res1.ok){
@@ -1206,7 +1206,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name,0,15);
+ctx2.fillText(file1name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1336,7 +1336,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name,0,15);
+ctx2.fillText(file1name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1471,7 +1471,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name,0,15);
+ctx2.fillText(file1name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1624,7 +1624,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name,0,15);
+ctx2.fillText(file1name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -3930,7 +3930,7 @@ function pdf_l(){
 	var element		= canvas2;
 	var opt = {
 	margin:       0,
-	filename:     file1Name+'_NL'+nl1v+'M'+x_msrv+'_L.pdf',
+	filename:     file1name+'_NL'+nl1v+'M'+x_msrv+'_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [910,650], orientation: 'l' }
@@ -3953,7 +3953,7 @@ function pdf_p(){
 	var element		= canvas2;
 	var opt = {
 	margin:       0,
-	filename:     file1Name+'_NL'+nl1v+'M'+x_msrv+'_P.pdf',
+	filename:     file1name+'_NL'+nl1v+'M'+x_msrv+'_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [650,910], orientation: 'p' }
@@ -5494,7 +5494,7 @@ function cover_l(){
 	var element	= credit2;
 	var opt = {
 	margin:       100,
-	filename:     file1Name+'_Cover_L.pdf',
+	filename:     file1name+'_Cover_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [910,650], orientation: 'l' }
@@ -5508,7 +5508,7 @@ function cover_p(){
 	var element	= credit2;
 	var opt = {
 	margin:       100,
-	filename:     file1Name+'_Cover_P.pdf',
+	filename:     file1name+'_Cover_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [650,910], orientation: 'p' }
@@ -5830,7 +5830,7 @@ finger3();
 }else if(document.form1.sv1.options[16].selected==true){
 finger2();
 }else if(document.form1.sv1.options[17].selected==true){
-downloadFile(file1Name+'_Ch'+x_ch1+'n'+fg6v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
+downloadFile(file1name+'_Ch'+x_ch1+'n'+fg6v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 }else if(document.form1.sv1.options[18].selected==true){
 download1();
 }else if(document.form1.sv1.options[19].selected==true){

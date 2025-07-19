@@ -662,7 +662,7 @@ const instName=[
 ];
 const picoAudio = new PicoAudio();
 const synth=new Tone.Synth().toMaster();
-let file1Name="";
+let file1name="";
 let parsedData ="";
 let toneData = "";
 let r1=[];
@@ -859,7 +859,7 @@ let n_idf=1;
 var obj1=document.getElementById("selfile1");
 obj1.addEventListener("change", function(evt){
 var file1=evt.target.files[0];
-file1Name = file1.name.split('.')[0];
+file1name = file1.name.split('.')[0];
 var reader1=new FileReader();
 reader1.readAsArrayBuffer(file1);
 reader1.onload=function(ev){
@@ -1060,7 +1060,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name,0,15);
+ctx2.fillText(file1name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1192,7 +1192,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name,0,15);
+ctx2.fillText(file1name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1323,7 +1323,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name,0,15);
+ctx2.fillText(file1name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1476,7 +1476,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(file1Name,0,15);
+ctx2.fillText(file1name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -3775,7 +3775,7 @@ function pdf_l(){
 	var element		= canvas2;
 	var opt = {
 	margin:       0,
-	filename:     file1Name+'_NL'+nl1v+'M'+x_msrv+'_L.pdf',
+	filename:     file1name+'_NL'+nl1v+'M'+x_msrv+'_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [910,650], orientation: 'l' }
@@ -3798,7 +3798,7 @@ function pdf_p(){
 	var element		= canvas2;
 	var opt = {
 	margin:       0,
-	filename:     file1Name+'_NL'+nl1v+'M'+x_msrv+'_P.pdf',
+	filename:     file1name+'_NL'+nl1v+'M'+x_msrv+'_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [650,910], orientation: 'p' }
@@ -5341,7 +5341,7 @@ function cover_l(){
 	var element	= credit2;
 	var opt = {
 	margin:       50,
-	filename:     file1Name+'_Cover_L.pdf',
+	filename:     file1name+'_Cover_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [910,650], orientation: 'l' }
@@ -5355,7 +5355,7 @@ function cover_p(){
 	var element	= credit2;
 	var opt = {
 	margin:       100,
-	filename:     file1Name+'_Cover_P.pdf',
+	filename:     file1name+'_Cover_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [650,910], orientation: 'p' }
@@ -5675,7 +5675,7 @@ finger3();
 }else if(document.form1.sv1.options[16].selected==true){
 finger2();
 }else if(document.form1.sv1.options[17].selected==true){
-downloadFile(file1Name+'_Ch'+x_ch1+'n'+fg6v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
+downloadFile(file1name+'_Ch'+x_ch1+'n'+fg6v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 }else if(document.form1.sv1.options[18].selected==true){
 download1();
 }else if(document.form1.sv1.options[19].selected==true){
