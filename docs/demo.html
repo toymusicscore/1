@@ -1005,12 +1005,12 @@ let f102=[];
 let f110=[];
 let f111=[];
 let rst=0;
-let songname1="";
+let file1Name="";
 
 async function fetch1(){
-songname1=document.getElementById("song1").value;
-	let uri1="./data/"+songname1+".mid";
-	let uri2="./data/"+songname1+".tsv";
+file1Name=document.getElementById("song1").value;
+	let uri1="./data/"+file1Name+".mid";
+	let uri2="./data/"+file1Name+".tsv";
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
 	if (res1.ok){
@@ -1206,7 +1206,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(songname1,0,15);
+ctx2.fillText(file1Name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1336,7 +1336,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(songname1,0,15);
+ctx2.fillText(file1Name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1471,7 +1471,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(songname1,0,15);
+ctx2.fillText(file1Name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -1624,7 +1624,7 @@ let kw=szk/kn;
 
 ctx2.fillStyle="black";
 ctx2.font="15px Arial";
-ctx2.fillText(songname1,0,15);
+ctx2.fillText(file1Name,0,15);
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -5494,7 +5494,7 @@ function cover_l(){
 	var element	= credit2;
 	var opt = {
 	margin:       100,
-	filename:     songname1+'_Cover_L.pdf',
+	filename:     file1Name+'_Cover_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [910,650], orientation: 'l' }
@@ -5508,7 +5508,7 @@ function cover_p(){
 	var element	= credit2;
 	var opt = {
 	margin:       100,
-	filename:     songname1+'_Cover_P.pdf',
+	filename:     file1Name+'_Cover_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [650,910], orientation: 'p' }
