@@ -3764,8 +3764,16 @@ finger1();
 
 
 function pdf_l(){
-	var nl1v=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value
-	var x_msrv=document.form1.x_msr.value
+	if (document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value<10){
+		var nl1v='0'+document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value;
+	}else{
+		var nl1v=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value;
+	}
+	if (document.form1.x_msr.value<10){
+		var x_msrv='0'+document.form1.x_msr.value;
+	}else{
+		var x_msrv=document.form1.x_msr.value;
+	}
 	var element		= canvas2;
 	var opt = {
 	margin:       0,
@@ -3779,8 +3787,16 @@ function pdf_l(){
 };
 
 function pdf_p(){
-	var nl1v=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value
-	var x_msrv=document.form1.x_msr.value
+	if (document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value<10){
+		var nl1v='0'+document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value;
+	}else{
+		var nl1v=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value;
+	}
+	if (document.form1.x_msr.value<10){
+		var x_msrv='0'+document.form1.x_msr.value;
+	}else{
+		var x_msrv=document.form1.x_msr.value;
+	}
 	var element		= canvas2;
 	var opt = {
 	margin:       0,
