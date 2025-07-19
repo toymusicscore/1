@@ -3764,11 +3764,12 @@ finger1();
 
 
 function pdf_l(){
-	var nl1=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value
+	var nl1v=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value
+	var x_msrv=document.form1.x_msr.value
 	var element		= canvas2;
 	var opt = {
 	margin:       0,
-	filename:     file1Name+'_NL'+nl1+'M'+x_msr+'_L.pdf',
+	filename:     file1Name+'_NL'+nl1v+'M'+x_msrv+'_L.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [910,650], orientation: 'l' }
@@ -3778,11 +3779,12 @@ function pdf_l(){
 };
 
 function pdf_p(){
-	var nl1=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value
+	var nl1v=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value
+	var x_msrv=document.form1.x_msr.value
 	var element		= canvas2;
 	var opt = {
 	margin:       0,
-	filename:     file1Name+'_NL'+nl1+'M'+x_msr+'_P.pdf',
+	filename:     file1Name+'_NL'+nl1v+'M'+x_msrv+'_P.pdf',
 	image:        { type: 'jpeg', quality: 0.95 },
 	html2canvas:  { scale: 2 },
 	jsPDF:        { unit: 'pt', format: [650,910], orientation: 'p' }
