@@ -162,11 +162,13 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="fg7" style="font-size:100%">
-	<option value="0" style="font-size:100%"> r4 </option>
-	<option value="1" style="font-size:100%"> r8 </option>
-	<option value="2" style="font-size:100%" selected="selected"> r16 </option>
-	<option value="3" style="font-size:100%"> r32 </option>
-	<option value="4" style="font-size:100%"> r64 </option>
+	<option value="0" style="font-size:100%"> r1 </option>
+	<option value="1" style="font-size:100%"> r2 </option>
+	<option value="2" style="font-size:100%" selected="selected"> r4 </option>
+	<option value="3" style="font-size:100%"> r8 </option>
+	<option value="4" style="font-size:100%"> r16 </option>
+	<option value="5" style="font-size:100%"> r32 </option>
+	<option value="6" style="font-size:100%"> r64 </option>
 	</select>
 
 <select name="fg8" style="font-size:100%">
@@ -857,21 +859,14 @@ let f110=[];
 let f111=[];
 let rst=0;
 let n_idf=1;
-let lcn=[];
-let lpn=[];
-let cn0=1;
-let pn0=1;
-let lcn0=0;
-let lcn1=0;
-let lpn0=0;
-let lpn1=0;
 let fg5v=0;
 let fg5vc0=0;
 let rf1=[];
 let rf2=[];
 let fg7v;
 let fg5vp=0;
-let fg5vc=0
+let fg5vc=0;
+let lcn=0;
 
 
 var obj1=document.getElementById("selfile1");
@@ -3546,16 +3541,51 @@ time0=Date.now();
 f110.push([['NoteID','Fingering','Minutes']]);
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 
+let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;
+let rst=ppq*bttl/ntvl/fg7v;
+
 let rf1=[];
 
 for(i=0;i<r1.length;i++){
-		let [midi, start, stop, channel, n_id]=r1[i];
-		if (channel==x_ch1 ){
-			rf1.push([midi, start, stop, channel, n_id]);
-		}
+	let [midi, start, stop, channel, n_id]=r1[i];
+	if (channel==x_ch1 && i>0 && start-rf1[i-1][2]-rst>0){
+		rf1.push([midi, start, stop, channel, n_id, 1]);		
+	}else if (channel==x_ch1 ){
+		rf1.push([midi, start, stop, channel, n_id, 0]);
+	}
 }
 
 n_idf=rf1[0][4];
+
+
+/*
+let rf2=[];
+let q=1;
+
+for (p=0;p<rf1.length;p++){
+	if (rf1[p][5]==1 && q>1){
+		rf2.push(q-1);
+		q=2;
+	}else if (rf1[p][5]==0 && q==fg5vc0){
+		rf2.push(q);
+		q=1;
+	}else if (rf1[p][5]==0){
+		q=q+1;
+	}
+}
+
+for (s=0; s<rf2.length; s++){
+	for (t=0;t<rf1.length;t++){
+		let [midi, start, stop, channel, n_id]=rf1[t];
+		if (n_id==n_idf){
+			j=start;
+		}
+	}
+	finger1();
+	await new Promise(r => timer=setTimeout(r,1));
+	n_idf=n_idf+rf2[s];
+}
+*/
 
 let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+12;//N
 let fg5vc0=fg5v
