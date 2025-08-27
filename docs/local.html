@@ -861,12 +861,19 @@ let f110=[];
 let f111=[];
 let rst=0;
 let n_idf=1;
-let fg5v=0;
 let rf1=[];
 let rf2=[];
-let fg7v;
 let fg5vp=0;
 let lcn=0;
+
+let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
+let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;//L
+let fg3v=document.form1.fg3.options[document.form1.fg3.options.selectedIndex].value;//X
+let fg4v=document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value;//C
+let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+6;//N
+let fg6v=Number(document.form1.fg6.options[document.form1.fg6.options.selectedIndex].value)+2;//n
+let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;//r
+let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;//R
 
 
 var obj1=document.getElementById("selfile1");
@@ -2269,12 +2276,12 @@ function finger1(){
 fc=[];
 fp=[];
 
-let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+7;//N
+//let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+6;//N
 let fg5vp=n_idf+fg5v-1;//last position of N
-let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
-let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;
+//let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
+//let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;
 let rst7=ppq*bttl/ntvl/fg7v;
-let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;
+//let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;
 let rst8=ppq*bttl/ntvl/fg8v;
 
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
@@ -3310,6 +3317,7 @@ const finger2= async () =>{
 time0=Date.now();
 f110.push([['NoteID','Fingering','Minutes']]);
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+/*
 let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;//L
 let fg3v=document.form1.fg3.options[document.form1.fg3.options.selectedIndex].value;//X
@@ -3318,6 +3326,7 @@ let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIn
 let fg6v=Number(document.form1.fg6.options[document.form1.fg6.options.selectedIndex].value)+2;//n
 let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;//r
 let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;//R
+*/
 
 let rf1=[];
 
@@ -3344,7 +3353,7 @@ time1=Date.now();
 timed=(time1-time0)/60000;
 f110.push([['\r\n','',timed]]);
 
-downloadFile(file1name+'_Ch'+(Number(x_ch1)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg4v+'N'+fg5v+'n'+fg6v+'r'+fg7v0+'R'+fg8v0+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
+downloadFile(file1name+'_Ch'+(Number(x_ch1)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg4v+'N'+fg5v+'n'+fg6v+'r'+fg7v+'R'+fg8v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 
 }
 
@@ -5291,7 +5300,7 @@ finger3();
 }else if(document.form1.sv1.options[16].selected==true){
 finger2();
 }else if(document.form1.sv1.options[17].selected==true){
-downloadFile(file1name+'_n'+fg6v+'Ch'+(Number(x_ch1)+1)+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
+downloadFile(file1name+'_Ch'+(Number(x_ch1)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg4v+'N'+fg5v+'n'+fg6v+'r'+fg7v+'R'+fg8v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 }else if(document.form1.sv1.options[18].selected==true){
 download1();
 }else if(document.form1.sv1.options[19].selected==true){
