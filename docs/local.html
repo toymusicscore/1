@@ -5022,11 +5022,13 @@ szy=1300;
 canvas2.width = szx;
 canvas2.height = szy;
 ctx2.clearRect(0,0,1400,1300);
+
 let kw=77;
 let kw0=kw*12/7*3/5;
 let kw1=kw*12/7*4/7;
 let cl=kw/2;
 
+ctx2.clearRect(0,0,1080,1300);
 ctx2.font="25px Arial";
 ctx2.fillStyle="black";
 
@@ -5167,7 +5169,7 @@ let y2=1000;
 let kw20=10;
 let kw21=kw20*12/7*3/5;
 let kw22=kw20*12/7*4/7;
-let kw23=12*kw20/7;
+let kw23=kw20*12/7;
 let kl0=10*kw20;
 let kl1=14*kw20;
 
@@ -5207,13 +5209,29 @@ for(let k=21;k<=108;k++){
 if(k%12>=0 && k%12<=4){
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
 ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
+ctx2.font="10px Arial";
+ctx2.fillStyle="black";
+	if(k%12===0){
+	ctx2.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
+	}
 ctx2.fillStyle=col[k%12];
 ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
+ctx2.font="10px Arial";
+ctx2.fillStyle="black";
+ctx2.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
 }else{
 ctx2.fillStyle=col2[Math.floor(k/12)-1];
 ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
+ctx2.font="10px Arial";
+ctx2.fillStyle="black";
+	if(k===21){
+	ctx2.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
+	}
 ctx2.fillStyle=col[k%12];
 ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
+ctx2.font="10px Arial";
+ctx2.fillStyle="black";
+ctx2.fillText((k%12).toString(12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,kw20+y2-16);
 }
 
 if(k%12===1||k%12===3){
@@ -5222,10 +5240,20 @@ ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw21+x2,2*kw20+y2,kw21,8*kw
 }else if(k%12===6||k%12===8||k%12===10){
 ctx2.fillStyle="black";
 ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,8*kw20);
+}else if(k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,y2-30);
+ctx2.lineTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,15*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
 }
 }
 
-
+ctx2.beginPath();
+ctx2.moveTo(x2,y2-30);
+ctx2.lineTo(52*kw23+x2,y2-30);
+ctx2.strokeStyle="black";
+ctx2.stroke();
 ctx2.beginPath();
 ctx2.moveTo(x2,y2);
 ctx2.lineTo(52*kw23+x2,y2);
@@ -5247,12 +5275,12 @@ ctx2.lineTo(52*kw23+x2,15*kw20+y2);
 ctx2.strokeStyle="black";
 ctx2.stroke();
 ctx2.beginPath();
-ctx2.moveTo(x2,y2);
+ctx2.moveTo(x2,y2-30);
 ctx2.lineTo(x2,15*kw20+y2);
 ctx2.strokeStyle="black";
 ctx2.stroke();
 ctx2.beginPath();
-ctx2.moveTo(52*kw23+x2,y2);
+ctx2.moveTo(52*kw23+x2,y2-30);
 ctx2.lineTo(52*kw23+x2,15*kw20+y2);
 ctx2.strokeStyle="black";
 ctx2.stroke();
