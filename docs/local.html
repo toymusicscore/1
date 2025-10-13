@@ -945,10 +945,10 @@ midi_min0=midi_min;
 midi_max0=midi_max;
 
 r2.sort(function(m,n){return m-n;});
-if (r2[0]<ppq/bttl*ntvl/4){
-	stm=0;
-}else{
+if (r2[0]<ppq*4/ntvl){
 	stm=1;
+}else{
+	stm=0;
 }
 
 document.form1.x_msrf.value=stm;
