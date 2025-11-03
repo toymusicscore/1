@@ -2432,6 +2432,7 @@ fp=[];
 let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+6;//N
 let fg5vp=n_idf+fg5v-1;//last position of N
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
+let fg4v=document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value;
 let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;
 let rst7=ppq*bttl/ntvl/fg7v;
 let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;
@@ -3197,16 +3198,13 @@ if (f101.length==0){
 
 f101.sort(function(a,b){return(a[3] - b[3]);});
 
-
-for (p=0;p<fc.length;p++){
-	f110.push(['\r\n'+fc[p][1],f101[0][1][p]]);
-}
+f110.push(['\r\n'+fc[0][1],f101[0][1][0],f101[0][3][0]]);
 
 f111=[];
 
 if (document.form1.fg4.options[0].selected==false){
 	if (fc.length<fp.length){
-		for (p=fc.length;p<fp.length;p++){
+		for (p=1;p<=fg4v;p++){
 		f111.push([fp[p][4],f101[0][1][p],f101[0][2][p]]);
 		}
 	}
