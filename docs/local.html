@@ -3145,7 +3145,7 @@ if (f101.length==0){
 
 f101.sort(function(a,b){return(a[3] - b[3]);});
 
-f110.push(['\r\n'+fc[0][1],f101[0][1][0],f101[0][3]]);
+f110.push(['\r\n'+fc[0][1],f101[0][1][0]]);
 
 f111=[];
 
@@ -3321,7 +3321,7 @@ for (p=0;p<f101.length;p++){
 
 const finger2= async () =>{
 time0=Date.now();
-f110.push([['NoteID','Fingering','S.mstd','Minutes']]);
+f110.push([['NoteID','Fingering','Minutes']]);
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;//L
@@ -3355,7 +3355,7 @@ for (s=0; s<rf1.length; s++){
 
 time1=Date.now();
 timed=(time1-time0)/60000;
-f110.push([['\r\n','','',timed]]);
+f110.push([['\r\n','',timed]]);
 
 downloadFile(file1name+'_Ch'+(Number(x_ch1)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg4v+'N'+fg5v+'n'+fg6v+'r'+fg7v+'R'+fg8v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 
