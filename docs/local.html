@@ -3245,7 +3245,7 @@ for (p=0;p<f101.length;p++){
 		ctx2.fillText(fp[i][4],180+50*i,310);
 		let [midi, start, stop, channel, n_id]=fp[i];
 		gt=stop-start;
-			if(start>=j && start<j+ht1*bttl*ppq/ntvl*4){
+			if(start>=j && stop<j+ht1*bttl*ppq/ntvl*4){
 				ctx2.fillStyle=col[midi%12];
 				ctx2.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 				ctx2.beginPath();
