@@ -937,6 +937,10 @@ r4=[];
 r5=[];
 r6=[];
 
+midi_max=21;
+midi_min=108;
+midi_min0=0;
+midi_max0=0;
 midi_max_l=21;
 midi_min_l=108;
 midi_min0_l=0;
@@ -955,6 +959,12 @@ r1.push([note.pitch,note.start,note.stop,note.channel,n_id]);
 n_id+=1;
 r2.push(note.start);
 r2.push(note.stop);
+  if(Number(note.pitch)>Number(midi_max)){
+  midi_max=note.pitch;
+  }
+  if(Number(note.pitch)<Number(midi_min)){
+  midi_min=note.pitch;
+  }
   if(note.channel==x_ch1 && Number(note.pitch)>Number(midi_max_l)){
   midi_max_l=note.pitch;
   }
@@ -980,6 +990,8 @@ j=0;
 
 document.getElementById("channels").innerHTML=ch_num;
 
+midi_min0=midi_min;
+midi_max0=midi_max;
 midi_min0_l=midi_min_l;
 midi_max0_l=midi_max_l;
 midi_min0_r=midi_min_r;
