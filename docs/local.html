@@ -2935,6 +2935,10 @@ n_id=1;
 
 midi_min=108;
 midi_max=21;
+midi_min_l=108;
+midi_max_l=21;
+midi_min_r=108;
+midi_max_r=21;
 parsedData.channels.forEach(channel => { 
 	channel.notes.forEach(note => { 
 		if(note.channel==x_ch1){
@@ -2978,6 +2982,7 @@ selview1();
 }
 
 function channel2(){
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
 
 tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
@@ -2992,6 +2997,10 @@ n_id=1;
 
 midi_min=108;
 midi_max=21;
+midi_min_l=108;
+midi_max_l=21;
+midi_min_r=108;
+midi_max_r=21;
 parsedData.channels.forEach(channel => { 
 	channel.notes.forEach(note => { 
 		if(note.channel==x_ch1){
