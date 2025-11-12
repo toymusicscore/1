@@ -4249,7 +4249,6 @@ for (p=0;p<f101.length;p++){
 const finger2= async () =>{
 time0=Date.now();
 f110.push([['NoteID','Fingering','Minutes']]);
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
 let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;//L
 let fg3v=document.form1.fg3.options[document.form1.fg3.options.selectedIndex].value;//X
@@ -4258,6 +4257,12 @@ let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIn
 let fg6v=Number(document.form1.fg6.options[document.form1.fg6.options.selectedIndex].value)+2;//n
 let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;//r
 let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;//R
+
+if (fg1v==0){
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+}else if(fg1v==1){
+x_ch1=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+}
 
 let rf1=[];
 
@@ -4292,7 +4297,13 @@ downloadFile(file1name+'_Ch'+(Number(x_ch1)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg
 
 const finger3= async () =>{
 document.form1.fg4.options[0].selected=true;
+let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
+
+if (fg1v==0){
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+}else if(fg1v==1){
+x_ch1=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+}
 let rf1=[];
 
 for(i=0;i<r1.length;i++){
