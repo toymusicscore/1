@@ -70,7 +70,6 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="13" style="font-size:100%"> LCh14</option>
 	<option value="14" style="font-size:100%"> LCh15</option>
 	<option value="15" style="font-size:100%"> LCh16</option>
-	<option value="16" style="font-size:100%"> LChAll</option>
 	</select>
 
 <select name="chn2" onChange="channel2()" style="font-size:100%">
@@ -90,7 +89,6 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="13" style="font-size:100%"> RCh14</option>
 	<option value="14" style="font-size:100%"> RCh15</option>
 	<option value="15" style="font-size:100%"> RCh16</option>
-	<option value="16" style="font-size:100%"> RChAll</option>
 	</select>
 
 <select name="fg1" style="font-size:100%">
@@ -2937,31 +2935,19 @@ n_id=1;
 midi_min=108;
 midi_max=21;
 parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => { 
-	if (x_ch1=="16"){
-	let trs2=Number(note.pitch)+Number(trs1);
-	r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-	if(trs2>midi_max){
-	midi_max=trs2;
-	}
-	if(trs2<midi_min){
-	midi_min=trs2;
-	}
-	n_id+=1;
-	}else{
-	if(note.channel==x_ch1){
-	let trs2=Number(note.pitch)+Number(trs1);
-	r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-	if(trs2>midi_max){
-	midi_max=trs2;
-	}
-	if(trs2<midi_min){
-	midi_min=trs2;
-	}
-	}
-	n_id+=1;
-	}
-});
+	channel.notes.forEach(note => { 
+		if(note.channel==x_ch1){
+			let trs2=Number(note.pitch)+Number(trs1);
+			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+			if(trs2>midi_max){
+				midi_max=trs2;
+			}
+			if(trs2<midi_min){
+				midi_min=trs2;
+			}
+		}
+		n_id+=1;
+	});
 });
 
 selview1();
@@ -2984,31 +2970,20 @@ n_id=1;
 midi_min=108;
 midi_max=21;
 parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => { 
-	if (x_ch2=="16"){
-	let trs2=Number(note.pitch)+Number(trs1);
-	r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-	if(trs2>midi_max){
-	midi_max=trs2;
-	}
-	if(trs2<midi_min){
-	midi_min=trs2;
-	}
-	n_id+=1;
-	}else{
-	if(note.channel==x_ch2){
-	let trs2=Number(note.pitch)+Number(trs1);
-	r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-	if(trs2>midi_max){
-	midi_max=trs2;
-	}
-	if(trs2<midi_min){
-	midi_min=trs2;
-	}
-	}
-	n_id+=1;
-	}
-});
+	channel.notes.forEach(note => { 
+		if(note.channel==x_ch2){
+			let trs2=Number(note.pitch)+Number(trs1);
+			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+			if(trs2>midi_max){
+				midi_max=trs2;
+			}
+			if(trs2<midi_min){
+				midi_min=trs2;
+			}
+		}
+		n_id+=1;
+		
+	});
 });
 
 selview1();
