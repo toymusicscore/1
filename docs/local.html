@@ -92,8 +92,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="fg1" style="font-size:100%">
-	<option value="0" style="font-size:100%"> LH </option>
-	<option value="1" style="font-size:100%" selected="selected"> RH</option>
+	<option value="0" style="font-size:100%" selected="selected"> RH </option>
+	<option value="1" style="font-size:100%"> LH</option>
 	</select>
 
 <select name="fg2" style="font-size:100%">
@@ -3252,9 +3252,9 @@ let rst7=ppq*bttl/ntvl/fg7v;
 let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;
 let rst8=ppq*bttl/ntvl/fg8v;
 
-if (document.form1.fg1.options[0].selected==true){
+if (document.form1.fg1.options[1].selected==true){
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-}else if (document.form1.fg1.options[1].selected==true){
+}else if (document.form1.fg1.options[0].selected==true){
 x_ch1=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
 }
 
@@ -3289,7 +3289,7 @@ for (p=1;p<fp.length;p++){
 	let [midi0, start0, stop0,channel0, n_id0]=fp[p-1];
 	let [midi1, start1, stop1,channel1, n_id1]=fp[p];
 	for(q=0;q<tsvsd.length;q++){
-		if(document.form1.fg1.options[0].selected==true && 
+		if(document.form1.fg1.options[1].selected==true && 
 		start1-stop0<rst7 &&
 		tsvsd[q]==midi0-midi1 && 
 		n_id0==n_id1-1 && 
@@ -3298,7 +3298,7 @@ for (p=1;p<fp.length;p++){
 			cp0=Number(midi0)+Number(tsvsc[tsvff[q]]);
 			cp1=Number(midi1)+Number(tsvsc[tsvft[q]]);
 			f0.push([[n_id0,n_id1],[tsvff[q],tsvft[q]],[cp0,cp1],[midi0, midi1],[start0, stop1]]);
-		}else if(document.form1.fg1.options[1].selected==true && 
+		}else if(document.form1.fg1.options[0].selected==true && 
 		start1-stop0<rst7 &&
 		tsvsd[q]==midi1-midi0 && 
 		n_id0==n_id1-1 && 
@@ -4291,9 +4291,9 @@ let fg6v=Number(document.form1.fg6.options[document.form1.fg6.options.selectedIn
 let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;//r
 let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;//R
 
-if (document.form1.fg1.options[0].selected==true){
+if (document.form1.fg1.options[1].selected==true){
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-}else if (document.form1.fg1.options[1].selected==true){
+}else if (document.form1.fg1.options[0].selected==true){
 x_ch1=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
 }
 
@@ -4332,9 +4332,9 @@ const finger3= async () =>{
 document.form1.fg4.options[0].selected=true;
 let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
 
-if (document.form1.fg1.options[0].selected==true){
+if (document.form1.fg1.options[1].selected==true){
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-}else if (document.form1.fg1.options[1].selected==true){
+}else if (document.form1.fg1.options[0].selected==true){
 x_ch1=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
 }
 
