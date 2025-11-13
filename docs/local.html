@@ -1280,7 +1280,8 @@ if (tsv3[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv3[n_id-tsvst0+1], 0.7*mx,1.1*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 }
-else if(channel==x_ch2){
+if(channel==x_ch2){
+ctx2.fillStyle=col[midi%12];
 ctx2.fillRect(1.5*mx+szk_l+(midi-midi_min_r)*kw_r,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw_r,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
 ctx2.arc(1.5*mx+szk_l+(midi-midi_min_r+0.5)*kw_r,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw_r/2,0,2*Math.PI,false);
@@ -1503,7 +1504,8 @@ if (tsv3[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv3[n_id-tsvst0+1], 0.7*mx,1.1*my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 }
-else if(channel==x_ch2){
+if(channel==x_ch2){
+ctx2.fillStyle=col[midi%12];
 ctx2.fillRect(1.5*mx+szk_l+(midi-midi_min_r)*kw_r,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw_r,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
 ctx2.arc(1.5*mx+szk_l+(midi-midi_min_r+0.5)*kw_r,my+(start-j)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw_r/2,0,2*Math.PI,false);
@@ -1750,7 +1752,8 @@ if (tsv3[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv3[n_id-tsvst0+1], 0.7*mx,1.1*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 }
-else if(channel==x_ch2){
+if(channel==x_ch2){
+ctx2.fillStyle=col[midi%12];
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect(1.5*mx+szk_l+(midi-midi_min_r)*kw_r,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw_l,gt*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
@@ -1997,7 +2000,7 @@ if (tsv3[n_id-tsvst0+1]!=undefined){
 ctx2.fillText(tsv3[n_id-tsvst0+1], 0.7*mx,1.1*my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 }
 }
-else if(channel==x_ch2){
+if(channel==x_ch2){
 ctx2.fillStyle=col[midi%12];
 ctx2.fillRect(1.5*mx+szk_l+(midi-midi_min_r)*kw_r,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw_l,gt*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 ctx2.beginPath();
