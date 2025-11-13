@@ -4292,16 +4292,18 @@ let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex]
 let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;//R
 
 if (document.form1.fg1.options[1].selected==true){
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+x_ch3=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 }else if (document.form1.fg1.options[0].selected==true){
-x_ch1=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+x_ch3=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
 }
 
 let rf1=[];
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-		rf1.push([midi, start, stop, channel, n_id]);		
+	if (channel==x_ch3 ){
+		rf1.push([midi, start, stop, channel, n_id]);
+	}
 }
 
 n_idf=rf1[0][4];
@@ -4333,16 +4335,16 @@ document.form1.fg4.options[0].selected=true;
 let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
 
 if (document.form1.fg1.options[1].selected==true){
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+x_ch3=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 }else if (document.form1.fg1.options[0].selected==true){
-x_ch1=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+x_ch3=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
 }
 
 let rf1=[];
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-		if (channel==x_ch1 ){
+		if (channel==x_ch3 ){
 			rf1.push([midi, start, stop, channel, n_id]);
 		}
 }
