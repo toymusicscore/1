@@ -752,6 +752,7 @@ let ht1=2;
 
 let x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 let x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+let x_ch3=0;
 let chr=[];
 let trs1=0;
 let trs2=0;
@@ -3264,9 +3265,9 @@ for(i=0;i<r1.length;i++){
 			fp.push([midi1, start1, stop1, channel1, n_id1, 1]);
 	}else if (i>0){
 		let [midi0, start0, stop0, channel0, n_id0]=r1[i-1];
-		if (channel0==x_ch3 && channel1==x_ch3 && n_id0+1==n_id1 && n_id1>=n_idf && n_id1<=fg5vp && start1-stop0<rst8){
+		if (channel0==channel1 && n_id0+1==n_id1 && n_id1>=n_idf && n_id1<=fg5vp && start1-stop0<rst8){
 			fp.push([midi1, start1, stop1, channel1, n_id1, 0]);
-		}else if (channel0==x_ch3 && channel1==x_ch3 && n_id0+1==n_id1 && n_id1>=n_idf && n_id1<=fg5vp && start1-stop0>=rst8){
+		}else if (channel0==channel1 && n_id0+1==n_id1 && n_id1>=n_idf && n_id1<=fg5vp && start1-stop0>=rst8){
 			fp.push([midi1, start1, stop1, channel1, n_id1, 1]);
 		}
 	}
@@ -3275,7 +3276,7 @@ for(i=0;i<r1.length;i++){
 
 for(i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
-	if (channel==x_ch1 && n_id==n_idf){
+	if (channel==x_ch3 && n_id==n_idf){
 		fc.push([midi, n_id]);
 	}
 }
@@ -3286,8 +3287,8 @@ let cp0=0;
 let cp1=0;
 
 for (p=1;p<fp.length;p++){
-	let [midi0, start0, stop0,channel0, n_id0]=fp[p-1];
-	let [midi1, start1, stop1,channel1, n_id1]=fp[p];
+	let [midi0, start0, stop0, channel0, n_id0]=fp[p-1];
+	let [midi1, start1, stop1, channel1, n_id1]=fp[p];
 	for(q=0;q<tsvsd.length;q++){
 		if(document.form1.fg1.options[1].selected==true && 
 		start1-stop0<rst7 &&
@@ -4324,7 +4325,7 @@ time1=Date.now();
 timed=(time1-time0)/60000;
 f110.push([['\r\n','',timed]]);
 
-downloadFile(file1name+'_Ch'+(Number(x_ch1)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg4v+'N'+fg5v+'n'+fg6v+'r'+fg7v+'R'+fg8v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
+downloadFile(file1name+'_Ch'+(Number(x_ch3)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg4v+'N'+fg5v+'n'+fg6v+'r'+fg7v+'R'+fg8v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 
 }
 
