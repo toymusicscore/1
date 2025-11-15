@@ -1092,6 +1092,14 @@ midi_max=21;
 midi_min=108;
 midi_min0=0;
 midi_max0=0;
+midi_max_l=21;
+midi_min_l=108;
+midi_min0_l=0;
+midi_max0_l=0;
+midi_max_r=21;
+midi_min_r=108;
+midi_min0_r=0;
+midi_max0_r=0;
 n_id=1;
 ch_max=-1;
 ch_num=0;
@@ -1107,6 +1115,18 @@ r2.push(note.stop);
   }
   if(Number(note.pitch)<Number(midi_min)){
   midi_min=note.pitch;
+  }
+  if(note.channel==x_ch1 && Number(note.pitch)>Number(midi_max_l)){
+  midi_max_l=note.pitch;
+  }
+  if(note.channel==x_ch1 && Number(note.pitch)<Number(midi_min_l)){
+  midi_min_l=note.pitch;
+  }
+  if(note.channel==x_ch2 && Number(note.pitch)>Number(midi_max_r)){
+  midi_max_r=note.pitch;
+  }
+  if(note.channel==x_ch2 && Number(note.pitch)<Number(midi_min_r)){
+  midi_min_r=note.pitch;
   }
   if(note.channel>ch_max){
   ch_max=note.channel;
@@ -2749,7 +2769,6 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 1.1*mx+szk,1.1*my+start%(ht1*bttl*ppq/ntvl*4)
 }//for(i=0;)
 
 }
-
 
 
 const silent1= async () =>{
