@@ -4123,14 +4123,14 @@ if (document.form1.fg4.options[0].selected==false){
 }
 
 szx=1100;
-szy=280;
+szy=350;
 szk=szx;
 canvas2.width = 1100;
-canvas2.height = 620;
+canvas2.height = 690;
 ctx2.clearRect(0,0,1400,1400);
 ctx2.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
-let kw=szk/kn;
+let kw=(szk-mx)/kn;
 
 for(l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
@@ -4181,29 +4181,29 @@ ctx2.stroke();
 }
 for (p=0;p<f101.length;p++){
 		if (p<9){
-			ctx2.fillText(p+1,13,340+30*p);
+			ctx2.fillText(p+1,13,Number(szy)+60+30*p);
 			}else{
-			ctx2.fillText(p+1,0,340+30*p);
+			ctx2.fillText(p+1,0,Number(szy)+60+30*p);
 			}
 			for (q=0;q<fp.length;q++){
-				ctx2.fillText(f101[p][1][q],180+50*q,340+30*p);
+				ctx2.fillText(f101[p][1][q],180+50*q,Number(szy)+60+30*p);
 				}
 		
-		ctx2.fillText((f101[p][3]).toFixed(2),60,340+30*p);
+		ctx2.fillText((f101[p][3]).toFixed(2),60,Number(szy)+60+30*p);
 	}
 	ctx2.fillStyle="black";
-	ctx2.fillText("No.",0,310);
-	ctx2.fillText("S.mstd",60,310);
+	ctx2.fillText("No.",0,Number(szy)+30);
+	ctx2.fillText("S.mstd",60,Number(szy)+30);
 	ctx2.beginPath();
 	for(i=0;i<11;i++){
 	ctx2.beginPath();
-	ctx2.moveTo(0,315+30*i);
-	ctx2.lineTo(180+50*fp.length,315+30*i);
+	ctx2.moveTo(0,Number(szy)+35+30*i);
+	ctx2.lineTo(180+50*fp.length,Number(szy)+35+30*i);
 	ctx2.strokeStyle=col[i];
 	ctx2.stroke();
 	}
 	for(i=0;i<fp.length;i++){
-		ctx2.fillText(fp[i][4],180+50*i,310);
+		ctx2.fillText(fp[i][4],180+50*i,Number(szy)+30);
 		let [midi, start, stop, channel, n_id]=fp[i];
 		gt=stop-start;
 			if(start>=j && stop<j+ht1*bttl*ppq/ntvl*4){
