@@ -44,10 +44,10 @@ By loging in, you agree to our
         const text = '123';
 
         async function digestMessage(message) {
-            // const encoder = new TextEncoder();
-            // const data = encoder.encode(message);
-            // const hash = await crypto.subtle.digest('SHA-256', data);
-            // return hash;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(message);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return hash;
 
             const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
@@ -71,6 +71,9 @@ By loging in, you agree to our
         })();
         
         alert(text);
+        alert(encoder);
+        alert(data);
+        alert(hash);
         alert(msgUint8);
         alert(hashBuffer);
         alert(hashArray);
