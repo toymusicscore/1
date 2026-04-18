@@ -41,9 +41,14 @@ By loging in, you agree to our
       }
     }
 
-        const text = '1234567890';
+        const text = '123';
 
         async function digestMessage(message) {
+            // const encoder = new TextEncoder();
+            // const data = encoder.encode(message);
+            // const hash = await crypto.subtle.digest('SHA-256', data);
+            // return hash;
+
             const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
             const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
@@ -52,12 +57,18 @@ By loging in, you agree to our
         }
 
         (async() => {
+            // const digestBuffer = await digestMessage(text);
+            // console.log(digestBuffer.byteLength);
+
             const digestHex = await digestMessage(text);
             console.log(digestHex);
+
             const elem_hash_value = document.getElementById('ypw');
+
+            // hash値をブラウザ画面に出力してみます
+            // elem_hash_value.textContent += digestBuffer.byteLength;
             elem_hash_value.textContent += digestHex;
         })();
-
 
 </script>
 </html>
