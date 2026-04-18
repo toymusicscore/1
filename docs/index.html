@@ -44,7 +44,9 @@ By loging in, you agree to our
     }
 
         const text = '123';
-
+                  
+        const text2 = new TextEncoder().encode(text); 
+        
         async function digestMessage(message) {
             const encoder = new TextEncoder();
             const data = encoder.encode(message);
@@ -73,15 +75,7 @@ By loging in, you agree to our
         })();
         
         alert(text);
-        alert(encoder);
-        alert(data);
-        alert(hash);
-        alert(msgUint8);
-        alert(hashBuffer);
-        alert(hashArray);
-        alert(hashHex);
-        alert(digestHex);
-        alert(elem_hash_value);
+        alert(text2);
 
 </script>
 </html>
