@@ -44,38 +44,24 @@ By loging in, you agree to our
     }
 
         const text = '123';
-                  
-        const text2 = new TextEncoder().encode(text); 
-        
+
         async function digestMessage(message) {
             const encoder = new TextEncoder();
             const data = encoder.encode(message);
             const hash = await crypto.subtle.digest('SHA-256', data);
             return hash;
-
-            const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-            const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-            // return hashHex;
         }
 
-        (async() => {
-            // const digestBuffer = await digestMessage(text);
-            // console.log(digestBuffer.byteLength);
+        const digestBuffer = await digestMessage(text);
+    
+        const elem_hash_value = document.getElementById('yea');
 
-            const digestHex = await digestMessage(text);
-            //console.log(digestHex);
-
-            const elem_hash_value = document.getElementById('yea');
-
-            // hash値をブラウザ画面に出力してみます
-            // elem_hash_value.textContent += digestBuffer.byteLength;
-            elem_hash_value.textContent += digestHex;
-        })();
+        // hash値をブラウザ画面に出力してみます
+        elem_hash_value.textContent += digestBuffer.byteLength;
+ 
         
         alert(text);
-        alert(text2);
+        alert(elem_hash_value);
 
 </script>
 </html>
