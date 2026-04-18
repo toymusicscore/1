@@ -45,25 +45,6 @@ By loging in, you agree to our
         window.location=url0
       }
     }
-
-        const text = '123';
-
-        async function digestMessage(message) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(message);
-            const hash = await crypto.subtle.digest('SHA-256', data);
-            return hash;
-        }
-
-        (async() => {
-            const digestBuffer = await digestMessage(text);
-            console.log(digestBuffer.byteLength);
-
-            const elem_hash_value = document.getElementById('hash_value');
-
-            // hash値をブラウザ画面に出力してみます
-            elem_hash_value.textContent += digestBuffer.byteLength;
-        })();
     
 </script>
 </html>
