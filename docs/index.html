@@ -32,6 +32,9 @@ By loging in, you agree to our
 <br>
 </h2>
 </form>
+    
+    <p id="hash_value">hash値 = </p>
+
 </body>
 <script type="text/javascript">
   function login() {
@@ -54,7 +57,7 @@ By loging in, you agree to our
 
         const digestBuffer = await digestMessage(text);
     
-        const elem_hash_value = document.getElementById('yea');
+        const elem_hash_value = document.getElementById('hash_value');
 
         // hash値をブラウザ画面に出力してみます
         elem_hash_value.textContent += digestBuffer.byteLength;
