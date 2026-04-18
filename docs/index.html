@@ -55,17 +55,16 @@ By loging in, you agree to our
             return hash;
         }
 
-        const digestBuffer = await digestMessage(text);
+        (async() => {
+            const digestBuffer = await digestMessage(text);
+            console.log(digestBuffer.byteLength);
+
+            const elem_hash_value = document.getElementById('hash_value');
+
+            // hash値をブラウザ画面に出力してみます
+            elem_hash_value.textContent += digestBuffer.byteLength;
+        })();
     
-        const elem_hash_value = document.getElementById('hash_value');
-
-        // hash値をブラウザ画面に出力してみます
-        elem_hash_value.textContent += digestBuffer.byteLength;
- 
-        
-        alert(text);
-        alert(elem_hash_value);
-
 </script>
 </html>
 
