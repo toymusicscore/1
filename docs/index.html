@@ -19,9 +19,9 @@ You can see note letters, fingering numbers on the piano roll score.<br>
 You can generate fingering numbers for your hands.<br>
 You can upload your midi<font size="2">&reg</font> and fingering files.<br>
 <div class="container">
-<input type="text" id="uid" class="textbox" placeholder="Your Email Address">
-<br><input type="button" value="Get pw" class="button margin" onclick="email()">
-<br><input type="password" id="psw" class="textbox" placeholder="Your Password">
+<input type="text" id="yea" class="textbox" placeholder="Your Email Address">
+<br><input type="password" id="ypw" class="textbox" placeholder="Your Password">
+<br><input type="button" value="Get pw" class="button margin" onclick="getpw()">
 <br><input type="button" value="Log in" class="button margin" onclick="login()">
 </div>
 <br>
@@ -34,12 +34,32 @@ By loging in, you agree to our
 </body>
 <script type="text/javascript">
   function login() {
-    let uid0 = document.getElementById("uid").value;
-    let psw0 = document.getElementById("psw").value;
-      if (uid0=="0" && psw0=="0") {
+    let yea0 = document.getElementById("yea").value;
+    let ypw0 = document.getElementById("ypw").value;
+      if (ypw0=="0") {
         window.location='https://www.toyscore.app/demo'
       }
     }
+
+  function getpw(){
+           const text = '123';
+
+        async function digestMessage(message) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(message);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return hash;
+        }
+
+        const digestBuffer = await digestMessage(text);
+        console.log(digestBuffer.byteLength);
+    
+        const elem_hash_value = document.getElementById('hash_value');
+
+        elem_hash_value.textContent += digestBuffer.byteLength;
+        alert(elem_hash_value);
+      }
+
 </script>
 </html>
 
