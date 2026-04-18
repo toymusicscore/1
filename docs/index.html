@@ -36,10 +36,10 @@ By loging in, you agree to our
 <script type="text/javascript">
   function login() {
     let yid0 = document.getElementById("yid").value;
-    let yid1 = "0";
+    let yid1 = yid.slice(1,-1);
     let ypw0 = document.getElementById("ypw").value;
-    let url0 = 'https://www.toyscore.app/demo'
-    if(yid0 == yid1){
+    let url0 = 'https://www.toyscore.app/'+yid0
+    if(ypw0 == yid1){
         window.location=url0
     }
 }
