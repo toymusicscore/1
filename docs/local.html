@@ -2660,12 +2660,8 @@ if(m%(bttl*ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
 let vmn0=m/(bttl*ppq/ntvl*4)+stm;
 ctx2.strokeStyle="red";
 ctx2.beginPath();
-ctx2.moveTo(0,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
-ctx2.lineTo(mx+szk_l,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(1.5*mx+szk_l,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
-ctx2.lineTo(1.5*mx+szk_l+szk_r,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my);
+ctx2.lineTo(szx,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
 ctx2.stroke();
 ctx2.fillStyle="black";
 ctx2.font="25px Arial";
@@ -2674,19 +2670,15 @@ ctx2.fillText(vmn0,0,my*1.6+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
 ctx2.strokeStyle="blue";
 ctx2.beginPath();
-ctx2.moveTo(mx,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
-ctx2.lineTo(mx+szk_l,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(1.5*mx+szk_l,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
-ctx2.lineTo(1.5*mx+szk_l+szk_r,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my);
+ctx2.lineTo(szx,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
 ctx2.stroke();
 }
 }
 
 ctx2.beginPath();
 ctx2.fillStyle="yellow";
-ctx2.fillRect(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),0,20,szy);
+ctx2.fillRect(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my,20,szy);
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
