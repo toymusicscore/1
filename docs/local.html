@@ -2637,9 +2637,9 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 	1.6*mx+szk_l+szk_r,1.1*my+start%(ht1*bttl*pp
 }
 
 
-//simple portrait
-function simple_p(){
-szx=780;
+//simple landscape
+function simple_l(){
+szx=1103;
 szy=300;
 canvas2.width = szx;
 canvas2.height = szy;
@@ -2731,6 +2731,86 @@ ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/nt
 }else if(start==start1 && start1==start2 && start2==start3 && start3==start4){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 180);
 }
+}
+}//if(stop>j..)
+
+}//for(i=0;)
+}
+
+//simple portrait
+function simple_p(){
+szx=780;
+szy=300;
+canvas2.width = szx;
+canvas2.height = szy;
+ctx2.clearRect(0,0,1400,1400);
+ctx2.lineWidth=1;
+let kn_l=Number(midi_max_l)-Number(midi_min_l)+1;
+let kn_r=Number(midi_max_r)-Number(midi_min_r)+1;
+szk_l=(szx-2.5*mx)*kn_l/(kn_l+kn_r);
+szk_r=(szx-2.5*mx)*kn_r/(kn_l+kn_r);
+let kw_l=szk_l/kn_l;
+let kw_r=szk_r/kn_r;
+
+ctx2.fillStyle="black";
+ctx2.font="15px Arial";
+ctx2.fillText(file1name,0,15);
+ctx2.fillText("R",mx/2,100);
+ctx2.fillText("L",mx/2,200);
+
+for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+if(m%(bttl*ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
+let vmn0=m/(bttl*ppq/ntvl*4)+stm;
+ctx2.strokeStyle="red";
+ctx2.beginPath();
+ctx2.moveTo(mx,my);
+ctx2.lineTo(mx,szy);
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(szx,my);
+ctx2.lineTo(szx,szy);
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="25px Arial";
+ctx2.fillText(vmn0,0,my*1.6+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
+ctx2.strokeStyle="blue";
+ctx2.beginPath();
+ctx2.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my);
+ctx2.lineTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),szy);
+ctx2.stroke();
+}
+}
+
+ctx2.beginPath();
+ctx2.fillStyle="yellow";
+ctx2.fillRect(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my,20,szy);
+
+for(i=0;i<r1.length;i++){
+let [midi, start, stop, channel, n_id]=r1[i];
+if (i>0){
+let [midi1, start1, stop1, channel1, n_id1]=r1[i-1];
+}
+if (i>1){
+let [midi2, start2, stop2, channel2, n_id2]=r1[i-2];
+}
+if (i>2){
+let [midi3, start3, stop3, channel3, n_id3]=r1[i-3];
+}
+if (i>3){
+let [midi4, start4, stop4, channel4, n_id4]=r1[i-4];
+}
+if(start>=j && start<j+bttl*ppq/ntvl*3){
+if (channel==x_ch1){
+ctx2.fillStyle="black";
+ctx2.font="20px Arial";
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 200);
+}
+if(channel==x_ch2){
+ctx2.fillStyle="black";
+ctx2.font="20px Arial";
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 100);
 }
 }//if(stop>j..)
 
