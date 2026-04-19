@@ -262,7 +262,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="22" style="font-size:100%"> MIDI TSV Downloader</option>
 	<option value="23" style="font-size:100%"> Cover L Downloader</option>
 	<option value="24" style="font-size:100%"> Cover P Downloader</option>
-	<option value="25" style="font-size:100%" selected="selected"> Simple P2 </option>
+	<option value="25" style="font-size:100%"> Simple L </option>
+	<option value="26" style="font-size:100%" selected="selected"> Simple P </option>
 	</select>
 	
 <br>
@@ -2637,9 +2638,9 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 	1.6*mx+szk_l+szk_r,1.1*my+start%(ht1*bttl*pp
 
 
 //simple portrait
-function simple_p2(){
+function simple_p(){
 szx=780;
-szy=500;
+szy=400;
 canvas2.width = szx;
 canvas2.height = szy;
 ctx2.clearRect(0,0,1400,1400);
@@ -6432,7 +6433,9 @@ cover_l();
 }else if(document.form1.sv1.options[24].selected==true){
 cover_p();
 }else if(document.form1.sv1.options[25].selected==true){
-simple_p2();
+simple_l();
+}else if(document.form1.sv1.options[26].selected==true){
+simple_p();
 }
 
 }
