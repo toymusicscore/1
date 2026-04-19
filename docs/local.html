@@ -2634,6 +2634,77 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 	1.6*mx+szk_l+szk_r,1.1*my+start%(ht1*bttl*pp
 
 }
 
+
+//simple portrait
+function simple_p2(){
+szx=780;
+szy=1103;
+canvas2.width = szx;
+canvas2.height = szy;
+ctx2.clearRect(0,0,1400,1400);
+ctx2.lineWidth=1;
+let kn_l=Number(midi_max_l)-Number(midi_min_l)+1;
+let kn_r=Number(midi_max_r)-Number(midi_min_r)+1;
+szk_l=(szx-2.5*mx)*kn_l/(kn_l+kn_r);
+szk_r=(szx-2.5*mx)*kn_r/(kn_l+kn_r);
+let kw_l=szk_l/kn_l;
+let kw_r=szk_r/kn_r;
+
+ctx2.fillStyle="black";
+ctx2.font="15px Arial";
+ctx2.fillText(file1name,0,15);
+
+for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+if(m%(bttl*ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
+let vmn0=m/(bttl*ppq/ntvl*4)+stm;
+ctx2.strokeStyle="red";
+ctx2.beginPath();
+ctx2.moveTo(0,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.lineTo(mx+szk_l,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(1.5*mx+szk_l,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.lineTo(1.5*mx+szk_l+szk_r,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.font="25px Arial";
+ctx2.fillText(vmn0,0,my*1.6+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
+ctx2.strokeStyle="blue";
+ctx2.beginPath();
+ctx2.moveTo(mx,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.lineTo(mx+szk_l,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(1.5*mx+szk_l,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.lineTo(1.5*mx+szk_l+szk_r,my+m%(bttl*ppq/ntvl*4)*(szy-my)/(bttl*ppq/ntvl*4));
+ctx2.stroke();
+}
+}
+
+ctx2.beginPath();
+ctx2.fillStyle="white";
+ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),2.5*mx+szk_l+szk_r,my);
+
+
+if(start>=j && start<j+bttl*ppq/ntvl*3){
+if (channel==x_ch1){
+ctx2.fillStyle="black";
+ctx2.font="20px Arial";
+ctx2.fillText(midi.toString(12),1.1*mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4, 200));
+}
+if(channel==x_ch2){
+ctx2.fillStyle="black";
+ctx2.font="20px Arial";
+ctx2.fillText(midi.toString(12),1.1*mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4, 300));
+}
+}//if(stop>j..)
+
+}//for(i=0;)
+
+
+
 const silent1= async () =>{
 
 ctx2.font="100px Arial";
