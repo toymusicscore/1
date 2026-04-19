@@ -2688,7 +2688,8 @@ ctx2.beginPath();
 ctx2.fillStyle="white";
 ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),2.5*mx+szk_l+szk_r,my);
 
-
+for(i=0;i<r1.length;i++){
+let [midi, start, stop, channel, n_id]=r1[i];
 if(start>=j && start<j+bttl*ppq/ntvl*4){
 if (channel==x_ch1){
 ctx2.fillStyle="black";
@@ -2703,7 +2704,7 @@ ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/nt
 }//if(stop>j..)
 
 }//for(i=0;)
-
+}
 
 
 const silent1= async () =>{
