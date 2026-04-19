@@ -2689,16 +2689,51 @@ ctx2.fillRect(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my,20,szy);
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
+if (i>0){
+let [midi1, start1, stop1, channel1, n_id1]=r1[i-1];
+}
+if (i>1){
+let [midi2, start2, stop2, channel2, n_id2]=r1[i-2];
+}
+if (i>2){
+let [midi3, start3, stop3, channel3, n_id3]=r1[i-3];
+}
+if (i>3){
+let [midi4, start4, stop4, channel4, n_id4]=r1[i-4];
+}
+if (i>4){
+let [midi5, start5, stop5, channel5, n_id5]=r1[i-5];
+}
 if(start>=j && start<j+bttl*ppq/ntvl*3){
 if (channel==x_ch1){
 ctx2.fillStyle="black";
 ctx2.font="20px Arial";
+if(start>start1){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 200);
+}else if(start==star1 && start1>start2){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 220);
+}else if(start==star1 && start1==star2 && start2>start3){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 240);
+}else if(start==star1 && start1==start2 && start2==start3 && start3>start4){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 260);
+}else if(start==star1 && start1==start2 && start2==start3 && start3==start4 && start4>start5){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 280);
+}
 }
 if(channel==x_ch2){
 ctx2.fillStyle="black";
 ctx2.font="20px Arial";
+if(start>start1){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 100);
+}else if(start==star1 && start1>start2){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 120);
+}else if(start==star1 && start1==star2 && start2>start3){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 140);
+}else if(start==star1 && start1==start2 && start2==start3 && start3>start4){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 160);
+}else if(start==star1 && start1==start2 && start2==start3 && start3==start4 && start4>start5){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), 180);
+}
 }
 }//if(stop>j..)
 
