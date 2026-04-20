@@ -2750,7 +2750,7 @@ let start3=0;
 let start4=0;
 
 szx=780;
-szy=460;
+szy=440;
 canvas2.width = szx;
 canvas2.height = szy;
 ctx2.clearRect(0,0,1400,1400);
@@ -2767,8 +2767,8 @@ ctx2.font="18px Arial";
 ctx2.fillText(file1name,0,15);
 ctx2.fillText("RF",mx/2,my+ 20);
 ctx2.fillText("RP",mx/2,my+120);
-ctx2.fillText("LP",mx/2,my+240);
-ctx2.fillText("LF",mx/2,my+340);
+ctx2.fillText("LP",mx/2,my+220);
+ctx2.fillText("LF",mx/2,my+320);
 
 for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 if(m%(bttl*ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
@@ -2818,20 +2818,20 @@ if (channel==x_ch1){
 ctx2.fillStyle="black";
 ctx2.font="18px Arial";
 if(start>start1){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
+ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
+}else if(start==start1 && start1>start2){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+240);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+340);
-}else if(start==start1 && start1>start2){
+}else if(start==start1 && start1==start2 && start2>start3){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+260);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+360);
-}else if(start==start1 && start1==start2 && start2>start3){
+}else if(start==start1 && start1==start2 && start2==start3 && start3>start4){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+280);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+380);
-}else if(start==start1 && start1==start2 && start2==start3 && start3>start4){
+}else if(start==start1 && start1==start2 && start2==start3 && start3==start4){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+300);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+400);
-}else if(start==start1 && start1==start2 && start2==start3 && start3==start4){
-ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
-ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+420);
 }
 }
 if(channel==x_ch2){
