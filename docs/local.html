@@ -2807,6 +2807,7 @@ for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
 if (i>0){
 let [midi1, start1, stop1, channel1, n_id1]=r1[i-1];
+alert(id_n+", "+channel+", "+start+", "+start1);
 }
 if (i>1){
 let [midi2, start2, stop2, channel2, n_id2]=r1[i-2];
@@ -2821,10 +2822,12 @@ if(start>=j && start<j+bttl*ppq/ntvl*3){
 if (channel==x_ch1){
 ctx2.fillStyle="black";
 ctx2.font="18px Arial";
-if(channel==channel1 && start>start1){
+if(channel1!=x_ch1){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
-alert(midi.toString(12)+", "+channel+", "+start+", "+start1);
+}else if(channel==channel1 && start>start1){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
+ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
 }else if(channel==channel1 && channel1==channel2 && start==start1 && start1>start2){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+240);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+340);
@@ -2842,7 +2845,10 @@ ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/
 if(channel==x_ch2){
 ctx2.fillStyle="black";
 ctx2.font="18px Arial";
-if(channel==channel1 && start>start1){
+if(id_n==1){
+ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+20);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+120);
+}else if(channel==channel1 && start>start1){
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+20);
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+120);
 }else if(channel==channel1 && channe1==channel2 && start==start1 && start1>start2){
