@@ -2824,10 +2824,11 @@ ctx2.font="18px Arial";
 if(channel1!=x_ch1){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
+alert(n_id+", "+channel+", "+channel1+", "+start+", "+start1);
 }else if(channel==channel1 && start>start1){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
-alert(n_id+", "+channel+", "+start+", "+start1);
+alert(n_id+", "+channel+", "+channel1+", "+start+", "+start1);
 }else if(channel==channel1 && channel1==channel2 && start==start1 && start1>start2){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+240);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+340);
