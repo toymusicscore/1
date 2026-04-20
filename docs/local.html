@@ -2744,14 +2744,6 @@ ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/nt
 
 //simple portrait
 function simple_p(){
-let start1=0;
-let start2=0;
-let start3=0;
-let start4=0;
-let channel1=0;
-let channel2=0;
-let channel3=0;
-let channel4=0;
 
 szx=780;
 szy=440;
@@ -2804,18 +2796,18 @@ ctx2.beginPath();
 ctx2.strokeRect(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my,20,szy-my-1);
 
 for(i=0;i<r1.length;i++){
-let [midi, start, stop, channel, n_id]=r1[i];
+[midi, start, stop, channel, n_id]=r1[i];
 if (i>0){
-let [midi1, start1, stop1, channel1, n_id1]=r1[i-1];
+[midi1, start1, stop1, channel1, n_id1]=r1[i-1];
 }
 if (i>1){
-let [midi2, start2, stop2, channel2, n_id2]=r1[i-2];
+[midi2, start2, stop2, channel2, n_id2]=r1[i-2];
 }
 if (i>2){
-let [midi3, start3, stop3, channel3, n_id3]=r1[i-3];
+[midi3, start3, stop3, channel3, n_id3]=r1[i-3];
 }
 if (i>3){
-let [midi4, start4, stop4, channel4, n_id4]=r1[i-4];
+[midi4, start4, stop4, channel4, n_id4]=r1[i-4];
 }
 if(start>=j && start<j+bttl*ppq/ntvl*3){
 if (channel==x_ch1){
