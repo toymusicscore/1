@@ -268,7 +268,7 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 
 <select name="sv2" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> Simple Play </optiono>
-	<option value="1" style="font-size:100%"> Simple Print </optiono>
+	<option value="1" style="font-size:100%"> Simple PDF </optiono>
 </select>
 
 <br>
@@ -2678,7 +2678,6 @@ ctx2.moveTo(szx,my);
 ctx2.lineTo(szx,szy);
 ctx2.stroke();
 ctx2.fillStyle="black";
-ctx2.font="18px Arial";
 ctx2.fillText(vmn0,0,my);
 
 }else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
@@ -2690,9 +2689,11 @@ ctx2.stroke();
 }
 }
 
+if (document.form1.sv2.options[0].selected==true){
 ctx2.strokeStyle="gray";
 ctx2.beginPath();
 ctx2.strokeRect(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my,20,szy-my-1);
+}
 
 for(i=0;i<r1.length;i++){
 [midi, start, stop, channel, n_id]=r1[i];
@@ -2709,9 +2710,8 @@ if (i>3){
 [midi4, start4, stop4, channel4, n_id4]=r1[i-4];
 }
 if(start>=j && start<j+bttl*ppq/ntvl*4){
-if (channel==x_ch1){
 ctx2.fillStyle="black";
-ctx2.font="18px Arial";
+if (channel==x_ch1){
 if(channel1!=x_ch1){
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
@@ -2733,8 +2733,6 @@ ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/
 }
 }
 if(channel==x_ch2){
-ctx2.fillStyle="black";
-ctx2.font="18px Arial";
 if(n_id==1){
 ctx2.fillText(tsv1[n_id-tsvst0+1],mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+20);
 ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+120);
@@ -2761,7 +2759,7 @@ ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/nt
 
 //simple portrait
 function simple_p(){
-szx=780;
+szx=770;
 szy=440;
 canvas2.width = szx;
 canvas2.height = szy;
