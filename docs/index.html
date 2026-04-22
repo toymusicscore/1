@@ -37,19 +37,13 @@ By loging in, you agree to our
   function login() {
     let uid0 = document.getElementById("uid").value;
     let pw0 = document.getElementById("pw").value;
-    let pw1 = String(Number(uid0)+Number(pw0));
+    let pw1 = uid0+pw0;
     let pw2 = "";
     for (i = 0; i < pw1.length; i += 2){
         pw2 = pw2 + String.fromCharCode(parseInt(1 + pw1.substr(i, 2)));
     }
-    let pw3 = 0;
-    for (i = 0; i < pw2.length; i += 2){
-        pw3 = pw3 + (parseInt(1 + pw2.substr(i, 2)));
-    }
     let url0 = 'https://www.toyscore.app/' + pw2;
-    if  (pw0 == pw3){
         window.location = url0;
-    }
   }
 </script>
 </html>
