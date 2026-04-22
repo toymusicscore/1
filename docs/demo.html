@@ -221,7 +221,7 @@ demo
 	<option value="8" style="font-size:100%"> MIDI Duodecimal </option>
 	<option value="9" style="font-size:100%"> MIDI Number </option>
 	<option value="10" style="font-size:100%"> Note ID </option>
-	<option value="11" style="font-size:100%" selected="selected"> TSV Fingering1</option>
+	<option value="11" style="font-size:100%"> TSV Fingering1</option>
 	<option value="12" style="font-size:100%"> TSV Fingering2</option>
 	<option value="13" style="font-size:100%"> TSV Text1 </option>
 	<option value="14" style="font-size:100%" > TSV Text2 </option>
@@ -238,7 +238,14 @@ demo
 	<option value="25" style="font-size:100%" > Fingering No.8 </option>
 	<option value="26" style="font-size:100%" > Fingering No.9 </option>
 	<option value="27" style="font-size:100%" > Fingering No.10 </option>
+	<option value="25" style="font-size:100%"> Simple L </option>
+	<option value="26" style="font-size:100%" selected="selected"> Simple P </option>
 	</select>
+
+<select name="sv2" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> Simple Play </optiono>
+	<option value="1" style="font-size:100%"> Simple PDF </optiono>
+</select>
 
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> Scroll L1 </option>
@@ -876,7 +883,7 @@ let diff5=0;
 let szx=1200;
 let szy=640;
 let szk=900;
-let mx=60;
+let mx=30;
 let my=40;
 let f0=[];
 let f1=[];
@@ -2632,9 +2639,286 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 	1.6*mx+szk_l+szk_r,1.1*my+start%(ht1*bttl*pp
 }
 
 
+//simple landscape
+function simple_l(){
+szx=1103;
+szy=440;
+canvas2.width = szx;
+canvas2.height = szy;
+ctx2.clearRect(0,0,1400,1400);
+ctx2.lineWidth=1;
+let kn_l=Number(midi_max_l)-Number(midi_min_l)+1;
+let kn_r=Number(midi_max_r)-Number(midi_min_r)+1;
+szk_l=(szx-2.5*mx)*kn_l/(kn_l+kn_r);
+szk_r=(szx-2.5*mx)*kn_r/(kn_l+kn_r);
+let kw_l=szk_l/kn_l;
+let kw_r=szk_r/kn_r;
+
+ctx2.fillStyle="black";
+ctx2.font="18px Arial";
+ctx2.fillText(file1name,0,15);
+ctx2.fillText("RF",0,my+ 20);
+ctx2.fillText("RP",0,my+120);
+ctx2.fillText("LP",0,my+220);
+ctx2.fillText("LF",0,my+320);
+
+for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+if(m%(bttl*ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
+let vmn0=j/(bttl*ppq/ntvl*4)+stm;
+ctx2.strokeStyle="red";
+ctx2.beginPath();
+ctx2.moveTo(mx,my);
+ctx2.lineTo(mx,szy);
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(szx,my);
+ctx2.lineTo(szx,szy);
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.fillText(vmn0,0,my);
+
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
+ctx2.strokeStyle="blue";
+ctx2.beginPath();
+ctx2.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my);
+ctx2.lineTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),szy);
+ctx2.stroke();
+}
+}
+
+if (document.form1.sv2.options[0].selected==true){
+ctx2.strokeStyle="gray";
+ctx2.beginPath();
+ctx2.strokeRect(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my,20,szy-my-1);
+}
+
+for(i=0;i<r1.length;i++){
+[midi, start, stop, channel, n_id]=r1[i];
+if (i>0){
+[midi1, start1, stop1, channel1, n_id1]=r1[i-1];
+}
+if (i>1){
+[midi2, start2, stop2, channel2, n_id2]=r1[i-2];
+}
+if (i>2){
+[midi3, start3, stop3, channel3, n_id3]=r1[i-3];
+}
+if (i>3){
+[midi4, start4, stop4, channel4, n_id4]=r1[i-4];
+}
+if(start>=j && start<j+bttl*ppq/ntvl*4){
+ctx2.fillStyle="black";
+//tsv fingering1
+if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
+f1=tsv1[n_id-tsvst0+1];
+//tsv fingering2
+}else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
+f1=tsv2[n_id-tsvst0+1];
+//tsv Text1
+}else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
+f1=tsv5[n_id-tsvst0+1];
+//tsv Text2
+}else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
+f1=tsv6[n_id-tsvst0+1];
+//tsv Text3
+}else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
+f1=tsv7[n_id-tsvst0+1];
+//tsv Text4
+}else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
+f1=tsv8[n_id-tsvst0+1];
+//tsv Text5
+}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
+f1=tsv9[n_id-tsvst0+1];
+}
+
+if (channel==x_ch1){
+if(channel1!=x_ch1){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
+}else if(channel==channel1 && start>start1){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
+}else if(channel==channel1 && channel1==channel2 && start==start1 && start1>start2){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+240);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+340);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && start==start1 && start1==start2 && start2>start3){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+260);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+360);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start==start1 && start1==start2 && start2==start3 && start3>start4){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+280);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+380);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start==start1 && start1==start2 && start2==start3 && start3==start4){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+300);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+400);
+}
+}
+if(channel==x_ch2){
+if(n_id==1){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+20);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+120);
+}else if(channel==channel1 && start>start1){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+20);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+120);
+}else if(channel==channel1 && channel1==channel2 && start==start1 && start1>start2){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+40);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+140);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && start==start1 && start1==start2 && start2>start3){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+60);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+160);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start==start1 && start1==start2 && start2==start3 && start3>start4){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+80);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+180);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start==start1 && start1==start2 && start2==start3 && start3==start4){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+100);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+200);
+}
+}
+}//if(start>j..)
+}//for(i=0;)
+}
+
+//simple portrait
+function simple_p(){
+szx=770;
+szy=440;
+canvas2.width = szx;
+canvas2.height = szy;
+ctx2.clearRect(0,0,1400,1400);
+ctx2.lineWidth=1;
+let kn_l=Number(midi_max_l)-Number(midi_min_l)+1;
+let kn_r=Number(midi_max_r)-Number(midi_min_r)+1;
+szk_l=(szx-2.5*mx)*kn_l/(kn_l+kn_r);
+szk_r=(szx-2.5*mx)*kn_r/(kn_l+kn_r);
+let kw_l=szk_l/kn_l;
+let kw_r=szk_r/kn_r;
+
+ctx2.fillStyle="black";
+ctx2.font="18px Arial";
+ctx2.fillText(file1name,0,15);
+ctx2.fillText("RF",0,my+ 20);
+ctx2.fillText("RP",0,my+120);
+ctx2.fillText("LP",0,my+220);
+ctx2.fillText("LF",0,my+320);
+
+for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+if(m%(bttl*ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
+let vmn0=j/(bttl*ppq/ntvl*4)+stm;
+ctx2.strokeStyle="red";
+ctx2.beginPath();
+ctx2.moveTo(mx,my);
+ctx2.lineTo(mx,szy);
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(szx,my);
+ctx2.lineTo(szx,szy);
+ctx2.stroke();
+ctx2.fillStyle="black";
+ctx2.fillText(vmn0,0,my);
+
+}else if(m%(ppq/ntvl*4)===0 && m>=j && m<(j+bttl*ppq/ntvl*4)){
+ctx2.strokeStyle="blue";
+ctx2.beginPath();
+ctx2.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my);
+ctx2.lineTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),szy);
+ctx2.stroke();
+}
+}
+
+if (document.form1.sv2.options[0].selected==true){
+ctx2.strokeStyle="gray";
+ctx2.beginPath();
+ctx2.strokeRect(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my,20,szy-my-1);
+}
+
+for(i=0;i<r1.length;i++){
+[midi, start, stop, channel, n_id]=r1[i];
+if (i>0){
+[midi1, start1, stop1, channel1, n_id1]=r1[i-1];
+}
+if (i>1){
+[midi2, start2, stop2, channel2, n_id2]=r1[i-2];
+}
+if (i>2){
+[midi3, start3, stop3, channel3, n_id3]=r1[i-3];
+}
+if (i>3){
+[midi4, start4, stop4, channel4, n_id4]=r1[i-4];
+}
+if(start>=j && start<j+bttl*ppq/ntvl*4){
+ctx2.fillStyle="black";
+//tsv fingering1
+if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
+f1=tsv1[n_id-tsvst0+1];
+//tsv fingering2
+}else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
+f1=tsv2[n_id-tsvst0+1];
+//tsv Text1
+}else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
+f1=tsv5[n_id-tsvst0+1];
+//tsv Text2
+}else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
+f1=tsv6[n_id-tsvst0+1];
+//tsv Text3
+}else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
+f1=tsv7[n_id-tsvst0+1];
+//tsv Text4
+}else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
+f1=tsv8[n_id-tsvst0+1];
+//tsv Text5
+}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
+f1=tsv9[n_id-tsvst0+1];
+}
+
+if (channel==x_ch1){
+if(channel1!=x_ch1){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
+}else if(channel==channel1 && start>start1){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+220);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+320);
+}else if(channel==channel1 && channel1==channel2 && start==start1 && start1>start2){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+240);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+340);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && start==start1 && start1==start2 && start2>start3){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+260);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+360);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start==start1 && start1==start2 && start2==start3 && start3>start4){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+280);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+380);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start==start1 && start1==start2 && start2==start3 && start3==start4){
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+300);
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+400);
+}
+}
+if(channel==x_ch2){
+if(n_id==1){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+20);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+120);
+}else if(channel==channel1 && start>start1){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+20);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+120);
+}else if(channel==channel1 && channel1==channel2 && start==start1 && start1>start2){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+40);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+140);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && start==start1 && start1==start2 && start2>start3){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+60);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+160);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start==start1 && start1==start2 && start2==start3 && start3>start4){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+80);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+180);
+}else if(channel==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start==start1 && start1==start2 && start2==start3 && start3==start4){
+ctx2.fillText(f1,mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+100);
+ctx2.fillText(midi.toString(12),mx+start%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4), my+200);
+}
+}
+}//if(start>j..)
+}//for(i=0;)
+}
+
+
 const silent1= async () =>{
 
-ctx2.font="100px Arial";
+ctx2.font="50px Arial";
 
 	for(i=3;i>=0;i--){
 		ctx2.fillStyle="red";
@@ -6360,6 +6644,10 @@ download1();
 cover_l();
 }else if(document.form1.sv1.options[24].selected==true){
 cover_p();
+}else if(document.form1.sv1.options[25].selected==true){
+simple_l();
+}else if(document.form1.sv1.options[26].selected==true){
+simple_p();
 }
 
 }
