@@ -2697,17 +2697,16 @@ ctx2.strokeRect(mx-11+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my,24,szy-m
 
 for(i=0;i<r1.length;i++){
 [midi, start, stop, channel, n_id]=r1[i];
-if(start<j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop<j+bttl*ppq/ntvl*3.5-j%(bttl*ppq/ntvl*4)){
+if(start<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)){
 	gt=stop-start;
-}else if(start<j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop>=j+bttl*ppq/ntvl*3.5-j%(bttl*ppq/ntvl*4)){
-	gt=j+bttl*ppq/ntvl*3.5-j%(bttl*ppq/ntvl*4)-start;
-}else if(start>=j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop<j+bttl*ppq/ntvl*3.5){
+}else if(start<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)){
+	gt=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)-start;
+}else if(start>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop<j+ht1*bttl*ppq/ntvl*3){
 	gt=stop-start;
-/*
-}else if(start>=j+bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+bttl*ppq/ntvl*4){
-	gt=j+bttl*ppq/ntvl*4-start;
-*/
+}else if(start>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+ht1*bttl*ppq/ntvl*3){
+	gt=j+ht1*bttl*ppq/ntvl*3-start;
 }
+
 if (i>0){
 [midi1, start1, stop1, channel1, n_id1]=r1[i-1];
 }
@@ -2720,7 +2719,8 @@ if (i>2){
 if (i>3){
 [midi4, start4, stop4, channel4, n_id4]=r1[i-4];
 }
-if(start>=j && start<j+bttl*ppq/ntvl*4){
+
+if(start>=j && start<j+bttl*ppq/ntvl*3){
 ctx2.fillStyle="black";
 //tsv fingering1
 if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
