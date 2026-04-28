@@ -267,8 +267,8 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	</select>
 
 <select name="sv2" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> Simple Play </optiono>
-	<option value="1" style="font-size:100%"> Simple PDF </optiono>
+	<option value="0" style="font-size:100%" selected="selected"> Show Marker </optiono>
+	<option value="1" style="font-size:100%"> Hide Marker </optiono>
 </select>
 
 <br>
@@ -755,7 +755,7 @@ let midi_min0=0;
 let midi_max0=0;
 let ch_max=-1;
 let ch_num=0;
-let ht1=2;
+let ht1=1;
 
 let x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 let x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
@@ -1433,9 +1433,12 @@ ctx2.stroke();
 
 }
 
+if (document.form1.sv2.options[0].selected==true){
+ctx2.strokeStyle="gray";
 ctx2.beginPath();
-ctx2.fillStyle="white";
 ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),mx+szx,my);
+}
+
 
 ctx2.beginPath();
 ctx2.moveTo(0,szy);
@@ -1586,9 +1589,11 @@ ctx2.stroke();
 
 }
 
+if (document.form1.sv2.options[0].selected==true){
+ctx2.strokeStyle="gray";
 ctx2.beginPath();
-ctx2.fillStyle="white";
 ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),mx+szk,my);
+}
 
 ctx2.beginPath();
 ctx2.moveTo(0,szy);
@@ -2254,9 +2259,11 @@ ctx2.stroke();
 }
 }
 
+if (document.form1.sv2.options[0].selected==true){
+ctx2.strokeStyle="gray";
 ctx2.beginPath();
-ctx2.fillStyle="white";
 ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),2.5*mx+szk_l+szk_r,my);
+}
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
@@ -2502,9 +2509,11 @@ ctx2.stroke();
 }
 }
 
+if (document.form1.sv2.options[0].selected==true){
+ctx2.strokeStyle="gray";
 ctx2.beginPath();
-ctx2.fillStyle="white";
 ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),2.5*mx+szk_l+szk_r,my);
+}
 
 for(i=0;i<r1.length;i++){
 let [midi, start, stop, channel, n_id]=r1[i];
