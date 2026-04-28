@@ -2261,7 +2261,9 @@ ctx2.stroke();
 if (document.form1.sv2.options[0].selected==true){
 ctx2.strokeStyle="gray";
 ctx2.beginPath();
-ctx2.fillRect(mx,my/2+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),2.5*mx+szk_l+szk_r,my);
+ctx2.fillRect(mx,my+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.fillRect(szx,my+j%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+ctx2.stroke();
 }
 
 for(i=0;i<r1.length;i++){
