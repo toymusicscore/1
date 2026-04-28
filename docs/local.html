@@ -2709,9 +2709,9 @@ if(start<j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop<j+bttl*ppq/ntvl*4-j%(bttl
 	gt=stop-start;
 }else if(start<j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop>=j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4)){
 	gt=j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4)-start;
-}else if(start>=j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop<j+bttl*ppq/ntvl*4){
+}else if(start>=j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop<j+bttl*ppq/ntvl*3){
 	gt=stop-start;
-}else if(start>=j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop>=j+bttl*ppq/ntvl*4){
+}else if(start>=j+bttl*ppq/ntvl*4-j%(bttl*ppq/ntvl*4) && stop>=j+bttl*ppq/ntvl*3){
 	gt=0;
 }
 
@@ -2728,7 +2728,7 @@ if (i>3){
 [midi4, start4, stop4, channel4, n_id4]=r1[i-4];
 }
 
-if(start>=j && start<j+bttl*ppq/ntvl*4){
+if(start>=j && start<j+bttl*ppq/ntvl*3){
 ctx2.fillStyle="black";
 //tsv fingering1
 if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
