@@ -266,11 +266,6 @@ TSV<input type="file" id="selfile2" style="font-size:100%">
 	<option value="26" style="font-size:100%"> Simple P </option>
 	</select>
 
-<select name="sv2" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> Show Marker </optiono>
-	<option value="1" style="font-size:100%"> Hide Marker </optiono>
-</select>
-
 <br>
 <select name="smsr1" onChange="setmsr1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> 0 </option>
@@ -2697,13 +2692,11 @@ ctx2.stroke();
 }
 }
 
-if (document.form1.sv2.options[0].selected==true){
 ctx2.strokeStyle="grey";
 ctx2.beginPath();
 ctx2.moveTo(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my);
 ctx2.lineTo(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),szy);
 ctx2.stroke();
-}
 
 for(i=0;i<r1.length;i++){
 [midi, start, stop, channel, n_id]=r1[i];
@@ -2968,13 +2961,11 @@ ctx2.stroke();
 }
 }
 
-if (document.form1.sv2.options[0].selected==true){
 ctx2.strokeStyle="grey";
 ctx2.beginPath();
 ctx2.moveTo(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my);
 ctx2.lineTo(mx+j%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),szy);
 ctx2.stroke();
-}
 
 for(i=0;i<r1.length;i++){
 [midi, start, stop, channel, n_id]=r1[i];
