@@ -2725,8 +2725,30 @@ if (i>3){
 
 if(start>=j && start<j+bttl*ppq/ntvl*3){
 ctx2.fillStyle="black";
+if (document.form1.nl1.options[0].selected==true){
+f1="";
+}else if (document.form1.nl1.options[1].selected==true){
+f1=drms1[midi%12];
+}else if (document.form1.nl1.options[2].selected==true){
+f1=drmf1[midi%12];
+}else if (document.form1.nl1.options[3].selected==true){
+f1=engs1[midi%12];
+}else if (document.form1.nl1.options[4].selected==true){
+f1=engf1[midi%12];
+}else if (document.form1.nl1.options[5].selected==true){
+f1=gers1[midi%12];
+}else if (document.form1.nl1.options[6].selected==true){
+f1=gerf1[midi%12];
+}else if (document.form1.nl1.options[7].selected==true){
+f1=(midi%12).toString(12);
+}else if (document.form1.nl1.options[8].selected==true){
+f1=midi.toString(12);
+}else if (document.form1.nl1.options[9].selected==true){
+f1=midi;
+}else if (document.form1.nl1.options[10].selected==true){
+f1=n_id;
 //tsv fingering1
-if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
+}else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
 f1=tsv1[n_id-tsvst0+1];
 //tsv fingering2
 }else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
