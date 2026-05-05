@@ -680,7 +680,7 @@ function draw(time){
 	ctx2.clearRect(0, 0, canvas.width, canvas.height);
 	const windowTime = 4.0;
 	notes.forEach(note => {
-		const dt = note.time - time;
+		const dt = note.start - time;
 		if (dt > -1 && dt < 3){
 			const x = note.pitch * 10;
 			const y = canvas.height - (dt / windowTime) * canvas.height;
