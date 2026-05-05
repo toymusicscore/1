@@ -884,12 +884,12 @@ function start(){
 
 function loop(){
 	const time = picoAudio.getTime();
+	alert(time);
 	draw(time);
 	requestAnimationFrame(loop);
 }
 
 function draw(time){
-	alert(time);
 	ctx2.clearRect(0, 0, canvas.width, canvas.height);
 	const windowTime = 4.0;
 	notes.forEach(note => {
