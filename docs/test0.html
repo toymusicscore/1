@@ -674,27 +674,27 @@ async function start(parsedData){
 	requestAnimationFrame(loop);
 }
 
-function loop(parsedData){
+function loop(){
 	const time = picoAudio.context.currentTime - startTime;
-	draw(time, parsedData);
+	draw(time);
 	requestAnimationFrame(loop);
 }
 
-function draw(time, parsedData){
+function draw(time){
 	ctx2.clearRect(0, 0, 1400, 1400);
-	parsedData.channels.forEach(channel => { 
-	channel.notes.forEach(note => {
-		const dt = note.start - time;
-		alert(note.start);
-			if (dt > -1 && dt < 3){
-			const x = note.pitch * 10;
-			const y = (dt / 4) * 700;
-			ctx2.fillStyle="grey";
-			ctx2.fillRect(x, y, 8, 20);
+	for (let i =0; i< r1.length; i++){	
+	let [midi, start, stop, channel, n_id]=r1[i];
+		const dt = start - time;
+		if (dt > -1 && dt < 3){
+		const x = midi * 10;
+		const y = (dt / 4) * 700;
+		ctx2.fillStyle="grey";
+		ctx2.fillRect(x, y, 8, 20);
 		}
-	});
-});
-}
+	}
+};
+
+
 
 const silent1= async () =>{
 
