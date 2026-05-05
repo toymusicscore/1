@@ -664,16 +664,16 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 1.1*mx+szk,1.1*my+start%(ht1*bttl*ppq/ntvl*4)
 
 function start(){
 	picoAudio.play();
+	alert(picoAudio.context.state);
 	requestAnimationFrame(loop);
 }
 
 function loop(){
 	const time = picoAudio.getTime();
-
-	ctx2.fillStyle="grey";
-	ctx2.fillRect(0, 0, 8, 20);
-	//	draw(time);
-
+	if (!isNaN(time)){
+		alert(time);
+		draw(time);
+	}
 	requestAnimationFrame(loop);
 }
 
@@ -684,6 +684,7 @@ function draw(time){
 		if (dt > -1 && dt < 3){
 			const x = note.pitch * 10;
 			const y = (dt / 4) * 700;
+			ctx2.fillStyle="grey";
 			ctx2.fillRect(x, y, 8, 20);
 		}
 	});
