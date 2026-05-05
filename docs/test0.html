@@ -669,7 +669,7 @@ function start(){
 
 function loop(){
 	const time = picoAudio.getTime();
-	if (!isNaN(time)){
+	if (time>0){
 		draw(time);
 	}
 	requestAnimationFrame(loop);
