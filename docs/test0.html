@@ -883,11 +883,11 @@ function start(){
 
 function loop(){
 	const time = picoAudio.context.currentTime - startTime;
-	draw(time);
+	draw();
 	requestAnimationFrame(loop);
 }
 
-function draw(time){
+function draw(){
 	ctx2.clearRect(0, 0, 1400, 1400);
 	for (let i =0; i< r1.length; i++){	
 	let [midi, start, stop, channel, n_id]=r1[i];
