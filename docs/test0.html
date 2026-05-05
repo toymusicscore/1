@@ -670,6 +670,7 @@ async function start(parsedData){
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.play();
+	alert(r1);
 	startTime = picoAudio.context.currentTime;
 	requestAnimationFrame(loop);
 }
@@ -681,7 +682,6 @@ function loop(){
 }
 
 function draw(time){
-alert(r1);
 	ctx2.clearRect(0, 0, 1400, 1400);
 	for (let i =0; i< r1.length; i++){	
 	let [midi, start, stop, channel, n_id]=r1[i];
