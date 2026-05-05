@@ -877,24 +877,23 @@ function start(){
 	picoAudio.setData(parsedData);
 */
 	picoAudio.play();
-//	startTime = picoAudio.context.currentTime;
+	startTime = picoAudio.context.currentTime;
 //	requestAnimationFrame(loop);
 	draw();
 }
 
-function loop(){
-//	const time = picoAudio.context.currentTime - startTime;
-	draw();
+function loop(time){
+	const time = picoAudio.context.currentTime - startTime;
+	draw(time);
 //	requestAnimationFrame(loop);
 }
 
-function draw(){
+function draw(time){
 	ctx2.clearRect(0, 0, 1400, 1400);
 	for (let i =0; i< r1.length; i++){	
 	let [midi, start, stop, channel, n_id]=r1[i];
-	alert("start="+start);
-		const dt = start;
-		if (dt > -1 && dt < 3000){
+		const dt = start/ppq-time;
+		if (dt > -1 && dt < 3){
 		const x = midi * 10;
 		const y = (dt / 4) ;
 		ctx2.fillStyle="grey";
