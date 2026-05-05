@@ -877,12 +877,13 @@ function start(){
 	picoAudio.setData(parsedData);
 */
 	picoAudio.play();
-	startTime = picoAudio.context.currentTime;
-	requestAnimationFrame(loop);
+//	startTime = picoAudio.context.currentTime;
+//	requestAnimationFrame(loop);
+	loop();
 }
 
 function loop(){
-	const time = picoAudio.context.currentTime - startTime;
+//	const time = picoAudio.context.currentTime - startTime;
 	draw();
 	requestAnimationFrame(loop);
 }
