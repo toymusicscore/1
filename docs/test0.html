@@ -667,6 +667,7 @@ let notes = [];
 
 async function start(parsedData){
 	await picoAudio.context.resume();
+	notes = parsedData.tracks.flat();
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.play();
