@@ -878,14 +878,13 @@ function start(){
 */
 	picoAudio.play();
 	startTime = picoAudio.context.currentTime;
-//	requestAnimationFrame(loop);
-	draw(time);
+	requestAnimationFrame(loop);
 }
 
 function loop(time){
 	const time = picoAudio.context.currentTime - startTime;
 	draw(time);
-//	requestAnimationFrame(loop);
+	requestAnimationFrame(loop);
 }
 
 function draw(time){
