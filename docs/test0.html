@@ -125,7 +125,7 @@ test0
 
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
 <input type="button" name="b_sb" value="BPM" onClick="silent1()" style="font-size:100%" >
-<input type="button" name="b_p" value="Play" onClick="play1()" style="font-size:100%" >
+<input type="button" name="b_p" value="Play" onClick="start()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="top1()" style="font-size:100%" >
 <input type="button" name="b_<<" value="<<" onClick="reverses()" style="font-size:100%" >
@@ -877,6 +877,34 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 1.1*mx+szk,1.1*my+start%(ht1*bttl*ppq/ntvl*4)
 
 }
 
+function start(){
+	picoAudio.play();
+	requestAnimtionFrame(loop);
+}
+
+function loop(){
+	const time = picoAudio.getTime();
+	updateDisplay(time);
+	requestAnimtionFrame(loop);
+}
+
+function updateDisplay(time){
+	const visibleNotes = notes.filter(note => note.time > time && note.time < time + 2);
+	draw(visibleNotes);
+}
+
+function draw(time){
+	ctx2.clearRect(0, 0, canvas.width, canvas.height);
+	const windowTime = 4.0;
+	notes.forEach(notes =>{
+		const dt = note.time - time;
+		if (dt > -1 && dt < 3){
+			const x = note.pitch * 10;
+			const y = canvas.height - (dt / windowTime) * canvas.height;
+			ctx2.fillRect(x, y, 8, 20);
+		}
+	});
+}
 
 const silent1= async () =>{
 
