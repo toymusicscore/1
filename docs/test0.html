@@ -676,11 +676,11 @@ async function start(parsedData){
 
 function loop(){
 	const time = picoAudio.context.currentTime - startTime;
-	draw(time);
+	draw(time, parsedData);
 	requestAnimationFrame(loop);
 }
 
-function draw(time){
+function draw(time, parsedData){
 	ctx2.clearRect(0, 0, 1400, 1400);
 	parsedData.channels.forEach(channel => { 
 	channel.notes.forEach(note => {
