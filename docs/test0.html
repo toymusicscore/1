@@ -888,6 +888,33 @@ function loop(){
 }
 
 function draw(time){
+	szx=1103;
+	szy=780;
+	szk=szx-2*mx;
+	canvas2.width = szx;
+	canvas2.height = szy;
+	ctx2.clearRect(0,0,1400,1400);
+	ctx2.lineWidth=1;
+	let kn=Number(midi_max)-Number(midi_min)+1;
+	let kw=szk/kn;
+	for(i=0;i<r1.length;i++){
+		let [midi, start, stop, channel, n_id]=r1[i];
+		const dt = start*60/bpm/ppq-time;
+		gt=stop-start;
+//		if(start>=j && start<j+ht1*ppq*bttl/ntvl*4){
+		if (dt > -1 && dt < 3){
+			ctx2.fillStyle=col[midi%12];
+			ctx2.fillRect((midi-midi_min)*kw+mx,my+(start)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*(szy-2*my)/(ht1*bttl*ppq/ntvl*4));
+			ctx2.beginPath();
+			ctx2.arc((midi-midi_min+0.5)*kw+mx,my+(start)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+			ctx2.fillStyle=col3[channel];
+			ctx2.fill();
+		}
+	}
+};
+
+
+function draw_bk(time){
 	ctx2.clearRect(0, 0, 1400, 1400);
 	for (let i =0; i< r1.length; i++){	
 	let [midi, start, stop, channel, n_id]=r1[i];
@@ -900,7 +927,6 @@ function draw(time){
 		}
 	}
 };
-
 
 
 const silent1= async () =>{
