@@ -674,7 +674,7 @@ async function start(parsedData){
 	requestAnimationFrame(loop);
 }
 
-function loop(){
+function loop(parsedData){
 	const time = picoAudio.context.currentTime - startTime;
 	draw(time, parsedData);
 	requestAnimationFrame(loop);
