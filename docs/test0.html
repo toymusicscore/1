@@ -85,16 +85,6 @@ test0
 	<option value="15" style="font-size:100%" > TSV Text3 </option>
 	<option value="16" style="font-size:100%" > TSV Text4 </option>
 	<option value="17" style="font-size:100%" > TSV Text5 </option>
-	<option value="18" style="font-size:100%" > Fingering No.1 </option>
-	<option value="19" style="font-size:100%" > Fingering No.2 </option>
-	<option value="20" style="font-size:100%" > Fingering No.3 </option>
-	<option value="21" style="font-size:100%" > Fingering No.4 </option>
-	<option value="22" style="font-size:100%" > Fingering No.5 </option>
-	<option value="23" style="font-size:100%" > Fingering No.6 </option>
-	<option value="24" style="font-size:100%" > Fingering No.7 </option>
-	<option value="25" style="font-size:100%" > Fingering No.8 </option>
-	<option value="26" style="font-size:100%" > Fingering No.9 </option>
-	<option value="27" style="font-size:100%" > Fingering No.10 </option>
 	</select>
 
 <select name="sv1" onChange="selview1()" style="font-size:100%">
@@ -370,11 +360,7 @@ test0
 C <span id="channels"></span>
 T <span id="pt"></span>
 P <span id="prgrs"></span>
-<input type="button" name="PDF_Landscape" value="PL" onClick="pdf_l()" style="font-size:100%" >
-<input type="button" name="PDF_Portrait" value="PP" onClick="pdf_p()" style="font-size:100%" >
 </form>
-<canvas id="cv2" width="1400" height="1400">
-</canvas>
 <div id="credit" style="font-size:80%">
 </div>
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
@@ -382,6 +368,8 @@ P <span id="prgrs"></span>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 const canvas2=document.getElementById("cv2");
+canvas2.width = window.innerWidth;
+canvas2.height = window.innerHeight;
 const ctx2=canvas2.getContext("2d");
 const credit2=document.getElementById("credit");
 //const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#ff007f"];
@@ -1117,7 +1105,7 @@ ctx2.font="100px Arial";
 		ctx2.fillStyle="red";
 		wait0=60000/Math.max(document.form1.x_bpm.value,30);
 		await new Promise(r => timer=setTimeout(r,wait0));
-		cx2.clearRect(0,40,40,100);
+		ctx2.clearRect(0,40,40,100);
 		ctx2.fillText(i,0,100);
 	}
 
@@ -1363,32 +1351,6 @@ state=true;
 
 function height1(){
 ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
-
-selview1();
-
-}
-
-
-function transpose1(){
-
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
-}
-
-midi_min=Number(midi_min0)+Number(trs1);
-midi_max=Number(midi_max0)+Number(trs1);
-r1=[]
-n_id=1;
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => { 
-let trs2=Number(note.pitch)+Number(trs1);
-r1.push([trs2,note.start,note.stop, note.channel,n_id]);
-n_id=n_id+1;
-});
-});
 
 selview1();
 
@@ -1643,116 +1605,6 @@ newWin2.document.writeln ('<pre>Created by Niklas von Hertzen. Licensed under th
 
 }
 
-async function download1(){
-let files=(await(await fetch("./data/SongList.tsv")).text()).split('\n');
-dlf0=[];
-dlf1=[];
-dlf2=[];
-window.name="openerWin";
-newWin1=window.open();
-newWin1.document.writeln ('<pre>Download Files<hr color="#ff0000"></font></pre>'.fontsize(6));
-newWin1.document.writeln ("<table border='1' width='400'><tr><th>Composer</th><th>Title</th><th>MIDI</th><th>TSV</th></tr>");
-for(i=0;i<files.length;i++){
-	dlf0.push([(files[i].split('\t'))[0]]);
-	dlf1.push([(files[i].split('\t'))[1]]);
-	dlf2.push([(files[i].split('\t'))[2]]);
-	newWin1.document.writeln ("<td>",dlf0[i],"</td><td>",dlf1[i],"</td><td><a href='data/",dlf2[i],".mid' download>",dlf2[i],".mid</a></td><td><a href='data/",dlf2[i],".tsv' download>",dlf2[i],".tsv</a></td></tr>");
-}
-newWin1.document.writeln ("</table>");
-}
-
-
-function downloadFile(fileName, urlData) {
-var aLink = document.createElement('a');
-var evt = document.createEvent("HTMLEvents");
-evt.initEvent("click");
-aLink.download = fileName;
-aLink.href = urlData;
-aLink.dispatchEvent(evt);
-}
-
-
-function index1(){
-window.location.href="index.html"
-}
-
-
-
-function pdf_l(){
-	if (document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value<10){
-		var nl1v='0'+document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value;
-	}else{
-		var nl1v=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value;
-	}
-	if (document.form1.x_msr.value<10){
-		var x_msrv='0'+document.form1.x_msr.value;
-	}else{
-		var x_msrv=document.form1.x_msr.value;
-	}
-	var element		= canvas2;
-	var opt = {
-	margin:       [0,20,0,0],
-	filename:     file1name+'_Ch'+(Number(x_ch2)+1)+'Ch'+(Number(x_ch1)+1)+'NL'+nl1v+'M'+x_msrv+'_L.pdf',
-	image:        { type: 'jpeg', quality: 0.95 },
-	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [850,600], orientation: 'l' }
-	};
-
-	html2pdf().set(opt).from(element).save();
-};
-
-function pdf_p(){
-	if (document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value<10){
-		var nl1v='0'+document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value;
-	}else{
-		var nl1v=document.form1.nl1.options[document.form1.nl1.options.selectedIndex].value;
-	}
-	if (document.form1.x_msr.value<10){
-		var x_msrv='0'+document.form1.x_msr.value;
-	}else{
-		var x_msrv=document.form1.x_msr.value;
-	}
-	var element		= canvas2;
-	var opt = {
-	margin:       [0,20,0,0],
-	filename:     file1name+'_Ch'+(Number(x_ch2)+1)+'Ch'+(Number(x_ch1)+1)+'NL'+nl1v+'M'+x_msrv+'_P.pdf',
-	image:        { type: 'jpeg', quality: 0.95 },
-	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [600,850], orientation: 'p' }
-	};
-
-	html2pdf().set(opt).from(element).save();
-};
-
-
-function cover_l(){
-	var element	= credit2;
-	var opt = {
-	margin:       50,
-	filename:     file1name+'_Cover_L.pdf',
-	image:        { type: 'jpeg', quality: 0.95 },
-	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [850,600], orientation: 'l' }
-	};
-
-	html2pdf().set(opt).from(element).save();
-
-}
-
-function cover_p(){
-	var element	= credit2;
-	var opt = {
-	margin:       100,
-	filename:     file1name+'_Cover_P.pdf',
-	image:        { type: 'jpeg', quality: 0.95 },
-	html2canvas:  { scale: 2 },
-	jsPDF:        { unit: 'pt', format: [600,850], orientation: 'p' }
-	};
-
-	html2pdf().set(opt).from(element).save();
-
-}
-
 
 function instrument1(){
 canvas2.height = 1300;
@@ -1779,321 +1631,6 @@ ctx2.fillText(Number(channel)+1,200,30*(i+1)+50);
 ctx2.fillText(instrument,350,30*(i+1)+50);
 }
 }
-}
-
-function color_sample1(){
-szx=1080;
-szy=1300;
-canvas2.width = szx;
-canvas2.height = szy;
-ctx2.clearRect(0,0,1400,1400);
-
-let kw=78;
-let kw0=kw*12/7*3/5;
-let kw1=kw*12/7*4/7;
-let cl=kw/2;
-
-ctx2.font="25px Arial";
-ctx2.fillStyle="black";
-
-ctx2.lineWidth=1;
-for(let k=22;k<=107;k++){
-ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect((k-Math.floor(k/12)*12)*kw,(Math.floor(k/12)*2-2)*cl+10,kw,cl);
-	if (k%12===0) {
-		ctx2.beginPath();
-		ctx2.arc((k-Math.floor(k/12)*12)*kw+37,(Math.floor(k/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
-		ctx2.fillStyle="white";
-		ctx2.fill();
-		ctx2.fillStyle="black";
-		ctx2.fillText(Math.floor(k/12), (k-Math.floor(k/12)*12)*kw+30,(Math.floor(k/12)*2-2)*cl+40);
-	}
-if(k%12<=4){
-ctx2.fillStyle=col[k%12];
-ctx2.fillRect((k-Math.floor(k/12)*12)*kw0,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
-ctx2.beginPath();
-ctx2.arc((k-Math.floor(k/12)*12)*kw0+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
-ctx2.fillStyle="white";
-ctx2.fill();
-ctx2.fillStyle="black";
-ctx2.fillText(k%12, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
-}else{
-ctx2.fillStyle=col[k%12];
-ctx2.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1,(Math.floor(k/12)*2-1)*cl+10,kw1,cl);
-ctx2.beginPath();
-ctx2.arc(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
-ctx2.fillStyle="white";
-ctx2.fill();
-ctx2.fillStyle="black";
-ctx2.fillText((k%12).toString(12), 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+30,(Math.floor(k/12)*2-1)*cl+40);
-}
-ctx2.strokeStyle="black";
-
-if(Math.floor(k/12)<=8){
-ctx2.beginPath();
-ctx2.moveTo(0,(Math.floor(k/12)*2)*cl+10);
-ctx2.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(13*kw,(Math.floor(k/12)*2-2)*cl+10);
-ctx2.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
-ctx2.stroke();
-if(k%12===0){
-ctx2.beginPath();
-ctx2.moveTo(12*kw,(Math.floor(k/12)*2-2)*cl+10);
-ctx2.lineTo(12*kw,(Math.floor(k/12)*2)*cl+10);
-ctx2.strokeStyle="blue";
-ctx2.stroke();
-}
-if(k%12===5){
-ctx2.beginPath();
-ctx2.moveTo(5*kw0,(Math.floor(k/12)*2-2)*cl+10);
-ctx2.lineTo(5*kw0,(Math.floor(k/12)*2)*cl+10);
-ctx2.strokeStyle="red";
-ctx2.stroke();
-}
-}
-}
-ctx2.fillStyle=col2[Math.floor(21/12)-1];
-ctx2.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-2)*cl+10,kw1,cl);
-ctx2.beginPath();
-ctx2.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
-ctx2.fillStyle="white";
-ctx2.fill();
-ctx2.fillStyle="black";
-ctx2.fillText(Math.floor(21/12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-2)*cl+40);
-ctx2.fillStyle=col[21%12];
-ctx2.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-1)*cl+10,kw1,cl);
-ctx2.beginPath();
-ctx2.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
-ctx2.fillStyle="white";
-ctx2.fill();
-ctx2.fillStyle="black";
-ctx2.fillText(Math.floor(21%12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-1)*cl+40);
-
-ctx2.beginPath();
-ctx2.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
-ctx2.lineTo(5*kw*12/7,(Math.floor(21/12)*2)*cl+10);
-ctx2.stroke();
-
-ctx2.beginPath();
-ctx2.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
-ctx2.lineTo(13*kw,(Math.floor(21/12)*2-2)*cl+10);
-ctx2.stroke();
-
-ctx2.fillStyle=col2[Math.floor(108/12)-1];
-ctx2.fillRect(12*kw,(Math.floor(107/12)*2-2)*cl+10,kw,cl);
-ctx2.beginPath();
-ctx2.arc(12*kw+37,(Math.floor(107/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
-ctx2.fillStyle="white";
-ctx2.fill();
-ctx2.fillStyle="black";
-ctx2.fillText(Math.floor(108/12), 12*kw+30,(Math.floor(107/12)*2-2)*cl+40);
-ctx2.fillStyle=col[108%12];
-ctx2.fillRect(12*kw,(Math.floor(107/12)*2-1)*cl+10,kw,cl);
-ctx2.beginPath();
-ctx2.arc(12*kw+37,(Math.floor(107/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
-ctx2.fillStyle="white";
-ctx2.fill();
-ctx2.fillStyle="black";
-ctx2.fillText(Math.floor(108%12), 12*kw+30,(Math.floor(107/12)*2-1)*cl+40);
-
-ctx2.beginPath();
-ctx2.moveTo(12*kw,(Math.floor(107/12)*2)*cl+10);
-ctx2.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
-ctx2.stroke();
-
-ctx2.beginPath();
-ctx2.moveTo(13*kw,(Math.floor(107/12)*2-1)*cl+10);
-ctx2.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
-ctx2.stroke();
-
-ctx2.beginPath();
-ctx2.moveTo(12*kw,(Math.floor(23/12)*2-2)*cl+10);
-ctx2.lineTo(12*kw,(Math.floor(23/12)*2)*cl+10);
-ctx2.strokeStyle="blue";
-ctx2.stroke();
-
-ctx2.beginPath();
-ctx2.moveTo(12*kw,(Math.floor(107/12)*2-2)*cl+10);
-ctx2.lineTo(12*kw,(Math.floor(107/12)*2)*cl+10);
-ctx2.strokeStyle="blue";
-ctx2.stroke();
-
-ctx2.beginPath();
-ctx2.moveTo(5*kw0,(Math.floor(107/12)*2-2)*cl+10);
-ctx2.lineTo(5*kw0,(Math.floor(107/12)*2)*cl+10);
-ctx2.strokeStyle="red";
-ctx2.stroke();
-
-let x0=0;
-let y0=660;
-let l0=50;
-
-for(let l=0;l<=12;l++){
-if(l%12===1||l%12===3){
-ctx2.fillStyle="lightgray";
-ctx2.fillRect(l*kw0+x0,y0,kw0,l0);
-ctx2.beginPath();
-}else if(l%12===6||l%12===8||l%12===10){
-ctx2.fillStyle="lightgray";
-ctx2.fillRect(3*kw*12/7+(l-5)*kw1+x0,y0,kw1,l0);
-ctx2.beginPath();
-}
-}
-
-for(let m=0;m<=7;m++){
-if(m%7===0||m%7===3){
-ctx2.beginPath();
-ctx2.moveTo(m*kw*12/7+x0,y0);
-ctx2.lineTo(m*kw*12/7+x0,l0*2+y0);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-}else{
-ctx2.beginPath();
-ctx2.moveTo(m*kw*12/7+x0,l0+y0);
-ctx2.lineTo(m*kw*12/7+x0,l0*2+y0);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-}
-}
-
-ctx2.beginPath();
-ctx2.moveTo(x0,y0);
-ctx2.lineTo(kw*12+x0,y0);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-
-ctx2.beginPath();
-ctx2.moveTo(x0,l0*2+y0);
-ctx2.lineTo(kw*12+x0,l0*2+y0);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-
-
-
-let x2=0;
-let y2=1000;
-
-let kw20=10;
-let kw21=kw20*12/7*3/5;
-let kw22=kw20*12/7*4/7;
-let kw23=kw20*12/7;
-let kl0=10*kw20;
-let kl1=14*kw20;
-
-for(let l=0;l<=51;l++){
-if((l+5)%7===0){
-ctx2.beginPath();
-ctx2.moveTo(l*kw23+x2,y2);
-ctx2.lineTo(l*kw23+x2,2*kw20+y2);
-ctx2.strokeStyle="blue";
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(l*kw23+x2,2*kw20+y2);
-ctx2.lineTo(l*kw23+x2,kl1+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-}else if((l+5)%7===3){
-ctx2.beginPath();
-ctx2.moveTo(l*kw23+x2,y2);
-ctx2.lineTo(l*kw23+x2,2*kw20+y2);
-ctx2.strokeStyle="red";
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(l*kw23+x2,2*kw20+y2);
-ctx2.lineTo(l*kw23+x2,kl1+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-}else{
-ctx2.beginPath();
-ctx2.moveTo(l*kw23+x2,kl0+y2);
-ctx2.lineTo(l*kw23+x2,kl1+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-}
-}
-
-for(let k=21;k<=108;k++){
-if(k%12>=0 && k%12<=4){
-ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
-ctx2.font="10px Arial";
-ctx2.fillStyle="black";
-	if(k%12===0){
-	ctx2.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
-	}
-ctx2.fillStyle=col[k%12];
-ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
-ctx2.font="10px Arial";
-ctx2.fillStyle="black";
-ctx2.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
-}else{
-ctx2.fillStyle=col2[Math.floor(k/12)-1];
-ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
-ctx2.font="10px Arial";
-ctx2.fillStyle="black";
-	if(k===21){
-	ctx2.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
-	}
-ctx2.fillStyle=col[k%12];
-ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
-ctx2.font="10px Arial";
-ctx2.fillStyle="black";
-ctx2.fillText((k%12).toString(12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,kw20+y2-16);
-}
-
-if(k%12===1||k%12===3){
-ctx2.fillStyle="black";
-ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw21+x2,2*kw20+y2,kw21,8*kw20);
-}else if(k%12===6||k%12===8||k%12===10){
-ctx2.fillStyle="black";
-ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,8*kw20);
-}else if(k%12===0){
-ctx2.beginPath();
-ctx2.moveTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,y2-30);
-ctx2.lineTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,14*kw20+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-}
-}
-
-ctx2.beginPath();
-ctx2.moveTo(x2,y2-30);
-ctx2.lineTo(52*kw23+x2,y2-30);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(x2,y2);
-ctx2.lineTo(52*kw23+x2,y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(x2,2*kw20+y2);
-ctx2.lineTo(52*kw23+x2,2*kw20+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(x2,14*kw20+y2);
-ctx2.lineTo(52*kw23+x2,14*kw20+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(x2,15*kw20+y2);
-ctx2.lineTo(52*kw23+x2,15*kw20+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(x2,y2-30);
-ctx2.lineTo(x2,15*kw20+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-ctx2.beginPath();
-ctx2.moveTo(52*kw23+x2,y2-30);
-ctx2.lineTo(52*kw23+x2,15*kw20+y2);
-ctx2.strokeStyle="black";
-ctx2.stroke();
-
 }
 
 
