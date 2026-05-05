@@ -879,12 +879,12 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 1.1*mx+szk,1.1*my+start%(ht1*bttl*ppq/ntvl*4)
 
 function start(){
 	picoAudio.play();
-	loop();
-}
-
-function loop(){
 	const time = picoAudio.getTime();
 	alert(time);
+	loop(time);
+}
+
+function loop(time){
 	draw(time);
 	requestAnimationFrame(loop);
 }
