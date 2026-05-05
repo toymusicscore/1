@@ -884,13 +884,8 @@ function start(){
 
 function loop(){
 	const time = picoAudio.getTime();
-	updateDisplay(time);
+	draw(time);
 	requestAnimtionFrame(loop);
-}
-
-function updateDisplay(time){
-	const visibleNotes = notes.filter(note => note.time > time && note.time < time + 2);
-	draw(visibleNotes);
 }
 
 function draw(time){
