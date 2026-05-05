@@ -672,13 +672,12 @@ function loop(){
 
 	ctx2.fillStyle="grey";
 	ctx2.fillRect(0, 0, 8, 20);
-		draw(time);
+	//	draw(time);
 
 	requestAnimationFrame(loop);
 }
 
 function draw(time){
-			alert(time);
 	ctx2.clearRect(0, 0, 1400, 1400);
 	notes.forEach(note => {
 		const dt = note.start - time;
