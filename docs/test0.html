@@ -669,7 +669,7 @@ async function start(parsedData){
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.play();
-	startTime = picoAudio.currentTime;
+	startTime = picoAudio.context.currentTime;
 	requestAnimationFrame(loop);
 }
 
