@@ -890,14 +890,24 @@ function loop(){
 
 function draw(){
 	ctx2.clearRect(0, 0, 1400, 1400);
-	for (let i =0; i< r1.length; i++){	
-	let [midi, start, stop, channel, n_id]=r1[i];
-		const dt = start;
-		if (dt > -1 && dt < 3000){
-		const x = midi * 10;
-		const y = (dt / 4) ;
-		ctx2.fillStyle="grey";
-		ctx2.fillRect(x, y, 8, 20);
+for(i=0;i<r1.length;i++){
+let [midi, start, stop, channel, n_id]=r1[i];
+if(start<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)){
+	gt=stop-start;
+}else if(start<j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)){
+	gt=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4)-start;
+}else if(start>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop<j+ht1*bttl*ppq/ntvl*3){
+	gt=stop-start;
+}else if(start>=j+ht1*bttl*ppq/ntvl*4-j%(ht1*bttl*ppq/ntvl*4) && stop>=j+ht1*bttl*ppq/ntvl*3){
+	gt=j+ht1*bttl*ppq/ntvl*3-start;
+}
+if(start>=j && start<j+ht1*bttl*ppq/ntvl*3){
+ctx2.fillStyle=col[midi%12];
+ctx2.fillRect((midi-midi_min)*kw+mx,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw,gt*szy/(ht1*bttl*ppq/ntvl*4));
+ctx2.beginPath();
+ctx2.arc((midi-midi_min+0.5)*kw+mx,my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4),kw/2,0,2*Math.PI,false);
+ctx2.fillStyle=col3[channel];
+ctx2.fill();
 		}
 	}
 };
