@@ -680,11 +680,11 @@ function loop(){
 }
 
 function draw(time){
-	alert(time);
 	ctx2.clearRect(0, 0, 1400, 1400);
 		notes.forEach(note => {
 		const dt = note.start - time;
-		if (dt > -1 && dt < 3){
+		alert(time);
+			if (dt > -1 && dt < 3){
 			const x = note.pitch * 10;
 			const y = (dt / 4) * 700;
 			ctx2.fillStyle="grey";
