@@ -668,9 +668,9 @@ function start(){
 }
 
 function loop(){
-	alert("test");
 	ctx2.clearRect(0, 0, 1400, 1400);
 	const time = picoAudio.getTime();
+		alert(time);
 	notes.forEach(note => {
 		const dt = note.start - time;
 		if (dt > -1 && dt < 3){
