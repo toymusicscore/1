@@ -662,26 +662,20 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 1.1*mx+szk,1.1*my+start%(ht1*bttl*ppq/ntvl*4)
 
 }
 
+let startTime = 0;
+
 async function start(parsedData){
 	await picoAudio.context.resume();
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.play();
-	setTimeout(() => {
-	alert(picoAudio.context.currentTime);
-	alert(picoAudio.states.startTime);
-	alert(picoAudio.getTime());
-	alert(picoAudio.isPlaying());
-	},100);
+	startTime = picoAudio.currentTime;
 	requestAnimationFrame(loop);
 }
 
 function loop(){
-	const time = picoAudio.getTime();
-//	alert(time);
-	if (!isNaN(time)){
-		draw(time);
-	}
+	const time = picoAudio.context.currentTime - startTime;
+	draw(time);
 	requestAnimationFrame(loop);
 }
 
