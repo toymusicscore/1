@@ -668,10 +668,16 @@ function start(){
 }
 
 function loop(){
+	ctx2.clearRect(0, 0, 1400, 1400);
 	const time = picoAudio.getTime();
-	if (time>=0){
-		draw(time);
-	}
+	notes.forEach(note => {
+		const dt = note.start - time;
+		if (dt > -1 && dt < 3){
+			const x = note.pitch * 10;
+			const y = (dt / 4) * 700;
+			ctx2.fillRect(x, y, 8, 20);
+		}
+	});
 	requestAnimationFrame(loop);
 }
 
