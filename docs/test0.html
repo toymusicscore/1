@@ -891,7 +891,7 @@ function draw(time){
 	ctx2.clearRect(0, 0, 1400, 1400);
 	for (let i =0; i< r1.length; i++){	
 	let [midi, start, stop, channel, n_id]=r1[i];
-		const dt = start/ppq-time;
+		const dt = start*60/bpm/ppq-time;
 		if (dt > -1 && dt < 3){
 		const x = midi * 10;
 		const y = (dt / 4) * 700;
