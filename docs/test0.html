@@ -869,12 +869,10 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 1.1*mx+szk,1.1*my+start%(ht1*bttl*ppq/ntvl*4)
 
 let startTime = 0;
 let isPlaying = false;
-let isDrawing = false;
 
 async function start(parsedData){
 	await picoAudio.context.resume();
 	isPlaying = true;
-	isDrawing = true;
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.play();
@@ -884,16 +882,13 @@ async function start(parsedData){
 
 function stop(){
 	isPlaying = false;
-	isDrawing = false;
 	picoAudio.stop();
 }
 
 function loop(){
 	if (!isPlaying) return;
 	const time = picoAudio.context.currentTime - startTime;
-//	if (isDrawing){
 	line(time);
-//	}
 	requestAnimationFrame(loop);
 }
 
