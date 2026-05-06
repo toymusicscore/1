@@ -949,7 +949,7 @@ function draw(time){
 		let [midi, start, stop, channel, n_id]=r1[i];
 		const dt = start*60/bpm/ppq-time;
 		const dp = stop*60/bpm/ppq-time;
-		gt=(stop-start)/(bttl*ppq/ntvl*4);
+		gt=(stop-start)*60/bpm/ppq;
 		if (dp > -1 && dt < 3){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
