@@ -126,7 +126,7 @@ test0
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
 <input type="button" name="b_sb" value="BPM" onClick="silent1()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="start(parsedData)" style="font-size:100%" >
-<input type="button" name="b_||" value=" || " onClick="pause1()" style="font-size:100%" >
+<input type="button" name="b_||" value=" || " onClick="stop()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="top1()" style="font-size:100%" >
 <input type="button" name="b_<<" value="<<" onClick="reverses()" style="font-size:100%" >
 <input type="button" name="b_<" value="<" onClick="reverse1()" style="font-size:100%" >
@@ -868,8 +868,12 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 1.1*mx+szk,1.1*my+start%(ht1*bttl*ppq/ntvl*4)
 }
 
 let startTime = 0;
+let isPlaying = false;
+let isDrawing = false;
 
 async function start(parsedData){
+	isPlaying = true;
+	isDrawing = true;
 	await picoAudio.context.resume();
 	picoAudio.init();
 	picoAudio.setData(parsedData);
@@ -878,9 +882,18 @@ async function start(parsedData){
 	requestAnimationFrame(loop);
 }
 
+function stop(){
+	isPlaying = false;
+	isDrawing = false;
+	picoAudio.stop();
+}
+
 function loop(){
+	if (isPlaying) return;
 	const time = picoAudio.context.currentTime - startTime;
+	if (isDrawing){
 	line(time);
+	}
 	requestAnimationFrame(loop);
 }
 
@@ -1123,7 +1136,6 @@ function setmsr1(){
 function pause1(){
 picoAudio.init();
 picoAudio.pause();
-clearTimeout(timer);
 r3i0=r3i1;
 }
 
