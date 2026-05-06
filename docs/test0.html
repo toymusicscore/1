@@ -868,28 +868,39 @@ ctx2.fillText(tsv4[n_id-tsvst0+1], 1.1*mx+szk,1.1*my+start%(ht1*bttl*ppq/ntvl*4)
 }
 
 let startTime = 0;
+let pauseTime = 0;
 let isPlaying = false;
 
 async function start(parsedData){
 	await picoAudio.context.resume();
-	isPlaying = true;
 	picoAudio.init();
 	picoAudio.setData(parsedData);
-//	startTime = picoAudio.context.currentTime;
-	picoAudio.setStartTime(startTime);
+	const current = picoAudio.context.currentTime;
+	startTime = current - pauseTime;
+	picoAudio.setStartTime(pauseTime);
 	picoAudio.play();
+	isPlaying = true;
 	loop();
 }
 
 function stop(){
-	isPlaying = false;
-	startTime = picoAudio.context.currentTime;
+	const current = picoAudio.context.currentTime;
+	pauseTime = current - startTime;
 	picoAudio.stop();
+	isPlaying = false;
+}
+
+function getCurrentTime(){
+	if (!isPlaying){
+		return pauseTime;
+	}
+	const current = picoAudio.context.currentTime;
+	return current - startTime;
 }
 
 function loop(){
 	if (!isPlaying) return;
-	const time = picoAudio.context.currentTime - startTime;
+	const time = getCurrentTime();
 	line(time);
 	requestAnimationFrame(loop);
 }
