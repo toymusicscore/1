@@ -950,7 +950,7 @@ function draw(time){
 		const dt = (start-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
 		const dp = (stop-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
 		gt=(stop-start)/(bttl*ppq/ntvl*4);
-		if (dp >= 0 && dt < ht1){
+		if (dp > -1/4 && dt < ht1){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+dt*(szy-my)/ht1;
