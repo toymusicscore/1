@@ -880,11 +880,11 @@ async function start(parsedData){
 
 function loop(){
 	const time = picoAudio.context.currentTime - startTime;
-	draw(time);
+	line(time);
 	requestAnimationFrame(loop);
 }
 
-function draw(time){
+function line(time){
 	szx=1400;
 	szy=700;
 	szk=szx-2*mx;
