@@ -875,13 +875,15 @@ async function start(parsedData){
 	isPlaying = true;
 	picoAudio.init();
 	picoAudio.setData(parsedData);
+//	startTime = picoAudio.context.currentTime;
+	picoAudio.setStartTime(startTime);
 	picoAudio.play();
-	startTime = picoAudio.context.currentTime;
 	loop();
 }
 
 function stop(){
 	isPlaying = false;
+	startTime = picoAudio.context.currentTime;
 	picoAudio.stop();
 }
 
@@ -939,7 +941,7 @@ function line(time){
 	} else {
 		isPlaying = false;
 	}
-	
+
 	ctx2.beginPath();
 	ctx2.moveTo(0,szy);
 	ctx2.lineTo(mx+szk,szy);
