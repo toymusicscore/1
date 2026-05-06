@@ -889,7 +889,7 @@ function stop(){
 }
 
 function loop(){
-	if (isPlaying) return;
+	if (!isPlaying) return;
 	const time = picoAudio.context.currentTime - startTime;
 	if (isDrawing){
 	line(time);
