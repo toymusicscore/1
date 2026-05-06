@@ -962,7 +962,7 @@ function draw(time){
 		if (dp > -1/4 && dt < ht1){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+start*(szy-my)/ht1;
+			const y = my+my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			ctx2.fillStyle=col[midi%12];
 			ctx2.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 			ctx2.beginPath();
