@@ -960,13 +960,21 @@ function draw(time){
 		let [midi, start, stop, channel, n_id]=r1[i];
 		const dt = (start-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
 		const dp = (stop-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
-		gt=(stop-start)/(bttl*ppq/ntvl*4);
+		if(start<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) && stop<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)){
+			gt=stop-start;
+		}else if(start<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) && stop>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)){
+			gt=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)-start;
+		}else if(start>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) && stop<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3){
+			gt=stop-start;
+		}else if(start>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) && stop>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3){
+			gt=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3-start;
+		}
 		if (dp >=0 && dt < ht1*3/4){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			ctx2.fillStyle=col[midi%12];
-			ctx2.fillRect(x0,y,kw,gt*(szy-my)/ht1);
+			ctx2.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
 			ctx2.beginPath();
 			ctx2.arc(x1,y,kw/2,0,2*Math.PI,false);
 			ctx2.fillStyle=col3[channel];
