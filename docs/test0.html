@@ -960,13 +960,17 @@ function line(time){
 		let [midi, start, stop, channel, n_id]=r1[i];
 		const dt = (start-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
 		const dp = (stop-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
-		if(start<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) && stop<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)){
+		if(start<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) 
+		&& stop<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)){
 			gt=stop-start;
-		}else if(start<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) && stop>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)){
+		}else if(start<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) 
+		&& stop>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)){
 			gt=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)-start;
-		}else if(start>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) && stop<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3){
+		}else if(start>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) 
+		&& stop<time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3){
 			gt=stop-start;
-		}else if(start>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) && stop>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3){
+		}else if(start>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*4-time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4) 
+		&& stop>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3){
 			gt=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3-start;
 		}
 		if (dp >=0 && dt < ht1*3/4){
