@@ -921,17 +921,17 @@ function draw(time){
 		ctx2.stroke();
 		}
 	}
+	
+	ctx2.beginPath();
+	ctx2.moveTo(0,szy);
+	ctx2.lineTo(szx,szy);
+	ctx2.strokeStyle="red";
+	ctx2.stroke();
 
 	ctx2.beginPath();
 	ctx2.moveTo(0,my+time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 	ctx2.lineTo(szx,my+time/60*bpm*ppq%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 	ctx2.fillStyle="grey";
-	ctx2.stroke();
-
-	ctx2.beginPath();
-	ctx2.moveTo(0,szy);
-	ctx2.lineTo(szx,szy);
-	ctx2.strokeStyle="red";
 	ctx2.stroke();
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
