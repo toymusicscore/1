@@ -872,9 +872,9 @@ let isPlaying = false;
 let isDrawing = false;
 
 async function start(parsedData){
+	await picoAudio.context.resume();
 	isPlaying = true;
 	isDrawing = true;
-	await picoAudio.context.resume();
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.play();
