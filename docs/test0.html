@@ -1021,7 +1021,7 @@ function line(time){
 	ctx.stroke();
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(ppq*bttl/ntvl*4)===0 && m>=time/60*bpm*ppq && m<=(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
+		if(m%(ppq*bttl/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
 		let vmn0=m/ppq/bttl*ntvl/4+stm;
 		let vmn1=m/ppq/bttl*ntvl/4+stm-1;
 		ctx.beginPath();
@@ -1033,7 +1033,7 @@ function line(time){
 		ctx.font="25px Arial";
 		ctx.fillText(vmn0,0,my*1.6);
 		ctx.fillText(vmn1,0,szy-20);
-		}else if(m%(ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<=(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
+		}else if(m%(ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
 		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
