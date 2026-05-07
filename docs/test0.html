@@ -1214,6 +1214,9 @@ function simple(time){
 	ctx.lineTo(mx+time/60*bpm*ppq%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),szy);
 	ctx.stroke();
 
+	for(i=0;i<r1.length;i++){
+	[midi, start, stop, channel, n_id]=r1[i];
+
 	if (i>0){
 	[midi1, start1, stop1, channel1, n_id1]=r1[i-1];
 	}
@@ -1321,7 +1324,7 @@ function simple(time){
 		}
 	}//if(start>j..)
 }//for(i=0;)
-
+}
 
 
 function draw_bk(time){
