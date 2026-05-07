@@ -1147,6 +1147,7 @@ function scroll(time){
 
 	for(i=0;i<r1.length;i++){
 		let [midi, start, stop, channel, n_id]=r1[i];
+		getLabel(midi, n_id);
 		const dt = (start-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
 		const dp = (stop-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
 		gt=(stop-start)/(bttl*ppq/ntvl*4);
@@ -1160,6 +1161,18 @@ function scroll(time){
 			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
 			ctx.fillStyle=col3[channel];
 			ctx.fill();
+			ctx.fillStyle="black";
+			ctx.font="20px Arial";
+			if (nl!=""){
+			ctx.fillText(nl, x0, y);
+			}
+			if (nll!=""){
+			ctx.fillText(nll, mx, y);
+			}
+			if (nlr!=""){
+			ctx.fillText(nlr, mx+szk, y);
+			}
+
 		}
 	}
 };
