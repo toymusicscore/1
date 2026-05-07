@@ -909,7 +909,7 @@ let nl ="";
 let nll ="";
 let nlr ="";
 
-function getLabel(midi){
+function getLabel(midi, n_id){
 	if (document.form1.nl1.options[0].selected==true){
 	nl="";
 }else if (document.form1.nl1.options[1].selected==true){
@@ -925,7 +925,7 @@ function getLabel(midi){
 }else if (document.form1.nl1.options[6].selected==true){
 	nl=gerf1[midi%12];
 }else if (document.form1.nl1.options[7].selected==true){
-	nl=(midi%12).toString(12);
+	nl=" "+(midi%12).toString(12);
 }else if (document.form1.nl1.options[8].selected==true){
 	nl=midi.toString(12);
 }else if (document.form1.nl1.options[9].selected==true){
@@ -1061,7 +1061,7 @@ function line(time){
 			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
 			ctx.fillStyle=col3[channel];
 			ctx.fill();
-			getLabel(midi);
+			getLabel(midi, n_id);
 			ctx.fillStyle="black";
 			ctx.font="20px Arial";
 			if (nl!=""){
