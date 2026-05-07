@@ -909,7 +909,7 @@ let nl ="";
 let nll ="";
 let nlr ="";
 
-function getLabel(){
+function getLabel(midi){
 	if (document.form1.nl1.options[0].selected==true){
 	nl="";
 }else if (document.form1.nl1.options[1].selected==true){
@@ -1061,11 +1061,9 @@ function line(time){
 			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
 			ctx.fillStyle=col3[channel];
 			ctx.fill();
-			getLabel();
+			getLabel(midi);
 			ctx.fillStyle="black";
 			ctx.font="20px Arial";
-			ctx.fillText("Do",x0,y);
-			/*
 			if (nl!=""){
 			ctx.fillText(nl,x0,y);
 			}
@@ -1075,7 +1073,6 @@ function line(time){
 			if (nlr!=""){
 			ctx.fillText(nlr, mx+szk,y);
 			}
-			*/
 		}
 	}
 };
