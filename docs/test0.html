@@ -907,20 +907,23 @@ function loop(){
 
 function resizeCanvas(){
 	const dpr = window.devicePixelRatio || 1;
-	canvas.width = window.innerWidth * dpr;
-	canvas.height = window.innerHeight * dpr;
-	canvas.style.width = window.innerWidth + "px";
-	canvas.style.height = window.innerHeight + "px";
-	ctx.setTransform(1,0,0,1,0,0);
-	ctx.scale(dpr, dpr);
+	width = window.innerWidth * dpr;
+	height = window.innerHeight * dpr;
+	canvas.width = width * dpr;
+	canvas.height = height * dpr;
+	canvas.style.width = Width + "px";
+	canvas.style.height = Height + "px";
 }
 
 function line(time){
 	resizeCanvas();
+	ctx.setTransform(1,0,0,1,0,0);
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	ctx.scale(dpr, dpr);
+	ctx.translate(-scrollX,0);
 	szx = canvas.width;
 	szy = canvas.height;
 	szk = szx-2*mx;
-	ctx.clearRect(0,0,canvas.width,canvas.height);
 	ctx.lineWidth=1;
 	ctx.fillStyle="black";
 	ctx.font="15px Arial";
