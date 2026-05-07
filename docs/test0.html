@@ -84,8 +84,8 @@ test0
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> Line </option>
 	<option value="1" style="font-size:100%"> Scroll </option>
-	<option value="2" style="font-size:100%"> Touch Sound </option>
-	<option value="3" style="font-size:100%"> Color Sample</option>
+	<option value="2" style="font-size:100%"> Color Sample</option>
+	<option value="3" style="font-size:100%"> Touch Sound </option>
 	<option value="4" style="font-size:100%"> Channel Colors </option>
 	<option value="5" style="font-size:100%"> Information </option>
 	</select>
@@ -1436,6 +1436,322 @@ selview1();
 }
 
 
+function color_sample1(){
+szx=1080;
+szy=1300;
+canvas2.width = szx;
+canvas2.height = szy;
+ctx2.clearRect(0,0,1400,1400);
+
+let kw=78;
+let kw0=kw*12/7*3/5;
+let kw1=kw*12/7*4/7;
+let cl=kw/2;
+
+ctx2.font="25px Arial";
+ctx2.fillStyle="black";
+
+ctx2.lineWidth=1;
+for(let k=22;k<=107;k++){
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect((k-Math.floor(k/12)*12)*kw,(Math.floor(k/12)*2-2)*cl+10,kw,cl);
+	if (k%12===0) {
+		ctx2.beginPath();
+		ctx2.arc((k-Math.floor(k/12)*12)*kw+37,(Math.floor(k/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
+		ctx2.fillStyle="white";
+		ctx2.fill();
+		ctx2.fillStyle="black";
+		ctx2.fillText(Math.floor(k/12), (k-Math.floor(k/12)*12)*kw+30,(Math.floor(k/12)*2-2)*cl+40);
+	}
+if(k%12<=4){
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect((k-Math.floor(k/12)*12)*kw0,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
+ctx2.beginPath();
+ctx2.arc((k-Math.floor(k/12)*12)*kw0+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
+ctx2.fillStyle="white";
+ctx2.fill();
+ctx2.fillStyle="black";
+ctx2.fillText(k%12, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+}else{
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1,(Math.floor(k/12)*2-1)*cl+10,kw1,cl);
+ctx2.beginPath();
+ctx2.arc(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
+ctx2.fillStyle="white";
+ctx2.fill();
+ctx2.fillStyle="black";
+ctx2.fillText((k%12).toString(12), 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+30,(Math.floor(k/12)*2-1)*cl+40);
+}
+ctx2.strokeStyle="black";
+
+if(Math.floor(k/12)<=8){
+ctx2.beginPath();
+ctx2.moveTo(0,(Math.floor(k/12)*2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(13*kw,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.stroke();
+if(k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(k/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+}
+if(k%12===5){
+ctx2.beginPath();
+ctx2.moveTo(5*kw0,(Math.floor(k/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw0,(Math.floor(k/12)*2)*cl+10);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+}
+}
+}
+ctx2.fillStyle=col2[Math.floor(21/12)-1];
+ctx2.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-2)*cl+10,kw1,cl);
+ctx2.beginPath();
+ctx2.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
+ctx2.fillStyle="white";
+ctx2.fill();
+ctx2.fillStyle="black";
+ctx2.fillText(Math.floor(21/12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-2)*cl+40);
+ctx2.fillStyle=col[21%12];
+ctx2.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-1)*cl+10,kw1,cl);
+ctx2.beginPath();
+ctx2.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
+ctx2.fillStyle="white";
+ctx2.fill();
+ctx2.fillStyle="black";
+ctx2.fillText(Math.floor(21%12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-1)*cl+40);
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw*12/7,(Math.floor(21/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(21/12)*2-2)*cl+10);
+ctx2.stroke();
+
+ctx2.fillStyle=col2[Math.floor(108/12)-1];
+ctx2.fillRect(12*kw,(Math.floor(107/12)*2-2)*cl+10,kw,cl);
+ctx2.beginPath();
+ctx2.arc(12*kw+37,(Math.floor(107/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
+ctx2.fillStyle="white";
+ctx2.fill();
+ctx2.fillStyle="black";
+ctx2.fillText(Math.floor(108/12), 12*kw+30,(Math.floor(107/12)*2-2)*cl+40);
+ctx2.fillStyle=col[108%12];
+ctx2.fillRect(12*kw,(Math.floor(107/12)*2-1)*cl+10,kw,cl);
+ctx2.beginPath();
+ctx2.arc(12*kw+37,(Math.floor(107/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
+ctx2.fillStyle="white";
+ctx2.fill();
+ctx2.fillStyle="black";
+ctx2.fillText(Math.floor(108%12), 12*kw+30,(Math.floor(107/12)*2-1)*cl+40);
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(13*kw,(Math.floor(107/12)*2-1)*cl+10);
+ctx2.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(23/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(23/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(12*kw,(Math.floor(107/12)*2-2)*cl+10);
+ctx2.lineTo(12*kw,(Math.floor(107/12)*2)*cl+10);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(5*kw0,(Math.floor(107/12)*2-2)*cl+10);
+ctx2.lineTo(5*kw0,(Math.floor(107/12)*2)*cl+10);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+
+let x0=0;
+let y0=660;
+let l0=50;
+
+for(let l=0;l<=12;l++){
+if(l%12===1||l%12===3){
+ctx2.fillStyle="lightgray";
+ctx2.fillRect(l*kw0+x0,y0,kw0,l0);
+ctx2.beginPath();
+}else if(l%12===6||l%12===8||l%12===10){
+ctx2.fillStyle="lightgray";
+ctx2.fillRect(3*kw*12/7+(l-5)*kw1+x0,y0,kw1,l0);
+ctx2.beginPath();
+}
+}
+
+for(let m=0;m<=7;m++){
+if(m%7===0||m%7===3){
+ctx2.beginPath();
+ctx2.moveTo(m*kw*12/7+x0,y0);
+ctx2.lineTo(m*kw*12/7+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}else{
+ctx2.beginPath();
+ctx2.moveTo(m*kw*12/7+x0,l0+y0);
+ctx2.lineTo(m*kw*12/7+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}
+}
+
+ctx2.beginPath();
+ctx2.moveTo(x0,y0);
+ctx2.lineTo(kw*12+x0,y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+
+ctx2.beginPath();
+ctx2.moveTo(x0,l0*2+y0);
+ctx2.lineTo(kw*12+x0,l0*2+y0);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+
+
+
+let x2=0;
+let y2=1000;
+
+let kw20=10;
+let kw21=kw20*12/7*3/5;
+let kw22=kw20*12/7*4/7;
+let kw23=kw20*12/7;
+let kl0=10*kw20;
+let kl1=14*kw20;
+
+for(let l=0;l<=51;l++){
+if((l+5)%7===0){
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,y2);
+ctx2.lineTo(l*kw23+x2,2*kw20+y2);
+ctx2.strokeStyle="blue";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,2*kw20+y2);
+ctx2.lineTo(l*kw23+x2,kl1+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}else if((l+5)%7===3){
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,y2);
+ctx2.lineTo(l*kw23+x2,2*kw20+y2);
+ctx2.strokeStyle="red";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,2*kw20+y2);
+ctx2.lineTo(l*kw23+x2,kl1+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}else{
+ctx2.beginPath();
+ctx2.moveTo(l*kw23+x2,kl0+y2);
+ctx2.lineTo(l*kw23+x2,kl1+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}
+}
+
+for(let k=21;k<=108;k++){
+if(k%12>=0 && k%12<=4){
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
+ctx2.font="10px Arial";
+ctx2.fillStyle="black";
+	if(k%12===0){
+	ctx2.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
+	}
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
+ctx2.font="10px Arial";
+ctx2.fillStyle="black";
+ctx2.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
+}else{
+ctx2.fillStyle=col2[Math.floor(k/12)-1];
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
+ctx2.font="10px Arial";
+ctx2.fillStyle="black";
+	if(k===21){
+	ctx2.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
+	}
+ctx2.fillStyle=col[k%12];
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
+ctx2.font="10px Arial";
+ctx2.fillStyle="black";
+ctx2.fillText((k%12).toString(12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,kw20+y2-16);
+}
+
+if(k%12===1||k%12===3){
+ctx2.fillStyle="black";
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw21+x2,2*kw20+y2,kw21,8*kw20);
+}else if(k%12===6||k%12===8||k%12===10){
+ctx2.fillStyle="black";
+ctx2.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,8*kw20);
+}else if(k%12===0){
+ctx2.beginPath();
+ctx2.moveTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,y2-30);
+ctx2.lineTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,14*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+}
+}
+
+ctx2.beginPath();
+ctx2.moveTo(x2,y2-30);
+ctx2.lineTo(52*kw23+x2,y2-30);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,y2);
+ctx2.lineTo(52*kw23+x2,y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,2*kw20+y2);
+ctx2.lineTo(52*kw23+x2,2*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,14*kw20+y2);
+ctx2.lineTo(52*kw23+x2,14*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,15*kw20+y2);
+ctx2.lineTo(52*kw23+x2,15*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(x2,y2-30);
+ctx2.lineTo(x2,15*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+ctx2.beginPath();
+ctx2.moveTo(52*kw23+x2,y2-30);
+ctx2.lineTo(52*kw23+x2,15*kw20+y2);
+ctx2.strokeStyle="black";
+ctx2.stroke();
+
+}
+
+
 function channel1(){
 x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
 x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
@@ -1717,10 +2033,14 @@ function selview1(){
 if(document.form1.sv1.options[0].selected==true){
 	line(0);
 }else if(document.form1.sv1.options[1].selected==true){
-	touch_sound1();
+	scroll();
 }else if(document.form1.sv1.options[2].selected==true){
-	instrument1();
+	color_sample1();
 }else if(document.form1.sv1.options[3].selected==true){
+	touch_sound1();
+}else if(document.form1.sv1.options[4].selected==true){
+	instrument1();
+}else if(document.form1.sv1.options[5].selected==true){
 	information1();
 }
 
