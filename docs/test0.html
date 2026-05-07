@@ -1193,8 +1193,8 @@ function simple(time){
 		ctx.lineTo(mx,szy);
 		ctx.stroke();
 		ctx.beginPath();
-		ctx.moveTo(szx,my);
-		ctx.lineTo(szx,szy);
+		ctx.moveTo(szx-mx,my);
+		ctx.lineTo(szx-mx,szy);
 		ctx.stroke();
 		ctx.fillStyle="black";
 		ctx.fillText(vmn0,0,my-4);
@@ -1202,8 +1202,8 @@ function simple(time){
 		}else if(m%(ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+bttl*ppq/ntvl*4)){
 		ctx.strokeStyle="blue";
 		ctx.beginPath();
-		ctx.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),my);
-		ctx.lineTo(mx+m%(bttl*ppq/ntvl*4)*(szx-mx)/(bttl*ppq/ntvl*4),szy);
+		ctx.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my);
+		ctx.lineTo(mx+m%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),szy);
 		ctx.stroke();
 		}
 	}
