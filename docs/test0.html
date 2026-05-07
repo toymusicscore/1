@@ -83,9 +83,11 @@ test0
 
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> Line </option>
-	<option value="1" style="font-size:100%"> Touch Sound </option>
-	<option value="2" style="font-size:100%"> Channel Colors </option>
-	<option value="3" style="font-size:100%"> Information </option>
+	<option value="1" style="font-size:100%"> Scroll </option>
+	<option value="2" style="font-size:100%"> Touch Sound </option>
+	<option value="3" style="font-size:100%"> Color Sample</option>
+	<option value="4" style="font-size:100%"> Channel Colors </option>
+	<option value="5" style="font-size:100%"> Information </option>
 	</select>
 
 	<br>
@@ -901,7 +903,13 @@ function getCurrentTime(){
 function loop(){
 	if (!isPlaying) return;
 	const time = getCurrentTime();
+	const sv = document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value
+	if (sv=="0"){
 	line(time);
+	}else if (sv=="1"){
+		scroll(time);
+	}
+
 	requestAnimationFrame(loop);
 }
 
@@ -1078,60 +1086,60 @@ function line(time){
 };
 
 function scroll(time){
-	szx=1103;
-	szy=780;
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	szx = canvas.width;
+	szy = canvas.height;
 	szk=szx-2*mx;
-	canvas2.width = szx;
-	canvas2.height = szy;
-	ctx2.clearRect(0,0,1400,1400);
-	ctx2.lineWidth=1;
-	ctx2.fillStyle="black";
-	ctx2.font="15px Arial";
-	ctx2.fillText(file1name,0,15);
+	ctx.lineWidth=1;
+	ctx.fillStyle="black";
+	ctx.font="15px Arial";
+	ctx.fillText(file1name,0,15);
 
 	let kn=Number(midi_max)-Number(midi_min)+1;
 	let kw=szk/kn;
 	for(l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
-		ctx2.fillStyle=col2[Math.floor(k/12)-1];
-		ctx2.fillRect(mx+l*kw,my/2,kw,my/4);
-		ctx2.fillStyle=col[k%12];
-		ctx2.fillRect(mx+l*kw,my*3/4,kw,my/4);
+		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillRect(mx+l*kw,my/2,kw,my/4);
+		ctx.fillStyle=col[k%12];
+		ctx.fillRect(mx+l*kw,my*3/4,kw,my/4);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx2.fillStyle="lightgrey";
-		ctx2.fillRect(mx+l*kw,my,kw,szy-my);
+		ctx.fillStyle="lightgrey";
+		ctx.fillRect(mx+l*kw,my,kw,szy-my);
 		}else if (k%12===0){
-		ctx2.beginPath();
-		ctx2.moveTo(mx+l*kw,my);
-		ctx2.lineTo(mx+l*kw,szy);
-		ctx2.strokeStyle="red";
-		ctx2.stroke();
+		ctx.beginPath();
+		ctx.moveTo(mx+l*kw,my);
+		ctx.lineTo(mx+l*kw,szy);
+		ctx.strokeStyle="red";
+		ctx.stroke();
 		}else if (k%12===5){
-		ctx2.beginPath();
-		ctx2.moveTo(mx+l*kw,my);
-		ctx2.lineTo(mx+l*kw,szy);
-		ctx2.strokeStyle="green";
-		ctx2.stroke();
+		ctx.beginPath();
+		ctx.moveTo(mx+l*kw,my);
+		ctx.lineTo(mx+l*kw,szy);
+		ctx.strokeStyle="green";
+		ctx.stroke();
 		}
 	}
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 		if(m%(ppq*bttl/ntvl*4)===0 && m>=time/60*bpm*ppq && m<=(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
 		let vmn0=m/ppq/bttl*ntvl/4+stm;
-		ctx2.beginPath();
-		ctx2.moveTo(0,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx2.lineTo(mx+szk,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx2.strokeStyle="red";
-		ctx2.stroke();
-		ctx2.fillStyle="black";
-		ctx2.font="25px Arial";
-		ctx2.fillText(vmn0,0,my*1.6+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.beginPath();
+		ctx.moveTo(0,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.strokeStyle="red";
+		ctx.stroke();
+		ctx.fillStyle="black";
+		ctx.font="25px Arial";
+		ctx.fillText(vmn0,0,my*1.6+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		}else if(m%(ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<=(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
-		ctx2.beginPath();
-		ctx2.moveTo(mx,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx2.lineTo(mx+szk,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx2.strokeStyle="blue";
-		ctx2.stroke();
+		ctx.beginPath();
+		ctx.moveTo(mx,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.strokeStyle="blue";
+		ctx.stroke();
 		}
 	}
 
@@ -1144,12 +1152,12 @@ function scroll(time){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+dt*(szy-my)/ht1;
-			ctx2.fillStyle=col[midi%12];
-			ctx2.fillRect(x0,y,kw,gt*(szy-my)/ht1);
-			ctx2.beginPath();
-			ctx2.arc(x1,y,kw/2,0,2*Math.PI,false);
-			ctx2.fillStyle=col3[channel];
-			ctx2.fill();
+			ctx.fillStyle=col[midi%12];
+			ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
+			ctx.beginPath();
+			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+			ctx.fillStyle=col3[channel];
+			ctx.fill();
 		}
 	}
 };
