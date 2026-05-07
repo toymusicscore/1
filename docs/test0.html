@@ -912,10 +912,11 @@ function resizeCanvas(){
 	canvas.style.width = window.innerWidth + "px";
 	canvas.style.height = window.innerHeight + "px";
 	ctx.scale(dpr, dpr);
+	alert(canvas.width, canvas.height);
 }
 
 function line(time){
-//	resizeCanvas();
+	resizeCanvas();
 	szx = canvas.width;
 	szy = canvas.height;
 	szk = szx-2*mx;
