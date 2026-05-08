@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charaset="UTF-8"/>
+<title>
+demp
+</title>
+</head>
+<body style="font-size:100%" >
+<basefont face="Arial">
+<form name="form1" >
+<select id="song1" onChange="fetch1()" style="font-size:100%">
+	<option value="bach-invention-01" style="font-size:100%"> bwv772-bach-invention-01 </option>
+	<option value="bach-invention-02" style="font-size:100%" selected="selected"> bwv773-bach-invention-02 </option>
+	</select>	
+<br>
+
+<select name="hg1" onChange="height1()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> H1 </option>
+	<option value="1" style="font-size:100%"> H2</option>
+	<option value="2" style="font-size:100%"> H3</option>
+	<option value="3" style="font-size:100%"> H4</option>
+	</select>
+
+<select name="chn1" onChange="channel1()" style="font-size:100%">
+	<option value="0" style="font-size:100%"> LCh1 </option>
+	<option value="1" style="font-size:100%"> LCh2</option>
+	<option value="2" style="font-size:100%" selected="selected"> LCh3</option>
+	<option value="3" style="font-size:100%"> LCh4</option>
+	<option value="4" style="font-size:100%"> LCh5</option>
+	<option value="5" style="font-size:100%"> LCh6</option>
+	<option value="6" style="font-size:100%"> LCh7</option>
+	<option value="7" style="font-size:100%"> LCh8</option>
+	<option value="8" style="font-size:100%"> LCh9</option>
+	<option value="9" style="font-size:100%"> LCh10</option>
+	<option value="10" style="font-size:100%"> LCh11</option>
+	<option value="11" style="font-size:100%"> LCh12</option>
+	<option value="12" style="font-size:100%"> LCh13</option>
+	<option value="13" style="font-size:100%"> LCh14</option>
+	<option value="14" style="font-size:100%"> LCh15</option>
+	<option value="15" style="font-size:100%"> LCh16</option>
+	</select>
+
+<select name="chn2" onChange="channel2()" style="font-size:100%">
+	<option value="0" style="font-size:100%"> RCh1 </option>
+	<option value="1" style="font-size:100%" selected="selected"> RCh2</option>
+	<option value="2" style="font-size:100%"> RCh3</option>
+	<option value="3" style="font-size:100%"> RCh4</option>
+	<option value="4" style="font-size:100%"> RCh5</option>
+	<option value="5" style="font-size:100%"> RCh6</option>
+	<option value="6" style="font-size:100%"> RCh7</option>
+	<option value="7" style="font-size:100%"> RCh8</option>
+	<option value="8" style="font-size:100%"> RCh9</option>
+	<option value="9" style="font-size:100%"> RCh10</option>
+	<option value="10" style="font-size:100%"> RCh11</option>
+	<option value="11" style="font-size:100%"> RCh12</option>
+	<option value="12" style="font-size:100%"> RCh13</option>
+	<option value="13" style="font-size:100%"> RCh14</option>
+	<option value="14" style="font-size:100%"> RCh15</option>
+	<option value="15" style="font-size:100%"> RCh16</option>
+	</select>
+
+<select name="nl1" onChange="selview1()" style="font-size:100%">
+	<option value="0" style="font-size:100%"> No Label </option>
+	<option value="1" style="font-size:100%"> DoReMi # </option>
+	<option value="2" style="font-size:100%"> DoReMi b </option>
+	<option value="3" style="font-size:100%"> Eng # </option>
+	<option value="4" style="font-size:100%"> Eng b </option>
+	<option value="5" style="font-size:100%"> Ger # </option>
+	<option value="6" style="font-size:100%"> Ger b </option>
+	<option value="7" style="font-size:100%"> Pitch Class </option>
+	<option value="8" style="font-size:100%" selected="selected"> MIDI 12 </option>
+	<option value="9" style="font-size:100%"> MIDI </option>
+	<option value="10" style="font-size:100%"> Note ID </option>
+	<option value="11" style="font-size:100%"> TSV Fingering1</option>
+	<option value="12" style="font-size:100%"> TSV Fingering2</option>
+	<option value="13" style="font-size:100%"> TSV Text1 </option>
+	<option value="14" style="font-size:100%" > TSV Text2 </option>
+	<option value="15" style="font-size:100%" > TSV Text3 </option>
+	<option value="16" style="font-size:100%" > TSV Text4 </option>
+	<option value="17" style="font-size:100%" > TSV Text5 </option>
+	</select>
+
+<select name="sv1" onChange="selview1()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> Line </option>
+	<option value="1" style="font-size:100%"> Scroll </option>
+	<option value="2" style="font-size:100%"> Simple </option>
+	<option value="3" style="font-size:100%"> Color Sample</option>
+	<option value="4" style="font-size:100%"> Touch Sound </option>
+	<option value="5" style="font-size:100%"> Channel Colors </option>
+	<option value="6" style="font-size:100%"> Information </option>
+	</select>
+
+	<br>
+<select name="smsr1" onChange="setmsr1()" style="font-size:100%">
+	<option value="0" style="font-size:100%"> 0 </option>
+	<option value="1" style="font-size:100%" selected="selected"> 10 </option>
+	<option value="2" style="font-size:100%"> 20 </option>
+	<option value="3" style="font-size:100%"> 30 </option>
+	<option value="4" style="font-size:100%"> 40 </option>
+	<option value="5" style="font-size:100%"> 50 </option>
+	<option value="6" style="font-size:100%"> 60 </option>
+	<option value="7" style="font-size:100%"> 70 </option>
+	<option value="8" style="font-size:100%"> 80 </option>
+	<option value="9" style="font-size:100%"> 90 </option>
+	<option value="10" style="font-size:100%"> 100 </option>
+	<option value="11" style="font-size:100%"> 110 </option>
+	<option value="12" style="font-size:100%"> 120 </option>
+</select>
+<input type="tel"    name="x_msr" value="0" size="3" style="font-size:100%" >
+<input type="button" name="b_msr" value="M" onClick="msr1()" style="font-size:100%" >
+
+<select name="sbpm1" onChange="setbpm1()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> 0 </option>
+	<option value="1" style="font-size:100%"> 10 </option>
+	<option value="2" style="font-size:100%"> 20 </option>
+	<option value="3" style="font-size:100%"> 30 </option>
+	<option value="4" style="font-size:100%"> 40 </option>
+	<option value="5" style="font-size:100%"> 50 </option>
+	<option value="6" style="font-size:100%"> 60 </option>
+	<option value="7" style="font-size:100%"> 70 </option>
+	<option value="8" style="font-size:100%"> 80 </option>
+	<option value="9" style="font-size:100%"> 90 </option>
+	<option value="10" style="font-size:100%"> 100 </option>
+	<option value="11" style="font-size:100%"> 110 </option>
+	<option value="12" style="font-size:100%"> 120 </option>
+</select>
+
+<input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
+<input type="button" name="b_sb" value="BPM" onClick="silent1()" style="font-size:100%" >
+<input type="button" name="b_p" value="Play" onClick="start(parsedData)" style="font-size:100%" >
+<input type="button" name="b_||" value=" || " onClick="stop()" style="font-size:100%" >
+<input type="button" name="b_|<" value="|<" onClick="top1()" style="font-size:100%" >
+<input type="button" name="b_<<" value="<<" onClick="reverses()" style="font-size:100%" >
+<input type="button" name="b_<" value="<" onClick="reverse1()" style="font-size:100%" >
+<input type="button" name="b_>" value=">" onClick="forward1()" style="font-size:100%" >
+<input type="button" name="b_>>" value=">>" onClick="forwards()" style="font-size:100%" >
+<input type="button" name="b_>|" value=">|" onClick="end1()" style="font-size:100%" >
+
+<span id="ts"></span>
+C <span id="channels"></span>
+T <span id="pt"></span>
+P <span id="prgrs"></span>
+</form>
+<canvas id="canvas">
+</canvas>
+<div id="credit" style="font-size:80%">
+</div>
+<script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
+<script src="https://unpkg.com/tone"></script>
+<script>
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const credit2=document.getElementById("credit");
+//const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#ff007f"];
+const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00cc00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#cc00cc"];
+const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
+//const col3=["#ffffff","#ffcccc","#ffffcc","#ccffcc","#ccffff","#ccccff","#ffccff","#ff9999","#ffcc99","#ffff99","#ccff99","#99ff99","#99ffcc","#99ffff","#99ccff","#9999ff","#cc99ff","#ff99ff","#00ffff","#ff99cc"];
+const col3=["#ffcccc","#ffcc00","#ccffcc","#ccffff","#ccccff","#ffccff","#ff9999","#ffcc99","#ffff99","#ccff99","#99ff99","#99ffcc","#99ffff","#99ccff","#9999ff","#cc99ff","#ff99ff","#00ffff","#ff99cc"];
+const drms1=["Do","Di","Re","Ri","Mi","Fa","Fi","Sol","Si","La","Li","Ti"];
+const drmf1=["Do","Ra","Re","Me","Mi","Fa","Se","Sol","Le","La","Te","Ti"];
+const engs1=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const engf1=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
+const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
+const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
+const scaler1=["major","minor"];
+const scaleMjr0=[0,2,4,5,7,9,11];
+const scaleMjrH=[0,2,4,5,7,8,11];
+const scaleMjrM=[0,2,4,5,7,8,10];
+const scaleMnrH=[0,2,4,5,8,9,11];
+const scaleMnrM=[0,2,4,6,8,9,11];
+const engMnr1=["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
+const instName=[
+'Acoustic Grand Piano',
+'Bright Acoustic Piano',
+'Electric Grand Piano',
+'Honky-tonk Piano',
+'Rhodes Piano',
+'Chorused Piano',
+'Harpsichord',
+'Clavinet',
+'Celesta',
+'Glockenspiel',
+'Music box',
+'Vibraphone',
+'Marimba',
+'Xylophone',
+'Tubular Bells',
+'Dulcimer',
+'Hammond Organ',
+'Percussive Organ',
+'Rock Organ',
+'Church Organ',
+'Reed Organ',
+'Accordion',
+'Harmonica',
+'Tango Accordion',
+'Acoustic Guitar (nylon)',
+'Acoustic Guitar (steel)',
+'Electric Guitar (jazz)',
+'Electric Guitar (clean)',
+'Electric Guitar (muted)',
+'Overdriven Guitar',
+'Distortion Guitar',
+'Guitar Harmonics',
+'Acoustic Bass',
+'Electric Bass (finger)',
+'Electric Bass (pick)',
+'Fretless Bass',
+'Slap Bass 1',
+'Slap Bass 2',
+'Synth Bass 1',
+'Synth Bass 2',
+'Violin',
+'Viola',
+'Cello',
+'Contrabass',
+'Tremolo Strings',
+'Pizzicato Strings',
+'Orchestral Harp',
+'Timpani',
+'String Ensemble 1',
+'String Ensemble 2',
+'Synth Strings 1',
+'Synth Strings 2',
+'Choir Aahs',
+'Voice Oohs',
+'Synth Voice',
+'Orchestra Hit',
+'Trumpet',
+'Trombone',
+'Tuba',
+'Muted Trumpet',
+'French Horn',
+'Brass Section',
+'Synth Brass 1',
+'Synth Brass 2',
+'Soprano Sax',
+'Alto Sax',
+'Tenor Sax',
+'msritone Sax',
+'Oboe',
+'English Horn',
+'Bassoon',
+'Clarinet',
+'Piccolo',
+'Flute',
+'Recorder',
+'Pan Flute',
+'Bottle Blow',
+'Shakuhachi',
+'Whistle',
+'Ocarina',
+'Lead 1 (square)',
+'Lead 2 (sawtooth)',
+'Lead 3 (calliope lead)',
+'Lead 4 (chiffer lead)',
+'Lead 5 (charang)',
+'Lead 6 (voice)',
+'Lead 7 (fifths)',
+'Lead 8 (brass + lead)',
+'Pad 1 (new age)',
+'Pad 2 (warm)',
+'Pad 3 (polysynth)',
+'Pad 4 (choir)',
+'Pad 5 (bowed)',
+'Pad 6 (metallic)',
+'Pad 7 (halo)',
+'Pad 8 (sweep)',
+'FX 1 (rain)',
+'FX 2 (soundtrack)',
+'FX 3 (crystal)',
+'FX 4 (atmosphere)',
+'FX 5 (brightness)',
+'FX 6 (goblins)',
+'FX 7 (echoes)',
+'FX 8 (sci-fi)',
+'Sitar',
+'Banjo',
+'Shamisen',
+'Koto',
+'Kalimba',
+'Bagpipe',
+'Fiddle',
+'Shana',
+'Tinkle Bell',
+'Agogo',
+'Steel Drums',
+'Woodblock',
+'Taiko Drum',
+'Melodic Tom',
+'Synth Drum',
+'Reverse Cymbal',
+'Guitar Fret Noise',
+'Breath Noise',
+'Seashore',
+'Bird Tweet',
+'Telephone Ring',
+'Helicopter',
+'Applause',
+'Gunshot',
+];
+const picoAudio = new PicoAudio();
+const synth=new Tone.Synth().toMaster();
+let parsedData ="";
+let toneData = "";
+let r1=[];
+let r2=[];
+let r3=[];
+let r4=[];
+let r5=[];
+let r6=[];
+let midiData = "";
+let midi=0;
+let midi0=0;
+let start0=0;
+let stop0=0;
+let channel0=0;
+let sb1=0;
+let h_from=0;
+let h_to=0;
+let r3w=[];
+let vmn0=0;
+
+let ppq=0;
+let format1=0;
+let bpm=0;
+let bttl=0;
+let ntvl=0;
+let bttl2=0;
+let ntvl2=0;
+let eott0=0;
+
+let tbpm1=[];
+let wait1=0;
+let time1=[];
+let i=0;
+let j=0;
+let k=0;
+let l=0;
+let m=0;
+let n=0;
+let o=0;
+
+let r3i0=0;
+let r3i1=0;
+let midi_max=21;
+let midi_min=108;
+let midi_min0=0;
+let midi_max0=0;
+let ch_max=-1;
+let ch_num=0;
+let ht1=1;
+
+let x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+let x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+let x_ch3=0;
+let chr=[];
+let ch0=0;
+let ch1=0;
+let trs1=0;
+let trs2=0;
+let fg_lr1=-1;
+let prgrs1=0;
+let p=0;
+let p2=0;
+let n_id=1;
+
+let kx0=0;
+let kx1=0;
+let kx2=0;
+let kx3=0;
+let kx4=0;
+let kx5=0;
+let kx6=0;
+let kx7=0;
+let kx8=0;
+let kx9=0;
+let kx10=0;
+let kx11=0;
+let kxttl=0;
+let tone_ks=0;
+let midi_ks=0;
+let keyrp10_0=[];
+let keyrp10_1=[];
+let keyrp10_2=[];
+let keyrp10_3=[];
+let keyrp10_4=[];
+let keyrp10_5=[];
+let keyrp100_1=[];
+let keyrp100_2=[];
+let keyrp100_3=[];
+let keyrp100_4=[];
+let tfmjr0=0;
+let tfmjr7=0;
+let tfmnr0=0;
+let tfmnr7=0;
+let tfmjr07=0;
+let tfmnr07=0;
+let tfmjr_mnr=0;
+let mslbl0=0;
+let msr_from=0;
+let msr_to=0;
+let tk_from=0;
+let tk_to=0;
+let w0=0;
+let w1=0;
+let num0=0;
+let num1=0;
+let num2=0;
+let num3=0;
+let num4=0;
+let lyrict0="";
+let lyricr0=[];
+let lyricr1=[];
+let dtflg0=0;
+let trln0=0;
+let trdt0=0;
+let trtk0=0;
+let trtk1=0;
+let trnn0=0;
+let trnnr0=[];
+let trnnr1=[];
+let trnn2=0;
+let trtk2=0;
+let gt=0;
+let midid0="";
+let midid1="";
+let midit00=0;
+let midit01=0;
+let midit02=0;
+let midit03=0;
+let midit04=0;
+let midit05=0;
+let midit06=0;
+let midit07=0;
+let midit08=0;
+let midit09=0;
+let midit0a=0;
+let midit0b=0;
+let midit0c=0;
+let midit0d=0;
+let midit0e=0;
+let midit0f=0;
+let midit20=0;
+let midit51=0;
+let midit54=0;
+let midit56=0;
+let midit59=0;
+let miditxt=0;
+
+let newWin1="";
+let newWin2="";
+
+let tsv0=[];
+let tsvi=[];
+let tsvc=[];
+let tsv1=[];
+let tsv2=[];
+let tsv3=[];
+let tsv4=[];
+let tsv5=[];
+let tsv6=[];
+let tsv7=[];
+let tsv8=[];
+let tsv9=[];
+let tsvst0=0;
+let LD0=[];
+let rng_l="";
+let rng_h="";
+let pitch1=0;
+let diff1=0;
+let diff2=0;
+let diff3=0;
+let diff4=0;
+let diff5=0;
+let szx=1200;
+let szy=640;
+let szk=900;
+let mx=45;
+let my=42;
+let f0=[];
+let f1=[];
+let f2=[];
+let f3=[];
+let f4=[];
+let f5=[];
+let f6=[];
+let f8=[];
+let f9=[];
+let f10=[];
+let f11=[];
+let f12=[];
+let f13=[];
+let f14=[];
+let f15=[];
+let f16=[];
+let f17=[];
+let f18=[];
+let fc=[];
+let fp=[];
+let f100=[];
+let f101=[];
+let f102=[];
+let f110=[];
+let f111=[];
+let rst=0;
+let file1name="";
+
+
+async function fetch1(){
+file1name=document.getElementById("song1").value;
+	let uri1="./data/"+file1name+".mid";
+	let uri2="./data/"+file1name+".tsv";
+	let res1=await fetch(uri1);
+	let res2=await fetch(uri2);
+	if (res1.ok){
+		data1=await res1.arrayBuffer();
+	}
+	if (res2.ok){
+		data2=await res2.text();
+	}
+
+picoAudio.init(); 
+midiData = new Uint8Array(data1);
+parsedData = picoAudio.parseSMF(midiData);
+picoAudio.setData(parsedData);
+eott0 = parsedData.songLength;
+ppq = parsedData.header.resolution;
+bttl = parsedData.beatTrack[0].value[0];
+ntvl = parsedData.beatTrack[0].value[1];
+bpm = Math.round(parsedData.tempoTrack[0].value);
+document.form1.x_bpm.value=bpm;
+document.getElementById("ts").innerHTML=bttl+"/"+ntvl;
+if(Math.floor(picoAudio.getTime(eott0)%60)<10){
+document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":0"+Math.floor(picoAudio.getTime(eott0)%60);
+}else{
+document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":"+Math.floor(picoAudio.getTime(eott0)%60);
+}
+document.getElementById("prgrs").innerHTML=prgrs1;
+
+r1=[];
+r2=[];
+r3=[];
+r4=[];
+r5=[];
+r6=[];
+
+midi_max=21;
+midi_min=108;
+midi_min0=0;
+midi_max0=0;
+midi_max_l=21;
+midi_min_l=108;
+midi_min0_l=0;
+midi_max0_l=0;
+midi_max_r=21;
+midi_min_r=108;
+midi_min0_r=0;
+midi_max0_r=0;
+n_id=1;
+ch_max=-1;
+ch_num=0;
+
+parsedData.channels.forEach(channel => { 
+channel.notes.forEach(note => {
+r1.push([note.pitch,note.start,note.stop,note.channel,n_id]);
+n_id+=1;
+r2.push(note.start);
+r2.push(note.stop);
+  if(Number(note.pitch)>Number(midi_max)){
+  midi_max=note.pitch;
+  }
+  if(Number(note.pitch)<Number(midi_min)){
+  midi_min=note.pitch;
+  }
+  if(note.channel==x_ch1 && Number(note.pitch)>Number(midi_max_l)){
+  midi_max_l=note.pitch;
+  }
+  if(note.channel==x_ch1 && Number(note.pitch)<Number(midi_min_l)){
+  midi_min_l=note.pitch;
+  }
+  if(note.channel==x_ch2 && Number(note.pitch)>Number(midi_max_r)){
+  midi_max_r=note.pitch;
+  }
+  if(note.channel==x_ch2 && Number(note.pitch)<Number(midi_min_r)){
+  midi_min_r=note.pitch;
+  }
+  if(note.channel>ch_max){
+  ch_max=note.channel;
+  ch_num+=1;
+  r6.push([note.channel, note.instrument]);
+  }
+})
+})
+
+i=0;
+j=0;
+
+document.getElementById("channels").innerHTML=ch_num;
+
+midi_min0=midi_min;
+midi_max0=midi_max;
+
+r2.sort(function(m,n){return m-n;});
+
+if (r2[0]<ppq*4/ntvl){
+	stm=1;
+}else{
+	stm=0;
+}
+
+document.form1.x_msrf.value=stm;
+document.form1.x_msrt.value=Math.floor(eott0/ppq/bttl*ntvl/4);
+
+let n=0;
+for(let i=0;i<=r2.length;i++){
+if(r2[i]<r2[i+1]){
+r3.push([n,r2[i],r2[i+1]]);
+n=n+1;
+}
+}
+r2=[];
+
+parsedData.tempoTrack.forEach(tempoTrack => { 
+r4.push([tempoTrack.timing,tempoTrack.value]);
+});
+
+parsedData.beatTrack.forEach(beatTrack => { 
+r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
+});
+
+tsv0=[];
+tsvi=[];
+tsvc=[];
+tsv1=[];
+tsv2=[];
+tsv3=[];
+tsv4=[];
+tsv5=[];
+tsv6=[];
+tsv7=[];
+tsv8=[];
+tsv9=[];
+tsvff=[];
+tsvft=[];
+tsvsd=[];
+tsvdl=[];
+tsvsc=[];
+
+tsv0=data2.split('\n');
+for (i=0;i<tsv0.length;i++){
+	if((tsv0[i].split('\t'))[0]=="A"){
+		tsvi.push([(tsv0[i].split('\t'))[1]]);
+		tsvc.push([(tsv0[i].split('\t'))[2]]);
+	}else if((tsv0[i].split('\t'))[0]=="B"){
+		tsvsc.push([(tsv0[i].split('\t'))[2]]);
+	}else if((tsv0[i].split('\t'))[0]=="C"){
+		tsvff.push([(tsv0[i].split('\t'))[1]]);
+		tsvft.push([(tsv0[i].split('\t'))[2]]);
+		tsvsd.push([(tsv0[i].split('\t'))[3]]);
+		tsvdl.push([(tsv0[i].split('\t'))[4]]);
+		tsvff.push([(tsv0[i].split('\t'))[2]]);
+		tsvft.push([(tsv0[i].split('\t'))[1]]);
+		tsvsd.push([-(tsv0[i].split('\t'))[3]]);
+		tsvdl.push([(tsv0[i].split('\t'))[4]]);
+	}else if((tsv0[i].split('\t'))[0]=="D"){
+		tsv1.push([(tsv0[i].split('\t'))[2]]);
+		tsv2.push([(tsv0[i].split('\t'))[3]]);
+		tsv3.push([(tsv0[i].split('\t'))[4]]);
+		tsv4.push([(tsv0[i].split('\t'))[5]]);
+		tsv5.push([(tsv0[i].split('\t'))[6]]);
+		tsv6.push([(tsv0[i].split('\t'))[7]]);
+		tsv7.push([(tsv0[i].split('\t'))[8]]);
+		tsv8.push([(tsv0[i].split('\t'))[9]]);
+		tsv9.push([(tsv0[i].split('\t'))[10]]);
+	}
+}
+tsvst0=1;
+
+if(tsvi.length<9){
+    document.getElementById("credit").innerHTML=
+    tsvi[1]+" : "+tsvc[1]+
+    "<br>"+tsvi[2]+" : "+tsvc[2]+
+    "<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+    "<br>"+tsvi[4]+" : "+tsvc[4]+
+	"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
+    "<br>"+tsvi[6]+" : "+tsvc[6]+
+    "<br>"+tsvi[7]+" : "+tsvc[7]+
+	"<br>&copy;2023-2025 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>"+
+	"  <a href=\"https://www.toyscore.app\">https://www.toyscore.app</a>";
+}else{
+    document.getElementById("credit").innerHTML=
+    tsvi[1]+" : "+tsvc[1]+
+    "<br>"+tsvi[2]+" : "+tsvc[2]+
+    "<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+    "<br>"+tsvi[4]+" : "+tsvc[4]+
+	"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
+    "<br>"+tsvi[6]+" : "+tsvc[6]+
+    "<br>"+tsvi[7]+" : "+tsvc[7]+
+    "<br>"+tsvi[8]+" : <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
+    "<br>"+tsvi[9]+" : "+tsvc[9]+
+	"<br>"+tsvi[10]+" : <a href="+tsvc[10]+">"+tsvc[10]+"</a>"+
+    "<br>"+tsvi[11]+" : "+tsvc[11]+
+    "<br>"+tsvi[12]+" : "+tsvc[12]+
+	"<br>&copy;2023-2025 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>"+
+	"  <a href=\"https://www.toyscore.app\">https://www.toyscore.app</a>";
+}
+
+
+top1();
+
+}
+fetch1();
+
+
+let startTick = 0;
+let pauseTick = 0;
+let isPlaying = false;
+
+async function start(parsedData){
+	await picoAudio.context.resume();
+	picoAudio.init();
+	picoAudio.setData(parsedData);
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	startTick = current - pauseTick;
+	picoAudio.setStartTime(pauseTick);
+	picoAudio.play();
+	isPlaying = true;
+	loop();
+}
+
+function stop(){
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	pauseTick = current - startTick;
+	picoAudio.stop();
+	isPlaying = false;
+}
+
+function getCurrentTick(){
+	if (!isPlaying){
+		return pauseTick;
+	}
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	return current - startTick;
+}
+
+function loop(){
+	if (!isPlaying) return;
+	const tick = getCurrentTick();
+	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value
+	if (sv=="0"){
+		line(tick);
+	}else if (sv=="1"){
+		scroll(tick);
+	}else if (sv=="2"){
+		simple(tick);
+	}
+	requestAnimationFrame(loop);
+}
+
+let nl ="";
+let nll ="";
+let nlr ="";
+
+function getLabel(midi, n_id){
+	if (document.form1.nl1.options[0].selected==true){
+	nl="";
+}else if (document.form1.nl1.options[1].selected==true){
+	nl=drms1[midi%12];
+}else if (document.form1.nl1.options[2].selected==true){
+	nl=drmf1[midi%12];
+}else if (document.form1.nl1.options[3].selected==true){
+	nl=engs1[midi%12];
+}else if (document.form1.nl1.options[4].selected==true){
+	nl=engf1[midi%12];
+}else if (document.form1.nl1.options[5].selected==true){
+	nl=gers1[midi%12];
+}else if (document.form1.nl1.options[6].selected==true){
+	nl=gerf1[midi%12];
+}else if (document.form1.nl1.options[7].selected==true){
+	nl=" "+(midi%12).toString(12);
+}else if (document.form1.nl1.options[8].selected==true){
+	nl=midi.toString(12);
+}else if (document.form1.nl1.options[9].selected==true){
+	nl=midi;
+}else if (document.form1.nl1.options[10].selected==true){
+	nl=n_id;
+//tsv fingering1
+}else if (document.form1.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
+	nl=tsv1[n_id-tsvst0+1];
+//tsv fingering2
+}else if (document.form1.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
+	nl=tsv2[n_id-tsvst0+1];
+//tsv Text1
+}else if (document.form1.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
+	nl=tsv5[n_id-tsvst0+1];
+//tsv Text2
+}else if (document.form1.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
+	nl=tsv6[n_id-tsvst0+1];
+//tsv Text3
+}else if (document.form1.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
+	nl=tsv7[n_id-tsvst0+1];
+//tsv Text4
+}else if (document.form1.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
+	nl=tsv8[n_id-tsvst0+1];
+//tsv Text5
+}else if (document.form1.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
+	nl=tsv9[n_id-tsvst0+1];
+}
+//tsv notations left
+if (tsv3[n_id-tsvst0+1]!=undefined){
+	nll=tsv3[n_id-tsvst0+1];
+}
+//tsv notations right
+if (tsv4[n_id-tsvst0+1]!=undefined){
+	nlr=tsv4[n_id-tsvst0+1];
+}
+
+}
+
+
+function line(tick){
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	szx = canvas.width;
+	szy = canvas.height-my;
+	szk = szx-2*mx;
+	ctx.lineWidth=1;
+	ctx.fillStyle = "black";
+	ctx.font = "15px Arial";
+	ctx.fillText(file1name,0,15);
+
+	let kn=Number(midi_max)-Number(midi_min)+1;
+	let kw=szk/kn;
+	for(l=0;l<Number(kn);l++){
+		let k=Number(midi_min)+l;
+		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillRect(mx+l*kw,my/2,kw,my/4);
+		ctx.fillStyle=col[k%12];
+		ctx.fillRect(mx+l*kw,my*3/4,kw,my/4);
+		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+		ctx.fillStyle="lightgrey";
+		ctx.fillRect(mx+l*kw,my,kw,szy-my);
+		}else if (k%12===0){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*kw,my);
+		ctx.lineTo(mx+l*kw,szy);
+		ctx.strokeStyle="red";
+		ctx.stroke();
+		}else if (k%12===5){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*kw,my);
+		ctx.lineTo(mx+l*kw,szy);
+		ctx.strokeStyle="green";
+		ctx.stroke();
+		}
+	}
+
+	if (tick<eott0){
+	ctx.beginPath();
+	ctx.moveTo(0,my+tick%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+	ctx.lineTo(szx,my+tick%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+	ctx.strokeStyle="grey";
+	ctx.stroke();
+	} else {
+		isPlaying = false;
+	}
+
+	ctx.beginPath();
+	ctx.moveTo(0,szy);
+	ctx.lineTo(mx+szk,szy);
+	ctx.strokeStyle="red";
+	ctx.stroke();
+
+	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
+		let vmn0=m/ppq/bttl*ntvl/4+stm;
+		let vmn1=m/ppq/bttl*ntvl/4+stm-1;
+		ctx.beginPath();
+		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.strokeStyle="red";
+		ctx.stroke();
+		ctx.fillStyle="black";
+		ctx.font="25px Arial";
+		ctx.fillText(vmn0,0,my*1.6);
+		ctx.fillText(vmn1,0,szy-20);
+		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
+		ctx.beginPath();
+		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.strokeStyle="blue";
+		ctx.stroke();
+		}
+	}
+
+	for(i=0;i<r1.length;i++){
+		let [midi, start, stop, channel, n_id]=r1[i];
+		const dt = (start-tick)/(bttl*ppq/ntvl*4);
+		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
+		if (stop>=tick+ht1*bttl*ppq/ntvl*3){
+			gt=tick+ht1*bttl*ppq/ntvl*3-start;
+		}else{
+			gt=stop-start;
+		}
+		if (dp >=0 && dt < ht1*3/4){
+			const x0 = (midi-midi_min)*kw+mx;
+			const x1 = (midi-midi_min+0.5)*kw+mx;
+			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
+			ctx.fillStyle=col[midi%12];
+			ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
+			ctx.beginPath();
+			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+			ctx.fillStyle=col3[channel];
+			ctx.fill();
+			getLabel(midi, n_id);
+			ctx.fillStyle="black";
+			ctx.font="20px Arial";
+			if (nl!=""){
+			ctx.fillText(nl, x0, y);
+			}
+			if (nll!=""){
+			ctx.fillText(nll, mx, y);
+			}
+			if (nlr!=""){
+			ctx.fillText(nlr, mx+szk, y);
+			}
+		}
+	}
+};
+
+function scroll(time){
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	szx = canvas.width;
+	szy = canvas.height;
+	szk=szx-2*mx;
+	ctx.lineWidth=1;
+	ctx.fillStyle="black";
+	ctx.font="15px Arial";
+	ctx.fillText(file1name,0,15);
+
+	let kn=Number(midi_max)-Number(midi_min)+1;
+	let kw=szk/kn;
+	for(l=0;l<Number(kn);l++){
+		let k=Number(midi_min)+l;
+		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillRect(mx+l*kw,my/2,kw,my/4);
+		ctx.fillStyle=col[k%12];
+		ctx.fillRect(mx+l*kw,my*3/4,kw,my/4);
+		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+		ctx.fillStyle="lightgrey";
+		ctx.fillRect(mx+l*kw,my,kw,szy-my);
+		}else if (k%12===0){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*kw,my);
+		ctx.lineTo(mx+l*kw,szy);
+		ctx.strokeStyle="red";
+		ctx.stroke();
+		}else if (k%12===5){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*kw,my);
+		ctx.lineTo(mx+l*kw,szy);
+		ctx.strokeStyle="green";
+		ctx.stroke();
+		}
+	}
+
+	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+		if(m%(ppq*bttl/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
+		let vmn0=m/ppq/bttl*ntvl/4+stm;
+		ctx.beginPath();
+		ctx.moveTo(0,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.strokeStyle="red";
+		ctx.stroke();
+		ctx.fillStyle="black";
+		ctx.font="25px Arial";
+		ctx.fillText(vmn0,0,my*1.6+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		}else if(m%(ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
+		ctx.beginPath();
+		ctx.moveTo(mx,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.strokeStyle="blue";
+		ctx.stroke();
+		}
+	}
+
+	for(i=0;i<r1.length;i++){
+		let [midi, start, stop, channel, n_id]=r1[i];
+		getLabel(midi, n_id);
+		const dt = (start-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
+		const dp = (stop-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
+		gt=(stop-start)/(bttl*ppq/ntvl*4);
+		if (dp > -1/4 && dt < ht1){
+			const x0 = (midi-midi_min)*kw+mx;
+			const x1 = (midi-midi_min+0.5)*kw+mx;
+			const y = my+dt*(szy-my)/ht1;
+			ctx.fillStyle=col[midi%12];
+			ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
+			ctx.beginPath();
+			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+			ctx.fillStyle=col3[channel];
+			ctx.fill();
+			ctx.fillStyle="black";
+			ctx.font="20px Arial";
+			if (nl!=""){
+			ctx.fillText(nl, x0, y);
+			}
+			if (nll!=""){
+			ctx.fillText(nll, mx, y);
+			}
+			if (nlr!=""){
+			ctx.fillText(nlr, mx+szk, y);
+			}
+
+		}
+	}
+};
+
+function simple(time){
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	szx = canvas.width;
+	szy = 240;
+	ctx.lineWidth=1;
+	let kn_l=Number(midi_max_l)-Number(midi_min_l)+1;
+	let kn_r=Number(midi_max_r)-Number(midi_min_r)+1;
+	szk_l=(szx-2.5*mx)*kn_l/(kn_l+kn_r);
+	szk_r=(szx-2.5*mx)*kn_r/(kn_l+kn_r);
+	let kw_l=szk_l/kn_l;
+	let kw_r=szk_r/kn_r;
+
+	ctx.fillStyle="black";
+	ctx.font="20px Arial";
+	ctx.fillText(file1name,0,15);
+	ctx.fillText("R",0,my+ 20);
+	ctx.fillText("L",0,my+120);
+
+	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+		if(m%(bttl*ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+bttl*ppq/ntvl*4)){
+		let vmn0=Math.floor(time/60*bpm*ppq/(bttl*ppq/ntvl*4)+stm);
+		ctx.strokeStyle="red";
+		ctx.beginPath();
+		ctx.moveTo(mx,my);
+		ctx.lineTo(mx,szy);
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(szx-mx,my);
+		ctx.lineTo(szx-mx,szy);
+		ctx.stroke();
+		ctx.fillStyle="black";
+		ctx.fillText(vmn0,0,my-4);
+
+		}else if(m%(ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+bttl*ppq/ntvl*4)){
+		ctx.strokeStyle="blue";
+		ctx.beginPath();
+		ctx.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my);
+		ctx.lineTo(mx+m%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),szy);
+		ctx.stroke();
+		}
+	}
+
+	if (time/60*bpm*ppq<eott0){
+	ctx.strokeStyle="grey";
+	ctx.beginPath();
+	ctx.moveTo(mx+time/60*bpm*ppq%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my);
+	ctx.lineTo(mx+time/60*bpm*ppq%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),szy);
+	ctx.stroke();
+	} else {
+		isPlaying = false;
+	}
+
+	for(i=0;i<r1.length;i++){
+		let [midi0, start0, stop0, channel0, n_id0]=r1[i];
+		let	midi1;
+		let start1;
+		let stop1;
+		let channel1;
+		let n_id1;
+		let	midi2;
+		let start2;
+		let stop2;
+		let channel2;
+		let n_id2;
+		let	midi3;
+		let start3;
+		let stop3;
+		let channel3;
+		let n_id3;
+		let	midi4;
+		let start4;
+		let stop4;
+		let channel4;
+		let n_id4;
+		if (i>0){
+			[midi1, start1, stop1, channel1, n_id1]=r1[i-1];
+		}
+		if (i>1){
+			[midi2, start2, stop2, channel2, n_id2]=r1[i-2];
+		}
+		if (i>2){
+			[midi3, start3, stop3, channel3, n_id3]=r1[i-3];
+		}
+		if (i>3){
+			[midi4, start4, stop4, channel4, n_id4]=r1[i-4];
+		}
+		const dt = (start0-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
+		const dp = (stop0-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
+		if (stop0>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3){
+			gt=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3-start0;
+		}else{
+			gt=stop0-start0;
+		}
+		if (dp >=0 && dt < ht1*3/4){
+			getLabel(midi0, n_id0);
+			if (channel0==x_ch1){
+				if(channel1!=x_ch1){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+102,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+112,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+120);
+				}else if(channel0==channel1 && start0>start1){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+102,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+112,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+120);
+				}else if(channel0==channel1 && channel1==channel2 && start0==start1 && start1>start2){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+122,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+132,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+140);
+				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && start0==start1 && start1==start2 && start2>start3){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+142,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+152,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+160);
+				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start0==start1 && start1==start2 && start2==start3 && start3>start4){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+162,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+172,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+180);
+				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start0==start1 && start1==start2 && start2==start3 && start3==start4){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+182,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+192,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+200);
+				}
+			}
+			if(channel0==x_ch2){
+				if(n_id0==1){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+2,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+12,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+20);
+				}else if(channel0==channel1 && start0>start1){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+2,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+12,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+20);
+				}else if(channel0==channel1 && channel1==channel2 && start0==start1 && start1>start2){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+22,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+32,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+40);
+				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && start0==start1 && start1==start2 && start2>start3){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+42,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+52,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+60);
+				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start0==start1 && start1==start2 && start2==start3 && start3>start4){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+62,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+72,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+80);
+				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start0==start1 && start1==start2 && start2==start3 && start3==start4){
+				ctx.beginPath();
+				ctx.fillStyle=col3[channel0];
+				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+82,gt/(bttl*ppq/ntvl*4)*(szx-2*mx)/ht1,20);
+				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+92,12,0,2*Math.PI,false);
+				ctx.fill();
+				ctx.fillStyle="black";
+				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+100);
+				}
+			}
+		}//if(start>j..)
+	}//for(i=0;)
+}
+
+
+function draw_bk(time){
+	ctx2.clearRect(0, 0, 1400, 1400);
+	for (let i =0; i< r1.length; i++){	
+	let [midi, start, stop, channel, n_id]=r1[i];
+		const dt = start*60/bpm/ppq-time;
+		if (dt > -1 && dt < 3){
+		const x = midi * 10;
+		const y = (dt / 4) * 700;
+		ctx2.fillStyle="grey";
+		ctx2.fillRect(x, y, 8, 20);
+		}
+	}
+};
+
+
+const silent1= async () =>{
+
+ctx2.font="100px Arial";
+
+	for(i=3;i>=0;i--){
+		ctx2.fillStyle="red";
+		wait0=60000/Math.max(document.form1.x_bpm.value,30);
+		await new Promise(r => timer=setTimeout(r,wait0));
+		ctx2.clearRect(0,40,40,100);
+		ctx2.fillText(i,0,100);
+	}
+
+ctx2.font="25px Arial";
+ 
+	for(let i=r3i0;i<r3.length;i++){
+		
+		r3i1=i;
+		let [n,h_from,h_to]=r3[i]
+		j=h_from;
+
+		document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+		document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+
+		r3w=r3.find(function(value){
+		return (j<=value[1]);
+		});
+
+		wait1=60000/document.form1.x_bpm.value*(r3w[2]-r3w[1])/ppq;
+
+		selview1();
+
+		await new Promise(r => timer=setTimeout(r,wait1));
+
+	}
+}
+
+
+function setbpm1(){
+	document.form1.x_bpm.value=Number(document.form1.sbpm1.options[document.form1.sbpm1.options.selectedIndex].value);
+}
+
+
+function setmsr1(){
+	document.form1.x_msr.value=Number(document.form1.smsr1.options[document.form1.smsr1.options.selectedIndex].value);
+	msr1();
+}
+
+
+function pause1(){
+picoAudio.init();
+picoAudio.pause();
+r3i0=r3i1;
+}
+
+
+function msr1(){
+j=(document.form1.x_msr.value-stm)*ppq*bttl/ntvl*4;
+
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+selview1()
+
+}
+
+
+function top1(){
+r3i0=0;
+j=0;
+document.form1.x_msr.value=stm;
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+picoAudio.setData(parsedData);
+
+selview1();
+
+}
+
+function end1(){
+j=Math.floor(eott0/(bttl*ppq/ntvl*4)-stm)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+selview1();
+
+}
+
+function reverse1(){
+if(document.form1.x_msr.value-stm-1>=0){
+j=(document.form1.x_msr.value-stm-1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
+}else{
+top1();	
+}
+
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+selview1();
+
+}
+
+function forward1(){
+if((document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4)<=eott0){
+j=(document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
+}
+
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+selview1();
+
+}
+
+
+function reverses(){
+if((document.form1.x_msr.value-stm-ht1)*(bttl*ppq/ntvl*4)>=0){
+j=(document.form1.x_msr.value-stm-ht1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
+}else{
+top1();	
+}
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+selview1();
+
+}
+
+function forwards(){
+if((Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4)<=eott0){
+j=(Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
+}else{
+end1();	
+}
+let r3x=r3.findLast(function(value){
+return (j>=value[1])
+});
+r3i0=r3x[0];
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+
+selview1();
+
+}
+
+
+const play1= async () =>{
+picoAudio.init();
+picoAudio.play();
+picoAudio.addEventListener('noteOn', (note) => {
+j=note.start;
+
+document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
+
+r3w=r3.find(function(value){
+return (j<=value[1]);
+});
+
+tbpm1=r4.findLast(function(value){
+return(j>=value[0]);
+});
+
+document.form1.x_bpm.value=Math.floor(tbpm1[1]);
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+
+selview1();
+
+});
+
+
+}
+
+
+function touch_sound1(){
+var state=true;
+window.addEventListener('click',playSound);
+window.addEventListener('touchend',offSound);
+
+playSound(e);
+offSound(e);
+}
+
+function playSound(e){
+let kn=Number(midi_max)-Number(midi_min)+1;
+let kw=Math.round(900/kn);
+
+if(!state)return;
+p=Math.round((e.offsetX-50)/kw)-2+Number(midi_min);
+p2=engs1[p%12]+Math.floor(p/12-1);
+if(e.offsetY>=0 && document.form1.sv1.options[5].selected==true){
+synth.triggerAttackRelease(p2,'8n');
+state=false;
+}
+}
+
+function offSound(e){
+synth.triggerRelease();
+state=true;
+}
+
+
+function height1(){
+ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
+
+selview1();
+
+}
+
+
+function color_sample1(){
+szx=1080;
+szy=1300;
+canvas2.width = szx;
+canvas2.height = szy;
+ctx.clearRect(0,0,1400,1400);
+
+let kw=78;
+let kw0=kw*12/7*3/5;
+let kw1=kw*12/7*4/7;
+let cl=kw/2;
+
+ctx.font="25px Arial";
+ctx.fillStyle="black";
+
+ctx.lineWidth=1;
+for(let k=22;k<=107;k++){
+ctx.fillStyle=col2[Math.floor(k/12)-1];
+ctx.fillRect((k-Math.floor(k/12)*12)*kw,(Math.floor(k/12)*2-2)*cl+10,kw,cl);
+	if (k%12===0) {
+		ctx.beginPath();
+		ctx.arc((k-Math.floor(k/12)*12)*kw+37,(Math.floor(k/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
+		ctx.fillStyle="white";
+		ctx.fill();
+		ctx.fillStyle="black";
+		ctx.fillText(Math.floor(k/12), (k-Math.floor(k/12)*12)*kw+30,(Math.floor(k/12)*2-2)*cl+40);
+	}
+if(k%12<=4){
+ctx.fillStyle=col[k%12];
+ctx.fillRect((k-Math.floor(k/12)*12)*kw0,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
+ctx.beginPath();
+ctx.arc((k-Math.floor(k/12)*12)*kw0+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.fillStyle="black";
+ctx.fillText(k%12, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+}else{
+ctx.fillStyle=col[k%12];
+ctx.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1,(Math.floor(k/12)*2-1)*cl+10,kw1,cl);
+ctx.beginPath();
+ctx.arc(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.fillStyle="black";
+ctx.fillText((k%12).toString(12), 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+30,(Math.floor(k/12)*2-1)*cl+40);
+}
+ctx.strokeStyle="black";
+
+if(Math.floor(k/12)<=8){
+ctx.beginPath();
+ctx.moveTo(0,(Math.floor(k/12)*2)*cl+10);
+ctx.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(13*kw,(Math.floor(k/12)*2-2)*cl+10);
+ctx.lineTo(13*kw,(Math.floor(k/12)*2)*cl+10);
+ctx.stroke();
+if(k%12===0){
+ctx.beginPath();
+ctx.moveTo(12*kw,(Math.floor(k/12)*2-2)*cl+10);
+ctx.lineTo(12*kw,(Math.floor(k/12)*2)*cl+10);
+ctx.strokeStyle="blue";
+ctx.stroke();
+}
+if(k%12===5){
+ctx.beginPath();
+ctx.moveTo(5*kw0,(Math.floor(k/12)*2-2)*cl+10);
+ctx.lineTo(5*kw0,(Math.floor(k/12)*2)*cl+10);
+ctx.strokeStyle="red";
+ctx.stroke();
+}
+}
+}
+ctx.fillStyle=col2[Math.floor(21/12)-1];
+ctx.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-2)*cl+10,kw1,cl);
+ctx.beginPath();
+ctx.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.fillStyle="black";
+ctx.fillText(Math.floor(21/12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-2)*cl+40);
+ctx.fillStyle=col[21%12];
+ctx.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-1)*cl+10,kw1,cl);
+ctx.beginPath();
+ctx.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.fillStyle="black";
+ctx.fillText(Math.floor(21%12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-1)*cl+40);
+
+ctx.beginPath();
+ctx.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
+ctx.lineTo(5*kw*12/7,(Math.floor(21/12)*2)*cl+10);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(5*kw*12/7,(Math.floor(21/12)*2-2)*cl+10);
+ctx.lineTo(13*kw,(Math.floor(21/12)*2-2)*cl+10);
+ctx.stroke();
+
+ctx.fillStyle=col2[Math.floor(108/12)-1];
+ctx.fillRect(12*kw,(Math.floor(107/12)*2-2)*cl+10,kw,cl);
+ctx.beginPath();
+ctx.arc(12*kw+37,(Math.floor(107/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.fillStyle="black";
+ctx.fillText(Math.floor(108/12), 12*kw+30,(Math.floor(107/12)*2-2)*cl+40);
+ctx.fillStyle=col[108%12];
+ctx.fillRect(12*kw,(Math.floor(107/12)*2-1)*cl+10,kw,cl);
+ctx.beginPath();
+ctx.arc(12*kw+37,(Math.floor(107/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
+ctx.fillStyle="white";
+ctx.fill();
+ctx.fillStyle="black";
+ctx.fillText(Math.floor(108%12), 12*kw+30,(Math.floor(107/12)*2-1)*cl+40);
+
+ctx.beginPath();
+ctx.moveTo(12*kw,(Math.floor(107/12)*2)*cl+10);
+ctx.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(13*kw,(Math.floor(107/12)*2-1)*cl+10);
+ctx.lineTo(13*kw,(Math.floor(107/12)*2)*cl+10);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(12*kw,(Math.floor(23/12)*2-2)*cl+10);
+ctx.lineTo(12*kw,(Math.floor(23/12)*2)*cl+10);
+ctx.strokeStyle="blue";
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(12*kw,(Math.floor(107/12)*2-2)*cl+10);
+ctx.lineTo(12*kw,(Math.floor(107/12)*2)*cl+10);
+ctx.strokeStyle="blue";
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(5*kw0,(Math.floor(107/12)*2-2)*cl+10);
+ctx.lineTo(5*kw0,(Math.floor(107/12)*2)*cl+10);
+ctx.strokeStyle="red";
+ctx.stroke();
+
+let x0=0;
+let y0=660;
+let l0=50;
+
+for(let l=0;l<=12;l++){
+if(l%12===1||l%12===3){
+ctx.fillStyle="lightgray";
+ctx.fillRect(l*kw0+x0,y0,kw0,l0);
+ctx.beginPath();
+}else if(l%12===6||l%12===8||l%12===10){
+ctx.fillStyle="lightgray";
+ctx.fillRect(3*kw*12/7+(l-5)*kw1+x0,y0,kw1,l0);
+ctx.beginPath();
+}
+}
+
+for(let m=0;m<=7;m++){
+if(m%7===0||m%7===3){
+ctx.beginPath();
+ctx.moveTo(m*kw*12/7+x0,y0);
+ctx.lineTo(m*kw*12/7+x0,l0*2+y0);
+ctx.strokeStyle="black";
+ctx.stroke();
+}else{
+ctx.beginPath();
+ctx.moveTo(m*kw*12/7+x0,l0+y0);
+ctx.lineTo(m*kw*12/7+x0,l0*2+y0);
+ctx.strokeStyle="black";
+ctx.stroke();
+}
+}
+
+ctx.beginPath();
+ctx.moveTo(x0,y0);
+ctx.lineTo(kw*12+x0,y0);
+ctx.strokeStyle="black";
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(x0,l0*2+y0);
+ctx.lineTo(kw*12+x0,l0*2+y0);
+ctx.strokeStyle="black";
+ctx.stroke();
+
+
+
+let x2=0;
+let y2=1000;
+
+let kw20=10;
+let kw21=kw20*12/7*3/5;
+let kw22=kw20*12/7*4/7;
+let kw23=kw20*12/7;
+let kl0=10*kw20;
+let kl1=14*kw20;
+
+for(let l=0;l<=51;l++){
+if((l+5)%7===0){
+ctx.beginPath();
+ctx.moveTo(l*kw23+x2,y2);
+ctx.lineTo(l*kw23+x2,2*kw20+y2);
+ctx.strokeStyle="blue";
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(l*kw23+x2,2*kw20+y2);
+ctx.lineTo(l*kw23+x2,kl1+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+}else if((l+5)%7===3){
+ctx.beginPath();
+ctx.moveTo(l*kw23+x2,y2);
+ctx.lineTo(l*kw23+x2,2*kw20+y2);
+ctx.strokeStyle="red";
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(l*kw23+x2,2*kw20+y2);
+ctx.lineTo(l*kw23+x2,kl1+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+}else{
+ctx.beginPath();
+ctx.moveTo(l*kw23+x2,kl0+y2);
+ctx.lineTo(l*kw23+x2,kl1+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+}
+}
+
+for(let k=21;k<=108;k++){
+if(k%12>=0 && k%12<=4){
+ctx.fillStyle=col2[Math.floor(k/12)-1];
+ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
+ctx.font="10px Arial";
+ctx.fillStyle="black";
+	if(k%12===0){
+	ctx.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
+	}
+ctx.fillStyle=col[k%12];
+ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
+ctx.font="10px Arial";
+ctx.fillStyle="black";
+ctx.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
+}else{
+ctx.fillStyle=col2[Math.floor(k/12)-1];
+ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
+ctx.font="10px Arial";
+ctx.fillStyle="black";
+	if(k===21){
+	ctx.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
+	}
+ctx.fillStyle=col[k%12];
+ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
+ctx.font="10px Arial";
+ctx.fillStyle="black";
+ctx.fillText((k%12).toString(12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,kw20+y2-16);
+}
+
+if(k%12===1||k%12===3){
+ctx.fillStyle="black";
+ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw21+x2,2*kw20+y2,kw21,8*kw20);
+}else if(k%12===6||k%12===8||k%12===10){
+ctx.fillStyle="black";
+ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,8*kw20);
+}else if(k%12===0){
+ctx.beginPath();
+ctx.moveTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,y2-30);
+ctx.lineTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,14*kw20+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+}
+}
+
+ctx.beginPath();
+ctx.moveTo(x2,y2-30);
+ctx.lineTo(52*kw23+x2,y2-30);
+ctx.strokeStyle="black";
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(x2,y2);
+ctx.lineTo(52*kw23+x2,y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(x2,2*kw20+y2);
+ctx.lineTo(52*kw23+x2,2*kw20+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(x2,14*kw20+y2);
+ctx.lineTo(52*kw23+x2,14*kw20+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(x2,15*kw20+y2);
+ctx.lineTo(52*kw23+x2,15*kw20+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(x2,y2-30);
+ctx.lineTo(x2,15*kw20+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(52*kw23+x2,y2-30);
+ctx.lineTo(52*kw23+x2,15*kw20+y2);
+ctx.strokeStyle="black";
+ctx.stroke();
+
+}
+
+
+function channel1(){
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+
+tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
+if (tr1v<13){
+	trs1=tr1v;
+}else{
+	trs1=12-tr1v;
+}
+
+r1=[];
+n_id=1;
+
+midi_min=108;
+midi_max=21;
+midi_min_l=108;
+midi_max_l=21;
+midi_min_r=108;
+midi_max_r=21;
+parsedData.channels.forEach(channel => { 
+	channel.notes.forEach(note => { 
+		if(note.channel==x_ch1){
+			let trs2=Number(note.pitch)+Number(trs1);
+			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+			if(trs2>midi_max){
+				midi_max=trs2;
+			}
+			if(trs2<midi_min){
+				midi_min=trs2;
+			}
+			if(trs2>midi_max_l){
+				midi_max_l=trs2;
+			}
+			if(trs2<midi_min_l){
+				midi_min_l=trs2;
+			}
+		}
+		if(note.channel==x_ch2){
+			let trs2=Number(note.pitch)+Number(trs1);
+			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+			if(trs2>midi_max){
+				midi_max=trs2;
+			}
+			if(trs2<midi_min){
+				midi_min=trs2;
+			}
+			if(trs2>midi_max_r){
+				midi_max_r=trs2;
+			}
+			if(trs2<midi_min_r){
+				midi_min_r=trs2;
+			}
+		}
+		n_id+=1;
+	});
+});
+
+selview1();
+
+}
+
+function channel2(){
+x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
+x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+
+tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
+if (tr1v<13){
+	trs1=tr1v;
+}else{
+	trs1=12-tr1v;
+}
+
+r1=[];
+n_id=1;
+
+midi_min=108;
+midi_max=21;
+midi_min_l=108;
+midi_max_l=21;
+midi_min_r=108;
+midi_max_r=21;
+parsedData.channels.forEach(channel => { 
+	channel.notes.forEach(note => { 
+		if(note.channel==x_ch1){
+			let trs2=Number(note.pitch)+Number(trs1);
+			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+			if(trs2>midi_max){
+				midi_max=trs2;
+			}
+			if(trs2<midi_min){
+				midi_min=trs2;
+			}
+			if(trs2>midi_max_l){
+				midi_max_l=trs2;
+			}
+			if(trs2<midi_min_l){
+				midi_min_l=trs2;
+			}
+		}
+		if(note.channel==x_ch2){
+			let trs2=Number(note.pitch)+Number(trs1);
+			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+			if(trs2>midi_max){
+				midi_max=trs2;
+			}
+			if(trs2<midi_min){
+				midi_min=trs2;
+			}
+			if(trs2>midi_max_r){
+				midi_max_r=trs2;
+			}
+			if(trs2<midi_min_r){
+				midi_min_r=trs2;
+			}
+		}
+		n_id+=1;
+		
+	});
+});
+
+selview1();
+
+}
+
+function information1(){
+window.name="openerWin";
+newWin2=window.open();
+newWin2.document.writeln ('<pre>Information<hr color="#ff0000"></font></pre>'.fontsize(6));
+newWin2.document.writeln ('<pre><font color="#000080">MIDI Choose File     </font>Choose a Standard MIDI File (SMF). </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">TSV  Choose File     </font>Choose a tsv file for the midi file to show additional information as follows: </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">                     Credit, Fingering, Memo, Left notation, Right notation, Lyrics(1-5). </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">H                    </font>Select to change number of measures shown on the screen from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">T                    </font>Select to transpose key by the number from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">LCh                  </font>Select left hand part channel number from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">RCh                  </font>Select right hand part channel number from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">RH/LH                </font>Select right or left hand from the pulldown menu for fingering assistant or recorder. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">L                    </font>Select level to make fingering from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">X                    </font>Select to exclude type of fingering from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">C                    </font>Select number to match with previous fingering from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">10                   </font>Filter 1st fingering number or 10 to free from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">20                   </font>Filter 2nd fingering number or 20 to free from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">30                   </font>Filter 3rd fingering number or 30 to free from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">40                   </font>Filter 4th fingering number or 40 to free from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">50                   </font>Filter 5th fingering number or 50 to free from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">N                    </font>Select number for population to make fingering from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">n                    </font>Select number for sample to make fingering from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">r                    </font>Select number for short rest to make fingering from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">R                    </font>Select number for long rest to make fingering from the pulldown menu. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">M                    </font>Show the measure of the number in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">K                    </font>Estimate key between two measure numbers in the text boxes. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Left list box        </font>Select one to show on notes.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Right list box       </font>Select one to switch view or run a program.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">bpm                  </font>Scroll screen or move a horizontal line silently at the fixed BPM in the text box. </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Play                 </font>Play the song and scroll screen or move a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">||                   </font>Pause playing and scrolling screen or moving a horizontal line.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">|<                   </font>Show the first measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><<                   </font>Show the previous screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080"><                    </font>Show the previous measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>                    </font>Show the next measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>>                   </font>Show the next screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">>|                   </font>Show the last measure.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Scroll Landscape     </font>Setting to scroll landscape screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Scroll Portrait      </font>Setting to scroll portrait screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Still Landscape      </font>Setting to still landscape screen with a horisontal line move down.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Still Portrait       </font>Setting to still portrait screen with a horisontal line move down.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Color Sample         </font>Color sample to print and set on the keyboad.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Touch Sound          </font>Setting to play by touching screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Channel Colors       </font>Table of channel colors, channel numbers and instruments.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 10               </font>Estimate key of the song by time window 10%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 20               </font>Estimate key of the song by time window 20%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Key 25               </font>Estimate key of the song by time window 25%.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Information          </font>Information for this site.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Pythagorean Tuning   </font>Change screen to show animation for Pythagorean Tuning.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Just Intonation      </font>Change screen to show animation for Just Intonation.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">12 Equal Temperament </font>Change screen to show animation for 12 Equal Temperament.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Fingering Assistant  </font>It assists you to find fingering.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Fingering Recorder   </font>It records fingering automatically.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Fingering Downloader </font>Click to download fingering data.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">MIDI TSV Downloader  </font>Click to download MIDI and TSV files.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Cover Landscape      </font>Click to show cover landscape image.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">Cover Portrait       </font>Click to show cover portrait image.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">PL                   </font>Click to download pdf for landscape screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#006400">PP                   </font>Click to download pdf for portrait screen.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000000">MIDI                 </font>MIDI is a trademark of The MIDI Manufacturers Association Inc., resistered in countries </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000000">                     </font>worldwide and of the Association of Musical Electronics Industry resistered in Japan.</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Trademark            </font>Japan Trademark Resistration Number 6706042 for  <font face="Arial"><font color="ff0000">T</font><font color="ff7f00">o</font><font color="ffff00">y</font><font color="00ff00">S</font><font color="00ffff">c</font><font color="0000ff">o</font><font color="ff00ff">r</font><font color="ff007f">e</font></font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Patent               </font>Japan Patent Number 7685023 "Learning materials for keyboard instruments, learning programs for keyboard instruments, and learning assistance methods for keyboard instruments" </font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Patent Pending       </font>Japan Patent Pending Base Application Number JP 2023-174126 "Musical key estimation method, musical key estimation device, and musical key estimation program"</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Patent Pending       </font>Japan Patent Pending Base Application Number JP 2024-141877 "Chord visual representation processor"</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Patent Pending       </font>Japan Patent Pending Base Application Number JP 2025-166044 "Fingering information generation method, fingering information generation program, and fingering information generation apparatus"</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre><font color="#000080">Contact              </font>toyscore2023@gmail.com</font></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre> </pre>');
+newWin2.document.writeln ('<pre>Software Licenses<hr color="#ff0000"></font></pre>'.fontsize(6));
+newWin2.document.writeln ('<pre> </pre>');
+newWin2.document.writeln ('<pre>PicoAudio.js'.fontsize(5));
+newWin2.document.writeln ('<pre>MIT License</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>Copyright (c) 2017-2021 cagpie / Shun Kobayashi (cagpie@gmail.com)</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>Permission is hereby granted, free of charge, to any person obtaining a copy</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>of this software and associated documentation files (the "Software"), to deal</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>in the Software without restriction, including without limitation the rights</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>copies of the Software, and to permit persons to whom the Software is</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>furnished to do so, subject to the following conditions:</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>The above copyright notice and this permission notice shall be included in all</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>copies or substantial portions of the Software.</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>SOFTWARE.</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre> </pre>');
+newWin2.document.writeln ('<pre> Tonejs</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>[The MIT License](http://opensource.org/licenses/MIT)</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>Copyright © 2016 Yotam Mann</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>Permission is hereby granted, free of charge, to any person obtaining a copy</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>of this software and associated documentation files (the "Software"), to deal</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>in the Software without restriction, including without limitation the rights</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>copies of the Software, and to permit persons to whom the Software is</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>furnished to do so, subject to the following conditions:</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>The above copyright notice and this permission notice shall be included in</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>all copies or substantial portions of the Software.</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>THE SOFTWARE.</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre> </pre>');
+newWin2.document.writeln ('<pre>html2pdf'.fontsize(5));
+newWin2.document.writeln ('<pre>The MIT License</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>Copyright (c) 2017-2019 Erik Koopmans <http://www.erik-koopmans.com/></pre>'.fontsize(5));
+newWin2.document.writeln ('<pre> </pre>');
+newWin2.document.writeln ('<pre>jsPDF'.fontsize(5));
+newWin2.document.writeln ('<pre>Copyright (c) 2010-2021 James Hall, https://github.com/MrRio/jsPDF (c) 2015-2021 yWorks GmbH, https://www.yworks.com/</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</pre>'.fontsize(5));
+newWin2.document.writeln ('<pre>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'.fontsize(5));
+newWin2.document.writeln ('<pre> </pre>');
+newWin2.document.writeln ('<pre>html2canvas'.fontsize(5));
+newWin2.document.writeln ('<pre>Created by Niklas von Hertzen. Licensed under the MIT License.</pre>'.fontsize(5));
+
+}
+
+
+function instrument1(){
+canvas.height = 1300;
+ctx.font="25px Arial";
+ctx.fillStyle="black";
+ctx.clearRect(0,0,1200,1300);
+ctx.fillText("Color",100,50);
+ctx.fillText("Channel",200,50);
+ctx.fillText("Instrument",350,50);
+
+for(let i=0;i<=ch_max;i++){
+let [channel,instNumber]=r6[i];
+let instrument=instName[instNumber];
+ctx.fillStyle=col3[channel];
+ctx.beginPath();
+ctx.arc(110,30*(i+1)+40,10,0,2*Math.PI,false);
+ctx.fill();
+ctx.fillStyle="black";
+if(channel===10){
+ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
+ctx.fillText("Percussion",350,30*(i+1)+50);
+}else{
+ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
+ctx.fillText(instrument,350,30*(i+1)+50);
+}
+}
+}
+
+
+function selview1(){
+if(document.form1.sv1.options[0].selected==true){
+	line();
+}else if(document.form1.sv1.options[1].selected==true){
+	scroll();
+}else if(document.form1.sv1.options[2].selected==true){
+	simple();
+}else if(document.form1.sv1.options[3].selected==true){
+	color_sample1();
+}else if(document.form1.sv1.options[4].selected==true){
+	touch_sound1();
+}else if(document.form1.sv1.options[5].selected==true){
+	instrument1();
+}else if(document.form1.sv1.options[6].selected==true){
+	information1();
+}
+
+}
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
