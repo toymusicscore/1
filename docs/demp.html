@@ -1309,17 +1309,10 @@ selview1()
 
 function goTop(){
     pauseTick = 0;
-document.form1.x_msr.value=stm;
-
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-document.getElementById("prgrs").innerHTML = 0;
-picoAudio.setData(parsedData);
-
-selview1();
-
+	picoAudio.init();
+	picoAudio.setData(parsedData);
+	picoAudio.setStartTime(pauseTick);
+    selview1();
 }
 
 function top1(){
