@@ -933,7 +933,7 @@ function line(tick){
 	}
 };
 
-function scroll(time){
+function scroll(tick){
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -972,20 +972,20 @@ function scroll(time){
 	}
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(ppq*bttl/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
+		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		let vmn0=m/ppq/bttl*ntvl/4+stm;
 		ctx.beginPath();
-		ctx.moveTo(0,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(0,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		ctx.strokeStyle="red";
 		ctx.stroke();
 		ctx.fillStyle="black";
 		ctx.font="25px Arial";
-		ctx.fillText(vmn0,0,my*1.6+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		}else if(m%(ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+ht1*ppq*bttl/ntvl*4)){
+		ctx.fillText(vmn0,0,my*1.6+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
-		ctx.moveTo(mx,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-time/60*bpm*ppq)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(mx,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		ctx.strokeStyle="blue";
 		ctx.stroke();
 		}
@@ -994,8 +994,8 @@ function scroll(time){
 	for(i=0;i<r1.length;i++){
 		let [midi, start, stop, channel, n_id]=r1[i];
 		getLabel(midi, n_id);
-		const dt = (start-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
-		const dp = (stop-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
+		const dt = (start-tick)/(bttl*ppq/ntvl*4);
+		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		gt=(stop-start)/(bttl*ppq/ntvl*4);
 		if (dp > -1/4 && dt < ht1){
 			const x0 = (midi-midi_min)*kw+mx;
@@ -1023,7 +1023,7 @@ function scroll(time){
 	}
 };
 
-function simple(time){
+function simple(tick){
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -1044,8 +1044,8 @@ function simple(time){
 	ctx.fillText("L",0,my+120);
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(bttl*ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+bttl*ppq/ntvl*4)){
-		let vmn0=Math.floor(time/60*bpm*ppq/(bttl*ppq/ntvl*4)+stm);
+		if(m%(bttl*ppq/ntvl*4)===0 && m>=tick && m<(tick+bttl*ppq/ntvl*4)){
+		let vmn0=Math.floor(tick/(bttl*ppq/ntvl*4)+stm);
 		ctx.strokeStyle="red";
 		ctx.beginPath();
 		ctx.moveTo(mx,my);
@@ -1058,7 +1058,7 @@ function simple(time){
 		ctx.fillStyle="black";
 		ctx.fillText(vmn0,0,my-4);
 
-		}else if(m%(ppq/ntvl*4)===0 && m>=time/60*bpm*ppq && m<(time/60*bpm*ppq+bttl*ppq/ntvl*4)){
+		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+bttl*ppq/ntvl*4)){
 		ctx.strokeStyle="blue";
 		ctx.beginPath();
 		ctx.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my);
@@ -1067,11 +1067,11 @@ function simple(time){
 		}
 	}
 
-	if (time/60*bpm*ppq<eott0){
+	if (tick<eott0){
 	ctx.strokeStyle="grey";
 	ctx.beginPath();
-	ctx.moveTo(mx+time/60*bpm*ppq%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my);
-	ctx.lineTo(mx+time/60*bpm*ppq%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),szy);
+	ctx.moveTo(mx+tick%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my);
+	ctx.lineTo(mx+tick%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),szy);
 	ctx.stroke();
 	} else {
 		isPlaying = false;
@@ -1113,8 +1113,8 @@ function simple(time){
 		}
 		const dt = (start0-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
 		const dp = (stop0-time/60*bpm*ppq)/(bttl*ppq/ntvl*4);
-		if (stop0>=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3){
-			gt=time/60*bpm*ppq+ht1*bttl*ppq/ntvl*3-start0;
+		if (stop0>=tick+ht1*bttl*ppq/ntvl*3){
+			gt=tick+ht1*bttl*ppq/ntvl*3-start0;
 		}else{
 			gt=stop0-start0;
 		}
@@ -1225,21 +1225,6 @@ function simple(time){
 		}//if(start>j..)
 	}//for(i=0;)
 }
-
-
-function draw_bk(time){
-	ctx2.clearRect(0, 0, 1400, 1400);
-	for (let i =0; i< r1.length; i++){	
-	let [midi, start, stop, channel, n_id]=r1[i];
-		const dt = start*60/bpm/ppq-time;
-		if (dt > -1 && dt < 3){
-		const x = midi * 10;
-		const y = (dt / 4) * 700;
-		ctx2.fillStyle="grey";
-		ctx2.fillRect(x, y, 8, 20);
-		}
-	}
-};
 
 
 const silent1= async () =>{
