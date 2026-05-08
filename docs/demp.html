@@ -1265,12 +1265,6 @@ function setmsr1(){
 }
 
 
-function pause1(){
-picoAudio.init();
-picoAudio.pause();
-r3i0=r3i1;
-}
-
 
 function msr1(){
 j=(document.form1.x_msr.value-stm)*ppq*bttl/ntvl*4;
@@ -1300,22 +1294,6 @@ function goTop(){
     selview1();
 }
 
-function top1(){
-r3i0=0;
-j=0;
-document.form1.x_msr.value=stm;
-
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-picoAudio.setData(parsedData);
-
-selview1();
-
-}
-
 function goEnd(){
     pauseTick=Math.floor(eott0/(bttl*ppq/ntvl*4)-stm)*(bttl*ppq/ntvl*4);
     document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+stm;
@@ -1323,20 +1301,6 @@ function goEnd(){
 	picoAudio.setData(parsedData);
 	picoAudio.setStartTime(pauseTick);
     selview1();
-}
-
-function end1(){
-j=Math.floor(eott0/(bttl*ppq/ntvl*4)-stm)*(bttl*ppq/ntvl*4);
-document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
-
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-
-selview1();
-
 }
 
 function goBack1(){
@@ -1351,84 +1315,6 @@ function goBack1(){
     }
     selview1();
 }
-
-
-function reverse1(){
-if(document.form1.x_msr.value-stm-1>=0){
-j=(document.form1.x_msr.value-stm-1)*(bttl*ppq/ntvl*4);
-document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
-}else{
-top1();	
-}
-
-let r3x=r3.findLast(function(value){
-return (j>=value[1])
-});
-r3i0=r3x[0];
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-
-selview1();
-
-}
-
-function goForward1(){
-    if((document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4)<=eott0){
-        pauseTick=(document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4);
-        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+stm;
-        picoAudio.init();
-        picoAudio.setData(parsedData);
-        picoAudio.setStartTime(pauseTick);
-     }
-    selview1();
-}
-
-
-function forward1(){
-if((document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4)<=eott0){
-j=(document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4);
-document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
-}
-
-let r3x=r3.findLast(function(value){
-return (j>=value[1])
-});
-r3i0=r3x[0];
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-
-selview1();
-
-}
-
-
-function reverses(){
-if((document.form1.x_msr.value-stm-ht1)*(bttl*ppq/ntvl*4)>=0){
-j=(document.form1.x_msr.value-stm-ht1)*(bttl*ppq/ntvl*4);
-document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
-}else{
-top1();	
-}
-let r3x=r3.findLast(function(value){
-return (j>=value[1])
-});
-r3i0=r3x[0];
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-
-selview1();
-
-}
-
 function goBack2(){
     if((document.form1.x_msr.value-stm-ht1)*(bttl*ppq/ntvl*4)>=0){
         pauseTick=(document.form1.x_msr.value-stm-ht1)*(bttl*ppq/ntvl*4);
@@ -1439,6 +1325,17 @@ function goBack2(){
     }else{
         goTop();	
     }
+    selview1();
+}
+
+function goForward1(){
+    if((document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4)<=eott0){
+        pauseTick=(document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4);
+        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+stm;
+        picoAudio.init();
+        picoAudio.setData(parsedData);
+        picoAudio.setStartTime(pauseTick);
+     }
     selview1();
 }
 
@@ -1455,28 +1352,6 @@ function goForward2(){
     }
     selview1();
 }
-
-function forwards(){
-if((Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4)<=eott0){
-j=(Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4);
-document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
-}else{
-end1();	
-}
-let r3x=r3.findLast(function(value){
-return (j>=value[1])
-});
-r3i0=r3x[0];
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-
-selview1();
-
-}
-
 
 const play1= async () =>{
 picoAudio.init();
