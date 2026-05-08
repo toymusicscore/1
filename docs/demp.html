@@ -60,6 +60,12 @@ demp
 	<option value="15" style="font-size:100%"> RCh16</option>
 	</select>
 
+<select name="hands" onChane = "selHand()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> BH </option>
+	<option value="1" style="font-size:100%"> RH </option>
+	<option value="2" style="font-size:100%"> LH </option>
+	</select>
+
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Label </option>
 	<option value="1" style="font-size:100%"> DoReMi # </option>
@@ -129,8 +135,8 @@ demp
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
 <input type="button" name="b_sb" value="BPM" onClick="silent1()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="start(parsedData)" style="font-size:100%" >
-<input type="button" name="b_||" value=" || " onClick="stop()" style="font-size:100%" >
-<input type="button" name="b_|<" value="|<" onClick="top1()" style="font-size:100%" >
+<input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
+<input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
 <input type="button" name="b_<<" value="<<" onClick="reverses()" style="font-size:100%" >
 <input type="button" name="b_<" value="<" onClick="reverse1()" style="font-size:100%" >
 <input type="button" name="b_>" value=">" onClick="forward1()" style="font-size:100%" >
@@ -732,10 +738,12 @@ async function start(parsedData){
 	loop();
 }
 
-function stop(){
+function pause(){
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	pauseTick = current - startTick;
-	picoAudio.stop();
+    picoAudio.init();
+    picoAudio.pause();
+//	picoAudio.stop();
 	isPlaying = false;
 }
 
@@ -1300,6 +1308,20 @@ selview1()
 
 }
 
+function goTop(){
+    pauseTick = 0;
+document.form1.x_msr.value=stm;
+
+time1=r5.findLast(function(value){
+return(j>=value[0]);
+});
+document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
+document.getElementById("prgrs").innerHTML = 0;
+picoAudio.setData(parsedData);
+
+selview1();
+
+}
 
 function top1(){
 r3i0=0;
