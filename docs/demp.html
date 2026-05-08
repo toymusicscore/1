@@ -137,11 +137,11 @@ demp
 <input type="button" name="b_p" value="Play" onClick="start(parsedData)" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
-<input type="button" name="b_<<" value="<<" onClick="reverses()" style="font-size:100%" >
-<input type="button" name="b_<" value="<" onClick="reverse1()" style="font-size:100%" >
+<input type="button" name="b_<<" value="<<" onClick="goBack2()" style="font-size:100%" >
+<input type="button" name="b_<" value="<" onClick="goBack1()" style="font-size:100%" >
 <input type="button" name="b_>" value=">" onClick="goForward1()" style="font-size:100%" >
-<input type="button" name="b_>>" value=">>" onClick="forwards()" style="font-size:100%" >
-<input type="button" name="b_>|" value=">|" onClick="end1()" style="font-size:100%" >
+<input type="button" name="b_>>" value=">>" onClick="goForward2()" style="font-size:100%" >
+<input type="button" name="b_>|" value=">|" onClick="goEnd()" style="font-size:100%" >
 
 <span id="ts"></span>
 C <span id="channels"></span>
@@ -1331,6 +1331,14 @@ selview1();
 
 }
 
+function goEnd(){
+pauseTick=Math.floor(eott0/(bttl*ppq/ntvl*4)-stm)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
+
+selview1();
+
+}
+
 function end1(){
 j=Math.floor(eott0/(bttl*ppq/ntvl*4)-stm)*(bttl*ppq/ntvl*4);
 document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
@@ -1344,6 +1352,19 @@ document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 selview1();
 
 }
+
+function goBack1(){
+if(document.form1.x_msr.value-stm-1>=0){
+pauseTick=(document.form1.x_msr.value-stm-1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
+}else{
+goTop();	
+}
+
+selview1();
+
+}
+
 
 function reverse1(){
 if(document.form1.x_msr.value-stm-1>=0){
@@ -1432,6 +1453,18 @@ selview1();
 
 }
 
+
+function goForward2(){
+if((Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4)<=eott0){
+pauseTick=(Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4);
+document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4))+stm;
+}else{
+goEnd();	
+}
+
+selview1();
+
+}
 
 function forwards(){
 if((Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4)<=eott0){
