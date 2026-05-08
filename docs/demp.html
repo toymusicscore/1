@@ -887,7 +887,6 @@ function line(tick){
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		let vmn0=m/ppq/bttl*ntvl/4+stm;
-		let vmn1=m/ppq/bttl*ntvl/4+stm-1;
 		ctx.beginPath();
 		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
@@ -895,7 +894,7 @@ function line(tick){
 		ctx.stroke();
 		ctx.fillStyle="black";
 		ctx.font="25px Arial";
-		ctx.fillText(vmn0,0,mmy+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.fillText(vmn0,0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
 		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
