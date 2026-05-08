@@ -143,10 +143,6 @@ demp
 <input type="button" name="b_>>" value=">>" onClick="goForward2()" style="font-size:100%" >
 <input type="button" name="b_>|" value=">|" onClick="goEnd()" style="font-size:100%" >
 
-<span id="ts"></span>
-C <span id="channels"></span>
-T <span id="pt"></span>
-P <span id="prgrs"></span>
 </form>
 <canvas id="canvas">
 </canvas>
@@ -539,13 +535,6 @@ bttl = parsedData.beatTrack[0].value[0];
 ntvl = parsedData.beatTrack[0].value[1];
 bpm = Math.round(parsedData.tempoTrack[0].value);
 document.form1.x_bpm.value=bpm;
-document.getElementById("ts").innerHTML=bttl+"/"+ntvl;
-if(Math.floor(picoAudio.getTime(eott0)%60)<10){
-document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":0"+Math.floor(picoAudio.getTime(eott0)%60);
-}else{
-document.getElementById("pt").innerHTML=Math.floor(picoAudio.getTime(eott0)/60)+":"+Math.floor(picoAudio.getTime(eott0)%60);
-}
-document.getElementById("prgrs").innerHTML=prgrs1;
 
 r1=[];
 r2=[];
