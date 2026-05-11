@@ -786,15 +786,7 @@ async function silent(parsedData){
 		ctx.clearRect(0,40,40,100);
 		ctx.fillText(i,0,100);
 	}
-	await picoAudio.context.resume();
-	picoAudio.init();
-	picoAudio.setData(parsedData);
-	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-	startTick = current - pauseTick;
-	picoAudio.setStartTime(pauseTick);
-	picoAudio.play();
-	isPlaying = true;
-	loop();
+	start();
 }
 
 function pause(){
