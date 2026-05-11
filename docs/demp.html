@@ -194,7 +194,7 @@ demp
 </select>
 
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
-<input type="button" name="b_sb" value="BPM" onClick="silent1()" style="font-size:100%" >
+<input type="button" name="b_sb" value="BPM" onClick="silent()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="start(parsedData)" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
@@ -783,6 +783,18 @@ async function start(parsedData){
 	loop();
 }
 
+async function silent(parsedData){
+	await picoAudio.context.resume();
+	picoAudio.init();
+	picoAudio.setData(parsedData);
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	startTick = current - pauseTick;
+	picoAudio.setStartTime(pauseTick);
+//	picoAudio.play();
+	isPlaying = true;
+	loop();
+}
+
 function pause(){
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	pauseTick = current - startTick;
@@ -1284,26 +1296,10 @@ ctx2.font="100px Arial";
 		ctx2.fillText(i,0,100);
 	}
 
-ctx2.font="25px Arial";
  
 	for(let i=r3i0;i<r3.length;i++){
-		
-		r3i1=i;
-		let [n,h_from,h_to]=r3[i]
-		j=h_from;
-
-		document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
 		document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
-
-		r3w=r3.find(function(value){
-		return (j<=value[1]);
-		});
-
-		wait1=60000/document.form1.x_bpm.value*(r3w[2]-r3w[1])/ppq;
-
 		selview1();
-
-		await new Promise(r => timer=setTimeout(r,wait1));
 
 	}
 }
