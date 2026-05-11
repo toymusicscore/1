@@ -95,6 +95,36 @@ demp
 	<option value="5" style="font-size:100%"> Channel Colors </option>
 	<option value="6" style="font-size:100%"> Information </option>
 	</select>
+<select name="smsr1" onChange="setmsr1()" style="font-size:100%">
+	<option value="0" style="font-size:100%"> 0 </option>
+	<option value="1" style="font-size:100%" selected="selected"> 1 </option>
+	<option value="2" style="font-size:100%"> 2 </option>
+	<option value="3" style="font-size:100%"> 3 </option>
+	<option value="4" style="font-size:100%"> 4 </option>
+	<option value="5" style="font-size:100%"> 5 </option>
+	<option value="6" style="font-size:100%"> 6 </option>
+	<option value="7" style="font-size:100%"> 7 </option>
+	<option value="8" style="font-size:100%"> 8 </option>
+	<option value="9" style="font-size:100%"> 9 </option>
+	<option value="10" style="font-size:100%"> 10 </option>
+	<option value="11" style="font-size:100%"> 11 </option>
+	<option value="12" style="font-size:100%"> 12 </option>
+	<option value="13" style="font-size:100%"> 13 </option>
+	<option value="14" style="font-size:100%"> 14 </option>
+	<option value="15" style="font-size:100%"> 15 </option>
+	<option value="16" style="font-size:100%"> 16 </option>
+	<option value="17" style="font-size:100%"> 17 </option>
+	<option value="18" style="font-size:100%"> 18 </option>
+	<option value="19" style="font-size:100%"> 19 </option>
+	<option value="20" style="font-size:100%"> 20 </option>
+	<option value="21" style="font-size:100%"> 21 </option>
+	<option value="22" style="font-size:100%"> 22 </option>
+	<option value="23" style="font-size:100%"> 23 </option>
+	<option value="24" style="font-size:100%"> 24 </option>
+	<option value="25" style="font-size:100%"> 25 </option>
+	<option value="26" style="font-size:100%"> 26 </option>
+	<option value="27" style="font-size:100%"> 27 </option>
+</select>
 
 <input type="tel"    name="x_msr" value="0" size="3" style="font-size:100%" >
 <input type="button" name="b_msr" value="M" onClick="msr1()" style="font-size:100%" >
@@ -834,6 +864,7 @@ function loop(){
 	if (!isPlaying) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value
+	document.form1.x_msr.value=Math.floor(tick);
 	if (sv=="0"){
 		line(tick);
 	}else if (sv=="1"){
