@@ -789,7 +789,7 @@ async function cdown(){
 }
 
 function silent(parsedData){
-	cdown();
+//	cdown();
 	start(parsedData);
 }
 
@@ -1281,57 +1281,18 @@ function simple(tick){
 	}//for(i=0;)
 }
 
-
-const silent1= async () =>{
-
-ctx2.font="100px Arial";
-
-	for(i=3;i>=0;i--){
-		ctx2.fillStyle="red";
-		wait0=60000/Math.max(document.form1.x_bpm.value,30);
-		await new Promise(r => timer=setTimeout(r,wait0));
-		ctx2.clearRect(0,40,40,100);
-		ctx2.fillText(i,0,100);
-	}
-
- 
-	for(let i=r3i0;i<r3.length;i++){
-		document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
-		selview1();
-
-	}
-}
-
-
 function setbpm1(){
 	document.form1.x_bpm.value=Number(document.form1.sbpm1.options[document.form1.sbpm1.options.selectedIndex].value);
 }
-
 
 function setmsr1(){
 	document.form1.x_msr.value=Number(document.form1.smsr1.options[document.form1.smsr1.options.selectedIndex].value);
 	msr1();
 }
 
-
-
 function msr1(){
-j=(document.form1.x_msr.value-stm)*ppq*bttl/ntvl*4;
-
-let r3x=r3.findLast(function(value){
-return (j>=value[1])
-});
-r3i0=r3x[0];
-
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-
-selview1()
-
+	tick=(document.form1.x_msr.value-stm)*ppq*bttl/ntvl*4;
+	selview1()
 }
 
 function goTop(){
@@ -1402,38 +1363,6 @@ function goForward2(){
     }
     selview1();
 }
-
-const play1= async () =>{
-picoAudio.init();
-picoAudio.play();
-picoAudio.addEventListener('noteOn', (note) => {
-j=note.start;
-
-document.getElementById("prgrs").innerHTML=Math.round(j/eott0*100);
-document.form1.x_msr.value=Math.floor(j/(bttl*ppq/ntvl*4)+1);
-
-r3w=r3.find(function(value){
-return (j<=value[1]);
-});
-
-tbpm1=r4.findLast(function(value){
-return(j>=value[0]);
-});
-
-document.form1.x_bpm.value=Math.floor(tbpm1[1]);
-
-time1=r5.findLast(function(value){
-return(j>=value[0]);
-});
-document.getElementById("ts").innerHTML=time1[1]+"/"+time1[2];
-
-selview1();
-
-});
-
-
-}
-
 
 function touch_sound1(){
 var state=true;
