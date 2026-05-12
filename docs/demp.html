@@ -788,9 +788,17 @@ async function cdown(){
 	}
 }
 
-function silent(parsedData){
+async function silent(parsedData){
 	cdown();
-	start(parsedData);
+	await picoAudio.context.resume();
+	picoAudio.init();
+	picoAudio.setData(parsedData);
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	startTick = current - pauseTick;
+	picoAudio.setStartTime(pauseTick);
+	picoAudio.play();
+	isPlaying = true;
+	loop();
 }
 
 function pause(){
@@ -1292,6 +1300,10 @@ function setmsr1(){
 
 function msr1(){
 	pauseTick = (document.form1.x_msr.value-stm)*ppq*bttl/ntvl*4;
+	picoAudio.init();
+	picoAudio.setData(parsedData);
+	picoAudio.setStartTime(pauseTick);
+    document.form1.x_msr.value=stm;
 	selview1();
 }
 
