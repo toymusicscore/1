@@ -778,9 +778,9 @@ async function start(parsedData){
 }
 
 function pause(){
-//	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-//	pauseTick = current - startTick;
-	pauseTick = picoAudio.getTiming(picoAudio.context.currentTime);
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	pauseTick = current - startTick;
+//	pauseTick = picoAudio.getTiming(picoAudio.context.currentTime);
     picoAudio.pause();
 	isPlaying = false;
 }
