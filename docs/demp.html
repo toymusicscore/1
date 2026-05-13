@@ -789,7 +789,7 @@ async function cdown(){
 }
 
 async function silent(parsedData){
-//	cdown();
+	cdown();
 	await picoAudio.context.resume();
 	picoAudio.init();
 	picoAudio.setData(parsedData);
@@ -805,7 +805,6 @@ function pause(){
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	pauseTick = current - startTick;
     picoAudio.pause();
-//	picoAudio.stop();
 	isPlaying = false;
 }
 
