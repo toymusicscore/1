@@ -773,7 +773,6 @@ function play(){
 	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
-	const x_bpm = Number(document.form1.x_bpm.value);
 	picoAudio.initStatus();
 	picoAudio.setStartTime(pauseTick);
 	picoAudio.play();
