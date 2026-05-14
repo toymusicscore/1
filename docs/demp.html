@@ -769,8 +769,9 @@ let startTick = 0;
 let pauseTick = 0;
 let isPlaying = false;
 
-function play(){
+async function play(){
 	if (isPlaying) return;
+	await picoAudio.context.resume();
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
 	picoAudio.setStartTime(pauseTick);
@@ -779,7 +780,7 @@ function play(){
 	loop();
 }
 
-function silent(){
+function resumeVisual(){
 	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
@@ -808,7 +809,7 @@ async function cdown(){
 
 function bpm1(){
 	cdown();
-	silent();
+	resumeVisual();
 }
 
 function getCurrentTick(){
