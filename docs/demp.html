@@ -189,7 +189,7 @@ demp
 
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
 <input type="button" name="b_sb" value="BPM" onClick="silent()" style="font-size:100%" >
-<input type="button" name="b_p" value="Play" onClick="start(parsedData)" style="font-size:100%" >
+<input type="button" name="b_p" value="Play" onClick="play()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
 <input type="button" name="b_<<" value="<<" onClick="goBack2()" style="font-size:100%" >
@@ -770,7 +770,7 @@ let isPlaying = false;
 //	picoAudio.init();
 //	picoAudio.setData(parsedData);
 
-function start(){
+function play(){
 	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
@@ -784,7 +784,7 @@ function pause(){
 	if (!isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	pauseTick = current - startTick;
-    picoAudio.stop();
+    picoAudio.pause();
 	isPlaying = false;
 }
 
