@@ -799,11 +799,11 @@ async function cdown(){
 	}
 }
 
-async function silent(parsedData){
+function silent(){
 	cdown();
-	await picoAudio.context.resume();
-	picoAudio.init();
-	picoAudio.setData(parsedData);
+//	await picoAudio.context.resume();
+//	picoAudio.init();
+//	picoAudio.setData(parsedData);
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
 	picoAudio.setStartTime(pauseTick);
