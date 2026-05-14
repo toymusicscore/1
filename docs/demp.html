@@ -785,6 +785,8 @@ function silent(){
 	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
+	picoAudio.initStatus();
+	picoAudio.setStartTime(pauseTick);
 	isPlaying = true;
 	loop();
 }
