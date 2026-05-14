@@ -781,6 +781,7 @@ async function play(){
 }
 
 async function resumeVisual(){
+	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
 	isPlaying = true;
