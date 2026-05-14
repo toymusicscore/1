@@ -792,7 +792,7 @@ function pause(){
 	if (!isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	const x_bpm = Number(document.form1.x_bpm.value);
-	pauseTick = (current - startTick) * x_bpm / bpm;;
+	pauseTick = (current - startTick) * x_bpm / bpm;
     picoAudio.pause();
 	isPlaying = false;
 }
