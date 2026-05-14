@@ -801,15 +801,7 @@ async function cdown(){
 
 function silent(){
 	cdown();
-//	await picoAudio.context.resume();
-//	picoAudio.init();
-//	picoAudio.setData(parsedData);
-	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-	startTick = current - pauseTick;
-	picoAudio.setStartTime(pauseTick);
-	picoAudio.play();
-	isPlaying = true;
-	loop();
+	start();
 }
 
 function getCurrentTick(){
