@@ -768,12 +768,12 @@ fetch1();
 let startTick = 0;
 let pauseTick = 0;
 let isPlaying = false;
-const x_bpm = Number(document.form1.x_bpm.value);
 
 function play(){
 	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
+	const x_bpm = Number(document.form1.x_bpm.value);
 	picoAudio.initStatus();
 	picoAudio.setStartTime(pauseTick);
 	picoAudio.setTempoRate(x_bpm / bpm);
