@@ -765,10 +765,12 @@ let startTick = 0;
 let pauseTick = 0;
 let isPlaying = false;
 
-async function start(parsedData){
-	await picoAudio.context.resume();
+//async function start(parsedData){
+//	await picoAudio.context.resume();
 //	picoAudio.init();
 //	picoAudio.setData(parsedData);
+
+function start(parsedData){
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
 	picoAudio.setStartTime(pauseTick);
@@ -780,7 +782,6 @@ async function start(parsedData){
 function pause(){
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	pauseTick = current - startTick;
-//	pauseTick = picoAudio.getTiming(picoAudio.context.currentTime);
     picoAudio.pause();
 	isPlaying = false;
 }
