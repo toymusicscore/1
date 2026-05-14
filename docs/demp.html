@@ -797,17 +797,17 @@ function pause(){
 
 async function cdown(){
 	ctx.font="80px Arial";
-	for(i=3;i>=0;i--){
+	for(let i=3;i>=0;i--){
 		ctx.fillStyle="red";
-		wait0=60000/Math.max(document.form1.x_bpm.value,30);
-		await new Promise(r => timer=setTimeout(r,wait0));
 		ctx.clearRect(0,40,50,100);
 		ctx.fillText(i,0,100);
+		let wait0=60000/Math.max(document.form1.x_bpm.value,30);
+		await new Promise(r => timer=setTimeout(r,wait0));
 	}
 }
 
-function bpm1(){
-	cdown();
+async function bpm1(){
+	await cdown();
 	resumeVisual();
 }
 
