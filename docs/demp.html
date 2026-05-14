@@ -771,6 +771,7 @@ let isPlaying = false;
 //	picoAudio.setData(parsedData);
 
 function start(parsedData){
+	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
 	picoAudio.setStartTime(pauseTick);
