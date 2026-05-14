@@ -784,6 +784,9 @@ async function resumeVisual(){
 	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
+	const x_bpm = Number(document.form1.x_bpm.value);
+    const rate = x_bpm / bpm;
+    picoAudio.setTempoRate(rate);
 	isPlaying = true;
 	loop();
 }
@@ -791,8 +794,6 @@ async function resumeVisual(){
 function pause(){
 	if (!isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-	const x_bpm = Number(document.form1.x_bpm.value);
-	pauseTick = (current - startTick) * x_bpm / bpm;
     picoAudio.pause();
 	isPlaying = false;
 }
@@ -818,9 +819,8 @@ function getCurrentTick(){
 	if (!isPlaying){
 		return pauseTick;
 	}
-	const x_bpm = Number(document.form1.x_bpm.value);
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-	return (current - startTick) * x_bpm / bpm;
+	return current - startTick;
 }
 
 function loop(){
