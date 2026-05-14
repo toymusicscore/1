@@ -774,8 +774,8 @@ function play(){
 	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
+	picoAudio.initStatus();
 	picoAudio.setStartTime(pauseTick);
-	picoAudio.init();
 	picoAudio.play();
 	isPlaying = true;
 	loop();
@@ -796,7 +796,6 @@ function pause(){
 	if (!isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	pauseTick = current - startTick;
-	picoAudio.init();
     picoAudio.pause();
 	isPlaying = false;
 }
