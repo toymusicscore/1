@@ -786,6 +786,8 @@ function pause(){
 	pauseTick = current - startTick;
     picoAudio.stop();
 	isPlaying = false;
+	picoAudio.init();
+	picoAudio.setData(parsedData);
 }
 
 async function cdown(){
