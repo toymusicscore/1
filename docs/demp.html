@@ -817,8 +817,8 @@ function getCurrentTick(){
 		return pauseTick;
 	}
 	const x_bpm = Number(document.form1.x_bpm.value);
-	const current = picoAudio.getTiming(picoAudio.context.currentTime) * x_bpm / bpm;
-	return current - startTick;
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	return (current - startTick) * x_bpm / bpm;
 }
 
 function loop(){
