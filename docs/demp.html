@@ -790,8 +790,8 @@ async function resumeVisual(){
 
 function pause(){
 	if (!isPlaying) return;
-//	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-//	startTick = current - pauseTick;
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	startTick = current - pauseTick;
     picoAudio.pause();
 	isPlaying = false;
 }
