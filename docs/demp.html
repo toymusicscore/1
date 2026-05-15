@@ -769,7 +769,7 @@ let startTick = 0;
 let pauseTick = 0;
 let isPlaying = false;
 
-async function play(){
+async function play(pauseTick){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
@@ -824,7 +824,7 @@ async function bpm1(){
 //	const x_bpm = Number(document.form1.x_bpm.value);
 //	changeBPM(persedData, x_bpm);
 	await cdown();
-	await resumeVisual();
+	await resumeVisual(pauseTick);
 }
 
 function getCurrentTick(){
