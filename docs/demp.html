@@ -767,6 +767,7 @@ fetch1();
 
 let pauseTick = 0;
 let isPlaying = false;
+let rafId = null;
 
 async function play(){
 	if (isPlaying) return;
@@ -786,10 +787,11 @@ async function resumeVisual(){
 }
 
 function pause(){
-	if (!isPlaying) return;
-	pauseTick = picoAudio.getTiming(picoAudio.context.currentTime);
-	picoAudio.pause();
-	isPlaying = false;
+    if (!isPlaying) return;
+    pauseTick = getCurrentTick();
+    isPlaying = false;
+    picoAudio.pause();
+    cancelAnimationFrame(rafId);
 }
 
 async function cdown(){
