@@ -772,8 +772,8 @@ let isPlaying = false;
 async function play(){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
-//	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-//	startTick = current - pauseTick;
+	const current = picoAudio.getTiming(picoAudio.context.currentTime);
+	startTick = current - pauseTick;
 	picoAudio.setStartTime(pauseTick);
 //	picoAudio.play(pauseTick);
 	picoAudio.play();
