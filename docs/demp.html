@@ -784,11 +784,6 @@ async function resumeVisual(){
 	if (isPlaying) return;
 	const current = picoAudio.getTiming(picoAudio.context.currentTime);
 	startTick = current - pauseTick;
-	const x_bpm = Number(document.form1.x_bpm.value);
-    const rate = x_bpm / bpm;
-	alert("1 " + x_bpm + " " +bpm + " " + rate);
-    picoAudio.setTempoRate(rate);
-	alert("2 " + x_bpm + " " +bpm + " " + rate);
 	isPlaying = true;
 	loop();
 }
@@ -812,7 +807,21 @@ async function cdown(){
 	}
 }
 
+function changeBPM(data, newBPM){
+
+    const tempo = 60000000 / newBPM;
+
+    for(let i=0; i<data.tempoTrack.length; i++){
+
+        data.tempoTrack[i].tempo = tempo;
+
+        data.tempoTrack[i].bpm = newBPM;
+    }
+}
+
 async function bpm1(){
+	const x_bpm = Number(document.form1.x_bpm.value);
+	changeBPM(persedData, x_bpm);
 	await cdown();
 	await resumeVisual();
 }
