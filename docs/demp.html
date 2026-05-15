@@ -765,17 +765,13 @@ fetch1();
 //	picoAudio.init();
 //	picoAudio.setData(parsedData);
 
-let startTick = 0;
 let pauseTick = 0;
 let isPlaying = false;
 
 async function play(){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
-//	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-//	startTick = current - pauseTick;
 	picoAudio.setStartTime(pauseTick);
-//	picoAudio.play(pauseTick);
 	picoAudio.play();
 	isPlaying = true;
 	loop();
@@ -783,8 +779,6 @@ async function play(){
 
 async function resumeVisual(){
 	if (isPlaying) return;
-//	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-//	startTick = current - pauseTick;
 	picoAudio.setStartTime(pauseTick);
 	isPlaying = true;
 	loop();
@@ -792,8 +786,6 @@ async function resumeVisual(){
 
 function pause(){
 	if (!isPlaying) return;
-//	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-//	startTick = current - pauseTick;
 	pauseTick = picoAudio.getTiming(picoAudio.context.currentTime);
 	picoAudio.pause();
 	isPlaying = false;
@@ -834,8 +826,6 @@ function getCurrentTick(){
 	if (!isPlaying){
 		return pauseTick;
 	}
-//	const current = picoAudio.getTiming(picoAudio.context.currentTime);
-//	return current - startTick;
 	return picoAudio.getTiming(picoAudio.context.currentTime);
 }
 
