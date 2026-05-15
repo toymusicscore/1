@@ -836,7 +836,6 @@ function getCurrentTick(){
 
 function loop(){
 	if (!isPlaying) return;
-    cancelAnimationFrame(rafId);
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
@@ -847,8 +846,9 @@ function loop(){
 	}else if (sv=="2"){
 		simple(tick);
 	}
-    cancelAnimationFrame(rafId);
-	requestAnimationFrame(loop);
+
+    rafId = requestAnimationFrame(loop);
+	//	requestAnimationFrame(loop);
 }
 
 let nl ="";
