@@ -779,6 +779,7 @@ async function play(){
 
 async function resumeVisual(){
 	if (isPlaying) return;
+	await picoAudio.context.resume();
 	picoAudio.setStartTime(pauseTick);
 	isPlaying = true;
 	loop();
