@@ -770,6 +770,8 @@ let isPlaying = false;
 let rafId = null;
 
 async function play(){
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 	if (isPlaying) return;
 	await picoAudio.context.resume();
 	picoAudio.setStartTime(pauseTick);
@@ -909,8 +911,8 @@ if (tsv4[n_id-tsvst0+1]!=undefined){
 
 
 function line(tick){
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+//	canvas.width = window.innerWidth;
+//	canvas.height = window.innerHeight;
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
 	szy = canvas.height-my;
