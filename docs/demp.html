@@ -841,9 +841,7 @@ function getCurrentTick(){
 
 function loop(){
 	if (!isPlaying) return;    
-	const tick = picoAudio.getTiming(
-        picoAudio.context.currentTime
-    );
+	const tick = picoAudio.getTiming(picoAudio.context.currentTime);
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
 	if (sv=="0"){
