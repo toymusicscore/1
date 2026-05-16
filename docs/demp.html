@@ -588,7 +588,7 @@ eott0 = parsedData.songLength;
 ppq = parsedData.header.resolution;
 bttl = parsedData.beatTrack[0].value[0];
 ntvl = parsedData.beatTrack[0].value[1];
-bpm = Math.round(parsedData.tempoTrack[0].value);
+bpm = 60000 / Math.round(parsedData.tempoTrack[0].tempo);
 document.form1.x_bpm.value=bpm;
 
 r1=[];
