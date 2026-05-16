@@ -810,13 +810,6 @@ async function cdown(){
 	}
 }
 
-function changeBPM(data, newBPM){
-    for(let i=0; i<data.tempoTrack.length; i++){
-        data.tempoTrack[i].value = newBPM;
-    }
-    picoAudio.setData(data);
-}
-
 async function bpm1(){
 	await cdown();
 	await resumeVisual();
