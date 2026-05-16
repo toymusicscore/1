@@ -764,34 +764,34 @@ fetch1();
 
 let pauseTick = 0;
 let startTime = 0;
-let isPlaying = false;
+let isPlaying = 0;
 let rafId = null;
 
 async function play(){
-	if (isPlaying) return;
+	if (isPlaying > 0) return;
 	await picoAudio.context.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     picoAudio.setData(parsedData);
 	startTime = picoAudio.context.currentTime;
 	picoAudio.play();
-	isPlaying = true;
+	isPlaying = 1;
 	loop();
 }
 
 async function draw(){
-	if (isDrawing) return;
+	if (isPlaying > 0) return;
 	await picoAudio.context.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     picoAudio.setData(parsedData);
 	startTime = picoAudio.context.currentTime;
-	isPlaying = true;
+	isPlaying = 2;
 	loop();
 }
 
 function pause(){
-    if (!isPlaying) return;
+    if (isPlaying == 0) return;
     pauseTick = getCurrentTick();
     isPlaying = false;
     picoAudio.pause();
@@ -816,15 +816,18 @@ async function silent(){
 }
 
 function getCurrentTick(){
-	if (!isPlaying){
+	if (isPlaying == 0){
 		return pauseTick;
+	}else if (isPlaying == 1){
+		return pauseTick + (picoAudio.context.currentTime - startTime) * bpm * ppq / 60;
+	}else if (isPlaying == 2){
+		const x_bpm = document.form1.x_bpm.value;
+		return pauseTick + (picoAudio.context.currentTime - startTime) * x_bpm * ppq / 60;
 	}
-	const x_bpm = document.form1.x_bpm.value;
-	return pauseTick + (picoAudio.context.currentTime - startTime) * x_bpm * ppq / 60;
 }
 
 function loop(){
-	if (!isPlaying || !isDrawing) return;
+	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
