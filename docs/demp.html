@@ -775,8 +775,9 @@ async function play(){
     picoAudio.setData(parsedData);
 	startTime = picoAudio.context.currentTime;
 	const rate = document.form1.x_bpm.value / bpm;
+	alert(rate);
+	picoAudio.play();
 	picoAudio.setTempoRate(rate);
-    picoAudio.play();
 	isPlaying = true;
 	loop();
 }
