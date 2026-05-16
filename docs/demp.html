@@ -775,7 +775,8 @@ async function play(){
 	canvas.height = window.innerHeight;
 	if (isPlaying) return;
 	await picoAudio.context.resume();
-	startTime = picoAudio.context.currentTime;
+//	startTime = picoAudio.context.currentTime;
+	pauseTick = getCurrentTick();
 	picoAudio.setStartTime(pauseTick);
 	picoAudio.play();
 	isPlaying = true;
@@ -785,7 +786,8 @@ async function play(){
 async function resumeVisual(){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
-	startTime = picoAudio.context.currentTime;
+//	startTime = picoAudio.context.currentTime;
+	pauseTick = getCurrentTick();
 	picoAudio.setStartTime(pauseTick);
 	isPlaying = true;
 	loop();
@@ -834,7 +836,8 @@ function getCurrentTick(){
 	if (!isPlaying){
 		return pauseTick;
 	}
-	    return pauseTick + picoAudio.getTiming(picoAudio.context.currentTime - startTime);
+    	return picoAudio.getTiming(picoAudio.context.currentTime);
+//	    return pauseTick + picoAudio.getTiming(picoAudio.context.currentTime - startTime);
 }
 
 function loop(){
