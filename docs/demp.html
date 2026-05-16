@@ -766,6 +766,7 @@ fetch1();
 //	picoAudio.setData(parsedData);
 
 let pauseTick = 0;
+let startTime = 0;
 let isPlaying = false;
 let rafId = null;
 
@@ -774,6 +775,7 @@ async function play(){
 	canvas.height = window.innerHeight;
 	if (isPlaying) return;
 	await picoAudio.context.resume();
+	startTime = picoAudio.context.currentTime;
 	picoAudio.setStartTime(pauseTick);
 	picoAudio.play();
 	isPlaying = true;
@@ -783,6 +785,7 @@ async function play(){
 async function resumeVisual(){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
+	startTime = picoAudio.context.currentTime;
 	picoAudio.setStartTime(pauseTick);
 	isPlaying = true;
 	loop();
@@ -831,7 +834,8 @@ function getCurrentTick(){
 	if (!isPlaying){
 		return pauseTick;
 	}
-	return picoAudio.getTiming(picoAudio.context.currentTime);
+    const sec = picoAudio.context.currentTime - startTime;
+    return pauseTick + sec * bpm * ppq / 60;
 }
 
 function loop(){
