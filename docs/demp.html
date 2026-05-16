@@ -59,10 +59,10 @@ demp
 	<option value="15" style="font-size:100%"> RCh16</option>
 	</select>
 
-<select name="hands" onChane = "selHand()" style="font-size:100%">
+<select name="hands" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> BH </option>
-	<option value="1" style="font-size:100%"> RH </option>
-	<option value="2" style="font-size:100%"> LH </option>
+	<option value="1" style="font-size:100%"> LH </option>
+	<option value="2" style="font-size:100%"> RH </option>
 	</select>
 
 <select name="nl1" onChange="selview1()" style="font-size:100%">
@@ -982,23 +982,28 @@ function line(tick){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
-			ctx.fillStyle=col[midi%12];
-			ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
-			ctx.beginPath();
-			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
-			ctx.fillStyle=col3[channel];
-			ctx.fill();
-			getLabel(midi, n_id);
-			ctx.fillStyle="black";
-			ctx.font="20px Arial";
-			if (nl!=""){
-			ctx.fillText(nl, x0+3, y+7);
-			}
-			if (nll!=""){
-			ctx.fillText(nll, mx, y);
-			}
-			if (nlr!=""){
-			ctx.fillText(nlr, mx+szk, y);
+			if((document.form1.hands.options[0].selected==true ) || 
+			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
+			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
+
+				ctx.fillStyle=col[midi%12];
+				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
+				ctx.beginPath();
+				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+				ctx.fillStyle=col3[channel];
+				ctx.fill();
+				getLabel(midi, n_id);
+				ctx.fillStyle="black";
+				ctx.font="20px Arial";
+				if (nl!=""){
+				ctx.fillText(nl, x0+3, y+7);
+				}
+				if (nll!=""){
+				ctx.fillText(nll, mx, y);
+				}
+				if (nlr!=""){
+				ctx.fillText(nlr, mx+szk, y);
+				}
 			}
 		}
 	}
