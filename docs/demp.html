@@ -776,8 +776,6 @@ async function play(){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
 	startTime = picoAudio.context.currentTime;
-//	pauseTick = getCurrentTick();
-//	picoAudio.setStartTime(pauseTick);
 	picoAudio.play();
 	isPlaying = true;
 	loop();
@@ -787,8 +785,6 @@ async function resumeVisual(){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
 	startTime = picoAudio.context.currentTime;
-//	pauseTick = getCurrentTick();
-//	picoAudio.setStartTime(pauseTick);
 	isPlaying = true;
 	loop();
 }
@@ -836,7 +832,6 @@ function getCurrentTick(){
 	if (!isPlaying){
 		return pauseTick;
 	}
-//    	return picoAudio.getTiming(picoAudio.context.currentTime);
 	    return pauseTick + picoAudio.getTiming(picoAudio.context.currentTime - startTime);
 }
 
