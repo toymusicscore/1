@@ -779,7 +779,7 @@ async function play(){
     picoAudio.play();
 	isPlaying = true;
 //	alert(rate);
-   picoAudio.setTempoRate(rate);
+//   picoAudio.setTempoRate(rate);
 	loop();
 }
 
@@ -788,8 +788,8 @@ async function resumeVisual(){
 	await picoAudio.context.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
-	const x_bpm = Number(document.form1.x_bpm.value);
-	changeBPM(parsedData, x_bpm);
+//	const x_bpm = Number(document.form1.x_bpm.value);
+//	changeBPM(parsedData, x_bpm);
 	startTime = picoAudio.context.currentTime;
 	isPlaying = true;
 	loop();
