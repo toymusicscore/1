@@ -774,10 +774,7 @@ async function play(){
 	canvas.height = window.innerHeight;
     picoAudio.setData(parsedData);
 	startTime = picoAudio.context.currentTime;
-	const rate = document.form1.x_bpm.value / bpm;
-	alert(rate);
 	picoAudio.play();
-	picoAudio.setTempoRate(rate);
 	isPlaying = true;
 	loop();
 }
