@@ -768,10 +768,12 @@ let isPlaying = false;
 let rafId = null;
 
 async function play(){
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
 	if (isPlaying) return;
 	await picoAudio.context.resume();
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	const x_bpm = Number(document.form1.x_bpm.value);
+	changeBPM(parsedData, x_bpm);
 	startTime = picoAudio.context.currentTime;
 	picoAudio.play();
 	isPlaying = true;
@@ -781,6 +783,10 @@ async function play(){
 async function resumeVisual(){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	const x_bpm = Number(document.form1.x_bpm.value);
+	changeBPM(parsedData, x_bpm);
 	startTime = picoAudio.context.currentTime;
 	isPlaying = true;
 	loop();
@@ -814,9 +820,6 @@ function changeBPM(data, newBPM){
 }
 
 async function bpm1(){
-	const x_bpm = Number(document.form1.x_bpm.value);
-	alert(parsedData.tempoTrack);
-	changeBPM(parsedData, x_bpm);
 	await cdown();
 	await resumeVisual();
 }
