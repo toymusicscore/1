@@ -765,11 +765,10 @@ fetch1();
 let pauseTick = 0;
 let startTime = 0;
 let isPlaying = false;
-let isDrawing = false;
 let rafId = null;
 
 async function play(){
-	if (isPlaying || isDrawing) return;
+	if (isPlaying) return;
 	await picoAudio.context.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
@@ -781,7 +780,7 @@ async function play(){
 }
 
 async function draw(){
-	if (isDrawing || isDrawing) return;
+	if (isDrawing) return;
 	await picoAudio.context.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
@@ -792,7 +791,7 @@ async function draw(){
 }
 
 function pause(){
-    if (!isPlaying || !isDrawing) return;
+    if (!isPlaying) return;
     pauseTick = getCurrentTick();
     isPlaying = false;
     picoAudio.pause();
@@ -817,15 +816,11 @@ async function silent(){
 }
 
 function getCurrentTick(){
-	if (!isPlaying || !isDrawing){
+	if (!isPlaying){
 		return pauseTick;
 	}
-	if (isPlaying){
-	return pauseTick + (picoAudio.context.currentTime - startTime) * bpm * ppq / 60;
-	} else if (isDrawing){
 	const x_bpm = document.form1.x_bpm.value;
 	return pauseTick + (picoAudio.context.currentTime - startTime) * x_bpm * ppq / 60;
-	}
 }
 
 function loop(){
