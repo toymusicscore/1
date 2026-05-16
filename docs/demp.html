@@ -784,6 +784,7 @@ async function resumeVisual(){
 	await picoAudio.context.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
+    picoAudio.setData(parsedData);
 	startTime = picoAudio.context.currentTime;
 	isPlaying = true;
 	loop();
