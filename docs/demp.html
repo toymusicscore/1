@@ -807,20 +807,13 @@ async function cdown(){
 }
 
 function changeBPM(data, newBPM){
-
-    const tempo = 60000000 / newBPM;
-
     for(let i=0; i<data.tempoTrack.length; i++){
-
-        data.tempoTrack[i].tempo = tempo;
-
-        data.tempoTrack[i].bpm = newBPM;
+        data.tempoTrack[i].value = newBPM;
     }
 }
-
 async function bpm1(){
-//	const x_bpm = Number(document.form1.x_bpm.value);
-//	changeBPM(persedData, x_bpm);
+	const x_bpm = Number(document.form1.x_bpm.value);
+	changeBPM(persedData, x_bpm);
 	await cdown();
 	await resumeVisual();
 }
