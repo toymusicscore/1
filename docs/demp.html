@@ -770,10 +770,12 @@ let rafId = null;
 async function play(){
 	if (isPlaying) return;
 	await picoAudio.context.resume();
+	alert(parsedData.tempoTrack);
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	const x_bpm = Number(document.form1.x_bpm.value);
 	changeBPM(parsedData, x_bpm);
+    picoAudio.initStatus();
     picoAudio.setData(parsedData);
 	startTime = picoAudio.context.currentTime;
 	picoAudio.play();
