@@ -595,6 +595,8 @@ function setMidi0(data1){
 	state.midi.songLength = parsed.songLength;
 	state.midi.ppq = parsed.header.resolution;
 	state.midi.bpm = parsed.tempoTrack[0].value;
+	state.midi.bttl = parsed.beatTrack[0].value[0];
+	state.midi.ntvl = parsed.beatTrack[0].value[1];
 
 	state.notes.r1 = [];
 	state.notes.r2 = [];
@@ -610,7 +612,8 @@ function setMidi0(data1){
 				note.pitch,
 				note.start,
 				note.stop,
-				note.channel
+				note.channel,
+				note.velocity
 			]);
 
 			state.notes.r2.push(note.start);
