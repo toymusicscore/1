@@ -571,26 +571,37 @@ async function fetchData(){
 	let file1name=document.getElementById("song1").value;
 	let uri1="./data/"+file1name+".mid";
 	let uri2="./data/"+file1name+".tsv";
+
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
+
+	let data1=null;
+	let data2=null;
+
 	if (res1.ok){
 		data1=await res1.arrayBuffer();
 	}
 	if (res2.ok){
 		data2=await res2.text();
 	}
+
+	return { data1, data2 };
 }
 
-function setMidi(){
-	picoAudio.init(); 
+function setMidi(data1){
+	picoAudio.init();
+
 	let midiData = new Uint8Array(data1);
 	parsedData = picoAudio.parseSMF(midiData);
+
 	picoAudio.setData(parsedData);
+
 	eott0 = parsedData.songLength;
 	ppq = parsedData.header.resolution;
 	bttl = parsedData.beatTrack[0].value[0];
 	ntvl = parsedData.beatTrack[0].value[1];
 	bpm = parsedData.tempoTrack[0].value;
+
 	document.form1.x_bpm.value=bpm;
 
 	r1=[];
@@ -672,7 +683,8 @@ function setMidi(){
 
 }
 
-function setTsv(){
+function setTsv(data2){
+
 	tsv0=[];
 	tsvi=[];
 	tsvc=[];
@@ -936,12 +948,13 @@ async function fetch1(){
 */
 
 async function main(){
-	await fetchData();
-	setMidi();
-	setTsv();
-	selview1();
+	const { data1, data2 } = await fetchData();
+
+	setMidi(data1);
+	setTsv(data2);
 }
 
+main();
 //	picoAudio.init();
 
 let pauseTick = 0;
