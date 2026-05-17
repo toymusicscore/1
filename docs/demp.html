@@ -1369,8 +1369,9 @@ function touch_sound1(){
 }
 
 function playSound(e){
+	let szx = canvas.width;
 	let kn=Number(midi_max)-Number(midi_min)+1;
-	let kw=Math.round(900/kn);
+	let kw=Math.round((szx-2*mx)/kn);
 	let	p=Math.round((e.offsetX-50)/kw)-2+Number(midi_min);
 	let	p2=engs1[p%12]+Math.floor(p/12-1);
 	if(!state)return;
