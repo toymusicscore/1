@@ -9,7 +9,7 @@ demp
 <body style="font-size:100%" >
 <basefont face="Arial">
 <form name="form1" >
-<select id="song1" onChange="fetch1()" style="font-size:100%">
+<select id="song1" onChange="main()" style="font-size:100%">
 	<option value="bach-invention-01" style="font-size:100%"> bwv772-bach-invention-01 </option>
 	<option value="bach-invention-02" style="font-size:100%" selected="selected"> bwv773-bach-invention-02 </option>
 	</select>	
@@ -566,7 +566,7 @@ let rst=0;
 let data1;
 let data2;
 
-/*
+
 async function fetchData(){
 	let file1name=document.getElementById("song1").value;
 	let uri1="./data/"+file1name+".mid";
@@ -749,7 +749,7 @@ function setTsv(){
 	}
 }
 
-*/
+/*
 
 async function fetch1(){
 	let file1name=document.getElementById("song1").value;
@@ -933,17 +933,14 @@ async function fetch1(){
 	//goTop();
 
 }
-	
-/*
-function fetch1(){
-	fetchData();
+*/
+
+async function main(){
+	await fetchData();
 	setMidi();
 	setTsv();
 	selview1();
 }
-*/
-
-fetch1();
 
 //	picoAudio.init();
 
