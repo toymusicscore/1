@@ -369,7 +369,6 @@ let r3=[];
 let r4=[];
 let r5=[];
 let r6=[];
-let midiData = "";
 let midi=0;
 let midi0=0;
 let start0=0;
@@ -564,198 +563,197 @@ let f102=[];
 let f110=[];
 let f111=[];
 let rst=0;
-let file1name="";
 
 
 async function fetch1(){
-file1name=document.getElementById("song1").value;
+	let file1name=document.getElementById("song1").value;
 	let uri1="./data/"+file1name+".mid";
 	let uri2="./data/"+file1name+".tsv";
 	let res1=await fetch(uri1);
 	let res2=await fetch(uri2);
 	if (res1.ok){
-		data1=await res1.arrayBuffer();
+		let data1=await res1.arrayBuffer();
 	}
 	if (res2.ok){
-		data2=await res2.text();
+		let data2=await res2.text();
 	}
 
-picoAudio.init(); 
-midiData = new Uint8Array(data1);
-parsedData = picoAudio.parseSMF(midiData);
-picoAudio.setData(parsedData);
-eott0 = parsedData.songLength;
-ppq = parsedData.header.resolution;
-bttl = parsedData.beatTrack[0].value[0];
-ntvl = parsedData.beatTrack[0].value[1];
-bpm = parsedData.tempoTrack[0].value;
-document.form1.x_bpm.value=bpm;
+	picoAudio.init(); 
+	let midiData = new Uint8Array(data1);
+	parsedData = picoAudio.parseSMF(midiData);
+	picoAudio.setData(parsedData);
+	eott0 = parsedData.songLength;
+	ppq = parsedData.header.resolution;
+	bttl = parsedData.beatTrack[0].value[0];
+	ntvl = parsedData.beatTrack[0].value[1];
+	bpm = parsedData.tempoTrack[0].value;
+	document.form1.x_bpm.value=bpm;
 
-r1=[];
-r2=[];
-r3=[];
-r4=[];
-r5=[];
-r6=[];
+	r1=[];
+	r2=[];
+	r3=[];
+	r4=[];
+	r5=[];
+	r6=[];
 
-midi_max=21;
-midi_min=108;
-midi_min0=0;
-midi_max0=0;
-midi_max_l=21;
-midi_min_l=108;
-midi_min0_l=0;
-midi_max0_l=0;
-midi_max_r=21;
-midi_min_r=108;
-midi_min0_r=0;
-midi_max0_r=0;
-n_id=1;
-ch_max=-1;
-ch_num=0;
+	midi_max=21;
+	midi_min=108;
+	midi_min0=0;
+	midi_max0=0;
+	midi_max_l=21;
+	midi_min_l=108;
+	midi_min0_l=0;
+	midi_max0_l=0;
+	midi_max_r=21;
+	midi_min_r=108;
+	midi_min0_r=0;
+	midi_max0_r=0;
+	n_id=1;
+	ch_max=-1;
+	ch_num=0;
 
-parsedData.channels.forEach(channel => { 
-channel.notes.forEach(note => {
-r1.push([note.pitch,note.start,note.stop,note.channel,n_id]);
-n_id+=1;
-r2.push(note.start);
-r2.push(note.stop);
-  if(Number(note.pitch)>Number(midi_max)){
-  midi_max=note.pitch;
-  }
-  if(Number(note.pitch)<Number(midi_min)){
-  midi_min=note.pitch;
-  }
-  if(note.channel==x_ch1 && Number(note.pitch)>Number(midi_max_l)){
-  midi_max_l=note.pitch;
-  }
-  if(note.channel==x_ch1 && Number(note.pitch)<Number(midi_min_l)){
-  midi_min_l=note.pitch;
-  }
-  if(note.channel==x_ch2 && Number(note.pitch)>Number(midi_max_r)){
-  midi_max_r=note.pitch;
-  }
-  if(note.channel==x_ch2 && Number(note.pitch)<Number(midi_min_r)){
-  midi_min_r=note.pitch;
-  }
-  if(note.channel>ch_max){
-  ch_max=note.channel;
-  ch_num+=1;
-  r6.push([note.channel, note.instrument]);
-  }
-})
-})
+	parsedData.channels.forEach(channel => { 
+		channel.notes.forEach(note => {
+			r1.push([note.pitch,note.start,note.stop,note.channel,n_id]);
+			n_id+=1;
+			r2.push(note.start);
+			r2.push(note.stop);
+				if(Number(note.pitch)>Number(midi_max)){
+					midi_max=note.pitch;
+				}
+				if(Number(note.pitch)<Number(midi_min)){
+					midi_min=note.pitch;
+				}
+				if(note.channel==x_ch1 && Number(note.pitch)>Number(midi_max_l)){
+					midi_max_l=note.pitch;
+				}
+				if(note.channel==x_ch1 && Number(note.pitch)<Number(midi_min_l)){
+					midi_min_l=note.pitch;
+				}
+				if(note.channel==x_ch2 && Number(note.pitch)>Number(midi_max_r)){
+					midi_max_r=note.pitch;
+				}
+				if(note.channel==x_ch2 && Number(note.pitch)<Number(midi_min_r)){
+					midi_min_r=note.pitch;
+				}
+				if(note.channel>ch_max){
+					ch_max=note.channel;
+					ch_num+=1;
+					r6.push([note.channel, note.instrument]);
+				}
+		})
+	})
 
-midi_min0=midi_min;
-midi_max0=midi_max;
+	midi_min0=midi_min;
+	midi_max0=midi_max;
 
-r2.sort(function(m,n){return m-n;});
+	r2.sort(function(m,n){return m-n;});
 
-if (r2[0]<ppq*4/ntvl){
-	stm=1;
-}else{
-	stm=0;
-}
-
-document.form1.x_msrf.value=stm;
-document.form1.x_msrt.value=Math.floor(eott0/ppq/bttl*ntvl/4);
-
-let n=0;
-for(let i=0;i<=r2.length;i++){
-if(r2[i]<r2[i+1]){
-r3.push([n,r2[i],r2[i+1]]);
-n=n+1;
-}
-}
-r2=[];
-
-parsedData.tempoTrack.forEach(tempoTrack => { 
-r4.push([tempoTrack.timing,tempoTrack.value]);
-});
-
-parsedData.beatTrack.forEach(beatTrack => { 
-r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
-});
-
-tsv0=[];
-tsvi=[];
-tsvc=[];
-tsv1=[];
-tsv2=[];
-tsv3=[];
-tsv4=[];
-tsv5=[];
-tsv6=[];
-tsv7=[];
-tsv8=[];
-tsv9=[];
-tsvff=[];
-tsvft=[];
-tsvsd=[];
-tsvdl=[];
-tsvsc=[];
-
-tsv0=data2.split('\n');
-for (i=0;i<tsv0.length;i++){
-	if((tsv0[i].split('\t'))[0]=="A"){
-		tsvi.push([(tsv0[i].split('\t'))[1]]);
-		tsvc.push([(tsv0[i].split('\t'))[2]]);
-	}else if((tsv0[i].split('\t'))[0]=="B"){
-		tsvsc.push([(tsv0[i].split('\t'))[2]]);
-	}else if((tsv0[i].split('\t'))[0]=="C"){
-		tsvff.push([(tsv0[i].split('\t'))[1]]);
-		tsvft.push([(tsv0[i].split('\t'))[2]]);
-		tsvsd.push([(tsv0[i].split('\t'))[3]]);
-		tsvdl.push([(tsv0[i].split('\t'))[4]]);
-		tsvff.push([(tsv0[i].split('\t'))[2]]);
-		tsvft.push([(tsv0[i].split('\t'))[1]]);
-		tsvsd.push([-(tsv0[i].split('\t'))[3]]);
-		tsvdl.push([(tsv0[i].split('\t'))[4]]);
-	}else if((tsv0[i].split('\t'))[0]=="D"){
-		tsv1.push([(tsv0[i].split('\t'))[2]]);
-		tsv2.push([(tsv0[i].split('\t'))[3]]);
-		tsv3.push([(tsv0[i].split('\t'))[4]]);
-		tsv4.push([(tsv0[i].split('\t'))[5]]);
-		tsv5.push([(tsv0[i].split('\t'))[6]]);
-		tsv6.push([(tsv0[i].split('\t'))[7]]);
-		tsv7.push([(tsv0[i].split('\t'))[8]]);
-		tsv8.push([(tsv0[i].split('\t'))[9]]);
-		tsv9.push([(tsv0[i].split('\t'))[10]]);
+	if (r2[0]<ppq*4/ntvl){
+		stm=1;
+	}else{
+		stm=0;
 	}
-}
-tsvst0=1;
 
-if(tsvi.length<9){
-    document.getElementById("credit").innerHTML=
-    tsvi[1]+" : "+tsvc[1]+
-    "<br>"+tsvi[2]+" : "+tsvc[2]+
-    "<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
-    "<br>"+tsvi[4]+" : "+tsvc[4]+
-	"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
-    "<br>"+tsvi[6]+" : "+tsvc[6]+
-    "<br>"+tsvi[7]+" : "+tsvc[7]+
-	"<br>&copy;2023-2025 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>"+
-	"  <a href=\"https://www.toyscore.app\">https://www.toyscore.app</a>";
-}else{
-    document.getElementById("credit").innerHTML=
-    tsvi[1]+" : "+tsvc[1]+
-    "<br>"+tsvi[2]+" : "+tsvc[2]+
-    "<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
-    "<br>"+tsvi[4]+" : "+tsvc[4]+
-	"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
-    "<br>"+tsvi[6]+" : "+tsvc[6]+
-    "<br>"+tsvi[7]+" : "+tsvc[7]+
-    "<br>"+tsvi[8]+" : <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
-    "<br>"+tsvi[9]+" : "+tsvc[9]+
-	"<br>"+tsvi[10]+" : <a href="+tsvc[10]+">"+tsvc[10]+"</a>"+
-    "<br>"+tsvi[11]+" : "+tsvc[11]+
-    "<br>"+tsvi[12]+" : "+tsvc[12]+
-	"<br>&copy;2023-2025 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>"+
-	"  <a href=\"https://www.toyscore.app\">https://www.toyscore.app</a>";
-}
+	document.form1.x_msrf.value=stm;
+	document.form1.x_msrt.value=Math.floor(eott0/ppq/bttl*ntvl/4);
 
-selview1();
-goTop();
+	let n=0;
+	for(let i=0;i<=r2.length;i++){
+		if(r2[i]<r2[i+1]){
+			r3.push([n,r2[i],r2[i+1]]);
+			n=n+1;
+		}
+	}
+	r2=[];
+
+	parsedData.tempoTrack.forEach(tempoTrack => { 
+		r4.push([tempoTrack.timing,tempoTrack.value]);
+	});
+
+	parsedData.beatTrack.forEach(beatTrack => { 
+		r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
+	});
+
+	tsv0=[];
+	tsvi=[];
+	tsvc=[];
+	tsv1=[];
+	tsv2=[];
+	tsv3=[];
+	tsv4=[];
+	tsv5=[];
+	tsv6=[];
+	tsv7=[];
+	tsv8=[];
+	tsv9=[];
+	tsvff=[];
+	tsvft=[];
+	tsvsd=[];
+	tsvdl=[];
+	tsvsc=[];
+
+	tsv0=data2.split('\n');
+	for (i=0;i<tsv0.length;i++){
+		if((tsv0[i].split('\t'))[0]=="A"){
+			tsvi.push([(tsv0[i].split('\t'))[1]]);
+			tsvc.push([(tsv0[i].split('\t'))[2]]);
+		}else if((tsv0[i].split('\t'))[0]=="B"){
+			tsvsc.push([(tsv0[i].split('\t'))[2]]);
+		}else if((tsv0[i].split('\t'))[0]=="C"){
+			tsvff.push([(tsv0[i].split('\t'))[1]]);
+			tsvft.push([(tsv0[i].split('\t'))[2]]);
+			tsvsd.push([(tsv0[i].split('\t'))[3]]);
+			tsvdl.push([(tsv0[i].split('\t'))[4]]);
+			tsvff.push([(tsv0[i].split('\t'))[2]]);
+			tsvft.push([(tsv0[i].split('\t'))[1]]);
+			tsvsd.push([-(tsv0[i].split('\t'))[3]]);
+			tsvdl.push([(tsv0[i].split('\t'))[4]]);
+		}else if((tsv0[i].split('\t'))[0]=="D"){
+			tsv1.push([(tsv0[i].split('\t'))[2]]);
+			tsv2.push([(tsv0[i].split('\t'))[3]]);
+			tsv3.push([(tsv0[i].split('\t'))[4]]);
+			tsv4.push([(tsv0[i].split('\t'))[5]]);
+			tsv5.push([(tsv0[i].split('\t'))[6]]);
+			tsv6.push([(tsv0[i].split('\t'))[7]]);
+			tsv7.push([(tsv0[i].split('\t'))[8]]);
+			tsv8.push([(tsv0[i].split('\t'))[9]]);
+			tsv9.push([(tsv0[i].split('\t'))[10]]);
+		}
+	}
+	tsvst0=1;
+
+	if(tsvi.length<9){
+		document.getElementById("credit").innerHTML=
+		tsvi[1]+" : "+tsvc[1]+
+		"<br>"+tsvi[2]+" : "+tsvc[2]+
+		"<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+		"<br>"+tsvi[4]+" : "+tsvc[4]+
+		"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
+		"<br>"+tsvi[6]+" : "+tsvc[6]+
+		"<br>"+tsvi[7]+" : "+tsvc[7]+
+		"<br>&copy;2023-2025 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>"+
+		"  <a href=\"https://www.toyscore.app\">https://www.toyscore.app</a>";
+	}else{
+		document.getElementById("credit").innerHTML=
+		tsvi[1]+" : "+tsvc[1]+
+		"<br>"+tsvi[2]+" : "+tsvc[2]+
+		"<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+		"<br>"+tsvi[4]+" : "+tsvc[4]+
+		"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
+		"<br>"+tsvi[6]+" : "+tsvc[6]+
+		"<br>"+tsvi[7]+" : "+tsvc[7]+
+		"<br>"+tsvi[8]+" : <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
+		"<br>"+tsvi[9]+" : "+tsvc[9]+
+		"<br>"+tsvi[10]+" : <a href="+tsvc[10]+">"+tsvc[10]+"</a>"+
+		"<br>"+tsvi[11]+" : "+tsvc[11]+
+		"<br>"+tsvi[12]+" : "+tsvc[12]+
+		"<br>&copy;2023-2025 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>"+
+		"  <a href=\"https://www.toyscore.app\">https://www.toyscore.app</a>";
+	}
+
+	selview1();
+	goTop();
 
 }
 fetch1();
