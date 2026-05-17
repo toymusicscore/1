@@ -1975,34 +1975,69 @@ newWin2.document.writeln ('<pre>Created by Niklas von Hertzen. Licensed under th
 
 }
 
-
 function instrument1(){
+
 canvas.height = 1300;
 ctx.font="25px Arial";
 ctx.fillStyle="black";
 ctx.clearRect(0,0,1200,1300);
+
 ctx.fillText("Color",100,50);
 ctx.fillText("Channel",200,50);
 ctx.fillText("Instrument",350,50);
+ctx.fillText("Avg Note",500,50);
+
+let channelSum = [];
+let channelCount = [];
+let channelAvg = [];
+
+for (let i = 0; i < r1.length; i++) {
+
+    let pitch = Number(r1[i][0]);
+    let ch = Number(r1[i][3]);
+
+    if (!channelSum[ch]) {
+        channelSum[ch] = 0;
+        channelCount[ch] = 0;
+    }
+
+    channelSum[ch] += pitch;
+    channelCount[ch] += 1;
+}
+
+for (let ch = 0; ch < channelSum.length; ch++) {
+    if (channelCount[ch] > 0) {
+        channelAvg[ch] = channelSum[ch] / channelCount[ch];
+    }
+}
 
 for(let i=0;i<=ch_max;i++){
-let [channel,instNumber]=r6[i];
-let instrument=instName[instNumber];
-ctx.fillStyle=col3[channel];
-ctx.beginPath();
-ctx.arc(110,30*(i+1)+40,10,0,2*Math.PI,false);
-ctx.fill();
-ctx.fillStyle="black";
-if(channel===10){
-ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
-ctx.fillText("Percussion",350,30*(i+1)+50);
-}else{
-ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
-ctx.fillText(instrument,350,30*(i+1)+50);
-}
-}
-}
 
+    let [channel,instNumber]=r6[i];
+    let instrument=instName[instNumber];
+
+    ctx.fillStyle=col3[channel];
+    ctx.beginPath();
+    ctx.arc(110,30*(i+1)+40,10,0,2*Math.PI,false);
+    ctx.fill();
+
+    ctx.fillStyle="black";
+
+    if(channel===10){
+        ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
+        ctx.fillText("Percussion",350,30*(i+1)+50);
+    }else{
+        ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
+        ctx.fillText(instrument,350,30*(i+1)+50);
+    }
+
+    ctx.fillText(
+        channelAvg[channel] ? channelAvg[channel].toFixed(1) : "-",
+        500,
+        30*(i+1)+50
+    );
+}
+}
 
 function selview1(){
 if(document.form1.sv1.options[0].selected==true){
