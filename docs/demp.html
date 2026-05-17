@@ -1984,8 +1984,8 @@ ctx.clearRect(0,0,1200,1300);
 
 ctx.fillText("Color",100,50);
 ctx.fillText("Channel",200,50);
-ctx.fillText("Instrument",350,50);
-ctx.fillText("Avg Note Num",500,50);
+ctx.fillText("Avg Note Num",300,50);
+ctx.fillText("Instrument",400,50);
 
 let channelSum = [];
 let channelCount = [];
@@ -2025,15 +2025,15 @@ for(let i=0;i<=ch_max;i++){
 
     if(channel===10){
         ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
-        ctx.fillText("Percussion",350,30*(i+1)+50);
+        ctx.fillText("Percussion",400,30*(i+1)+50);
     }else{
         ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
-        ctx.fillText(instrument,350,30*(i+1)+50);
+        ctx.fillText(instrument,400,30*(i+1)+50);
     }
 
     ctx.fillText(
         channelAvg[channel] ? channelAvg[channel].toFixed(1) : "-",
-        500,
+        300,
         30*(i+1)+50
     );
 }
