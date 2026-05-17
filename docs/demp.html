@@ -1361,7 +1361,7 @@ let state = true;
 
 function touch_sound1(){
 
-    canvas.addEventListener('pointerdown', async (e) => {
+    canvas.addEventListener('click', async (e) => {
 
         await Tone.start();
 
@@ -1369,8 +1369,9 @@ function touch_sound1(){
 
     });
 
-    canvas.addEventListener('pointerup', offSound);
+    canvas.addEventListener('mouseup', offSound);
 
+    canvas.addEventListener('touchend', offSound);
 }
 
 function playSound(e){
@@ -1387,14 +1388,21 @@ function playSound(e){
 
     console.log(p2);
 
+    if(!state) return;
+
     if(e.offsetY >= 0){
 
-        touchSynth.triggerAttackRelease(p2, '8n');
+        synth.triggerAttackRelease(p2, '8n');
 
+        state = false;
     }
 }
 
 function offSound(){
+
+    synth.triggerRelease();
+
+    state = true;
 }
 
 function height1(){
