@@ -588,6 +588,46 @@ async function fetchData(){
 	return { data1, data2 };
 }
 
+function setMidi0(data1){
+	picoAudio.init();
+
+	const midiData = new Uint8Array(data1);
+	const parsed = picoAudio.parseSMF(midiData);
+
+	state.midi.parsed = parsed;
+	state.midi.songLength = parsed.songLength;
+	state.midi.ppq = parsed.header.resolution;
+	state.midi.bpm = parsed.tempoTrack[0].value;
+
+	state.notes.r1 = [];
+	state.notes.r2 = [];
+	state.notes.r3 = [];
+
+	let max = 0;
+	let min = 128;
+
+	parsed.channels.forEach(channel => {
+		channel.notes.forEach(note => {
+
+			state.notes.r1.push([
+				note.pitch,
+				note.start,
+				note.stop,
+				note.channel
+			]);
+
+			state.notes.r2.push(note.start);
+			state.notes.r2.push(note.stop);
+
+			if(note.pitch > max) max = note.pitch;
+			if(note.pitch < min) min = note.pitch;
+		});
+	});
+
+	state.midi.maxPitch = max;
+	state.midi.minPitch = min;
+}
+
 function setMidi(data1){
 	picoAudio.init();
 
@@ -681,6 +721,30 @@ function setMidi(data1){
 		r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
 	});
 
+}
+
+function setTsv0(data2){
+	state.tsv.raw = data2;
+
+	const lines = data2.split('\n');
+
+	lines.forEach(line => {
+		const cols = line.split('\t');
+		const type = cols[0];
+
+		if(type === "A"){
+			state.tsv.a.push([cols[1], cols[2]]);
+		}
+		else if(type === "B"){
+			state.tsv.b.push(cols[2]);
+		}
+		else if(type === "C"){
+			state.tsv.c.push(cols.slice(1));
+		}
+		else if(type === "D"){
+			state.tsv.d.push(cols.slice(2));
+		}
+	});
 }
 
 function setTsv(data2){
