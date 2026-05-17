@@ -360,7 +360,7 @@ const instName=[
 'Gunshot',
 ];
 const picoAudio = new PicoAudio();
-const synth=new Tone.Synth().toMaster();
+//const synth=new Tone.Synth().toMaster();
 let parsedData ="";
 let toneData = "";
 let r1=[];
@@ -1356,36 +1356,55 @@ function goForward2(){
     selview1();
 }
 
+const synth = new Tone.Synth().toDestination();
+
 let state = true;
 
 function touch_sound1(){
-	window.addEventListener('click', async () => {
-		await Tone.start();
-		console.log("audio ready");
-	}, { once: true });
-	window.addEventListener('click',playSound);
-	window.addEventListener('touchend',offSound);
-	window.addEventListener('mouseup', offSound);
+
+    canvas.addEventListener('click', async (e) => {
+
+        await Tone.start();
+
+        playSound(e);
+
+    });
+
+    canvas.addEventListener('mouseup', offSound);
+
+    canvas.addEventListener('touchend', offSound);
 }
 
 function playSound(e){
-	let szx = canvas.width;
-	let kn=Number(midi_max)-Number(midi_min)+1;
-	let kw=Math.round((szx-2*mx)/kn);
-	let	p=Math.round((e.offsetX-50)/kw)-2+Number(midi_min);
-	let	p2=engs1[p%12]+Math.floor(p/12-1);
-	if(!state)return;
-	if(e.offsetY>=0 && document.form1.sv1.options[5].selected==true){
-		synth.triggerAttackRelease(p2,'8n');
-		state=false;
-	}
+
+    let szx = canvas.width;
+
+    let kn = Number(midi_max) - Number(midi_min) + 1;
+
+    let kw = Math.round((szx - 2 * mx) / kn);
+
+    let p = Math.round((e.offsetX - 50) / kw) - 2 + Number(midi_min);
+
+    let p2 = engs1[p % 12] + Math.floor(p / 12 - 1);
+
+    console.log(p2);
+
+    if(!state) return;
+
+    if(e.offsetY >= 0){
+
+        synth.triggerAttackRelease(p2, '8n');
+
+        state = false;
+    }
 }
 
-function offSound(e){
-	synth.triggerRelease();
-	state=true;
-}
+function offSound(){
 
+    synth.triggerRelease();
+
+    state = true;
+}
 
 function height1(){
 ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
