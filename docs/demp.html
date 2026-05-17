@@ -1356,31 +1356,32 @@ function goForward2(){
     selview1();
 }
 
-function touch_sound1(){
-var state=true;
-window.addEventListener('click',playSound);
-window.addEventListener('touchend',offSound);
+let state = true;
 
-playSound(e);
-offSound(e);
+function touch_sound1(){
+	window.addEventListener('click',playSound);
+	window.addEventListener('touchend',offSound);
+
+	playSound(e);
+	offSound(e);
 }
 
 function playSound(e){
-let kn=Number(midi_max)-Number(midi_min)+1;
-let kw=Math.round(900/kn);
+	let kn=Number(midi_max)-Number(midi_min)+1;
+	let kw=Math.round(900/kn);
 
-if(!state)return;
-p=Math.round((e.offsetX-50)/kw)-2+Number(midi_min);
-p2=engs1[p%12]+Math.floor(p/12-1);
-if(e.offsetY>=0 && document.form1.sv1.options[5].selected==true){
-synth.triggerAttackRelease(p2,'8n');
-state=false;
-}
+	if(!state)return;
+		p=Math.round((e.offsetX-50)/kw)-2+Number(midi_min);
+		p2=engs1[p%12]+Math.floor(p/12-1);
+	if(e.offsetY>=0 && document.form1.sv1.options[5].selected==true){
+		synth.triggerAttackRelease(p2,'8n');
+		state=false;
+	}
 }
 
 function offSound(e){
-synth.triggerRelease();
-state=true;
+	synth.triggerRelease();
+	state=true;
 }
 
 
