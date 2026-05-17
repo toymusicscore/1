@@ -360,7 +360,7 @@ const instName=[
 'Gunshot',
 ];
 const picoAudio = new PicoAudio();
-//const synth=new Tone.Synth().toMaster();
+const synth = new Tone.Synth().toDestination();
 let parsedData ="";
 let toneData = "";
 let r1=[];
@@ -1356,13 +1356,12 @@ function goForward2(){
     selview1();
 }
 
-const synth = new Tone.Synth().toDestination();
 
 let state = true;
 
 function touch_sound1(){
 
-    canvas.addEventListener('click', async (e) => {
+    canvas.addEventListener('pointerdown', async (e) => {
 
         await Tone.start();
 
@@ -1370,9 +1369,8 @@ function touch_sound1(){
 
     });
 
-    canvas.addEventListener('mouseup', offSound);
+    canvas.addEventListener('pointerup', offSound);
 
-    canvas.addEventListener('touchend', offSound);
 }
 
 function playSound(e){
@@ -1389,28 +1387,19 @@ function playSound(e){
 
     console.log(p2);
 
-    if(!state) return;
-
     if(e.offsetY >= 0){
 
-        synth.triggerAttackRelease(p2, '8n');
+        touchSynth.triggerAttackRelease(p2, '8n');
 
-        state = false;
     }
 }
 
 function offSound(){
-
-    synth.triggerRelease();
-
-    state = true;
 }
 
 function height1(){
 ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
-
 selview1();
-
 }
 
 
