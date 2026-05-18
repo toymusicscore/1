@@ -1730,84 +1730,84 @@ ctx.stroke();
 }
 
 for(let k=21;k<=108;k++){
-if(k%12>=0 && k%12<=4){
-ctx.fillStyle=col2[Math.floor(k/12)-1];
-ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
-ctx.font="10px Arial";
-ctx.fillStyle="black";
-	if(k%12===0){
-	ctx.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
+	if(k%12>=0 && k%12<=4){
+		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
+		ctx.font="10px Arial";
+		ctx.fillStyle="black";
+		if(k%12===0){
+			ctx.fillText(Math.floor((k-12)/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
+		}
+		ctx.fillStyle=col[k%12];
+		ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
+		ctx.font="10px Arial";
+		ctx.fillStyle="black";
+		ctx.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
+	}else{
+		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
+		ctx.font="10px Arial";
+		ctx.fillStyle="black";
+		if(k===21){
+		ctx.fillText(Math.floor((k-12)/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
+		}
+		ctx.fillStyle=col[k%12];
+		ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
+		ctx.font="10px Arial";
+		ctx.fillStyle="black";
+		ctx.fillText((k%12).toString(12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,kw20+y2-16);
 	}
-ctx.fillStyle=col[k%12];
-ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
-ctx.font="10px Arial";
-ctx.fillStyle="black";
-ctx.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
-}else{
-ctx.fillStyle=col2[Math.floor(k/12)-1];
-ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
-ctx.font="10px Arial";
-ctx.fillStyle="black";
-	if(k===21){
-	ctx.fillText(Math.floor(k/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
+
+	if(k%12===1||k%12===3){
+		ctx.fillStyle="black";
+		ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw21+x2,2*kw20+y2,kw21,8*kw20);
+	}else if(k%12===6||k%12===8||k%12===10){
+		ctx.fillStyle="black";
+		ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,8*kw20);
+	}else if(k%12===0){
+		ctx.beginPath();
+		ctx.moveTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,y2-30);
+		ctx.lineTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,14*kw20+y2);
+		ctx.strokeStyle="black";
+		ctx.stroke();
 	}
-ctx.fillStyle=col[k%12];
-ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
-ctx.font="10px Arial";
-ctx.fillStyle="black";
-ctx.fillText((k%12).toString(12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,kw20+y2-16);
 }
 
-if(k%12===1||k%12===3){
-ctx.fillStyle="black";
-ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw21+x2,2*kw20+y2,kw21,8*kw20);
-}else if(k%12===6||k%12===8||k%12===10){
-ctx.fillStyle="black";
-ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,8*kw20);
-}else if(k%12===0){
-ctx.beginPath();
-ctx.moveTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,y2-30);
-ctx.lineTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,14*kw20+y2);
-ctx.strokeStyle="black";
-ctx.stroke();
-}
-}
-
-ctx.beginPath();
-ctx.moveTo(x2,y2-30);
-ctx.lineTo(52*kw23+x2,y2-30);
-ctx.strokeStyle="black";
-ctx.stroke();
-ctx.beginPath();
-ctx.moveTo(x2,y2);
-ctx.lineTo(52*kw23+x2,y2);
-ctx.strokeStyle="black";
-ctx.stroke();
-ctx.beginPath();
-ctx.moveTo(x2,2*kw20+y2);
-ctx.lineTo(52*kw23+x2,2*kw20+y2);
-ctx.strokeStyle="black";
-ctx.stroke();
-ctx.beginPath();
-ctx.moveTo(x2,14*kw20+y2);
-ctx.lineTo(52*kw23+x2,14*kw20+y2);
-ctx.strokeStyle="black";
-ctx.stroke();
-ctx.beginPath();
-ctx.moveTo(x2,15*kw20+y2);
-ctx.lineTo(52*kw23+x2,15*kw20+y2);
-ctx.strokeStyle="black";
-ctx.stroke();
-ctx.beginPath();
-ctx.moveTo(x2,y2-30);
-ctx.lineTo(x2,15*kw20+y2);
-ctx.strokeStyle="black";
-ctx.stroke();
-ctx.beginPath();
-ctx.moveTo(52*kw23+x2,y2-30);
-ctx.lineTo(52*kw23+x2,15*kw20+y2);
-ctx.strokeStyle="black";
-ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(x2,y2-30);
+	ctx.lineTo(52*kw23+x2,y2-30);
+	ctx.strokeStyle="black";
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(x2,y2);
+	ctx.lineTo(52*kw23+x2,y2);
+	ctx.strokeStyle="black";
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(x2,2*kw20+y2);
+	ctx.lineTo(52*kw23+x2,2*kw20+y2);
+	ctx.strokeStyle="black";
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(x2,14*kw20+y2);
+	ctx.lineTo(52*kw23+x2,14*kw20+y2);
+	ctx.strokeStyle="black";
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(x2,15*kw20+y2);
+	ctx.lineTo(52*kw23+x2,15*kw20+y2);
+	ctx.strokeStyle="black";
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(x2,y2-30);
+	ctx.lineTo(x2,15*kw20+y2);
+	ctx.strokeStyle="black";
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(52*kw23+x2,y2-30);
+	ctx.lineTo(52*kw23+x2,15*kw20+y2);
+	ctx.strokeStyle="black";
+	ctx.stroke();
 
 }
 
