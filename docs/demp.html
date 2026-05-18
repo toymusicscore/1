@@ -74,8 +74,8 @@ demp
 	<option value="5" style="font-size:100%"> Ger # </option>
 	<option value="6" style="font-size:100%"> Ger b </option>
 	<option value="7" style="font-size:100%"> Pitch Class </option>
-	<option value="8" style="font-size:100%"> Note Num</option>
-	<option value="9" style="font-size:100%"> Octave&PC </option>
+	<option value="8" style="font-size:100%"> Octave&PC </option>
+	<option value="9" style="font-size:100%"> Note Num </option>
 	<option value="10" style="font-size:100%"> Note ID </option>
 	<option value="11" style="font-size:100%" selected="selected"> Fingering</option>
 	</select>
@@ -938,9 +938,9 @@ function getLabel(midi, n_id){
 }else if (document.form1.nl1.options[7].selected==true){
 	nl=" "+(midi%12).toString(12);
 }else if (document.form1.nl1.options[8].selected==true){
-	nl=midi;
-}else if (document.form1.nl1.options[9].selected==true){
 	nl=(midi-12).toString(12);
+}else if (document.form1.nl1.options[9].selected==true){
+	nl=midi;
 }else if (document.form1.nl1.options[10].selected==true){
 	nl=n_id;
 //tsv fingering1
