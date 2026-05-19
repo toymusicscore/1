@@ -938,7 +938,7 @@ function getLabel(midi, n_id){
 }else if (document.form1.nl1.options[7].selected==true){
 	nl=" "+(midi%12).toString(12);
 }else if (document.form1.nl1.options[8].selected==true){
-	nl=(midi-12).toString(12);
+	nl=Math.floor((midi-12)/12)+(midi%12).toString(12);
 }else if (document.form1.nl1.options[9].selected==true){
 	nl=midi;
 }else if (document.form1.nl1.options[10].selected==true){
