@@ -909,7 +909,7 @@ function playRecord(){
 
         let midi = noteToMidi(ev.note);
 
-		let x0 = (midi-midi_min+1.5)*kw+mx;
+		let x0 = (midi-midi_min+2)*kw+mx;
 
 		let x1 = (midi-midi_min+2)*kw+mx;
 
@@ -918,7 +918,7 @@ function playRecord(){
 
 		ctx.beginPath();
 		ctx.fillStyle="lime";
- 		ctx.fillRect(x0, y, kw/4, 20);
+ 		ctx.fillRect(x0, y, kw/2, 20);
 		ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 		ctx.fill();
  
