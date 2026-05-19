@@ -899,9 +899,6 @@ function playRecord(){
 
     let kw = Math.round((szx - 2 * mx) / kn);
 
-    let p = Math.round((e.offsetX - 50) / kw) - 2 + Number(midi_min);
-
-
     for(const ev of recordData){
 
         setTimeout(() => {
@@ -910,11 +907,11 @@ function playRecord(){
 
         }, ev.time);
 
-        let y = ev.time * 0.2;
-
         let midi = noteToMidi(ev.note);
 
-        let x =  (midi - midi_min) * p;
+        let x =  mx + (midi - midi_min) * kw;
+
+		let y = ev.time * 0.2;
 
         ctx.fillStyle = 'lime';
 
