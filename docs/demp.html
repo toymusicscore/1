@@ -190,6 +190,7 @@ demp
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
 <input type="button" name="b_sb" value="BPM" onClick="silent()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="play()" style="font-size:100%" >
+<input type="button" name="b_pr" value="PlayRec" onClick="playRecord()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
 <input type="button" name="b_<<" value="<<" onClick="goBack2()" style="font-size:100%" >
@@ -888,6 +889,19 @@ async function silent(){
 	await cdown();
 	await draw();
 	await touchSound();
+	await startRecord();
+}
+
+function playRecord(){
+
+    for(const ev of recordData){
+
+        setTimeout(() => {
+
+            synth.triggerAttackRelease(ev.note, '8n');
+
+        }, ev.time);
+    }
 }
 
 function getCurrentTick(){
@@ -1445,6 +1459,14 @@ function goForward2(){
 
 let state = true;
 
+let recordData = [];
+let recordStart = 0;
+
+function startRecord(){
+    recordData = [];
+    recordStart = performance.now();
+}
+
 function touchSound(){
 
     canvas.addEventListener('click', async (e) => {
@@ -1479,6 +1501,13 @@ function playSound(e){
     if(e.offsetY >= 0){
 
         synth.triggerAttackRelease(p2, '8n');
+
+        recordData.push({
+            note: p2,
+            time: performance.now() - recordStart
+        });
+
+        console.log(recordData);
 
         state = false;
     }
