@@ -912,8 +912,8 @@ function playRecord(){
 
 		let x = (midi-midi_min+1.7)*kw+mx;
 
-		let y = my+(ev.time * bpm * ppq / 60)%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
-			
+//		let y = my+(ev.time * bpm * ppq / 60)%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
+		let y = ev.time * 0.05;			
         ctx.fillStyle = 'lime';
 
         ctx.fillRect(x, y, kw / 2, 25);
