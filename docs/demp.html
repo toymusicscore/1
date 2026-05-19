@@ -893,6 +893,14 @@ async function silent(){
 }
 
 function playRecord(){
+    let szx = canvas.width;
+
+    let kn = Number(midi_max) - Number(midi_min) + 1;
+
+    let kw = Math.round((szx - 2 * mx) / kn);
+
+    let p = Math.round((e.offsetX - 50) / kw) - 2 + Number(midi_min);
+
 
     for(const ev of recordData){
 
@@ -901,7 +909,18 @@ function playRecord(){
             synth.triggerAttackRelease(ev.note, '8n');
 
         }, ev.time);
+
+        let y = ev.time * 0.2;
+
+        let midi = noteToMidi(ev.note);
+
+        let x =  (midi - midi_min) * p;
+
+        ctx.fillStyle = 'lime';
+
+        ctx.fillRect(x, y, 40, 18);
     }
+
 }
 
 function getCurrentTick(){
@@ -1506,8 +1525,8 @@ function playSound(e){
             note: p2,
             time: performance.now() - recordStart
         });
-		drawPianoRoll();
-        console.log(recordData);
+
+		console.log(recordData);
 
         state = false;
     }
@@ -1544,11 +1563,11 @@ function drawPianoRoll(){
 
     for(const ev of recordData){
 
-        let x = ev.time * 0.2;
+        let y = ev.time * 0.2;
 
         let midi = noteToMidi(ev.note);
 
-        let y = canvas.height - (midi - midi_min) * 20;
+        let x = canvas.height - (midi - midi_min) * 20;
 
         ctx.fillStyle = 'lime';
 
