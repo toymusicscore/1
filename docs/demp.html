@@ -1506,7 +1506,7 @@ function playSound(e){
             note: p2,
             time: performance.now() - recordStart
         });
-
+		drawPianoRoll();
         console.log(recordData);
 
         state = false;
@@ -1518,6 +1518,42 @@ function offSound(){
     synth.triggerRelease();
 
     state = true;
+}
+
+function noteToMidi(note){
+
+    const names = {
+        C:0, 'C#':1,
+        D:2, 'D#':3,
+        E:4,
+        F:5, 'F#':6,
+        G:7, 'G#':8,
+        A:9, 'A#':10,
+        B:11
+    };
+
+    let m = note.match(/^([A-G]#?)(\d)$/);
+
+    let pitch = names[m[1]];
+    let octave = Number(m[2]);
+
+    return pitch + (octave + 1) * 12;
+}
+
+function drawPianoRoll(){
+
+    for(const ev of recordData){
+
+        let x = ev.time * 0.2;
+
+        let midi = noteToMidi(ev.note);
+
+        let y = canvas.height - (midi - midi_min) * 20;
+
+        ctx.fillStyle = 'lime';
+
+        ctx.fillRect(x, y, 40, 18);
+    }
 }
 
 function height1(){
