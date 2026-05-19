@@ -913,10 +913,10 @@ function playRecord(){
 		let x = (midi-midi_min+2)*kw+mx;
 
 //		let y = my+(ev.time * bpm * ppq / 60)%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
-		let y = ev.time * 0.05;			
+		let y = my + ev.time * 0.05;			
 
 		ctx.beginPath();
-		ctx.arc(x,y+50,kw/4,0,2*Math.PI,false);
+		ctx.arc(x,y,kw/4,0,2*Math.PI,false);
 		ctx.fillStyle="lime";
 		ctx.fill();
 
