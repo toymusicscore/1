@@ -887,6 +887,7 @@ async function cdown(){
 async function silent(){
 	await cdown();
 	await draw();
+	await touchSound();
 }
 
 function getCurrentTick(){
@@ -1444,7 +1445,7 @@ function goForward2(){
 
 let state = true;
 
-function touch_sound1(){
+function touchSound(){
 
     canvas.addEventListener('click', async (e) => {
 
