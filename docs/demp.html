@@ -881,6 +881,7 @@ async function cdown(){
 	let wait0 = 60000 / x_bpm;
 
 	for(let i = 3; i > 0; i--){
+		console.log(i, wait0);
 		ctx.clearRect(0,40,50,100);
 		ctx.fillStyle = "red";
 		ctx.fillText(i,0,100);
@@ -890,17 +891,27 @@ async function cdown(){
 }
 
 async function draw(){
+	console.log("draw start");
 
 	if (isPlaying > 0) return;
+
+	console.log("resume");
+//	await picoAudio.context.resume();
+
+	console.log("resume ok");
 
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
     picoAudio.setData(parsedData);
 
+	console.log("setData ok");
+
 	startTime = picoAudio.context.currentTime;
 
 	isPlaying = 2;
+
+	console.log("loop start");
 
 	loop();
 }
@@ -1008,13 +1019,9 @@ function startRecord(){
 	recordStart = picoAudio.context.currentTime;
 }
 
-recordData.push({
-    note: note,
-    time: picoAudio.context.currentTime - recordStart
-});
 
 function playRecord(){
-console.log(recordData);
+
 	if (isPlaying > 0) return;
 
 	let szx = canvas.width;
@@ -1028,7 +1035,7 @@ console.log(recordData);
 	let pixelsPerBeat = 80;
 
 	for(const ev of recordData){
-	console.log(ev);
+
 		setTimeout(() => {
 
 			synth.triggerAttackRelease(ev.note, '8n');
@@ -1070,6 +1077,7 @@ function getCurrentTick(){
 }
 
 function loop(){
+	console.log("loop");
 	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
