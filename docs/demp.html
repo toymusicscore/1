@@ -1018,37 +1018,34 @@ function startRecord(){
     recordStart = performance.now();
 }
 
-
 function playRecord(){
 
 	if (isPlaying > 0) return;
 
 	let szx = canvas.width;
-
 	let kn = Number(midi_max) - Number(midi_min) + 1;
-
 	let kw = Math.round((szx - 2 * mx) / kn);
 
 	let bpm = parseFloat(document.form1.x_bpm.value);
-
 	let pixelsPerBeat = 80;
+
+	let start = picoAudio.context.currentTime;
 
 	for(const ev of recordData){
 
-		setTimeout(() => {
-
-			synth.triggerAttackRelease(ev.note, '8n');
-
-		}, ev.time);
+		// 音はスケジューラで時間指定
+		synth.triggerAttackRelease(
+			ev.note,
+			'8n',
+			start + ev.time
+		);
 
 		let midi = noteToMidi(ev.note);
 
 		let x0 = (midi-midi_min+1.75)*kw+mx;
-
 		let x1 = (midi-midi_min+2)*kw+mx;
 
-		let beat = (ev.time / 1000) * bpm / 60;
-
+		let beat = ev.time * bpm / 60;
 		let y = my + beat * pixelsPerBeat;
 
 		ctx.beginPath();
