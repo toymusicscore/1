@@ -853,15 +853,41 @@ async function play(){
 	loop();
 }
 
-async function draw0(){
-	if (isPlaying > 0) return;
+function pause(){
+    if (isPlaying == 0) return;
+    pauseTick = getCurrentTick();
+    isPlaying = false;
+    picoAudio.pause();
+    cancelAnimationFrame(rafId);
+}
+
+async function silent(){
 	await picoAudio.context.resume();
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-    picoAudio.setData(parsedData);
-	startTime = picoAudio.context.currentTime;
-	isPlaying = 2;
-	loop();
+	await cdown();
+	await draw();
+	await touchSound();
+	await startRecord();
+}
+
+async function cdown(){
+	ctx.font = "80px Arial";
+
+	let x_bpm = parseFloat(document.form1.x_bpm.value);
+
+	if (!Number.isFinite(x_bpm) || x_bpm <= 0) {
+		x_bpm = 30;
+	}
+
+	let wait0 = 60000 / x_bpm;
+
+	for(let i = 3; i > 0; i--){
+		console.log(i, wait0);
+		ctx.clearRect(0,40,50,100);
+		ctx.fillStyle = "red";
+		ctx.fillText(i,0,100);
+
+		await new Promise(r => setTimeout(r, wait0));
+	}
 }
 
 async function draw(){
@@ -890,42 +916,109 @@ async function draw(){
 	loop();
 }
 
-function pause(){
-    if (isPlaying == 0) return;
-    pauseTick = getCurrentTick();
-    isPlaying = false;
-    picoAudio.pause();
-    cancelAnimationFrame(rafId);
+
+
+let state = true;
+
+function touchSound(){
+
+    canvas.addEventListener('click', async (e) => {
+
+        await Tone.start();
+
+        playSound(e);
+
+    });
+
+    canvas.addEventListener('mouseup', offSound);
+
+    canvas.addEventListener('touchend', offSound);
 }
 
-async function cdown(){
-	ctx.font = "80px Arial";
+function playSound(e){
 
-	let x_bpm = parseFloat(document.form1.x_bpm.value);
+    let szx = canvas.width;
 
-	if (!Number.isFinite(x_bpm) || x_bpm <= 0) {
-		x_bpm = 30;
-	}
+    let kn = Number(midi_max) - Number(midi_min) + 1;
 
-	let wait0 = 60000 / x_bpm;
+    let kw = Math.round((szx - 2 * mx) / kn);
 
-	for(let i = 3; i > 0; i--){
-		console.log(i, wait0);
-		ctx.clearRect(0,40,50,100);
-		ctx.fillStyle = "red";
-		ctx.fillText(i,0,100);
+    let p = Math.round((e.offsetX - 50) / kw) - 2 + Number(midi_min);
 
-		await new Promise(r => setTimeout(r, wait0));
-	}
+    let p2 = engs1[p % 12] + Math.floor(p / 12 - 1);
+
+    console.log(p2);
+
+    if(!state) return;
+
+    if(e.offsetY >= 0){
+
+        synth.triggerAttackRelease(p2, '8n');
+
+        recordData.push({
+            note: p2,
+            time: performance.now() - recordStart
+        });
+
+		console.log(recordData);
+
+        state = false;
+    }
 }
 
-async function silent(){
-	await picoAudio.context.resume();
-	await cdown();
-	await draw();
-	await touchSound();
-	await startRecord();
+function offSound(){
+
+    synth.triggerRelease();
+
+    state = true;
 }
+
+function noteToMidi(note){
+
+    const names = {
+        C:0, 'C#':1,
+        D:2, 'D#':3,
+        E:4,
+        F:5, 'F#':6,
+        G:7, 'G#':8,
+        A:9, 'A#':10,
+        B:11
+    };
+
+    let m = note.match(/^([A-G]#?)(\d)$/);
+
+    let pitch = names[m[1]];
+    let octave = Number(m[2]);
+
+    return pitch + (octave + 1) * 12;
+}
+
+function drawPianoRoll(){
+
+    for(const ev of recordData){
+
+        let y = ev.time * 0.2;
+
+        let midi = noteToMidi(ev.note);
+
+        let x = canvas.height - (midi - midi_min) * 20;
+
+        ctx.fillStyle = 'lime';
+
+        ctx.fillRect(x, y, 40, 18);
+    }
+}
+
+
+let recordData = [];
+let recordStart = 0;
+
+function startRecord(){
+    recordData = [];
+//    recordStart = performance.now();
+	recordStart = picoAudio.context.currentTime;
+}
+
 
 function playRecord(){
 	//draw();
@@ -937,7 +1030,9 @@ function playRecord(){
 
     let kw = Math.round((szx - 2 * mx) / kn);
 
-    for(const ev of recordData){
+	let startTime = picoAudio.context.currentTime;
+
+	for(const ev of recordData){
 
         setTimeout(() => {
 
@@ -953,15 +1048,16 @@ function playRecord(){
 
 		let x_bpm = parseFloat(document.form1.x_bpm.value);
 
-		let beat = (ev.time / 1000) * x_bpm / 60;
-
 		let pixelsPerBeat = 80;
 
-		let y =	my + beat * pixelsPerBeat;
+		let sec = ev.time - startTime;
 
-	//		let y = my+(ev.time * x_bpm * ppq / 60) / (ht1*bttl*ppq/ntvl*4) / 1.5;
-//		let y = my+(ev.time * bpm * ppq / 60)%(ht1*bttl*ppq/ntvl*4)*(szy-2*my)/(ht1*bttl*ppq/ntvl*4);
-//		let y = my + ev.time * 0.05;			
+		let beat = sec / 1000 * x_bpm / 60;
+
+		let y = my + beat * pixelsPerBeat;
+
+//		let beat = (ev.time / 1000) * x_bpm / 60;
+//		let y =	my + beat * pixelsPerBeat;
 
 		ctx.beginPath();
 		ctx.fillStyle="green";
@@ -1531,105 +1627,6 @@ function goForward2(){
     selview1();
 }
 
-
-let state = true;
-
-let recordData = [];
-let recordStart = 0;
-
-function startRecord(){
-    recordData = [];
-    recordStart = performance.now();
-}
-
-function touchSound(){
-
-    canvas.addEventListener('click', async (e) => {
-
-        await Tone.start();
-
-        playSound(e);
-
-    });
-
-    canvas.addEventListener('mouseup', offSound);
-
-    canvas.addEventListener('touchend', offSound);
-}
-
-function playSound(e){
-
-    let szx = canvas.width;
-
-    let kn = Number(midi_max) - Number(midi_min) + 1;
-
-    let kw = Math.round((szx - 2 * mx) / kn);
-
-    let p = Math.round((e.offsetX - 50) / kw) - 2 + Number(midi_min);
-
-    let p2 = engs1[p % 12] + Math.floor(p / 12 - 1);
-
-    console.log(p2);
-
-    if(!state) return;
-
-    if(e.offsetY >= 0){
-
-        synth.triggerAttackRelease(p2, '8n');
-
-        recordData.push({
-            note: p2,
-            time: performance.now() - recordStart
-        });
-
-		console.log(recordData);
-
-        state = false;
-    }
-}
-
-function offSound(){
-
-    synth.triggerRelease();
-
-    state = true;
-}
-
-function noteToMidi(note){
-
-    const names = {
-        C:0, 'C#':1,
-        D:2, 'D#':3,
-        E:4,
-        F:5, 'F#':6,
-        G:7, 'G#':8,
-        A:9, 'A#':10,
-        B:11
-    };
-
-    let m = note.match(/^([A-G]#?)(\d)$/);
-
-    let pitch = names[m[1]];
-    let octave = Number(m[2]);
-
-    return pitch + (octave + 1) * 12;
-}
-
-function drawPianoRoll(){
-
-    for(const ev of recordData){
-
-        let y = ev.time * 0.2;
-
-        let midi = noteToMidi(ev.note);
-
-        let x = canvas.height - (midi - midi_min) * 20;
-
-        ctx.fillStyle = 'lime';
-
-        ctx.fillRect(x, y, 40, 18);
-    }
-}
 
 function height1(){
 ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
