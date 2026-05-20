@@ -870,7 +870,7 @@ async function draw(){
 	if (isPlaying > 0) return;
 
 	console.log("resume");
-	await picoAudio.context.resume();
+//	await picoAudio.context.resume();
 
 	console.log("resume ok");
 
@@ -920,6 +920,7 @@ async function cdown(){
 }
 
 async function silent(){
+	await picoAudio.context.resume();
 	await cdown();
 	await draw();
 	await touchSound();
