@@ -957,7 +957,7 @@ function playSound(e){
 
         recordData.push({
             note: p2,
-            time: performance.now() - recordStart
+            time: picoAudio.context.currentTime - recordStart
         });
 
 		console.log(recordData);
@@ -1035,7 +1035,6 @@ function playRecord(){
 
 	for(const ev of recordData){
 
-		// 音はスケジューラで時間指定
 		synth.triggerAttackRelease(
 			ev.note,
 			'8n',
