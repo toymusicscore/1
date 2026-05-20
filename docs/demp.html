@@ -1016,64 +1016,9 @@ let recordStart = 0;
 function startRecord(){
     recordData = [];
 //    recordStart = performance.now();
-//	recordStart = picoAudio.context.currentTime;
-	recordStart = picoAudio.context.currentTime - recordStart
+	recordStart = picoAudio.context.currentTime;
 }
 
-
-function playRecord0(){
-	//draw();
-	if (isPlaying > 0) return;
-
-    let szx = canvas.width;
-
-    let kn = Number(midi_max) - Number(midi_min) + 1;
-
-    let kw = Math.round((szx - 2 * mx) / kn);
-
-	for(const ev of recordData){
-
-        setTimeout(() => {
-
-            synth.triggerAttackRelease(ev.note, '8n');
-
-        }, ev.time);
-
-        let midi = noteToMidi(ev.note);
-
-		let x0 = (midi-midi_min+1.75)*kw+mx;
-
-		let x1 = (midi-midi_min+2)*kw+mx;
-
-		let x_bpm = parseFloat(document.form1.x_bpm.value);
-
-		let startTime = picoAudio.context.currentTime;
-
-		let pixelsPerBeat = 80;
-
-		let sec = ev.time - startTime;
-
-		let beat = sec * x_bpm / 60;
-
-		let y = my + beat * pixelsPerBeat;
-
-//		let beat = (ev.time / 1000) * x_bpm / 60;
-//		let y =	my + beat * pixelsPerBeat;
-
-		ctx.beginPath();
-		ctx.fillStyle="green";
- 		ctx.fillRect(x0, y, kw/2, 20);
-		ctx.beginPath();
-		ctx.fillStyle="lime";
-		ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
-		ctx.fill();
-
-		isPlaying = 3;
- 
-//        ctx.fillRect(x, y, kw / 2, 25);
-    }
-
-}
 
 function playRecord(){
 
