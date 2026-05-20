@@ -1030,8 +1030,6 @@ function playRecord(){
 
     let kw = Math.round((szx - 2 * mx) / kn);
 
-	let startTime = picoAudio.context.currentTime;
-
 	for(const ev of recordData){
 
         setTimeout(() => {
@@ -1048,11 +1046,13 @@ function playRecord(){
 
 		let x_bpm = parseFloat(document.form1.x_bpm.value);
 
+		let startTime = picoAudio.context.currentTime;
+
 		let pixelsPerBeat = 80;
 
 		let sec = ev.time - startTime;
 
-		let beat = sec / 1000 * x_bpm / 60;
+		let beat = sec * x_bpm / 60;
 
 		let y = my + beat * pixelsPerBeat;
 
