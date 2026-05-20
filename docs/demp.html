@@ -893,14 +893,13 @@ async function silent(){
 
 function playRecord(){
 	//draw();
+	if (isPlaying > 0) return;
 
     let szx = canvas.width;
 
     let kn = Number(midi_max) - Number(midi_min) + 1;
 
     let kw = Math.round((szx - 2 * mx) / kn);
-
-	if (isPlaying > 0) return;
 
     for(const ev of recordData){
 
