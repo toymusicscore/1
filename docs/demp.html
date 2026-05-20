@@ -1015,13 +1015,12 @@ let recordStart = 0;
 
 function startRecord(){
     recordData = [];
-//    recordStart = performance.now();
-	recordStart = picoAudio.context.currentTime;
+    recordStart = performance.now();
 }
 
 
 function playRecord(){
-	console.log(recordData);
+
 	if (isPlaying > 0) return;
 
 	let szx = canvas.width;
@@ -1035,12 +1034,12 @@ function playRecord(){
 	let pixelsPerBeat = 80;
 
 	for(const ev of recordData){
-		console.log(ev);
+
 		setTimeout(() => {
 
 			synth.triggerAttackRelease(ev.note, '8n');
 
-		}, ev.time * 1000);
+		}, ev.time);
 
 		let midi = noteToMidi(ev.note);
 
@@ -1048,7 +1047,7 @@ function playRecord(){
 
 		let x1 = (midi-midi_min+2)*kw+mx;
 
-		let beat = ev.time * bpm / 60;
+		let beat = (ev.time / 1000) * bpm / 60;
 
 		let y = my + beat * pixelsPerBeat;
 
