@@ -1021,7 +1021,7 @@ function startRecord(){
 
 
 function playRecord(){
-
+	console.log(recordData);
 	if (isPlaying > 0) return;
 
 	let szx = canvas.width;
@@ -1035,7 +1035,7 @@ function playRecord(){
 	let pixelsPerBeat = 80;
 
 	for(const ev of recordData){
-
+		console.log(ev);
 		setTimeout(() => {
 
 			synth.triggerAttackRelease(ev.note, '8n');
