@@ -900,6 +900,8 @@ function playRecord(){
 
     let kw = Math.round((szx - 2 * mx) / kn);
 
+	if (isPlaying > 0) return;
+
     for(const ev of recordData){
 
         setTimeout(() => {
@@ -924,6 +926,8 @@ function playRecord(){
 		ctx.fillStyle="lime";
 		ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 		ctx.fill();
+
+		isPlaying = 3;
  
 //        ctx.fillRect(x, y, kw / 2, 25);
     }
