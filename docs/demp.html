@@ -1015,8 +1015,10 @@ let recordStart = 0;
 
 function startRecord(){
     recordData = [];
-    recordStart = performance.now();
+//    recordStart = performance.now();
+	recordStart = picoAudio.context.currentTime;
 }
+
 
 function playRecord(){
 
@@ -1033,6 +1035,7 @@ function playRecord(){
 
 	for(const ev of recordData){
 
+		// 音はスケジューラで時間指定
 		synth.triggerAttackRelease(
 			ev.note,
 			'8n',
