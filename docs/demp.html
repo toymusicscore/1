@@ -853,7 +853,7 @@ async function play(){
 	loop();
 }
 
-async function draw(){
+async function draw0(){
 	if (isPlaying > 0) return;
 	await picoAudio.context.resume();
 	canvas.width = window.innerWidth;
@@ -864,24 +864,38 @@ async function draw(){
 	loop();
 }
 
+async function draw(){
+	console.log("draw start");
+
+	if (isPlaying > 0) return;
+
+	console.log("resume");
+	await picoAudio.context.resume();
+
+	console.log("resume ok");
+
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+
+    picoAudio.setData(parsedData);
+
+	console.log("setData ok");
+
+	startTime = picoAudio.context.currentTime;
+
+	isPlaying = 2;
+
+	console.log("loop start");
+
+	loop();
+}
+
 function pause(){
     if (isPlaying == 0) return;
     pauseTick = getCurrentTick();
     isPlaying = false;
     picoAudio.pause();
     cancelAnimationFrame(rafId);
-}
-
-async function cdown0(){
-	ctx.font="80px Arial";
-	for(let i=3;i>0;i--){
-		ctx.clearRect(0,40,50,100);
-		ctx.fillStyle="red";
-		ctx.fillText(i,0,100);
-		let wait0=60000/Math.max(document.form1.x_bpm.value,30);
-		await new Promise(r => timer=setTimeout(r,wait0)
-		);
-	}
 }
 
 async function cdown(){
