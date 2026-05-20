@@ -993,23 +993,6 @@ function noteToMidi(note){
     return pitch + (octave + 1) * 12;
 }
 
-function drawPianoRoll(){
-
-    for(const ev of recordData){
-
-        let y = ev.time * 0.2;
-
-        let midi = noteToMidi(ev.note);
-
-        let x = canvas.height - (midi - midi_min) * 20;
-
-        ctx.fillStyle = 'lime';
-
-        ctx.fillRect(x, y, 40, 18);
-    }
-}
-
-
 let recordData = [];
 let recordStart = 0;
 
