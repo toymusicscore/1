@@ -1013,7 +1013,7 @@ function playRecord(){
 	let kn = Number(midi_max) - Number(midi_min) + 1;
 	let kw = (szx - 2 * mx) / kn;
 
-	let bpm = parseFloat(document.form1.x_bpm.value);
+	let x_bpm = parseFloat(document.form1.x_bpm.value);
 	let pixelsPerBeat = (szy - 2 * my)/(ht1 * bttl);
 	
 	let start = picoAudio.context.currentTime;
@@ -1035,8 +1035,8 @@ function playRecord(){
 		let x0 = (midi-midi_min+2+1/4)*kw+mx;
 		let x1 = (midi-midi_min+2+1/2)*kw+mx;
 
-		let startBeat = ev.start * bpm / 60;
-		let durBeat   = dur      * bpm / 60;
+		let startBeat = ev.start * x_bpm / 60;
+		let durBeat   = dur      * x_bpm / 60;
 
 		let y  = my + startBeat * pixelsPerBeat;
 		let gt = durBeat * pixelsPerBeat;
