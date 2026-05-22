@@ -1007,7 +1007,7 @@ function noteToMidi(note){
 function playRecord(){
 
 	if (isPlaying > 0) return;
-
+	synth.releaseAll();
 	let szx = canvas.width;
 	let szy = canvas.height;
 	let kn = Number(midi_max) - Number(midi_min) + 1;
@@ -1019,11 +1019,11 @@ function playRecord(){
 	let start = picoAudio.context.currentTime;
 	for(const ev of recordData){
 
-		let dur = ev.end - ev.start;
-		if(!isFinite(dur) || dur <= 0){
-			dur = 0.1;
-		}
+	let dur = ev.end - ev.start;
 
+	if(!isFinite(dur) || dur < 0.05){
+		dur = 0.1;
+	}
 		synth.triggerAttackRelease(
 			ev.note,
 			dur,
