@@ -1035,15 +1035,14 @@ function playRecord(){
 		let x0 = (midi-midi_min+2+1/4)*kw+mx;
 		let x1 = (midi-midi_min+2+1/2)*kw+mx;
 
-		let startBeat = ev.start * bpm / 60;
-		let endBeat   = ev.end   * bpm / 60;
+		let durBeat = dur * bpm / 60;
 
 		let y  = my + startBeat * pixelsPerBeat;
-		let gt = (endBeat - startBeat) * pixelsPerBeat;
+		let gt = durBeat * pixelsPerBeat;
 
 		ctx.beginPath();
 		ctx.fillStyle="green";
-		ctx.fillRect(x0, y, kw/2, 20);
+		ctx.fillRect(x0, y, kw/2, gt);
 
 		ctx.beginPath();
 		ctx.fillStyle="lime";
