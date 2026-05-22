@@ -1018,8 +1018,6 @@ function review(){
 		let endTick = (ev.start + dur) * x_bpm * ppq / 60;
 		q1.push([midi, startTick, endTick]);
 	}
-	alert(q1);
-	/*
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     picoAudio.setData(parsedData);
@@ -1033,8 +1031,7 @@ function review(){
 	}
 	isPlaying = 3;
 	loop2();
-*/
-	}
+}
 
 function playRecord(){
 
@@ -1259,6 +1256,126 @@ function line(tick){
 				ctx.beginPath();
 				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
 				ctx.fillStyle=col3[channel];
+				ctx.fill();
+				getLabel(midi, n_id);
+				ctx.fillStyle="black";
+				ctx.font="20px Arial";
+				if (nl!=""){
+				ctx.fillText(nl, x0+3, y+7);
+				}
+				if (nll!=""){
+				ctx.fillText(nll, mx, y);
+				}
+				if (nlr!=""){
+				ctx.fillText(nlr, mx+szk, y);
+				}
+			}
+		}
+	}
+};
+
+function line2(tick){
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	szx = canvas.width;
+	szy = canvas.height-my;
+	szk = szx-2*mx;
+	ctx.lineWidth=1;
+
+	let kn=Number(midi_max)-Number(midi_min)+1;
+	let kw=szk/kn;
+	for(l=0;l<Number(kn);l++){
+		let k=Number(midi_min)+l;
+		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillRect(mx+l*kw,0,kw,my/2);
+		ctx.fillStyle=col[k%12];
+		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
+		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+		ctx.fillStyle="lightgrey";
+		ctx.fillRect(mx+l*kw,my,kw,szy-my);
+		}else if (k%12===0){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*kw,my);
+		ctx.lineTo(mx+l*kw,szy);
+		ctx.strokeStyle="red";
+		ctx.stroke();
+		}else if (k%12===5){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*kw,my);
+		ctx.lineTo(mx+l*kw,szy);
+		ctx.strokeStyle="green";
+		ctx.stroke();
+		}
+	}
+
+	if (tick<eott0){
+	ctx.beginPath();
+	ctx.moveTo(0,my+tick%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+	ctx.lineTo(szx,my+tick%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+	ctx.strokeStyle="grey";
+	ctx.stroke();
+	} else {
+		isPlaying = false;
+	}
+
+	ctx.beginPath();
+	ctx.moveTo(0,szy);
+	ctx.lineTo(mx+szk,szy);
+	ctx.strokeStyle="red";
+	ctx.stroke();
+
+	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
+		let vmn0=m/ppq/bttl*ntvl/4+stm;
+		ctx.beginPath();
+		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.strokeStyle="red";
+		ctx.stroke();
+		ctx.fillStyle="black";
+		ctx.font="25px Arial";
+		ctx.fillText(vmn0,0,my+25+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
+		ctx.beginPath();
+		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.strokeStyle="blue";
+		ctx.stroke();
+		}
+	}
+
+	for(i=0;i<r1.length;i++){
+		let [midi, start, stop, channel, n_id]=r1[i];
+		let [midi2, start2, stop2]=q1[i];
+		const dt = (start-tick)/(bttl*ppq/ntvl*4);
+		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
+		if (stop>=tick+ht1*bttl*ppq/ntvl*3){
+			gt=tick+ht1*bttl*ppq/ntvl*3-start;
+		}else{
+			gt=stop-start;
+		}
+		if (dp >=0 && dt < ht1*3/4){
+			const x0 = (midi-midi_min)*kw+mx;
+			const x1 = (midi-midi_min+0.5)*kw+mx;
+			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-2*my)/(ht1*bttl*ppq/ntvl*4);
+			const ux0 = (midi2-midi_min)*kw+mx;
+			const ux1 = (midi2-midi_min+0.5)*kw+mx;
+			const uy = my+start2%(ht1*bttl*ppq/ntvl*4)*(szy-2*my)/(ht1*bttl*ppq/ntvl*4);
+			if((document.form1.hands.options[0].selected==true ) || 
+			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
+			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
+				ctx.beginPath();
+				ctx.fillStyle=col[midi%12];
+				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
+				ctx.beginPath();
+				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+				ctx.fillStyle=col3[channel];
+				ctx.fill();
+				ctx.beginPath();
+				ctx.fillStyle="green";
+				ctx.fillRect(ux0,uy,kw/2,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
+				ctx.beginPath();
+				ctx.arc(ux1,uy,kw/4,0,2*Math.PI,false);
+				ctx.fillStyle="lime";
 				ctx.fill();
 				getLabel(midi, n_id);
 				ctx.fillStyle="black";
