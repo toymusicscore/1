@@ -1343,18 +1343,24 @@ function line2(tick){
 
 	for(let i=0;i<r1.length;i++){
 		let [midi, start, stop, channel, n_id]=r1[i];
-		let gt;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-		if (stop>=tick+ht1*bttl*ppq/ntvl*3){
-			gt=tick+ht1*bttl*ppq/ntvl*3-start;
-		}else{
-			gt=stop-start;
-		}
-		if (dp >=0 && dt < ht1*3/4){
+		if (dp >= 0 && dt >= 0 && dt < ht1*3/4){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-2*my)/(ht1*bttl*ppq/ntvl*4);
+			const loopSize = ht1*bttl*ppq/ntvl*4;			
+			const y = my + (
+				((start % loopSize) + loopSize) % loopSize
+			) * (szy-2*my)/loopSize;
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+				continue;
+			}
+			let gt;
+			if (stop>=tick+ht1*bttl*ppq/ntvl*3){
+				gt=tick+ht1*bttl*ppq/ntvl*3-start;
+			}else{
+				gt=stop-start;
+			}
 			if((document.form1.hands.options[0].selected==true ) || 
 			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
 			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
@@ -1381,21 +1387,22 @@ function line2(tick){
 		}
 	}
 	for(let i=0; i<q1.length; i++){
-	console.log(q1);
-	console.log(kn, kw);
     let [midi, start, stop] = q1[i];
-	console.log(midi, start, stop);
 
     const dt = (start-tick)/(bttl*ppq/ntvl*4);
     const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 
-		if (dp >=0 && dt < ht1*3/4){
+		if (dp >= 0 && dt >= 0 && dt < ht1*3/4){
 
 			const x0 = (midi-midi_min)*kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-2*my)/(ht1*bttl*ppq/ntvl*4);
-
+			const loopSize = ht1*bttl*ppq/ntvl*4;
+			const y = my + (
+				((start % loopSize) + loopSize) % loopSize
+			) * (szy-2*my)/loopSize;
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+				continue;
+			}
 			let gt;
-
 			if (stop>=tick+ht1*bttl*ppq/ntvl*3){
 				gt=tick+ht1*bttl*ppq/ntvl*3-start;
 			}else{
