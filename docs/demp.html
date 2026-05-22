@@ -187,7 +187,7 @@ demp
 </select>
 
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
-<input type="button" name="b_sb" value="Rec" onClick="silent()" style="font-size:100%" >
+<input type="button" name="b_sb" value="Rec" onClick="record()" style="font-size:100%" >
 <input type="button" name="b_pr" value="Review" onClick="review()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="play()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
@@ -861,7 +861,7 @@ function pause(){
     cancelAnimationFrame(rafId);
 }
 
-async function silent(){
+async function record(){
 	await picoAudio.context.resume();
 	await cdown();
 	await draw();
