@@ -1019,7 +1019,12 @@ function review(){
 		q1.push([midi, startBeat, endBeat]);
 	}
 	alert(q1);
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+    picoAudio.setData(parsedData);
+	startTime = picoAudio.context.currentTime;
 	isPlaying = 3;
+	loop();
 }
 
 function playRecord(){
