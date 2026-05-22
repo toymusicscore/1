@@ -937,13 +937,10 @@ function startRecord(){
 function playSound(e){
 
     let szx = canvas.width;
-
     let kn = Number(midi_max) - Number(midi_min) + 1;
-
     let kw = Math.round((szx - 2 * mx) / kn);
 
     let p = Math.round((e.offsetX - 50) / kw) - 2 + Number(midi_min);
-
     let p2 = engs1[p % 12] + Math.floor(p / 12 - 1);
 
     if(!state) return;
@@ -952,16 +949,18 @@ function playSound(e){
 
         synth.triggerAttackRelease(p2, '8n');
 
-        recordData.push({
-            note: p2,
-            time: picoAudio.context.currentTime - recordStart
-        });
+        currentNote = p2;
 
-        state = false;
-	    
-		const t = picoAudio.context.currentTime - recordStart;
+        const t = picoAudio.context.currentTime - recordStart;
 
-    	activeNotes[note] = t;
+		recordData.push({
+			note: p2,
+			start: t,
+			end: null
+		});
+        
+		state = false;
+
     }
 }
 
@@ -969,20 +968,12 @@ function offSound(){
 
     synth.triggerRelease();
 
-    state = true;
+    const t = picoAudio.context.currentTime - recordStart;
+	
+	ev.end = t;
 
-	const t = picoAudio.context.currentTime - recordStart;
-
-    if(activeNotes[note] == null) return;
-
-    recordData.push({
-        note: note,
-        start: activeNotes[note],
-        end: t
-    });
-
-    delete activeNotes[note];
-
+	state = true;
+ 
 }
 
 function noteToMidi(note){
