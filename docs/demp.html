@@ -891,27 +891,17 @@ async function cdown(){
 }
 
 async function draw(){
-	console.log("draw start");
 
 	if (isPlaying > 0) return;
-
-	console.log("resume");
-//	await picoAudio.context.resume();
-
-	console.log("resume ok");
 
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
     picoAudio.setData(parsedData);
 
-	console.log("setData ok");
-
 	startTime = picoAudio.context.currentTime;
 
 	isPlaying = 2;
-
-	console.log("loop start");
 
 	loop();
 }
