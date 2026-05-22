@@ -1010,15 +1010,16 @@ function review(){
 	let x_bpm = parseFloat(document.form1.x_bpm.value);
 	for(const ev of recordData){
 		let midi = noteToMidi(ev.note);
-		let startBeat = ev.start * bpm / x_bpm ;
+		let startTick = ev.start * x_bpm * ppq / 60;
 		let dur = ev.end - ev.start;
 		if(!isFinite(dur) || dur < 0.05){
 			dur = 0.1;
 		}
-		let endBeat = (ev.start + dur) * bpm / x_bpm ;
+		let endTick = (ev.start + dur) * x_bpm * ppq / 60;
 		q1.push([midi, startBeat, endBeat]);
 	}
 	alert(q1);
+	/*
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     picoAudio.setData(parsedData);
@@ -1032,7 +1033,8 @@ function review(){
 	}
 	isPlaying = 3;
 	loop2();
-}
+*/
+	}
 
 function playRecord(){
 
@@ -1108,6 +1110,20 @@ function loop(){
 	}
     cancelAnimationFrame(rafId);
     rafId = requestAnimationFrame(loop);
+}
+
+function loop2(){
+	if (isPlaying == 0) return;
+	const tick = getCurrentTick();
+	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
+	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
+	if (sv=="0"){
+		line2(tick);
+	}else if (sv=="1"){
+		scroll2(tick);
+	}
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(loop2);
 }
 
 let nl ="";
