@@ -893,6 +893,7 @@ async function cdown(){
 async function draw(){
 
 	if (isPlaying > 0) return;
+	await picoAudio.context.resume();
 
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
