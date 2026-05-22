@@ -188,7 +188,7 @@ demp
 
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
 <input type="button" name="b_sb" value="Rec" onClick="silent()" style="font-size:100%" >
-<input type="button" name="b_pr" value="Review" onClick="playRecord()" style="font-size:100%" >
+<input type="button" name="b_pr" value="Review" onClick="review()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="play()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
@@ -1003,6 +1003,24 @@ function noteToMidi(note){
     return pitch + (octave + 1) * 12;
 }
 
+let q1 = [];
+
+function review(){
+	if (isPlaying > 0) return;
+	let x_bpm = parseFloat(document.form1.x_bpm.value);
+	for(const ev of recordData){
+		let midi = noteToMidi(ev.note);
+		let startBeat = ev.start * x_bpm / 60;
+		let dur = ev.end - ev.start;
+		if(!isFinite(dur) || dur < 0.05){
+			dur = 0.1;
+		}
+		let endBeat   = (ev.start + dur) * x_bpm / 60;
+		q1.push([midi, startBeat, endBeat]);
+	}
+	alert(q1);
+	isPlaying = 3;
+}
 
 function playRecord(){
 
