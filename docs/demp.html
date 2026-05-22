@@ -925,6 +925,15 @@ function touchSound(){
     canvas.addEventListener('touchend', offSound);
 }
 
+let recordData = [];
+let recordStart = 0;
+let activeNotes = {};
+
+function startRecord(){
+    recordData = [];
+	recordStart = picoAudio.context.currentTime;
+}
+
 function playSound(e){
 
     let szx = canvas.width;
@@ -949,6 +958,10 @@ function playSound(e){
         });
 
         state = false;
+	    
+		const t = picoAudio.context.currentTime - recordStart;
+
+    	activeNotes[note] = t;
     }
 }
 
@@ -957,6 +970,19 @@ function offSound(){
     synth.triggerRelease();
 
     state = true;
+
+	const t = picoAudio.context.currentTime - recordStart;
+
+    if(activeNotes[note] == null) return;
+
+    recordData.push({
+        note: note,
+        start: activeNotes[note],
+        end: t
+    });
+
+    delete activeNotes[note];
+
 }
 
 function noteToMidi(note){
@@ -979,14 +1005,6 @@ function noteToMidi(note){
     return pitch + (octave + 1) * 12;
 }
 
-let recordData = [];
-let recordStart = 0;
-
-function startRecord(){
-    recordData = [];
-	recordStart = picoAudio.context.currentTime;
-}
-
 
 function playRecord(){
 
@@ -1006,8 +1024,10 @@ function playRecord(){
 
 		synth.triggerAttackRelease(
 			ev.note,
-			'8n',
-			start + ev.time
+		    ev.end - ev.start,
+    	    start + ev.start
+//		'8n',
+//		start + ev.time
 		);
 
 		let midi = noteToMidi(ev.note);
