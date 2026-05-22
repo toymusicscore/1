@@ -1035,7 +1035,8 @@ function playRecord(){
 		let x0 = (midi-midi_min+2+1/4)*kw+mx;
 		let x1 = (midi-midi_min+2+1/2)*kw+mx;
 
-		let durBeat = dur * bpm / 60;
+		let startBeat = ev.start * bpm / 60;
+		let durBeat   = dur      * bpm / 60;
 
 		let y  = my + startBeat * pixelsPerBeat;
 		let gt = durBeat * pixelsPerBeat;
