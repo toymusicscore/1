@@ -1010,12 +1010,12 @@ function review(){
 	let x_bpm = parseFloat(document.form1.x_bpm.value);
 	for(const ev of recordData){
 		let midi = noteToMidi(ev.note);
-		let startBeat = ev.start * x_bpm / 60;
+		let startBeat = ev.start * bpm / x_bpm ;
 		let dur = ev.end - ev.start;
 		if(!isFinite(dur) || dur < 0.05){
 			dur = 0.1;
 		}
-		let endBeat   = (ev.start + dur) * x_bpm / 60;
+		let endBeat = (ev.start + dur) * bpm / x_bpm ;
 		q1.push([midi, startBeat, endBeat]);
 	}
 	alert(q1);
@@ -1023,8 +1023,15 @@ function review(){
 	canvas.height = window.innerHeight;
     picoAudio.setData(parsedData);
 	startTime = picoAudio.context.currentTime;
+	for(const ev of recordData){
+		synth.triggerAttackRelease(
+		ev.note,
+		dur,
+		start + ev.start
+		);
+	}
 	isPlaying = 3;
-	loop();
+	loop2();
 }
 
 function playRecord(){
