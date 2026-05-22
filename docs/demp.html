@@ -1003,34 +1003,6 @@ function noteToMidi(note){
     return pitch + (octave + 1) * 12;
 }
 
-let q1 = [];
-
-function review2(){
-	if (isPlaying > 0) return;
-	let start = picoAudio.context.currentTime;
-	let x_bpm = parseFloat(document.form1.x_bpm.value);
-	for(const ev of recordData){
-		let midi = noteToMidi(ev.note);
-		let startTick = ev.start * x_bpm * ppq / 60;
-		let dur = ev.end - ev.start;
-		if(!isFinite(dur) || dur < 0.05){
-			dur = 0.1;
-		}
-		let endTick = (ev.start + dur) * x_bpm * ppq / 60;
-		q1.push([midi, startTick, endTick]);
-		synth.triggerAttackRelease(
-		ev.note,
-		dur,
-		start + ev.start
-		);
-	}
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-    picoAudio.setData(parsedData);
-	startTime = picoAudio.context.currentTime;
-	isPlaying = 3;
-	loop2();
-}
 
 function review1(){
 
@@ -1080,6 +1052,35 @@ function review1(){
 		ctx.fill();
 	}
 	isPlaying = 3;
+}
+
+let q1 = [];
+
+function review2(){
+	if (isPlaying > 0) return;
+	let start = picoAudio.context.currentTime;
+	let x_bpm = parseFloat(document.form1.x_bpm.value);
+	for(const ev of recordData){
+		let midi = noteToMidi(ev.note);
+		let startTick = ev.start * x_bpm * ppq / 60;
+		let dur = ev.end - ev.start;
+		if(!isFinite(dur) || dur < 0.05){
+			dur = 0.1;
+		}
+		let endTick = (ev.start + dur) * x_bpm * ppq / 60;
+		q1.push([midi, startTick, endTick]);
+		synth.triggerAttackRelease(
+		ev.note,
+		dur,
+		start + ev.start
+		);
+	}
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+    picoAudio.setData(parsedData);
+	startTime = picoAudio.context.currentTime;
+	isPlaying = 3;
+	loop2();
 }
 
 function getCurrentTick(){
