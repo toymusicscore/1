@@ -1007,6 +1007,7 @@ let q1 = [];
 
 function review(){
 	if (isPlaying > 0) return;
+	let start = picoAudio.context.currentTime;
 	let x_bpm = parseFloat(document.form1.x_bpm.value);
 	for(const ev of recordData){
 		let midi = noteToMidi(ev.note);
