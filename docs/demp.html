@@ -1022,10 +1022,8 @@ function playRecord(){
 
 		synth.triggerAttackRelease(
 			ev.note,
-		    ev.end - ev.start,
-    	    start + ev.start
-//		'8n',
-//		start + ev.time
+		    ev.start,
+    	    ev.end
 		);
 
 		let midi = noteToMidi(ev.note);
