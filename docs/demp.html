@@ -1017,18 +1017,24 @@ function playRecord(){
 	let pixelsPerBeat = (szy - 2 * my)/(ht1 * bttl);
 	
 	let start = picoAudio.context.currentTime;
-
 	for(const ev of recordData){
+
+		let dur = ev.end - ev.start;
+		if(!isFinite(dur) || dur <= 0){
+			dur = 0.1;
+		}
 
 		synth.triggerAttackRelease(
 			ev.note,
-			ev.end - ev.start,
+			dur,
 			start + ev.start
 		);
+
 		let midi = noteToMidi(ev.note);
 
 		let x0 = (midi-midi_min+2+1/4)*kw+mx;
 		let x1 = (midi-midi_min+2+1/2)*kw+mx;
+
 		let startBeat = ev.start * bpm / 60;
 		let endBeat   = ev.end   * bpm / 60;
 
@@ -1044,7 +1050,6 @@ function playRecord(){
 		ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 		ctx.fill();
 	}
-
 	isPlaying = 3;
 }
 
