@@ -1029,9 +1029,11 @@ function playRecord(){
 
 		let x0 = (midi-midi_min+2+1/4)*kw+mx;
 		let x1 = (midi-midi_min+2+1/2)*kw+mx;
-		let beat = ev.start * bpm / 60;
-		let y = my + beat * pixelsPerBeat;
-		let gt = (ev.end - ev.start) * bpm / 60 * pixelsPerBeat;
+		let startBeat = ev.start * bpm / 60;
+		let endBeat   = ev.end   * bpm / 60;
+
+		let y  = my + startBeat * pixelsPerBeat;
+		let gt = (endBeat - startBeat) * pixelsPerBeat;
 
 		ctx.beginPath();
 		ctx.fillStyle="green";
