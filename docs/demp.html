@@ -937,8 +937,6 @@ function playSound(e){
 
     let p2 = engs1[p % 12] + Math.floor(p / 12 - 1);
 
-    console.log(p2);
-
     if(!state) return;
 
     if(e.offsetY >= 0){
@@ -949,8 +947,6 @@ function playSound(e){
             note: p2,
             time: picoAudio.context.currentTime - recordStart
         });
-
-		console.log(recordData);
 
         state = false;
     }
