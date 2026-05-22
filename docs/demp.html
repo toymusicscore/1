@@ -927,7 +927,6 @@ function touchSound(){
 
 let recordData = [];
 let recordStart = 0;
-let activeNotes = {};
 
 function startRecord(){
     recordData = [];
@@ -948,8 +947,6 @@ function playSound(e){
     if(e.offsetY >= 0){
 
         synth.triggerAttackRelease(p2, '8n');
-
-        currentNote = p2;
 
         const t = picoAudio.context.currentTime - recordStart;
 
