@@ -1017,18 +1017,16 @@ function review(){
 		}
 		let endTick = (ev.start + dur) * x_bpm * ppq / 60;
 		q1.push([midi, startTick, endTick]);
-	}
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-    picoAudio.setData(parsedData);
-	startTime = picoAudio.context.currentTime;
-	for(const ev of recordData){
 		synth.triggerAttackRelease(
 		ev.note,
 		dur,
 		start + ev.start
 		);
 	}
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+    picoAudio.setData(parsedData);
+	startTime = picoAudio.context.currentTime;
 	isPlaying = 3;
 	loop2();
 }
