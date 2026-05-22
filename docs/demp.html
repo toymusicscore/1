@@ -1281,7 +1281,7 @@ function line2(tick){
 
 	let kn=Number(midi_max)-Number(midi_min)+1;
 	let kw=szk/kn;
-	for(l=0;l<Number(kn);l++){
+	for(let l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
 		ctx.fillStyle=col2[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*kw,0,kw,my/2);
@@ -1343,6 +1343,7 @@ function line2(tick){
 
 	for(let i=0;i<r1.length;i++){
 		let [midi, start, stop, channel, n_id]=r1[i];
+		let gt;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		if (stop>=tick+ht1*bttl*ppq/ntvl*3){
@@ -1380,8 +1381,10 @@ function line2(tick){
 		}
 	}
 	for(let i=0; i<q1.length; i++){
-
+	console.log(q1);
+	console.log(kn, kw);
     let [midi, start, stop] = q1[i];
+	console.log(midi, start, stop);
 
     const dt = (start-tick)/(bttl*ppq/ntvl*4);
     const dp = (stop-tick)/(bttl*ppq/ntvl*4);
