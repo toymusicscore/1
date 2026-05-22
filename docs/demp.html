@@ -1343,6 +1343,7 @@ function line2(tick){
 	}
 
 	for(i=0;i<r1.length;i++){
+		if (!q1[i]) continue;
 		let [midi, start, stop, channel, n_id]=r1[i];
 		let [midi2, start2, stop2]=q1[i];
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
