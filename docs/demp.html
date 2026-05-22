@@ -927,6 +927,7 @@ function touchSound(){
 
 let recordData = [];
 let recordStart = 0;
+let currentNote = null;
 
 function startRecord(){
     recordData = [];
@@ -950,14 +951,15 @@ function playSound(e){
 
         const t = picoAudio.context.currentTime - recordStart;
 
-		recordData.push({
-			note: p2,
-			start: t,
-			end: null
-		});
-        
-		state = false;
+        recordData.push({
+            note: p2,
+            start: t,
+            end: null
+        });
 
+        currentNote = p2;
+
+        state = false;
     }
 }
 
@@ -966,12 +968,20 @@ function offSound(){
     synth.triggerRelease();
 
     const t = picoAudio.context.currentTime - recordStart;
-	
-	ev.end = t;
 
-	state = true;
- 
+    const note = currentNote;
+
+    for(let i = recordData.length - 1; i >= 0; i--){
+        if(recordData[i].note === note && recordData[i].end === null){
+            recordData[i].end = t;
+            break;
+        }
+    }
+
+    currentNote = null;
+    state = true;
 }
+
 
 function noteToMidi(note){
 
