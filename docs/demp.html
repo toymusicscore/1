@@ -1519,7 +1519,8 @@ function msr1(){
 	selview1();
 }
 
-function goTop(){
+async function goTop(){
+	await picoAudio.context.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     pauseTick = 0;
