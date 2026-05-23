@@ -925,6 +925,16 @@ function touchSound(){
     });
 
     document.addEventListener('touchend', offSound);
+
+    canvas.addEventListener('pointerdown', async (e) => {
+
+        await Tone.start();
+
+        playSound(e);
+
+    });
+
+    document.addEventListener('pointerup', offSound);
 }
 
 let recordData = [];
@@ -964,6 +974,7 @@ function playSound(e){
         state = false;
     }
 }
+
 function offSound(){
 
     synth.triggerRelease();
