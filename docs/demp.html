@@ -1114,12 +1114,17 @@ function review2(){
 
         if(gt < 2) gt = 2;
 
+		const startTick =
+			ev.start * x_bpm / 60 * ppq;
+
+		const stopTick =
+			ev.end * x_bpm / 60 * ppq;
+
 		q1.push({
 			midi: ev.midi,
-			start: ev.start,
-			stop: ev.end
-		});
-    }
+			start: startTick,
+			stop: stopTick
+		});    }
 
     isPlaying = 3;
 	
