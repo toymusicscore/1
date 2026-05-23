@@ -863,9 +863,6 @@ function pause(){
     cancelAnimationFrame(rafId);
 }
 
-let recordMidiMin = 0;
-let recordMidiMax = 0;
-
 async function record(){
 	await picoAudio.context.resume();
 	await cdown();
@@ -932,18 +929,28 @@ function touchSound(){
 
     document.addEventListener('pointercancel', offSound);
 }
+
 let recordData = [];
 let recordStart = 0;
 let currentNote = null;
+let recordMidiMin = 0;
+let recordMidiMax = 0;
+let recordKw = 0;
 
 function startRecord(){
 
     recordData = [];
 
-	recordStart = picoAudio.context.currentTime;
+    recordStart = picoAudio.context.currentTime;
 
     recordMidiMin = midi_min;
     recordMidiMax = midi_max;
+
+    let szx = canvas.width;
+
+    let kn = Number(recordMidiMax) - Number(recordMidiMin) + 1;
+
+    recordKw = (szx - 2 * mx) / kn;
 }
 
 function playSound(e){
@@ -1040,9 +1047,7 @@ function review1(){
         drawMidiMax = midi_max_r;
     }
 
-    let kn = Number(drawMidiMax) - Number(drawMidiMin) + 1;
-
-    let kw = (szx - 2 * mx) / kn;
+	let kw = recordKw;
 
     let x_bpm = parseFloat(document.form1.x_bpm.value);
 
