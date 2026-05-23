@@ -1371,9 +1371,14 @@ function line2(tick){
 		}
 	}
 	/*
-	for(let i=0; i<q1.length; i++){
-		let [midi, start, stop]=q1[i];
+	for(let i=0; i<recordData.length; i++){
 
+		let midi = recordData[i].midi;
+		let start = recordData[i].start;
+		let stop = recordData[i].end;
+
+	}
+		
     const dt = (start-tick)/(bttl*ppq/ntvl*4);
     const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 
