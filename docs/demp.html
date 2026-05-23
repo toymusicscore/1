@@ -1390,6 +1390,7 @@ function line2(tick){
 		if (dp >= 0 && dt >= 0 && dt < ht1*3/4){
 
 			const x0 = (midi-midi_min)*kw+mx;
+			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const loopSize = ht1*bttl*ppq/ntvl*4;
 			const y = my + (
 				((start % loopSize) + loopSize) % loopSize
@@ -1405,7 +1406,7 @@ function line2(tick){
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}
-			ctx.fillStyle = "lime";
+			ctx.fillStyle = "green";
 
 			ctx.fillRect(
 				x0 + kw/4,
@@ -1413,6 +1414,10 @@ function line2(tick){
 				kw/2,
 				gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1
 			);
+			ctx.beginPath();
+			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+			ctx.fillStyle="lime";
+			ctx.fill();
 		}
 	}
 };
