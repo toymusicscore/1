@@ -1041,31 +1041,10 @@ function review1(){
 
     q1 = [];
 
-//    let kw = recordKw;
-
-//    let start = Tone.now() + 0.1;
-
     for(const ev of recordData){
-/*
-        let dur = ev.end - ev.start;
+		const startTick = ev.start;
 
-        if(!isFinite(dur) || dur < 0.05){
-            dur = 0.1;
-        }
-
-        synth.triggerAttackRelease(
-            ev.note,
-            dur,
-            start + ev.start
-        );
-*/
-        let x_bpm = parseFloat(document.form1.x_bpm.value);
-
-		const startTick =
-			ev.start * x_bpm / 60 * ppq;
-
-		const stopTick =
-			ev.end * x_bpm / 60 * ppq;
+		const stopTick = ev.end;
 
 		q1.push({
 			midi: ev.midi,
