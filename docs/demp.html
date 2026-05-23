@@ -1037,17 +1037,11 @@ function noteToMidi(note){
 
 function review1(){
 
-	if (isPlaying == 0) return;
-	const tick = getCurrentTick();
-	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
-//	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
-	if (sv=="0"){
-		line2(tick);
-	}else if (sv=="1"){
-		scroll2(tick);
-	}
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(loop2);
+    if (isPlaying > 0) return;
+
+    isPlaying = 3;
+
+	loop2();
 
 }
 
