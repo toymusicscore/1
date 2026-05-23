@@ -1054,7 +1054,7 @@ function getCurrentTick(){
 		return pauseTick;
 	}else if (isPlaying == 1){
 		return pauseTick + (picoAudio.context.currentTime - startTime) * bpm * ppq / 60;
-	}else if (isPlaying == 2){
+	}else if (isPlaying == 2 || isPlaying == 3){
 		const x_bpm = document.form1.x_bpm.value;
 		return pauseTick + (picoAudio.context.currentTime - startTime) * x_bpm * ppq / 60;
 	}
