@@ -1036,8 +1036,12 @@ function noteToMidi(note){
 
 
 function review1(){
-
     if (isPlaying > 0) return;
+	await picoAudio.context.resume();
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+    picoAudio.setData(parsedData);
+	startTime = picoAudio.context.currentTime;
 
     isPlaying = 3;
 
