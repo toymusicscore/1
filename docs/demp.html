@@ -950,9 +950,8 @@ function playSound(e){
 
     let szx = canvas.width;
     let kn = Number(midi_max) - Number(midi_min) + 1;
-    let kw = Math.round((szx - 2 * mx) / kn);
-
-    let p = Math.round((e.offsetX - mx) / kw) + Number(midi_min);
+	let kw = (szx - 2 * mx) / kn;
+	let p = Math.floor((e.offsetX - mx) / kw) + Number(midi_min);
     let p2 = engs1[p % 12] + Math.floor(p / 12 - 1);
 
     if(!state) return;
