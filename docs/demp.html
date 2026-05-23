@@ -970,11 +970,13 @@ function playSound(e){
 
         const t = picoAudio.context.currentTime - recordStart;
 
-        recordData.push({
-            note: p2,
-            start: t,
-            end: null
-        });
+		recordData.push({
+			note: p2,
+			midi: p,
+			x: e.offsetX,
+			start: t,
+			end: null
+		});
 
         currentNote = p2;
 
@@ -1071,9 +1073,11 @@ function review1(){
 
         let midi = noteToMidi(ev.note);
 
-        let x0 = (midi-drawMidiMin+1/4)*kw+mx;
+//      let x0 = (midi-drawMidiMin+1/4)*kw+mx;
 
-        let x1 = (midi-drawMidiMin+1/2)*kw+mx;
+		let x0 = ev.x;
+
+        let x1 = ev.x + 1/4 * kw;
 
         let startBeat = ev.start * x_bpm / 60;
 
