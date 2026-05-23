@@ -985,20 +985,30 @@ function offSound(e){
 
     if(!currentNote) return;
 
-    inputSynth.triggerRelease();
+    inputSynth.triggerRelease(currentNote);
 
-    let x_bpm = parseFloat(document.form1.x_bpm.value);
+    let x_bpm =
+        parseFloat(
+            document.form1.x_bpm.value
+        );
 
-	const t = getCurrentTick()
+    const t = getCurrentTick();
 
     const minDur =
         0.05 * x_bpm / 60 * ppq;
 
-    for(let i = recordData.length - 1; i >= 0; i--){
+    for(
+        let i = recordData.length - 1;
+        i >= 0;
+        i--
+    ){
 
         const ev = recordData[i];
 
-        if(ev.note === currentNote && ev.end === null){
+        if(
+            ev.note === currentNote &&
+            ev.end === null
+        ){
 
             ev.end = Math.max(
                 t,
@@ -1422,52 +1432,42 @@ function line2(tick){
 		}
 	}
 };
+let prevTick = 0;
+let playedNotes = new Set();
 
 function playNotes(tick){
 
     for(let i=0; i<recordData.length; i++){
 
-        let note  = recordData[i].note;
+        let note = recordData[i].note;
         let start = recordData[i].start;
-        let stop  = recordData[i].end;
+        let stop = recordData[i].end;
 
-        if(stop == null){
-            continue;
-        }
+        if(stop == null) continue;
 
         let noteId = i + "_" + start;
 
         if(
             !playedNotes.has(noteId) &&
+            start > prevTick &&
             start <= tick
         ){
 
-            let duration = stop - start;
+            let durationTicks = stop - start;
 
-            let seconds = tickToSeconds(duration);
+            let durationSeconds =
+                durationTicks / ppq * 60 / bpm;
 
-            inputSynth.triggerAttackRelease(
+            playSynth.triggerAttackRelease(
                 note,
-                seconds
+                durationSeconds
             );
 
             playedNotes.add(noteId);
         }
     }
-}
 
-function stopSound(){
-
-    if(currentNote){
-
-        inputSynth.triggerRelease(
-            currentNote
-        );
-
-        currentNote = null;
-    }
-
-    state = true;
+    prevTick = tick;
 }
 
 function scroll(tick){
