@@ -1459,11 +1459,21 @@ let playedNotes = new Set();
 
 function playNotes(tick){
 
+    if(tick < prevTick){
+
+        playedNotes.clear();
+    }
+
+    let x_bpm =
+        parseFloat(
+            document.form1.x_bpm.value
+        );
+
     for(let i=0; i<recordData.length; i++){
 
-        let note = recordData[i].note;
+        let note  = recordData[i].note;
         let start = recordData[i].start;
-        let stop = recordData[i].end;
+        let stop  = recordData[i].end;
 
         if(stop == null) continue;
 
@@ -1475,10 +1485,14 @@ function playNotes(tick){
             start <= tick
         ){
 
-            let durationTicks = stop - start;
+            let durationTicks =
+                Math.max(1, stop - start);
 
             let durationSeconds =
-                durationTicks / ppq * 60 / bpm;
+                durationTicks /
+                ppq *
+                60 /
+                x_bpm;
 
             playSynth.triggerAttackRelease(
                 note,
