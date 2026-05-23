@@ -1023,65 +1023,76 @@ function noteToMidi(note){
 
 function review1(){
 
-	if (isPlaying > 0) return;
-	let szx = canvas.width;
-	let szy = canvas.height;
+    if (isPlaying > 0) return;
 
-	let drawMidiMin = midi_min;
-	let drawMidiMax = midi_max;
+    let szx = canvas.width;
+    let szy = canvas.height;
 
-	if (document.form1.hands.options[1].selected){
-		drawMidiMin = midi_min_l;
-		drawMidiMax = midi_max_l;
-	}
-	else if (document.form1.hands.options[2].selected){
-		drawMidiMin = midi_min_r;
-		drawMidiMax = midi_max_r;
-	}
+    let drawMidiMin = midi_min;
+    let drawMidiMax = midi_max;
 
-	let kn = Number(recordMidiMax) - Number(recordMidiMin) + 1;
-	let kw = (szx - 2 * mx) / kn;
+    if (document.form1.hands.options[1].selected){
+        drawMidiMin = midi_min_l;
+        drawMidiMax = midi_max_l;
+    }
+    else if (document.form1.hands.options[2].selected){
+        drawMidiMin = midi_min_r;
+        drawMidiMax = midi_max_r;
+    }
 
-	let x_bpm = parseFloat(document.form1.x_bpm.value);
-	let pixelsPerBeat = (szy - 2 * my)/(ht1 * bttl);
-	
-	let start = picoAudio.context.currentTime;
-	for(const ev of recordData){
+    let kn = Number(drawMidiMax) - Number(drawMidiMin) + 1;
 
-	let dur = ev.end - ev.start;
-//	let dur = 0.25;
+    let kw = (szx - 2 * mx) / kn;
 
-	if(!isFinite(dur) || dur < 0.05){
-		dur = 0.1;
-	}
-		synth.triggerAttackRelease(
-			ev.note,
-			dur,
-			start + ev.start
-		);
+    let x_bpm = parseFloat(document.form1.x_bpm.value);
 
-		let midi = noteToMidi(ev.note);
+    let pixelsPerBeat = (szy - 2 * my)/(ht1 * bttl);
 
-		let x0 = (midi-recordMidiMin+1/4)*kw+mx;
-		let x1 = (midi-recordMidiMin+1/2)*kw+mx;
-		let startBeat = ev.start * x_bpm / 60;
-		let durBeat   = dur      * x_bpm / 60;
+    let start = picoAudio.context.currentTime;
 
-		let y  = my + startBeat * pixelsPerBeat;
-		let gt = durBeat * pixelsPerBeat;
+    for(const ev of recordData){
 
-		ctx.beginPath();
-		ctx.fillStyle="green";
-		ctx.fillRect(x0, y, kw/2, gt);
+        let dur = ev.end - ev.start;
 
-		ctx.beginPath();
-		ctx.fillStyle="lime";
-		ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
-		ctx.fill();
-	}
-	isPlaying = 3;
+        if(!isFinite(dur) || dur < 0.05){
+            dur = 0.1;
+        }
+
+        synth.triggerAttackRelease(
+            ev.note,
+            dur,
+            start + ev.start
+        );
+
+        let midi = noteToMidi(ev.note);
+
+        let x0 = (midi-drawMidiMin+1/4)*kw+mx;
+
+        let x1 = (midi-drawMidiMin+1/2)*kw+mx;
+
+        let startBeat = ev.start * x_bpm / 60;
+
+        let durBeat = dur * x_bpm / 60;
+
+        let y = my + startBeat * pixelsPerBeat;
+
+        let gt = durBeat * pixelsPerBeat;
+
+        ctx.fillStyle = "green";
+
+        ctx.fillRect(x0, y, kw/2, gt);
+
+        ctx.fillStyle = "lime";
+
+        ctx.beginPath();
+
+        ctx.arc(x1, y, kw/4, 0, 2*Math.PI, false);
+
+        ctx.fill();
+    }
+
+    isPlaying = 3;
 }
-
 
 let q1 = [];
 
