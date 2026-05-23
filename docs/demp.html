@@ -1415,15 +1415,18 @@ function line2(tick){
 			const y = my + (
 				((start % loopSize) + loopSize) % loopSize
 			) * (szy-2*my)/loopSize;
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
-				continue;
-			}
+			
 			let gt;
+
 			if (stop>=tick+ht1*bttl*ppq/ntvl*3){
 				gt=tick+ht1*bttl*ppq/ntvl*3-start;
 			}else{
 				gt=stop-start;
 			}
+
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+				continue;
+			}			
 			if((document.form1.hands.options[0].selected==true ) || 
 			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
 			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
@@ -1464,16 +1467,17 @@ function line2(tick){
 			const y = my + (
 				((start % loopSize) + loopSize) % loopSize
 			) * (szy-2*my)/loopSize;
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
-				continue;
-			}
 			let gt;
+
 			if (stop>=tick+ht1*bttl*ppq/ntvl*3){
 				gt=tick+ht1*bttl*ppq/ntvl*3-start;
 			}else{
 				gt=stop-start;
 			}
 
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+				continue;
+			}
 			ctx.fillStyle = "lime";
 
 			ctx.fillRect(
