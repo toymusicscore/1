@@ -1371,7 +1371,7 @@ function line2(tick){
 	}
 	
 	for(let i=0; i<recordData.length; i++){
-
+		let note = recordData[i].note;
 		let midi = recordData[i].midi;
 		let start = recordData[i].start;
 		let stop = recordData[i].end;
@@ -1382,6 +1382,9 @@ function line2(tick){
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 
 		if (dp >= 0 && dt >= 0 && dt < ht1*3/4){
+
+			synth.triggerAttack(note);
+		    synth.triggerRelease();
 
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
