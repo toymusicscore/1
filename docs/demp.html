@@ -1077,8 +1077,10 @@ function loop2(){
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
 	if (sv=="0"){
 		line2(tick);
+		playNotes(tick)
 	}else if (sv=="1"){
 		scroll2(tick);
+		playNotes(tick)
 	}
     cancelAnimationFrame(rafId);
     rafId = requestAnimationFrame(loop2);
@@ -1383,9 +1385,6 @@ function line2(tick){
 
 		if (dp >= 0 && dt >= 0 && dt < ht1*3/4){
 
-			synth.triggerAttack(note);
-		    synth.triggerRelease();
-
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const loopSize = ht1*bttl*ppq/ntvl*4;
@@ -1418,6 +1417,40 @@ function line2(tick){
 		}
 	}
 };
+
+function playNotes(tick){
+
+    for(let i=0; i<recordData.length; i++){
+
+        let note  = recordData[i].note;
+        let start = recordData[i].start;
+        let stop  = recordData[i].end;
+
+        if(stop == null){
+            continue;
+        }
+
+        let noteId = i + "_" + start;
+
+        if(
+            !playedNotes.has(noteId) &&
+            start <= tick
+        ){
+
+            let duration = stop - start;
+
+            let seconds = tickToSeconds(duration);
+
+            synth.triggerAttackRelease(
+                note,
+                seconds
+            );
+
+            playedNotes.add(noteId);
+        }
+    }
+}
+
 
 function scroll(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
