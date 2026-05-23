@@ -961,23 +961,28 @@ function playSound(e){
 
 function offSound(){
 
+    if(!currentNote) return;
+
     synth.triggerRelease();
 
     const t = picoAudio.context.currentTime - recordStart;
 
-    const note = currentNote;
-
     for(let i = recordData.length - 1; i >= 0; i--){
-        if(recordData[i].note === note && recordData[i].end === null){
-            recordData[i].end = t;
+
+        const ev = recordData[i];
+
+        if(ev.note === currentNote && ev.end === null){
+
+            ev.end = Math.max(t, ev.start + 0.05);
+
             break;
         }
     }
 
     currentNote = null;
+
     state = true;
 }
-
 
 function noteToMidi(note){
 
