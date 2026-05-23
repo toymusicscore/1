@@ -1066,9 +1066,9 @@ function review1(){
 		
 		let y = ev.y0;
 
-		let gt = ev.y1 - ev.y0;
-
-        ctx.fillStyle = "green";
+		let gt = Math.max(ev.y1 - ev.y0, 2);
+        
+		ctx.fillStyle = "green";
 
         ctx.fillRect(x0, y, kw/2, gt);
 
