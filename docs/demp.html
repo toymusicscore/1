@@ -997,9 +997,12 @@ function offSound(e){
         );
 
     const t = getCurrentTick();
+	const minDurSeconds = 0.05;
 
-    const minDur =
-        0.05 * x_bpm / 60 * ppq;
+	const minDur =
+		minDurSeconds *
+		x_bpm *
+		ppq / 60;
 
     for(
         let i = recordData.length - 1;
