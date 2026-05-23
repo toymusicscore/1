@@ -986,7 +986,7 @@ function playSound(e){
     }
 }
 
-function offSound(){
+function offSound(e){
 
     if(!currentNote) return;
 
@@ -1001,7 +1001,8 @@ function offSound(){
         if(ev.note === currentNote && ev.end === null){
 
             ev.end = Math.max(t, ev.start + 0.05);
-			ev.y1 = e.offsetY;
+
+            ev.y1 = e.offsetY ?? ev.y0;
 
             break;
         }
@@ -1073,11 +1074,9 @@ function review1(){
 
         //let y = my + startBeat * pixelsPerBeat;
 		
-		let y = ev.y;
+		let y = ev.y0;
 
-        //let gt = durBeat * pixelsPerBeat;
-
-		let gt = y1 - y0;
+		let gt = ev.y1 - ev.y0;
 
         ctx.fillStyle = "green";
 
