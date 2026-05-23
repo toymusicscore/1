@@ -873,11 +873,7 @@ async function record(){
 async function cdown(){
 	ctx.font = "80px Arial";
 
-	let x_bpm = parseFloat(document.form1.x_bpm.value);
-
-	if (!Number.isFinite(x_bpm) || x_bpm <= 40) {
- 		x_bpm = 60;
-	}
+	let x_bpm = 60;
 
 	let wait0 = 60000 / x_bpm;
 
