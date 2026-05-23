@@ -1077,30 +1077,87 @@ function review1(){
 let q1 = [];
 
 function review2(){
-	if (isPlaying > 0) return;
-	let start = picoAudio.context.currentTime;
-	let x_bpm = parseFloat(document.form1.x_bpm.value);
-	for(const ev of recordData){
-		let midi = noteToMidi(ev.note);
-		let startTick = ev.start * x_bpm * ppq / 60;
-		let dur = ev.end - ev.start;
-		if(!isFinite(dur) || dur < 0.05){
-			dur = 0.1;
-		}
-		let endTick = (ev.start + dur) * x_bpm * ppq / 60;
-		q1.push([midi, startTick, endTick]);
-		synth.triggerAttackRelease(
-		ev.note,
-		dur,
-		start + ev.start
-		);
-	}
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-    picoAudio.setData(parsedData);
-	startTime = picoAudio.context.currentTime;
-	isPlaying = 3;
-	loop2();
+
+    if (isPlaying > 0) return;
+
+    q1 = [];
+
+    let kw = recordKw;
+
+    let start = Tone.now() + 0.1;
+
+    for(const ev of recordData){
+
+        let dur = ev.end - ev.start;
+
+        if(!isFinite(dur) || dur < 0.05){
+            dur = 0.1;
+        }
+
+        synth.triggerAttackRelease(
+            ev.note,
+            dur,
+            start + ev.start
+        );
+
+        let x0 = ev.x - kw / 4;
+        let x1 = ev.x;
+
+        let y = ev.y0;
+
+        let x_bpm = parseFloat(document.form1.x_bpm.value);
+
+        const pixelsPerSecond =
+            (szy - 2 * my) / ht1 / bttl / 60 * x_bpm;
+
+        let gt = dur * pixelsPerSecond;
+
+        if(gt < 2) gt = 2;
+
+        q1.push({
+            x: x0,
+            y: y,
+            w: kw/2,
+            h: gt,
+            cx: x1,
+            cy: y
+        });
+    }
+
+    isPlaying = 3;
+	
+	drawQ1();
+
+}
+
+function drawQ1(){
+
+    for(const n of q1){
+
+        ctx.fillStyle = "rgba(0,255,0,0.5)";
+
+        ctx.fillRect(
+            n.x,
+            n.y,
+            n.w,
+            n.h
+        );
+
+        ctx.fillStyle = "lime";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            n.cx,
+            n.cy,
+            n.w/2,
+            0,
+            2*Math.PI,
+            false
+        );
+
+        ctx.fill();
+    }
 }
 
 function getCurrentTick(){
