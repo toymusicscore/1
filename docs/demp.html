@@ -1036,19 +1036,6 @@ function review1(){
 
     let szx = canvas.width;
     let szy = canvas.height;
-
-    let drawMidiMin = midi_min;
-    let drawMidiMax = midi_max;
-
-    if (document.form1.hands.options[1].selected){
-        drawMidiMin = midi_min_l;
-        drawMidiMax = midi_max_l;
-    }
-    else if (document.form1.hands.options[2].selected){
-        drawMidiMin = midi_min_r;
-        drawMidiMax = midi_max_r;
-    }
-
 	let kw = recordKw;
 
     let x_bpm = parseFloat(document.form1.x_bpm.value);
@@ -1072,8 +1059,6 @@ function review1(){
         );
 
         let midi = noteToMidi(ev.note);
-
-//      let x0 = (midi-drawMidiMin+1/4)*kw+mx;
 
 		let x0 = ev.x - 1/4 * kw;
 
