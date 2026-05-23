@@ -959,12 +959,16 @@ function playSound(e){
 	let kw = (szx - 2 * mx) / kn;
 	let p = Math.floor((e.offsetX - mx) / kw) + Number(midi_min);
     let p2 = engs1[p % 12] + Math.floor(p / 12 - 1);
+	let currentNotes = new Set();
 
-    if(!state) return;
+	if(!state) return;
 
-    if(e.offsetY >= 0){
+	if(
+		e.offsetY >= my &&
+		e.offsetY <= szy
+	){
 
-        inputSynth.triggerAttack(p2);
+		inputSynth.triggerAttack(p2);
 
 		const t = getCurrentTick()
 
@@ -975,7 +979,7 @@ function playSound(e){
 			end: null
 		});
 
-        currentNote = p2;
+		currentNotes.add(p2);
 
         state = false;
     }
@@ -985,7 +989,7 @@ function offSound(e){
 
     if(!currentNote) return;
 
-    inputSynth.triggerRelease(currentNote);
+    inputSynth.triggerRelease(p2);
 
     let x_bpm =
         parseFloat(
@@ -1019,8 +1023,8 @@ function offSound(e){
         }
     }
 
-    currentNote = null;
-
+	currentNotes.delete(p2);
+    
     state = true;
 }
 
