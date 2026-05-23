@@ -941,7 +941,7 @@ function playSound(e){
 
     if(e.offsetY >= 0){
 
-        synth.triggerAttackRelease(p2, '8n');
+        synth.triggerAttack(p2);
 
         const t = picoAudio.context.currentTime - recordStart;
 
@@ -956,7 +956,6 @@ function playSound(e){
         state = false;
     }
 }
-
 function offSound(){
 
     synth.triggerRelease();
