@@ -1183,6 +1183,14 @@ function line(tick){
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
 
+	if (document.form1.hands.options[1].selected==true) {
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
+	} else if (document.form1.hands.options[2].selected==true){
+		midi_max=midi_max_r;
+		midi_min=midi_min_r;
+	}
+
 	let kn=Number(midi_max)-Number(midi_min)+1;
 	let kw=szk/kn;
 	for(l=0;l<Number(kn);l++){
@@ -1290,6 +1298,14 @@ function line2(tick){
 	szy = canvas.height-my;
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
+
+	if (document.form1.hands.options[1].selected==true) {
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
+	} else if (document.form1.hands.options[2].selected==true){
+		midi_max=midi_max_r;
+		midi_min=midi_min_r;
+	}
 
 	let kn=Number(midi_max)-Number(midi_min)+1;
 	let kw=szk/kn;
@@ -1440,6 +1456,14 @@ function scroll(tick){
 	szk=szx-2*mx;
 	ctx.lineWidth=1;
 
+	if (document.form1.hands.options[1].selected==true) {
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
+	} else if (document.form1.hands.options[2].selected==true){
+		midi_max=midi_max_r;
+		midi_min=midi_min_r;
+	}
+	
 	let kn=Number(midi_max)-Number(midi_min)+1;
 	let kw=szk/kn;
 	for(l=0;l<Number(kn);l++){
