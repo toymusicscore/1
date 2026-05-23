@@ -1028,10 +1028,9 @@ function review1(){
 
     if (isPlaying > 0) return;
 
-    let szx = canvas.width;
-    let szy = canvas.height;
-	let kw = recordKw;
-    let start = picoAudio.context.currentTime;
+    let kw = recordKw;
+
+    let start = Tone.now() + 0.1;
 
     for(const ev of recordData){
 
@@ -1047,17 +1046,16 @@ function review1(){
             start + ev.start
         );
 
-        let midi = noteToMidi(ev.note);
-
-		let x0 = ev.x - 1/4 * kw;
-
+        let x0 = ev.x - kw / 4;
         let x1 = ev.x;
-		
-		let y = ev.y0;
 
-		let gt = Math.max(ev.y1 - ev.y0, 2);
-        
-		ctx.fillStyle = "green";
+        let y = ev.y0;
+
+        let gt = (ev.y1 ?? ev.y0) - ev.y0;
+
+        if(gt < 2) gt = 2;
+
+        ctx.fillStyle = "green";
 
         ctx.fillRect(x0, y, kw/2, gt);
 
