@@ -984,32 +984,44 @@ function playSound(e){
 }
 
 function offSound(e){
+
     if(!currentNote) return;
 
     synth.triggerRelease();
 
-	let x_bpm = parseFloat(document.form1.x_bpm.value);
+    let x_bpm = parseFloat(document.form1.x_bpm.value);
 
-	const t =
-		(Tone.now() - recordStart)
-		* x_bpm / 60 * ppq;
+    const t =
+        (Tone.now() - recordStart)
+        * x_bpm / 60 * ppq;
+
+    const minDur =
+        0.05 * x_bpm / 60 * ppq;
 
     for(let i = recordData.length - 1; i >= 0; i--){
+
         const ev = recordData[i];
 
         if(ev.note === currentNote && ev.end === null){
-            ev.end = Math.max(t, ev.start + 0.05);
 
-            ev.y1 = (e && e.offsetY != null) ? e.offsetY : ev.y0;
+            ev.end = Math.max(
+                t,
+                ev.start + minDur
+            );
+
+            ev.y1 =
+                (e && e.offsetY != null)
+                ? e.offsetY
+                : ev.y0;
 
             break;
         }
     }
 
     currentNote = null;
+
     state = true;
 }
-
 function noteToMidi(note){
 
     const names = {
