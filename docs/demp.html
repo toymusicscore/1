@@ -1050,7 +1050,11 @@ function review1(){
 
         let y = ev.y0;
 
-        let gt = dur * 200;
+		let x_bpm = parseFloat(document.form1.x_bpm.value);
+
+		const pixelsPerSecond = (szy - 2 * my) / ht1 / bttl / x_bpm;
+
+		let gt = dur * pixelsPerSecond;
 
         if(gt < 2) gt = 2;
 
