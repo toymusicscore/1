@@ -1042,19 +1042,21 @@ function review1(){
     q1 = [];
 
     for(const ev of recordData){
-		const startTick = ev.start;
 
+		const midi = ev.midi;
+		const startTick = ev.start;
 		const stopTick = ev.end;
 
 		q1.push({
-			midi: ev.midi,
-			start: startTick,
-			stop: stopTick
+			midi,
+			startTick,
+			stopTick
 		});    
 	}
 
     isPlaying = 3;
-
+	
+	alert(q1);
 	console.log(q1);
 
 	loop2();
