@@ -1037,30 +1037,17 @@ function noteToMidi(note){
 
 function review1(){
 
-    if (isPlaying > 0) return;
-
-    q1 = [];
-
-    for(const ev of recordData){
-
-		const midi = ev.midi;
-		const startTick = ev.start;
-		const stopTick = ev.end;
-
-		q1.push({
-			midi,
-			start: startTick,
-			stop: stopTick
-		});
+	if (isPlaying == 0) return;
+	const tick = getCurrentTick();
+	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
+//	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
+	if (sv=="0"){
+		line2(tick);
+	}else if (sv=="1"){
+		scroll2(tick);
 	}
-
-    isPlaying = 3;
-	
-	alert(JSON.stringify(q1));
-	console.log(recordData);
-	console.log(q1);
-
-	loop2();
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(loop2);
 
 }
 
