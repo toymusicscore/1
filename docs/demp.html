@@ -1114,50 +1114,17 @@ function review2(){
 
         if(gt < 2) gt = 2;
 
-        q1.push({
-            x: x0,
-            y: y,
-            w: kw/2,
-            h: gt,
-            cx: x1,
-            cy: y
-        });
+		q1.push({
+			midi: ev.midi,
+			start: ev.start,
+			stop: ev.end
+		});
     }
 
     isPlaying = 3;
 	
-	drawQ1();
+	loop2();
 
-}
-
-function drawQ1(){
-
-    for(const n of q1){
-
-        ctx.fillStyle = "rgba(0,255,0,0.5)";
-
-        ctx.fillRect(
-            n.x,
-            n.y,
-            n.w,
-            n.h
-        );
-
-        ctx.fillStyle = "lime";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            n.cx,
-            n.cy,
-            n.w/2,
-            0,
-            2*Math.PI,
-            false
-        );
-
-        ctx.fill();
-    }
 }
 
 function getCurrentTick(){
