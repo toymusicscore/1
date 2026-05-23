@@ -863,6 +863,9 @@ function pause(){
     cancelAnimationFrame(rafId);
 }
 
+let recordMidiMin = 0;
+let recordMidiMax = 0;
+
 async function record(){
 	await picoAudio.context.resume();
 	await cdown();
@@ -900,6 +903,19 @@ async function draw(){
 		midi_min=midi_min_r;
 	}
 
+	/*
+	let drawMidiMin = midi_min;
+let drawMidiMax = midi_max;
+
+if (document.form1.hands.options[1].selected){
+    drawMidiMin = midi_min_l;
+    drawMidiMax = midi_max_l;
+}
+else if (document.form1.hands.options[2].selected){
+    drawMidiMin = midi_min_r;
+    drawMidiMax = midi_max_r;
+}*/
+
     picoAudio.setData(parsedData);
 
 	startTime = picoAudio.context.currentTime;
@@ -934,8 +950,13 @@ let recordStart = 0;
 let currentNote = null;
 
 function startRecord(){
+
     recordData = [];
+
 	recordStart = picoAudio.context.currentTime;
+
+    recordMidiMin = midi_min;
+    recordMidiMax = midi_max;
 }
 
 function playSound(e){
@@ -1027,8 +1048,8 @@ function review1(){
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
 	}
-	
-	let kn = Number(midi_max) - Number(midi_min) + 1;
+
+	let kn = Number(recordMidiMax) - Number(recordMidiMin) + 1;
 	let kw = (szx - 2 * mx) / kn;
 
 	let x_bpm = parseFloat(document.form1.x_bpm.value);
@@ -1051,9 +1072,8 @@ function review1(){
 
 		let midi = noteToMidi(ev.note);
 
-		let x0 = (midi-midi_min+1/4)*kw+mx;
-		let x1 = (midi-midi_min+1/2)*kw+mx;
-
+		let x0 = (midi-recordMidiMin+1/4)*kw+mx;
+		let x1 = (midi-recordMidiMin+1/2)*kw+mx;
 		let startBeat = ev.start * x_bpm / 60;
 		let durBeat   = dur      * x_bpm / 60;
 
@@ -1071,6 +1091,7 @@ function review1(){
 	}
 	isPlaying = 3;
 }
+
 
 let q1 = [];
 
