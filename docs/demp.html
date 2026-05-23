@@ -974,6 +974,8 @@ function playSound(e){
 			note: p2,
 			midi: p,
 			x: e.offsetX,
+			y0: e.offsetY,
+			y1: null,
 			start: t,
 			end: null
 		});
@@ -999,6 +1001,7 @@ function offSound(){
         if(ev.note === currentNote && ev.end === null){
 
             ev.end = Math.max(t, ev.start + 0.05);
+			ev.y1 = e.offsetY;
 
             break;
         }
@@ -1064,13 +1067,17 @@ function review1(){
 
         let x1 = ev.x;
 
-        let startBeat = ev.start * x_bpm / 60;
+  //      let startBeat = ev.start * x_bpm / 60;
 
-        let durBeat = dur * x_bpm / 60;
+//        let durBeat = dur * x_bpm / 60;
 
-        let y = my + startBeat * pixelsPerBeat;
+        //let y = my + startBeat * pixelsPerBeat;
+		
+		let y = ev.y;
 
-        let gt = durBeat * pixelsPerBeat;
+        //let gt = durBeat * pixelsPerBeat;
+
+		let gt = y1 - y0;
 
         ctx.fillStyle = "green";
 
