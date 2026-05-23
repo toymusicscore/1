@@ -952,84 +952,98 @@ function startRecord(){
     recordKw = (szx - 2 * mx) / kn;
 }
 
+let currentNotes = new Set();
+
 function playSound(e){
 
     let szx = canvas.width;
-    let kn = Number(midi_max) - Number(midi_min) + 1;
-	let kw = (szx - 2 * mx) / kn;
-	let p = Math.floor((e.offsetX - mx) / kw) + Number(midi_min);
-    let p2 = engs1[p % 12] + Math.floor(p / 12 - 1);
-	let currentNotes = new Set();
 
-	if(!state) return;
+    let kn =
+        Number(midi_max) -
+        Number(midi_min) + 1;
 
-	if(
-		e.offsetY >= my &&
-		e.offsetY <= szy
-	){
+    let kw =
+        (szx - 2 * mx) / kn;
 
-		inputSynth.triggerAttack(p2);
+    let p =
+        Math.floor(
+            (e.offsetX - mx) / kw
+        ) + Number(midi_min);
 
-		const t = getCurrentTick()
+    let p2 =
+        engs1[p % 12] +
+        Math.floor(p / 12 - 1);
 
-		recordData.push({
-			note: p2,
-			midi: p,
-			start: t,
-			end: null
-		});
-
-		currentNotes.add(p2);
-
-        state = false;
-    }
-}
-
-function offSound(e){
-
-    if(!currentNote) return;
-
-    inputSynth.triggerRelease(p2);
-
-    let x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
-
-    const t = getCurrentTick();
-	const minDurSeconds = 0.05;
-
-	const minDur =
-		minDurSeconds *
-		x_bpm *
-		ppq / 60;
-
-    for(
-        let i = recordData.length - 1;
-        i >= 0;
-        i--
+    if(
+        e.offsetY >= my &&
+        e.offsetY <= szy
     ){
 
-        const ev = recordData[i];
+        if(currentNotes.has(p2)){
+            return;
+        }
 
-        if(
-            ev.note === currentNote &&
-            ev.end === null
-        ){
+        inputSynth.triggerAttack(p2);
 
-            ev.end = Math.max(
-                t,
-                ev.start + minDur
+        const t = getCurrentTick();
+
+        recordData.push({
+            note: p2,
+            midi: p,
+            start: t,
+            end: null
+        });
+
+        currentNotes.add(p2);
+    }
+}
+
+function offSound(){
+
+    currentNotes.forEach(note => {
+
+        inputSynth.triggerRelease(note);
+
+        const t = getCurrentTick();
+
+        const x_bpm =
+            parseFloat(
+                document.form1.x_bpm.value
             );
 
-            break;
-        }
-    }
+        const minDurSeconds = 0.05;
 
-	currentNotes.delete(p2);
-    
-    state = true;
+        const minDur =
+            minDurSeconds *
+            x_bpm *
+            ppq / 60;
+
+        for(
+            let i = recordData.length - 1;
+            i >= 0;
+            i--
+        ){
+
+            const ev = recordData[i];
+
+            if(
+                ev.note === note &&
+                ev.end === null
+            ){
+
+                ev.end = Math.max(
+                    t,
+                    ev.start + minDur
+                );
+
+                break;
+            }
+        }
+    });
+
+    currentNotes.clear();
 }
+
 
 function noteToMidi(note){
 
