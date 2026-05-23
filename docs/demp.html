@@ -906,26 +906,6 @@ let state = true;
 
 function touchSound(){
 
-    canvas.addEventListener('mousedown', async (e) => {
-
-        await Tone.start();
-
-        playSound(e);
-
-    });
-
-    document.addEventListener('mouseup', offSound);
-
-    canvas.addEventListener('touchstart', async (e) => {
-
-        await Tone.start();
-
-        playSound(e.touches[0]);
-
-    });
-
-    document.addEventListener('touchend', offSound);
-
     canvas.addEventListener('pointerdown', async (e) => {
 
         await Tone.start();
@@ -935,6 +915,8 @@ function touchSound(){
     });
 
     document.addEventListener('pointerup', offSound);
+
+    document.addEventListener('pointercancel', offSound);
 }
 
 let recordData = [];
