@@ -362,7 +362,13 @@ const instName=[
 'Gunshot',
 ];
 const picoAudio = new PicoAudio();
-const synth = new Tone.Synth().toDestination();
+const inputSynth =
+    new Tone.PolySynth(Tone.Synth)
+        .toDestination();
+
+const playSynth =
+    new Tone.PolySynth(Tone.Synth)
+        .toDestination();
 let parsedData ="";
 let toneData = "";
 let r1=[];
@@ -958,7 +964,7 @@ function playSound(e){
 
     if(e.offsetY >= 0){
 
-        synth.triggerAttack(p2);
+        inputSynth.triggerAttack(p2);
 
 		const t = getCurrentTick()
 
@@ -979,7 +985,7 @@ function offSound(e){
 
     if(!currentNote) return;
 
-    synth.triggerRelease();
+    inputSynth.triggerRelease();
 
     let x_bpm = parseFloat(document.form1.x_bpm.value);
 
@@ -1373,7 +1379,6 @@ function line2(tick){
 	}
 	
 	for(let i=0; i<recordData.length; i++){
-		let note = recordData[i].note;
 		let midi = recordData[i].midi;
 		let start = recordData[i].start;
 		let stop = recordData[i].end;
@@ -1441,7 +1446,7 @@ function playNotes(tick){
 
             let seconds = tickToSeconds(duration);
 
-            synth.triggerAttackRelease(
+            inputSynth.triggerAttackRelease(
                 note,
                 seconds
             );
@@ -1451,6 +1456,19 @@ function playNotes(tick){
     }
 }
 
+function stopSound(){
+
+    if(currentNote){
+
+        inputSynth.triggerRelease(
+            currentNote
+        );
+
+        currentNote = null;
+    }
+
+    state = true;
+}
 
 function scroll(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
