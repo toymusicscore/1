@@ -935,8 +935,7 @@ function startRecord(){
 
     recordData = [];
 
-    recordStart = picoAudio.context.currentTime;
-
+	recordStart = Tone.now();
     recordMidiMin = midi_min;
     recordMidiMax = midi_max;
 
@@ -962,7 +961,7 @@ function playSound(e){
 
         synth.triggerAttack(p2);
 
-        const t = picoAudio.context.currentTime - recordStart;
+		const t = Tone.now() - recordStart;
 
 		recordData.push({
 			note: p2,
