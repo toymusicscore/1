@@ -1019,6 +1019,15 @@ function review1(){
 //	synth.releaseAll();
 	let szx = canvas.width;
 	let szy = canvas.height;
+
+	if (document.form1.hands.options[1].selected==true) {
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
+	} else if (document.form1.hands.options[2].selected==true){
+		midi_max=midi_max_r;
+		midi_min=midi_min_r;
+	}
+	
 	let kn = Number(midi_max) - Number(midi_min) + 1;
 	let kw = (szx - 2 * mx) / kn;
 
@@ -1463,7 +1472,7 @@ function scroll(tick){
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
 	}
-	
+
 	let kn=Number(midi_max)-Number(midi_min)+1;
 	let kw=szk/kn;
 	for(l=0;l<Number(kn);l++){
