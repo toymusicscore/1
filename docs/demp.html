@@ -970,9 +970,6 @@ function playSound(e){
 		recordData.push({
 			note: p2,
 			midi: p,
-			x: e.offsetX,
-			y0: e.offsetY,
-			y1: null,
 			start: t,
 			end: null
 		});
@@ -1009,11 +1006,6 @@ function offSound(e){
                 ev.start + minDur
             );
 
-            ev.y1 =
-                (e && e.offsetY != null)
-                ? e.offsetY
-                : ev.y0;
-
             break;
         }
     }
@@ -1047,59 +1039,6 @@ function review1(){
 
     if (isPlaying > 0) return;
 
-    let kw = recordKw;
-
-    let start = Tone.now() + 0.1;
-
-    for(const ev of recordData){
-
-        let dur = ev.end - ev.start;
-
-        if(!isFinite(dur) || dur < 0.05){
-            dur = 0.1;
-        }
-
-        synth.triggerAttackRelease(
-            ev.note,
-            dur,
-            start + ev.start
-        );
-
-        let x0 = ev.x - kw / 4;
-        let x1 = ev.x;
-
-        let y = ev.y0;
-
-		let x_bpm = parseFloat(document.form1.x_bpm.value);
-
-		const pixelsPerSecond = (szy - 2 * my) / ht1 / bttl / 60 * x_bpm;
-
-		let gt = dur * pixelsPerSecond;
-
-        if(gt < 2) gt = 2;
-
-        ctx.fillStyle = "green";
-
-        ctx.fillRect(x0, y, kw/2, gt);
-
-        ctx.fillStyle = "lime";
-
-        ctx.beginPath();
-
-        ctx.arc(x1, y, kw/4, 0, 2*Math.PI, false);
-
-        ctx.fill();
-    }
-
-    isPlaying = 3;
-}
-
-let q1 = [];
-
-function review2(){
-
-    if (isPlaying > 0) return;
-
     q1 = [];
 
     let kw = recordKw;
@@ -1120,19 +1059,7 @@ function review2(){
             start + ev.start
         );
 
-        let x0 = ev.x - kw / 4;
-        let x1 = ev.x;
-
-        let y = ev.y0;
-
         let x_bpm = parseFloat(document.form1.x_bpm.value);
-
-        const pixelsPerSecond =
-            (szy - 2 * my) / ht1 / bttl / 60 * x_bpm;
-
-        let gt = dur * pixelsPerSecond;
-
-        if(gt < 2) gt = 2;
 
 		const startTick =
 			ev.start * x_bpm / 60 * ppq;
