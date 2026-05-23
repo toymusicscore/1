@@ -963,9 +963,7 @@ function playSound(e){
 
 		let x_bpm = parseFloat(document.form1.x_bpm.value);
 
-		const t =
-			(Tone.now() - recordStart)
-			* x_bpm / 60 * ppq;
+		const t = getCurrentTick()
 
 		recordData.push({
 			note: p2,
@@ -988,9 +986,7 @@ function offSound(e){
 
     let x_bpm = parseFloat(document.form1.x_bpm.value);
 
-    const t =
-        (Tone.now() - recordStart)
-        * x_bpm / 60 * ppq;
+	const t = getCurrentTick()
 
     const minDur =
         0.05 * x_bpm / 60 * ppq;
