@@ -908,6 +908,8 @@ function touchSound(){
 
     canvas.addEventListener('pointerdown', async (e) => {
 
+        e.preventDefault();
+
         await Tone.start();
 
         playSound(e);
@@ -918,7 +920,6 @@ function touchSound(){
 
     document.addEventListener('pointercancel', offSound);
 }
-
 let recordData = [];
 let recordStart = 0;
 let currentNote = null;
