@@ -1067,17 +1067,27 @@ function noteToMidi(note){
 
 
 async function review(){
+
     if (isPlaying > 0) return;
-	await picoAudio.context.resume();
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+
+    await picoAudio.context.resume();
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
     picoAudio.setData(parsedData);
-	startTime = picoAudio.context.currentTime;
-	startPlayback();
+
+    const ctx2 = picoAudio.context;
+
+    const x_bpm = parseFloat(document.form1.x_bpm.value);
+
+    baseAudioTime = ctx2.currentTime - (pauseTick / ppq * 60 / x_bpm);
+
+    startPlayback();
+
     isPlaying = 2;
 
-	loop2();
-
+    loop2();
 }
 
 function getCurrentTick(){
