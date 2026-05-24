@@ -1125,7 +1125,10 @@ function offSound(){
 
 
 async function review(){
-
+	if(!Number.isFinite(pauseTick)){
+		pauseTick = 0;
+	}
+	
     if (isPlaying > 0) return;
 
     await picoAudio.context.resume();
