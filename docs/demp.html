@@ -1540,13 +1540,11 @@ function playPico(
     osc.frequency.value =
         midiToFreq(note);
 
-	osc.type = "sawtooth";
+    osc.type = "sawtooth";
 
     osc.connect(gain);
 
-    gain.connect(
-        ctx2.destination
-    );
+    gain.connect(ctx2.destination);
 
     const x_bpm =
         parseFloat(
@@ -1570,8 +1568,13 @@ function playPico(
     osc.start(when);
 
     osc.stop(when + duration);
-}
 
+    osc.onended = () => {
+
+        osc.disconnect();
+        gain.disconnect();
+    };
+}
 
 function scroll(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
