@@ -1125,13 +1125,19 @@ function offSound(){
 
 async function review(){
 
+    if(isPlaying > 0){
+        return;
+    }
+
     if(!Number.isFinite(pauseTick)){
         pauseTick = 0;
     }
 
-    if(isPlaying > 0){
-        return;
-    }
+    prevTick = 0;
+    nextIndex = 0;
+    pauseTick = 0;
+
+    cancelAnimationFrame(rafId);
 
     await picoAudio.context.resume();
 
@@ -1146,8 +1152,6 @@ async function review(){
     startPlayback();
 
     isPlaying = 2;
-
-    cancelAnimationFrame(rafId);
 
     loop2();
 }
