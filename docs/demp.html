@@ -1492,16 +1492,15 @@ function playNotes(tick){
 			lookAheadSeconds *
 			x_bpm *
 			ppq / 60;
-			
+
 		if(start > currentTick + lookAheadTicks){	
             break;
         }
-
-        if(
-            stop != null &&
-            start > previousTick &&
-            start <= currentTick
-        ){
+		if(
+			stop != null &&
+			start > previousTick &&
+			start <= currentTick + lookAheadTicks
+		){
 
             let durationTicks =
                 Math.max(1, stop - start);
