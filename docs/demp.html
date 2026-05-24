@@ -1007,9 +1007,22 @@ function playSound(e){
             return;
         }
 
-        const t = getCurrentTick();
-
 		playPicoNow(p);
+
+		const audioNow =
+			playPicoNow(p);
+			
+		const t =
+			(
+				audioNow
+				-
+				baseAudioTime
+			)
+			*
+			x_bpm
+			*
+			ppq
+			/ 60;
 
         recordData.push({
             midi: p,
@@ -1046,6 +1059,12 @@ function playPicoNow(midi){
     const now =
         ctx.currentTime;
 
+	const t =
+		(now - baseAudioTime)
+		* x_bpm
+		* ppq
+		/ 60;
+		
     gain.gain.setValueAtTime(
         0.2,
         now
@@ -1067,6 +1086,9 @@ function playPicoNow(midi){
         osc,
         gain
     });
+
+	return now;
+
 }
 
 function stopPicoNow(midi){
