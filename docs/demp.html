@@ -918,11 +918,19 @@ async function draw(){
 
 
 let state = true;
+let touchInitialized = false;
 
 function touchSound(){
+
+    if(touchInitialized){
+        return;
+    }
+
+    touchInitialized = true;
+
 	canvas.addEventListener('pointerdown', async (e) => {
 		e.preventDefault();
-		await Tone.start();
+		await picoAudio.context.resume();
 		playSound(e);
 	});
 
@@ -941,8 +949,6 @@ let baseAudioTime = 0;
 function startRecord(){
 
     recordData = [];
-
-	recordStart = Tone.now();
     recordMidiMin = midi_min;
     recordMidiMax = midi_max;
 
@@ -984,9 +990,13 @@ function playSound(e){
             return;
         }
 
-        inputSynth.triggerAttack(p2);
-
         const t = getCurrentTick();
+
+		let durationTicks = 1;
+		let durationSeconds =
+                durationTicks / ppq * 60 / x_bpm;
+
+		playPico(p2, durationSeconds, t);
 
         recordData.push({
             note: p2,
