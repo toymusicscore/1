@@ -1139,8 +1139,6 @@ async function review(){
 
     const x_bpm = parseFloat(document.form1.x_bpm.value);
 
-    baseAudioTime = ctx2.currentTime - (pauseTick / ppq * 60 / x_bpm);
-
     startPlayback();
 
     isPlaying = 2;
@@ -1525,12 +1523,19 @@ function line2(tick){
 function startPlayback(){
 
     const x_bpm =
-        parseFloat(document.form1.x_bpm.value);
+        parseFloat(
+            document.form1.x_bpm.value
+        );
 
     baseAudioTime =
         picoAudio.context.currentTime
         -
-        pauseTick / ppq * 60 / x_bpm;
+        (
+            pauseTick /
+            ppq *
+            60 /
+            x_bpm
+        );
 }
 
 let prevTick = 0;
