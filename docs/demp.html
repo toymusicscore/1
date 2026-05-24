@@ -1528,9 +1528,12 @@ function playPico(note, duration){
 
     const now = ctx2.currentTime;
 
+    const x_bpm =
+        parseFloat(document.form1.x_bpm.value);
+
 	const when =
 		baseAudioTime +
-		start / ppq * 60 / bpm;
+		start / ppq * 60 / x_bpm;
 	
     gain.gain.setValueAtTime(
         0.2,
