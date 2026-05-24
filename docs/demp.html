@@ -1487,8 +1487,13 @@ function playNotes(tick){
         let note  = data.note;
         let start = data.start;
         let stop  = data.end;
-
-        if(start > currentTick){
+		const lookAheadSeconds = 0.1;
+		const lookAheadTicks =
+			lookAheadSeconds *
+			x_bpm *
+			ppq / 60;
+			
+		if(start > currentTick + lookAheadTicks){	
             break;
         }
 
