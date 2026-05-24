@@ -984,19 +984,25 @@ let currentMidis = new Set();
 
 function playSound(e){
 
-    let szx = canvas.width;
+    let szx =
+        canvas.width;
 
     let kn =
-        Number(midi_max) -
-        Number(midi_min) + 1;
+        Number(midi_max)
+        -
+        Number(midi_min)
+        + 1;
 
     let kw =
-        (szx - 2 * mx) / kn;
+        (szx - 2 * mx)
+        / kn;
 
     let p =
         Math.floor(
-            (e.offsetX - mx) / kw
-        ) + Number(midi_min);
+            (e.offsetX - mx)
+            / kw
+        )
+        + Number(midi_min);
 
     if(
         e.offsetY >= my &&
@@ -1007,22 +1013,25 @@ function playSound(e){
             return;
         }
 
-		playPicoNow(p);
+        const x_bpm =
+            parseFloat(
+                document.form1.x_bpm.value
+            );
 
-		const audioNow =
-			playPicoNow(p);
-			
-		const t =
-			(
-				audioNow
-				-
-				baseAudioTime
-			)
-			*
-			x_bpm
-			*
-			ppq
-			/ 60;
+        const audioNow =
+            playPicoNow(p);
+
+        const t =
+            (
+                audioNow
+                -
+                baseAudioTime
+            )
+            *
+            x_bpm
+            *
+            ppq
+            / 60;
 
         recordData.push({
             midi: p,
@@ -1059,27 +1068,16 @@ function playPicoNow(midi){
     const now =
         ctx.currentTime;
 
-	const t =
-		(now - baseAudioTime)
-		* x_bpm
-		* ppq
-		/ 60;
-		
     gain.gain.setValueAtTime(
-        0.2,
+        0.0001,
         now
     );
-		
-	gain.gain.setValueAtTime(
-		0.0001,
-		now
-	);
 
-	gain.gain.exponentialRampToValueAtTime(
-		0.2,
-		now + 0.01
-	);
-	
+    gain.gain.exponentialRampToValueAtTime(
+        0.2,
+        now + 0.01
+    );
+
     osc.start(now);
 
     activeVoices.set(midi, {
@@ -1087,9 +1085,9 @@ function playPicoNow(midi){
         gain
     });
 
-	return now;
-
+    return now;
 }
+
 
 function stopPicoNow(midi){
 
