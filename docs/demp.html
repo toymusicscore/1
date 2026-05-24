@@ -1165,6 +1165,27 @@ function getCurrentTick(){
 		const x_bpm = document.form1.x_bpm.value;
 		return pauseTick + (picoAudio.context.currentTime - startTime) * x_bpm * ppq / 60;
 	}
+	
+}
+
+function getCurrentTick(){
+	if (isPlaying == 0){
+		return pauseTick;
+	}else if (isPlaying == 1){
+		return pauseTick + (picoAudio.context.currentTime - startTime) * bpm * ppq / 60;
+	}else if (isPlaying == 2){
+		const x_bpm =
+			parseFloat(
+				document.form1.x_bpm.value
+			);
+		return (
+			picoAudio.context.currentTime
+			-
+			baseAudioTime
+		) *
+		x_bpm *
+		ppq / 60;
+	}
 }
 
 function loop(){
