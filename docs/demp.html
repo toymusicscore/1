@@ -1668,9 +1668,19 @@ function playPico(
         when
     );
 
-    gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        when + duration
+	gain.gain.setValueAtTime(
+		0.2,
+		when
+	);
+
+	gain.gain.setValueAtTime(
+		0.2,
+		when + duration - 0.02
+	);
+
+	gain.gain.exponentialRampToValueAtTime(
+		0.0001,
+		when + duration
     );
 
     osc.start(when);
