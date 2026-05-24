@@ -1391,7 +1391,7 @@ function line(tick){
 		if (dp >=0 && dt < ht1*3/4){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-2*my)/(ht1*bttl*ppq/ntvl*4);
+			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			if((document.form1.hands.options[0].selected==true ) || 
 			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
 			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
@@ -1503,7 +1503,7 @@ function line2(tick){
 		if (dp >= 0 && dt >= 0 && dt < ht1*3/4){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-2*my)/(ht1*bttl*ppq/ntvl*4);
+			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			
 			let gt;
 
@@ -1556,7 +1556,7 @@ function line2(tick){
 
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-2*my)/(ht1*bttl*ppq/ntvl*4);
+			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 
 			if (stop>=tick+ht1*bttl*ppq/ntvl*3){
 				gt=tick+ht1*bttl*ppq/ntvl*3-start;
