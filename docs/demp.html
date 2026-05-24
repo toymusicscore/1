@@ -1128,7 +1128,7 @@ async function review(){
 	if(!Number.isFinite(pauseTick)){
 		pauseTick = 0;
 	}
-	
+
     if (isPlaying > 0) return;
 
     await picoAudio.context.resume();
@@ -1145,6 +1145,8 @@ async function review(){
     startPlayback();
 
     isPlaying = 2;
+	
+	cancelAnimationFrame(rafId);
 
     loop2();
 }
