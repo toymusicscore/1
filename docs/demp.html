@@ -1663,20 +1663,31 @@ function playPico(
         baseAudioTime +
         start / ppq * 60 / x_bpm;
 
+	const sustainEnd =
+		Math.max(
+			when + 0.01,
+			when + duration - 0.02
+		);
+
 	gain.gain.setValueAtTime(
-		0.2,
+		0.0001,
 		when
+	);
+
+	gain.gain.exponentialRampToValueAtTime(
+		0.2,
+		when + 0.01
 	);
 
 	gain.gain.setValueAtTime(
 		0.2,
-		when + duration - 0.02
+		sustainEnd
 	);
 
 	gain.gain.exponentialRampToValueAtTime(
 		0.0001,
 		when + duration
-    );
+	);
 
     osc.start(when);
 
