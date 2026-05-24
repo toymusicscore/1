@@ -1021,17 +1021,22 @@ function playSound(e){
         const audioNow =
             playPicoNow(p);
 
-        const t =
-            (
-                audioNow
-                -
-                baseAudioTime
-            )
-            *
-            x_bpm
-            *
-            ppq
-            / 60;
+		const latency =
+			0.02;
+			
+		const t =
+			(
+				audioNow
+				-
+				baseAudioTime
+				+
+				latency
+			)
+			*
+			x_bpm
+			*
+			ppq
+			/ 60;
 
         recordData.push({
             midi: p,
