@@ -1454,6 +1454,14 @@ function line2(tick){
 	}
 };
 
+function startPlayback(){
+
+    baseAudioTime =
+        picoAudio.context.currentTime
+        -
+        pauseTick / ppq * 60 / bpm;
+}
+
 let prevTick = 0;
 let nextIndex = 0;
 
@@ -1498,7 +1506,8 @@ function playNotes(tick){
 
             playPico(
                 note,
-                durationSeconds
+                durationSeconds,
+				start
             );
         }
 
@@ -1508,7 +1517,11 @@ function playNotes(tick){
     prevTick = tick;
 }
 
-function playPico(note, duration){
+function playPico(
+    note,
+    duration,
+    start
+){
 
     const ctx2 = picoAudio.context;
 
@@ -1524,17 +1537,20 @@ function playPico(note, duration){
     osc.type = "sine";
 
     osc.connect(gain);
-    gain.connect(ctx2.destination);
 
-    const now = ctx2.currentTime;
+    gain.connect(
+        ctx2.destination
+    );
 
     const x_bpm =
-        parseFloat(document.form1.x_bpm.value);
+        parseFloat(
+            document.form1.x_bpm.value
+        );
 
-	const when =
-		baseAudioTime +
-		start / ppq * 60 / x_bpm;
-	
+    const when =
+        baseAudioTime +
+        start / ppq * 60 / x_bpm;
+
     gain.gain.setValueAtTime(
         0.2,
         when
@@ -1549,6 +1565,7 @@ function playPico(note, duration){
 
     osc.stop(when + duration);
 }
+
 
 function scroll(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
