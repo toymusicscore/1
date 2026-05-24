@@ -1455,53 +1455,45 @@ function line2(tick){
 };
 
 let prevTick = 0;
-let playedNotes = new Set();
+let nextIndex = 0;
 
 function playNotes(tick){
 
     if(tick < prevTick){
-
-        playedNotes.clear();
+        nextIndex = 0;
     }
 
     let x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
+        parseFloat(document.form1.x_bpm.value);
 
-    for(let i=0; i<recordData.length; i++){
+    while(nextIndex < recordData.length){
 
-        let note  = recordData[i].note;
-        let start = recordData[i].start;
-        let stop  = recordData[i].end;
+        let data = recordData[nextIndex];
 
-        if(stop == null) continue;
+        let note  = data.note;
+        let start = data.start;
+        let stop  = data.end;
 
-        let noteId = i + "_" + start;
+        if(start > tick){
+            break;
+        }
 
-        if(
-            !playedNotes.has(noteId) &&
-            start > prevTick &&
-            start <= tick
-        ){
+        if(stop != null && start > prevTick){
 
             let durationTicks =
                 Math.max(1, stop - start);
 
             let durationSeconds =
-                durationTicks /
-                ppq *
-                60 /
-                x_bpm;
+                durationTicks / ppq * 60 / x_bpm;
 
             playSynth.triggerAttackRelease(
                 note,
                 durationSeconds,
-				Tone.now()
+                Tone.now()
             );
-
-            playedNotes.add(noteId);
         }
+
+        nextIndex++;
     }
 
     prevTick = tick;
