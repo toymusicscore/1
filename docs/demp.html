@@ -991,7 +991,7 @@ function playSound(e){
 		let durationSeconds =
 			durationTicks / ppq * 60 / x_bpm;
 
-		playPicoNow(p, durationSeconds);
+		playPicoNow(p);
 
         recordData.push({
             midi: p,
@@ -1003,19 +1003,18 @@ function playSound(e){
     }
 }
 
-function playPicoNow(
-    midi,
-    duration
-){
+let activeVoices = new Map();
 
-    const ctx3 =
+function playPicoNow(midi){
+
+    const ctx =
         picoAudio.context;
 
     const osc =
-        ctx3.createOscillator();
+        ctx.createOscillator();
 
     const gain =
-        ctx3.createGain();
+        ctx.createGain();
 
     osc.frequency.value =
         midiToFreq(midi);
@@ -1024,38 +1023,67 @@ function playPicoNow(
 
     osc.connect(gain);
 
-    gain.connect(ctx3.destination);
+    gain.connect(ctx.destination);
 
     const now =
-        ctx3.currentTime;
+        ctx.currentTime;
 
     gain.gain.setValueAtTime(
         0.2,
         now
     );
 
-    gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        now + duration
-    );
-
     osc.start(now);
 
-    osc.stop(now + duration);
-
-    osc.onended = () => {
-
-        osc.disconnect();
-        gain.disconnect();
-    };
+    activeVoices.set(midi, {
+        osc,
+        gain
+    });
 }
 
+function stopPicoNow(midi){
+
+    const voice =
+        activeVoices.get(midi);
+
+    if(!voice){
+        return;
+    }
+
+    const now =
+        picoAudio.context.currentTime;
+
+    voice.gain.gain.cancelScheduledValues(now);
+
+    voice.gain.gain.setValueAtTime(
+        voice.gain.gain.value,
+        now
+    );
+
+    voice.gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.05
+    );
+
+    voice.osc.stop(now + 0.05);
+
+    voice.osc.onended = () => {
+
+        voice.osc.disconnect();
+
+        voice.gain.disconnect();
+    };
+
+    activeVoices.delete(midi);
+}
 
 function offSound(){
 
     currentMidis.forEach(midi => {
-
-        const t = getCurrentTick();
+		
+		stopPicoNow(midi);
+        
+		const t = getCurrentTick();
 
         const x_bpm =
             parseFloat(
