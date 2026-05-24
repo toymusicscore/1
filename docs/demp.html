@@ -1485,18 +1485,54 @@ function playNotes(tick){
 
             let durationSeconds =
                 durationTicks / ppq * 60 / x_bpm;
-
-            playSynth.triggerAttackRelease(
-                note,
-                durationSeconds,
-                Tone.now()
-            );
+		playPico(
+			note,
+			durationSeconds
+		);
         }
 
         nextIndex++;
     }
 
     prevTick = tick;
+}
+
+
+function playPico(note, duration){
+
+    const ctx2 = picoAudio.context;
+
+    const osc =
+        ctx2.createOscillator();
+
+    const gain =
+        ctx2.createGain();
+
+    osc.frequency.value =
+        midiToFreq(note);
+
+    osc.type = "sine";
+
+    osc.connect(gain);
+    gain.connect(ctx2.destination);
+
+    const now = ctx2.currentTime;
+
+    const when = now + 0.05;
+
+    gain.gain.setValueAtTime(
+        0.2,
+        when
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        when + duration
+    );
+
+    osc.start(when);
+
+    osc.stop(when + duration);
 }
 
 function scroll(tick){
