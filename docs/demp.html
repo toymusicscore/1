@@ -980,12 +980,17 @@ function playSound(e){
         }
 
         const t = getCurrentTick();
-		
+
+		const x_bpm =
+			parseFloat(
+				document.form1.x_bpm.value
+			);
+
 		let durationTicks = ppq * 0.1;
 		let durationSeconds =
                 durationTicks / ppq * 60 / x_bpm;
 
-		playPico(p, durationSeconds, t);
+		playPicoNow(p, durationSeconds);
 
         recordData.push({
             midi: p,
@@ -996,6 +1001,54 @@ function playSound(e){
         currentMidis.add(p);
     }
 }
+
+function playPicoNow(
+    midi,
+    duration
+){
+
+    const ctx3 =
+        picoAudio.context;
+
+    const osc =
+        ctx.createOscillator();
+
+    const gain =
+        ctx.createGain();
+
+    osc.frequency.value =
+        midiToFreq(midi);
+
+    osc.type = "sawtooth";
+
+    osc.connect(gain);
+
+    gain.connect(ctx3.destination);
+
+    const now =
+        ctx.currentTime;
+
+    gain.gain.setValueAtTime(
+        0.2,
+        now
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + duration
+    );
+
+    osc.start(now);
+
+    osc.stop(now + duration);
+
+    osc.onended = () => {
+
+        osc.disconnect();
+        gain.disconnect();
+    };
+}
+
 
 function offSound(){
 
