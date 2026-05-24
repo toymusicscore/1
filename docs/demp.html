@@ -1480,6 +1480,13 @@ function playNotes(tick){
     const previousTick =
         Math.floor(prevTick);
 
+	const lookAheadSeconds = 0.1;
+	const lookAheadTicks =
+		lookAheadSeconds *
+		x_bpm *
+		ppq / 60;
+	let scheduledTick = 0;
+
     while(nextIndex < recordData.length){
 
         let data = recordData[nextIndex];
@@ -1487,12 +1494,6 @@ function playNotes(tick){
         let note  = data.note;
         let start = data.start;
         let stop  = data.end;
-		const lookAheadSeconds = 0.1;
-		const lookAheadTicks =
-			lookAheadSeconds *
-			x_bpm *
-			ppq / 60;
-		let scheduledTick = 0;
 
 		if(start > currentTick + lookAheadTicks){	
             break;
@@ -1543,8 +1544,8 @@ function playPico(
     osc.frequency.value =
         midiToFreq(note);
 
-    osc.type = "sine";
-
+	osc.type = "sawtooth";
+	
     osc.connect(gain);
 
     gain.connect(
