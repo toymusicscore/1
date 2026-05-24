@@ -1471,21 +1471,13 @@ function playNotes(tick){
         nextIndex = 0;
     }
 
-    const x_bpm =
-        parseFloat(document.form1.x_bpm.value);
+    const x_bpm = parseFloat(document.form1.x_bpm.value);
 
-    const currentTick =
-        Math.floor(tick);
+    const currentTick = Math.floor(tick);
+    const previousTick = Math.floor(prevTick);
 
-    const previousTick =
-        Math.floor(prevTick);
-
-	const lookAheadSeconds = 0.1;
-	const lookAheadTicks =
-		lookAheadSeconds *
-		x_bpm *
-		ppq / 60;
-	let scheduledTick = 0;
+    const lookAheadTicks =
+        0.1 * x_bpm * ppq / 60;
 
     while(nextIndex < recordData.length){
 
@@ -1495,14 +1487,11 @@ function playNotes(tick){
         let start = data.start;
         let stop  = data.end;
 
-		if(start > currentTick + lookAheadTicks){	
+        if(start > currentTick + lookAheadTicks){
             break;
         }
-		if(
-			stop != null &&
-			start > previousTick &&
-			start <= scheduledTick + lookAheadTicks
-		){
+
+        if(stop != null && start > previousTick){
 
             let durationTicks =
                 Math.max(1, stop - start);
@@ -1510,18 +1499,10 @@ function playNotes(tick){
             let durationSeconds =
                 durationTicks / ppq * 60 / x_bpm;
 
-            playPico(
-                note,
-                durationSeconds,
-				start
-            );
+            playPico(note, durationSeconds, start);
         }
 
-		scheduledTick =
-			currentTick + lookAheadTicks;
-			
         nextIndex++;
-
     }
 
     prevTick = tick;
@@ -1545,7 +1526,7 @@ function playPico(
         midiToFreq(note);
 
 	osc.type = "sawtooth";
-	
+
     osc.connect(gain);
 
     gain.connect(
