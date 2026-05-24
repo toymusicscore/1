@@ -2158,6 +2158,139 @@ function simple(tick){
 	}//for(i=0;)
 }
 
+function createDiffData(scoreData, recordData){
+
+    const diffData = [];
+
+    const len = Math.min(
+        scoreData.length,
+        recordData.length
+    );
+
+    for(let i = 0; i < len; i++){
+
+        const s = scoreData[i];
+        const r = recordData[i];
+
+        diffData.push({
+
+            index: i,
+
+            pitchDiff:
+                r.midi - s.midi,
+
+            attackDiff:
+                r.start - s.start,
+
+            releaseDiff:
+                r.end - s.end
+        });
+    }
+
+    return diffData;
+}
+
+const diffData =
+    createDiffData(
+        scoreData,
+        recordData
+    );
+
+	function drawLineGraph(diffData){
+
+    const canvas =
+        document.getElementById(
+            "graphCanvas"
+        );
+
+    const ctx =
+        canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = 400;
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const centerY = h / 2;
+
+    ctx.beginPath();
+    ctx.moveTo(0, centerY);
+    ctx.lineTo(w, centerY);
+    ctx.stroke();
+
+    const maxX =
+        Math.max(1, diffData.length - 1);
+
+    const scaleY = 2;
+
+    drawSeries(
+        diffData,
+        "attackDiff",
+        scaleY
+    );
+
+    drawSeries(
+        diffData,
+        "releaseDiff",
+        scaleY
+    );
+}
+
+function drawSeries(
+    diffData,
+    key,
+    scaleY
+){
+
+    const canvas =
+        document.getElementById(
+            "graphCanvas"
+        );
+
+    const ctx =
+        canvas.getContext("2d");
+
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const centerY = h / 2;
+
+    const maxX =
+        Math.max(1, diffData.length - 1);
+
+    ctx.beginPath();
+
+    for(let i = 0; i < diffData.length; i++){
+
+        const x =
+            i / maxX * w;
+
+        const y =
+            centerY
+            -
+            diffData[i][key] * scaleY;
+
+        if(i === 0){
+            ctx.moveTo(x, y);
+        }else{
+            ctx.lineTo(x, y);
+        }
+    }
+
+    ctx.stroke();
+}
+
+
+
+
 function setbpm1(){
 	document.form1.x_bpm.value=Number(document.form1.sbpm1.options[document.form1.sbpm1.options.selectedIndex].value);
 }
