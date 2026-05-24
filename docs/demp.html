@@ -1478,8 +1478,16 @@ function playNotes(tick){
             break;
         }
 
-        if(stop != null && start > prevTick){
+		const currentTick =
+			Math.floor(tick);
 
+		const previousTick =
+			Math.floor(prevTick);
+
+		if(
+			stop != null &&
+			start >= previousTick
+		){
             let durationTicks =
                 Math.max(1, stop - start);
 
