@@ -362,13 +362,6 @@ const instName=[
 'Gunshot',
 ];
 const picoAudio = new PicoAudio();
-const inputSynth =
-    new Tone.PolySynth(Tone.Synth)
-        .toDestination();
-
-const playSynth =
-    new Tone.PolySynth(Tone.Synth)
-        .toDestination();
 let parsedData ="";
 let toneData = "";
 let r1=[];
@@ -991,12 +984,12 @@ function playSound(e){
         }
 
         const t = getCurrentTick();
-
-		let durationTicks = 1;
+		
+		let durationTicks = ppq * 0.1;
 		let durationSeconds =
                 durationTicks / ppq * 60 / x_bpm;
 
-		playPico(p2, durationSeconds, t);
+		playPico(p, durationSeconds, t);
 
         recordData.push({
             note: p2,
@@ -1012,8 +1005,6 @@ function playSound(e){
 function offSound(){
 
     currentNotes.forEach(note => {
-
-        inputSynth.triggerRelease(note);
 
         const t = getCurrentTick();
 
