@@ -986,9 +986,10 @@ function playSound(e){
 				document.form1.x_bpm.value
 			);
 
-		let durationTicks = ppq * 0.1;
+		const durationTicks =
+			ppq * 0.1;
 		let durationSeconds =
-                durationTicks / ppq * 60 / x_bpm;
+			durationTicks / ppq * 60 / x_bpm;
 
 		playPicoNow(p, durationSeconds);
 
