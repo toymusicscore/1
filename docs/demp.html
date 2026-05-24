@@ -1123,30 +1123,31 @@ function offSound(){
     currentMidis.clear();
 }
 
-
 async function review(){
-	if(!Number.isFinite(pauseTick)){
-		pauseTick = 0;
-	}
 
-    if (isPlaying > 0) return;
+    if(!Number.isFinite(pauseTick)){
+        pauseTick = 0;
+    }
+
+    if(isPlaying > 0){
+        return;
+    }
 
     await picoAudio.context.resume();
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
 
     picoAudio.setData(parsedData);
-
-    const ctx2 = picoAudio.context;
-
-    const x_bpm = parseFloat(document.form1.x_bpm.value);
 
     startPlayback();
 
     isPlaying = 2;
-	
-	cancelAnimationFrame(rafId);
+
+    cancelAnimationFrame(rafId);
 
     loop2();
 }
