@@ -838,26 +838,40 @@ async function main(){
 main();
 
 let pauseTick = 0;
-let startTime = 0;
 let isPlaying = 0;
 let rafId = null;
 
 async function play(){
-	if (isPlaying > 0) return;
-	await picoAudio.context.resume();
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+
+    if(isPlaying > 0){
+        return;
+    }
+
+    await picoAudio.context.resume();
+
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
+
     picoAudio.setData(parsedData);
-	startTime = picoAudio.context.currentTime;
-	picoAudio.play();
-	isPlaying = 1;
-	loop();
+
+    startPlayback();
+
+    picoAudio.play();
+
+    isPlaying = 1;
+
+    cancelAnimationFrame(rafId);
+
+    loop();
 }
 
 function pause(){
     if (isPlaying == 0) return;
     pauseTick = getCurrentTick();
-    isPlaying = false;
+    isPlaying = 0;
     picoAudio.pause();
     cancelAnimationFrame(rafId);
 }
@@ -886,28 +900,39 @@ async function cdown(){
 
 async function draw(){
 
-	if (isPlaying > 0) return;
+    if(isPlaying > 0){
+        return;
+    }
 
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+    canvas.width =
+        window.innerWidth;
 
-	if (document.form1.hands.options[1].selected==true) {
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	} else if (document.form1.hands.options[2].selected==true){
-		midi_max=midi_max_r;
-		midi_min=midi_min_r;
-	}
+    canvas.height =
+        window.innerHeight;
+
+    if(
+        document.form1.hands.options[1].selected
+    ){
+        midi_max = midi_max_l;
+        midi_min = midi_min_l;
+
+    }else if(
+        document.form1.hands.options[2].selected
+    ){
+        midi_max = midi_max_r;
+        midi_min = midi_min_r;
+    }
 
     picoAudio.setData(parsedData);
 
-	startTime = picoAudio.context.currentTime;
+    startPlayback();
 
-	isPlaying = 2;
+    isPlaying = 2;
 
-	loop();
+    cancelAnimationFrame(rafId);
+
+    loop();
 }
-
 
 
 let state = true;
@@ -1173,6 +1198,7 @@ function getCurrentTick(){
     x_bpm *
     ppq / 60;
 }
+
 
 function loop(){
 	if (isPlaying == 0) return;
