@@ -1611,9 +1611,11 @@ function playNotes(tick){
         if(start > currentTick + lookAheadTicks){
             break;
         }
-
-        if(stop != null && start > previousTick){
-
+		if(
+			stop != null &&
+			start > previousTick &&
+			start <= currentTick + lookAheadTicks
+		){
             let durationTicks =
                 Math.max(1, stop - start);
 
