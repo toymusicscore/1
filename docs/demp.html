@@ -1534,13 +1534,14 @@ function line2(tick){
 
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const loopSize = ht1*bttl*ppq/ntvl*4;
+			const ticksPerScreen =
+				ht1 * bttl * ppq / ntvl * 4;
+
 			const y =
 				my +
-				(start - tick) /
-				(bttl * ppq / ntvl * 4) *
-				(szy - 2 * my);let gt;
-
+				(start - tick)
+				/ ticksPerScreen
+				* (szy - 2 * my);
 			if (stop>=tick+ht1*bttl*ppq/ntvl*3){
 				gt=tick+ht1*bttl*ppq/ntvl*3-start;
 			}else{
