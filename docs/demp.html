@@ -952,7 +952,7 @@ function startRecord(){
     recordKw = (szx - 2 * mx) / kn;
 }
 
-let currentNotes = new Set();
+let currentMidis = new Set();
 
 function playSound(e){
 
@@ -970,16 +970,12 @@ function playSound(e){
             (e.offsetX - mx) / kw
         ) + Number(midi_min);
 
-    let p2 =
-        engs1[p % 12] +
-        Math.floor(p / 12 - 1);
-
     if(
         e.offsetY >= my &&
         e.offsetY <= szy
     ){
 
-        if(currentNotes.has(p2)){
+        if(currentMidis.has(p)){
             return;
         }
 
@@ -992,19 +988,18 @@ function playSound(e){
 		playPico(p, durationSeconds, t);
 
         recordData.push({
-            note: p2,
             midi: p,
             start: t,
             end: null
         });
 
-        currentNotes.add(p2);
+        currentMidis.add(p);
     }
 }
 
 function offSound(){
 
-    currentNotes.forEach(note => {
+    currentMidis.forEach(midi => {
 
         const t = getCurrentTick();
 
@@ -1029,7 +1024,7 @@ function offSound(){
             const ev = recordData[i];
 
             if(
-                ev.note === note &&
+                ev.midi === midi &&
                 ev.end === null
             ){
 
@@ -1043,28 +1038,7 @@ function offSound(){
         }
     });
 
-    currentNotes.clear();
-}
-
-
-function noteToMidi(note){
-
-    const names = {
-        C:0, 'C#':1,
-        D:2, 'D#':3,
-        E:4,
-        F:5, 'F#':6,
-        G:7, 'G#':8,
-        A:9, 'A#':10,
-        B:11
-    };
-
-    let m = note.match(/^([A-G]#?)(\d)$/);
-
-    let pitch = names[m[1]];
-    let octave = Number(m[2]);
-
-    return pitch + (octave + 1) * 12;
+    currentMidi.clear();
 }
 
 
