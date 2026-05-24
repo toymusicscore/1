@@ -981,16 +981,6 @@ function playSound(e){
 
         const t = getCurrentTick();
 
-		const x_bpm =
-			parseFloat(
-				document.form1.x_bpm.value
-			);
-
-		const durationTicks =
-			ppq * 0.1;
-		let durationSeconds =
-			durationTicks / ppq * 60 / x_bpm;
-
 		playPicoNow(p);
 
         recordData.push({
@@ -1032,7 +1022,17 @@ function playPicoNow(midi){
         0.2,
         now
     );
+		
+	gain.gain.setValueAtTime(
+		0.0001,
+		now
+	);
 
+	gain.gain.exponentialRampToValueAtTime(
+		0.2,
+		now + 0.01
+	);
+	
     osc.start(now);
 
     activeVoices.set(midi, {
@@ -1055,10 +1055,10 @@ function stopPicoNow(midi){
 
     voice.gain.gain.cancelScheduledValues(now);
 
-    voice.gain.gain.setValueAtTime(
-        voice.gain.gain.value,
-        now
-    );
+	voice.gain.gain.setValueAtTime(
+		0.2,
+		now
+	);
 
     voice.gain.gain.exponentialRampToValueAtTime(
         0.0001,
