@@ -1604,7 +1604,7 @@ function playNotes(tick){
 
         let data = recordData[nextIndex];
 
-        let note  = data.note;
+        let midi  = data.midi;
         let start = data.start;
         let stop  = data.end;
 
@@ -1620,7 +1620,7 @@ function playNotes(tick){
             let durationSeconds =
                 durationTicks / ppq * 60 / x_bpm;
 
-            playPico(note, durationSeconds, start);
+            playPico(midi, durationSeconds, start);
         }
 
         nextIndex++;
@@ -1630,7 +1630,7 @@ function playNotes(tick){
 }
 
 function playPico(
-    note,
+    midi,
     duration,
     start
 ){
@@ -1644,7 +1644,7 @@ function playPico(
         ctx2.createGain();
 
     osc.frequency.value =
-        midiToFreq(note);
+        midiToFreq(midi);
 
     osc.type = "triangle";
 
@@ -1682,11 +1682,11 @@ function playPico(
     };
 }
 
-function midiToFreq(note){
+function midiToFreq(midi){
 
     return 440 * Math.pow(
         2,
-        (note - 69) / 12
+        (midi - 69) / 12
     );
 }
 
