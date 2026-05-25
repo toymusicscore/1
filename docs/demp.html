@@ -680,6 +680,16 @@ function setMidi(data1){
 	parsedData.channels.forEach(channel => { 
 		channel.notes.forEach(note => {
 			r1.push([note.pitch,note.start,note.stop,note.channel,n_id]);
+
+        r1.push({
+            midi: note.pitch,
+            start: note.start,
+            stop: note.stop,
+			channel: note.channel,
+			velocity: note.velocity,
+			n_id: n_id
+        });
+
 			n_id+=1;
 			r2.push(note.start);
 			r2.push(note.stop);
@@ -1061,7 +1071,7 @@ function playSound(e){
         recordData.push({
             midi: p,
             start: t,
-            end: null
+            stop: null
         });
 
         currentMidis.add(p);
@@ -1180,10 +1190,10 @@ function offSound(){
 
             if(
                 ev.midi === midi &&
-                ev.end === null
+                ev.stop === null
             ){
 
-                ev.end = Math.max(
+                ev.stop = Math.max(
                     t,
                     ev.start + minDur
                 );
@@ -1404,8 +1414,10 @@ function line(tick){
 		}
 	}
 
-	for(i=0;i<r1.length;i++){
-		let [midi, start, stop, channel, n_id]=r1[i];
+	for(let i=0;i<r1.length;i++){
+		let midi = r1[i].midi;
+		let start = r1[i].start;
+		let stop = r1[i].stop;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		if (stop>=tick+ht1*bttl*ppq/ntvl*3){
@@ -1525,7 +1537,9 @@ function line2(tick){
 	}
 
 	for(let i=0;i<r1.length;i++){
-		let [midi, start, stop, channel, n_id]=r1[i];
+		let midi = r1[i].midi;
+		let start = r1[i].start;
+		let stop = r1[i].stop;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		if (dp >= 0 && dt >= 0 && dt < ht1*3/4){
@@ -1573,7 +1587,7 @@ function line2(tick){
 	for(let i=0; i<recordData.length; i++){
 		let midi = recordData[i].midi;
 		let start = recordData[i].start;
-		let stop = recordData[i].end;
+		let stop = recordData[i].stop;
 		if(stop == null){
 			continue;
 		}
@@ -1652,7 +1666,7 @@ function playNotes(tick){
 
         let midi  = data.midi;
         let start = data.start;
-        let stop  = data.end;
+        let stop  = data.stop;
 
         if(start > currentTick + lookAheadTicks){
             break;
@@ -1956,7 +1970,7 @@ function scroll2(tick){
 	for(let i=0; i<recordData.length; i++){
 		let midi = recordData[i].midi;
 		let start = recordData[i].start;
-		let stop = recordData[i].end;
+		let stop = recordData[i].stop;
 		if(stop == null){
 			continue;
 		}
@@ -2219,7 +2233,7 @@ function createDiffData(scoreData, recordData){
                 r.start - s.start,
 
             releaseDiff:
-                r.end - s.end
+                r.stop - s.stop
         });
     }
 
