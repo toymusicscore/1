@@ -2261,19 +2261,13 @@ function createDiffData(scoreData, recordData){
 
 let diffData = [];
 
-function drawLineGraph(diffData){
+function drawLineGraph(){
 
-	diffData =
-	createDiffData(
-		r1,
-		recordData
-	);
-
-console.log(recordData);
-console.log(diffData);
-
-    canvas.width = window.innerWidth;
-    canvas.height = 400;
+    const diffData =
+        createDiffData(
+            r1,
+            recordData
+        );
 
     ctx.clearRect(
         0,
@@ -2282,53 +2276,86 @@ console.log(diffData);
         canvas.height
     );
 
-	const w = canvas.width;
-    const h = canvas.height;
+    const w = canvas.width;
+    const h = 400;
+
+    canvas.height = h;
 
     const centerY = h / 2;
+
+    // 背景
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0,w,h);
+
+    // タイトル
+    ctx.fillStyle = "black";
+    ctx.font = "20px sans-serif";
+
+    ctx.fillText(
+        "Performance Difference Graph",
+        20,
+        30
+    );
+
+    // 0ライン
+    ctx.strokeStyle = "#888";
 
     ctx.beginPath();
     ctx.moveTo(0, centerY);
     ctx.lineTo(w, centerY);
     ctx.stroke();
 
-    const maxX =
-        Math.max(1, diffData.length - 1);
+    // グリッド
+    ctx.strokeStyle = "#ddd";
 
-    const scaleY = 2;
+    for(let y = 0; y < h; y += 50){
+
+        ctx.beginPath();
+
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+
+        ctx.stroke();
+    }
+
+    // 凡例
+    ctx.fillStyle = "red";
+    ctx.fillText("Pitch", 20, 60);
+
+    ctx.fillStyle = "blue";
+    ctx.fillText("Attack", 120, 60);
+
+    ctx.fillStyle = "green";
+    ctx.fillText("Release", 240, 60);
 
     drawSeries(
         diffData,
         "pitchDiff",
-        scaleY
+        4,
+        "red"
     );
 
     drawSeries(
         diffData,
         "attackDiff",
-        scaleY
+        0.2,
+        "blue"
     );
 
     drawSeries(
         diffData,
         "releaseDiff",
-        scaleY
+        0.2,
+        "green"
     );
 }
 
 function drawSeries(
     diffData,
     key,
-    scaleY
+    scaleY,
+    color
 ){
-
-    const canvas =
-        document.getElementById(
-            "canvas"
-        );
-
-    const ctx =
-        canvas.getContext("2d");
 
     const w = canvas.width;
     const h = canvas.height;
@@ -2336,7 +2363,13 @@ function drawSeries(
     const centerY = h / 2;
 
     const maxX =
-        Math.max(1, diffData.length - 1);
+        Math.max(
+            1,
+            diffData.length - 1
+        );
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
 
     ctx.beginPath();
 
@@ -2359,8 +2392,6 @@ function drawSeries(
 
     ctx.stroke();
 }
-
-
 
 
 function setbpm1(){
