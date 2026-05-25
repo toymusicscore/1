@@ -569,6 +569,7 @@ let f102=[];
 let f110=[];
 let f111=[];
 let rst=0;
+let ticksPerMeasure = 1920;
 
 async function fetchData(){
 	let file1name=document.getElementById("song1").value;
@@ -647,7 +648,7 @@ function setMidi(data1){
 	bttl = parsedData.beatTrack[0].value[0];
 	ntvl = parsedData.beatTrack[0].value[1];
 	bpm = parsedData.tempoTrack[0].value;
-
+	ticksPerMeasure = bttl * ppq / ntvl * 4;
 	document.form1.x_bpm.value=bpm;
 
 	r1=[];
@@ -2366,6 +2367,11 @@ const baseRecord =
 
             index: i,
 
+			measure:
+				Math.floor(
+					s.start / ticksPerMeasure
+				) + 1,
+				
             pitchDiff:
                 r.midi - s.midi,
 
@@ -2479,6 +2485,38 @@ function drawGraph(
 
     const centerY =
         offsetY + graphHeight / 2;
+	if(
+			i === 0
+			||
+			diffData[i].measure
+			!==
+			diffData[i-1].measure
+		){
+
+			ctx.fillStyle = "black";
+
+			ctx.fillText(
+				diffData[i].measure,
+				x,
+				offsetY + graphHeight
+			);
+			ctx.strokeStyle = "#ddd";
+
+			ctx.beginPath();
+
+			ctx.moveTo(
+				x,
+				offsetY
+			);
+
+			ctx.lineTo(
+				x,
+				offsetY + graphHeight
+			);
+
+			ctx.stroke();
+
+		}	
 
     // タイトル
     ctx.fillStyle = "black";
