@@ -2233,6 +2233,12 @@ function createDiffData(scoreData, recordData){
 
         const s = scoreData[i];
         const r = recordData[i];
+		if(
+			s.stop == null ||
+			r.stop == null
+		){
+			continue;
+		}
 
         diffData.push({
 
@@ -2318,7 +2324,7 @@ function drawSeries(
 
     const canvas =
         document.getElementById(
-            "graphCanvas"
+            "canvas"
         );
 
     const ctx =
