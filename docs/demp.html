@@ -679,7 +679,6 @@ function setMidi(data1){
 
 	parsedData.channels.forEach(channel => { 
 		channel.notes.forEach(note => {
-			r1.push([note.pitch,note.start,note.stop,note.channel,n_id]);
 
         r1.push({
             midi: note.pitch,
@@ -2245,6 +2244,39 @@ function simple(tick){
 	}//for(i=0;)
 }
 
+let q1 = [];
+
+function createScoreData(){
+	if (document.form1.hands.options[0].selected==true) {
+		q1.push({
+            midi: r1.pitch,
+            start: r1.start,
+            stop: r1.stop,
+			channel: r1.channel,
+			velocity: r1.velocity,
+			n_id: r1.n_id
+        });
+	}else if (document.form1.hands.options[1].selected==true && r1.channel == x_ch1) {
+		q1.push({
+            midi: r1.pitch,
+            start: r1.start,
+            stop: r1.stop,
+			channel: r1.channel,
+			velocity: r1.velocity,
+			n_id: r1.n_id
+        });
+	}else if (document.form1.hands.options[2].selected==true && r1.channel == x_ch2) {
+		q1.push({
+            midi: r1.pitch,
+            start: r1.start,
+            stop: r1.stop,
+			channel: r1.channel,
+			velocity: r1.velocity,
+			n_id: r1.n_id
+        });
+	}
+}
+
 function createDiffData(scoreData, recordData){
 
     const diffData = [];
@@ -2307,14 +2339,11 @@ let diffData = [];
 
 function drawLineGraph(){
 
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(0,0,200,200);
-
-    alert("start");
+	createScoreData();
 
     const diffData =
         createDiffData(
-            r1,
+            q1,
             recordData
         );
 
@@ -2351,6 +2380,15 @@ function drawLineGraph(){
         "Release Difference",
         600,
         "green",
+        0.1
+    );
+
+	drawGraph(
+        diffData,
+        "velocityDiff",
+        "Velocity Difference",
+        600,
+        "cyan",
         0.1
     );
 
