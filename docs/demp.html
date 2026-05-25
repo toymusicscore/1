@@ -1015,58 +1015,81 @@ function startRecord(){
 }
 
 function stopRecord(){
-	for(let i = 0; i < recordData.length; i++){
 
-		if(recordData[i].stop == null){
+    q1 = [];
 
-			recordData[i].stop =
-				recordData[i].start;
-		}
-	}
+    for(let i = 0; i < recordData.length; i++){
+
+        if(recordData[i].stop == null){
+
+            recordData[i].stop =
+                recordData[i].start;
+        }
+    }
 
     recordData.sort((a, b) => {
         return a.start - b.start;
     });
 
-	q1 = [];
+    for(let i = 0; i < r1.length; i++){
 
-	if (document.form1.hands.options[0].selected==true) {
-		q1.push({
-            midi: r1.pitch,
-            start: r1.start,
-            stop: r1.stop,
-			channel: r1.channel,
-			velocity: r1.velocity,
-			n_id: r1.n_id
-        });
-	}else if (document.form1.hands.options[1].selected==true && r1.channel == x_ch1) {
-		q1.push({
-            midi: r1.pitch,
-            start: r1.start,
-            stop: r1.stop,
-			channel: r1.channel,
-			velocity: r1.velocity,
-			n_id: r1.n_id
-        });
-	}else if (document.form1.hands.options[2].selected==true && r1.channel == x_ch2) {
-		q1.push({
-            midi: r1.pitch,
-            start: r1.start,
-            stop: r1.stop,
-			channel: r1.channel,
-			velocity: r1.velocity,
-			n_id: r1.n_id
-        });
-	}
+        const note = r1[i];
+
+        if(
+            document.form1.hands.options[0].selected
+        ){
+
+            q1.push({
+                midi: note.midi,
+                start: note.start,
+                stop: note.stop,
+                channel: note.channel,
+                velocity: note.velocity,
+                n_id: note.n_id
+            });
+
+        }else if(
+            document.form1.hands.options[1].selected
+            &&
+            note.channel == x_ch1
+        ){
+
+            q1.push({
+                midi: note.midi,
+                start: note.start,
+                stop: note.stop,
+                channel: note.channel,
+                velocity: note.velocity,
+                n_id: note.n_id
+            });
+
+        }else if(
+            document.form1.hands.options[2].selected
+            &&
+            note.channel == x_ch2
+        ){
+
+            q1.push({
+                midi: note.midi,
+                start: note.start,
+                stop: note.stop,
+                channel: note.channel,
+                velocity: note.velocity,
+                n_id: note.n_id
+            });
+        }
+    }
 
     q1.sort((a, b) => {
         return a.start - b.start;
     });
 
-	console.log(recordData);
-	console.log(q1);
+    console.log(recordData);
+    console.log(q1);
 
+ //   drawLineGraph();
 }
+
 
 let currentMidis = new Set();
 
