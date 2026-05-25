@@ -718,6 +718,10 @@ function setMidi(data1){
 		})
 	})
 
+	r1.sort((a, b) => {
+		return a.start - b.start;
+	});
+
 	if (document.form1.hands.options[0].selected==true) {
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
@@ -902,6 +906,7 @@ async function play(){
 function pause(){
     if (isPlaying == 0) return;
     pauseTick = getCurrentTick();
+	stopRecord();
     isPlaying = 0;
     picoAudio.pause();
     cancelAnimationFrame(rafId);
@@ -1007,6 +1012,28 @@ function startRecord(){
     let kn = Number(recordMidiMax) - Number(recordMidiMin) + 1;
 
     recordKw = (szx - 2 * mx) / kn;
+}
+
+function stopRecord(){
+	for(let i = 0; i < recordData.length; i++){
+
+		if(recordData[i].stop == null){
+
+			recordData[i].stop =
+				recordData[i].start;
+		}
+	}
+
+    recordData.sort((a, b) => {
+        return a.start - b.start;
+    });
+
+    r1.sort((a, b) => {
+        return a.start - b.start;
+    });
+
+//    drawLineGraph();
+
 }
 
 let currentMidis = new Set();
