@@ -2072,7 +2072,11 @@ function simple(tick){
 	}
 
 	for(i=0;i<r1.length;i++){
-		let [midi0, start0, stop0, channel0, n_id0]=r1[i];
+		let	midi0;
+		let start0;
+		let stop0;
+		let channel0;
+		let n_id0;
 		let	midi1;
 		let start1;
 		let stop1;
@@ -2093,17 +2097,38 @@ function simple(tick){
 		let stop4;
 		let channel4;
 		let n_id4;
+			midi0 = r1[i].midi;
+			start0 = r1[i].start;
+			stop0 = r1[i].stop;
+			channel0 = r1[i].channel;
+			n_id0 = r1[i].n_id;
 		if (i>0){
-			[midi1, start1, stop1, channel1, n_id1]=r1[i-1];
+			midi1 = r1[i-1].midi;
+			start1 = r1[i-1].start;
+			stop1 = r1[i-1].stop;
+			channel1 = r1[i-1].channel;
+			n_id1 = r1[i-1].n_id;
 		}
 		if (i>1){
-			[midi2, start2, stop2, channel2, n_id2]=r1[i-2];
+			midi2 = r1[i-2].midi;
+			start2 = r1[i-2].start;
+			stop2 = r1[i-2].stop;
+			channel2 = r1[i-2].channel;
+			n_id2 = r1[i-2].n_id;
 		}
 		if (i>2){
-			[midi3, start3, stop3, channel3, n_id3]=r1[i-3];
+			midi3 = r1[i-3].midi;
+			start3 = r1[i-3].start;
+			stop3 = r1[i-3].stop;
+			channel3 = r1[i-3].channel;
+			n_id3 = r1[i-3].n_id;
 		}
 		if (i>3){
-			[midi4, start4, stop4, channel4, n_id4]=r1[i-4];
+			midi4 = r1[i-4].midi;
+			start4 = r1[i-4].start;
+			stop4 = r1[i-4].stop;
+			channel4 = r1[i-4].channel;
+			n_id4 = r1[i-4].n_id;
 		}
 		const dt = (start0-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop0-tick)/(bttl*ppq/ntvl*4);
