@@ -2276,74 +2276,124 @@ function drawLineGraph(){
         canvas.height
     );
 
+    canvas.height = 900;
+
+    drawGraph(
+        diffData,
+        "pitchDiff",
+        "Pitch Difference",
+        0,
+        "red",
+        20
+    );
+
+    drawGraph(
+        diffData,
+        "attackDiff",
+        "Attack Difference",
+        300,
+        "blue",
+        0.1
+    );
+
+    drawGraph(
+        diffData,
+        "releaseDiff",
+        "Release Difference",
+        600,
+        "green",
+        0.1
+    );
+}
+
+function drawGraph(
+    diffData,
+    key,
+    title,
+    offsetY,
+    color,
+    scaleY
+){
+
+    const graphHeight = 250;
+
     const w = canvas.width;
-    const h = 400;
 
-    canvas.height = h;
+    const centerY =
+        offsetY + graphHeight / 2;
 
-    const centerY = h / 2;
-
-    ctx.fillStyle = "white";
-    ctx.fillRect(0,0,w,h);
-
+    // タイトル
     ctx.fillStyle = "black";
+
     ctx.font = "20px sans-serif";
 
     ctx.fillText(
-        "Performance Difference Graph",
+        title,
         20,
-        30
+        offsetY + 30
     );
 
+    // 中央線
     ctx.strokeStyle = "#888";
 
     ctx.beginPath();
-    ctx.moveTo(0, centerY);
-    ctx.lineTo(w, centerY);
+
+    ctx.moveTo(
+        0,
+        centerY
+    );
+
+    ctx.lineTo(
+        w,
+        centerY
+    );
+
     ctx.stroke();
 
-    ctx.strokeStyle = "#ddd";
+    // グラフ
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
 
-    for(let y = 0; y < h; y += 50){
+    ctx.lineWidth = 2;
 
-        ctx.beginPath();
+    ctx.beginPath();
 
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
+    const maxX =
+        Math.max(
+            1,
+            diffData.length - 1
+        );
 
-        ctx.stroke();
+    for(let i = 0; i < diffData.length; i++){
+
+        const x =
+            i / maxX * w;
+
+        const y =
+            centerY
+            -
+            diffData[i][key] * scaleY;
+
+        ctx.fillRect(
+            x - 2,
+            y - 2,
+            4,
+            4
+        );
+
+        if(i === 0){
+
+            ctx.moveTo(x, y);
+
+        }else{
+
+            ctx.lineTo(x, y);
+        }
     }
 
-    ctx.fillStyle = "red";
-    ctx.fillText("Pitch", 20, 60);
-
-    ctx.fillStyle = "blue";
-    ctx.fillText("Attack", 120, 60);
-
-    ctx.fillStyle = "green";
-    ctx.fillText("Release", 240, 60);
-
-    drawSeries(
-        diffData,
-        "pitchDiff",
-        4,
-        "red"
-    );
-
-    drawSeries(
-        diffData,
-        "attackDiff",
-        0.2,
-        "blue"
-    );
-
-    drawSeries(
-        diffData,
-        "releaseDiff",
-        0.2,
-        "green"
-    );
+    ctx.stroke();
 }
+
 
 function drawSeries(
     diffData,
