@@ -2395,61 +2395,6 @@ function drawGraph(
 }
 
 
-function drawSeries(
-    diffData,
-    key,
-    scaleY,
-    color
-){
-
-    const w = canvas.width;
-    const h = canvas.height;
-
-    const centerY = h / 2;
-
-    const maxX =
-        Math.max(
-            1,
-            diffData.length - 1
-        );
-
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
-
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-
-    for(let i = 0; i < diffData.length; i++){
-
-        const x =
-            i / maxX * w;
-
-        const y =
-            centerY
-            -
-            diffData[i][key] * scaleY;
-
-        ctx.fillRect(
-            x - 2,
-            y - 2,
-            4,
-            4
-        );
-
-        if(i === 0){
-
-            ctx.moveTo(x, y);
-
-        }else{
-
-            ctx.lineTo(x, y);
-        }
-    }
-
-    ctx.stroke();
-}
-
 function setbpm1(){
 	document.form1.x_bpm.value=Number(document.form1.sbpm1.options[document.form1.sbpm1.options.selectedIndex].value);
 }
