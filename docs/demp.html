@@ -2485,38 +2485,6 @@ function drawGraph(
 
     const centerY =
         offsetY + graphHeight / 2;
-	if(
-			i === 0
-			||
-			diffData[i].measure
-			!==
-			diffData[i-1].measure
-		){
-
-			ctx.fillStyle = "black";
-
-			ctx.fillText(
-				diffData[i].measure,
-				x,
-				offsetY + graphHeight
-			);
-			ctx.strokeStyle = "#ddd";
-
-			ctx.beginPath();
-
-			ctx.moveTo(
-				x,
-				offsetY
-			);
-
-			ctx.lineTo(
-				x,
-				offsetY + graphHeight
-			);
-
-			ctx.stroke();
-
-		}	
 
     // タイトル
     ctx.fillStyle = "black";
@@ -2569,6 +2537,39 @@ function drawGraph(
             centerY
             -
             diffData[i][key] * scaleY;
+
+			if(
+				i === 0
+				||
+				diffData[i].measure
+				!==
+				diffData[i-1].measure
+			){
+
+				ctx.fillStyle = "black";
+
+				ctx.fillText(
+					diffData[i].measure,
+					x,
+					offsetY + graphHeight
+				);
+				ctx.strokeStyle = "#ddd";
+
+				ctx.beginPath();
+
+				ctx.moveTo(
+					x,
+					offsetY
+				);
+
+				ctx.lineTo(
+					x,
+					offsetY + graphHeight
+				);
+
+				ctx.stroke();
+
+			}	
 
         ctx.fillRect(
             x - 2,
