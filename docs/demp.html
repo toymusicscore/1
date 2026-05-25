@@ -614,13 +614,13 @@ function setMidi0(data1){
 	parsed.channels.forEach(channel => {
 		channel.notes.forEach(note => {
 
-			state.notes.r1.push({
+			state.notes.r1.push([
 				note.pitch,
 				note.start,
 				note.stop,
 				note.channel,
 				note.velocity
-			});
+			]);
 
 			state.notes.r2.push(note.start);
 			state.notes.r2.push(note.stop);
