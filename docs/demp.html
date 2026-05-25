@@ -2326,7 +2326,14 @@ const baseRecord =
 			releaseDiff:
 				(r.stop - baseRecord)
 				-
-				(s.stop - baseScore)
+				(s.stop - baseScore),
+
+			durationDiff:
+				(r.stop - r.start)
+				-
+				(s.stop - s.start),
+
+			velocityDiff:0
 
 		});
     }
@@ -2370,7 +2377,7 @@ function drawLineGraph(){
         diffData,
         "attackDiff",
         "Attack Difference",
-        200,
+        150,
         "blue",
         0.1
     );
@@ -2379,20 +2386,29 @@ function drawLineGraph(){
         diffData,
         "releaseDiff",
         "Release Difference",
-        400,
+        300,
         "green",
         0.1
     );
-/*
+
+    drawGraph(
+        diffData,
+        "durationDiff",
+        "Duration Difference",
+        450,
+        "cyan",
+        0.1
+    );
+
 	drawGraph(
         diffData,
         "velocityDiff",
         "Velocity Difference",
         600,
-        "cyan",
+        "magenta",
         0.1
     );
-*/
+
 }
 
 function drawGraph(
