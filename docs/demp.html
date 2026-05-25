@@ -2538,38 +2538,38 @@ function drawGraph(
             -
             diffData[i][key] * scaleY;
 
-			if(
-				i === 0
-				||
-				diffData[i].measure
-				!==
-				diffData[i-1].measure
-			){
+		if(
+			i === 0
+			||
+			diffData[i].measure
+			!==
+			diffData[i-1].measure
+		){
 
-				ctx.fillStyle = "black";
+			ctx.fillStyle = "black";
 
-				ctx.fillText(
-					diffData[i].measure,
-					x,
-					offsetY + graphHeight
-				);
-				ctx.strokeStyle = "#ddd";
+			ctx.fillText(
+				diffData[i].measure,
+				x,
+				offsetY + graphHeight
+			);
+			ctx.strokeStyle = "#ddd";
 
-				ctx.beginPath();
+			ctx.beginPath();
 
-				ctx.moveTo(
-					x,
-					offsetY
-				);
+			ctx.moveTo(
+				x,
+				offsetY
+			);
 
-				ctx.lineTo(
-					x,
-					offsetY + graphHeight
-				);
+			ctx.lineTo(
+				x,
+				offsetY + graphHeight
+			);
 
-				ctx.stroke();
+			ctx.stroke();
 
-			}	
+		}	
 
         ctx.fillRect(
             x - 2,
