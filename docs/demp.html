@@ -2369,6 +2369,8 @@ function drawSeries(
         );
 
     ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+
     ctx.lineWidth = 2;
 
     ctx.beginPath();
@@ -2383,23 +2385,26 @@ function drawSeries(
             -
             diffData[i][key] * scaleY;
 
-		ctx.fillRect(
-			x - 2,
-			y - 2,
-			4,
-			4
-		);
-		
+        // 点
+        ctx.fillRect(
+            x - 2,
+            y - 2,
+            4,
+            4
+        );
+
         if(i === 0){
+
             ctx.moveTo(x, y);
+
         }else{
+
             ctx.lineTo(x, y);
         }
     }
 
     ctx.stroke();
 }
-
 
 function setbpm1(){
 	document.form1.x_bpm.value=Number(document.form1.sbpm1.options[document.form1.sbpm1.options.selectedIndex].value);
