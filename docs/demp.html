@@ -1028,11 +1028,41 @@ function stopRecord(){
         return a.start - b.start;
     });
 
-    r1.sort((a, b) => {
+	if (document.form1.hands.options[0].selected==true) {
+		q1.push({
+            midi: r1.pitch,
+            start: r1.start,
+            stop: r1.stop,
+			channel: r1.channel,
+			velocity: r1.velocity,
+			n_id: r1.n_id
+        });
+	}else if (document.form1.hands.options[1].selected==true && r1.channel == x_ch1) {
+		q1.push({
+            midi: r1.pitch,
+            start: r1.start,
+            stop: r1.stop,
+			channel: r1.channel,
+			velocity: r1.velocity,
+			n_id: r1.n_id
+        });
+	}else if (document.form1.hands.options[2].selected==true && r1.channel == x_ch2) {
+		q1.push({
+            midi: r1.pitch,
+            start: r1.start,
+            stop: r1.stop,
+			channel: r1.channel,
+			velocity: r1.velocity,
+			n_id: r1.n_id
+        });
+	}
+
+    q1.sort((a, b) => {
         return a.start - b.start;
     });
 
-//    drawLineGraph();
+	console.log(recordData);
+	console.log(q1);
 
 }
 
@@ -2274,37 +2304,6 @@ function simple(tick){
 
 let q1 = [];
 
-function createScoreData(){
-	if (document.form1.hands.options[0].selected==true) {
-		q1.push({
-            midi: r1.pitch,
-            start: r1.start,
-            stop: r1.stop,
-			channel: r1.channel,
-			velocity: r1.velocity,
-			n_id: r1.n_id
-        });
-	}else if (document.form1.hands.options[1].selected==true && r1.channel == x_ch1) {
-		q1.push({
-            midi: r1.pitch,
-            start: r1.start,
-            stop: r1.stop,
-			channel: r1.channel,
-			velocity: r1.velocity,
-			n_id: r1.n_id
-        });
-	}else if (document.form1.hands.options[2].selected==true && r1.channel == x_ch2) {
-		q1.push({
-            midi: r1.pitch,
-            start: r1.start,
-            stop: r1.stop,
-			channel: r1.channel,
-			velocity: r1.velocity,
-			n_id: r1.n_id
-        });
-	}
-}
-
 function createDiffData(scoreData, recordData){
 
     const diffData = [];
@@ -2373,8 +2372,6 @@ const baseRecord =
 let diffData = [];
 
 function drawLineGraph(){
-
-	createScoreData();
 
     const diffData =
         createDiffData(
