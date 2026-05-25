@@ -2283,11 +2283,9 @@ function drawLineGraph(){
 
     const centerY = h / 2;
 
-    // 背景
     ctx.fillStyle = "white";
     ctx.fillRect(0,0,w,h);
 
-    // タイトル
     ctx.fillStyle = "black";
     ctx.font = "20px sans-serif";
 
@@ -2297,7 +2295,6 @@ function drawLineGraph(){
         30
     );
 
-    // 0ライン
     ctx.strokeStyle = "#888";
 
     ctx.beginPath();
@@ -2305,7 +2302,6 @@ function drawLineGraph(){
     ctx.lineTo(w, centerY);
     ctx.stroke();
 
-    // グリッド
     ctx.strokeStyle = "#ddd";
 
     for(let y = 0; y < h; y += 50){
@@ -2318,7 +2314,6 @@ function drawLineGraph(){
         ctx.stroke();
     }
 
-    // 凡例
     ctx.fillStyle = "red";
     ctx.fillText("Pitch", 20, 60);
 
@@ -2385,7 +2380,6 @@ function drawSeries(
             -
             diffData[i][key] * scaleY;
 
-        // 点
         ctx.fillRect(
             x - 2,
             y - 2,
