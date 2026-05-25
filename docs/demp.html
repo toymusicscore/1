@@ -405,6 +405,13 @@ let midi_max=21;
 let midi_min=108;
 let midi_min0=0;
 let midi_max0=0;
+let	midi_max_b=21;
+let	midi_min_b=108;
+let	midi_min_l=21;
+let	midi_max_l=108;
+let	midi_min_r=21;
+let	midi_max_r=108;
+
 let ch_max=-1;
 let ch_num=0;
 let ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
@@ -654,6 +661,10 @@ function setMidi(data1){
 	midi_min=108;
 	midi_min0=0;
 	midi_max0=0;
+	midi_max_b=21;
+	midi_min_b=108;
+	midi_min0_b=0;
+	midi_max0_b=0;
 	midi_max_l=21;
 	midi_min_l=108;
 	midi_min0_l=0;
@@ -672,11 +683,11 @@ function setMidi(data1){
 			n_id+=1;
 			r2.push(note.start);
 			r2.push(note.stop);
-				if(Number(note.pitch)>Number(midi_max)){
-					midi_max=note.pitch;
+				if(Number(note.pitch)>Number(midi_max_b)){
+					midi_max_b=note.pitch;
 				}
-				if(Number(note.pitch)<Number(midi_min)){
-					midi_min=note.pitch;
+				if(Number(note.pitch)<Number(midi_min_b)){
+					midi_min_b=note.pitch;
 				}
 				if(note.channel==x_ch1 && Number(note.pitch)>Number(midi_max_l)){
 					midi_max_l=note.pitch;
@@ -697,6 +708,17 @@ function setMidi(data1){
 				}
 		})
 	})
+
+	if (document.form1.hands.options[0].selected==true) {
+		midi_max=midi_max_b;
+		midi_min=midi_min_b;
+	}else if (document.form1.hands.options[1].selected==true) {
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
+	} else if (document.form1.hands.options[2].selected==true){
+		midi_max=midi_max_r;
+		midi_min=midi_min_r;
+	}
 
 	midi_min0=midi_min;
 	midi_max0=midi_max;
@@ -1424,7 +1446,10 @@ function line2(tick){
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
 
-	if (document.form1.hands.options[1].selected==true) {
+	if (document.form1.hands.options[0].selected==true) {
+		midi_max=midi_max_b;
+		midi_min=midi_min_b;
+	}else if (document.form1.hands.options[1].selected==true) {
 		midi_max=midi_max_l;
 		midi_min=midi_min_l;
 	} else if (document.form1.hands.options[2].selected==true){
