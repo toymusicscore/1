@@ -648,7 +648,7 @@ function setMidi(data1){
 	bttl = parsedData.beatTrack[0].value[0];
 	ntvl = parsedData.beatTrack[0].value[1];
 	bpm = parsedData.tempoTrack[0].value;
-	ticksPerMeasure = bttl * ppq / ntvl * 4;
+	ticksPerMeasure = ppq * bttl / ntvl * 4;
 	document.form1.x_bpm.value=bpm;
 
 	r1=[];
