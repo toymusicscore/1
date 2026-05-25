@@ -2247,6 +2247,12 @@ function createDiffData(scoreData, recordData){
 		r.midi - s.midi
 	);
 
+const baseScore =
+    scoreData[0].start;
+
+const baseRecord =
+    recordData[0].start;
+
         diffData.push({
 
             index: i,
@@ -2254,12 +2260,17 @@ function createDiffData(scoreData, recordData){
             pitchDiff:
                 r.midi - s.midi,
 
-            attackDiff:
-                r.start - s.start,
+			attackDiff:
+				(r.start - baseRecord)
+				-
+				(s.start - baseScore),
 
-            releaseDiff:
-                r.stop - s.stop
-        });
+			releaseDiff:
+				(r.stop - baseRecord)
+				-
+				(s.stop - baseScore)
+
+		});
     }
 
     return diffData;
