@@ -2527,73 +2527,94 @@ function drawGraph(
             1,
             diffData.length - 1
         );
+		
+// 折れ線開始
+ctx.beginPath();
 
-	for(let i = 0; i < diffData.length; i++){
+for(let i = 0; i < diffData.length; i++){
 
-		const x =
-			mx + i / maxX * w;
+    const x =
+        mx + i / maxX * w;
 
-		const y =
-			centerY
-			-
-			diffData[i][key] * scaleY;
+    const y =
+        centerY
+        -
+        diffData[i][key] * scaleY;
 
-		// 小節線
-		if(
-			i === 0
-			||
-			diffData[i].measure
-			!==
-			diffData[i-1].measure
-		){
+    // 小節線
+    if(
+        i === 0
+        ||
+        diffData[i].measure
+        !==
+        diffData[i-1].measure
+    ){
 
-			ctx.fillStyle = "black";
+        ctx.fillStyle = "black";
 
-			ctx.fillText(
-				diffData[i].measure,
-				x,
-				offsetY + graphHeight
-			);
+        ctx.fillText(
+            diffData[i].measure,
+            x,
+            offsetY + graphHeight
+        );
 
-			// 小節線だけ別パス
-			ctx.strokeStyle = "#ddd";
+        // 小節線だけ別描画
+        ctx.strokeStyle = "#ddd";
 
-			ctx.beginPath();
+        ctx.beginPath();
 
-			ctx.moveTo(x, offsetY);
+        ctx.moveTo(x, offsetY);
 
-			ctx.lineTo(
-				x,
-				offsetY + graphHeight
-			);
+        ctx.lineTo(
+            x,
+            offsetY + graphHeight
+        );
 
-			ctx.stroke();
+        ctx.stroke();
 
-			// 色を戻す
-			ctx.strokeStyle = color;
-			ctx.fillStyle = color;
-		}
+        // 折れ線用パスを再開
+        ctx.beginPath();
 
-		// 点
-		ctx.fillRect(
-			x - 2,
-			y - 2,
-			4,
-			4
-		);
+        if(i === 0){
 
-		// 折れ線
-		if(i === 0){
+            ctx.moveTo(x, y);
 
-			ctx.moveTo(x, y);
+        }else{
 
-		}else{
+            ctx.moveTo(
+                mx + (i-1)/maxX * w,
+                centerY
+                -
+                diffData[i-1][key] * scaleY
+            );
 
-			ctx.lineTo(x, y);
-		}
-	}
+            ctx.lineTo(x, y);
+        }
 
-	ctx.stroke();
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+    }else{
+
+        // 通常折れ線
+        if(i === 0){
+
+            ctx.moveTo(x, y);
+
+        }else{
+
+            ctx.lineTo(x, y);
+        }
+    }
+
+    ctx.fillRect(
+        x - 2,
+        y - 2,
+        4,
+        4
+    );
+}
+
+ctx.stroke();
 }
 
 
