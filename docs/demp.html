@@ -2425,7 +2425,8 @@ function drawLineGraph(){
         "Pitch",
         20,
         "red",
-        20
+        20,
+		false
     );
 
     drawGraph(
@@ -2434,7 +2435,8 @@ function drawLineGraph(){
         "Attack",
         170,
         "blue",
-        0.1
+        0.1,
+		false
     );
 
     drawGraph(
@@ -2443,7 +2445,8 @@ function drawLineGraph(){
         "Release",
         320,
         "green",
-        0.1
+        0.1,
+		false
     );
 
     drawGraph(
@@ -2452,7 +2455,8 @@ function drawLineGraph(){
         "Duration",
         470,
         "cyan",
-        0.1
+        0.1,
+		false
     );
 
 
@@ -2462,7 +2466,8 @@ function drawLineGraph(){
         "Velocity",
         620,
         "magenta",
-        0.1
+        0.1,
+		true
     );
 
 
@@ -2474,7 +2479,8 @@ function drawGraph(
     title,
     offsetY,
     color,
-    scaleY
+    scaleY,
+    showMeasureLabel
 ){
 
     const graphHeight = 150;
@@ -2539,11 +2545,14 @@ function drawGraph(
             const x =
                 mx + i / maxX * w;
 
-            ctx.fillText(
-                diffData[i].measure,
-                x,
-                offsetY + graphHeight
-            );
+			if(showMeasureLabel){
+
+				ctx.fillText(
+					diffData[i].measure,
+					x,
+					offsetY + graphHeight
+				);
+			}
 
             ctx.beginPath();
 
