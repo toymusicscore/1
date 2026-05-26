@@ -2529,16 +2529,17 @@ function drawGraph(
             diffData.length - 1
         );
 
-    for(let i = 0; i < diffData.length; i++){
+	for(let i = 0; i < diffData.length; i++){
 
-        const x =
-            mx + i / maxX * w;
+		const x =
+			mx + i / maxX * w;
 
-        const y =
-            centerY
-            -
-            diffData[i][key] * scaleY;
+		const y =
+			centerY
+			-
+			diffData[i][key] * scaleY;
 
+		// 小節線
 		if(
 			i === 0
 			||
@@ -2554,14 +2555,13 @@ function drawGraph(
 				x,
 				offsetY + graphHeight
 			);
+
+			// 小節線だけ別パス
 			ctx.strokeStyle = "#ddd";
 
 			ctx.beginPath();
 
-			ctx.moveTo(
-				x,
-				offsetY
-			);
+			ctx.moveTo(x, offsetY);
 
 			ctx.lineTo(
 				x,
@@ -2570,28 +2570,31 @@ function drawGraph(
 
 			ctx.stroke();
 
-		}	
+			// 色を戻す
+			ctx.strokeStyle = color;
+			ctx.fillStyle = color;
+		}
 
-        ctx.fillRect(
-            x - 2,
-            y - 2,
-            4,
-            4
-        );
+		// 点
+		ctx.fillRect(
+			x - 2,
+			y - 2,
+			4,
+			4
+		);
 
-        if(i === 0){
+		// 折れ線
+		if(i === 0){
 
-            ctx.moveTo(x, y);
+			ctx.moveTo(x, y);
 
-        }else{
+		}else{
 
-            ctx.lineTo(x, y);
-        }
-
+			ctx.lineTo(x, y);
+		}
 	}
 
 	ctx.stroke();
-
 }
 
 
