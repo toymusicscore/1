@@ -2479,15 +2479,13 @@ function drawGraph(
 
     const graphHeight = 150;
 
-    const w = canvas.width-2*mx;
+    const w = canvas.width - 2 * mx;
 
     const centerY =
         offsetY + graphHeight / 2;
 
-	ctx.beginPath();
-
-	// タイトル
-	ctx.fillStyle = "black";
+    // タイトル
+    ctx.fillStyle = "black";
 
     ctx.font = "20px sans-serif";
 
@@ -2514,88 +2512,86 @@ function drawGraph(
 
     ctx.stroke();
 
-    // グラフ
+    const maxX =
+        Math.max(
+            1,
+            diffData.length - 1
+        );
+
+    // --------------------
+    // 小節線だけ描画
+    // --------------------
+
+    ctx.strokeStyle = "#ddd";
+
+    ctx.fillStyle = "black";
+
+    for(let i = 0; i < diffData.length; i++){
+
+        if(
+            i === 0
+            ||
+            diffData[i].measure
+            !==
+            diffData[i - 1].measure
+        ){
+
+            const x =
+                mx + i / maxX * w;
+
+            ctx.fillText(
+                diffData[i].measure,
+                x,
+                offsetY + graphHeight
+            );
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x,
+                offsetY
+            );
+
+            ctx.lineTo(
+                x,
+                offsetY + graphHeight
+            );
+
+            ctx.stroke();
+        }
+    }
+
+    // --------------------
+    // 折れ線描画
+    // --------------------
+
     ctx.strokeStyle = color;
+
     ctx.fillStyle = color;
 
     ctx.lineWidth = 2;
 
     ctx.beginPath();
 
-    const maxX =
-        Math.max(
-            1,
-            diffData.length - 1
-        );
-		
-// 折れ線開始
-ctx.beginPath();
+    for(let i = 0; i < diffData.length; i++){
 
-for(let i = 0; i < diffData.length; i++){
+        const x =
+            mx + i / maxX * w;
 
-    const x =
-        mx + i / maxX * w;
+        const y =
+            centerY
+            -
+            diffData[i][key] * scaleY;
 
-    const y =
-        centerY
-        -
-        diffData[i][key] * scaleY;
-
-    // 小節線
-    if(
-        i === 0
-        ||
-        diffData[i].measure
-        !==
-        diffData[i-1].measure
-    ){
-
-        ctx.fillStyle = "black";
-
-        ctx.fillText(
-            diffData[i].measure,
-            x,
-            offsetY + graphHeight
+        // 点
+        ctx.fillRect(
+            x - 2,
+            y - 2,
+            4,
+            4
         );
 
-        // 小節線だけ別描画
-        ctx.strokeStyle = "#ddd";
-
-        ctx.beginPath();
-
-        ctx.moveTo(x, offsetY);
-
-        ctx.lineTo(
-            x,
-            offsetY + graphHeight
-        );
-
-        ctx.stroke();
-
-        // 折れ線用パスを再開
-        ctx.beginPath();
-
-        if(i === 0){
-
-            ctx.moveTo(x, y);
-
-        }else{
-
-            ctx.moveTo(
-                mx + (i-1)/maxX * w,
-                centerY
-                -
-                diffData[i-1][key] * scaleY
-            );
-
-            ctx.lineTo(x, y);
-        }
-
-        ctx.strokeStyle = color;
-        ctx.fillStyle = color;
-    }else{
-
-        // 通常折れ線
+        // 折れ線
         if(i === 0){
 
             ctx.moveTo(x, y);
@@ -2606,17 +2602,8 @@ for(let i = 0; i < diffData.length; i++){
         }
     }
 
-    ctx.fillRect(
-        x - 2,
-        y - 2,
-        4,
-        4
-    );
+    ctx.stroke();
 }
-
-ctx.stroke();
-}
-
 
 function setbpm1(){
 	document.form1.x_bpm.value=Number(document.form1.sbpm1.options[document.form1.sbpm1.options.selectedIndex].value);
