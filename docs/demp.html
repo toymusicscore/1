@@ -2625,6 +2625,16 @@ function drawGraph(
     ctx.stroke();
 }
 
+document.addEventListener(
+    "click",
+    async () => {
+
+        await audioContext.resume();
+
+        console.log(audioContext.state);
+    },
+    { once:true }
+);
 
 navigator.requestMIDIAccess()
 .then(onMIDISuccess);
@@ -2669,7 +2679,7 @@ const audioContext =
 
 const oscillators = {};
 
-/*
+
 function noteToFreq(note){
 
     return 440 *
@@ -2678,7 +2688,7 @@ function noteToFreq(note){
             (note - 69) / 12
         );
 }
-*/
+
 
 const notes = [];
 
