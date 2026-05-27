@@ -2625,6 +2625,9 @@ function drawGraph(
     ctx.stroke();
 }
 
+const audioContext =
+    new AudioContext();
+
 document.addEventListener(
     "click",
     async () => {
@@ -2639,46 +2642,44 @@ document.addEventListener(
 navigator.requestMIDIAccess()
 .then(onMIDISuccess);
 
+const oscillators = {};
+
 function onMIDISuccess(midiAccess){
 
     for(let input of midiAccess.inputs.values()){
 
-        input.onmidimessage = onMIDIMessage;
+        input.onmidimessage =
+            onMIDIMessage;
     }
 }
 
 function onMIDIMessage(event){
 
-    const [status, note, velocity] = event.data;
+    const [status, note, velocity] =
+        event.data;
 
     console.log(status, note, velocity);
-}
 
+    const command =
+        status & 0xf0;
 
-function onMIDIMessage(event){
-
-    const [status, note, velocity] = event.data;
-
-    // ノートオン
-    if(status === 144 && velocity > 0){
-
+    if(
+        command === 0x90 &&
+        velocity > 0
+    ){
         noteOn(note, velocity);
     }
 
-    // ノートオフ
     if(
-        status === 128 ||
-        (status === 144 && velocity === 0)
+        command === 0x80 ||
+        (
+            command === 0x90 &&
+            velocity === 0
+        )
     ){
         noteOff(note);
     }
 }
-
-const audioContext =
-    new AudioContext();
-
-const oscillators = {};
-
 
 function noteToFreq(note){
 
@@ -2688,9 +2689,6 @@ function noteToFreq(note){
             (note - 69) / 12
         );
 }
-
-
-const notes = [];
 
 function noteOn(note, velocity){
 
@@ -2709,43 +2707,25 @@ function noteOn(note, velocity){
         velocity / 127 * 0.2;
 
     osc.connect(gain);
-    gain.connect(audioContext.destination);
+
+    gain.connect(
+        audioContext.destination
+    );
 
     osc.start();
 
-    oscillators[note] = {
-        osc,
-        gain
-    };
-
-    notes.push({
-        note,
-        start: performance.now(),
-        end: null
-    });
+    oscillators[note] = osc;
 }
 
 function noteOff(note){
 
-    for(let i = notes.length - 1; i >= 0; i--){
+    const osc = oscillators[note];
 
-        if(
-            notes[i].note === note &&
-            notes[i].end == null
-        ){
-            notes[i].end = performance.now();
-            break;
-        }
-    }
+    if(!osc) return;
 
-    const o = oscillators[note];
-
-    if(!o) return;
-
-    o.osc.stop();
+    osc.stop();
 
     delete oscillators[note];
-
 }
 
 /*
