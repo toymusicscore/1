@@ -908,6 +908,7 @@ function pause(){
     if (isPlaying == 0) return;
     pauseTick = getCurrentTick();
 	stopRecord();
+	state = false;
     isPlaying = 0;
     picoAudio.pause();
     cancelAnimationFrame(rafId);
@@ -918,6 +919,7 @@ async function record(){
 	await picoAudio.context.resume();
 	await cdown();
 	await draw();
+	state = true;
 	await touchSound();
 	await startRecord();
 }
@@ -984,15 +986,24 @@ function touchSound(){
 
     touchInitialized = true;
 
-	canvas.addEventListener('pointerdown', async (e) => {
-		e.preventDefault();
-		await picoAudio.context.resume();
-		playSound(e);
-	});
+    canvas.addEventListener('pointerdown', async (e) => {
 
-	document.addEventListener('pointerup', (e) => offSound(e));
-	document.addEventListener('pointercancel', (e) => offSound(e));
+        e.preventDefault();
+
+        // 音を出さない設定なら終了
+        if(!state){
+            return;
+        }
+
+        await picoAudio.context.resume();
+
+        playSound(e);
+    });
+
+    document.addEventListener('pointerup', (e) => offSound(e));
+    document.addEventListener('pointercancel', (e) => offSound(e));
 }
+
 
 let recordData = [];
 let recordStart = 0;
@@ -1303,7 +1314,8 @@ async function review(){
     nextIndex = 0;
     pauseTick = 0;
 	baseAudioTime = 0;
-
+	state = true;
+	
     cancelAnimationFrame(rafId);
 
     await picoAudio.context.resume();
