@@ -65,6 +65,11 @@ demp
 	<option value="2" style="font-size:100%"> RH </option>
 	</select>
 
+<select name="hands"  onChange="drawElecPiano()" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> TP </option>
+	<option value="1" style="font-size:100%"> KB </option>
+</select>
+
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Label </option>
 	<option value="1" style="font-size:100%"> DoReMi # </option>
@@ -2728,7 +2733,6 @@ function noteOff(note){
     delete oscillators[note];
 }
 
-/*
 function drawElecPiano(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -2747,9 +2751,9 @@ function drawElecPiano(){
         ctx.fillRect(x, y, w, 4);
     }
 
-    requestAnimationFrame(draw);
+    requestAnimationFrame(drawElecPiano);
 }
-*/
+
 
 
 function setbpm1(){
