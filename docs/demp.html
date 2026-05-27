@@ -2664,11 +2664,49 @@ function onMIDIMessage(event){
     }
 }
 
+const audioContext =
+    new AudioContext();
 
+const oscillators = {};
+
+/*
+function noteToFreq(note){
+
+    return 440 *
+        Math.pow(
+            2,
+            (note - 69) / 12
+        );
+}
+*/
 
 const notes = [];
 
 function noteOn(note, velocity){
+
+    const osc =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+    osc.type = "sine";
+
+    osc.frequency.value =
+        noteToFreq(note);
+
+    gain.gain.value =
+        velocity / 127 * 0.2;
+
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+
+    osc.start();
+
+    oscillators[note] = {
+        osc,
+        gain
+    };
 
     notes.push({
         note,
@@ -2689,6 +2727,15 @@ function noteOff(note){
             break;
         }
     }
+
+    const o = oscillators[note];
+
+    if(!o) return;
+
+    o.osc.stop();
+
+    delete oscillators[note];
+
 }
 
 
