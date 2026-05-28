@@ -2684,6 +2684,38 @@ function onMIDIMessage(event){
     ){
         noteOff(note);
     }
+
+	const x_bpm =
+		parseFloat(
+			document.form1.x_bpm.value
+		);
+
+	const audioNow = performance.now();
+
+	const latency =
+		0.04;
+		
+	const t =
+		(
+			audioNow
+			-
+			baseAudioTime
+			+
+			latency
+		)
+		*
+		x_bpm
+		*
+		ppq
+		/ 60;
+
+	recordData.push({
+		midi: note,
+		start: t,
+		stop: null,
+		velocity: velocity
+	});
+
 }
 
 function noteToFreq(note){
