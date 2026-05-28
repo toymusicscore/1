@@ -2400,7 +2400,7 @@ const baseRecord =
 				(s.stop - s.start),
 
 			velocityDiff:
-				r.velocity - s.velocity
+				r.velocity / 127 - s.velocity
 
 		});
     }
@@ -2476,7 +2476,7 @@ function drawLineGraph(){
         "Velocity",
         620,
         "magenta",
-        100,
+        1,
 		true
     );
 
