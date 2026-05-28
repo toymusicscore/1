@@ -65,6 +65,11 @@ demp
 	<option value="2" style="font-size:100%"> RH </option>
 	</select>
 
+<select name="imputMethod" style="font-size:100%">
+	<option value="0" style="font-size:100%" selected="selected"> TP </option>
+	<option value="1" style="font-size:100%"> KB </option>
+</select>
+
 <select name="nl1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> No Label </option>
 	<option value="1" style="font-size:100%"> DoReMi # </option>
@@ -2632,9 +2637,12 @@ document.addEventListener(
     "click",
     async () => {
 
-        await audioContext.resume();
+        if(document.form1.inputMethod.value == "1"){
 
-        console.log(audioContext.state);
+            await audioContext.resume();
+
+            console.log(audioContext.state);
+        }
     },
     { once:true }
 );
