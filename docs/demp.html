@@ -2671,7 +2671,7 @@ function onMIDIMessage(event){
             document.form1.x_bpm.value
         );
 
-    const audioNow = performance.now();
+    const audioNow = performance.now() / 1000;
 
     const latency = 0.04;
 
@@ -2687,7 +2687,7 @@ function onMIDIMessage(event){
         x_bpm
         *
         ppq
-        / 60000;
+        / 60;
 
     // Note On
     if(
