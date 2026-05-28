@@ -2399,6 +2399,12 @@ const baseRecord =
 				-
 				(s.stop - s.start),
 
+			velocityRecord:
+				r.velocity / 127,
+
+			velocityScore:
+				s.velocity,
+
 			velocityDiff:
 				r.velocity / 127 - s.velocity
 
@@ -2472,8 +2478,30 @@ function drawLineGraph(){
 
 	drawGraph(
         diffData,
+        "velocityRecord",
+        "Velocity Record",
+        620,
+        "magenta",
+        100,
+		true
+    );
+
+
+	drawGraph(
+        diffData,
+        "velocityScore",
+        "Velocity Score",
+        620,
+        "magenta",
+        100,
+		true
+    );
+
+
+	drawGraph(
+        diffData,
         "velocityDiff",
-        "Velocity",
+        "Velocity Difference",
         620,
         "magenta",
         100,
