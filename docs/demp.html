@@ -2635,14 +2635,10 @@ document.addEventListener(
     "click",
     async () => {
 
-        if(document.form1.inputMethod.value == "1"){
+        await audioContext.resume();
 
-            await audioContext.resume();
-
-            console.log(audioContext.state);
-        }
-    },
-    { once:true }
+        console.log(audioContext.state);
+    }
 );
 
 navigator.requestMIDIAccess()
