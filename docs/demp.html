@@ -2772,28 +2772,6 @@ function noteOff(note){
     delete oscillators[note];
 }
 
-function drawElecPiano(){
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    const now = performance.now();
-
-    for(let n of notes){
-
-        const x = (n.start - startTime) * 0.1;
-
-        const y = 127 * 5 - n.note * 5;
-
-        const w =
-            ((n.end ?? now) - n.start) * 0.1;
-
-        ctx.fillRect(x, y, w, 4);
-    }
-
-    requestAnimationFrame(drawElecPiano);
-}
-
-
 
 function setbpm1(){
 	document.form1.x_bpm.value=Number(document.form1.sbpm1.options[document.form1.sbpm1.options.selectedIndex].value);
