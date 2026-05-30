@@ -2387,34 +2387,6 @@ function simple(tick){
 	}//for(i=0;)
 }
 
-const scoreData = r1.slice();
-
-scoreData.sort((a, b) => {
-	return a.start - b.start;
-});
-
-const scoreRight =
-    scoreData
-        .filter(n => n.channel == x_chR)
-        .sort((a,b) => a.start - b.start);
-
-const scoreLeft =
-    scoreData
-        .filter(n => n.channel == x_chL)
-        .sort((a,b) => a.start - b.start);
-if(hands){
-
-    console.log(
-        scoreRight.length,
-        hands.right.length
-    );
-
-    console.log(
-        scoreLeft.length,
-        hands.left.length
-    );
-
-}
 
 let pairs = [];
 
@@ -2651,6 +2623,19 @@ function createDiffData(pairs){
 }
 
 function drawLineGraph(){
+	if(hands){
+
+		console.log(
+			scoreRight.length,
+			hands.right.length
+		);
+
+		console.log(
+			scoreLeft.length,
+			hands.left.length
+		);
+
+	}
 
 	console.log("hands =", hands);
 
