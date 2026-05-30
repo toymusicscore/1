@@ -2384,15 +2384,15 @@ scoreData.sort((a, b) => {
 });
 
 const scoreRight =
-    scoreData.filter(
-        n => n.channel == x_chR
-    );
+    scoreData
+        .filter(n => n.channel == x_chR)
+        .sort((a,b) => a.start - b.start);
 
 const scoreLeft =
-    scoreData.filter(
-        n => n.channel == x_chL
-    );
-
+    scoreData
+        .filter(n => n.channel == x_chL)
+        .sort((a,b) => a.start - b.start);
+		
 let pairs = [];
 
 if(document.form1.hands.options[0].selected){
