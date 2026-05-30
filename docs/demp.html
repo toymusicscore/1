@@ -1069,7 +1069,7 @@ function stopRecord(){
                 start: note.start,
                 stop: note.stop,
                 channel: note.channel,
-                velocity: note.velocity / 127,
+                velocity: note.velocity,
                 n_id: note.n_id
             });
 
@@ -1163,7 +1163,7 @@ function playSound(e){
             midi: p,
             start: t,
             stop: null,
-			velocity: 100
+			velocity: 100 / 127
         });
 
         currentMidis.add(p);
@@ -2861,7 +2861,7 @@ function onMIDIMessage(event){
             midi: note,
             start: t,
             stop: null,
-            velocity: velocity
+            velocity: velocity / 127
         };
 
         recordData.push(noteData);
