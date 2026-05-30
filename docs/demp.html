@@ -2556,11 +2556,20 @@ function createDiffData(pairs){
 
 function drawLineGraph(){
 
-    diffData =
-        createDiffData(
+    const pairs =
+        matchNotes(
             q1,
             recordData
         );
+
+    console.log(pairs);
+
+    diffData =
+        createDiffData(
+            pairs
+        );
+
+    console.log(diffData);
 
     ctx.clearRect(
         0,
