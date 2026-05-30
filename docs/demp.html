@@ -2394,6 +2394,16 @@ const scoreLeft =
         .filter(n => n.channel == x_chL)
         .sort((a,b) => a.start - b.start);
 
+console.log(
+	scoreRight.length,
+	hands.right.length
+);
+
+console.log(
+	scoreLeft.length,
+	hands.left.length
+);
+
 let pairs = [];
 
 if(document.form1.hands.options[0].selected){
@@ -2572,16 +2582,6 @@ function matchNotes(scoreData, recordData){
     }
 
     return pairs;
-
-	console.log(
-		scoreRight.length,
-		hands.right.length
-	);
-
-	console.log(
-		scoreLeft.length,
-		hands.left.length
-	);
 
 }
 
