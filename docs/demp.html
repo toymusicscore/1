@@ -1010,6 +1010,7 @@ let recordMidiMin = 0;
 let recordMidiMax = 0;
 let recordKw = 0;
 let baseAudioTime = 0;
+let hands = null;
 
 function startRecord(){
 
@@ -1051,7 +1052,7 @@ function stopRecord(){
 			n => n.channel == x_chL
 		);
 
-	const hands =
+	hands =
 		assignHands(
 			recordData,
 			scoreRight,
@@ -2392,7 +2393,7 @@ const scoreLeft =
     scoreData
         .filter(n => n.channel == x_chL)
         .sort((a,b) => a.start - b.start);
-		
+
 let pairs = [];
 
 if(document.form1.hands.options[0].selected){
