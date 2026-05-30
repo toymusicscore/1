@@ -1204,7 +1204,7 @@ function playSound(e){
             midi: p,
             start: t,
             stop: null,
-			velocity: 100 / 127
+			velocity: 100
         });
 
         currentMidis.add(p);
@@ -2623,10 +2623,10 @@ function createDiffData(pairs){
                 r.velocity,
 
             velocityScore:
-                s.velocity,
+                s.velocity * 127,
 
             velocityDiff:
-                r.velocity-s.velocity,
+                r.velocity-s.velocity * 127,
 
 			measure:
 				Math.floor(
@@ -2712,7 +2712,7 @@ function drawLineGraph(){
         "Velocity Record",
         420,
         "magenta",
-        10,
+        1000,
 		false
     );
 
@@ -2723,7 +2723,7 @@ function drawLineGraph(){
         "Velocity Score",
         520,
         "magenta",
-        10,
+        1000,
 		false
     );
 
@@ -2734,7 +2734,7 @@ function drawLineGraph(){
         "Velocity Difference",
         620,
         "magenta",
-        100,
+        10000,
 		true
     );
 
@@ -2957,7 +2957,7 @@ function onMIDIMessage(event){
             midi: note,
             start: t,
             stop: null,
-            velocity: velocity / 127
+            velocity: velocity
         };
 
         recordData.push(noteData);
