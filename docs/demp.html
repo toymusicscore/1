@@ -1069,7 +1069,7 @@ function stopRecord(){
                 start: note.start,
                 stop: note.stop,
                 channel: note.channel,
-                velocity: note.velocity,
+                velocity: note.velocity / 127,
                 n_id: note.n_id
             });
 
@@ -2400,13 +2400,13 @@ const baseRecord =
 				(s.stop - s.start),
 
 			velocityRecord:
-				r.velocity / 127,
+				r.velocity,
 
 			velocityScore:
 				s.velocity,
 
 			velocityDiff:
-				r.velocity / 127 - s.velocity
+				r.velocity - s.velocity
 
 		});
     }
