@@ -2393,16 +2393,19 @@ const scoreLeft =
     scoreData
         .filter(n => n.channel == x_chL)
         .sort((a,b) => a.start - b.start);
+if(hands){
 
-console.log(
-	scoreRight.length,
-	hands.right.length
-);
+    console.log(
+        scoreRight.length,
+        hands.right.length
+    );
 
-console.log(
-	scoreLeft.length,
-	hands.left.length
-);
+    console.log(
+        scoreLeft.length,
+        hands.left.length
+    );
+
+}
 
 let pairs = [];
 
@@ -2638,8 +2641,14 @@ function createDiffData(pairs){
     return diffData;
 }
 
-function drawLineGraph(){
 
+function drawLineGraph(){
+	if(!hands){
+
+		console.log("hands not ready");
+
+		return;
+	}
     let pairs = [];
 
     if(document.form1.hands.options[0].selected){
