@@ -2678,6 +2678,16 @@ function drawLineGraph(){
 	console.log("pairs", pairs.length);
 	console.log("diffData", diffData.length);
 
+	const matched =
+		pairs.filter(
+			p => p.score && p.record
+		);
+
+	console.log(
+		"matched",
+		matched.length
+	);
+
 	if(pairs.length > 0){
 		console.log(pairs[0]);
 	}
