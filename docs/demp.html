@@ -2611,19 +2611,6 @@ function createDiffData(pairs){
 }
 
 function drawLineGraph(){
-	if(hands){
-
-		console.log(
-			scoreRight.length,
-			hands.right.length
-		);
-
-		console.log(
-			scoreLeft.length,
-			hands.left.length
-		);
-
-	}
 
 	console.log("hands =", hands);
 
@@ -2647,6 +2634,20 @@ function drawLineGraph(){
         scoreData.filter(
             n => n.channel == x_chL
         );
+
+	if(hands){
+
+		console.log(
+			scoreRight.length,
+			hands.right.length
+		);
+
+		console.log(
+			scoreLeft.length,
+			hands.left.length
+		);
+
+	}
 
     let pairs = [];
 
@@ -2673,6 +2674,17 @@ function drawLineGraph(){
     }
 
     diffData = createDiffData(pairs);
+	
+	console.log("pairs", pairs.length);
+	console.log("diffData", diffData.length);
+
+	if(pairs.length > 0){
+		console.log(pairs[0]);
+	}
+
+	if(diffData.length > 0){
+		console.log(diffData[0]);
+	}
 
     console.log(diffData);
 
