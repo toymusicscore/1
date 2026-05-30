@@ -1010,17 +1010,6 @@ let recordMidiMin = 0;
 let recordMidiMax = 0;
 let recordKw = 0;
 let baseAudioTime = 0;
-let q1 = [];
-const scoreRight =
-    q1.filter(
-        n => n.channel == x_ch1
-    );
-
-const scoreLeft =
-    q1.filter(
-        n => n.channel == x_ch2
-    );
-
 
 function startRecord(){
 
@@ -1037,8 +1026,6 @@ function startRecord(){
 
 function stopRecord(){
 
-    q1 = [];
-
     for(let i = 0; i < recordData.length; i++){
 
         if(recordData[i].stop == null){
@@ -1052,61 +1039,7 @@ function stopRecord(){
         return a.start - b.start;
     });
 
-    for(let i = 0; i < r1.length; i++){
-
-        const note = r1[i];
-
-        if(
-            document.form1.hands.options[0].selected
-        ){
-
-            q1.push({
-                midi: note.midi,
-                start: note.start,
-                stop: note.stop,
-                channel: note.channel,
-                velocity: note.velocity,
-                n_id: note.n_id
-            });
-
-        }else if(
-            document.form1.hands.options[1].selected
-            &&
-            note.channel == x_ch1
-        ){
-
-            q1.push({
-                midi: note.midi,
-                start: note.start,
-                stop: note.stop,
-                channel: note.channel,
-                velocity: note.velocity,
-                n_id: note.n_id
-            });
-
-        }else if(
-            document.form1.hands.options[2].selected
-            &&
-            note.channel == x_ch2
-        ){
-
-            q1.push({
-                midi: note.midi,
-                start: note.start,
-                stop: note.stop,
-                channel: note.channel,
-                velocity: note.velocity,
-                n_id: note.n_id
-            });
-        }
-    }
-
-    q1.sort((a, b) => {
-        return a.start - b.start;
-    });
-
     console.log(recordData);
-    console.log(q1);
 
  //   drawLineGraph();
 }
@@ -2415,35 +2348,33 @@ function simple(tick){
 	}//for(i=0;)
 }
 
-	if(
-		document.form1.hands.options[0].selected
-	){
-		const pairs =
-			matchNotes(
-				q1,
-				recordData
-			);
-	}else if(
-		document.form1.hands.options[1].selected
-		&&
-		note.channel == x_ch1
-	){
-		const pairs =
-			matchNotes(
-				q1,
-				hands.right
-			);
-	}else if(
-		document.form1.hands.options[2].selected
-		&&
-		note.channel == x_ch2
-	){
-		const pairs =
-			matchNotes(
-				q1,
-				hands.left
-			);
-	}
+const scoreData = r1.slice();
+
+scoreData.sort((a, b) => {
+	return a.start - b.start;
+});
+
+const scoreRight =
+    scoreData.filter(
+        n => n.channel == x_ch2
+    );
+
+const scoreLeft =
+    scoreData.filter(
+        n => n.channel == x_ch1
+    );
+
+let pairs = [];
+
+if(document.form1.hands.options[0].selected){
+    pairs = matchNotes(scoreData, recordData);
+}
+else if(document.form1.hands.options[1].selected){
+    pairs = matchNotes(scoreLeft, hands.left);
+}
+else if(document.form1.hands.options[2].selected){
+    pairs = matchNotes(scoreRight, hands.right);
+}
 
 console.log(pairs);
 
