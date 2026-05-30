@@ -2396,6 +2396,7 @@ function matchNotes(scoreData, recordData){
     const n = recordData.length;
 
     const dp = [];
+	const MISS_COST = 50;
 
     for(let i=0; i<=m; i++){
 
@@ -2449,7 +2450,7 @@ function matchNotes(scoreData, recordData){
                 dp[i+1][j] =
                     Math.min(
                         dp[i+1][j],
-                        dp[i][j] + 500
+                        dp[i][j] + MISS_COST
                     );
             }
 
@@ -2459,7 +2460,7 @@ function matchNotes(scoreData, recordData){
                 dp[i][j+1] =
                     Math.min(
                         dp[i][j+1],
-                        dp[i][j] + 500
+                        dp[i][j] + MISS_COST
                     );
             }
         }
@@ -2486,9 +2487,17 @@ function matchNotes(scoreData, recordData){
             const timeCost =
                 Math.abs(s.start - r.start) / 100;
 
-            const matchCost =
-                pitchCost * 20 +
-                timeCost / 50;
+			const durationCost =
+				Math.abs(
+					(s.stop - s.start)
+					-
+					(r.stop - r.start)
+				) / 100;
+
+			const matchCost =
+				pitchCost * 10 +
+				timeCost +
+				durationCost;
 
             if(
                 Math.abs(
@@ -2518,7 +2527,7 @@ function matchNotes(scoreData, recordData){
             i > 0 &&
             Math.abs(
                 dp[i][j] -
-                (dp[i-1][j] + 20)
+                (dp[i-1][j] + MISS_COST)
             ) < 0.0001
         ){
 
