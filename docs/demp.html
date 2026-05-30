@@ -2339,84 +2339,220 @@ function simple(tick){
 
 let q1 = [];
 
-function createDiffData(scoreData, recordData){
+const pairs =
+    matchNotes(
+        q1,
+        recordData
+    );
+
+console.log(pairs);
+
+function matchNotes(scoreData, recordData){
+
+    const m = scoreData.length;
+    const n = recordData.length;
+
+    const dp = [];
+
+    for(let i=0; i<=m; i++){
+
+        dp[i] = [];
+
+        for(let j=0; j<=n; j++){
+
+            dp[i][j] = Infinity;
+        }
+    }
+
+    dp[0][0] = 0;
+
+    for(let i=0; i<=m; i++){
+
+        for(let j=0; j<=n; j++){
+
+            if(i < m && j < n){
+
+                const s = scoreData[i];
+                const r = recordData[j];
+
+                const pitchCost =
+                    Math.abs(s.midi - r.midi);
+
+                const timeCost =
+                    Math.abs(s.start - r.start) / 100;
+
+                const matchCost =
+                    pitchCost * 10 +
+                    timeCost;
+
+                dp[i+1][j+1] =
+                    Math.min(
+                        dp[i+1][j+1],
+                        dp[i][j] + matchCost
+                    );
+            }
+
+            // 楽譜側欠落
+            if(i < m){
+
+                dp[i+1][j] =
+                    Math.min(
+                        dp[i+1][j],
+                        dp[i][j] + 20
+                    );
+            }
+
+            // 余計な音
+            if(j < n){
+
+                dp[i][j+1] =
+                    Math.min(
+                        dp[i][j+1],
+                        dp[i][j] + 20
+                    );
+            }
+        }
+    }
+
+    const pairs = [];
+
+    let i = m;
+    let j = n;
+
+    while(i > 0 || j > 0){
+
+        if(
+            i > 0 &&
+            j > 0
+        ){
+
+            const s = scoreData[i-1];
+            const r = recordData[j-1];
+
+            const pitchCost =
+                Math.abs(s.midi - r.midi);
+
+            const timeCost =
+                Math.abs(s.start - r.start) / 100;
+
+            const matchCost =
+                pitchCost * 10 +
+                timeCost;
+
+            if(
+                Math.abs(
+                    dp[i][j] -
+                    (dp[i-1][j-1] + matchCost)
+                ) < 0.0001
+            ){
+
+                pairs.unshift({
+
+                    scoreIndex: i-1,
+                    recordIndex: j-1,
+
+                    score: s,
+                    record: r
+
+                });
+
+                i--;
+                j--;
+
+                continue;
+            }
+        }
+
+        if(
+            i > 0 &&
+            Math.abs(
+                dp[i][j] -
+                (dp[i-1][j] + 20)
+            ) < 0.0001
+        ){
+
+            pairs.unshift({
+
+                scoreIndex: i-1,
+                recordIndex: null,
+
+                score: scoreData[i-1],
+                record: null
+
+            });
+
+            i--;
+
+            continue;
+        }
+
+        if(j > 0){
+
+            pairs.unshift({
+
+                scoreIndex: null,
+                recordIndex: j-1,
+
+                score: null,
+                record: recordData[j-1]
+
+            });
+
+            j--;
+        }
+    }
+
+    return pairs;
+}
+
+let diffData = [];
+
+function createDiffData(pairs){
 
     const diffData = [];
 
-    const len = Math.min(
-        scoreData.length,
-        recordData.length
-    );
+    for(const pair of pairs){
 
-    for(let i = 0; i < len; i++){
+        if(
+            pair.score == null ||
+            pair.record == null
+        ){
+            continue;
+        }
 
-        const s = scoreData[i];
-        const r = recordData[i];
-		if(
-			s.stop == null ||
-			r.stop == null
-		){
-			continue;
-		}
-
-		console.log(
-		i,
-		s.midi,
-		r.midi,
-		r.midi - s.midi
-	);
-
-const baseScore =
-    scoreData[0].start;
-
-const baseRecord =
-    recordData[0].start;
+        const s = pair.score;
+        const r = pair.record;
 
         diffData.push({
 
-            index: i,
-
-			measure:
-				Math.floor(
-					s.start / ticksPerMeasure
-				) + 1,
-				
             pitchDiff:
                 r.midi - s.midi,
 
-			attackDiff:
-				(r.start - baseRecord)
-				-
-				(s.start - baseScore),
+            attackDiff:
+                r.start - s.start,
 
-			releaseDiff:
-				(r.stop - baseRecord)
-				-
-				(s.stop - baseScore),
+            releaseDiff:
+                r.stop - s.stop,
 
-			durationDiff:
-				(r.stop - r.start)
-				-
-				(s.stop - s.start),
+            durationDiff:
+                (r.stop-r.start)
+                -
+                (s.stop-s.start),
 
-			velocityRecord:
-				r.velocity,
+            velocityRecord:
+                r.velocity,
 
-			velocityScore:
-				s.velocity,
+            velocityScore:
+                s.velocity,
 
-			velocityDiff:
-				r.velocity - s.velocity
+            velocityDiff:
+                r.velocity-s.velocity
 
-		});
+        });
     }
 
     return diffData;
-
 }
-
-
-let diffData = [];
 
 function drawLineGraph(){
 
