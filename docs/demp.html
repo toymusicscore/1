@@ -2614,11 +2614,6 @@ function drawLineGraph(){
 
 	console.log("hands =", hands);
 
-	if(!hands){
-        console.log("hands not ready");
-        return;
-    }
-
     scoreData = r1.slice();
 
     scoreData.sort((a, b) => {
@@ -2634,20 +2629,6 @@ function drawLineGraph(){
         scoreData.filter(
             n => n.channel == x_chL
         );
-
-	if(hands){
-
-		console.log(
-			scoreRight.length,
-			hands.right.length
-		);
-
-		console.log(
-			scoreLeft.length,
-			hands.left.length
-		);
-
-	}
 
     let pairs = [];
 
@@ -2675,9 +2656,6 @@ function drawLineGraph(){
 
     diffData = createDiffData(pairs);
 
-	console.log("pairs", pairs.length);
-	console.log("diffData", diffData.length);
-
 	const matched =
 		pairs.filter(
 			p => p.score && p.record
@@ -2695,8 +2673,6 @@ function drawLineGraph(){
 	if(diffData.length > 0){
 		console.log(diffData[0]);
 	}
-
-    console.log(diffData);
 
     ctx.clearRect(
         0,
