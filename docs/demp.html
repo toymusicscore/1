@@ -1041,6 +1041,16 @@ function stopRecord(){
 
     console.log(recordData);
 
+	const scoreRight =
+		q1.filter(
+			n => n.channel == x_ch1
+		);
+
+	const scoreLeft =
+		q1.filter(
+			n => n.channel == x_ch2
+		);
+
 	const hands =
 		assignHands(
 			recordData,
@@ -1100,16 +1110,29 @@ function assignHands(
                     cost
                 );
         }
+		
+	if(rightCost <= leftCost){
 
-        if(rightCost < leftCost){
+		console.log(
+			"R",
+			r.midi,
+			rightCost,
+			leftCost
+		);
 
-            right.push(r);
+		right.push(r);
 
-        }else{
+	}else{
 
-            left.push(r);
-        }
-    }
+		console.log(
+			"L",
+			r.midi,
+			rightCost,
+			leftCost
+		);
+
+		left.push(r);
+	}    }
 
     return {
         right,
