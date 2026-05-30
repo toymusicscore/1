@@ -2442,9 +2442,17 @@ function matchNotes(scoreData, recordData){
                 const timeCost =
                     Math.abs(s.start - r.start) / 100;
 
-                const matchCost =
-                    pitchCost * 10 +
-                    timeCost;
+				const durationCost =
+					Math.abs(
+						(s.stop - s.start)
+						-
+						(r.stop - r.start)
+					) / 100;
+
+				const matchCost =
+					pitchCost * 10 +
+					timeCost +
+					durationCost;
 
                 dp[i+1][j+1] =
                     Math.min(
