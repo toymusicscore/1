@@ -2674,6 +2674,8 @@ function drawGraph(
 
     const w = canvas.width - 2 * mx;
 
+	const titleHeight = 40;
+
     const centerY =
         offsetY + graphHeight / 2;
 
@@ -2741,17 +2743,17 @@ function drawGraph(
 				);
 			}
 
-            ctx.beginPath();
+			ctx.beginPath();
 
-            ctx.moveTo(
-                x,
-                offsetY
-            );
+			ctx.moveTo(
+				x,
+				offsetY + titleHeight
+			);
 
-            ctx.lineTo(
-                x,
-                offsetY + graphHeight
-            );
+			ctx.lineTo(
+				x,
+				offsetY + graphHeight
+			);
 
             ctx.stroke();
         }
