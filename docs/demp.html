@@ -2546,8 +2546,12 @@ function createDiffData(pairs){
                 s.velocity,
 
             velocityDiff:
-                r.velocity-s.velocity
+                r.velocity-s.velocity,
 
+			measure:
+				Math.floor(
+					s.start / ticksPerMeasure
+				) + 1
         });
     }
 
