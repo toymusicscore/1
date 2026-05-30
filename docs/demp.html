@@ -2564,6 +2564,16 @@ function matchNotes(scoreData, recordData){
 
     return pairs;
 
+	const matched =
+		pairs.filter(
+			p => p.score && p.record
+		);
+
+	console.log(
+		"matched",
+		matched.length
+	);
+
 }
 
 let diffData = [];
