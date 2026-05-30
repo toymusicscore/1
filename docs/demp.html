@@ -1041,18 +1041,18 @@ function stopRecord(){
 
     console.log(recordData);
 
- //   drawLineGraph();
+	const hands =
+		assignHands(
+			recordData,
+			scoreRight,
+			scoreLeft
+		);
+
+	console.log(hands.right);
+	console.log(hands.left);
+
 }
 
-const hands =
-    assignHands(
-        recordData,
-        scoreRight,
-        scoreLeft
-    );
-
-console.log(hands.right);
-console.log(hands.left);
 
 function assignHands(
     recordData,
@@ -1068,11 +1068,14 @@ function assignHands(
         let leftCost = Infinity;
 
         for(const s of scoreRight){
-
-            const cost =
-                Math.abs(r.midi - s.midi)
-                +
-                Math.abs(r.start - s.start) / 100;
+			const rLen = r.stop - r.start;
+			const sLen = s.stop - s.start;
+			const cost =
+				Math.abs(r.midi - s.midi)
+				+
+				Math.abs(r.start - s.start) / 100
+				+
+				Math.abs(rLen - sLen) / 100;
 
             rightCost =
                 Math.min(
@@ -1082,11 +1085,14 @@ function assignHands(
         }
 
         for(const s of scoreLeft){
-
-            const cost =
-                Math.abs(r.midi - s.midi)
-                +
-                Math.abs(r.start - s.start) / 100;
+			const rLen = r.stop - r.start;
+			const sLen = s.stop - s.start;
+			const cost =
+				Math.abs(r.midi - s.midi)
+				+
+				Math.abs(r.start - s.start) / 100
+				+
+				Math.abs(rLen - sLen) / 100;
 
             leftCost =
                 Math.min(
