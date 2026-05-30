@@ -1010,6 +1010,26 @@ let recordMidiMin = 0;
 let recordMidiMax = 0;
 let recordKw = 0;
 let baseAudioTime = 0;
+let q1 = [];
+const scoreRight =
+    q1.filter(
+        n => n.channel == x_ch1
+    );
+
+const scoreLeft =
+    q1.filter(
+        n => n.channel == x_ch2
+    );
+
+const hands =
+    assignHands(
+        recordData,
+        scoreRight,
+        scoreLeft
+    );
+
+console.log(hands.right);
+console.log(hands.left);
 
 function startRecord(){
 
@@ -1098,6 +1118,64 @@ function stopRecord(){
     console.log(q1);
 
  //   drawLineGraph();
+}
+
+
+function assignHands(
+    recordData,
+    scoreRight,
+    scoreLeft
+){
+    const right = [];
+    const left = [];
+
+    for(const r of recordData){
+
+        let rightCost = Infinity;
+        let leftCost = Infinity;
+
+        for(const s of scoreRight){
+
+            const cost =
+                Math.abs(r.midi - s.midi)
+                +
+                Math.abs(r.start - s.start) / 100;
+
+            rightCost =
+                Math.min(
+                    rightCost,
+                    cost
+                );
+        }
+
+        for(const s of scoreLeft){
+
+            const cost =
+                Math.abs(r.midi - s.midi)
+                +
+                Math.abs(r.start - s.start) / 100;
+
+            leftCost =
+                Math.min(
+                    leftCost,
+                    cost
+                );
+        }
+
+        if(rightCost < leftCost){
+
+            right.push(r);
+
+        }else{
+
+            left.push(r);
+        }
+    }
+
+    return {
+        right,
+        left
+    };
 }
 
 
@@ -2337,7 +2415,6 @@ function simple(tick){
 	}//for(i=0;)
 }
 
-let q1 = [];
 
 const pairs =
     matchNotes(
