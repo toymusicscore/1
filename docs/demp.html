@@ -2641,24 +2641,53 @@ function createDiffData(pairs){
     return diffData;
 }
 
-
 function drawLineGraph(){
+
+	console.log("hands =", hands);
+
 	if(!hands){
+        console.log("hands not ready");
+        return;
+    }
 
-		console.log("hands not ready");
+    const scoreData = r1.slice();
 
-		return;
-	}
+    scoreData.sort((a, b) => {
+        return a.start - b.start;
+    });
+
+    const scoreRight =
+        scoreData.filter(
+            n => n.channel == x_chR
+        );
+
+    const scoreLeft =
+        scoreData.filter(
+            n => n.channel == x_chL
+        );
+
     let pairs = [];
 
     if(document.form1.hands.options[0].selected){
-        pairs = matchNotes(scoreData, recordData);
-    }
-    else if(document.form1.hands.options[1].selected){
-        pairs = matchNotes(scoreRight, hands.right);
-    }
-    else if(document.form1.hands.options[2].selected){
-        pairs = matchNotes(scoreLeft, hands.left);
+
+        pairs = matchNotes(
+            scoreData,
+            recordData
+        );
+
+    }else if(document.form1.hands.options[1].selected){
+
+        pairs = matchNotes(
+            scoreRight,
+            hands.right
+        );
+
+    }else if(document.form1.hands.options[2].selected){
+
+        pairs = matchNotes(
+            scoreLeft,
+            hands.left
+        );
     }
 
     diffData = createDiffData(pairs);
