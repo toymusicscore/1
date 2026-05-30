@@ -61,8 +61,8 @@ demp
 
 <select name="hands"  onChange="goTop()" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> BH </option>
-	<option value="1" style="font-size:100%"> LH </option>
-	<option value="2" style="font-size:100%"> RH </option>
+	<option value="1" style="font-size:100%"> RH </option>
+	<option value="2" style="font-size:100%"> LH </option>
 	</select>
 
 <select name="nl1" onChange="selview1()" style="font-size:100%">
@@ -724,12 +724,12 @@ function setMidi(data1){
 	if (document.form1.hands.options[0].selected==true) {
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
-	}else if (document.form1.hands.options[1].selected==true) {
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	} else if (document.form1.hands.options[2].selected==true){
+	} else if (document.form1.hands.options[1].selected==true){
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
+	}else if (document.form1.hands.options[2].selected==true) {
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
 	}
 
 	midi_min0=midi_min;
@@ -951,15 +951,15 @@ async function draw(){
     if(
         document.form1.hands.options[1].selected
     ){
-        midi_max = midi_max_l;
-        midi_min = midi_min_l;
-
-    }else if(
-        document.form1.hands.options[2].selected
-    ){
         midi_max = midi_max_r;
         midi_min = midi_min_r;
     }
+	else if(
+        document.form1.hands.options[2].selected
+    ){
+        midi_max = midi_max_l;
+        midi_min = midi_min_l;
+	}
 
     picoAudio.setData(parsedData);
 
@@ -1475,12 +1475,12 @@ function line(tick){
 	if (document.form1.hands.options[0].selected==true) {
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
-	}else if (document.form1.hands.options[1].selected==true) {
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	} else if (document.form1.hands.options[2].selected==true){
+	} else if (document.form1.hands.options[1].selected==true){
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
+	}else if (document.form1.hands.options[2].selected==true) {
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
 	}
 
 
@@ -1564,8 +1564,8 @@ function line(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_chL) || 
-			(document.form1.hands.options[2].selected==true && channel==x_chR)){
+			(document.form1.hands.options[1].selected==true && channel==x_chR) || 
+			(document.form1.hands.options[2].selected==true && channel==x_chL)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-2*my)/ht1);
 				ctx.beginPath();
@@ -1601,11 +1601,11 @@ function line2(tick){
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
 	}else if (document.form1.hands.options[1].selected==true) {
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	} else if (document.form1.hands.options[2].selected==true){
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
+	} else if (document.form1.hands.options[2].selected==true){
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
 	}
 
 	let kn=Number(midi_max)-Number(midi_min)+1;
@@ -1695,8 +1695,8 @@ function line2(tick){
 				continue;
 			}			
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_chL) || 
-			(document.form1.hands.options[2].selected==true && channel==x_chR)){
+			(document.form1.hands.options[1].selected==true && channel==x_chR) || 
+			(document.form1.hands.options[2].selected==true && channel==x_chL)){
 				ctx.beginPath();
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
@@ -1916,11 +1916,11 @@ function scroll(tick){
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
 	}else if (document.form1.hands.options[1].selected==true) {
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	} else if (document.form1.hands.options[2].selected==true){
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
+	} else if (document.form1.hands.options[2].selected==true){
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
 	}
 
 
@@ -1985,8 +1985,8 @@ function scroll(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+dt*(szy-my)/ht1;
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_chL) || 
-			(document.form1.hands.options[2].selected==true && channel==x_chR)){
+			(document.form1.hands.options[1].selected==true && channel==x_chR) || 
+			(document.form1.hands.options[2].selected==true && channel==x_chL)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
@@ -2020,11 +2020,11 @@ function scroll2(tick){
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
 	}else if (document.form1.hands.options[1].selected==true) {
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	} else if (document.form1.hands.options[2].selected==true){
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
+	} else if (document.form1.hands.options[2].selected==true){
+		midi_max=midi_max_l;
+		midi_min=midi_min_l;
 	}
 
 	let kn=Number(midi_max)-Number(midi_min)+1;
@@ -2088,8 +2088,8 @@ function scroll2(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+dt*(szy-my)/ht1;
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_chL) || 
-			(document.form1.hands.options[2].selected==true && channel==x_chR)){
+			(document.form1.hands.options[1].selected==true && channel==x_chR) || 
+			(document.form1.hands.options[2].selected==true && channel==x_chL)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
@@ -2399,10 +2399,10 @@ if(document.form1.hands.options[0].selected){
     pairs = matchNotes(scoreData, recordData);
 }
 else if(document.form1.hands.options[1].selected){
-    pairs = matchNotes(scoreLeft, hands.left);
+    pairs = matchNotes(scoreRight, hands.right);
 }
 else if(document.form1.hands.options[2].selected){
-    pairs = matchNotes(scoreRight, hands.right);
+    pairs = matchNotes(scoreLeft, hands.left);
 }
 
 console.log(pairs);
