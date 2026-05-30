@@ -1021,15 +1021,6 @@ const scoreLeft =
         n => n.channel == x_ch2
     );
 
-const hands =
-    assignHands(
-        recordData,
-        scoreRight,
-        scoreLeft
-    );
-
-console.log(hands.right);
-console.log(hands.left);
 
 function startRecord(){
 
@@ -1120,6 +1111,15 @@ function stopRecord(){
  //   drawLineGraph();
 }
 
+const hands =
+    assignHands(
+        recordData,
+        scoreRight,
+        scoreLeft
+    );
+
+console.log(hands.right);
+console.log(hands.left);
 
 function assignHands(
     recordData,
@@ -2415,12 +2415,35 @@ function simple(tick){
 	}//for(i=0;)
 }
 
-
-const pairs =
-    matchNotes(
-        q1,
-        recordData
-    );
+	if(
+		document.form1.hands.options[0].selected
+	){
+		const pairs =
+			matchNotes(
+				q1,
+				recordData
+			);
+	}else if(
+		document.form1.hands.options[1].selected
+		&&
+		note.channel == x_ch1
+	){
+		const pairs =
+			matchNotes(
+				q1,
+				hands.right
+			);
+	}else if(
+		document.form1.hands.options[2].selected
+		&&
+		note.channel == x_ch2
+	){
+		const pairs =
+			matchNotes(
+				q1,
+				hands.left
+			);
+	}
 
 console.log(pairs);
 
