@@ -21,7 +21,7 @@ demp
 	<option value="3" style="font-size:100%"> 4M</option>
 	</select>
 
-<select name="chn1" onChange="channel1()" style="font-size:100%">
+<select name="chnLeft" onChange="channelLeft()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> LCh1 </option>
 	<option value="1" style="font-size:100%"> LCh2</option>
 	<option value="2" style="font-size:100%" selected="selected"> LCh3</option>
@@ -40,7 +40,7 @@ demp
 	<option value="15" style="font-size:100%"> LCh16</option>
 	</select>
 
-<select name="chn2" onChange="channel2()" style="font-size:100%">
+<select name="chnRight" onChange="channelRight()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> RCh1 </option>
 	<option value="1" style="font-size:100%" selected="selected"> RCh2</option>
 	<option value="2" style="font-size:100%"> RCh3</option>
@@ -414,8 +414,8 @@ let ch_max=-1;
 let ch_num=0;
 let ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
 
-let x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-let x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+let x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
+let x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
 let x_ch3=0;
 let chr=[];
 let ch0=0;
@@ -697,16 +697,16 @@ function setMidi(data1){
 				if(Number(note.pitch)<Number(midi_min_b)){
 					midi_min_b=note.pitch;
 				}
-				if(note.channel==x_ch1 && Number(note.pitch)>Number(midi_max_l)){
+				if(note.channel==x_chL && Number(note.pitch)>Number(midi_max_l)){
 					midi_max_l=note.pitch;
 				}
-				if(note.channel==x_ch1 && Number(note.pitch)<Number(midi_min_l)){
+				if(note.channel==x_chL && Number(note.pitch)<Number(midi_min_l)){
 					midi_min_l=note.pitch;
 				}
-				if(note.channel==x_ch2 && Number(note.pitch)>Number(midi_max_r)){
+				if(note.channel==x_chR && Number(note.pitch)>Number(midi_max_r)){
 					midi_max_r=note.pitch;
 				}
-				if(note.channel==x_ch2 && Number(note.pitch)<Number(midi_min_r)){
+				if(note.channel==x_chR && Number(note.pitch)<Number(midi_min_r)){
 					midi_min_r=note.pitch;
 				}
 				if(note.channel>ch_max){
@@ -1042,13 +1042,13 @@ function stopRecord(){
     console.log(recordData);
 
 	const scoreRight =
-		q1.filter(
-			n => n.channel == x_ch1
+		r1.filter(
+			n => n.channel == x_chR
 		);
 
 	const scoreLeft =
-		q1.filter(
-			n => n.channel == x_ch2
+		r1.filter(
+			n => n.channel == x_chL
 		);
 
 	const hands =
@@ -1110,7 +1110,7 @@ function assignHands(
                     cost
                 );
         }
-		
+
 	if(rightCost <= leftCost){
 
 		console.log(
@@ -1564,8 +1564,8 @@ function line(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
-			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
+			(document.form1.hands.options[1].selected==true && channel==x_chL) || 
+			(document.form1.hands.options[2].selected==true && channel==x_chR)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-2*my)/ht1);
 				ctx.beginPath();
@@ -1695,8 +1695,8 @@ function line2(tick){
 				continue;
 			}			
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
-			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
+			(document.form1.hands.options[1].selected==true && channel==x_chL) || 
+			(document.form1.hands.options[2].selected==true && channel==x_chR)){
 				ctx.beginPath();
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
@@ -1985,8 +1985,8 @@ function scroll(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+dt*(szy-my)/ht1;
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
-			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
+			(document.form1.hands.options[1].selected==true && channel==x_chL) || 
+			(document.form1.hands.options[2].selected==true && channel==x_chR)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
@@ -2088,8 +2088,8 @@ function scroll2(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+dt*(szy-my)/ht1;
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_ch1) || 
-			(document.form1.hands.options[2].selected==true && channel==x_ch2)){
+			(document.form1.hands.options[1].selected==true && channel==x_chL) || 
+			(document.form1.hands.options[2].selected==true && channel==x_chR)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
@@ -2271,8 +2271,8 @@ function simple(tick){
 		}
 		if (dp >=0 && dt < 3/4){
 			getLabel(midi0, n_id0);
-			if (channel0==x_ch1){
-				if(channel1!=x_ch1){
+			if (channel0==x_chL){
+				if(channel1!=x_chL){
 				ctx.beginPath();
 				ctx.fillStyle=col3[channel0];
 				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+102,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
@@ -2322,7 +2322,7 @@ function simple(tick){
 				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+200);
 				}
 			}
-			if(channel0==x_ch2){
+			if(channel0==x_chR){
 				if(n_id0==1){
 				ctx.beginPath();
 				ctx.fillStyle=col3[channel0];
@@ -2385,12 +2385,12 @@ scoreData.sort((a, b) => {
 
 const scoreRight =
     scoreData.filter(
-        n => n.channel == x_ch2
+        n => n.channel == x_chR
     );
 
 const scoreLeft =
     scoreData.filter(
-        n => n.channel == x_ch1
+        n => n.channel == x_chL
     );
 
 let pairs = [];
@@ -3419,9 +3419,9 @@ function keyLabel(){
 }
 
 
-function channel1(){
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+function channelLeft(){
+x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
+x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
 
 tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
 if (tr1v<13){
@@ -3441,7 +3441,7 @@ midi_min_r=108;
 midi_max_r=21;
 parsedData.channels.forEach(channel => { 
 	channel.notes.forEach(note => { 
-		if(note.channel==x_ch1){
+		if(note.channel==x_chL){
 			let trs2=Number(note.pitch)+Number(trs1);
 			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
 			if(trs2>midi_max){
@@ -3457,7 +3457,7 @@ parsedData.channels.forEach(channel => {
 				midi_min_l=trs2;
 			}
 		}
-		if(note.channel==x_ch2){
+		if(note.channel==x_chR){
 			let trs2=Number(note.pitch)+Number(trs1);
 			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
 			if(trs2>midi_max){
@@ -3481,9 +3481,9 @@ selview1();
 
 }
 
-function channel2(){
-x_ch1=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-x_ch2=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+function channelRight(){
+x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
+x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
 
 tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
 if (tr1v<13){
@@ -3503,7 +3503,7 @@ midi_min_r=108;
 midi_max_r=21;
 parsedData.channels.forEach(channel => { 
 	channel.notes.forEach(note => { 
-		if(note.channel==x_ch1){
+		if(note.channel==x_chL){
 			let trs2=Number(note.pitch)+Number(trs1);
 			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
 			if(trs2>midi_max){
@@ -3519,7 +3519,7 @@ parsedData.channels.forEach(channel => {
 				midi_min_l=trs2;
 			}
 		}
-		if(note.channel==x_ch2){
+		if(note.channel==x_chR){
 			let trs2=Number(note.pitch)+Number(trs1);
 			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
 			if(trs2>midi_max){
