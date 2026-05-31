@@ -2954,44 +2954,45 @@ function onMIDISuccess(midiAccess){
     }
 }
 
+let pedalData = [];
+let pedalState = false;
+
 function onMIDIMessage(event){
 
-    const [status, note, velocity] =
-        event.data;
+    const [status, data1, data2] = event.data;
 
-    console.log(status, note, velocity);
+    const command = status & 0xf0;
+    const t = performance.now();
 
-    const command =
-        status & 0xf0;
+    // ペダル
+    if(command === 0xb0){
 
-    const x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
+        const cc = data1;
+        const value = data2;
 
-    const audioNow = picoAudio.context.currentTime;
+        if(cc === 64){
 
-    const latency = 0.04;
+            pedalState = value >= 64;
 
-    const t =
-        (
-            audioNow
-            -
-            baseAudioTime
-            +
-            latency
-        )
-        *
-        x_bpm
-        *
-        ppq
-        / 60;
+            recordData.push({
+                type: "pedal",
+                on: pedalState,
+                time: t
+            });
+
+            console.log(
+                pedalState ?
+                "PEDAL ON" :
+                "PEDAL OFF"
+            );
+        }
+    }
 
     // Note On
-    if(
-        command === 0x90 &&
-        velocity > 0
-    ){
+    if(command === 0x90 && data2 > 0){
+
+        const note = data1;
+        const velocity = data2;
 
         noteOn(note, velocity);
 
@@ -3012,9 +3013,11 @@ function onMIDIMessage(event){
         command === 0x80 ||
         (
             command === 0x90 &&
-            velocity === 0
+            data2 === 0
         )
     ){
+
+        const note = data1;
 
         noteOff(note);
 
