@@ -3035,12 +3035,16 @@ function noteToFreq(note){
             (note - 69) / 12
         );
 }
+
 function noteOn(note, velocity){
 
-    console.log("ON", note);
+	console.log(status, note, velocity);
 
     if(oscillators[note]){
-        console.log("already exists");
+
+        oscillators[note].stop();
+
+        delete oscillators[note];
     }
 
     const osc =
@@ -3058,15 +3062,13 @@ function noteOn(note, velocity){
         velocity / 127 * 0.2;
 
     osc.connect(gain);
-
-    gain.connect(
-        audioContext.destination
-    );
+    gain.connect(audioContext.destination);
 
     osc.start();
 
     oscillators[note] = osc;
 }
+
 
 function noteOff(note){
 
