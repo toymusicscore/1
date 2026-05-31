@@ -2969,26 +2969,25 @@ function onMIDIMessage(event){
     // ペダル
     if(command === 0xb0){
 
-        const cc = data1;
+		const cc = data1;
         const value = data2;
 
-        if(cc === 64){
+		console.log(
+				"CC",
+				data1,
+				"value",
+				data2
+			);
 
-            pedalState = value >= 64;
+		pedalData.push({
+			cc: data1,
+			value: data2,
+			time: t
+		});
 
-            recordData.push({
-                type: "pedal",
-                on: pedalState,
-                time: t
-            });
-
-            console.log(
-                pedalState ?
-                "PEDAL ON" :
-                "PEDAL OFF"
-            );
-        }
-    }
+		console.log(pedalData);
+	}
+}
 
     // Note On
     if(command === 0x90 && data2 > 0){
