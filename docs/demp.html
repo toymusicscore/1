@@ -3035,8 +3035,13 @@ function noteToFreq(note){
             (note - 69) / 12
         );
 }
-
 function noteOn(note, velocity){
+
+    console.log("ON", note);
+
+    if(oscillators[note]){
+        console.log("already exists");
+    }
 
     const osc =
         audioContext.createOscillator();
