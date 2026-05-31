@@ -2959,7 +2959,9 @@ let pedalState = false;
 
 function onMIDIMessage(event){
 
-    const [status, data1, data2] = event.data;
+	console.log(event.data);
+
+	const [status, data1, data2] = event.data;
 
     const command = status & 0xf0;
     const t = performance.now();
