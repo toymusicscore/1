@@ -2964,20 +2964,13 @@ function onMIDIMessage(event){
 	const [status, data1, data2] = event.data;
 
     const command = status & 0xf0;
-    const t = performance.now();
 	const channel = status & 0x0f;
+    const t = performance.now();
 
     // ペダル
     if(command === 0xb0){
 		const cc = data1;
         const value = data2;
-		if(
-			cc !== 64 &&
-			cc !== 66 &&
-			cc !== 67
-		){
-			return;
-		}
 
 		console.log(
 				"CC",
@@ -2986,12 +2979,19 @@ function onMIDIMessage(event){
 				data2
 			);
 
-		pedalData.push({
-    	    channel: status & 0x0f,
-			cc: data1,
-			value: data2,
-			time: t
-		});
+		if(
+			cc === 64 ||
+			cc === 66 ||
+			cc === 67
+		){
+
+			pedalData.push({
+				channel,
+				cc,
+				value,
+				time: t
+			});
+		}
 
 		console.log(pedalData);
 	}
