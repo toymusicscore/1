@@ -639,7 +639,7 @@ function setMidi(data1){
 	let midiData = new Uint8Array(data1);
 	parsedData = picoAudio.parseSMF(midiData);
 
-	console.log(parsedData);
+	console.log(Object.keys(parsedData));
 
 	picoAudio.setData(parsedData);
 
