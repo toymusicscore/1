@@ -568,6 +568,8 @@ let f110=[];
 let f111=[];
 let rst=0;
 let ticksPerMeasure = 1920;
+let pedalData = [];
+let pedalState = false;
 
 async function fetchData(){
 	let file1name=document.getElementById("song1").value;
@@ -2969,8 +2971,6 @@ function onMIDISuccess(midiAccess){
     }
 }
 
-let pedalData = [];
-let pedalState = false;
 
 function onMIDIMessage(event){
 
