@@ -639,10 +639,6 @@ function setMidi(data1){
 	let midiData = new Uint8Array(data1);
 	parsedData = picoAudio.parseSMF(midiData);
 
-	console.log(
-		findControlChanges(midiData)
-	);
-
 	picoAudio.setData(parsedData);
 
 	eott0 = parsedData.songLength;
@@ -862,46 +858,6 @@ function setTsv(data2){
 	}
 }
 
-function findControlChanges(midiData){
-
-    const result = [];
-
-    for(let i = 0; i < midiData.length - 2; i++){
-
-        const status = midiData[i];
-
-        if(
-            status >= 0xB0 &&
-            status <= 0xBF
-        ){
-
-            const channel =
-                status & 0x0F;
-
-            const cc =
-                midiData[i + 1];
-
-            const value =
-                midiData[i + 2];
-
-            if(
-                cc === 64 ||
-                cc === 66 ||
-                cc === 67
-            ){
-
-                result.push({
-                    channel,
-                    cc,
-                    value,
-                    offset: i
-                });
-            }
-        }
-    }
-
-    return result;
-}
 
 async function main(){
 	const { data1, data2 } = await fetchData();
