@@ -2632,9 +2632,6 @@ function createDiffData(pairs){
 
 function drawLineGraph(){
 
-	const pedalGraphData =
-		createPedalGraphData();
-
 	console.log("hands =", hands);
 
     scoreData = r1.slice();
@@ -2696,6 +2693,9 @@ function drawLineGraph(){
 	if(diffData.length > 0){
 		console.log(diffData[0]);
 	}
+
+	const pedalGraphData =
+		createPedalGraphData();
 
     ctx.clearRect(
         0,
@@ -2788,7 +2788,7 @@ function drawLineGraph(){
 		1,
 		false
 	);
-	
+
 }
 
 function drawGraph(
