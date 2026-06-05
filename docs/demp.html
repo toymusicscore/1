@@ -2597,36 +2597,38 @@ function createDiffData(pairs){
         const s = pair.score;
         const r = pair.record;
 
-        diffData.push({
+		diffData.push({
 
-            pitchDiff:
-                r.midi - s.midi,
+			tick: s.start,
 
-            attackDiff:
-                r.start - s.start,
+			pitchDiff:
+				r.midi - s.midi,
 
-            releaseDiff:
-                r.stop - s.stop,
+			attackDiff:
+				r.start - s.start,
 
-            durationDiff:
-                (r.stop-r.start)
-                -
-                (s.stop-s.start),
+			releaseDiff:
+				r.stop - s.stop,
 
-            velocityRecord:
-                r.velocity,
+			durationDiff:
+				(r.stop-r.start)
+				-
+				(s.stop-s.start),
 
-            velocityScore:
-                s.velocity * 127,
+			velocityRecord:
+				r.velocity,
 
-            velocityDiff:
-                r.velocity-s.velocity * 127,
+			velocityScore:
+				s.velocity * 127,
+
+			velocityDiff:
+				r.velocity - s.velocity * 127,
 
 			measure:
 				Math.floor(
 					s.start / ticksPerMeasure
 				) + 1
-        });
+			});
     }
 
     return diffData;
@@ -2847,13 +2849,20 @@ function drawGraph(
     );
 
     ctx.stroke();
-
-    const maxX =
-        Math.max(
-            1,
-            diffData.length - 1
-        );
-
+	/*
+	const graphMaxTick =
+		Math.max(
+			1,
+			scoreData.map(n => n.start)
+		);
+	*/
+	const maxTick =
+		Math.max(
+			1,
+			diffData.map(
+				d => d.tick
+			)
+		);
     // --------------------
     // 小節線だけ描画
     // --------------------
@@ -2872,9 +2881,11 @@ function drawGraph(
             diffData[i - 1].measure
         ){
 
-            const x =
-                mx + i / maxX * w;
-
+			const x =
+				mx +
+				diffData[i].tick
+				/ maxTick
+				* w;
 			if(showMeasureLabel){
 
 				ctx.fillText(
@@ -3138,19 +3149,11 @@ function createPedalGraphData(){
             continue;
         }
 
-        data.push({
-            measure:
-                Math.floor(
-                    p.start /
-                    ticksPerMeasure
-                ) + 1,
-
-			start: p.start,
-
-            pedalValue:
-                p.value
-        });
-    }
+		data.push({
+			tick: p.start,
+			pedalValue: p.value
+		});
+   }
 
     return data;
 }
