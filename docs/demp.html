@@ -2983,6 +2983,10 @@ function onMIDIMessage(event){
 	const channel = status & 0x0f;
 	const audioNow =
 		picoAudio.context.currentTime;
+    const x_bpm =
+        parseFloat(
+            document.form1.x_bpm.value
+        );
 
 	const latency = 0.04;
 
