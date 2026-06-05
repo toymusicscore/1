@@ -2981,7 +2981,20 @@ function onMIDIMessage(event){
 
     const command = status & 0xf0;
 	const channel = status & 0x0f;
-    const t = performance.now();
+	const audioNow =
+		picoAudio.context.currentTime;
+
+	const latency = 0.04;
+
+	const t =
+	(
+		audioNow
+		- baseAudioTime
+		+ latency
+	)
+	* x_bpm
+	* ppq
+	/ 60;
 
     // ペダル
     if(command === 0xb0){
