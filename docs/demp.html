@@ -916,10 +916,12 @@ function pause(){
 
 async function record(){
 	baseAudioTime = 0;
+	pedalData = [];
+	pedalState = false;
+	state = true;
 	await picoAudio.context.resume();
 	await cdown();
 	await draw();
-	state = true;
 	await touchSound();
 	await startRecord();
 }
