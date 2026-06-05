@@ -2849,18 +2849,12 @@ function drawGraph(
     );
 
     ctx.stroke();
-	/*
-	const graphMaxTick =
+
+	const MaxTick =
 		Math.max(
-			1,
-			scoreData.map(n => n.start)
+			...scoreData.map(n => n.start)
 		);
-	*/
-	const maxTick =
-		Math.max(
-			1,
-			...diffData.map(d => d.tick)
-		)
+		
 	// --------------------
     // 小節線だけ描画
     // --------------------
