@@ -2859,11 +2859,8 @@ function drawGraph(
 	const maxTick =
 		Math.max(
 			1,
-			...diffData.map(
-				d => d.tick
-			)
-		);
-
+			...diffData.map(d => d.tick)
+		)
 	// --------------------
     // 小節線だけ描画
     // --------------------
@@ -2882,11 +2879,8 @@ function drawGraph(
             diffData[i - 1].measure
         ){
 
-			const x =
-				mx +
-				diffData[i].tick
-				/ maxTick
-				* w;
+			const x = mx + diffData[i].tick / maxTick * w
+			
 			if(showMeasureLabel){
 
 				ctx.fillText(
