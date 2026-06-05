@@ -1791,7 +1791,7 @@ function line2(tick){
 
 						ctx.fillStyle="lime";
 			}
-			
+
 			ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
@@ -2660,6 +2660,17 @@ function createDiffData(pairs){
 
 function markErrors(pairs){
 
+	for(const r of recordData){
+
+		delete r.pitchError;
+		delete r.extra;
+	}
+
+	for(const s of scoreData){
+
+		delete s.missing;
+	}
+
     for(const pair of pairs){
 
         if(pair.score && pair.record){
@@ -2677,6 +2688,19 @@ function markErrors(pairs){
             pair.record.extra = true;
         }
     }
+	
+	if(pair.score && pair.record){
+
+    if(pair.score.midi !== pair.record.midi){
+
+        console.log(
+            "pitch error",
+            pair.score.midi,
+            pair.record.midi,
+            pair
+        );
+    }
+}
 }
 
 function drawLineGraph(){
