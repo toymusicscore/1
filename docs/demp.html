@@ -2859,11 +2859,12 @@ function drawGraph(
 	const maxTick =
 		Math.max(
 			1,
-			diffData.map(
+			...diffData.map(
 				d => d.tick
 			)
 		);
-    // --------------------
+
+	// --------------------
     // 小節線だけ描画
     // --------------------
 
@@ -2923,15 +2924,18 @@ function drawGraph(
 
     ctx.beginPath();
 
-    for(let i = 0; i < diffData.length; i++){
+for(let i = 0; i < diffData.length; i++){
 
-        const x =
-            mx + i / maxTick * w;
+    const x =
+        mx +
+        diffData[i].tick
+        / maxTick
+        * w;
 
-        const y =
-            centerY
-            -
-            diffData[i][key] * scaleY;
+    const y =
+        centerY
+        -
+        diffData[i][key] * scaleY;
 
         // 点
         ctx.fillRect(
