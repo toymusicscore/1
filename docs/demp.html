@@ -2880,7 +2880,7 @@ function drawGraph(
         ){
 
 			const x = mx + diffData[i].tick / maxTick * w
-			
+
 			if(showMeasureLabel){
 
 				ctx.fillText(
@@ -3147,7 +3147,11 @@ function createPedalGraphData(){
             continue;
         }
 
-		data.push({
+		data.push({			
+			measure:
+				Math.floor(
+					s.start / ticksPerMeasure
+				) + 1,
 			tick: p.start,
 			pedalValue: p.value
 		});
