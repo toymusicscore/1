@@ -2730,11 +2730,6 @@ function drawLineGraph(){
 		console.log(diffData[0]);
 	}
 
-	const pedalGraphData =
-		createPedalGraphData();
-
-	console.log(pedalGraphData);
-
     ctx.clearRect(
         0,
         0,
@@ -2986,6 +2981,11 @@ function drawPedalGraph(
     return;
 	}
 
+	const pedalGraphData =
+		createPedalGraphData();
+
+	console.log(pedalGraphData);
+
 	console.log(
 		pedalData[0]
 	);
@@ -3001,7 +3001,7 @@ function drawPedalGraph(
 	const bottomY = offsetY + 80;
 
 	const y =
-		pedalData[i].pedalValue >= 0
+		pedalGraphData[i].pedalValue >= 0
 		? topY
 		: bottomY;
 
@@ -3025,22 +3025,22 @@ function drawPedalGraph(
 
     ctx.fillStyle = "black";
 
-    for(let i = 0; i < pedalData.length; i++){
+    for(let i = 0; i < pedalGraphData.length; i++){
 
         if(
             i === 0
             ||
-            pedalData[i].measure
+            pedalGraphData[i].measure
             !==
-            pedalData[i - 1].measure
+            pedalGraphData[i - 1].measure
         ){
 
-			const x = mx + pedalData[i].tick / maxTick * w
+			const x = mx + pedalGraphData[i].tick / maxTick * w
 
 			if(showMeasureLabel){
 
 				ctx.fillText(
-					pedalData[i].measure,
+					pedalGraphData[i].measure,
 					x,
 					offsetY + graphHeight
 				);
@@ -3077,14 +3077,14 @@ function drawPedalGraph(
 
 	ctx.beginPath();
 
-	for(let i = 0; i < pedalData.length; i++){
+	for(let i = 0; i < pedalGraphData.length; i++){
 
 		const x =
 			mx +
-			pedalData[i].tick / maxTick * w;
+			pedalGraphData[i].tick / maxTick * w;
 
 		const y =
-			pedalData[i].pedalValue
+			pedalGraphData[i].pedalValue
 			? topY
 			: bottomY;
 
