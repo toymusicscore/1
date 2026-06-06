@@ -3708,67 +3708,67 @@ newWin2.document.writeln ('<pre> </pre>');
 }
 
 function instrument1(){
-ctx.font="25px Arial";
-ctx.fillStyle="black";
-ctx.clearRect(0,0,canvas.width,canvas.height);
+	ctx.font="25px Arial";
+	ctx.fillStyle="black";
+	ctx.clearRect(0,0,canvas.width,canvas.height);
 
-ctx.fillText("Color",100,50);
-ctx.fillText("Channel",200,50);
-ctx.fillText("Avg MIDI Note Num",350,50);
-ctx.fillText("Instrument",600,50);
+	ctx.fillText("Color",100,50);
+	ctx.fillText("Channel",200,50);
+	ctx.fillText("Avg MIDI Note Num",350,50);
+	ctx.fillText("Instrument",600,50);
 
-let channelSum = [];
-let channelCount = [];
-let channelAvg = [];
+	let channelSum = [];
+	let channelCount = [];
+	let channelAvg = [];
 
-for (let i = 0; i < r1.length; i++) {
+	for (let i = 0; i < r1.length; i++) {
 
-	let pitch = Number(r1[i].midi);
-	let ch = Number(r1[i].channel);
+		let pitch = Number(r1[i].midi);
+		let ch = Number(r1[i].channel);
 
-	if(channelSum[ch] === undefined){
-		channelSum[ch] = 0;
-		channelCount[ch] = 0;
+		if(channelSum[ch] === undefined){
+			channelSum[ch] = 0;
+			channelCount[ch] = 0;
+		}
+
+		channelSum[ch] += pitch;
+		channelCount[ch] += 1;
 	}
 
-    channelSum[ch] += pitch;
-    channelCount[ch] += 1;
-}
+	for (let ch = 0; ch < channelSum.length; ch++) {
+		if (channelCount[ch] > 0) {
+			channelAvg[ch] = channelSum[ch] / channelCount[ch];
+		}
+	}
 
-for (let ch = 0; ch < channelSum.length; ch++) {
-    if (channelCount[ch] > 0) {
-        channelAvg[ch] = channelSum[ch] / channelCount[ch];
-    }
-}
+	for(let i=0;i<=ch_max;i++){
 
-for(let i=0;i<=ch_max;i++){
+		let [channel,instNumber]=r6[i];
+		let instrument=instName[instNumber];
 
-    let [channel,instNumber]=r6[i];
-    let instrument=instName[instNumber];
+		ctx.fillStyle=col3[channel];
+		ctx.beginPath();
+		ctx.arc(110,30*(i+1)+40,10,0,2*Math.PI,false);
+		ctx.fill();
 
-    ctx.fillStyle=col3[channel];
-    ctx.beginPath();
-    ctx.arc(110,30*(i+1)+40,10,0,2*Math.PI,false);
-    ctx.fill();
+		ctx.fillStyle="black";
 
-    ctx.fillStyle="black";
+		if(channel===10){
+			ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
+			ctx.fillText("Percussion",600,30*(i+1)+50);
+		}else{
+			ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
+			ctx.fillText(instrument,600,30*(i+1)+50);
+		}
 
-    if(channel===10){
-        ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
-        ctx.fillText("Percussion",600,30*(i+1)+50);
-    }else{
-        ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
-        ctx.fillText(instrument,600,30*(i+1)+50);
-    }
-
-	ctx.fillText(
-		channelAvg[channel] !== undefined
-			? channelAvg[channel].toFixed(1)
-			: "-",
-		350,
-		30*(i+1)+50
-	);
-}
+		ctx.fillText(
+			channelAvg[channel] !== undefined
+				? channelAvg[channel].toFixed(1)
+				: "-",
+			350,
+			30*(i+1)+50
+		);
+	}
 }
 
 function selview1(){
