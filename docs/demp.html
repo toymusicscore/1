@@ -2817,9 +2817,8 @@ function drawLineGraph(){
 		true
     );
 
-	drawGraph(
+	drawPedalGraph(
 		pedalGraphData,
-		"pedalValue",
 		"Pedal Record",
 		720,
 		"orange",
@@ -2971,6 +2970,145 @@ for(let i = 0; i < diffData.length; i++){
     }
 
     ctx.stroke();
+}
+
+function drawPedalGraph(
+    pedalData,
+    title,
+    offsetY,
+	color,
+    scaleY,
+    showMeasureLabel
+
+){
+
+    const graphHeight = 100;
+
+	const titleHeight = 30;
+
+    const w = canvas.width - 2 * mx;
+
+    const centerY =
+        offsetY + graphHeight / 2;
+
+    // タイトル
+    ctx.fillStyle = "black";
+
+    ctx.font = "20px sans-serif";
+
+    ctx.fillText(
+        title,
+        100,
+        offsetY + 30
+    );
+
+    // 中央線
+    ctx.strokeStyle = "#888";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        mx,
+        centerY
+    );
+
+    ctx.lineTo(
+        mx + w,
+        centerY
+    );
+
+    ctx.stroke();
+
+	const maxTick =
+		Math.max(
+			...scoreData.map(n => n.start)
+		);
+		
+	// --------------------
+    // 小節線だけ描画
+    // --------------------
+
+    ctx.strokeStyle = "#ddd";
+
+    ctx.fillStyle = "black";
+
+    for(let i = 0; i < pedalData.length; i++){
+
+        if(
+            i === 0
+            ||
+            pedalData[i].measure
+            !==
+            pedalData[i - 1].measure
+        ){
+
+			const x = mx + pedalData[i].tick / maxTick * w
+
+			if(showMeasureLabel){
+
+				ctx.fillText(
+					pedalData[i].measure,
+					x,
+					offsetY + graphHeight
+				);
+			}
+
+			ctx.beginPath();
+
+			ctx.moveTo(
+				x,
+				offsetY + titleHeight
+			);
+
+			ctx.lineTo(
+				x,
+				offsetY + (graphHeight - titleHeight)
+			);
+
+            ctx.stroke();
+        }
+    }
+
+    // --------------------
+    // 折れ線描画
+    // --------------------
+
+    ctx.strokeStyle = color;
+
+    ctx.fillStyle = color;
+
+    ctx.lineWidth = 2;
+
+	
+	let prevY = null;
+
+	ctx.beginPath();
+
+	for(let i = 0; i < pedalData.length; i++){
+
+		const x =
+			mx +
+			pedalData[i].tick / maxTick * w;
+
+		const y =
+			pedalData[i].pedalValue
+			? topY
+			: bottomY;
+
+		if(i === 0){
+
+			ctx.moveTo(x, y);
+
+		}else{
+
+			ctx.lineTo(x, prevY);
+			ctx.lineTo(x, y);
+		}
+
+		prevY = y;
+	}
+
+	ctx.stroke();
 }
 
 const audioContext =
