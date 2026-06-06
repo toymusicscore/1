@@ -3770,23 +3770,24 @@ for(let i=0;i<=ch_max;i++){
 }
 
 function selview1(){
-if(document.form1.sv1.options[0].selected==true){
-	if (recordData){
-		line2(pauseTick);
-	}else {
-		line(pauseTick);}
-}else if(document.form1.sv1.options[1].selected==true){
-	if (recordData){
-		scroll2(pauseTick);
-	}else {
-		scroll(pauseTick);}
-}else if(document.form1.sv1.options[2].selected==true){
-	keyLabel();
-}else if(document.form1.sv1.options[3].selected==true){
-	instrument1();
-}else if(document.form1.sv1.options[4].selected==true){
-	information1();
-}
+
+	if(document.form1.sv1.options[0].selected==true){
+		if (recordData){
+			line2(pauseTick);
+		}else {
+			line(pauseTick);}
+	}else if(document.form1.sv1.options[1].selected==true){
+		if (recordData){
+			scroll2(pauseTick);
+		}else {
+			scroll(pauseTick);}
+	}else if(document.form1.sv1.options[2].selected==true){
+		keyLabel();
+	}else if(document.form1.sv1.options[3].selected==true){
+		instrument1();
+	}else if(document.form1.sv1.options[4].selected==true){
+		information1();
+	}
 
 }
 
