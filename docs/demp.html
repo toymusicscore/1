@@ -2643,6 +2643,29 @@ function createDiffData(pairs){
     return diffData;
 }
 
+function createPedalGraphData(){
+
+    const data = [];
+
+    for(const p of pedalData){
+
+        if(p.cc !== 64){
+            continue;
+        }
+
+		data.push({			
+			measure:
+				Math.floor(
+					p.start / ticksPerMeasure
+				) + 1,
+			tick: p.start,
+			pedalValue: p.value
+		});
+   }
+
+    return data;
+}
+
 function drawLineGraph(){
 
 	console.log("hands =", hands);
@@ -3133,29 +3156,6 @@ function noteOff(note){
     delete oscillators[note];
 }
 
-
-function createPedalGraphData(){
-
-    const data = [];
-
-    for(const p of pedalData){
-
-        if(p.cc !== 64){
-            continue;
-        }
-
-		data.push({			
-			measure:
-				Math.floor(
-					p.start / ticksPerMeasure
-				) + 1,
-			tick: p.start,
-			pedalValue: p.value
-		});
-   }
-
-    return data;
-}
 
 function setbpm1(){
 	document.form1.x_bpm.value=Number(document.form1.sbpm1.options[document.form1.sbpm1.options.selectedIndex].value);
