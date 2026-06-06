@@ -188,6 +188,7 @@ demp
 <input type="button" name="b_sb" value="Rec" onClick="record()" style="font-size:100%" >
 <input type="button" name="b_rv" value="Rev" onClick="drawLineGraph()" style="font-size:100%" >
 <input type="button" name="b_rp" value="Rep" onClick="rePlay()" style="font-size:100%" >
+<input type="button" name="b_rs" value="Res" onClick="reset()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="play()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
@@ -3293,6 +3294,29 @@ function noteOff(note){
     osc.stop();
 
     delete oscillators[note];
+}
+
+
+function reset(){
+	audioContext = new AudioContext();
+	state = true;
+	touchInitialized = false;
+	currentMidis = new Set();
+	activeVoices = new Map();
+	scoreData =[];
+	pairs = [];
+	diffData = [];
+	recordData = [];
+	recordStart = 0;
+	currentNote = null;
+	recordMidiMin = 0;
+	recordMidiMax = 0;
+	recordKw = 0;
+	baseAudioTime = 0;
+	hands = null;
+	pedalData =[];
+	pedalSatate = false;
+	goTop();
 }
 
 
