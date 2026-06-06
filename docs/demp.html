@@ -2625,13 +2625,13 @@ function createDiffData(pairs){
 				(s.stop-s.start),
 
 			velocityRecord:
-				r.velocity,
+				r.velocity / 127,
 
 			velocityScore:
-				s.velocity * 127,
+				s.velocity,
 
 			velocityDiff:
-				r.velocity - s.velocity * 127,
+				r.velocity / 127 - s.velocity,
 
 			measure:
 				Math.floor(
@@ -2786,7 +2786,7 @@ function drawLineGraph(){
         "Velocity Record",
         420,
         "magenta",
-        0.1,
+        10,
 		false
     );
 
@@ -2797,7 +2797,7 @@ function drawLineGraph(){
         "Velocity Score",
         520,
         "magenta",
-        0.1,
+        10,
 		false
     );
 
@@ -2808,7 +2808,7 @@ function drawLineGraph(){
         "Velocity Difference",
         620,
         "magenta",
-        0.3,
+        30,
 		true
     );
 
