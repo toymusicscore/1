@@ -3723,8 +3723,8 @@ let channelAvg = [];
 
 for (let i = 0; i < r1.length; i++) {
 
-    let pitch = Number(r1[i][0]);
-    let ch = Number(r1[i][3]);
+	let pitch = Number(r1[i].midi);
+	let ch = Number(r1[i].channel);
 
     if (!channelSum[ch]) {
         channelSum[ch] = 0;
