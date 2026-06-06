@@ -1776,20 +1776,7 @@ function line2(tick){
 			);
 
 			ctx.beginPath();
-
-			if(recordData[i].extra){
-
-				ctx.fillStyle = "purple";
-
-			}else if(recordData[i].pitchError){
-
-				ctx.fillStyle = "red";
-
-			}else{
-
-				ctx.fillStyle="lime";
-
-			}
+			ctx.fillStyle="lime";
 			ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
@@ -2656,66 +2643,6 @@ function createDiffData(pairs){
     return diffData;
 }
 
-function markErrors(pairs){
-
-    console.log(
-        "markErrors called",
-        pairs.length
-    );
- 
-    for(const r of recordData){
-
-        delete r.pitchError;
-        delete r.extra;
-    }
-
-    for(const s of scoreData){
-
-        delete s.missing;
-    }
-
-    for(const pair of pairs){
-
-		console.log(
-			"pair",
-			pair.score?.midi,
-			pair.record?.midi
-		);
-
-        if(pair.score && pair.record){
-
-            pair.record.pitchError =
-                pair.score.midi !==
-                pair.record.midi;
-
-			if(pair.record.pitchError){
-
-					console.log(
-						"pitch error",
-						pair.score.midi,
-						pair.record.midi
-					);
-				}
-				
-        }else if(pair.score){
-
-            pair.score.missing = true;
-
-        }else if(pair.record){
-
-            pair.record.extra = true;
-        }
-    }
-
-	console.log(
-		"errors",
-		recordData.filter(
-			r => r.pitchError || r.extra
-		)
-	);
-}
-
-
 function drawLineGraph(){
 
 	console.log("hands =", hands);
@@ -2759,8 +2686,6 @@ function drawLineGraph(){
             hands.left
         );
     }
-
-	markErrors(pairs);
 
     diffData = createDiffData(pairs);
 
@@ -2878,8 +2803,7 @@ function drawLineGraph(){
 		0.1,
 		true
 	);
-console.log(diffData[0]);
-console.log(pedalGraphData[0]);
+
 }
 
 function drawGraph(
@@ -2891,11 +2815,6 @@ function drawGraph(
     scaleY,
     showMeasureLabel
 ){
-
-	console.log(
-		title,
-		diffData.length
-	);
 	
     const graphHeight = 100;
 
