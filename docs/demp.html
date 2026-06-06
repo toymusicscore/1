@@ -915,14 +915,14 @@ function pause(){
     cancelAnimationFrame(rafId);
 }
 
-async function reset(){
+function reset(){
 	baseAudioTime = 0;
 	recordData = [];
 	pedalData = [];
 	pedalState = false;
 	state = true;	
+	document.form1.x_bpm.value = bpm;
 	selview1();
-	await picoAudio.context.resume();
 }
 
 async function record(){
