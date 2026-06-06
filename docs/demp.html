@@ -2655,6 +2655,7 @@ function createDiffData(pairs){
 
     return diffData;
 }
+
 function markErrors(pairs){
 
     for(const r of recordData){
@@ -2676,16 +2677,15 @@ function markErrors(pairs){
                 pair.score.midi !==
                 pair.record.midi;
 
-            if(pair.score.midi !== pair.record.midi){
+			if(pair.record.pitchError){
 
-                console.log(
-                    "pitch error",
-                    pair.score.midi,
-                    pair.record.midi,
-                    pair
-                );
-            }
-
+					console.log(
+						"pitch error",
+						pair.score.midi,
+						pair.record.midi
+					);
+				}
+				
         }else if(pair.score){
 
             pair.score.missing = true;
