@@ -3000,10 +3000,10 @@ function drawPedalGraph(
 
 	const bottomY = offsetY + 80;
 
-	const y =
-		pedalGraphData[i].pedalValue >= 0
-		? topY
-		: bottomY;
+	const maxTick =
+		Math.max(
+			...scoreData.map(n => n.start)
+		);		
 
 	// タイトル
 
