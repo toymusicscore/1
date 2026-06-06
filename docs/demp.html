@@ -3726,10 +3726,10 @@ for (let i = 0; i < r1.length; i++) {
 	let pitch = Number(r1[i].midi);
 	let ch = Number(r1[i].channel);
 
-    if (!channelSum[ch]) {
-        channelSum[ch] = 0;
-        channelCount[ch] = 0;
-    }
+	if(channelSum[ch] === undefined){
+		channelSum[ch] = 0;
+		channelCount[ch] = 0;
+	}
 
     channelSum[ch] += pitch;
     channelCount[ch] += 1;
@@ -3761,11 +3761,13 @@ for(let i=0;i<=ch_max;i++){
         ctx.fillText(instrument,600,30*(i+1)+50);
     }
 
-    ctx.fillText(
-        channelAvg[channel] ? channelAvg[channel].toFixed(1) : "-",
-        350,
-        30*(i+1)+50
-    );
+	ctx.fillText(
+		channelAvg[channel] !== undefined
+			? channelAvg[channel].toFixed(1)
+			: "-",
+		350,
+		30*(i+1)+50
+	);
 }
 }
 
