@@ -83,10 +83,9 @@ demp
 <select name="sv1" onChange="selview1()" style="font-size:100%">
 	<option value="0" style="font-size:100%"> Line </option>
 	<option value="1" style="font-size:100%" selected="selected"> Scroll </option>
-	<option value="2" style="font-size:100%"> Simple </option>
-	<option value="3" style="font-size:100%"> Key Label</option>
-	<option value="4" style="font-size:100%"> Channel Colors </option>
-	<option value="5" style="font-size:100%"> Information </option>
+	<option value="2" style="font-size:100%"> Key Label</option>
+	<option value="3" style="font-size:100%"> Channel Colors </option>
+	<option value="4" style="font-size:100%"> Information </option>
 	</select>
 <select name="smsr1" onChange="setmsr1()" style="font-size:100%">
 	<option value="1" style="font-size:100%" selected="selected"> 1 </option>
@@ -2187,231 +2186,6 @@ function scroll2(tick){
 	}
 };
 
-function simple(tick){
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	szx = canvas.width;
-	szy = 240;
-	ctx.lineWidth=1;
-	let kn_l=Number(midi_max_l)-Number(midi_min_l)+1;
-	let kn_r=Number(midi_max_r)-Number(midi_min_r)+1;
-	szk_l=(szx-2.5*mx)*kn_l/(kn_l+kn_r);
-	szk_r=(szx-2.5*mx)*kn_r/(kn_l+kn_r);
-	let kw_l=szk_l/kn_l;
-	let kw_r=szk_r/kn_r;
-
-	ctx.fillStyle="black";
-	ctx.font="20px Arial";
-	ctx.fillText("R",0,my+ 20);
-	ctx.fillText("L",0,my+120);
-
-	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(bttl*ppq/ntvl*4)===0 && m>=tick && m<(tick+bttl*ppq/ntvl*4)){
-		let vmn0=Math.floor(tick/(bttl*ppq/ntvl*4)+stm);
-		ctx.strokeStyle="red";
-		ctx.beginPath();
-		ctx.moveTo(mx,my);
-		ctx.lineTo(mx,szy);
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.moveTo(szx-mx,my);
-		ctx.lineTo(szx-mx,szy);
-		ctx.stroke();
-		ctx.fillStyle="black";
-		ctx.fillText(vmn0,0,my-4);
-
-		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+bttl*ppq/ntvl*4)){
-		ctx.strokeStyle="blue";
-		ctx.beginPath();
-		ctx.moveTo(mx+m%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my);
-		ctx.lineTo(mx+m%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),szy);
-		ctx.stroke();
-		}
-	}
-
-	if (tick<eott0){
-	ctx.strokeStyle="grey";
-	ctx.beginPath();
-	ctx.moveTo(mx+tick%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my);
-	ctx.lineTo(mx+tick%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),szy);
-	ctx.stroke();
-	} else {
-		isPlaying = false;
-	}
-
-	for(i=0;i<r1.length;i++){
-		let	midi0;
-		let start0;
-		let stop0;
-		let channel0;
-		let n_id0;
-		let	midi1;
-		let start1;
-		let stop1;
-		let channel1;
-		let n_id1;
-		let	midi2;
-		let start2;
-		let stop2;
-		let channel2;
-		let n_id2;
-		let	midi3;
-		let start3;
-		let stop3;
-		let channel3;
-		let n_id3;
-		let	midi4;
-		let start4;
-		let stop4;
-		let channel4;
-		let n_id4;
-			midi0 = r1[i].midi;
-			start0 = r1[i].start;
-			stop0 = r1[i].stop;
-			channel0 = r1[i].channel;
-			n_id0 = r1[i].n_id;
-		if (i>0){
-			midi1 = r1[i-1].midi;
-			start1 = r1[i-1].start;
-			stop1 = r1[i-1].stop;
-			channel1 = r1[i-1].channel;
-			n_id1 = r1[i-1].n_id;
-		}
-		if (i>1){
-			midi2 = r1[i-2].midi;
-			start2 = r1[i-2].start;
-			stop2 = r1[i-2].stop;
-			channel2 = r1[i-2].channel;
-			n_id2 = r1[i-2].n_id;
-		}
-		if (i>2){
-			midi3 = r1[i-3].midi;
-			start3 = r1[i-3].start;
-			stop3 = r1[i-3].stop;
-			channel3 = r1[i-3].channel;
-			n_id3 = r1[i-3].n_id;
-		}
-		if (i>3){
-			midi4 = r1[i-4].midi;
-			start4 = r1[i-4].start;
-			stop4 = r1[i-4].stop;
-			channel4 = r1[i-4].channel;
-			n_id4 = r1[i-4].n_id;
-		}
-		const dt = (start0-tick)/(bttl*ppq/ntvl*4);
-		const dp = (stop0-tick)/(bttl*ppq/ntvl*4);
-		if (stop0>=tick+bttl*ppq/ntvl*3){
-			gt=tick+bttl*ppq/ntvl*3-start0;
-		}else{
-			gt=stop0-start0;
-		}
-		if (dp >=0 && dt < 3/4){
-			getLabel(midi0, n_id0);
-			if (channel0==x_chL){
-				if(channel1!=x_chL){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+102,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+112,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+120);
-				}else if(channel0==channel1 && start0>start1){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+102,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+112,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+120);
-				}else if(channel0==channel1 && channel1==channel2 && start0==start1 && start1>start2){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+122,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+132,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+140);
-				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && start0==start1 && start1==start2 && start2>start3){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+142,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+152,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+160);
-				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start0==start1 && start1==start2 && start2==start3 && start3>start4){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+162,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+172,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+180);
-				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start0==start1 && start1==start2 && start2==start3 && start3==start4){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+182,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+192,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+200);
-				}
-			}
-			if(channel0==x_chR){
-				if(n_id0==1){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+2,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+12,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+20);
-				}else if(channel0==channel1 && start0>start1){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+2,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+12,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+20);
-				}else if(channel0==channel1 && channel1==channel2 && start0==start1 && start1>start2){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+22,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+32,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+40);
-				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && start0==start1 && start1==start2 && start2>start3){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+42,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+52,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+60);
-				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start0==start1 && start1==start2 && start2==start3 && start3>start4){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+62,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+72,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+80);
-				}else if(channel0==channel1 && channel1==channel2 && channel2==channel3 && channel3==channel4 && start0==start1 && start1==start2 && start2==start3 && start3==start4){
-				ctx.beginPath();
-				ctx.fillStyle=col3[channel0];
-				ctx.fillRect(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+82,gt/(bttl*ppq/ntvl*4)*(szx-2*mx),20);
-				ctx.arc(mx+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4),my+92,12,0,2*Math.PI,false);
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.fillText(nl,mx-11+start0%(bttl*ppq/ntvl*4)*(szx-2*mx)/(bttl*ppq/ntvl*4), my+100);
-				}
-			}
-		}//if(start>j..)
-	}//for(i=0;)
-}
-
 let scoreData =[];
 let pairs = [];
 
@@ -4007,12 +3781,10 @@ if(document.form1.sv1.options[0].selected==true){
 	}else {
 		scroll(pauseTick);}
 }else if(document.form1.sv1.options[2].selected==true){
-	simple(pauseTick);
-}else if(document.form1.sv1.options[3].selected==true){
 	keyLabel();
-}else if(document.form1.sv1.options[4].selected==true){
+}else if(document.form1.sv1.options[3].selected==true){
 	instrument1();
-}else if(document.form1.sv1.options[5].selected==true){
+}else if(document.form1.sv1.options[4].selected==true){
 	information1();
 }
 
