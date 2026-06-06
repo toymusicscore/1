@@ -188,6 +188,7 @@ demp
 <input type="button" name="b_sb" value="Rec" onClick="record()" style="font-size:100%" >
 <input type="button" name="b_rv" value="Rev" onClick="drawLineGraph()" style="font-size:100%" >
 <input type="button" name="b_rp" value="Rep" onClick="rePlay()" style="font-size:100%" >
+<input type="button" name="b_rs" value="Res" onClick="reset()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="play()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
@@ -912,6 +913,16 @@ function pause(){
     isPlaying = 0;
     picoAudio.pause();
     cancelAnimationFrame(rafId);
+}
+
+function reset(){
+	baseAudioTime = 0;
+	recordData = [];
+	pedalData = [];
+	pedalState = false;
+	state = true;	
+	document.form1.x_bpm.value=bpm;
+	selview1();
 }
 
 async function record(){
