@@ -1719,6 +1719,12 @@ function line2(tick){
 				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
 				ctx.fillStyle=col3[channel];
 				ctx.fill();
+				if (r1[i].missing){
+					ctx.beginPath();
+					ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+					ctx.fillStyle="orange";
+					ctx.fill();
+				}
 				getLabel(midi, n_id);
 				ctx.fillStyle="black";
 				ctx.font="20px Arial";
@@ -1761,6 +1767,15 @@ function line2(tick){
 				continue;
 			}
 			ctx.beginPath();
+			ctx.fillStyle = "green";			
+			ctx.fillRect(
+				x0 + kw/4,
+				y,
+				kw/2,
+				gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1
+			);
+
+			ctx.beginPath();
 
 			if(recordData[i].extra){
 
@@ -1772,26 +1787,9 @@ function line2(tick){
 
 			}else{
 
-				ctx.fillStyle = "green";
+				ctx.fillStyle="lime";
+
 			}
-
-			ctx.fillRect(
-				x0 + kw/4,
-				y,
-				kw/2,
-				gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1
-			);
-			ctx.beginPath();
-
-			if(r1[i].missing){
-
-				ctx.fillStyle = "orange";
-
-			}else{
-
-						ctx.fillStyle="lime";
-			}
-
 			ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
