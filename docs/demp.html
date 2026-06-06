@@ -3084,9 +3084,11 @@ function drawPedalGraph(
 			pedalGraphData[i].tick / maxTick * w;
 
 		const y =
-			pedalGraphData[i].pedalValue
-			? topY
-			: bottomY;
+			bottomY
+			-
+			pedalGraphData[i].pedalValue / 127
+			*
+			(bottomY - topY);
 
 		if(i === 0){
 
