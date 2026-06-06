@@ -2657,19 +2657,18 @@ function createDiffData(pairs){
 
     return diffData;
 }
-
 function markErrors(pairs){
 
-	for(const r of recordData){
+    for(const r of recordData){
 
-		delete r.pitchError;
-		delete r.extra;
-	}
+        delete r.pitchError;
+        delete r.extra;
+    }
 
-	for(const s of scoreData){
+    for(const s of scoreData){
 
-		delete s.missing;
-	}
+        delete s.missing;
+    }
 
     for(const pair of pairs){
 
@@ -2678,6 +2677,17 @@ function markErrors(pairs){
             pair.record.pitchError =
                 pair.score.midi !==
                 pair.record.midi;
+
+            if(pair.score.midi !== pair.record.midi){
+
+                console.log(
+                    "pitch error",
+                    pair.score.midi,
+                    pair.record.midi,
+                    pair
+                );
+				
+            }
 
         }else if(pair.score){
 
@@ -2688,20 +2698,8 @@ function markErrors(pairs){
             pair.record.extra = true;
         }
     }
-	
-	if(pair.score && pair.record){
-
-    if(pair.score.midi !== pair.record.midi){
-
-        console.log(
-            "pitch error",
-            pair.score.midi,
-            pair.record.midi,
-            pair
-        );
-    }
 }
-}
+
 
 function drawLineGraph(){
 
