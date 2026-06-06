@@ -3984,9 +3984,15 @@ for(let i=0;i<=ch_max;i++){
 
 function selview1(){
 if(document.form1.sv1.options[0].selected==true){
-	line(pauseTick);
+	if (recordData){
+		line2(pauseTick);
+	}else {
+		line(pauseTick);}
 }else if(document.form1.sv1.options[1].selected==true){
-	scroll(pauseTick);
+	if (recordData){
+		scroll2(pauseTick);
+	}else {
+		scroll(pauseTick);}
 }else if(document.form1.sv1.options[2].selected==true){
 	simple(pauseTick);
 }else if(document.form1.sv1.options[3].selected==true){
