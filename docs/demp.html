@@ -2988,11 +2988,18 @@ function drawPedalGraph(
 
     const w = canvas.width - 2 * mx;
 
-    const centerY =
-        offsetY + graphHeight / 2;
+	const topY = offsetY + 20;
 
-    // タイトル
-    ctx.fillStyle = "black";
+	const bottomY = offsetY + 80;
+
+	const y =
+		pedalData[i].pedalValue >= 0
+		? topY
+		: bottomY;
+
+	// タイトル
+
+	ctx.fillStyle = "black";
 
     ctx.font = "20px sans-serif";
 
@@ -3001,28 +3008,6 @@ function drawPedalGraph(
         100,
         offsetY + 30
     );
-
-    // 中央線
-    ctx.strokeStyle = "#888";
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        mx,
-        centerY
-    );
-
-    ctx.lineTo(
-        mx + w,
-        centerY
-    );
-
-    ctx.stroke();
-
-	const maxTick =
-		Math.max(
-			...scoreData.map(n => n.start)
-		);
 		
 	// --------------------
     // 小節線だけ描画
@@ -3107,6 +3092,14 @@ function drawPedalGraph(
 
 		prevY = y;
 	}
+
+	const lastX =
+		mx + w;
+
+	ctx.lineTo(
+		lastX,
+		prevY
+	);
 
 	ctx.stroke();
 }
