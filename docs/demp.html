@@ -3665,24 +3665,10 @@ selview1();
 }
 
 function information1(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+	ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.font = "15px Arial";
     ctx.fillStyle = "black";
-
-    const text =
-        document.getElementById("credit").innerHTML;
-
-    const lines =
-        text.split("\n");
-
-    for(let i = 0; i < lines.length; i++){
-
-        ctx.fillText(
-            lines[i],
-            20,
-            30 + i * 20
-        );
-    }
 
     const texts = [
         "PicoAudio.js",
@@ -3717,6 +3703,16 @@ function information1(){
             50 + 25 * i
         );
     }
+
+    for(let i = 0; i < tsv.a.length; i++){
+
+        ctx.fillText(
+            tsv.a[i][0]+":"+tsv.a[i][1],
+            25 * texts.length + 50,
+            50 + 25 * i
+        );
+    }
+
 }
 
 function instrument1(){
