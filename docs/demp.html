@@ -1903,6 +1903,38 @@ function playScoreNotes(tick){
         nextIndex = 0;
     }
 
+    scoreData = r1.slice();
+
+    scoreData.sort((a, b) => {
+        return a.start - b.start;
+    });
+
+    const scoreRight =
+        scoreData.filter(
+            n => n.channel == x_chR
+        );
+
+    const scoreLeft =
+        scoreData.filter(
+            n => n.channel == x_chL
+        );
+
+    let data0 = [];
+
+    if(document.form1.hands.options[0].selected){
+
+        data0 = scoreData;
+
+    }else if(document.form1.hands.options[1].selected){
+
+        data0 = scoreRight;
+
+	}else if(document.form1.hands.options[2].selected){
+
+        data0 = scoreLeft;
+
+	}
+
     const x_bpm = parseFloat(document.form1.x_bpm.value);
 
     const currentTick = Math.floor(tick);
@@ -1913,7 +1945,7 @@ function playScoreNotes(tick){
 
     while(nextIndex < r1.length){
 
-        let data = r1[nextIndex];
+        let data = data0[nextIndex];
 
         let midi  = data.midi;
         let start = data.start;
