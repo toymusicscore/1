@@ -773,8 +773,20 @@ function setTsv(data2){
         raw: "",
         a: [],
         b: [],
-        c: [],
-        d: []
+        sc: [],
+        ff: [],
+        ft: [],
+        sd: [],
+        dl: [],
+        t1: [],
+        t2: [],
+        t3: [],
+        t4: [],
+        t5: [],
+        t6: [],
+        t7: [],
+        t8: [],
+        t9: []
     };
 
     tsv.raw = data2;
@@ -788,11 +800,22 @@ function setTsv(data2){
 		if(type === "A"){
 			tsv.a.push([cols[1], cols[2]]);
 		}else if(type === "B"){
-			tsv.b.push([cols[1], cols[2]]);
+			tsv.sc.push([cols[2]]);
 		}else if(type === "C"){
-			tsv.c.push([cols[1], cols[2]]);
+			tsv.ff.push([cols[1], cols[2]]);
+			tsv.ft.push([cols[2], cols[1]]);
+			tsv.sd.push([cols[3], - cols[3]]);
+			tsv.dl.push([cols[4], cols[4]]);
 		}else if(type === "D"){
-			tsv.d.push([cols[1], cols[2]]);
+			tsv.t1.push([(tsv0[i].split('\t'))[2]]);
+			tsv.t2.push([(tsv0[i].split('\t'))[3]]);
+			tsv.t3.push([(tsv0[i].split('\t'))[4]]);
+			tsv.t4.push([(tsv0[i].split('\t'))[5]]);
+			tsv.t5.push([(tsv0[i].split('\t'))[6]]);
+			tsv.t6.push([(tsv0[i].split('\t'))[7]]);
+			tsv.t7.push([(tsv0[i].split('\t'))[8]]);
+			tsv.t8.push([(tsv0[i].split('\t'))[9]]);
+			tsv.t9.push([(tsv0[i].split('\t'))[10]]);
 		}
 	});
 
