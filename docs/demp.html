@@ -1878,7 +1878,7 @@ function playRecordNotes(tick){
         }
 		if(
 			stop != null &&
-			start > previousTick &&
+			start >= previousTick &&
 			start <= currentTick + lookAheadTicks
 		){
             let durationTicks =
@@ -1956,7 +1956,7 @@ function playScoreNotes(tick){
         }
 		if(
 			stop != null &&
-			start > previousTick &&
+			start >= previousTick &&
 			start <= currentTick + lookAheadTicks
 		){
             let durationTicks =
