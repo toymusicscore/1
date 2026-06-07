@@ -1391,11 +1391,16 @@ async function playRecord(){
         pauseTick = 0;
     }
 
+/*
     prevTick = 0;
     nextIndex = 0;
     pauseTick = 0;
 	baseAudioTime = 0;
-	
+*/
+    prevTick = pauseTick;
+
+    nextIndex = 0;
+
     cancelAnimationFrame(rafId);
 
     await picoAudio.context.resume();
