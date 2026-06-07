@@ -901,7 +901,7 @@ async function playOld(){
 
     cancelAnimationFrame(rafId);
 
-    loop();
+    loopScore();
 }
 
 function pause(){
@@ -985,7 +985,7 @@ async function draw(){
 
     cancelAnimationFrame(rafId);
 
-    loop();
+    loopScore();
 }
 
 
@@ -1396,7 +1396,7 @@ async function playScore(){
 
     isPlaying = 2;
 
-    loop();
+    loopScore();
 }
 
 async function playRecord(){
@@ -1430,7 +1430,7 @@ async function playRecord(){
 
     isPlaying = 2;
 
-    loop2();
+    loopRecord();
 }
 
 
@@ -1451,7 +1451,7 @@ function getCurrentTick(){
 }
 
 
-function loop(){
+function loopScore(){
 	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
@@ -1464,10 +1464,10 @@ function loop(){
 		playScoreNotes(tick);
 	}
     cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(loop);
+    rafId = requestAnimationFrame(loopScore);
 }
 
-function loop2(){
+function loopRecord(){
 	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
@@ -1480,7 +1480,7 @@ function loop2(){
 		playRecordNotes(tick)
 	}
     cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(loop2);
+    rafId = requestAnimationFrame(loopRecord);
 }
 
 let nl ="";
