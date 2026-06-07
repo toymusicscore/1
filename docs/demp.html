@@ -3682,21 +3682,21 @@ function information1(){
         "Contact toyscore2023@gmail.com"
     ];
 
-    for(let i = 0; i < texts.length; i++){
+    for(let i = 0; i < tsv.a.length; i++){
 
         ctx.fillText(
-            texts[i],
+            tsv.a[i][0]+":"+tsv.a[i][1],
             50,
             50 + 25 * i
         );
     }
 
-    for(let i = 0; i < tsv.a.length; i++){
+    for(let i = 0; i < texts.length; i++){
 
         ctx.fillText(
-            tsv.a[i][0]+":"+tsv.a[i][1],
-            25 * texts.length + 50,
-            50 + 25 * i
+            texts[i],
+            50,
+            25 * tsv.a.length + 25 * i
         );
     }
 
