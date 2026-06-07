@@ -778,7 +778,7 @@ function setMidi(data1){
 
 }
 
-function setTsv0(data2){
+function setTsv(data2){
 	state.tsv.raw = data2;
 
 	const lines = data2.split('\n');
@@ -800,9 +800,88 @@ function setTsv0(data2){
 			state.tsv.d.push(cols.slice(2));
 		}
 	});
+
+	if(state.tsv.a.length<9){
+		document.getElementById("credit").innerHTML=
+		state.tsv.a[1][0]+" : "+state.tsv.a[1][1]+
+		"<br>"+state.tsv.a[2][0]+" : "+state.tsv.a[2][1]+
+		"<br>"+state.tsv.a[3][0]+" : <a href="+state.tsv.a[3][1]+">"+state.tsv.a[3][1]+"</a>"+
+		"<br>"+state.tsv.a[4][0]+" : "+state.tsv.a[4][1]+
+		"<br>"+state.tsv.a[5][0]+" : <a href="+state.tsv.a[5][1]+">"+state.tsv.a[5][1]+"</a>"+
+		"<br>"+state.tsv.a[6][0]+" : "+state.tsv.a[6][1]+
+		"<br>"+state.tsv.a[7][0]+" : "+state.tsv.a[7][1]+
+		"<br>&copy;2023-2026 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>";
+	}else{
+		document.getElementById("credit").innerHTML=
+		state.tsv.a[1][0]+" : "+state.tsv.a[1][1]+
+		"<br>"+state.tsv.a[2][0]+" : "+state.tsv.a[2][1]+
+		"<br>"+state.tsv.a[3][0]+" : <a href="+state.tsv.a[3][1]+">"+state.tsv.a[3][1]+"</a>"+
+		"<br>"+state.tsv.a[4][0]+" : "+state.tsv.a[4][1]+
+		"<br>"+state.tsv.a[5][0]+" : <a href="+state.tsv.a[5][1]+">"+state.tsv.a[5][1]+"</a>"+
+		"<br>"+state.tsv.a[6][0]+" : "+state.tsv.a[6][1]+
+		"<br>"+state.tsv.a[7][0]+" : "+state.tsv.a[7][1]+
+		"<br>"+state.tsv.a[8][0]+" : <a href="+state.tsv.a[8][1]+">"+state.tsv.a[8][1]+"</a>"+
+		"<br>"+state.tsv.a[9][0]+" : "+state.tsv.a[9][1]+
+		"<br>"+state.tsv.a[10][0]+" : <a href="+state.tsv.a[10][1]+">"+state.tsv.a[10][1]+"</a>"+
+		"<br>"+state.tsv.a[11][0]+" : "+state.tsv.a[11][1]+
+		"<br>"+state.tsv.a[12][0]+" : "+state.tsv.a[12][1]+
+		"<br>&copy;2023-2026 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>";
+	}
 }
 
-function setTsv(data2){
+function setTsv1(data2){
+	state.tsv.raw = data2;
+
+	const lines = data2.split('\n');
+
+	lines.forEach(line => {
+		const cols = line.split('\t');
+		const type = cols[0];
+
+		if(type === "A"){
+			state.tsv.a.push([cols[1], cols[2]]);
+		}
+		else if(type === "B"){
+			state.tsv.b.push(cols[2]);
+		}
+		else if(type === "C"){
+			state.tsv.c.push(cols.slice(1));
+		}
+		else if(type === "D"){
+			state.tsv.d.push(cols.slice(2));
+		}
+	});
+	tsvst0=1;
+
+	if(tsvi.length<9){
+		document.getElementById("credit").innerHTML=
+		tsvi[1]+" : "+tsvc[1]+
+		"<br>"+tsvi[2]+" : "+tsvc[2]+
+		"<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+		"<br>"+tsvi[4]+" : "+tsvc[4]+
+		"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
+		"<br>"+tsvi[6]+" : "+tsvc[6]+
+		"<br>"+tsvi[7]+" : "+tsvc[7]+
+		"<br>&copy;2023-2026 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>";
+	}else{
+		document.getElementById("credit").innerHTML=
+		tsvi[1]+" : "+tsvc[1]+
+		"<br>"+tsvi[2]+" : "+tsvc[2]+
+		"<br>"+tsvi[3]+" : <a href="+tsvc[3]+">"+tsvc[3]+"</a>"+
+		"<br>"+tsvi[4]+" : "+tsvc[4]+
+		"<br>"+tsvi[5]+" : <a href="+tsvc[5]+">"+tsvc[5]+"</a>"+
+		"<br>"+tsvi[6]+" : "+tsvc[6]+
+		"<br>"+tsvi[7]+" : "+tsvc[7]+
+		"<br>"+tsvi[8]+" : <a href="+tsvc[8]+">"+tsvc[8]+"</a>"+
+		"<br>"+tsvi[9]+" : "+tsvc[9]+
+		"<br>"+tsvi[10]+" : <a href="+tsvc[10]+">"+tsvc[10]+"</a>"+
+		"<br>"+tsvi[11]+" : "+tsvc[11]+
+		"<br>"+tsvi[12]+" : "+tsvc[12]+
+		"<br>&copy;2023-2026 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>";
+	}
+}
+
+function setTsv0(data2){
 
 	tsv0=[];
 	tsvi=[];
