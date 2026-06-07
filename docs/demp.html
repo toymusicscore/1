@@ -3715,6 +3715,13 @@ selview1();
 }
 
 function information1(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = "15px Arial";
+    ctx.fillStyle = "black";
+
+    ctx.fillText(
+    	document.getElementById("credit").innerHTML
+	);
 
     const texts = [
         "PicoAudio.js",
@@ -3740,10 +3747,6 @@ function information1(){
         "Japan Patent Number 7685023",
         "Contact toyscore2023@gmail.com"
     ];
-
-    ctx.font = "15px Arial";
-    ctx.fillStyle = "black";
-    ctx.clearRect(0,0,canvas.width,canvas.height);
 
     for(let i = 0; i < texts.length; i++){
 
