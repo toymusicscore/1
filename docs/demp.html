@@ -88,7 +88,7 @@ demp
 	<option value="4" style="font-size:100%"> Licenses </option>
 	</select>
 <select name="smsr1" onChange="setmsr1()" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> Measure </option>
+	<option value="0" style="font-size:100%" selected="selected"> Bar </option>
 	<option value="1" style="font-size:100%"> 1 </option>
 	<option value="2" style="font-size:100%"> 2 </option>
 	<option value="3" style="font-size:100%"> 3 </option>
@@ -119,7 +119,6 @@ demp
 </select>
 
 <input type="tel"    name="x_msr" value="0" size="3" style="font-size:100%" >
-<input type="button" name="b_msr" value="M" onClick="msr1()" style="font-size:100%" >
 
 <select name="sbpm1" onChange="setbpm1()" style="font-size:100%">
 	<option value="0" style="font-size:100%" selected="selected"> BPM </option>
@@ -186,10 +185,6 @@ demp
 </select>
 
 <input type="tel"    name="x_bpm" value="" size="3" style="font-size:100%" >
-<input type="button" name="b_sb" value="Rec" onClick="record()" style="font-size:100%" >
-<input type="button" name="b_rv" value="Rev" onClick="drawLineGraph()" style="font-size:100%" >
-<input type="button" name="b_rp" value="Rep" onClick="playRecord()" style="font-size:100%" >
-<input type="button" name="b_rs" value="Res" onClick="resetData()" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="playScore()" style="font-size:100%" >
 <input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
@@ -198,6 +193,10 @@ demp
 <input type="button" name="b_>" value=">" onClick="goForward1()" style="font-size:100%" >
 <input type="button" name="b_>>" value=">>" onClick="goForward2()" style="font-size:100%" >
 <input type="button" name="b_>|" value=">|" onClick="goEnd()" style="font-size:100%" >
+<input type="button" name="b_sb" value="Rec" onClick="record()" style="font-size:100%" >
+<input type="button" name="b_rv" value="Rev" onClick="drawLineGraph()" style="font-size:100%" >
+<input type="button" name="b_rp" value="Rep" onClick="playRecord()" style="font-size:100%" >
+<input type="button" name="b_rs" value="Res" onClick="resetData()" style="font-size:100%" >
 
 </form>
 <canvas id="canvas">
@@ -732,8 +731,6 @@ function setMidi(data1){
 
 	midi_min0=midi_min;
 	midi_max0=midi_max;
-
-	stm=1;
 
 	let n=0;
 	for(let i=0;i<=r2.length;i++){
@@ -1576,7 +1573,7 @@ function lineScore(tick){
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
-		let vmn0=m/ppq/bttl*ntvl/4+stm;
+		let vmn0=m/ppq/bttl*ntvl/4+1;
 		ctx.beginPath();
 		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
@@ -1700,7 +1697,7 @@ function lineRecord(tick){
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
-		let vmn0=m/ppq/bttl*ntvl/4+stm;
+		let vmn0=m/ppq/bttl*ntvl/4+1;
 		ctx.beginPath();
 		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
@@ -2070,7 +2067,7 @@ function scrollScore(tick){
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
-		let vmn0=m/ppq/bttl*ntvl/4+stm;
+		let vmn0=m/ppq/bttl*ntvl/4+1;
 		ctx.beginPath();
 		ctx.moveTo(0,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
@@ -2173,7 +2170,7 @@ function scrollRecord(tick){
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
-		let vmn0=m/ppq/bttl*ntvl/4+stm;
+		let vmn0=m/ppq/bttl*ntvl/4+1;
 		ctx.beginPath();
 		ctx.moveTo(0,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
@@ -3159,7 +3156,7 @@ function setmsr1(){
 }
 
 function msr1(){
-	pauseTick = (document.form1.x_msr.value-stm)*ppq*bttl/ntvl*4;
+	pauseTick = (document.form1.x_msr.value)*ppq*bttl/ntvl*4;
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.setStartTime(pauseTick);
@@ -3174,13 +3171,13 @@ function goTop(){
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.setStartTime(pauseTick);
-    document.form1.x_msr.value=stm;
+    document.form1.x_msr.value=1;
     selview1();
 }
 
 function goEnd(){
-    pauseTick=Math.floor(eott0/(bttl*ppq/ntvl*4)-stm)*(bttl*ppq/ntvl*4);
-    document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+stm;
+    pauseTick=Math.floor(eott0/(bttl*ppq/ntvl*4))*(bttl*ppq/ntvl*4);
+    document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
 	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.setStartTime(pauseTick);
@@ -3188,9 +3185,9 @@ function goEnd(){
 }
 
 function goBack1(){
-    if(document.form1.x_msr.value-stm-1>=0){
-        pauseTick=(document.form1.x_msr.value-stm-1)*(bttl*ppq/ntvl*4);
-        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+stm;
+    if(document.form1.x_msr.value>=0){
+        pauseTick=(document.form1.x_msr.value-2)*(bttl*ppq/ntvl*4);
+        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
         picoAudio.init();
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
@@ -3201,9 +3198,9 @@ function goBack1(){
 }
 
 function goBack2(){
-    if((document.form1.x_msr.value-stm-ht1)*(bttl*ppq/ntvl*4)>=0){
-        pauseTick=(document.form1.x_msr.value-stm-ht1)*(bttl*ppq/ntvl*4);
-        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+stm;
+    if((document.form1.x_msr.value-1-ht1)*(bttl*ppq/ntvl*4)>=0){
+        pauseTick=(document.form1.x_msr.value-	-ht1)*(bttl*ppq/ntvl*4);
+        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
         picoAudio.init();
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
@@ -3214,9 +3211,9 @@ function goBack2(){
 }
 
 function goForward1(){
-    if((document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4)<=eott0){
-        pauseTick=(document.form1.x_msr.value-stm+1)*(bttl*ppq/ntvl*4);
-        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+stm;
+    if((document.form1.x_msr.value)*(bttl*ppq/ntvl*4)<=eott0){
+        pauseTick=(document.form1.x_msr.value)*(bttl*ppq/ntvl*4);
+        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
         picoAudio.init();
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
@@ -3226,9 +3223,9 @@ function goForward1(){
 
 
 function goForward2(){
-    if((Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4)<=eott0){
-        pauseTick=(Number(document.form1.x_msr.value)-stm+ht1)*(bttl*ppq/ntvl*4);
-        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+stm;
+    if((Number(document.form1.x_msr.value)-1+ht1)*(bttl*ppq/ntvl*4)<=eott0){
+        pauseTick=(Number(document.form1.x_msr.value)-	+ht1)*(bttl*ppq/ntvl*4);
+        document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
         picoAudio.init();
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
