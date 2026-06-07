@@ -1859,6 +1859,53 @@ function playNotes(tick){
     prevTick = tick;
 }
 
+
+function playScoreNotes(tick){
+
+    if(tick < prevTick){
+        nextIndex = 0;
+    }
+
+    const x_bpm = parseFloat(document.form1.x_bpm.value);
+
+    const currentTick = Math.floor(tick);
+    const previousTick = Math.floor(prevTick);
+
+    const lookAheadTicks =
+        0.1 * x_bpm * ppq / 60;
+
+    while(nextIndex < r1.length){
+
+        let data = r1[nextIndex];
+
+        let midi  = data.midi;
+        let start = data.start;
+        let stop  = data.stop;
+
+        if(start > currentTick + lookAheadTicks){
+            break;
+        }
+		if(
+			stop != null &&
+			start > previousTick &&
+			start <= currentTick + lookAheadTicks
+		){
+            let durationTicks =
+                Math.max(1, stop - start);
+
+            let durationSeconds =
+                durationTicks / ppq * 60 / x_bpm;
+
+            playPico(midi, durationSeconds, start);
+        }
+
+        nextIndex++;
+    }
+
+    prevTick = tick;
+}
+
+
 function playPico(
     midi,
     duration,
