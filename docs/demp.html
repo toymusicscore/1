@@ -1457,10 +1457,10 @@ function loopScore(){
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
 	if (sv=="0"){
-		line(tick);
+		lineScore(tick);
 		playScoreNotes(tick);
 	}else if (sv=="1"){
-		scroll(tick);
+		scrollScore(tick);
 		playScoreNotes(tick);
 	}
     cancelAnimationFrame(rafId);
@@ -1473,10 +1473,10 @@ function loopRecord(){
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
 	if (sv=="0"){
-		line2(tick);
+		lineRecord(tick);
 		playRecordNotes(tick)
 	}else if (sv=="1"){
-		scroll2(tick);
+		scrollRecord(tick);
 		playRecordNotes(tick)
 	}
     cancelAnimationFrame(rafId);
@@ -1526,7 +1526,7 @@ if (tsv4[n_id-tsvst0+1]!=undefined){
 }
 
 
-function line(tick){
+function lineScore(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
 	szy = canvas.height-my;
@@ -1652,7 +1652,7 @@ function line(tick){
 };
 
 
-function line2(tick){
+function lineRecord(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
 	szy = canvas.height-my;
@@ -2025,7 +2025,7 @@ function midiToFreq(midi){
     );
 }
 
-function scroll(tick){
+function scrollScore(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
 	szy = canvas.height-my;
@@ -2130,7 +2130,7 @@ function scroll(tick){
 	}
 };
 
-function scroll2(tick){
+function scrollRecord(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
 	szy = canvas.height-my;
@@ -3802,14 +3802,14 @@ function selview1(){
 
 	if(document.form1.sv1.options[0].selected==true){
 		if (recordData){
-			line2(pauseTick);
+			lineRecord(pauseTick);
 		}else {
-			line(pauseTick);}
+			lineScore(pauseTick);}
 	}else if(document.form1.sv1.options[1].selected==true){
 		if (recordData){
-			scroll2(pauseTick);
+			scrollRecord(pauseTick);
 		}else {
-			scroll(pauseTick);}
+			scrollScore(pauseTick);}
 	}else if(document.form1.sv1.options[2].selected==true){
 		keyLabel();
 	}else if(document.form1.sv1.options[3].selected==true){
