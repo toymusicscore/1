@@ -570,6 +570,7 @@ let rst=0;
 let ticksPerMeasure = 1920;
 let pedalData = [];
 let pedalState = false;
+let enableScoreSound = true;
 
 async function fetchData(){
 	let file1name=document.getElementById("song1").value;
@@ -904,6 +905,8 @@ async function record(){
 	pedalData = [];
 	pedalState = false;
 	state = true;
+	enableScoreSound = false;
+	
 	selview1();
 	await picoAudio.context.resume();
 	await cdown();
@@ -1354,7 +1357,10 @@ async function playScore(){
     pauseTick = 0;
 	baseAudioTime = 0;
 */
-    prevTick = pauseTick;
+
+	enableScoreSound = true;
+
+	prevTick = pauseTick;
 
     nextIndex = 0;
 
@@ -1448,10 +1454,14 @@ function loopScore(){
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
 	if (sv=="0"){
 		lineScore(tick);
-		playScoreNotes(tick);
+		if (enableScoreSound){
+			playScoreNotes(tick);
+		}
 	}else if (sv=="1"){
 		scrollScore(tick);
-		playScoreNotes(tick);
+		if (enableScoreSound){
+			playScoreNotes(tick);
+		}
 	}
     cancelAnimationFrame(rafId);
     rafId = requestAnimationFrame(loopScore);
