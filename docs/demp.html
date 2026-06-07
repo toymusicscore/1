@@ -875,35 +875,6 @@ let pauseTick = 0;
 let isPlaying = 0;
 let rafId = null;
 
-async function playOld(){
-
-	baseAudioTime = 0;
-
-    if(isPlaying > 0){
-        return;
-    }
-
-    await picoAudio.context.resume();
-
-    canvas.width =
-        window.innerWidth;
-
-    canvas.height =
-        window.innerHeight;
-
-    picoAudio.setData(parsedData);
-
-    startPlayback();
-
-    picoAudio.play();
-
-    isPlaying = 1;
-
-    cancelAnimationFrame(rafId);
-
-    loopScore();
-}
-
 function pause(){
     if (isPlaying == 0) return;
     pauseTick = getCurrentTick();
@@ -1374,12 +1345,23 @@ async function playScore(){
     if(!Number.isFinite(pauseTick)){
         pauseTick = 0;
     }
-
+/*
     prevTick = 0;
     nextIndex = 0;
     pauseTick = 0;
 	baseAudioTime = 0;
-	
+*/
+    prevTick = pauseTick;
+
+    nextIndex = 0;
+
+    while(
+        nextIndex < r1.length &&
+        r1[nextIndex].start < pauseTick
+    ){
+        nextIndex++;
+    }
+
     cancelAnimationFrame(rafId);
 
     await picoAudio.context.resume();
