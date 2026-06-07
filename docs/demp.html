@@ -84,8 +84,8 @@ demp
 	<option value="0" style="font-size:100%" selected="selected"> Line </option>
 	<option value="1" style="font-size:100%"> Scroll </option>
 	<option value="2" style="font-size:100%"> Key Label</option>
-	<option value="3" style="font-size:100%"> Instrument </option>
-	<option value="4" style="font-size:100%"> Information </option>
+	<option value="3" style="font-size:100%"> Channel </option>
+	<option value="4" style="font-size:100%"> Licences </option>
 	</select>
 <select name="smsr1" onChange="setmsr1()" style="font-size:100%">
 	<option value="1" style="font-size:100%" selected="selected"> 1 </option>
@@ -3651,7 +3651,7 @@ selview1();
 
 }
 
-function information1(){
+function licenceInfo(){
 
 	ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.font = "15px Arial";
@@ -3702,7 +3702,7 @@ function information1(){
 
 }
 
-function instrument1(){
+function channelInfo(){
 	ctx.font="25px Arial";
 	ctx.fillStyle="black";
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -3783,9 +3783,9 @@ function selview1(){
 	}else if(document.form1.sv1.options[2].selected==true){
 		keyLabel();
 	}else if(document.form1.sv1.options[3].selected==true){
-		instrument1();
+		channelInfo();
 	}else if(document.form1.sv1.options[4].selected==true){
-		information1();
+		licenceInfo();
 	}
 
 }
