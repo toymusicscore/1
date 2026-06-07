@@ -1852,8 +1852,10 @@ let prevTick = 0;
 let nextIndex = 0;
 
 function playNotes(tick){
+	prevTick = 0;
+	nextIndex = 0;
 
-    if(tick < prevTick){
+	if(tick < prevTick){
         nextIndex = 0;
     }
 
@@ -1898,6 +1900,9 @@ function playNotes(tick){
 
 
 function playScoreNotes(tick){
+	
+	prevTick = 0;
+	nextIndex = 0;
 
     if(tick < prevTick){
         nextIndex = 0;
