@@ -779,7 +779,8 @@ function setMidi(data1){
 }
 
 function setTsv(data2){
-	state.tsv.raw = data2;
+
+	let tsv;
 
 	const lines = data2.split('\n');
 
@@ -788,43 +789,43 @@ function setTsv(data2){
 		const type = cols[0];
 
 		if(type === "A"){
-			state.tsv.a.push([cols[1], cols[2]]);
+			tsv.a.push([cols[1], cols[2]]);
 		}
 		else if(type === "B"){
-			state.tsv.b.push(cols[2]);
+			tsv.b.push(cols[2]);
 		}
 		else if(type === "C"){
-			state.tsv.c.push(cols.slice(1));
+			tsv.c.push(cols.slice(1));
 		}
 		else if(type === "D"){
-			state.tsv.d.push(cols.slice(2));
+			tsv.d.push(cols.slice(2));
 		}
 	});
 
-	if(state.tsv.a.length<9){
+	if(tsv.a.length<9){
 		document.getElementById("credit").innerHTML=
-		state.tsv.a[1][0]+" : "+state.tsv.a[1][1]+
-		"<br>"+state.tsv.a[2][0]+" : "+state.tsv.a[2][1]+
-		"<br>"+state.tsv.a[3][0]+" : <a href="+state.tsv.a[3][1]+">"+state.tsv.a[3][1]+"</a>"+
-		"<br>"+state.tsv.a[4][0]+" : "+state.tsv.a[4][1]+
-		"<br>"+state.tsv.a[5][0]+" : <a href="+state.tsv.a[5][1]+">"+state.tsv.a[5][1]+"</a>"+
-		"<br>"+state.tsv.a[6][0]+" : "+state.tsv.a[6][1]+
-		"<br>"+state.tsv.a[7][0]+" : "+state.tsv.a[7][1]+
+		tsv.a[1][0]+" : "+tsv.a[1][1]+
+		"<br>"+tsv.a[2][0]+" : "+tsv.a[2][1]+
+		"<br>"+tsv.a[3][0]+" : <a href="+tsv.a[3][1]+">"+tsv.a[3][1]+"</a>"+
+		"<br>"+tsv.a[4][0]+" : "+tsv.a[4][1]+
+		"<br>"+tsv.a[5][0]+" : <a href="+tsv.a[5][1]+">"+tsv.a[5][1]+"</a>"+
+		"<br>"+tsv.a[6][0]+" : "+tsv.a[6][1]+
+		"<br>"+tsv.a[7][0]+" : "+tsv.a[7][1]+
 		"<br>&copy;2023-2026 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>";
 	}else{
 		document.getElementById("credit").innerHTML=
-		state.tsv.a[1][0]+" : "+state.tsv.a[1][1]+
-		"<br>"+state.tsv.a[2][0]+" : "+state.tsv.a[2][1]+
-		"<br>"+state.tsv.a[3][0]+" : <a href="+state.tsv.a[3][1]+">"+state.tsv.a[3][1]+"</a>"+
-		"<br>"+state.tsv.a[4][0]+" : "+state.tsv.a[4][1]+
-		"<br>"+state.tsv.a[5][0]+" : <a href="+state.tsv.a[5][1]+">"+state.tsv.a[5][1]+"</a>"+
-		"<br>"+state.tsv.a[6][0]+" : "+state.tsv.a[6][1]+
-		"<br>"+state.tsv.a[7][0]+" : "+state.tsv.a[7][1]+
-		"<br>"+state.tsv.a[8][0]+" : <a href="+state.tsv.a[8][1]+">"+state.tsv.a[8][1]+"</a>"+
-		"<br>"+state.tsv.a[9][0]+" : "+state.tsv.a[9][1]+
-		"<br>"+state.tsv.a[10][0]+" : <a href="+state.tsv.a[10][1]+">"+state.tsv.a[10][1]+"</a>"+
-		"<br>"+state.tsv.a[11][0]+" : "+state.tsv.a[11][1]+
-		"<br>"+state.tsv.a[12][0]+" : "+state.tsv.a[12][1]+
+		tsv.a[1][0]+" : "+tsv.a[1][1]+
+		"<br>"+tsv.a[2][0]+" : "+tsv.a[2][1]+
+		"<br>"+tsv.a[3][0]+" : <a href="+tsv.a[3][1]+">"+tsv.a[3][1]+"</a>"+
+		"<br>"+tsv.a[4][0]+" : "+tsv.a[4][1]+
+		"<br>"+tsv.a[5][0]+" : <a href="+tsv.a[5][1]+">"+tsv.a[5][1]+"</a>"+
+		"<br>"+tsv.a[6][0]+" : "+tsv.a[6][1]+
+		"<br>"+tsv.a[7][0]+" : "+tsv.a[7][1]+
+		"<br>"+tsv.a[8][0]+" : <a href="+tsv.a[8][1]+">"+tsv.a[8][1]+"</a>"+
+		"<br>"+tsv.a[9][0]+" : "+tsv.a[9][1]+
+		"<br>"+tsv.a[10][0]+" : <a href="+tsv.a[10][1]+">"+tsv.a[10][1]+"</a>"+
+		"<br>"+tsv.a[11][0]+" : "+tsv.a[11][1]+
+		"<br>"+tsv.a[12][0]+" : "+tsv.a[12][1]+
 		"<br>&copy;2023-2026 <font face=\"Arial\"><font color=\"ff0000\">T</font><font color=\"ff7f00\">o</font><font color=\"ffff00\">y</font><font color=\"00ff00\">S</font><font color=\"00ffff\">c</font><font color=\"0000ff\">o</font><font color=\"ff00ff\">r</font><font color=\"ff007f\">e</font></font><font size=\"2\">&reg</font>";
 	}
 }
