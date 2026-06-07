@@ -2490,12 +2490,6 @@ function createDiffData(pairs){
 				-
 				(s.stop-s.start),
 
-			velocityRecord:
-				r.velocity / 127,
-
-			velocityScore:
-				s.velocity,
-
 			velocityDiff:
 				r.velocity / 127 - s.velocity,
 
@@ -2629,34 +2623,11 @@ function drawLineGraph(){
 		false
     );
 
-
-	drawGraph(
-        diffData,
-        "velocityRecord",
-        "Velocity Record",
-        420,
-        "magenta",
-        10,
-		false
-    );
-
-
-	drawGraph(
-        diffData,
-        "velocityScore",
-        "Velocity Score",
-        520,
-        "magenta",
-        10,
-		false
-    );
-
-
 	drawGraph(
         diffData,
         "velocityDiff",
         "Velocity Difference",
-        620,
+        420,
         "magenta",
         30,
 		true
@@ -2665,7 +2636,7 @@ function drawLineGraph(){
 	drawPedalGraph(
 		pedalData,
 		"Sustain Pedal Record",
-		720,
+		520,
 		"orange",
 		true
 	);
