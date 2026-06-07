@@ -2572,23 +2572,7 @@ function drawLineGraph(){
 
 	console.log("hands =", hands);
 
-    scoreData = r1.slice();
-
-    scoreData.sort((a, b) => {
-        return a.start - b.start;
-    });
-
-    const scoreRight =
-        scoreData.filter(
-            n => n.channel == x_chR
-        );
-
-    const scoreLeft =
-        scoreData.filter(
-            n => n.channel == x_chL
-        );
-
-    let pairs = [];
+	let pairs = [];
 
     if(document.form1.hands.options[0].selected){
 
