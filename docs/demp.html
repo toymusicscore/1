@@ -3147,7 +3147,7 @@ function goTop(){
 }
 
 function goEnd(){
-    pauseTick=eott0;
+    pauseTick=Math.floor(eott0/(bttl*ppq/ntvl*4)-1)*(bttl*ppq/ntvl*4);
     document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4));
 	picoAudio.init();
 	picoAudio.setData(parsedData);
