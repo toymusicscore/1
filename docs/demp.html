@@ -3767,15 +3767,15 @@ function channelInfo(){
 function selview1(){
 
 	if(document.form1.sv1.options[0].selected==true){
-		if (recordData){
+		if(recordData && recordData.length > 0){
 			lineRecord(pauseTick);
-		}else {
+		}else{
 			lineScore(pauseTick);
 		}
 	}else if(document.form1.sv1.options[1].selected==true){
-		if (recordData){
+		if(recordData && recordData.length > 0){
 			scrollRecord(pauseTick);
-		}else {
+		}else{
 			scrollScore(pauseTick);
 		}
 	}else if(document.form1.sv1.options[2].selected==true){
