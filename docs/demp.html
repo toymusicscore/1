@@ -2867,47 +2867,51 @@ function drawPedalGraph(
 	// --------------------
     // 小節線だけ描画
     // --------------------
+	ctx.strokeStyle = "#ddd";
 
-    ctx.strokeStyle = "#ddd";
+	ctx.fillStyle = "black";
 
-    ctx.fillStyle = "black";
+	const totalMeasures =
+		Math.ceil(
+			maxTick / ticksPerMeasure
+		);
 
-    for(let i = 0; i < pedalGraphData.length; i++){
+	for(
+		let m = 1;
+		m <= totalMeasures;
+		m++
+	){
 
-        if(
-            i === 0
-            ||
-            pedalGraphData[i].measure
-            !==
-            pedalGraphData[i - 1].measure
-        ){
+		const tick =
+			(m - 1) * ticksPerMeasure;
 
-			const x = mx + pedalGraphData[i].tick / maxTick * w
+		const x =
+			mx +
+			tick / maxTick * w;
 
-			if(showMeasureLabel){
+		if(showMeasureLabel){
 
-				ctx.fillText(
-					pedalGraphData[i].measure,
-					x,
-					offsetY + graphHeight
-				);
-			}
-
-			ctx.beginPath();
-
-			ctx.moveTo(
+			ctx.fillText(
+				m,
 				x,
-				offsetY + titleHeight
+				offsetY + graphHeight
 			);
+		}
 
-			ctx.lineTo(
-				x,
-				offsetY + (graphHeight - titleHeight)
-			);
+		ctx.beginPath();
 
-            ctx.stroke();
-        }
-    }
+		ctx.moveTo(
+			x,
+			offsetY + titleHeight
+		);
+
+		ctx.lineTo(
+			x,
+			offsetY + (graphHeight - titleHeight)
+		);
+
+		ctx.stroke();
+	}
 
     // --------------------
     // 折れ線描画
