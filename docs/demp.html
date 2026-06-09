@@ -197,6 +197,7 @@ demp
 <input type="button" name="b_rv" value="Rev" onClick="drawLineGraph()" style="font-size:100%" >
 <input type="button" name="b_rp" value="Rep" onClick="playRecord()" style="font-size:100%" >
 <input type="button" name="b_rs" value="Res" onClick="resetData()" style="font-size:100%" >
+<input type="button" name="b_sv" value="Sav" onClick="saveMidi()" style="font-size:100%" >
 
 </form>
 <canvas id="canvas">
@@ -3146,6 +3147,188 @@ function noteOff(note){
     osc.stop();
 
     delete oscillators[note];
+}
+
+function createMidiEvents(){
+
+    const events = [];
+
+    // ノート
+    for(const n of recordData){
+
+        events.push({
+            tick: Math.round(n.start),
+            type: "on",
+            channel: n.channel,
+            note: n.midi,
+            velocity: n.velocity
+        });
+
+        if(n.stop != null){
+
+            events.push({
+                tick: Math.round(n.stop),
+                type: "off",
+                channel: n.channel,
+                note: n.midi,
+                velocity: 0
+            });
+        }
+    }
+
+    // ペダル
+    for(const p of pedalData){
+
+        events.push({
+            tick: Math.round(p.start),
+            type: "cc",
+            channel: p.channel,
+            cc: p.cc,
+            value: p.value
+        });
+    }
+
+    events.sort(
+        (a,b) => a.tick - b.tick
+    );
+
+    return events;
+}
+
+function writeVLQ(value){
+
+    let buffer = value & 0x7F;
+    const bytes = [];
+
+    while((value >>= 7)){
+
+        buffer <<= 8;
+        buffer |=
+            ((value & 0x7F) | 0x80);
+    }
+
+    while(true){
+
+        bytes.push(buffer & 0xFF);
+
+        if(buffer & 0x80){
+
+            buffer >>= 8;
+
+        }else{
+
+            break;
+        }
+    }
+
+    return bytes;
+}
+
+function createTrackData(){
+
+    const track = [];
+
+    let prevTick = 0;
+
+    const events =
+        createMidiEvents();
+
+    for(const e of events){
+
+        const delta =
+            e.tick - prevTick;
+
+        prevTick = e.tick;
+
+        track.push(
+            ...writeVLQ(delta)
+        );
+
+        if(e.type === "on"){
+
+            track.push(
+                0x90 | e.channel,
+                e.note,
+                e.velocity
+            );
+        }
+
+        if(e.type === "off"){
+
+            track.push(
+                0x80 | e.channel,
+                e.note,
+                0
+            );
+        }
+
+        if(e.type === "cc"){
+
+            track.push(
+                0xB0 | e.channel,
+                e.cc,
+                e.value
+            );
+        }
+    }
+
+    // End Of Track
+    track.push(
+        0x00,
+        0xFF,
+        0x2F,
+        0x00
+    );
+
+    return track;
+}
+
+function saveMidi(){
+
+    const trackData =
+        createTrackData();
+
+    const bytes = [];
+
+    // MThd
+    bytes.push(
+        0x4d,0x54,0x68,0x64,
+        0x00,0x00,0x00,0x06,
+        0x00,0x00,
+        0x00,0x01,
+        (ppq>>8)&255,
+        ppq&255
+    );
+
+    // MTrk
+    const len =
+        trackData.length;
+
+    bytes.push(
+        0x4d,0x54,0x72,0x6b,
+        (len>>24)&255,
+        (len>>16)&255,
+        (len>>8)&255,
+        len&255
+    );
+
+    bytes.push(...trackData);
+
+    const blob =
+        new Blob(
+            [new Uint8Array(bytes)],
+            {type:"audio/midi"}
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+    a.download = "record.mid";
+    a.click();
 }
 
 
