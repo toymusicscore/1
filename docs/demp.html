@@ -2509,11 +2509,16 @@ function createPedalGraphData(){
 
     for(const p of pedalData){
 
-        if(p.cc !== 64){
+        if(
+			p.cc !== 64 ||
+			p.cc !== 66 ||
+			p.cc !== 67
+		){
             continue;
         }
 
-		data.push({			
+		data.push({
+			cc: p.cc,			
 			measure:
 				Math.floor(
 					p.start / ticksPerMeasure
