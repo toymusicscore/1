@@ -3060,17 +3060,22 @@ function onMIDIMessage(event){
 
         noteOn(note, velocity);
 
-        const noteData = {
-			channel: channel,
-            midi: note,
-            start: t,
-            stop: null,
-            velocity: velocity
-        };
+		const noteData = {
+			channel,
+			midi: note,
+			start: t,
+			stop: null,
+			velocity
+		};
 
-        recordData.push(noteData);
+		recordData.push(noteData);
 
-        activeNotes[note] = noteData;
+		const key =
+			channel + "_" + note;
+
+		activeNotes[key] =
+			noteData;
+
     }
 
     // Note Off
@@ -3082,16 +3087,22 @@ function onMIDIMessage(event){
         )
     ){
 
-        const note = data1;
+		const channel =
+			status & 0x0f;
 
-        noteOff(note);
+		const note = data1;
 
-        if(activeNotes[note]){
+		const key =
+			channel + "_" + note;
 
-            activeNotes[note].stop = t;
+		noteOff(note);
 
-            delete activeNotes[note];
-        }
+		if(activeNotes[key]){
+
+			activeNotes[key].stop = t;
+
+			delete activeNotes[key];
+		}
     }
 }
 
