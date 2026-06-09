@@ -2795,15 +2795,28 @@ function drawPedalGraph(
 	if(pedalData.length === 0){
     return;
 	}
-
+	
 	const pedalGraphData =
 		createPedalGraphData();
 
-	console.log(pedalGraphData);
+	const sustainData =
+		pedalGraphData.filter(
+			p => p.cc === 64
+		);
 
-	console.log(
-		pedalData[0]
-	);
+	const sostenutoData =
+		pedalGraphData.filter(
+			p => p.cc === 66
+		);
+
+	const softData =
+		pedalGraphData.filter(
+			p => p.cc === 67
+		);
+
+	console.log(sustainData);
+	console.log(sostenutoData);
+	console.log(softData);
 
     const graphHeight = 100;
 
