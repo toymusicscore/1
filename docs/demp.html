@@ -2629,29 +2629,35 @@ function drawLineGraph(){
 		true
     );
 
-	drawPedalGraph(
-		pedalData,
-		"Sustain Pedal Record",
-		520,
-		"orange",
-		true
-	);
+drawPedalGraph(
+    pedalData.filter(
+        p => p.cc === 64
+    ),
+    "Sustain Pedal",
+    520,
+    "orange",
+    true
+);
 
-	drawPedalGraph(
-		pedalData,
-		"Sostenuto Pedal Record",
-		620,
-		"orange",
-		true
-	);
+drawPedalGraph(
+    pedalData.filter(
+        p => p.cc === 66
+    ),
+    "Sostenuto Pedal",
+    620,
+    "orange",
+    true
+);
 
-	drawPedalGraph(
-		pedalData,
-		"Soft Pedal Record",
-		720,
-		"orange",
-		true
-	);
+drawPedalGraph(
+    pedalData.filter(
+        p => p.cc === 67
+    ),
+    "Soft Pedal",
+    720,
+    "orange",
+    true
+);
 
 }
 
@@ -2812,8 +2818,24 @@ function drawPedalGraph(
     return;
 	}
 	
-	const pedalGraphData =
-		createPedalGraphData();
+	const pedalGraphData = [];
+
+	for(const p of pedalData){
+
+		pedalGraphData.push({
+
+			cc: p.cc,
+
+			measure:
+				Math.floor(
+					p.start / ticksPerMeasure
+				) + 1,
+
+			tick: p.start,
+
+			pedalValue: p.value
+		});
+	}
 
 	const sustainData =
 		pedalGraphData.filter(
