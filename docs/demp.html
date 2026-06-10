@@ -2494,7 +2494,7 @@ function createDiffData(pairs){
 				(s.stop-s.start),
 
 			velocityDiff:
-				r.velocity / 127 - s.velocity,
+				r.velocity - s.velocity * 127,
 
 			measure:
 				Math.floor(
@@ -2638,6 +2638,29 @@ function calcDurationAccuracy(diffData){
     return total / diffData.length;
 }
 
+function calcVelocityAccuracy(diffData){
+
+    let total = 0;
+
+    for(const d of diffData){
+
+        const err =
+            Math.abs(
+                d.velocityDiff
+            );
+
+        const score =
+            Math.max(
+                0,
+                100 - err
+            );
+
+        total += score;
+    }
+
+    return total / diffData.length;
+}
+
 function createPedalGraphData(){
 
     const data = [];
@@ -2741,13 +2764,21 @@ function drawLineGraph(){
         200,
         250
     );
-
+/*
 	const durationAccuracy = Math.round(calcDuraionAccuracy(diffData));
 
 	ctx.fillText(
         durationAccuracy,
         200,
         350
+    );
+*/
+	const velocityAccuracy = Math.round(calcVelocityAccuracy(diffData));
+
+	ctx.fillText(
+        velocityAccuracy,
+        200,
+        450
     );
 
     drawGraph(
