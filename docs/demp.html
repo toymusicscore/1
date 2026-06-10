@@ -2503,6 +2503,24 @@ function createDiffData(pairs){
     return diffData;
 }
 
+function calcPitchAccuracy(diffData){
+
+    let correct = 0;
+
+    for(const d of diffData){
+
+        if(d.pitchDiff === 0){
+            correct++;
+        }
+    }
+
+    return (
+        correct /
+        diffData.length
+        * 100
+    );
+}
+
 function createPedalGraphData(){
 
     const data = [];
@@ -2579,6 +2597,14 @@ function drawLineGraph(){
 
     canvas.height = 850;
 
+	const pitchAccuracy = calcPitchAccuracy(diffData)
+
+	ctx.fillText(
+        pitchAccuracy,
+        20,
+        30
+    );
+	
     drawGraph(
         diffData,
         "pitchDiff",
