@@ -908,9 +908,9 @@ async function cdown(){
 	let	wait0=60000/Math.max(document.form1.x_bpm.value,60);
 
 	for(let i = 3; i > 0; i--){
-		ctx.clearRect(0,40,50,50);
+		ctx.clearRect(0,0,50,50);
 		ctx.fillStyle = "red";
-		ctx.fillText(i,0,50);
+		ctx.fillText(i,0,0);
 
 		await new Promise(r => setTimeout(r, wait0));
 	}
