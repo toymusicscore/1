@@ -903,14 +903,14 @@ async function record(){
 }
 
 async function cdown(){
-	ctx.font = "80px Arial";
+	ctx.font = "25px Arial";
 
 	let	wait0=60000/Math.max(document.form1.x_bpm.value,60);
 
 	for(let i = 3; i > 0; i--){
-		ctx.clearRect(0,40,50,100);
+		ctx.clearRect(0,40,50,50);
 		ctx.fillStyle = "red";
-		ctx.fillText(i,0,100);
+		ctx.fillText(i,0,50);
 
 		await new Promise(r => setTimeout(r, wait0));
 	}
