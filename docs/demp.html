@@ -2746,7 +2746,7 @@ function drawLineGraph(){
 	ctx.fillText(
         pitchAccuracy,
         200,
-        100
+        50
     );
 
 	const attackAccuracy = Math.round(calcAttackAccuracy(diffData));
@@ -2754,7 +2754,7 @@ function drawLineGraph(){
 	ctx.fillText(
         attackAccuracy,
         200,
-        200
+        150
     );
 
 	const releaseAccuracy = Math.round(calcReleaseAccuracy(diffData));
@@ -2762,7 +2762,7 @@ function drawLineGraph(){
 	ctx.fillText(
         releaseAccuracy,
         200,
-        300
+        250
     );
 
 	const durationAccuracy = Math.round(calcDurationAccuracy(diffData));
@@ -2770,7 +2770,7 @@ function drawLineGraph(){
 	ctx.fillText(
         durationAccuracy,
         200,
-        400
+        350
     );
 
 	const velocityAccuracy = Math.round(calcVelocityAccuracy(diffData));
@@ -2778,7 +2778,7 @@ function drawLineGraph(){
 	ctx.fillText(
         velocityAccuracy,
         200,
-        500
+        450
     );
 
 	const Overall = Math.round(
@@ -2788,24 +2788,24 @@ function drawLineGraph(){
 		0.1 * durationAccuracy +
 		0.05 * velocityAccuracy
 	);
-	
+
 	ctx.fillText(
         "Overall",
-        100,
-        30
+        500,
+        50
     );
 
 	ctx.fillText(
         Overall,
-        200,
-        30
+        600,
+        50
     );
 
 	drawGraph(
         diffData,
         "pitchDiff",
         "Pitch",
-        70,
+        20,
         "red",
         20,
 		false
@@ -2815,7 +2815,7 @@ function drawLineGraph(){
         diffData,
         "attackDiff",
         "Attack",
-        170,
+        120,
         "blue",
         0.1,
 		false
@@ -2825,7 +2825,7 @@ function drawLineGraph(){
         diffData,
         "releaseDiff",
         "Release",
-        270,
+        220,
         "green",
         0.1,
 		false
@@ -2835,7 +2835,7 @@ function drawLineGraph(){
         diffData,
         "durationDiff",
         "Duration",
-        370,
+        320,
         "cyan",
         0.1,
 		false
@@ -2845,7 +2845,7 @@ function drawLineGraph(){
         diffData,
         "velocityDiff",
         "Velocity",
-        470,
+        420,
         "magenta",
         0.5,
 		true
@@ -2866,7 +2866,7 @@ function drawLineGraph(){
 			p => p.cc === 66
 		),
 		"Sostenuto Pedal",
-		670,
+		620,
 		"brown",
 		false
 	);
@@ -2876,7 +2876,7 @@ function drawLineGraph(){
 			p => p.cc === 67
 		),
 		"Soft Pedal",
-		770,
+		720,
 		"olive",
 		false
 	);
