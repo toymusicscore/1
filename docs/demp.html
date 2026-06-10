@@ -2781,13 +2781,14 @@ function drawLineGraph(){
         500
     );
 
-	const Overall =
+	const Overall = Math.round(
 		0.5 * pitchAccuracy +
 		0.25 * attackAccuracy +
 		0.1 * releaseAccuracy +
 		0.1 * durationAccuracy +
 		0.05 * velocityAccuracy
-
+	);
+	
 	ctx.fillText(
         "Overall",
         100,
