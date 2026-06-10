@@ -2781,7 +2781,20 @@ function drawLineGraph(){
         450
     );
 
-    drawGraph(
+	const Overall =
+		0.5 * pitchAccuracy +
+		0.25 * attackAccuracy +
+		0.1 * releaseAccuracy +
+		0.1 * durationAccuracy +
+		0.05 * velocityAccuracy
+
+	ctx.fillText(
+        Overall,
+        10,
+        50
+    );
+
+	drawGraph(
         diffData,
         "pitchDiff",
         "Pitch",
