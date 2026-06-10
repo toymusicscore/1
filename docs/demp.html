@@ -2562,6 +2562,82 @@ function calcAttackAccuracy(diffData){
     return total / diffData.length;
 }
 
+function calcReleaseAccuracy(diffData){
+
+    let total = 0;
+
+    for(const d of diffData){
+
+        const err =
+            Math.abs(d.releaseDiff);
+
+        let score;
+
+        if(err <= ppq * 0.05){
+
+            score = 100;
+
+        }else if(err <= ppq * 0.10){
+
+            score = 90;
+
+        }else if(err <= ppq * 0.20){
+
+            score = 70;
+
+        }else if(err <= ppq * 0.30){
+
+            score = 40;
+
+        }else{
+
+            score = 0;
+        }
+
+        total += score;
+    }
+
+    return total / diffData.length;
+}
+
+function calcDurationAccuracy(diffData){
+
+    let total = 0;
+
+    for(const d of diffData){
+
+        const err =
+            Math.abs(d.durationDiff);
+
+        let score;
+
+        if(err <= ppq * 0.05){
+
+            score = 100;
+
+        }else if(err <= ppq * 0.10){
+
+            score = 90;
+
+        }else if(err <= ppq * 0.20){
+
+            score = 70;
+
+        }else if(err <= ppq * 0.30){
+
+            score = 40;
+
+        }else{
+
+            score = 0;
+        }
+
+        total += score;
+    }
+
+    return total / diffData.length;
+}
+
 function createPedalGraphData(){
 
     const data = [];
@@ -2657,7 +2733,23 @@ function drawLineGraph(){
         200,
         150
     );
-	
+
+	const releaseAccuracy = Math.round(calcReleaseAccuracy(diffData));
+
+	ctx.fillText(
+        releaseAccuracy,
+        200,
+        250
+    );
+
+	const durationAccuracy = Math.round(calcDuraionAccuracy(diffData));
+
+	ctx.fillText(
+        durationAccuracy,
+        200,
+        350
+    );
+
     drawGraph(
         diffData,
         "pitchDiff",
