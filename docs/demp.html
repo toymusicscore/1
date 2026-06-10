@@ -2746,7 +2746,7 @@ function drawLineGraph(){
 	ctx.fillText(
         pitchAccuracy,
         200,
-        50
+        100
     );
 
 	const attackAccuracy = Math.round(calcAttackAccuracy(diffData));
@@ -2754,7 +2754,7 @@ function drawLineGraph(){
 	ctx.fillText(
         attackAccuracy,
         200,
-        150
+        200
     );
 
 	const releaseAccuracy = Math.round(calcReleaseAccuracy(diffData));
@@ -2762,7 +2762,7 @@ function drawLineGraph(){
 	ctx.fillText(
         releaseAccuracy,
         200,
-        250
+        300
     );
 
 	const durationAccuracy = Math.round(calcDurationAccuracy(diffData));
@@ -2770,7 +2770,7 @@ function drawLineGraph(){
 	ctx.fillText(
         durationAccuracy,
         200,
-        350
+        400
     );
 
 	const velocityAccuracy = Math.round(calcVelocityAccuracy(diffData));
@@ -2778,7 +2778,7 @@ function drawLineGraph(){
 	ctx.fillText(
         velocityAccuracy,
         200,
-        450
+        500
     );
 
 	const Overall =
@@ -2789,8 +2789,14 @@ function drawLineGraph(){
 		0.05 * velocityAccuracy
 
 	ctx.fillText(
+        "Overall",
+        100,
+        50
+    );
+
+	ctx.fillText(
         Overall,
-        10,
+        200,
         50
     );
 
@@ -2798,7 +2804,7 @@ function drawLineGraph(){
         diffData,
         "pitchDiff",
         "Pitch",
-        20,
+        70,
         "red",
         20,
 		false
@@ -2808,7 +2814,7 @@ function drawLineGraph(){
         diffData,
         "attackDiff",
         "Attack",
-        120,
+        170,
         "blue",
         0.1,
 		false
@@ -2818,7 +2824,7 @@ function drawLineGraph(){
         diffData,
         "releaseDiff",
         "Release",
-        220,
+        270,
         "green",
         0.1,
 		false
@@ -2828,7 +2834,7 @@ function drawLineGraph(){
         diffData,
         "durationDiff",
         "Duration",
-        320,
+        370,
         "cyan",
         0.1,
 		false
@@ -2838,7 +2844,7 @@ function drawLineGraph(){
         diffData,
         "velocityDiff",
         "Velocity",
-        420,
+        470,
         "magenta",
         0.5,
 		true
@@ -2849,7 +2855,7 @@ function drawLineGraph(){
 			p => p.cc === 64
 		),
 		"Sustain Pedal",
-		520,
+		570,
 		"orange",
 		false
 	);
@@ -2859,7 +2865,7 @@ function drawLineGraph(){
 			p => p.cc === 66
 		),
 		"Sostenuto Pedal",
-		620,
+		670,
 		"brown",
 		false
 	);
@@ -2869,7 +2875,7 @@ function drawLineGraph(){
 			p => p.cc === 67
 		),
 		"Soft Pedal",
-		720,
+		770,
 		"olive",
 		false
 	);
