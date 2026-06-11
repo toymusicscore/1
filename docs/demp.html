@@ -2548,8 +2548,13 @@ function createDiffData(pairs){
 				) + 1
 		});
 	}
-	
+
+	diffData.sort(
+		(a,b) => a.tick - b.tick
+	);
+
     return diffData;
+
 }
 
 function calcPitchAccuracy(diffData){
