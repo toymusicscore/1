@@ -2630,6 +2630,18 @@ function calcReleaseAccuracy(diffData){
 
     for(const d of diffData){
 
+		if(d.missed){
+
+			total += 0;
+			continue;
+		}
+
+		if(d.extra){
+
+			total += 0;
+			continue;
+		}
+
         const err =
             Math.abs(d.releaseDiff);
 
@@ -2668,6 +2680,18 @@ function calcDurationAccuracy(diffData){
 
     for(const d of diffData){
 
+		if(d.missed){
+
+			total += 0;
+			continue;
+		}
+
+		if(d.extra){
+
+			total += 0;
+			continue;
+		}
+
         const err =
             Math.abs(d.durationDiff);
 
@@ -2705,6 +2729,18 @@ function calcVelocityAccuracy(diffData){
     let total = 0;
 
     for(const d of diffData){
+
+		if(d.missed){
+
+			total += 0;
+			continue;
+		}
+
+		if(d.extra){
+
+			total += 0;
+			continue;
+		}
 
         const err =
             Math.abs(
