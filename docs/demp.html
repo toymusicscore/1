@@ -2558,6 +2558,10 @@ function calcPitchAccuracy(diffData){
 
     for(const d of diffData){
 
+        if(d.missed || d.extra){
+            continue;
+        }
+
         if(d.pitchDiff === 0){
             correct++;
         }
@@ -2587,7 +2591,7 @@ function calcAttackAccuracy(diffData){
 			total += 0;
 			continue;
 		}
-		
+
         const err =
             Math.abs(d.attackDiff);
 
