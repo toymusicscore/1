@@ -2576,6 +2576,18 @@ function calcAttackAccuracy(diffData){
 
     for(const d of diffData){
 
+		if(d.missed){
+
+			total += 0;
+			continue;
+		}
+
+		if(d.extra){
+
+			total += 0;
+			continue;
+		}
+		
         const err =
             Math.abs(d.attackDiff);
 
