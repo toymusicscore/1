@@ -875,8 +875,8 @@ function pause(){
 
 function resetData(){
     document.form1.x_bpm.value = bpm;
-	document.form1.sbpm1.options.selected = "0";
-	document.form1.smsr1.options.selected = "0";
+	document.form1.sbpm1.options.selectedIndex = "0";
+	document.form1.smsr1.options.selectedIndex = "0";
 	baseAudioTime = 0;
 	recordData = [];
 	pedalData = [];
@@ -887,6 +887,8 @@ function resetData(){
 	prevTick = 0;
     nextIndex = 0;
     pauseTick = 0;
+	recordData.length = 0;
+	pedalData.length = 0;
 	goTop();
 }
 
