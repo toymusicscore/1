@@ -886,7 +886,6 @@ function resetData(){
 	pedalState = false;
 	state = false;
     isPlaying = 0;
-	touchInitialized = false;
 	prevTick = 0;
     nextIndex = 0;
     pauseTick = 0;
@@ -905,7 +904,6 @@ async function record(){
 	await picoAudio.context.resume();
 	await cdown();
 	await draw();
-	await touchSound();
 	await startRecord();
 }
 
@@ -988,6 +986,12 @@ function touchSound(){
     document.addEventListener('pointerup', (e) => offSound(e));
     document.addEventListener('pointercancel', (e) => offSound(e));
 }
+
+window.onload = function(){
+
+    touchSound();
+
+};
 
 
 let recordData = [];
