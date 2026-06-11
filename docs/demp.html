@@ -3281,12 +3281,17 @@ document.addEventListener(
 if (navigator.requestMIDIAccess) {
 
     navigator.requestMIDIAccess()
-        .then(onMIDISuccess)
-        .catch(err => console.log(err));
+        .then(midiAccess => {
+            console.log("MIDI OK");
+            onMIDISuccess(midiAccess);
+        })
+        .catch(err => {
+            console.error("MIDI ERROR", err);
+        });
 
 } else {
 
-    console.log("Web MIDI API is not supported");
+    console.log("Web MIDI API not supported");
 }
 
 const oscillators = {};
