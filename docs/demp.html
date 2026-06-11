@@ -2677,23 +2677,25 @@ function calcDurationAccuracy(diffData){
         }
 
         const err =
-            Math.abs(d.durationDiff);
+            Math.abs(
+                d.durationDiff
+            );
 
         let score;
 
-        if(err <= ppq * 0.05){
+        if(err <= ppq * 0.10){
 
             score = 100;
 
-        }else if(err <= ppq * 0.10){
+        }else if(err <= ppq * 0.20){
 
             score = 90;
 
-        }else if(err <= ppq * 0.20){
+        }else if(err <= ppq * 0.40){
 
             score = 70;
 
-        }else if(err <= ppq * 0.30){
+        }else if(err <= ppq * 0.60){
 
             score = 40;
 
