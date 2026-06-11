@@ -2529,6 +2529,7 @@ function createDiffData(pairs){
 function calcPitchAccuracy(diffData){
 
     let correct = 0;
+    let count = 0;
 
     for(const d of diffData){
 
@@ -2536,16 +2537,18 @@ function calcPitchAccuracy(diffData){
             continue;
         }
 
+        count++;
+
         if(d.pitchDiff === 0){
             correct++;
         }
     }
 
-    return (
-        correct /
-        diffData.length
-        * 100
-    );
+    if(count === 0){
+        return 0;
+    }
+
+    return correct / count * 100;
 }
 
 function calcAttackAccuracy(diffData){
