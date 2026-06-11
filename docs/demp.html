@@ -2554,22 +2554,17 @@ function calcPitchAccuracy(diffData){
 function calcAttackAccuracy(diffData){
 
     let total = 0;
+	let count = 0;
 
-    for(const d of diffData){
+	for(const d of diffData){
 
-		if(d.missed){
+        if(d.missed || d.extra){
+            continue;
+        }
 
-			total += 0;
-			continue;
-		}
+        count++;
 
-		if(d.extra){
-
-			total += 0;
-			continue;
-		}
-
-        const err =
+		const err =
             Math.abs(d.attackDiff);
 
         let score;
@@ -2598,18 +2593,21 @@ function calcAttackAccuracy(diffData){
         total += score;
     }
 
-    return total / diffData.length;
+    return count ? total / count : 0;
 }
 
 function calcReleaseAccuracy(diffData){
 
     let total = 0;
+	let count = 0;
 
-    for(const d of diffData){
+	for(const d of diffData){
 
         if(d.missed || d.extra){
             continue;
         }
+
+        count++;
 
         const err =
             Math.abs(d.releaseDiff);
@@ -2640,18 +2638,21 @@ function calcReleaseAccuracy(diffData){
         total += score;
     }
 
-    return total / diffData.length;
+    return count ? total / count : 0;
 }
 
 function calcDurationAccuracy(diffData){
 
     let total = 0;
+	let count = 0;
 
-    for(const d of diffData){
+	for(const d of diffData){
 
         if(d.missed || d.extra){
             continue;
         }
+
+        count++;
 
         const err =
             Math.abs(
@@ -2684,18 +2685,21 @@ function calcDurationAccuracy(diffData){
         total += score;
     }
 
-    return total / diffData.length;
+    return count ? total / count : 0;
 }
 
 function calcVelocityAccuracy(diffData){
 
     let total = 0;
+	let count = 0;
 
-    for(const d of diffData){
+	for(const d of diffData){
 
         if(d.missed || d.extra){
             continue;
         }
+
+        count++;
 
         const err =
             Math.abs(d.velocityDiff);
@@ -2726,7 +2730,7 @@ function calcVelocityAccuracy(diffData){
         total += score;
     }
 
-    return total / diffData.length;
+    return count ? total / count : 0;
 }
 
 function createPedalGraphData(){
