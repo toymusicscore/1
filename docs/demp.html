@@ -202,8 +202,6 @@ demp
 </form>
 <canvas id="canvas">
 </canvas>
-<div id="credit" style="font-size:80%">
-</div>
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script>
 const canvas = document.getElementById('canvas');
@@ -819,31 +817,6 @@ function setTsv(data2){
 			tsv.t9.push([cols[10]]);
 		}
 	});
-
-	if(tsv.a.length<9){
-		document.getElementById("credit").innerHTML=
-		tsv.a[1][0]+" : "+tsv.a[1][1]+
-		"<br>"+tsv.a[2][0]+" : "+tsv.a[2][1]+
-		"<br>"+tsv.a[3][0]+" : <a href="+tsv.a[3][1]+">"+tsv.a[3][1]+"</a>"+
-		"<br>"+tsv.a[4][0]+" : "+tsv.a[4][1]+
-		"<br>"+tsv.a[5][0]+" : <a href="+tsv.a[5][1]+">"+tsv.a[5][1]+"</a>"+
-		"<br>"+tsv.a[6][0]+" : "+tsv.a[6][1]+
-		"<br>"+tsv.a[7][0]+" : "+tsv.a[7][1];
-	}else{
-		document.getElementById("credit").innerHTML=
-		tsv.a[1][0]+" : "+tsv.a[1][1]+
-		"<br>"+tsv.a[2][0]+" : "+tsv.a[2][1]+
-		"<br>"+tsv.a[3][0]+" : <a href="+tsv.a[3][1]+">"+tsv.a[3][1]+"</a>"+
-		"<br>"+tsv.a[4][0]+" : "+tsv.a[4][1]+
-		"<br>"+tsv.a[5][0]+" : <a href="+tsv.a[5][1]+">"+tsv.a[5][1]+"</a>"+
-		"<br>"+tsv.a[6][0]+" : "+tsv.a[6][1]+
-		"<br>"+tsv.a[7][0]+" : "+tsv.a[7][1]+
-		"<br>"+tsv.a[8][0]+" : <a href="+tsv.a[8][1]+">"+tsv.a[8][1]+"</a>"+
-		"<br>"+tsv.a[9][0]+" : "+tsv.a[9][1]+
-		"<br>"+tsv.a[10][0]+" : <a href="+tsv.a[10][1]+">"+tsv.a[10][1]+"</a>"+
-		"<br>"+tsv.a[11][0]+" : "+tsv.a[11][1]+
-		"<br>"+tsv.a[12][0]+" : "+tsv.a[12][1];
-	}
 }
 
 async function main(){
