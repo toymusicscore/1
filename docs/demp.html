@@ -2468,17 +2468,56 @@ function createDiffData(pairs){
 
     const diffData = [];
 
-    for(const pair of pairs){
+	for(const pair of pairs){
 
-        if(
-            pair.score == null ||
-            pair.record == null
-        ){
-            continue;
-        }
+		// 弾き忘れ
+		if(
+			pair.score != null &&
+			pair.record == null
+		){
 
-        const s = pair.score;
-        const r = pair.record;
+			diffData.push({
+
+				missed: true,
+
+				tick:
+					pair.score.start,
+
+				measure:
+					Math.floor(
+						pair.score.start /
+						ticksPerMeasure
+					) + 1
+			});
+
+			continue;
+		}
+
+		// 余計な音
+		if(
+			pair.score == null &&
+			pair.record != null
+		){
+
+			diffData.push({
+
+				extra: true,
+
+				tick:
+					pair.record.start,
+
+				measure:
+					Math.floor(
+						pair.record.start /
+						ticksPerMeasure
+					) + 1
+			});
+
+			continue;
+		}
+
+		const s = pair.score;
+		const r = pair.record;
 
 		diffData.push({
 
@@ -2499,15 +2538,17 @@ function createDiffData(pairs){
 				(s.stop-s.start),
 
 			velocityDiff:
-				r.velocity - s.velocity * 127,
+				r.velocity -
+				s.velocity * 127,
 
 			measure:
 				Math.floor(
-					s.start / ticksPerMeasure
+					s.start /
+					ticksPerMeasure
 				) + 1
-			});
-    }
-
+		});
+	}
+	
     return diffData;
 }
 
