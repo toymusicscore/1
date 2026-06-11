@@ -3032,47 +3032,60 @@ function drawGraph(
     // 小節線だけ描画
     // --------------------
 
-    ctx.strokeStyle = "#ddd";
+		ctx.strokeStyle = "#ddd";
 
-    ctx.fillStyle = "black";
+		ctx.fillStyle = "black";
+	
+		const drawnMeasures =
+		new Set();
 
-    for(let i = 0; i < diffData.length; i++){
+	for(let i = 0; i < diffData.length; i++){
 
-        if(
-            i === 0
-            ||
-            diffData[i].measure
-            !==
-            diffData[i - 1].measure
-        ){
+		const measure =
+			diffData[i].measure;
 
-			const x = mx + diffData[i].tick / maxTick * w
+		if(
+			drawnMeasures.has(
+				measure
+			)
+		){
+			continue;
+		}
 
-			if(showMeasureLabel){
+		drawnMeasures.add(
+			measure
+		);
 
-				ctx.fillText(
-					diffData[i].measure,
-					x,
-					offsetY + graphHeight
-				);
-			}
+		const x =
+			mx +
+			diffData[i].tick /
+			maxTick *
+			w;
 
-			ctx.beginPath();
+		if(showMeasureLabel){
 
-			ctx.moveTo(
+			ctx.fillText(
+				measure,
 				x,
-				offsetY + titleHeight
+				offsetY + graphHeight
 			);
+		}
 
-			ctx.lineTo(
-				x,
-				offsetY + (graphHeight - titleHeight)
-			);
+		ctx.beginPath();
 
-            ctx.stroke();
-        }
-    }
+		ctx.moveTo(
+			x,
+			offsetY + titleHeight
+		);
 
+		ctx.lineTo(
+			x,
+			offsetY +
+			(graphHeight - titleHeight)
+		);
+
+		ctx.stroke();
+	}
     // --------------------
     // 折れ線描画
     // --------------------
