@@ -4236,8 +4236,11 @@ selview1();
 
 function licenseInfo(){
 
-	const texts = [
-        "PicoAudio.js",
+	const texts0 = []
+    
+	const texts1 = [
+        "",
+		"PicoAudio.js",
         "MIT License",
         "Copyright (c) 2017-2021 cagpie / Shun Kobayashi (cagpie@gmail.com)",
         "Permission is hereby granted, free of charge, to any person obtaining a copy",
@@ -4262,6 +4265,15 @@ function licenseInfo(){
 		"Japan Patent Number 7685023",
 		"Contact : toyscore2023@gmail.com"
     ];
+ 
+	for(let i = 0; i < tsv.a.length; i++){
+		texts0.push(tsv.a[i][0]+" : "+tsv.a[i][1],
+        );
+    }
+
+	for(let i = 0; i < texts1.length; i++){
+		texts0.push(texts1[i]);
+    }
 
     document.getElementById("canvas").style.display =
         "none";
@@ -4279,7 +4291,7 @@ function licenseInfo(){
         "auto";
 
     license.innerHTML =
-        texts.join("<br>");
+        texts0.join("<br>");
 
 }
 
