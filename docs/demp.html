@@ -4282,7 +4282,9 @@ function licenseInfo(){
     ctx.font = "15px Arial";
     ctx.fillStyle = "black";
 
-	const texts = [
+	const texts0 = [];
+	const texts1 =[
+		"",
         "PicoAudio.js",
         "MIT License",
         "Copyright (c) 2017-2021 cagpie / Shun Kobayashi (cagpie@gmail.com)",
@@ -4310,9 +4312,11 @@ function licenseInfo(){
     ];
 
     for(let i = 1; i < tsv.a.length; i++){
-		texts.push(tsv.a[i][0]+" : "+tsv.a[i][1],
+		texts0.push(tsv.a[i][0]+" : "+tsv.a[i][1],
         );
     }
+
+	texts0.push(texts1);
 
 /*
     for(let i = 1; i < tsv.a.length; i++){
@@ -4325,10 +4329,10 @@ function licenseInfo(){
     }
 */
 
-    for(let i = 0; i < texts.length; i++){
+    for(let i = 0; i < texts0.length; i++){
 
         ctx.fillText(
-            texts[i],
+            texts0[i],
             50,
 //            25 * (tsv.a.length + 1) + 25 * i
             25 * i
