@@ -4234,7 +4234,7 @@ selview1();
 
 }
 
-function licenseInfo(){
+function licenseInfo1(){
 
 	const texts = [
         "PicoAudio.js",
@@ -4276,7 +4276,7 @@ function licenseInfo(){
 
 }
 
-function licenseInfo1(){
+function licenseInfo(){
 
 	ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.font = "15px Arial";
@@ -4310,6 +4310,12 @@ function licenseInfo1(){
     ];
 
     for(let i = 1; i < tsv.a.length; i++){
+		texts.push(tsv.a[i][0]+" : "+tsv.a[i][1],
+        );
+    }
+
+/*
+    for(let i = 1; i < tsv.a.length; i++){
 
         ctx.fillText(
             tsv.a[i][0]+" : "+tsv.a[i][1],
@@ -4317,6 +4323,7 @@ function licenseInfo1(){
             25 * i
         );
     }
+*/
 
     for(let i = 0; i < texts.length; i++){
 
