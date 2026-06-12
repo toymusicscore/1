@@ -4247,9 +4247,9 @@ function licenseInfo(){
 	'<span style="color:#ff00ff;">r</span>' +
 	'<span style="color:#ff007f;">e</span>' +
 	'</span>' +
-	'<span style="font-size:12px;">&reg;</span>';
+	'<sup style="font-size:12px;">&reg;</sup>';
 
-	const texts0 = [
+	const texts = [
 		"Copyright (c) 2026 Tatsuya Fujisawa",
 		"Japan Trademark Registration Number 6706042 and 7034444",
 		"Japan Patent Number 7685023",
@@ -4275,37 +4275,29 @@ function licenseInfo(){
         "SOFTWARE.",
 		"",
 	]
-
-	const texts1 = []
     
 	for(let i = 1; i < tsv.a.length; i++){
-		texts1.push(tsv.a[i][0]+" : "+tsv.a[i][1],
+		texts.push(tsv.a[i][0]+" : "+tsv.a[i][1],
         );
     }
 
-	for(let i = 0; i < texts1.length; i++){
-		texts0.push(texts1[i]);
-    }
-
-    document.getElementById("canvas").style.display =
+	document.getElementById("canvas").style.display =
         "none";
 
     const license =
         document.getElementById("license");
 
-    license.style.display =
-        "block";
-
-	license.style.height =
-	    canvas.height + "px";
-	
-    license.style.overflowY =
-        "auto";
+	license.style.display = "block";
+	license.style.height = canvas.height + "px";
+	license.style.overflowY = "auto";
+	license.style.padding = "20px";
+	license.style.fontFamily = "Arial";
+	license.style.fontSize = "15px";
 
     license.innerHTML =
 		logo +
 		"<br><br>" +
-		texts0.join("<br>");
+		texts.join("<br>");
 	
 }
 
