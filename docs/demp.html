@@ -4424,25 +4424,39 @@ function selview1(){
 	if(document.form1.sv1.options[0].selected==true){
 		if(recordData && recordData.length > 0){
 			lineRecord(pauseTick);
+			showCanvas();
 		}else{
 			lineScore(pauseTick);
+			showCanvas();
 		}
 	}else if(document.form1.sv1.options[1].selected==true){
 		if(recordData && recordData.length > 0){
 			scrollRecord(pauseTick);
+			showCanvas();
 		}else{
 			scrollScore(pauseTick);
+			showCanvas();
 		}
 	}else if(document.form1.sv1.options[2].selected==true){
 		keyLabel();
+		showCanvas();
 	}else if(document.form1.sv1.options[3].selected==true){
 		channelInfo();
+		showCanvas();
 	}else if(document.form1.sv1.options[4].selected==true){
 		licenseInfo();
 	}
 
 }
 
+function showCanvas(){
+
+    document.getElementById("license").style.display =
+        "none";
+
+    document.getElementById("canvas").style.display =
+        "block";
+}
 
 </script>
 </body>
