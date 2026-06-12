@@ -4236,6 +4236,19 @@ selview1();
 
 function licenseInfo(){
 
+	const logo =
+	'<span style="font-family:Arial;font-size:32px;font-weight:bold;">' +
+	'<span style="color:#ff0000;">T</span>' +
+	'<span style="color:#ff7f00;">o</span>' +
+	'<span style="color:#ffff00;">y</span>' +
+	'<span style="color:#00ff00;">S</span>' +
+	'<span style="color:#00ffff;">c</span>' +
+	'<span style="color:#0000ff;">o</span>' +
+	'<span style="color:#ff00ff;">r</span>' +
+	'<span style="color:#ff007f;">e</span>' +
+	'</span>' +
+	'<span style="font-size:12px;">&reg;</span>';
+
 	const texts0 = []
     
 	const texts1 = [
@@ -4291,8 +4304,10 @@ function licenseInfo(){
         "auto";
 
     license.innerHTML =
-        texts0.join("<br>");
-
+    logo +
+    "<br><br>" +
+    texts0.join("<br>");
+	
 }
 
 function licenseInfo1(){
