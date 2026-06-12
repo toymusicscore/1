@@ -4263,16 +4263,23 @@ function licenseInfo(){
 		"Contact : toyscore2023@gmail.com"
     ];
 
+    document.getElementById("canvas").style.display =
+        "none";
+
     const license =
         document.getElementById("license");
 
+    license.style.display =
+        "block";
+
+    license.style.height =
+        "500px";
+
+    license.style.overflowY =
+        "auto";
+
     license.innerHTML =
         texts.join("<br>");
-
-    license.style.height = "500px";
-    license.style.overflowY = "auto";
-    license.style.whiteSpace = "normal";
-    license.style.wordBreak = "break-word";
 
 }
 
