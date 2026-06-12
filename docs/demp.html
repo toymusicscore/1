@@ -200,8 +200,8 @@ demp
 <input type="button" name="b_sv" value="Sav" onClick="saveMidi()" style="font-size:100%" >
 
 </form>
-<canvas id="canvas">
-</canvas>
+<canvas id="canvas"></canvas>
+<div id="license"></div>
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script>
 const canvas = document.getElementById('canvas');
@@ -4235,6 +4235,13 @@ selview1();
 }
 
 function licenseInfo(){
+
+	document.getElementById("license").innerHTML =
+		texts.join("<br>");
+
+}
+
+function licenseInfo1(){
 
 	ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.font = "15px Arial";
