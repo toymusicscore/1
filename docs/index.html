@@ -36,14 +36,13 @@ By logging in, you agree to our
 <a href='https://www.toyscore.app/termsandconditions.html'>Terms and Conditions</a>.
 <br>
 </h2>
-</body>
 <script>
   function login() {
     let uid0 = document.getElementById("uid").value;
     let pw0 = document.getElementById("pw").value;
     let pw1 = uid0+pw0;
     let pw2 = "";
-    for (i = 0; i < pw1.length; i += 2){
+    for (let i = 0; i < pw1.length; i += 2){
         if (parseInt(pw1.substr(i,1)) < 3){
             pw2 = pw2 + String.fromCharCode(parseInt(1+pw1.substr(i, 2)));
         } else {
@@ -54,6 +53,7 @@ By logging in, you agree to our
         window.location = url0;
   }
 </script>
+</body>
 </html>
 
 
