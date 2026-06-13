@@ -941,9 +941,7 @@ let touchInitialized = false;
 
 function touchSound(){
 
-    if(touchInitialized){
-        return;
-    }
+    if(touchInitialized) return;
 
     touchInitialized = true;
 
@@ -953,13 +951,12 @@ function touchSound(){
 
         await picoAudio.context.resume();
 
-        playSound(e);
+        inputRouter(e, "touch"); // ★ここに統一
     });
 
-    document.addEventListener('pointerup', (e) => offSound(e));
-    document.addEventListener('pointercancel', (e) => offSound(e));
+    document.addEventListener('pointerup', offSound);
+    document.addEventListener('pointercancel', offSound);
 }
-
 window.onload = function(){
 
     touchSound();
@@ -1114,12 +1111,22 @@ function assignHands(
     };
 }
 
+function canInput(){
+    return isRecording;
+}
+
+function inputRouter(e, type){
+
+    if(!canInput()) return;
+
+    playSound(e);
+}
 
 let currentMidis = new Set();
 
 function playSound(e){
 
-	if(!isRecording) return;
+    if(!canInput()) return;
 
     let szx =
         canvas.width;
@@ -3321,9 +3328,9 @@ function onMIDISuccess(midiAccess){
 
 function onMIDIMessage(event){
 
-    if(!isRecording){
-        return; // ★これで完全に止まる
-    }
+    if(!canInput()) return;
+
+    inputRouter(event, "midi");
 
     const [status, note, velocity] = event.data;
 
