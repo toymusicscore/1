@@ -186,7 +186,7 @@ demp
 
 <input type="tel"    name="x_bpm" value="" size="2" style="font-size:100%" >
 <input type="button" name="b_p" value="Play" onClick="playScore()" style="font-size:100%" >
-<input type="button" name="b_||" value=" || " onClick="pause()" style="font-size:100%" >
+<input type="button" name="b_||" value=" || " onClick="pauseButton()" style="font-size:100%" >
 <input type="button" name="b_|<" value="|<" onClick="goTop()" style="font-size:100%" >
 <input type="button" name="b_<<" value="<<" onClick="goBack2()" style="font-size:100%" >
 <input type="button" name="b_<" value="<" onClick="goBack1()" style="font-size:100%" >
@@ -833,22 +833,34 @@ let pauseTick = 0;
 let isPlaying = 0;
 let rafId = null;
 
-function pause(){
+function pauseButton(){
 
-    if(isPlaying == 0) return;
+    if(isPlaying){
+        pausePlayback();   // 再生停止（位置保持）
+        return;
+    }
+
+    if(isRecording){
+        stopRecording();   // 録音終了
+        return;
+    }
+}
+
+function pausePlayback(){
 
     pauseTick = getCurrentTick();
 
-    isRecording = false;   // ★ここで記録停止
-
-	picoAudio.pause();
-
+    picoAudio.pause();
     cancelAnimationFrame(rafId);
 
-    stopRecord();          // ★解析確定
-
     isPlaying = 0;
+}
 
+function stopRecording(){
+
+    isRecording = false;
+
+    stopRecord();
 }
 
 function resetData(){
