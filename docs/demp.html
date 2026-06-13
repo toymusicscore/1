@@ -834,14 +834,21 @@ let isPlaying = 0;
 let rafId = null;
 
 function pause(){
-    if (isPlaying == 0) return;
+
+    if(isPlaying == 0) return;
+
     pauseTick = getCurrentTick();
-	stopRecord();
+
+    isRecording = false;   // ★ここで記録停止
+
+    stopRecord();          // ★解析確定
+
     isPlaying = 0;
+
     picoAudio.pause();
+
     cancelAnimationFrame(rafId);
 }
-
 
 function resetData(){
     document.form1.x_bpm.value = bpm;
@@ -861,19 +868,25 @@ function resetData(){
 	goTop();
 }
 
+let isRecording = false;
+
 async function record(){
-	baseAudioTime = 0;
-	recordData = [];
-	pedalData = [];
-	pedalState = false;
-	state = true;
-	enableScoreSound = false;
-	
-	selview1();
-	await picoAudio.context.resume();
-	await cdown();
-	await draw();
-	await startRecord();
+
+    baseAudioTime = 0;
+    recordData = [];
+    pedalData = [];
+    pedalState = false;
+
+    isRecording = true;   // ★追加
+
+    state = true;
+    enableScoreSound = false;
+
+    selview1();
+    await picoAudio.context.resume();
+    await cdown();
+    await draw();
+    await startRecord();
 }
 
 async function cdown(){
@@ -3313,12 +3326,13 @@ function onMIDISuccess(midiAccess){
     }
 }
 
-
 function onMIDIMessage(event){
 
-	console.log(event.data);
+    if(!isRecording){
+        return; // ★これで完全に止まる
+    }
 
-	const [status, data1, data2] = event.data;
+    const [status, note, velocity] = event.data;
 
     const command = status & 0xf0;
 	const channel = status & 0x0f;
