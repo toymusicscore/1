@@ -860,7 +860,6 @@ function resetData(){
 	pedalData = [];
 	pedalData.length = 0;
 	pedalState = false;
-	state = true;
     isPlaying = 0;
 	prevTick = 0;
     nextIndex = 0;
@@ -879,7 +878,6 @@ async function record(){
 
     isRecording = true;   // ★追加
 
-    state = true;
     enableScoreSound = false;
 
     selview1();
@@ -939,8 +937,6 @@ async function draw(){
     loopScore();
 }
 
-
-let state = true;
 let touchInitialized = false;
 
 function touchSound(){
@@ -955,8 +951,7 @@ function touchSound(){
 
         e.preventDefault();
 
-        // 音を出さない設定なら終了
-        if(!state){
+        if(!isRecording){
             return;
         }
 
