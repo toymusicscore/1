@@ -841,13 +841,14 @@ function pause(){
 
     isRecording = false;   // ★ここで記録停止
 
+	picoAudio.pause();
+
+    cancelAnimationFrame(rafId);
+
     stopRecord();          // ★解析確定
 
     isPlaying = 0;
 
-    picoAudio.pause();
-
-    cancelAnimationFrame(rafId);
 }
 
 function resetData(){
