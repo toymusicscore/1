@@ -32,7 +32,7 @@ You can upload your MIDI and fingering files.<br>
 <br>User ID
 <br><input type="text" id="uid" class="textbox" placeholder="UserID">
 <br><br>Password
-<br><input type="password" id="pw" class="textbox" placeholder="Password">
+<br><input type="password" id="upw" class="textbox" placeholder="Password">
 <br><input type="button" value="Log in" class="button margin" onclick="login()">
 </div>
 <br>
@@ -44,17 +44,17 @@ By logging in, you agree to our
 <script>
   function login() {
     let uid0 = document.getElementById("uid").value;
-    let pw0 = document.getElementById("pw").value;
-    let pw1 = uid0+pw0;
-    let pw2 = "";
-    for (let i = 0; i < pw1.length; i += 2){
-        if (parseInt(pw1.substr(i,1)) < 3){
-            pw2 = pw2 + String.fromCharCode(parseInt(1+pw1.substr(i, 2)));
+    let upw0 = document.getElementById("upw").value;
+    let upw1 = uid0+upw0;
+    let upw2 = "";
+    for (let i = 0; i < upw1.length; i += 2){
+        if (parseInt(upw1.substr(i,1)) < 3){
+            upw2 = upw2 + String.fromCharCode(parseInt(1+upw1.substr(i, 2)));
         } else {
-            pw2 = pw2 + String.fromCharCode(parseInt(pw1.substr(i, 2)));
+            upw2 = upw2 + String.fromCharCode(parseInt(upw1.substr(i, 2)));
         }
     }
-    let url0 = 'https://www.toyscore.app/' + pw2;
+    let url0 = 'https://www.toyscore.app/' + upw2;
         window.location = url0;
   }
 </script>
