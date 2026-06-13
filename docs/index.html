@@ -30,10 +30,28 @@ You can upload your MIDI and fingering files.<br>
 You can generate fingering for your hands.<br>
 <br><div class="container">
 <br>User ID
-<br><input type="text" id="uid" class="textbox" placeholder="UserID">
+<br>
+<input
+    type="text"
+    id="uid"
+    placeholder="UserID"
+    style="width:250px;height:40px;font-size:18px;"
+>
 <br><br>Password
-<br><input type="password" id="upw" class="textbox" placeholder="Password">
-<br><input type="button" value="Log in" class="button margin" onclick="login()">
+<br>
+<input
+    type="password"
+    id="pw"
+    placeholder="Password"
+    style="width:250px;height:40px;font-size:18px;"
+>
+<br>
+<input
+    type="button"
+    value="Log in"
+    onclick="login()"
+    style="width:250px;height:40px;font-size:18px;font-weight:bold;"
+>
 </div>
 <br>
 By logging in, you agree to our  
@@ -44,17 +62,17 @@ By logging in, you agree to our
 <script>
   function login() {
     let uid0 = document.getElementById("uid").value;
-    let upw0 = document.getElementById("upw").value;
-    let upw1 = uid0+upw0;
-    let upw2 = "";
-    for (let i = 0; i < upw1.length; i += 2){
-        if (parseInt(upw1.substr(i,1)) < 3){
-            upw2 = upw2 + String.fromCharCode(parseInt(1+upw1.substr(i, 2)));
+    let pw0 = document.getElementById("pw").value;
+    let pw1 = uid0+pw0;
+    let pw2 = "";
+    for (let i = 0; i < pw1.length; i += 2){
+        if (parseInt(pw1.substr(i,1)) < 3){
+            pw2 = pw2 + String.fromCharCode(parseInt(1+pw1.substr(i, 2)));
         } else {
-            upw2 = upw2 + String.fromCharCode(parseInt(upw1.substr(i, 2)));
+            pw2 = pw2 + String.fromCharCode(parseInt(pw1.substr(i, 2)));
         }
     }
-    let url0 = 'https://www.toyscore.app/' + upw2;
+    let url0 = 'https://www.toyscore.app/' + pw2;
         window.location = url0;
   }
 </script>
