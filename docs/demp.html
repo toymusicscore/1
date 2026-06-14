@@ -10,6 +10,11 @@ demp
 </head>
 <body style="font-family:Arial;font-size:100%">
 <form name="form1" >
+
+<input type="file" id="midiFile" accept=".mid,.midi">
+
+<input type="file" id="tsvFile" accept=".tsv">
+
 <select id="song1" onchange="main()">
 	<option value="bach-invention-01"> bwv772-bach-invention-01 </option>
 	<option value="bach-invention-02" selected> bwv773-bach-invention-02 </option>
@@ -488,6 +493,59 @@ let scoreData =[];
 let scoreRight =[];
 let scoreLeft =[];
 let pairs = [];
+
+async function loadLocalFiles(){
+
+    const midiFile =
+        document.getElementById("midiFile")
+        .files[0];
+
+    const tsvFile =
+        document.getElementById("tsvFile")
+        .files[0];
+
+    let data1 = null;
+    let data2 = null;
+
+    if(midiFile){
+        data1 =
+            await midiFile.arrayBuffer();
+    }
+
+    if(tsvFile){
+        data2 =
+            await tsvFile.text();
+    }
+
+    return { data1, data2 };
+}
+
+async function getMidiData(){
+
+    const localFile =
+        document.getElementById("midiFile")
+        .files[0];
+
+    if(localFile){
+
+        return await localFile.arrayBuffer();
+
+    }else{
+
+        let file1name =
+            document.getElementById("song1").value;
+
+        let res =
+            await fetch(
+                "./data/" +
+                file1name +
+                ".mid"
+            );
+
+        return await res.arrayBuffer();
+    }
+}
+
 
 async function fetchData(){
 	let file1name=document.getElementById("song1").value;
