@@ -860,6 +860,8 @@ function stopRecording(){
 
     isRecording = false;
 
+    activeNotes = {};
+
     stopRecord();
 }
 
@@ -885,10 +887,11 @@ let isRecording = false;
 
 async function record(){
 
-    isRecording = true;   // ★追加
+    isRecording = true;
 
     recordData = [];
     pedalData = [];
+    activeNotes = {};
     baseAudioTime = 0;
 
 	pedalState = false;
