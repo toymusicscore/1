@@ -536,10 +536,14 @@ window.onload = function(){
 
 function selectSong(){
 
-    const song =
+    let song =
         document.getElementById("song1").value;
 
+    console.log("selectSong", song);
+
     if(song === "local"){
+
+        console.log("open file dialog");
 
         document
             .getElementById("localMidi")
@@ -547,8 +551,6 @@ function selectSong(){
 
         return;
     }
-
-    localMidiFile = null;
 
     main();
 }
