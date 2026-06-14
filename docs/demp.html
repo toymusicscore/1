@@ -203,9 +203,6 @@ demp
 </form>
 <canvas
     id="canvas"
-    width = "window.innerWidth"
-
-    height = "window.innerHeight"
 >
 </canvas>
 <div id="license"></div>
@@ -990,7 +987,13 @@ function touchSound(){
     document.addEventListener('pointerup', offSound);
     document.addEventListener('pointercancel', offSound);
 }
+
 window.onload = function(){
+
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    main();
 
     touchSound();
 
