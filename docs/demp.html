@@ -842,13 +842,13 @@ function pauseButton(){
 		"recordData.length:",recordData.length
 	);
 
-    if(isPlaying){
-        pausePlayback();   // 再生停止（位置保持）
+    if(isRecording){
+        stopRecording();   // 録音終了
         return;
     }
 
-    if(isRecording){
-        stopRecording();   // 録音終了
+    if(isPlaying){
+        pausePlayback();   // 再生停止（位置保持）
         return;
     }
 
