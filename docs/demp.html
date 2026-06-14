@@ -830,7 +830,7 @@ async function main(){
 main();
 
 let pauseTick = 0;
-let isPlaying = false;
+let isPlaying = 0;
 let rafId = null;
 
 function pauseButton(){
@@ -847,7 +847,7 @@ function pauseButton(){
         return;
     }
 
-    if(isPlaying){
+    if(isPlaying > 0){
         pausePlayback();   // 再生停止（位置保持）
         return;
     }
@@ -861,7 +861,7 @@ function pausePlayback(){
     picoAudio.pause();
     cancelAnimationFrame(rafId);
 
-    isPlaying = false;
+    isPlaying = 0;
 }
 
 function stopRecording(){
@@ -885,7 +885,7 @@ function resetData(){
 	pedalData = [];
 	pedalData.length = 0;
 	pedalState = false;
-    isPlaying = false;
+    isPlaying = 0;
 	isRecording = false;
 	prevTick = 0;
     nextIndex = 0;
@@ -1344,7 +1344,7 @@ function offSound(){
 
 async function playScore(){
 
-    if(isPlaying){
+    if(isPlaying > 0){
         return;
     }
 
@@ -1388,14 +1388,14 @@ async function playScore(){
 
     startPlayback();
 
-    isPlaying = true;
+    isPlaying = 1;
 
     loopScore();
 }
 
 async function playRecord(){
 
-    if(isPlaying){
+    if(isPlaying > 0){
         return;
     }
 
@@ -1427,7 +1427,7 @@ async function playRecord(){
 
     startPlayback();
 
-    isPlaying = true;
+    isPlaying = 2;
 
     loopRecord();
 }
@@ -1451,7 +1451,7 @@ function getCurrentTick(){
 
 
 function loopScore(){
-	if (!isPlaying) return;
+	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
@@ -1471,7 +1471,7 @@ function loopScore(){
 }
 
 function loopRecord(){
-	if (!isPlaying) return;
+	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
@@ -1582,7 +1582,7 @@ function lineScore(tick){
 	ctx.strokeStyle="grey";
 	ctx.stroke();
 	} else {
-		isPlaying = false;
+		isPlaying = 0;
 	}
 
 	ctx.beginPath();
@@ -1706,7 +1706,7 @@ function lineRecord(tick){
 	ctx.strokeStyle="grey";
 	ctx.stroke();
 	} else {
-		isPlaying = false;
+		isPlaying = 0;
 	}
 
 	ctx.beginPath();
