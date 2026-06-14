@@ -492,78 +492,62 @@ let scoreData =[];
 let scoreRight =[];
 let scoreLeft =[];
 let pairs = [];
-
-let localMidiFile = null;
-let localTsvFile = null;
+let localFiles = null;
 
 window.addEventListener("DOMContentLoaded", () => {
 
     const input = document.getElementById("localFiles");
+    const select = document.getElementById("song1");
 
     input.addEventListener("change", async (e) => {
 
-        const files = e.target.files;
+        const files = Array.from(e.target.files);
 
-        const midi = [...files].find(f => f.name.endsWith(".mid"));
-        const tsv  = [...files].find(f => f.name.endsWith(".tsv"));
+        if(files.length === 0) return;
 
-        if(!midi || !tsv){
-            console.error("midi or tsv missing");
+        // 保存
+        localFiles = files;
+
+        // 表示更新
+        const old = select.querySelector('option[value="local"]');
+        if(old) old.remove();
+
+        const names = files.map(f => f.name).join(" + ");
+
+        const opt = document.createElement("option");
+        opt.value = "local";
+        opt.textContent = names + " (local)";
+        select.appendChild(opt);
+
+        select.value = "local";
+
+        console.log("LOCAL FILES:", names);
+
+        // ★ここで読み込みまでやる
+        const midi = files.find(f => f.name.endsWith(".mid"));
+        const tsv  = files.find(f => f.name.endsWith(".tsv"));
+
+        if(!midi){
+            console.error("MIDI missing");
             return;
         }
 
         const data1 = await midi.text();
-        const data2 = await tsv.text();
+        const data2 = tsv ? await tsv.text() : null;
 
         setMidi(data1);
         setTsv(data2);
+
         selview1();
     });
-});
-
-
-window.onload = function(){
-
-	document
-	.getElementById("localFiles")
-	.addEventListener("change", function(){
-
-		const files = Array.from(this.files);
-
-		if(files.length === 0) return;
-
-		const select = document.getElementById("song1");
-
-		// 既存の local option を削除（重複防止）
-		const old = select.querySelector('option[value="local"]');
-		if(old) old.remove();
-
-		// ファイル名を作る
-		const names = files.map(f => f.name).join(" + ");
-
-		// 新しい option を追加
-		const opt = document.createElement("option");
-		opt.value = "local";
-		opt.textContent = names + " (local)";
-		select.appendChild(opt);
-
-		// localを選択状態にする
-		select.value = "local";
-
-		// グローバル保存
-		localFiles = files;
-
-		console.log("LOCAL FILES:", names);
-	});
 
     main();
 
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
 
-	touchSound();
-
-}
+    touchSound();
+});
 
 function selectLocalFiles(){
     const input = document.getElementById("localFiles");
