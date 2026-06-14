@@ -635,51 +635,47 @@ async function fetchData(){
 async function fetchData(){
 
     // ★ローカル優先
-    if(localMidiFile){
+    if(localFiles && localFiles.length > 0){
 
-        console.log("LOAD LOCAL FILE");
-		console.log("LOCAL FILE =", localMidiFile?.name);
-		console.log("TSV FILE =", localTsvFile?.name);
+        console.log("LOAD LOCAL FILES");
 
-        let data1 =
-            await localMidiFile.arrayBuffer();
+        const midiFile = localFiles.find(f =>
+            f.name.endsWith(".mid") || f.name.endsWith(".midi")
+        );
 
-        let data2 = null;
+        const tsvFile = localFiles.find(f =>
+            f.name.endsWith(".tsv")
+        );
 
-        if(localTsvFile){
-            data2 =
-                await localTsvFile.text();
-        }
+        console.log("MIDI =", midiFile?.name);
+        console.log("TSV  =", tsvFile?.name);
+
+        const data1 = midiFile
+            ? await midiFile.arrayBuffer()
+            : null;
+
+        const data2 = tsvFile
+            ? await tsvFile.text()
+            : null;
 
         return { data1, data2 };
     }
 
-    // ★ここがfetch（通常）
-    let file1name =
-        document.getElementById("song1").value;
+    // ★fetch
+    const file1name = document.getElementById("song1").value;
 
     console.log("LOAD FETCH FILE:", file1name);
 
-    let uri1 = "./data/" + file1name + ".mid";
-    let uri2 = "./data/" + file1name + ".tsv";
+    const uri1 = "./data/" + file1name + ".mid";
+    const uri2 = "./data/" + file1name + ".tsv";
 
-    let res1 = await fetch(uri1);
-    let res2 = await fetch(uri2);
+    const res1 = await fetch(uri1);
+    const res2 = await fetch(uri2);
 
-    let data1 = null;
-    let data2 = null;
-
-    if(res1.ok){
-        data1 = await res1.arrayBuffer();
-    }
-
-    if(res2.ok){
-        data2 = await res2.text();
-    }
-
-    return { data1, data2 };
-
-	
+    return {
+        data1: res1.ok ? await res1.arrayBuffer() : null,
+        data2: res2.ok ? await res2.text() : null
+    };
 }
 
 function setMidi0(data1){
