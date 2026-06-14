@@ -15,7 +15,13 @@ demp
 	<option value="bach-invention-01"> bwv772-bach-invention-01 </option>
 	<option value="bach-invention-02" selected> bwv773-bach-invention-02 </option>
 	</select>	
+<select id="song1" onchange="main()">
+    <option value="bach-invention-01">bwv772-bach-invention-01</option>
+    <option value="bach-invention-02" selected>bwv773-bach-invention-02</option>
+    <option value="local">Local File</option>
+</select>
 
+<input type="file" id="localFiles" accept=".mid,.tsv" multiple style="display:none">
 <input
     type="file"
     id="localFiles"
@@ -921,14 +927,73 @@ function setTsv(data2){
     });
 }
 
+function readFileAsArrayBuffer(file){
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+function readFileAsText(file){
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsText(file);
+    });
+}
+
+async function loadLocalFiles(files){
+
+    let midiFile = null;
+    let tsvFile = null;
+
+    // 拡張子で分ける
+    for(const f of files){
+        if(f.name.endsWith(".mid") || f.name.endsWith(".midi")){
+            midiFile = f;
+        }
+        if(f.name.endsWith(".tsv")){
+            tsvFile = f;
+        }
+    }
+
+    // MIDI読み込み
+    const data1 = midiFile
+        ? await readFileAsArrayBuffer(midiFile)
+        : null;
+
+    // TSV読み込み（なければnullでもOK）
+    const data2 = tsvFile
+        ? await readFileAsText(tsvFile)
+        : null;
+
+    return { data1, data2 };
+}
+
 async function main(){
 
-    const { data1, data2 } =
-        await fetchData();
+    const song = document.getElementById("song1").value;
+
+    let data1, data2;
+
+    if(song === "local"){
+
+        ({data1, data2} = await loadLocalFiles(localFiles));
+
+    } else {
+
+        ({data1, data2} = await fetchData(song));
+
+    }
 
     setMidi(data1);
 
-    setTsv(data2);
+    if(data2){
+        setTsv(data2);
+    }
 
     selview1();
 }
