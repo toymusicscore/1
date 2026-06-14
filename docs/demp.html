@@ -910,6 +910,7 @@ console.log(parsedData.beatTrack);
 
 }
 
+
 function setTsv(data2){
 
     tsv = {
@@ -931,43 +932,53 @@ function setTsv(data2){
         t9: []
     };
 
+    // ★ TSVが無い場合は空で終了
+    if(!data2){
+        console.log("TSV is empty (local file or missing)");
+        return;
+    }
+
     tsv.raw = data2;
 
-	const lines = data2.split('\n');
+    const lines = data2.split('\n');
 
-	lines.forEach(line => {
-		const cols = line.split('\t');
-		const type = cols[0];
+    lines.forEach(line => {
+        const cols = line.split('\t');
+        const type = cols[0];
 
-		if(type === "A"){
-			tsv.a.push([cols[1], cols[2]]);
-		}else if(type === "B"){
-			tsv.sc.push([cols[2]]);
-		}else if(type === "C"){
-			tsv.ff.push([cols[1], cols[2]]);
-			tsv.ft.push([cols[2], cols[1]]);
-			tsv.sd.push([cols[3], - cols[3]]);
-			tsv.dl.push([cols[4], cols[4]]);
-		}else if(type === "D"){
-			tsv.t1.push([cols[2]]);
-			tsv.t2.push([cols[3]]);
-			tsv.t3.push([cols[4]]);
-			tsv.t4.push([cols[5]]);
-			tsv.t5.push([cols[6]]);
-			tsv.t6.push([cols[7]]);
-			tsv.t7.push([cols[8]]);
-			tsv.t8.push([cols[9]]);
-			tsv.t9.push([cols[10]]);
-		}
-	});
+        if(type === "A"){
+            tsv.a.push([cols[1], cols[2]]);
+        }else if(type === "B"){
+            tsv.sc.push([cols[2]]);
+        }else if(type === "C"){
+            tsv.ff.push([cols[1], cols[2]]);
+            tsv.ft.push([cols[2], cols[1]]);
+            tsv.sd.push([cols[3], -cols[3]]);
+            tsv.dl.push([cols[4], cols[4]]);
+        }else if(type === "D"){
+            tsv.t1.push([cols[2]]);
+            tsv.t2.push([cols[3]]);
+            tsv.t3.push([cols[4]]);
+            tsv.t4.push([cols[5]]);
+            tsv.t5.push([cols[6]]);
+            tsv.t6.push([cols[7]]);
+            tsv.t7.push([cols[8]]);
+            tsv.t8.push([cols[9]]);
+            tsv.t9.push([cols[10]]);
+        }
+    });
 }
 
 async function main(){
-	const { data1, data2 } = await fetchData();
 
-	setMidi(data1);
-	setTsv(data2);
-	selview1();
+    const { data1, data2 } =
+        await fetchData();
+
+    setMidi(data1);
+
+    setTsv(data2); // ←必ず呼ぶ（中で空対応）
+
+    selview1();
 }
 
 main();
