@@ -971,29 +971,22 @@ async function loadLocalFiles(files){
 
 async function main(){
 
-	const song = document.getElementById("song1").value;
+    const song = document.getElementById("song1").value;
 
-	if(song === "local"){
-		console.log("open dialog");
-		document.getElementById("localMidi").click();
-		return;
-	}
-
-    let data1, data2;
+    console.log("song =", song);
 
     if(song === "local"){
+        console.log("open local file dialog");
 
-        ({data1, data2} = await loadLocalFiles(localFiles));
-
-    } else {
-
-        ({data1, data2} = await fetchData(song));
-
+        document.getElementById("localMidi").click();
+        return;
     }
+
+    const { data1, data2 } = await fetchData(song);
 
     setMidi(data1);
 
-    if(data2){
+	if(data2){
         setTsv(data2);
     }
 
