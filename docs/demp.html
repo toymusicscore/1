@@ -940,7 +940,19 @@ function setTsv(data2){
 
     tsv.raw = data2;
 
-    const lines = data2.split('\n');
+	console.log("=== TSV DEBUG START ===");
+	console.log(data2);
+	console.log("length:", data2?.length);
+
+	const lines = data2?.split("\n") || [];
+
+	console.log("lines:", lines.length);
+	console.log("first line:", lines[0]);
+	console.log("first cols:", lines[0]?.split("\t"));
+
+	console.log("=== TSV DEBUG END ===");
+
+//    const lines = data2.split('\n');
 
     lines.forEach(line => {
         const cols = line.split('\t');
