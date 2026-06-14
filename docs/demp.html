@@ -24,7 +24,7 @@ demp
 <input
     type="file"
     id="localTsv"
-    accept=".mid,.tsv"
+    accept=".tsv"
 >
 
 <select name="hg1" onchange="height1()">
@@ -505,29 +505,27 @@ let localMidiFile = null;
 
 window.onload = function(){
 
-	document
-		.getElementById("localMidi")
-		.addEventListener(
-			"change",
-			function(){
+    document
+        .getElementById("localMidi")
+        .addEventListener(
+            "change",
+            function(){
 
-				localMidiFile =
-					this.files[0];
+                localMidiFile =
+                    this.files[0];
 
-				if(localMidiFile){
-					main();
-				}
-			}
-		);
+                if(localMidiFile){
 
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+                    console.log(
+                        "loaded:",
+                        localMidiFile.name
+                    );
 
-    main();
-
-    touchSound();
-
-};
+                    main();
+                }
+            }
+        );
+}
 
 function selectSong(){
 
@@ -603,14 +601,11 @@ async function fetchData(){
 
 async function fetchData(){
 
-    // ローカルファイル優先
     if(localMidiFile){
 
-        let data1 =
-            await localMidiFile.arrayBuffer();
-
         return {
-            data1: data1,
+            data1:
+                await localMidiFile.arrayBuffer(),
             data2: null
         };
     }
