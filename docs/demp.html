@@ -1198,6 +1198,13 @@ function playSound(e){
 			ppq
 			/ 60;
 
+		console.log(
+			"recordData",
+			recordData.length,
+			"isRecording",
+			isRecording
+		);
+
         recordData.push({
 		    channel: 0,
             midi: p,
@@ -3422,6 +3429,13 @@ function onMIDIMessage(event){
 				velocity
 			};
 
+			console.log(
+				"recordData",
+				recordData.length,
+				"isRecording",
+				isRecording
+			);
+			
 			recordData.push(noteData);
 
 			const key =
