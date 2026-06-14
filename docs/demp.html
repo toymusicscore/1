@@ -834,6 +834,13 @@ let isPlaying = 0;
 let rafId = null;
 
 function pauseButton(){
+	
+	console.log(
+		"pause",
+		"isPlaying=", isPlaying,
+		"isRecording=", isRecording,
+		"recordData.length:",recordData.length
+	);
 
     if(isPlaying){
         pausePlayback();   // 再生停止（位置保持）
@@ -844,7 +851,7 @@ function pauseButton(){
         stopRecording();   // 録音終了
         return;
     }
-	console.log("recordData.length:",recordData.length);
+
 }
 
 function pausePlayback(){
