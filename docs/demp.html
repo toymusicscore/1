@@ -539,7 +539,6 @@ window.onload = function(){
 
 };
 
-
 function selectSong(){
 
     let song =
@@ -549,29 +548,19 @@ function selectSong(){
 
     if(song === "local"){
 
-        console.log("open file dialog");
+        console.log("before getElementById");
 
-        document
-            .getElementById("localMidi")
-            .click();
+        let obj =
+            document.getElementById("localMidi");
+
+        console.log("obj =", obj);
+
+        if(obj){
+            obj.click();
+        }
 
         return;
     }
-		
-	if(song === "local"){
-
-		console.log(
-			document.getElementById("localMidi")
-		);
-
-		document
-			.getElementById("localMidi")
-			.click();
-
-		return;
-	}else{
-				console.log("no localMidi");
-	}
 
     main();
 }
