@@ -3676,7 +3676,13 @@ function saveMidi(){
 }
 
 function msr1(){
-	pauseTick = (document.form1.x_msr.value - 1)*ppq*bttl/ntvl*4;
+	const msr =
+    Number(document.form1.x_msr.value);
+
+	pauseTick =
+		(msr - 1)
+		* ppq * bttl / ntvl * 4;
+
 	picoAudio.setData(parsedData);
 	picoAudio.setStartTime(pauseTick);
 	selview1();
