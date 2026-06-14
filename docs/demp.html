@@ -998,23 +998,16 @@ async function main(){
 
     const song = document.getElementById("song1").value;
 
-    console.log("song =", song);
-
     if(song === "local"){
-        console.log("open local file dialog");
-
-        document.getElementById("localMidi").click();
+        // UI制御はここ
+        document.getElementById("localFiles").click();
         return;
     }
 
     const { data1, data2 } = await fetchData(song);
 
     setMidi(data1);
-
-	if(data2){
-        setTsv(data2);
-    }
-
+    setTsv(data2);
     selview1();
 }
 
