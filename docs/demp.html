@@ -971,13 +971,13 @@ async function loadLocalFiles(files){
 
 async function main(){
 
-if(song === "local"){
-    console.log("open dialog");
-    document.getElementById("localMidi").click();
-    return;
-}
+	const song = document.getElementById("song1").value;
 
-    const song = document.getElementById("song1").value;
+	if(song === "local"){
+		console.log("open dialog");
+		document.getElementById("localMidi").click();
+		return;
+	}
 
     let data1, data2;
 
