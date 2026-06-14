@@ -3386,71 +3386,74 @@ function onMIDIMessage(event){
 			cc === 66 ||
 			cc === 67
 		){
+			if(isRecording){
 
-			pedalData.push({
-				channel,
-				cc,
-				value,
-				start: t
-			});
+				pedalData.push({
+					channel,
+					cc,
+					value,
+					start: t
+				});
+			}
 		}
 
 		console.log(pedalData);
 	}
 
-    // Note On
-    if(command === 0x90 && data2 > 0){
+	// Note On
+	if(command === 0x90 && data2 > 0){
 
-		const channel = (status & 0x0f);
-        const note = data1;
-        const velocity = data2;
+		const note = data1;
+		const velocity = data2;
 
-        noteOn(note, velocity);
+		// 音は常に鳴らす
+		noteOn(note, velocity);
 
-		const noteData = {
-			channel,
-			midi: note,
-			start: t,
-			stop: null,
-			velocity
-		};
+		// 録音中だけ記録する
+		if(isRecording){
 
-		recordData.push(noteData);
+			const noteData = {
+				channel,
+				midi: note,
+				start: t,
+				stop: null,
+				velocity
+			};
 
-		const key =
-			channel + "_" + note;
+			recordData.push(noteData);
 
-		activeNotes[key] =
-			noteData;
+			const key =
+				channel + "_" + note;
 
-    }
-
-    // Note Off
-    if(
-        command === 0x80 ||
-        (
-            command === 0x90 &&
-            data2 === 0
-        )
-    ){
-
-		const channel =
-			status & 0x0f;
+			activeNotes[key] = noteData;
+		}
+	}
+	// Note Off
+	if(
+		command === 0x80 ||
+		(
+			command === 0x90 &&
+			data2 === 0
+		)
+	){
 
 		const note = data1;
 
-		const key =
-			channel + "_" + note;
-
 		noteOff(note);
 
-		if(activeNotes[key]){
+		if(isRecording){
 
-			activeNotes[key].stop = t;
+			const key =
+				channel + "_" + note;
 
-			delete activeNotes[key];
+			if(activeNotes[key]){
+
+				activeNotes[key].stop = t;
+
+				delete activeNotes[key];
+			}
 		}
-    }
+	}
 }
 
 function noteToFreq(note){
