@@ -498,29 +498,52 @@ let scoreLeft =[];
 let pairs = [];
 
 let localMidiFile = null;
+let localTsvFile = null;
 
 window.onload = function(){
 
-    document
-        .getElementById("localMidi")
-        .addEventListener(
-            "change",
-            function(){
+	document
+		.getElementById("localFiles")
+		.addEventListener(
+			"change",
+			function(){
 
-                localMidiFile =
-                    this.files[0];
+				localMidiFile = null;
+				localTsvFile = null;
 
-                if(localMidiFile){
+				for(const file of this.files){
 
-                    console.log(
-                        "loaded:",
-                        localMidiFile.name
-                    );
+					const name =
+						file.name.toLowerCase();
 
-                    main();
-                }
-            }
-        );
+					if(
+						name.endsWith(".mid")
+						||
+						name.endsWith(".midi")
+					){
+						localMidiFile = file;
+					}
+
+					if(
+						name.endsWith(".tsv")
+					){
+						localTsvFile = file;
+					}
+				}
+
+				console.log(
+					"midi:",
+					localMidiFile?.name
+				);
+
+				console.log(
+					"tsv:",
+					localTsvFile?.name
+				);
+
+				main();
+			}
+		);
 }
 
 function selectSong(){
@@ -594,6 +617,66 @@ async function fetchData(){
 	return { data1, data2 };
 }
 */
+
+async function fetchData(){
+
+    if(localMidiFile){
+
+        let data1 =
+            await localMidiFile
+                .arrayBuffer();
+
+        let data2 = null;
+
+        if(localTsvFile){
+            data2 =
+                await localTsvFile.text();
+        }
+
+        return {
+            data1,
+            data2
+        };
+    }
+
+    let file1name =
+        document.getElementById("song1")
+        .value;
+
+    let uri1 =
+        "./data/" +
+        file1name +
+        ".mid";
+
+    let uri2 =
+        "./data/" +
+        file1name +
+        ".tsv";
+
+    let res1 =
+        await fetch(uri1);
+
+    let res2 =
+        await fetch(uri2);
+
+    let data1 = null;
+    let data2 = null;
+
+    if(res1.ok){
+        data1 =
+            await res1.arrayBuffer();
+    }
+
+    if(res2.ok){
+        data2 =
+            await res2.text();
+    }
+
+    return {
+        data1,
+        data2
+    };
+}
 
 async function fetchData(){
 
