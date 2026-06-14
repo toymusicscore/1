@@ -496,8 +496,34 @@ let pairs = [];
 let localMidiFile = null;
 let localTsvFile = null;
 
-window.onload = function(){
+window.addEventListener("DOMContentLoaded", () => {
 
+    const input = document.getElementById("localFiles");
+
+    input.addEventListener("change", async (e) => {
+
+        const files = e.target.files;
+
+        const midi = [...files].find(f => f.name.endsWith(".mid"));
+        const tsv  = [...files].find(f => f.name.endsWith(".tsv"));
+
+        if(!midi || !tsv){
+            console.error("midi or tsv missing");
+            return;
+        }
+
+        const data1 = await midi.text();
+        const data2 = await tsv.text();
+
+        setMidi(data1);
+        setTsv(data2);
+        selview1();
+    });
+});
+
+
+window.onload = function(){
+/*
 	document
 	.getElementById("localFiles")
 	.addEventListener("change", function(){
@@ -529,6 +555,7 @@ window.onload = function(){
 
 		console.log("LOCAL FILES:", names);
 	});
+*/
 
     main();
 
