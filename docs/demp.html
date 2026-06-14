@@ -540,7 +540,14 @@ window.onload = function(){
 }
 
 function selectLocalFiles(){
-    document.getElementById("localFiles").click();
+    const input = document.getElementById("localFiles");
+
+    if(!input){
+        console.error("localFiles not found");
+        return;
+    }
+
+    input.click();
 }
 
 function selectSong(){
