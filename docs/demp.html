@@ -523,7 +523,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 window.onload = function(){
-/*
+
 	document
 	.getElementById("localFiles")
 	.addEventListener("change", function(){
@@ -555,7 +555,6 @@ window.onload = function(){
 
 		console.log("LOCAL FILES:", names);
 	});
-*/
 
     main();
 
@@ -975,12 +974,6 @@ async function loadLocalFiles(files){
     let midiFile = null;
     let tsvFile = null;
 
-	if(song === "local"){
-		console.log("open dialog");
-		document.getElementById("localMidi").click();
-		return;
-	}
-    // 拡張子で分ける
     for(const f of files){
         if(f.name.endsWith(".mid") || f.name.endsWith(".midi")){
             midiFile = f;
@@ -990,12 +983,10 @@ async function loadLocalFiles(files){
         }
     }
 
-    // MIDI読み込み
     const data1 = midiFile
         ? await readFileAsArrayBuffer(midiFile)
         : null;
 
-    // TSV読み込み（なければnullでもOK）
     const data2 = tsvFile
         ? await readFileAsText(tsvFile)
         : null;
