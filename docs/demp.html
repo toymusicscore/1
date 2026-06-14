@@ -941,6 +941,11 @@ async function loadLocalFiles(files){
     let midiFile = null;
     let tsvFile = null;
 
+	if(song === "local"){
+		console.log("open dialog");
+		document.getElementById("localMidi").click();
+		return;
+	}
     // 拡張子で分ける
     for(const f of files){
         if(f.name.endsWith(".mid") || f.name.endsWith(".midi")){
