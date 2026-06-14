@@ -929,8 +929,6 @@ async function cdown(){
 
 async function draw(){
 
-	isRecording = true;
-
     canvas.width =
         window.innerWidth;
 
@@ -955,6 +953,8 @@ async function draw(){
     startPlayback();
 
     cancelAnimationFrame(rafId);
+
+    isPlaying = 1;
 
     loopScore();
 }
