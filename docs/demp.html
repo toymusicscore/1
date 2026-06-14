@@ -509,47 +509,44 @@ let localTsvFile = null;
 window.onload = function(){
 
 	document
-		.getElementById("localFiles")
-		.addEventListener(
-			"change",
-			function(){
+	.getElementById("localFiles")
+	.addEventListener("change", function(){
 
-				localMidiFile = null;
-				localTsvFile = null;
+		const files = Array.from(this.files);
 
-				for(const file of this.files){
+		if(files.length === 0) return;
 
-					const name =
-						file.name.toLowerCase();
+		const select = document.getElementById("song1");
 
-					if(
-						name.endsWith(".mid")
-						||
-						name.endsWith(".midi")
-					){
-						localMidiFile = file;
-					}
+		// 既存の local option を削除（重複防止）
+		const old = select.querySelector('option[value="local"]');
+		if(old) old.remove();
 
-					if(
-						name.endsWith(".tsv")
-					){
-						localTsvFile = file;
-					}
-				}
+		// ファイル名を作る
+		const names = files.map(f => f.name).join(" + ");
 
-				console.log(
-					"midi:",
-					localMidiFile?.name
-				);
+		// 新しい option を追加
+		const opt = document.createElement("option");
+		opt.value = "local";
+		opt.textContent = names + " (local)";
+		select.appendChild(opt);
 
-				console.log(
-					"tsv:",
-					localTsvFile?.name
-				);
+		// localを選択状態にする
+		select.value = "local";
 
-				main();
-			}
-		);
+		// グローバル保存
+		localFiles = files;
+
+		console.log("LOCAL FILES:", names);
+	});
+
+    main();
+
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+	touchSound();
+
 }
 
 function selectSong(){
