@@ -983,8 +983,16 @@ async function main(){
     const song = document.getElementById("song1").value;
 
     if(song === "local"){
-        // UI制御はここ
-        document.getElementById("localFiles").click();
+        if(!localFiles){
+            document.getElementById("localFiles").click();
+            return;
+        }
+
+        const { data1, data2 } = await loadLocalFiles(localFiles);
+
+        setMidi(data1);
+        setTsv(data2);
+        selview1();
         return;
     }
 
@@ -993,6 +1001,7 @@ async function main(){
     setMidi(data1);
     setTsv(data2);
     selview1();
+
 }
 
 main();
