@@ -3346,7 +3346,7 @@ function onMIDIMessage(event){
 
     inputRouter(event, "midi");
 
-    const [status, note, velocity] = event.data;
+    const [status, data1, data2] = event.data;
 
     const command = status & 0xf0;
 	const channel = status & 0x0f;
