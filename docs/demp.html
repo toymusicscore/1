@@ -11,14 +11,18 @@ demp
 <body style="font-family:Arial;font-size:100%">
 <form name="form1" >
 
-<input type="file" id="midiFile" accept=".mid,.midi">
-
-<input type="file" id="tsvFile" accept=".tsv">
-
 <select id="song1" onchange="main()">
 	<option value="bach-invention-01"> bwv772-bach-invention-01 </option>
 	<option value="bach-invention-02" selected> bwv773-bach-invention-02 </option>
+	<option value="local"> Local File </option>
 	</select>	
+
+<input
+    type="file"
+    id="localMidi"
+    accept=".mid,.midi"
+    style="display:none"
+>
 
 <select name="hg1" onchange="height1()">
 	<option value="0"> 1B </option>
