@@ -23,6 +23,13 @@ demp
     accept=".mid,.midi"
     style="display:none"
 >
+<input
+    type="file"
+    id="localFiles"
+    accept=".mid,.tsv"
+    multiple
+    style="display:none"
+>
 
 <select name="hg1" onchange="height1()">
 	<option value="0"> 1B </option>
@@ -498,30 +505,52 @@ let scoreRight =[];
 let scoreLeft =[];
 let pairs = [];
 
-async function loadLocalFiles(){
+let localMidiFile = null;
 
-    const midiFile =
-        document.getElementById("midiFile")
-        .files[0];
+window.onload = function(){
 
-    const tsvFile =
-        document.getElementById("tsvFile")
-        .files[0];
+	document
+		.getElementById("localMidi")
+		.addEventListener(
+			"change",
+			function(){
 
-    let data1 = null;
-    let data2 = null;
+				localMidiFile =
+					this.files[0];
 
-    if(midiFile){
-        data1 =
-            await midiFile.arrayBuffer();
+				if(localMidiFile){
+					main();
+				}
+			}
+		);
+
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    main();
+
+    touchSound();
+
+};
+
+
+function selectSong(){
+
+    const song =
+        document.getElementById("song1").value;
+
+    if(song === "local"){
+
+        document
+            .getElementById("localMidi")
+            .click();
+
+        return;
     }
 
-    if(tsvFile){
-        data2 =
-            await tsvFile.text();
-    }
+    localMidiFile = null;
 
-    return { data1, data2 };
+    main();
 }
 
 async function getMidiData(){
@@ -550,7 +579,7 @@ async function getMidiData(){
     }
 }
 
-
+/*
 async function fetchData(){
 	let file1name=document.getElementById("song1").value;
 	let uri1="./data/"+file1name+".mid";
@@ -570,6 +599,60 @@ async function fetchData(){
 	}
 
 	return { data1, data2 };
+}
+*/
+
+async function fetchData(){
+
+    // ローカルファイル優先
+    if(localMidiFile){
+
+        let data1 =
+            await localMidiFile.arrayBuffer();
+
+        return {
+            data1: data1,
+            data2: null
+        };
+    }
+
+    let file1name =
+        document.getElementById("song1")
+        .value;
+
+    let uri1 =
+        "./data/" +
+        file1name +
+        ".mid";
+
+    let uri2 =
+        "./data/" +
+        file1name +
+        ".tsv";
+
+    let res1 =
+        await fetch(uri1);
+
+    let res2 =
+        await fetch(uri2);
+
+    let data1 = null;
+    let data2 = null;
+
+    if(res1.ok){
+        data1 =
+            await res1.arrayBuffer();
+    }
+
+    if(res2.ok){
+        data2 =
+            await res2.text();
+    }
+
+    return {
+        data1,
+        data2
+    };
 }
 
 function setMidi0(data1){
@@ -971,16 +1054,6 @@ function touchSound(){
     document.addEventListener('pointercancel', offSound);
 }
 
-window.onload = function(){
-
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    main();
-
-    touchSound();
-
-};
 
 
 let recordData = [];
