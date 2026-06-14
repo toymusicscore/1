@@ -3677,7 +3677,6 @@ function saveMidi(){
 
 function msr1(){
 	pauseTick = (document.form1.x_msr.value - 1)*ppq*bttl/ntvl*4;
-	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.setStartTime(pauseTick);
 	selview1();
@@ -3688,7 +3687,6 @@ function goTop(){
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     pauseTick = 0;
-	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.setStartTime(pauseTick);
     document.form1.x_msr.value=1;
@@ -3698,7 +3696,6 @@ function goTop(){
 function goEnd(){
     pauseTick=Math.floor(eott0/(bttl*ppq/ntvl*4)-1)*(bttl*ppq/ntvl*4);
     document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
-	picoAudio.init();
 	picoAudio.setData(parsedData);
 	picoAudio.setStartTime(pauseTick);
     selview1();
@@ -3708,7 +3705,6 @@ function goBack1(){
     if((document.form1.x_msr.value-1)*(bttl*ppq/ntvl*4)>0){
         pauseTick=(document.form1.x_msr.value-2)*(bttl*ppq/ntvl*4);
         document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
-        picoAudio.init();
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
     }else{
@@ -3721,7 +3717,6 @@ function goBack2(){
     if((document.form1.x_msr.value-1-ht1)*(bttl*ppq/ntvl*4)>0){
         pauseTick=(document.form1.x_msr.value-1-ht1)*(bttl*ppq/ntvl*4);
         document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
-        picoAudio.init();
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
     }else{
@@ -3734,7 +3729,6 @@ function goForward1(){
     if((document.form1.x_msr.value)*(bttl*ppq/ntvl*4)<eott0){
         pauseTick=(document.form1.x_msr.value)*(bttl*ppq/ntvl*4);
         document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
-        picoAudio.init();
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
      }
@@ -3746,7 +3740,6 @@ function goForward2(){
     if((Number(document.form1.x_msr.value)-1+ht1)*(bttl*ppq/ntvl*4)<eott0){
         pauseTick=(Number(document.form1.x_msr.value)-1+ht1)*(bttl*ppq/ntvl*4);
         document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
-        picoAudio.init();
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
     }else{
