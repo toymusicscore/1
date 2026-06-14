@@ -974,32 +974,35 @@ async function loadLocalFiles(files){
 }
 
 async function main(){
+
     const song = document.getElementById("song1").value;
 
-	console.log("song:", song);
-	console.log("localFiles:", localFiles);
-	console.log("event fired");
+    console.log("song:", song);
+    console.log("localFiles:", localFiles);
 
     if(song === "local"){
+
+        // ★まだ未選択なら開くだけ
         if(!localFiles){
             document.getElementById("localFiles").click();
             return;
         }
 
-        const { data1, data2 } = await loadLocalFiles(localFiles);
+        // ★選択済みなら読み込み
+        const { data1, data2 } = await fetchData();
 
         setMidi(data1);
         setTsv(data2);
         selview1();
+
         return;
     }
 
-    const { data1, data2 } = await fetchData(song);
+    const { data1, data2 } = await fetchData();
 
     setMidi(data1);
     setTsv(data2);
     selview1();
-
 }
 
 main();
