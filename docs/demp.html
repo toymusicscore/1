@@ -830,7 +830,7 @@ async function main(){
 main();
 
 let pauseTick = 0;
-let isPlaying = 0;
+let isPlaying = false;
 let rafId = null;
 
 function pauseButton(){
@@ -861,7 +861,7 @@ function pausePlayback(){
     picoAudio.pause();
     cancelAnimationFrame(rafId);
 
-    isPlaying = 0;
+    isPlaying = false;
 }
 
 function stopRecording(){
@@ -885,7 +885,7 @@ function resetData(){
 	pedalData = [];
 	pedalData.length = 0;
 	pedalState = false;
-    isPlaying = 0;
+    isPlaying = false;
 	isRecording = false;
 	prevTick = 0;
     nextIndex = 0;
@@ -929,10 +929,6 @@ async function cdown(){
 
 async function draw(){
 
-    if(isPlaying > 0){
-        return;
-    }
-
     canvas.width =
         window.innerWidth;
 
@@ -955,8 +951,6 @@ async function draw(){
     picoAudio.setData(parsedData);
 
     startPlayback();
-
-    isPlaying = 2;
 
     cancelAnimationFrame(rafId);
 
@@ -1350,7 +1344,7 @@ function offSound(){
 
 async function playScore(){
 
-    if(isPlaying > 0){
+    if(isPlaying){
         return;
     }
 
@@ -1394,14 +1388,14 @@ async function playScore(){
 
     startPlayback();
 
-    isPlaying = 2;
+    isPlaying = true;
 
     loopScore();
 }
 
 async function playRecord(){
 
-    if(isPlaying > 0){
+    if(isPlaying){
         return;
     }
 
@@ -1433,7 +1427,7 @@ async function playRecord(){
 
     startPlayback();
 
-    isPlaying = 2;
+    isPlaying = true;
 
     loopRecord();
 }
@@ -1457,7 +1451,7 @@ function getCurrentTick(){
 
 
 function loopScore(){
-	if (isPlaying == 0) return;
+	if (!isPlaying) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
@@ -1477,7 +1471,7 @@ function loopScore(){
 }
 
 function loopRecord(){
-	if (isPlaying == 0) return;
+	if (!isPlaying) return;
 	const tick = getCurrentTick();
 	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
