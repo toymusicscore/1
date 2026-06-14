@@ -541,21 +541,18 @@ function selectSong(){
         document.getElementById("song1").value;
 
     console.log("selectSong", song);
+if(song === "local"){
 
-    if(song === "local"){
+    let obj =
+        document.getElementById("localMidi");
 
-        console.log("before getElementById");
+    obj.click();
 
-        let obj =
-            document.getElementById("localMidi");
+    console.log(
+        "after click"
+    );
 
-        console.log("obj =", obj);
-
-        if(obj){
-            obj.click();
-        }
-
-        return;
+    return;
     }
 
     main();
