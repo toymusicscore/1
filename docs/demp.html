@@ -3259,15 +3259,23 @@ function drawGraph(
 		drawnMeasures.add(
 			measure
 		);
+		
+		const maxMeasure =
+    		diffData[diffData.length - 1].measure;
 
-		const x =
-			mx +
-			diffData[i].tick /
-			maxTick *
-			w;
+		const maxLabels = 20;
 
-		if(showMeasureLabel){
+		const measureStep =
+			Math.max(
+				1,
+				Math.ceil(maxMeasure / maxLabels)
+			);
 
+		if(
+			showMeasureLabel
+			&&
+			(measure - 1) % measureStep === 0
+		){
 			ctx.fillText(
 				measure,
 				x,
