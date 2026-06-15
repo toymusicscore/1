@@ -1019,8 +1019,17 @@ function changeSong(){
 
 	document.getElementById("localFiles").value = "";
 
-    main();
+    const select = document.getElementById("song1");
+    const old =
+        select.querySelector(
+            'option[value="local"]'
+        );
 
+    if(old){
+        old.remove();
+    }
+
+    main();
 }
 
 async function main(){
