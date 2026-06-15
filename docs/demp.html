@@ -11,7 +11,7 @@ demp
 <body style="font-family:Arial;font-size:100%">
 <form name="form1" >
 
-<select id="song1" onchange="main()">
+<select id="song1" onchange="changeSong()">
     <option value="bach-invention-01">bwv772-bach-invention-01</option>
     <option value="bach-invention-02" selected>bwv773-bach-invention-02</option>
 </select>
@@ -1004,6 +1004,17 @@ async function loadLocalFiles(files){
         : null;
 
     return { data1, data2 };
+}
+
+function changeSong(){
+
+    // ローカルファイルモード解除
+    localFiles = null;
+
+    // file input の表示もクリア
+    document.getElementById("file1").value = "";
+
+    main();
 }
 
 async function main(){
