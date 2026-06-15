@@ -756,6 +756,11 @@ function setMidi0(data1){
 function setMidi(data1){
 
     console.log("setMidi start");
+	console.log(parsedData);
+	console.log("songLength", parsedData.songLength);
+	console.log("tempoTrack", parsedData.tempoTrack);
+	console.log("beatTrack", parsedData.beatTrack);
+	console.log("notes", parsedData.channels?.[0]?.notes?.length);
 
 	picoAudio.init();
 
