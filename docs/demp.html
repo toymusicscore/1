@@ -566,22 +566,6 @@ window.addEventListener("DOMContentLoaded", () => {
     touchSound();
 });
 
-document
-.getElementById("localFiles")
-.addEventListener("change", async function(e){
-
-    console.log("CHANGE FIRED");
-
-    const files = e.target.files;
-
-    console.log("files.length =", files.length);
-
-    for(const f of files){
-        console.log(f.name);
-    }
-
-});
-
 
 function selectLocalFiles(){
     const input = document.getElementById("localFiles");
