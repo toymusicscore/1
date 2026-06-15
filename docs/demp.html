@@ -992,46 +992,12 @@ async function loadLocalFiles(files){
 
 async function main(){
 
-    const song = document.getElementById("song1").value;
-	const localFilesValue = document.getElementById("localFiles").value;
-
-    console.log("song:", song);
-    console.log("localFiles:", localFiles);
-	console.log("localFilesValue:", localFilesValue);
-
-	if(song === "local"){
-
-    console.log("OPEN FILE DIALOG");
-
-    document
-        .getElementById("localFiles")
-        .click();
-
-    return;
-}
-
-    if(song === "local"){
-
-        // ★まだ未選択なら開くだけ
-        if(!localFiles){
-            document.getElementById("localFiles").click();
-            return;
-        }
-
-        // ★選択済みなら読み込み
-        const { data1, data2 } = await fetchData();
-
-        setMidi(data1);
-        setTsv(data2);
-        selview1();
-
-        return;
-    }
-
-    const { data1, data2 } = await fetchData();
+    const { data1, data2 } =
+        await fetchData();
 
     setMidi(data1);
     setTsv(data2);
+
     selview1();
 }
 
