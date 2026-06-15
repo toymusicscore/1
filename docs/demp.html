@@ -14,16 +14,19 @@ demp
 <select id="song1" onchange="main()">
     <option value="bach-invention-01">bwv772-bach-invention-01</option>
     <option value="bach-invention-02" selected>bwv773-bach-invention-02</option>
-    <option value="local">Local File</option>
 </select>
-<input type="file" id="localFiles" accept=".mid,.tsv" multiple style="display:none">
-<button onclick="
-console.log('BUTTON CLICK');
-document.getElementById('localFiles').click();
-">
-TEST
+
+<button onclick="openLocalFiles()">
+    Local File
 </button>
 
+<input
+    type="file"
+    id="localFiles"
+    accept=".mid,.tsv"
+    multiple
+    style="display:none">
+	
 <select name="hg1" onchange="height1()">
 	<option value="0"> 1B </option>
 	<option value="1" selected> 2B</option>
