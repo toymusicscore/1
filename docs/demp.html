@@ -513,6 +513,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
         const files = Array.from(e.target.files);
 
+		console.log("CHANGE FIRED");
+		console.log("files.length =", files.length);
+
+		for(const f of files){
+        console.log(f.name);
+		}
+
         if(files.length === 0) return;
 
         // 保存
