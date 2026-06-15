@@ -662,6 +662,8 @@ async function fetchData(){
 
 async function fetchData(){
 
+    console.log("localFiles =", localFiles);
+
     // ★ローカル優先
     if(localFiles && localFiles.length > 0){
 
@@ -688,6 +690,8 @@ async function fetchData(){
 
         return { data1, data2 };
     }
+
+	console.log("LOAD FETCH");
 
     // ★fetch
     const file1name = document.getElementById("song1").value;
@@ -1016,7 +1020,7 @@ function changeSong(){
 	document.getElementById("localFiles").value = "";
 
     main();
-	
+
 }
 
 async function main(){
