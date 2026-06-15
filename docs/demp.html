@@ -549,14 +549,19 @@ window.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const data1 = await midi.text();
-        const data2 = tsv ? await tsv.text() : null;
+	const data1 = await midi.arrayBuffer();
+	const data2 = tsv ? await tsv.text() : null;
 
-        setMidi(data1);
-        setTsv(data2);
+	console.log("MIDI bytes =", data1.byteLength);
+	console.log("TSV chars =", data2?.length);
+	console.log("before setMidi");
 
-        selview1();
-    });
+	setMidi(data1);
+	setTsv(data2);
+
+	selview1();
+
+});
 
     main();
 
@@ -747,7 +752,10 @@ function setMidi0(data1){
 	state.midi.minPitch = min;
 }
 
-function setMidi(data1){
+function setMidi(data){
+
+    console.log("setMidi start");
+
 	picoAudio.init();
 
 	let midiData = new Uint8Array(data1);
