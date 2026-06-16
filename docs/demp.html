@@ -10,7 +10,34 @@ demp
 </head>
 <body style="font-family:Arial;font-size:100%">
 <form name="form1" >
+<div id="mainPage">
+<input type="button" name="b_p" value="Play" onClick="playScore()">
+<input type="button" name="b_||" value=" || " onClick="pauseButton()">
+<input type="button" name="b_sb" value="Record" onClick="record()">
+<input type="button" name="b_rp" value="Replay" onClick="playRecord()">
+<input type="button" name="b_dg" value="Graph" onClick="drawLineGraph()">
+<input type="button" name="b_cl" value="Clear" onClick="clearRecord()">
+<input type="button" name="b_sv" value="Save" onClick="saveMidi()">
 
+<label style="font-size:70%">Bar</label>
+<input
+    type="number"
+    name="x_msr"
+    value="1"
+    min="1"
+    style="width:40px">
+
+<input type="button" name="b_|<" value="|<" onClick="goTop()">
+<input type="button" name="b_<<" value="<<" onClick="goBack2()">
+<input type="button" name="b_<" value="<" onClick="goBack1()">
+<input type="button" name="b_>" value=">" onClick="goForward1()">
+<input type="button" name="b_>>" value=">>" onClick="goForward2()">
+<input type="button" name="b_>|" value=">|" onClick="goEnd()">
+</div>
+
+<div id="settingPage"
+     style="display:none">
+	 
 <select id="song1" onchange="changeSong()">
     <option value="bach-invention-01">bwv772-bach-invention-01</option>
     <option value="bach-invention-02" selected>bwv773-bach-invention-02</option>
@@ -112,31 +139,7 @@ demp
     min="1"
     style="width:40px">
 
-<input type="button" name="b_p" value="Play" onClick="playScore()">
-<input type="button" name="b_||" value=" || " onClick="pauseButton()">
-<input type="button" name="b_sb" value="Record" onClick="record()">
-<input type="button" name="b_rp" value="Replay" onClick="playRecord()">
-<input type="button" name="b_dg" value="Graph" onClick="drawLineGraph()">
-<input type="button" name="b_cl" value="Clear" onClick="clearRecord()">
-<input type="button" name="b_sv" value="Save" onClick="saveMidi()">
-
-<br>
-<label style="font-size:70%">Bar</label>
-<input
-    type="number"
-    name="x_msr"
-    value="1"
-    min="1"
-    style="width:40px"
-    onchange="msr1()">
-
-<input type="button" name="b_|<" value="|<" onClick="goTop()">
-<input type="button" name="b_<<" value="<<" onClick="goBack2()">
-<input type="button" name="b_<" value="<" onClick="goBack1()">
-<input type="button" name="b_>" value=">" onClick="goForward1()">
-<input type="button" name="b_>>" value=">>" onClick="goForward2()">
-<input type="button" name="b_>|" value=">|" onClick="goEnd()">
-
+</div>
 </form>
 <canvas
     id="canvas"
