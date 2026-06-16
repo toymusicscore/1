@@ -10,7 +10,12 @@ demp
 </head>
 <body style="font-family:Arial;font-size:100%">
 <form name="form1" >
+	☰ Menu
 <div id="mainPage">
+	<input
+    type="button"
+    value="Setting"
+    onclick="showSetting()">
 <input type="button" name="b_p" value="Play" onClick="playScore()">
 <input type="button" name="b_||" value=" || " onClick="pauseButton()">
 <input type="button" name="b_sb" value="Record" onClick="record()">
@@ -1045,6 +1050,26 @@ function changeSong(){
     }
 
     main();
+}
+
+function showSetting(){
+    document.getElementById(
+        "mainPage"
+    ).style.display = "none";
+
+    document.getElementById(
+        "settingPage"
+    ).style.display = "block";
+}
+
+function showMain(){
+    document.getElementById(
+        "mainPage"
+    ).style.display = "block";
+
+    document.getElementById(
+        "settingPage"
+    ).style.display = "none";
 }
 
 async function main(){
