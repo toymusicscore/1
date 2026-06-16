@@ -117,7 +117,7 @@ demp
 <input type="button" name="b_sb" value="Record" onClick="record()">
 <input type="button" name="b_rp" value="Replay" onClick="playRecord()">
 <input type="button" name="b_dg" value="Graph" onClick="drawLineGraph()">
-<input type="button" name="b_cl" value="Clear" onClick="clearData()">
+<input type="button" name="b_cl" value="Clear" onClick="clearRecord()">
 <input type="button" name="b_sv" value="Save" onClick="saveMidi()">
 
 <br>
@@ -1107,8 +1107,7 @@ function stopRecording(){
     stopRecord();
 }
 
-function clearData(){
-    document.form1.x_bpm.value = bpm;
+function Record(){
 	baseAudioTime = 0;
 	recordData = [];
 	recordData.length = 0;
