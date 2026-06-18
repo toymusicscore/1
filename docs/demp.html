@@ -798,7 +798,10 @@ function setMidi(data1){
 	rawMidi =
 		parseMidi(midiData);
 
-	picoAudio.setData(parsedData);
+		scoreData =
+    createScoreDataFromTracks(
+        rawMidi
+    );
 
 
 	picoAudio.setData(parsedData);
@@ -935,6 +938,149 @@ console.log("setMidi end");
 
 }
 
+function createScoreDataFromTracks(rawMidi){
+
+    const scoreData = [];
+
+    rawMidi.tracks.forEach(
+        (track, trackNo) => {
+
+            if(trackNo === 0){
+                return;
+            }
+
+            let tick = 0;
+
+            const activeNotes = {};
+
+            track.forEach(event => {
+
+                tick += event.deltaTime;
+
+                if(
+                    event.type === "noteOn"
+                    &&
+                    event.velocity > 0
+                ){
+
+                    const key =
+                        event.channel +
+                        "_" +
+                        event.noteNumber;
+
+                    activeNotes[key] = {
+
+                        start: tick,
+                        velocity:
+                            event.velocity
+                    };
+                }
+
+                if(
+                    event.type === "noteOff"
+                    ||
+                    (
+                        event.type === "noteOn"
+                        &&
+                        event.velocity === 0
+                    )
+                ){
+
+                    const key =
+                        event.channel +
+                        "_" +
+                        event.noteNumber;
+
+                    const note =
+                        activeNotes[key];
+
+                    if(note){
+
+                        scoreData.push({
+
+                            midi:
+                                event.noteNumber,
+
+                            start:
+                                note.start,
+
+                            stop:
+                                tick,
+
+                            velocity:
+                                note.velocity,
+
+                            channel:
+                                event.channel,
+
+                            track:
+                                trackNo
+                        });
+
+                        delete activeNotes[key];
+                    }
+                }
+            });
+        }
+    );
+
+    scoreData.sort(
+        (a,b)=>a.start-b.start
+    );
+
+    return scoreData;
+}
+
+
+function createTempo(){
+	const tempoTrack = [];
+
+	let tick = 0;
+
+	rawMidi.tracks[0].forEach(event=>{
+
+		tick += event.deltaTime;
+
+		if(event.type === "setTempo"){
+
+			tempoTrack.push({
+
+				timing: tick,
+
+				value:
+					Math.round(
+						60000000
+						/
+						event.microsecondsPerBeat
+					)
+			});
+		}
+	});
+}
+
+function createBeat(){
+	const beatTrack = [];
+
+	let tick = 0;
+
+	rawMidi.tracks[0].forEach(event=>{
+
+		tick += event.deltaTime;
+
+		if(event.type === "timeSignature"){
+
+			beatTrack.push({
+
+				timing: tick,
+
+				value:[
+					event.numerator,
+					event.denominator
+				]
+			});
+		}
+	});
+}
 
 function setTsv(data2){
 
