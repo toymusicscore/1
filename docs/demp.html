@@ -956,10 +956,10 @@ scoreLeft.forEach(note => {
 		midi_max=midi_max_l;
 		midi_min=midi_min_l;
 	}
-
+/*
 	midi_min0=midi_min;
 	midi_max0=midi_max;
-
+*/
 	let n=0;
 	for(let i=0;i<=r2.length;i++){
 		if(r2[i]<r2[i+1]){
@@ -977,12 +977,11 @@ scoreLeft.forEach(note => {
 		r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
 	});
 
-
+/*
 	scoreData = r1.slice().sort(
 		(a,b)=>a.start-b.start
 	);
 
-/*
 	scoreRight =
 		scoreData.filter(
 			n => n.channel == x_chR
