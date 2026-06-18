@@ -152,6 +152,14 @@ demp
 </canvas>
 <div id="license"></div>
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
+<script type="module">
+
+import { parseMidi }
+from "https://cdn.jsdelivr.net/npm/midi-file@1.2.4/+esm";
+
+window.parseMidi = parseMidi;
+
+</script>
 <script>
 const canvas = document.getElementById('canvas');
 canvas.style.touchAction = 'none';
@@ -513,7 +521,7 @@ let scoreRight =[];
 let scoreLeft =[];
 let pairs = [];
 let localFiles = null;
-
+let rawMidi;
 
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -779,8 +787,19 @@ function setMidi(data1){
 
 	picoAudio.init();
 
-	let midiData = new Uint8Array(data1);
-	parsedData = picoAudio.parseSMF(midiData);
+	let midiData =
+    new Uint8Array(data1);
+
+	// PicoAudio用
+	parsedData =
+		picoAudio.parseSMF(midiData);
+
+	// midi-file用
+	rawMidi =
+		parseMidi(midiData);
+
+	picoAudio.setData(parsedData);
+
 
 	picoAudio.setData(parsedData);
 
