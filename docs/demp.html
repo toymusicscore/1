@@ -843,6 +843,63 @@ function setMidi(data1){
 	ch_max=-1;
 	ch_num=0;
 
+r1 = scoreData.map((note, index) => ({
+    midi: note.midi,
+    start: note.start,
+    stop: note.stop,
+    channel: note.channel,
+    track: note.track,
+    velocity: note.velocity,
+    n_id: index + 1
+}));
+
+scoreData.forEach(note => {
+
+    if(note.midi > midi_max_b){
+        midi_max_b = note.midi;
+    }
+
+    if(note.midi < midi_min_b){
+        midi_min_b = note.midi;
+    }
+
+});
+
+scoreRight =
+    scoreData.filter(
+        n => n.track === 1
+    );
+
+scoreLeft =
+    scoreData.filter(
+        n => n.track === 2
+    );
+
+scoreRight.forEach(note => {
+
+    if(note.midi > midi_max_r){
+        midi_max_r = note.midi;
+    }
+
+    if(note.midi < midi_min_r){
+        midi_min_r = note.midi;
+    }
+
+});
+
+scoreLeft.forEach(note => {
+
+    if(note.midi > midi_max_l){
+        midi_max_l = note.midi;
+    }
+
+    if(note.midi < midi_min_l){
+        midi_min_l = note.midi;
+    }
+
+});
+
+/*
 	parsedData.channels.forEach(channel => { 
 		channel.notes.forEach(note => {
 
@@ -883,6 +940,7 @@ function setMidi(data1){
 				}
 		})
 	})
+*/
 
 	r1.sort((a, b) => {
 		return a.start - b.start;
@@ -919,11 +977,12 @@ function setMidi(data1){
 		r5.push([beatTrack.timing,beatTrack.value[0],beatTrack.value[1]]);
 	});
 
-/*
+
 	scoreData = r1.slice().sort(
 		(a,b)=>a.start-b.start
 	);
-*/
+
+/*
 	scoreRight =
 		scoreData.filter(
 			n => n.channel == x_chR
@@ -933,6 +992,7 @@ function setMidi(data1){
 		scoreData.filter(
 			n => n.channel == x_chL
 		);
+*/
 
 console.log(parsedData.tempoTrack);
 console.log(parsedData.beatTrack);
