@@ -711,48 +711,6 @@ async function fetchData(){
     };
 }
 
-function setMidi0(data1){
-	picoAudio.init();
-
-	const midiData = new Uint8Array(data1);
-	const parsed = picoAudio.parseSMF(midiData);
-
-	state.midi.parsed = parsed;
-	state.midi.songLength = parsed.songLength;
-	state.midi.ppq = parsed.header.resolution;
-	state.midi.bpm = parsed.tempoTrack[0].value;
-	state.midi.bttl = parsed.beatTrack[0].value[0];
-	state.midi.ntvl = parsed.beatTrack[0].value[1];
-
-	state.notes.r1 = [];
-	state.notes.r2 = [];
-	state.notes.r3 = [];
-
-	let max = 0;
-	let min = 128;
-
-	parsed.channels.forEach(channel => {
-		channel.notes.forEach(note => {
-
-			state.notes.r1.push([
-				note.pitch,
-				note.start,
-				note.stop,
-				note.channel,
-				note.velocity
-			]);
-
-			state.notes.r2.push(note.start);
-			state.notes.r2.push(note.stop);
-
-			if(note.pitch > max) max = note.pitch;
-			if(note.pitch < min) min = note.pitch;
-		});
-	});
-
-	state.midi.maxPitch = max;
-	state.midi.minPitch = min;
-}
 
 function setMidi(data1){
 
