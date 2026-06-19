@@ -940,16 +940,17 @@ function createScoreDataFromTracks(rawMidi){
 
                         });
 
-						scoreData.sort(
-							(a,b)=>a.start-b.start
-						);
-
 						delete activeNotes[key];
                     }
                 }
             });
         }
+		
     );
+
+	scoreData.sort(
+		(a,b)=>a.start-b.start
+	);
 
     return scoreData;
 }
