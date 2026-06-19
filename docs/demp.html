@@ -53,6 +53,22 @@ demp
     multiple
 >
 
+<input
+    type="number"
+    name="x_rightTrack"
+    value="1"
+    min="1"
+	onchange = setmidi();
+    style="width:40px">
+
+<input
+    type="number"
+    name="x_leftTrack"
+    value="2"
+    min="1"
+	onchange = setmidi();
+    style="width:40px">
+
 <select name="chnRight" onchange="channelRight()">
 	<option value="0"> RCh1 </option>
 	<option value="1" selected> RCh2</option>
@@ -804,8 +820,8 @@ function setMidi(data1){
 
 	});
 
-let rightTrack = 1;
-let leftTrack = 2;
+let rightTrack = document.getElementById("x_rightTrack").value;
+let leftTrack = document.getElementById("x_leftTrack").value;
 
 	scoreRight =
 		scoreData.filter(
