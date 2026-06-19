@@ -859,6 +859,8 @@ function createScoreDataFromTracks(rawMidi){
 
     const scoreData = [];
 
+	let n_id = 1;
+
     rawMidi.tracks.forEach(
         (track, trackNo) => {
 
@@ -910,8 +912,6 @@ function createScoreDataFromTracks(rawMidi){
 
                     const note =
                         activeNotes[key];
-
-					let n_id = 1;
 
                     if(note){
 
