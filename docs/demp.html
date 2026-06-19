@@ -751,10 +751,21 @@ function setMidi(data1){
 		? tempoTrack[0].value
 		: 60;
 
+	const beatTrack = createBeatTrack();
+
+	bttl = beatTrack.length > 0
+	? beatTrack[0].value
+	: 4;
+
+	ntvl = beatTrack.length > 0
+	? beatTrack[1].value
+	: 4;
+	
+
 	eott0 = parsedData.songLength;
 	ppq = parsedData.header.resolution;
-	bttl = parsedData.beatTrack[0].value[0];
-	ntvl = parsedData.beatTrack[0].value[1];
+//	bttl = parsedData.beatTrack[0].value[0];
+//	ntvl = parsedData.beatTrack[0].value[1];
 //	bpm = parsedData.tempoTrack[0].value;
 	ticksPerMeasure = ppq * bttl / ntvl * 4;
 	document.form1.x_bpm.value=bpm;
@@ -977,7 +988,8 @@ function createTempoTrack(){
 
 }
 
-function createBeat(){
+function createBeatTrack(){
+
 	const beatTrack = [];
 
 	let tick = 0;
@@ -999,6 +1011,9 @@ function createBeat(){
 			});
 		}
 	});
+
+	return beatTrack;
+
 }
 
 function setTsv(data2){
