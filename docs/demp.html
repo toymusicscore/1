@@ -940,7 +940,11 @@ function createScoreDataFromTracks(rawMidi){
 
                         });
 
-                        delete activeNotes[key];
+						scoreData.sort(
+							(a,b)=>a.start-b.start
+						);
+
+						delete activeNotes[key];
                     }
                 }
             });
