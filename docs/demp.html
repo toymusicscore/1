@@ -781,6 +781,11 @@ r1 = scoreData.map((note, index) => ({
     n_id: index + 1
 }));
 
+scoreData.sort(
+        (a,b)=>a.start-b.start
+    );
+
+
 scoreData.forEach(note => {
 
     if(note.midi > midi_max_b){
@@ -934,10 +939,6 @@ function createScoreDataFromTracks(rawMidi){
                 }
             });
         }
-    );
-
-    scoreData.sort(
-        (a,b)=>a.start-b.start
     );
 
     return scoreData;
