@@ -4843,15 +4843,15 @@ function trackChannelInfo(){
 
 	console.log(channelInstrument);
 
-	rows.forEach((row, i) => {
+	rows.forEach(row => {
 
 		const instNumber =
 			channelInstrument[row.channel];
 
-		const instrument =
+		row.instrument =
 			instName[instNumber] || "-";
-	});
 
+	});
 	ctx.fillText("Color",100,50);
 	ctx.fillText("Track",180,50);
 	ctx.fillText("Channel",280,50);
