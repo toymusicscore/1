@@ -771,51 +771,55 @@ function setMidi(data1){
 	ch_max=-1;
 	ch_num=0;
 
-scoreData.forEach(note => {
+	scoreData.forEach(note => {
 
-    if(note.midi > midi_max_b){
-        midi_max_b = note.midi;
-    }
+		if(note.midi > midi_max_b){
+			midi_max_b = note.midi;
+		}
 
-    if(note.midi < midi_min_b){
-        midi_min_b = note.midi;
-    }
+		if(note.midi < midi_min_b){
+			midi_min_b = note.midi;
+		}
 
-});
+	});
 
-scoreRight =
-    scoreData.filter(
-        n => n.track === 1
-    );
+	scoreRight =
+		scoreData.filter(
+			n => n.track === 1
+		);
 
-scoreLeft =
-    scoreData.filter(
-        n => n.track === 2
-    );
+	scoreLeft =
+		scoreData.filter(
+			n => n.track === 2
+		);
 
-scoreRight.forEach(note => {
 
-    if(note.midi > midi_max_r){
-        midi_max_r = note.midi;
-    }
+	if(scoreRight.length > 0){
+		scoreRight.forEach(note => {
 
-    if(note.midi < midi_min_r){
-        midi_min_r = note.midi;
-    }
+			if(note.midi > midi_max_r){
+				midi_max_r = note.midi;
+			}
 
-});
+			if(note.midi < midi_min_r){
+				midi_min_r = note.midi;
+			}
 
-scoreLeft.forEach(note => {
+		});
+	}
 
-    if(note.midi > midi_max_l){
-        midi_max_l = note.midi;
-    }
+	if(scoreLeft.length > 0){
+		scoreLeft.forEach(note => {
 
-    if(note.midi < midi_min_l){
-        midi_min_l = note.midi;
-    }
+			if(note.midi > midi_max_l){
+				midi_max_l = note.midi;
+			}
 
-});
+			if(note.midi < midi_min_l){
+				midi_min_l = note.midi;
+			}
+		});
+	}
 
 	if (document.form1.hands.options[0].selected==true) {
 		midi_max=midi_max_b;
@@ -829,9 +833,9 @@ scoreLeft.forEach(note => {
 	}
 
 
-console.log(parsedData.tempoTrack);
-console.log(parsedData.beatTrack);
-console.log("setMidi end");
+	console.log(parsedData.tempoTrack);
+	console.log(parsedData.beatTrack);
+	console.log("setMidi end");
 
 }
 
