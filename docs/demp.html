@@ -738,6 +738,8 @@ function setMidi(data1){
     	createScoreDataFromTracks(
         rawMidi
     	);
+	
+	r1 = scoreData;
 
 	picoAudio.setData(parsedData);
 
@@ -748,8 +750,6 @@ function setMidi(data1){
 	bpm = parsedData.tempoTrack[0].value;
 	ticksPerMeasure = ppq * bttl / ntvl * 4;
 	document.form1.x_bpm.value=bpm;
-
-	r1=[];
 
 	midi_max=21;
 	midi_min=108;
@@ -770,21 +770,6 @@ function setMidi(data1){
 	n_id=1;
 	ch_max=-1;
 	ch_num=0;
-
-r1 = scoreData.map((note, index) => ({
-    midi: note.midi,
-    start: note.start,
-    stop: note.stop,
-    channel: note.channel,
-    track: note.track,
-    velocity: note.velocity,
-    n_id: index + 1
-}));
-
-scoreData.sort(
-        (a,b)=>a.start-b.start
-    );
-
 
 scoreData.forEach(note => {
 
@@ -831,11 +816,6 @@ scoreLeft.forEach(note => {
     }
 
 });
-
-
-	r1.sort((a, b) => {
-		return a.start - b.start;
-	});
 
 	if (document.form1.hands.options[0].selected==true) {
 		midi_max=midi_max_b;
