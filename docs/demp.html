@@ -817,9 +817,20 @@ function setMidi(data1){
 
 	});
 
-let rightTrack = document.getElementById("x_rightTrack").value;
-let leftTrack = document.getElementById("x_leftTrack").value;
+let rightTrack =
+    Number(
+        document.getElementById(
+            "x_rightTrack"
+        ).value
+    );
 
+let leftTrack =
+    Number(
+        document.getElementById(
+            "x_leftTrack"
+        ).value
+    );
+	
 	scoreRight =
 		scoreData.filter(
 			n => n.track === rightTrack
