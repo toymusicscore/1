@@ -743,23 +743,26 @@ function setMidi(data1){
 
 	picoAudio.setData(parsedData);
 
-	const tempoTrack =
+	const tempoTrackData =
 		createTempoTrack();
 
+	const beatTrackData =
+		createBeatTrack();
+
 	bpm =
-		tempoTrack.length > 0
-		? tempoTrack[0].value
+		tempoTrackData.length > 0
+		? tempoTrackData[0].value
 		: 60;
 
-	const beatTrack = createBeatTrack();
+	bttl =
+		beatTrackData.length > 0
+		? beatTrackData[0].value[0]
+		: 4;
 
-	bttl = beatTrack.length > 0
-	? beatTrack[0].value[0]
-	: 4;
-
-	ntvl = beatTrack.length > 0
-	? beatTrack[0].value[1]
-	: 4;
+	ntvl =
+		beatTrackData.length > 0
+		? beatTrackData[0].value[1]
+		: 4;
 	
 	ppq =
 		rawMidi.header.ticksPerBeat;
