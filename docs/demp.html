@@ -4823,6 +4823,15 @@ function trackChannelInfo(){
 			row.count;
 	});
 
+	rows.forEach((row, i) => {
+
+		const instNumber =
+			channelInstrument[row.channel];
+
+		const instrument =
+			instName[instNumber] || "-";
+	});
+
 	ctx.fillText("Color",100,50);
 	ctx.fillText("Track",180,50);
 	ctx.fillText("Channel",280,50);
@@ -4866,6 +4875,12 @@ function trackChannelInfo(){
 		ctx.fillText(
 			row.avg.toFixed(1),
 			420,
+			y
+		);
+
+		ctx.fillText(
+			row.instrument,
+			600,
 			y
 		);
 
