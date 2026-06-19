@@ -4822,6 +4822,26 @@ function trackChannelInfo(){
 			row.sum /
 			row.count;
 	});
+	
+	const channelInstrument = {};
+
+	rawMidi.tracks.forEach(track => {
+
+		track.forEach(event => {
+
+			if(event.type === "programChange"){
+
+				channelInstrument[
+					event.channel
+				] =
+					event.programNumber;
+			}
+
+		});
+
+	});
+
+	console.log(channelInstrument);
 
 	rows.forEach((row, i) => {
 
