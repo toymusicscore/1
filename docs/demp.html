@@ -743,11 +743,19 @@ function setMidi(data1){
 
 	picoAudio.setData(parsedData);
 
+	const tempoTrack =
+		createTempoTrack();
+
+	bpm =
+		tempoTrack.length > 0
+		? tempoTrack[0].value
+		: 60;
+
 	eott0 = parsedData.songLength;
 	ppq = parsedData.header.resolution;
 	bttl = parsedData.beatTrack[0].value[0];
 	ntvl = parsedData.beatTrack[0].value[1];
-	bpm = parsedData.tempoTrack[0].value;
+//	bpm = parsedData.tempoTrack[0].value;
 	ticksPerMeasure = ppq * bttl / ntvl * 4;
 	document.form1.x_bpm.value=bpm;
 
@@ -939,7 +947,8 @@ function createScoreDataFromTracks(rawMidi){
 }
 
 
-function createTempo(){
+function createTempoTrack(){
+
 	const tempoTrack = [];
 
 	let tick = 0;
@@ -963,6 +972,9 @@ function createTempo(){
 			});
 		}
 	});
+
+	return tempoTrack;
+
 }
 
 function createBeat(){
