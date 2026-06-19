@@ -761,9 +761,13 @@ function setMidi(data1){
 	? beatTrack[1].value
 	: 4;
 	
+	ppq =
+		rawMidi.header.ticksPerBeat;
 
-	eott0 = parsedData.songLength;
-	ppq = parsedData.header.resolution;
+	eott0 = getSongLength();
+
+//	eott0 = parsedData.songLength;
+//	ppq = parsedData.header.resolution;
 //	bttl = parsedData.beatTrack[0].value[0];
 //	ntvl = parsedData.beatTrack[0].value[1];
 //	bpm = parsedData.tempoTrack[0].value;
@@ -1014,6 +1018,28 @@ function createBeatTrack(){
 
 	return beatTrack;
 
+}
+
+function getSongLength(){
+
+    let maxTick = 0;
+
+    rawMidi.tracks.forEach(track => {
+
+        let tick = 0;
+
+        track.forEach(event => {
+
+            tick += event.deltaTime;
+        });
+
+        if(tick > maxTick){
+
+            maxTick = tick;
+        }
+    });
+
+    return maxTick;
 }
 
 function setTsv(data2){
