@@ -2322,15 +2322,19 @@ function lineScore(tick){
 	szy = canvas.height-my;
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
+	let scoreTemp;
 
 
 	if (document.form1.hands.options[0].selected==true) {
+		scoreTemp = scoreData;
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
 	} else if (document.form1.hands.options[1].selected==true){
+		scoretemp = scoreRight;
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
 	}else if (document.form1.hands.options[2].selected==true) {
+		scoreTemp = scoreLeft;
 		midi_max=midi_max_l;
 		midi_min=midi_min_l;
 	}
@@ -2398,13 +2402,13 @@ function lineScore(tick){
 		}
 	}
 
-	for(let i=0;i<r1.length;i++){
-		let midi = r1[i].midi;
-		let start = r1[i].start;
-		let stop = r1[i].stop;
-		let track = r1[i].track;
-		let channel = r1[i].channel;
-		let n_id = r1[i].n_id;
+	for(let i=0;i<scoreTemp.length;i++){
+		let midi = scoreTemp[i].midi;
+		let start = scoreTemp[i].start;
+		let stop = scoreTemp[i].stop;
+		let track = scoreTemp[i].track;
+		let channel = scoreTemp[i].channel;
+		let n_id = scoreTemp[i].n_id;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		if (stop>=tick+ht1*bttl*ppq/ntvl*3){
