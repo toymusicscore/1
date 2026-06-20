@@ -5375,112 +5375,112 @@ function trackChannelInfo(){
 
 
 function keyEst1(){
-canvas2.width = 1300;
-canvas2.height = 1300;
-ctx2.font="25px Arial";
-ctx2.clearRect(0,0,1300,1300);
-ctx2.lineWidth=1;
-ctx2.fillStyle="black";
-ctx2.fillText("Proportions of pitch classes in time windows and scatter plot of pitch classes and time",0,30);
-ctx2.fillText("Note name #",0,60);
-ctx2.fillText("Note name b",0,90);
-ctx2.fillText("Time%",0,120);
-ctx2.fillText("Measure",90,120);
-ctx2.fillText("Total %",810,120);
-ctx2.fillText("10",28,150);
-ctx2.fillText("20",28,180);
-ctx2.fillText("30",28,210);
-ctx2.fillText("40",28,240);
-ctx2.fillText("50",28,270);
-ctx2.fillText("60",28,300);
-ctx2.fillText("70",28,330);
-ctx2.fillText("80",28,360);
-ctx2.fillText("90",28,390);
-ctx2.fillText("100",14,420);
+ctx.clearRect(0,0,canvas.width,canvas.height);
+canvas.width = 1300;
+canvas.height = 1300;
+ctx.font="25px Arial";
+ctx.lineWidth=1;
+ctx.fillStyle="black";
+ctx.fillText("Proportions of pitch classes in time windows and scatter plot of pitch classes and time",0,30);
+ctx.fillText("Note name #",0,60);
+ctx.fillText("Note name b",0,90);
+ctx.fillText("Time%",0,120);
+ctx.fillText("Measure",90,120);
+ctx.fillText("Total %",810,120);
+ctx.fillText("10",28,150);
+ctx.fillText("20",28,180);
+ctx.fillText("30",28,210);
+ctx.fillText("40",28,240);
+ctx.fillText("50",28,270);
+ctx.fillText("60",28,300);
+ctx.fillText("70",28,330);
+ctx.fillText("80",28,360);
+ctx.fillText("90",28,390);
+ctx.fillText("100",14,420);
 
 for(i=0;i<=10;i++){
-ctx2.fillStyle="black";
+ctx.fillStyle="black";
 mslbl0=Math.floor(eott0/ppq/bttl*ntvl/4*i/10);
 if(i>0 && i<=10){
 	if(mslbl0>=1000){
-		ctx2.fillText(mslbl0,100,120+i*30);
+		ctx.fillText(mslbl0,100,120+i*30);
 	}else if(mslbl0>=100){
-		ctx2.fillText(mslbl0,114,120+i*30);
+		ctx.fillText(mslbl0,114,120+i*30);
 	}else if(mslbl0>=10){
-		ctx2.fillText(mslbl0,128,120+i*30);
+		ctx.fillText(mslbl0,128,120+i*30);
 	}else{
-		ctx2.fillText(mslbl0,142,120+i*30);
+		ctx.fillText(mslbl0,142,120+i*30);
 	}
 }
 
-ctx2.beginPath();
-ctx2.strokeStyle="gray";
-ctx2.moveTo(0,120+i*30);
-ctx2.lineTo(200,120+i*30);
-ctx2.stroke();
-ctx2.moveTo(800,120+i*30);
-ctx2.lineTo(900,120+i*30);
-ctx2.stroke();
+ctx.beginPath();
+ctx.strokeStyle="gray";
+ctx.moveTo(0,120+i*30);
+ctx.lineTo(200,120+i*30);
+ctx.stroke();
+ctx.moveTo(800,120+i*30);
+ctx.lineTo(900,120+i*30);
+ctx.stroke();
 }
 
 for(let k=0;k<=11;k++){
-ctx2.fillStyle="black";
-ctx2.fillText(engs1[k],220+50*k,60);
-ctx2.fillText(engf1[k],220+50*k,90);
-ctx2.fillText((k%12).toString(12),220+50*k,120);
+ctx.fillStyle="black";
+ctx.fillText(engs1[k],220+50*k,60);
+ctx.fillText(engf1[k],220+50*k,90);
+ctx.fillText((k%12).toString(12),220+50*k,120);
 }
 
 keyrp10_0=[];
 for(let i=0;i<r1.length;i++){
 let [midi, start]=r1[i];
-ctx2.fillStyle=col[midi%12];
-ctx2.fillRect(200+midi%12*50,120+start/eott0*300,50,1);
+ctx.fillStyle=col[midi%12];
+ctx.fillRect(200+midi%12*50,120+start/eott0*300,50,1);
 keyrp10_0.push([midi%12,Math.floor(start/eott0*10)]);
 }
 
-ctx2.fillStyle="black";
-ctx2.fillText("Proportions of keys and the best relative keys in time windows",0,480);
-ctx2.fillText("Major scale",0,510);
-ctx2.fillText("Minor scale",0,540);
-ctx2.fillText("Time%",0,570);
-ctx2.fillText("Measure",90,570);
-ctx2.fillText("Comments",810,570);
-ctx2.fillText("10",28,600);
-ctx2.fillText("20",28,630);
-ctx2.fillText("30",28,660);
-ctx2.fillText("40",28,690);
-ctx2.fillText("50",28,720);
-ctx2.fillText("60",28,750);
-ctx2.fillText("70",28,780);
-ctx2.fillText("80",28,810);
-ctx2.fillText("90",28,840);
-ctx2.fillText("100",14,870);
+ctx.fillStyle="black";
+ctx.fillText("Proportions of keys and the best relative keys in time windows",0,480);
+ctx.fillText("Major scale",0,510);
+ctx.fillText("Minor scale",0,540);
+ctx.fillText("Time%",0,570);
+ctx.fillText("Measure",90,570);
+ctx.fillText("Comments",810,570);
+ctx.fillText("10",28,600);
+ctx.fillText("20",28,630);
+ctx.fillText("30",28,660);
+ctx.fillText("40",28,690);
+ctx.fillText("50",28,720);
+ctx.fillText("60",28,750);
+ctx.fillText("70",28,780);
+ctx.fillText("80",28,810);
+ctx.fillText("90",28,840);
+ctx.fillText("100",14,870);
 
 for(i=0;i<=10;i++){
-ctx2.fillStyle="black";
+ctx.fillStyle="black";
 mslbl0=Math.floor(eott0/ppq/bttl*ntvl/4*i/10);
 if(i>=1 && i<=10){
 	if(mslbl0>=1000){
-		ctx2.fillText(mslbl0,100,570+i*30);
+		ctx.fillText(mslbl0,100,570+i*30);
 	}else if(mslbl0>=100){
-		ctx2.fillText(mslbl0,114,570+i*30);
+		ctx.fillText(mslbl0,114,570+i*30);
 	}else if(mslbl0>=10){
-		ctx2.fillText(mslbl0,128,570+i*30);
+		ctx.fillText(mslbl0,128,570+i*30);
 	}else{
-		ctx2.fillText(mslbl0,142,570+i*30);
+		ctx.fillText(mslbl0,142,570+i*30);
 	}
 }
-ctx2.beginPath();
-ctx2.moveTo(0,570+i*30);
-ctx2.lineTo(1050,570+i*30);
-ctx2.strokeStyle="gray";
-ctx2.stroke();
+ctx.beginPath();
+ctx.moveTo(0,570+i*30);
+ctx.lineTo(1050,570+i*30);
+ctx.strokeStyle="gray";
+ctx.stroke();
 }
 
 for(let k=0;k<=11;k++){
-ctx2.fillStyle="black";
-ctx2.fillText(engf1[k],220+50*k,510);
-ctx2.fillText(engMnr1[(k+9)%12],220+50*k,540);
+ctx.fillStyle="black";
+ctx.fillText(engf1[k],220+50*k,510);
+ctx.fillText(engMnr1[(k+9)%12],220+50*k,540);
 }
 
 keyrp10_1=[];
@@ -5525,13 +5525,13 @@ for(i=0;i<10;i++){
 	for(j=0;j<13;j++){
 	w0=Math.round(keyrp10_1[i][j+1]/keyrp10_1[i][13]*100);
 	if (j===12 && w0===100){
-		ctx2.fillText(w0,810,150+30*i);
+		ctx.fillText(w0,810,150+30*i);
 	}else if(w0===100){
-		ctx2.fillText(w0,200+50*j,150+30*i);
+		ctx.fillText(w0,200+50*j,150+30*i);
 	}else if(w0>=10){
-		ctx2.fillText(w0,214+50*j,150+30*i);
+		ctx.fillText(w0,214+50*j,150+30*i);
 	}else{
-		ctx2.fillText(w0,228+50*j,150+30*i);
+		ctx.fillText(w0,228+50*j,150+30*i);
 	}	
 	}
 }
@@ -5591,69 +5591,69 @@ w1=0;
 for(let i=0;i<10;i++){
 	if(i===keyrp10_3[i][0]){
 		if(keyrp10_3[i][4]>0){
-		ctx2.fillStyle="black";
-		ctx2.fillText(keyrp10_3[i][4]+1+" best pairs",810,600+30*i);
+		ctx.fillStyle="black";
+		ctx.fillText(keyrp10_3[i][4]+1+" best pairs",810,600+30*i);
 		}
 		for(j=0;j<keyrp10_2.length;j++){
 			if(i===keyrp10_2[j][0]){
 				if(keyrp10_3[i][2]===keyrp10_2[j][2]){
-				ctx2.fillStyle=col[keyrp10_2[j][1]];
-				ctx2.fillRect(200+50*keyrp10_2[j][1],570+30*i,50,30);
+				ctx.fillStyle=col[keyrp10_2[j][1]];
+				ctx.fillRect(200+50*keyrp10_2[j][1],570+30*i,50,30);
 				}
-			ctx2.fillStyle="black";
+			ctx.fillStyle="black";
 			w1=Math.round(keyrp10_2[j][2]/keyrp10_2[j][3]*100)
 				if (w1===100){
-				ctx2.fillText(w1,200+50*keyrp10_2[j][1],600+30*i);
+				ctx.fillText(w1,200+50*keyrp10_2[j][1],600+30*i);
 				}else if(w1>=10){
-				ctx2.fillText(w1,214+50*keyrp10_2[j][1],600+30*i);
+				ctx.fillText(w1,214+50*keyrp10_2[j][1],600+30*i);
 				}else{
-				ctx2.fillText(w1,228+50*keyrp10_2[j][1],600+30*i);
+				ctx.fillText(w1,228+50*keyrp10_2[j][1],600+30*i);
 				}
 			}
 		}
 	}
 }
 
-ctx2.fillStyle="black";
-ctx2.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",0,930);
-ctx2.fillText("Time%",0,960);
-ctx2.fillText("Measure",90,960);
-ctx2.fillText("10",28,990);
-ctx2.fillText("20",28,1020);
-ctx2.fillText("30",28,1050);
-ctx2.fillText("40",28,1080);
-ctx2.fillText("50",28,1110);
-ctx2.fillText("60",28,1140);
-ctx2.fillText("70",28,1170);
-ctx2.fillText("80",28,1200);
-ctx2.fillText("90",28,1230);
-ctx2.fillText("100",14,1260);
-ctx2.fillText("Conclusion",0,1290);
-ctx2.fillText("Major 1st+5th",200,960);
-ctx2.fillText("Minor 1st+5th",400,960);
-ctx2.fillText("Major",600,960);
-ctx2.fillText("Minor",700,960);
-ctx2.fillText("Estimated Key",810,960);
+ctx.fillStyle="black";
+ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",0,930);
+ctx.fillText("Time%",0,960);
+ctx.fillText("Measure",90,960);
+ctx.fillText("10",28,990);
+ctx.fillText("20",28,1020);
+ctx.fillText("30",28,1050);
+ctx.fillText("40",28,1080);
+ctx.fillText("50",28,1110);
+ctx.fillText("60",28,1140);
+ctx.fillText("70",28,1170);
+ctx.fillText("80",28,1200);
+ctx.fillText("90",28,1230);
+ctx.fillText("100",14,1260);
+ctx.fillText("Conclusion",0,1290);
+ctx.fillText("Major 1st+5th",200,960);
+ctx.fillText("Minor 1st+5th",400,960);
+ctx.fillText("Major",600,960);
+ctx.fillText("Minor",700,960);
+ctx.fillText("Estimated Key",810,960);
 
 for(i=0;i<=10;i++){
-ctx2.fillStyle="black";
+ctx.fillStyle="black";
 mslbl0=Math.floor(eott0/ppq/bttl*ntvl/4*i/10);
 if(i>=1 && i<=10){
 	if(mslbl0>=1000){
-		ctx2.fillText(mslbl0,100,960+i*30);
+		ctx.fillText(mslbl0,100,960+i*30);
 	}else if(mslbl0>=100){
-		ctx2.fillText(mslbl0,114,960+i*30);
+		ctx.fillText(mslbl0,114,960+i*30);
 	}else if(mslbl0>=10){
-		ctx2.fillText(mslbl0,128,960+i*30);
+		ctx.fillText(mslbl0,128,960+i*30);
 	}else{
-		ctx2.fillText(mslbl0,142,960+i*30);
+		ctx.fillText(mslbl0,142,960+i*30);
 	}
 }
-ctx2.beginPath();
-ctx2.moveTo(0,960+i*30);
-ctx2.lineTo(1050,960+i*30);
-ctx2.strokeStyle="gray";
-ctx2.stroke();
+ctx.beginPath();
+ctx.moveTo(0,960+i*30);
+ctx.lineTo(1050,960+i*30);
+ctx.strokeStyle="gray";
+ctx.stroke();
 }
 
 keyrp10_4=[];
@@ -5675,63 +5675,63 @@ Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1])
 -Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1])
 )/keyrp10_1[j][13]*100).toFixed(2);
 
-ctx2.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[0])%12];
-ctx2.fillRect(200,960+i*30,tfmjr0,30);
-ctx2.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[4])%12];
-ctx2.fillRect(200+tfmjr0,960+i*30,tfmjr7,30);
-ctx2.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[5])%12];
-ctx2.fillRect(400,960+i*30,tfmnr0,30);
-ctx2.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[2])%12];
-ctx2.fillRect(400+tfmnr0,960+i*30,tfmnr7,30);
-ctx2.fillStyle="black";
+ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[0])%12];
+ctx.fillRect(200,960+i*30,tfmjr0,30);
+ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[4])%12];
+ctx.fillRect(200+tfmjr0,960+i*30,tfmjr7,30);
+ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillRect(400,960+i*30,tfmnr0,30);
+ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[2])%12];
+ctx.fillRect(400+tfmnr0,960+i*30,tfmnr7,30);
+ctx.fillStyle="black";
 if(tfmjr0>=10){
-ctx2.fillText(tfmjr0,200,990+i*30);
+ctx.fillText(tfmjr0,200,990+i*30);
 }else{
-ctx2.fillText("  " + tfmjr0,200,990+i*30);
+ctx.fillText("  " + tfmjr0,200,990+i*30);
 }
 if(tfmjr7>=10){
-ctx2.fillText("+" + tfmjr7,230,990+i*30);
+ctx.fillText("+" + tfmjr7,230,990+i*30);
 }else{
-ctx2.fillText("+  " + tfmjr7,230,990+i*30);
+ctx.fillText("+  " + tfmjr7,230,990+i*30);
 }
 if(tfmjr07>=10){
-ctx2.fillText("= " + tfmjr07,280,990+i*30);
+ctx.fillText("= " + tfmjr07,280,990+i*30);
 }else{
-ctx2.fillText("=   " + tfmjr07,280,990+i*30);
+ctx.fillText("=   " + tfmjr07,280,990+i*30);
 }
 if(tfmnr0>=10){
-ctx2.fillText(tfmnr0,400,990+i*30);
+ctx.fillText(tfmnr0,400,990+i*30);
 }else{
-ctx2.fillText("  " + tfmnr0,400,990+i*30);
+ctx.fillText("  " + tfmnr0,400,990+i*30);
 }
 if(tfmnr7>=10){
-ctx2.fillText("+" + tfmnr7,430,990+i*30);
+ctx.fillText("+" + tfmnr7,430,990+i*30);
 }else{
-ctx2.fillText("+  " + tfmnr7,430,990+i*30);
+ctx.fillText("+  " + tfmnr7,430,990+i*30);
 }
 if(tfmnr07>=10){
-ctx2.fillText("= " + tfmnr07,480,990+i*30);
+ctx.fillText("= " + tfmnr07,480,990+i*30);
 }else{
-ctx2.fillText("=   " + tfmnr07,480,990+i*30);
+ctx.fillText("=   " + tfmnr07,480,990+i*30);
 }
 if(tfmjr_mnr>0){
-ctx2.fillStyle=col[keyrp10_3[i][1]];
-ctx2.fillRect(600,960+i*30,tfmjr_mnr,30);	
-ctx2.fillStyle="black";
+ctx.fillStyle=col[keyrp10_3[i][1]];
+ctx.fillRect(600,960+i*30,tfmjr_mnr,30);	
+ctx.fillStyle="black";
 if(tfmjr_mnr>=10){
-ctx2.fillText(tfmjr_mnr,600,990+i*30);
+ctx.fillText(tfmjr_mnr,600,990+i*30);
 }else{
-ctx2.fillText("  " + tfmjr_mnr,600,990+i*30);
+ctx.fillText("  " + tfmjr_mnr,600,990+i*30);
 }
 keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major");
 }else if(tfmjr_mnr<0){
-ctx2.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[5])%12];
-ctx2.fillRect(700,960+i*30,-tfmjr_mnr,30);	
-ctx2.fillStyle="black";
+ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillRect(700,960+i*30,-tfmjr_mnr,30);	
+ctx.fillStyle="black";
 if(-tfmjr_mnr>=10){
-ctx2.fillText(-tfmjr_mnr,700,990+i*30);
+ctx.fillText(-tfmjr_mnr,700,990+i*30);
 }else{
-ctx2.fillText("  " + -tfmjr_mnr,700,990+i*30);
+ctx.fillText("  " + -tfmjr_mnr,700,990+i*30);
 }
 keyrp10_4.push(engMnr1[(keyrp10_3[i][1]+scaleMjr0[5])%12] + " minor");
 }else if(tfmjr_mnr==0){
@@ -5742,16 +5742,16 @@ keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major/" + engMnr1[(keyrp10_3[i][1]+sca
 }//for(i=0;i<keyrp10_3.length;i++){
 
 //multiple best relative scales
-ctx2.fillStyle="black";
+ctx.fillStyle="black";
 for(i=0;i<10;i++){
 	if(i>0 && keyrp10_4[i].includes("/") && keyrp10_4[i].includes(keyrp10_4[i-1]) && keyrp10_4[i]!=keyrp10_4[i-1]){
 	keyrp10_4.splice(i,1,keyrp10_4[i-1]);			
-	ctx2.fillText(keyrp10_4[i-1],810,960+(i+1)*30);
+	ctx.fillText(keyrp10_4[i-1],810,960+(i+1)*30);
 	}else if(i<9 && keyrp10_4[i].includes("/") && keyrp10_4[i].includes(keyrp10_4[i+1]) && keyrp10_4[i]!=keyrp10_4[i+1]){
 	keyrp10_4.splice(i,1,keyrp10_4[i+1]);	
-	ctx2.fillText(keyrp10_4[i+1],810,960+(i+1)*30);
+	ctx.fillText(keyrp10_4[i+1],810,960+(i+1)*30);
 	}else if(keyrp10_3[i][4]===0){
-	ctx2.fillText(keyrp10_4[i],810,960+(i+1)*30);
+	ctx.fillText(keyrp10_4[i],810,960+(i+1)*30);
 	}
 }
 
@@ -5770,9 +5770,9 @@ keyrp10_5.push([keyrp10_4[i],keyrp10_5[i-1][1]+1]);
 }//for(i=0;i<keyrp10_4.length;i++){
 keyrp10_5.sort(function( m, n){return n[1] - m[1];});
 if(keyrp10_5[0][1]>keyrp10_5[1][1]){
-ctx2.fillText(keyrp10_5[0][0] ,810,960+(11)*30);
+ctx.fillText(keyrp10_5[0][0] ,810,960+(11)*30);
 }else{
-ctx2.fillText("Unidentified" ,810,960+(11)*30);
+ctx.fillText("Unidentified" ,810,960+(11)*30);
 }
 }
 
