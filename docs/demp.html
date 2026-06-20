@@ -380,6 +380,11 @@ demp
     value="#800000"
 	onchange = "setColor()";
     style="width:50px">
+<br>
+	<input
+    type="button"
+    value="Reset Colors"
+    onclick="resetColor()">
 
 <input type="button"
        value="← Back"
@@ -1480,6 +1485,8 @@ function setColor(){
 
     }
 
+    saveColor();
+ 
     selview1(); // 再描画
 
 }
@@ -1533,6 +1540,37 @@ function saveColor(){
         "col3",
         JSON.stringify(col3)
     );
+
+}
+
+function loadSavedColor(){
+
+    let tmp;
+
+    tmp = localStorage.getItem("col");
+    if(tmp){
+        col = JSON.parse(tmp);
+    }
+
+    tmp = localStorage.getItem("col2");
+    if(tmp){
+        col2 = JSON.parse(tmp);
+    }
+
+    tmp = localStorage.getItem("col3");
+    if(tmp){
+        col3 = JSON.parse(tmp);
+    }
+
+}
+
+function resetColor(){
+
+    localStorage.removeItem("col");
+    localStorage.removeItem("col2");
+    localStorage.removeItem("col3");
+
+    location.reload();
 
 }
 
