@@ -1455,23 +1455,22 @@ function setColor(){
         ).value;
 
     }
+	
+	// Pitch Class色    
+	const pcIds = [
+		"0","1","2","3","4","5",
+		"6","7","8","9","a","b"
+	];
 
-    // Pitch Class色
-    for(let i = 0; i < 12; i++){
+	for(let i = 0; i < 12; i++){
 
-        let id = (
-            i < 10
-            ? "x_pc_" + i
-            : "x_pc_" + String.fromCharCode(87 + i)
-        );
+		col[i] = document.getElementById(
+			"x_pc_" + pcIds[i]
+		).value;
 
-        col[i] = document.getElementById(
-            id
-        ).value;
+	}
 
-    }
-
-    // その他
+	// その他
     scoreRhColor = document.getElementById(
         "x_score_rh"
     ).value;
