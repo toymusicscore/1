@@ -733,7 +733,8 @@ let rightTrack;
 let rightChannel;
 let leftTrack;
 let leftChannel;
-
+const rightHandColor = col3[0];
+const leftHandColor  = col3[1];
 
 window.onload = function(){
 
@@ -2323,7 +2324,6 @@ function lineScore(tick){
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
 	let scoreTemp;
-	let gt;
 
 	if (document.form1.hands.options[0].selected==true) {
 		scoreTemp = scoreData;
@@ -2418,10 +2418,10 @@ function lineScore(tick){
 		let handColor = col[midi % 12];
 
 		if(track == rightTrack && channel == rightChannel){
-			handColor = col3[0];
+			handColor = rightHandColor;
 		}
 		else if(track == leftTrack && channel == leftChannel){
-			handColor = col3[1];
+			handColor = leftHandColor;
 		}
 		if (dp >=0 && dt < ht1*3/4){
 			const x0 = (midi-midi_min)*kw+mx;
