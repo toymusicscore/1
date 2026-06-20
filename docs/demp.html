@@ -2323,6 +2323,7 @@ function lineScore(tick){
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
 	let scoreTemp;
+	let gt;
 
 	if (document.form1.hands.options[0].selected==true) {
 		scoreTemp = scoreData;
@@ -2340,7 +2341,7 @@ function lineScore(tick){
 
 	let kn=Number(midi_max)-Number(midi_min)+1;
 	let kw=szk/kn;
-	for(l=0;l<Number(kn);l++){
+	for(let l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
 		ctx.fillStyle=col2[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*kw,0,kw,my/2);
@@ -2415,7 +2416,7 @@ function lineScore(tick){
 			gt=stop-start;
 		}
 
-		let handColor;
+		let handColor = col[midi % 12];
 
 		if(track == rightTrack){
 			handColor = col3[0];
@@ -2432,7 +2433,6 @@ function lineScore(tick){
 			ctx.beginPath();
 			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
-			ctx.fill();
 			ctx.fill();
 			getLabel(midi, n_id);
 			ctx.fillStyle="black";
