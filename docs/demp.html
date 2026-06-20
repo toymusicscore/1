@@ -38,6 +38,11 @@ demp
     value="⚙ Settings"
     onclick="showSetting()">
 </div>
+<input
+    type="button"
+    value="⚙ Colors"
+    onclick="showColor()">
+</div>
 <div id="settingPage"
      style="display:none">
 	 
@@ -180,6 +185,174 @@ demp
 <input type="button"
        value="← Back"
        onclick="showMain()">
+</div>
+
+<div id="colorPage"
+     style="display:none">
+
+<label style="font-size:70%">Oct 0</label>
+<input
+    type="text"
+    id="x_oct_0"
+    value="#ffffff"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">Oct 1</label>
+<input
+    type="text"
+    id="x_oct_1"
+    value="#ff0000"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">Oct 2</label>
+<input
+    type="text"
+    id="x_oct_2"
+    value="#ff7f00"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">Oct 3</label>
+<input
+    type="text"
+    id="x_oct_3"
+    value="#ffff00"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">Oct 4</label>
+<input
+    type="text"
+    id="x_oct_4"
+    value="#00ff00"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">Oct 5</label>
+<input
+    type="text"
+    id="x_oct_5"
+    value="#00ffff"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">Oct 6</label>
+<input
+    type="text"
+    id="x_oct_6"
+    value="#ff00ff"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">Oct 7</label>
+<input
+    type="text"
+    id="x_oct_7"
+    value="#ff007f"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 0</label>
+<input
+    type="text"
+    id="x_pc_0"
+    value="#ff0000"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 1</label>
+<input
+    type="text"
+    id="x_pc_1"
+    value="#ff7f00"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 2</label>
+<input
+    type="text"
+    id="x_pc_2"
+    value="#ffff00"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 3</label>
+<input
+    type="text"
+    id="x_pc_3"
+    value="#ccff00"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 4</label>
+<input
+    type="text"
+    id="x_pc_4"
+    value="#00cc00"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 5</label>
+<input
+    type="text"
+    id="x_pc_5"
+    value="#00ff7f"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 6</label>
+<input
+    type="text"
+    id="x_pc_6"
+    value="#00ffff"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 7</label>
+<input
+    type="text"
+    id="x_pc_7"
+    value="#007fff"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 8</label>
+<input
+    type="text"
+    id="x_pc_8"
+    value="#0000ff"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC 9</label>
+<input
+    type="text"
+    id="x_pc_9"
+    value="#7f00ff"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC a</label>
+<input
+    type="text"
+    id="x_pc_a"
+    value="#ff00ff"
+	onchange = setColor();
+    style="width:40px">
+
+<label style="font-size:70%">PC b</label>
+<input
+    type="text"
+    id="x_pc_b"
+    value="#cc00cc"
+	onchange = setColor();
+    style="width:40px">
+<input type="button"
+       value="← Back"
+       onclick="showMain()">
+
 </div>
 </form>
 <canvas
@@ -1248,6 +1421,24 @@ function showSetting(){
     document.getElementById(
         "settingPage"
     ).style.display = "block";
+
+    document.getElementById(
+        "colorPage"
+    ).style.display = "none";
+}
+
+function showColor(){
+    document.getElementById(
+        "mainrPage"
+    ).style.display = "none";
+
+    document.getElementById(
+        "settingPage"
+    ).style.display = "none";
+
+	document.getElementById(
+        "colorPage"
+    ).style.display = "block";
 }
 
 function showMain(){
@@ -1257,6 +1448,10 @@ function showMain(){
 
     document.getElementById(
         "settingPage"
+    ).style.display = "none";
+
+    document.getElementById(
+        "colorPage"
     ).style.display = "none";
 }
 
