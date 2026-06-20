@@ -579,8 +579,6 @@ let ch_max=-1;
 let ch_num=0;
 let ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
 
-let x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
-let x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
 let x_ch3=0;
 let chr=[];
 let ch0=0;
@@ -1786,7 +1784,7 @@ function stopRecord(){
     });
 
     console.log(recordData);
-
+/*
 	const scoreRight =
 		r1.filter(
 			n => n.channel == x_chR
@@ -1796,7 +1794,7 @@ function stopRecord(){
 		r1.filter(
 			n => n.channel == x_chL
 		);
-
+*/
 	hands =
 		assignHands(
 			recordData,
@@ -2413,8 +2411,8 @@ function lineScore(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_chR) || 
-			(document.form1.hands.options[2].selected==true && channel==x_chL)){
+			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
+			(document.form1.hands.options[2].selected==true && channel==leftCahannel)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-2*my)/ht1);
 				ctx.beginPath();
@@ -2544,8 +2542,8 @@ function lineRecord(tick){
 				continue;
 			}			
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_chR) || 
-			(document.form1.hands.options[2].selected==true && channel==x_chL)){
+			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
+			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
 				ctx.beginPath();
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
@@ -2898,8 +2896,8 @@ function scrollScore(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+dt*(szy-my)/ht1;
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_chR) || 
-			(document.form1.hands.options[2].selected==true && channel==x_chL)){
+			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
+			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
@@ -3001,8 +2999,8 @@ function scrollRecord(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+dt*(szy-my)/ht1;
 			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==x_chR) || 
-			(document.form1.hands.options[2].selected==true && channel==x_chL)){
+			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
+			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
