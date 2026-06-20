@@ -323,7 +323,7 @@ demp
 <input
     type="text"
     id="x_hand_0"
-    value="#ffcccc"
+    value="#ff99cc"
 	onchange = "setColor()";
     style="width:50px">
 
@@ -339,7 +339,7 @@ demp
 <input
     type="text"
     id="x_hand_2"
-    value="#800000"
+    value="#9999ff"
 	onchange = "setColor()";
     style="width:50px">
 <br>
@@ -379,7 +379,7 @@ const col=["#ff0000","#ff7f00","#ffff00","#ccff00","#00cc00","#00ff7f","#00ffff"
 const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
 //const col3=["#ffffff","#ffcccc","#ffffcc","#ccffcc","#ccffff","#ccccff","#ffccff","#ff9999","#ffcc99","#ffff99","#ccff99","#99ff99","#99ffcc","#99ffff","#99ccff","#9999ff","#cc99ff","#ff99ff","#00ffff","#ff99cc"];
 //const col3=["#ffcccc","#ffcc00","#ccffcc","#ccffff","#ccccff","#ffccff","#ff9999","#ffcc99","#ffff99","#ccff99","#99ff99","#99ffcc","#99ffff","#99ccff","#9999ff","#cc99ff","#ff99ff","#00ffff","#ff99cc"];
-const col3=["#ffcccc","#ffcc00","#9999ff"];
+const col3=["#ff99cc","#ffcc00","#9999ff"];
 const drms1=["Do","Di","Re","Ri","Mi","Fa","Fi","Sol","Si","La","Li","Ti"];
 const drmf1=["Do","Ra","Re","Me","Mi","Fa","Se","Sol","Le","La","Te","Ti"];
 const engs1=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
@@ -5309,8 +5309,16 @@ function trackChannelInfo(){
 		const y =
 			30*(i+1)+50;
 
-		ctx.fillStyle =
-			col3[row.channel];
+		let handColor = "#ffffff";
+
+		if(row.track == rightTrack && row.channel == rightChannel){
+			handColor = col3[0];
+		}
+		else if(row.track == leftTrack && row.channel == leftChannel){
+			handColor = col3[1];
+		}
+		
+		ctx.fillStyle = handColor;
 
 		ctx.beginPath();
 		ctx.arc(
@@ -5359,69 +5367,6 @@ function trackChannelInfo(){
 	});
 }
 
-function channelInfo(){
-	ctx.font="25px Arial";
-	ctx.fillStyle="black";
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-
-	ctx.fillText("Color",100,50);
-	ctx.fillText("Channel",200,50);
-	ctx.fillText("Avg MIDI Note Num",350,50);
-	ctx.fillText("Instrument",600,50);
-
-	let channelSum = [];
-	let channelCount = [];
-	let channelAvg = [];
-
-	for (let i = 0; i < r1.length; i++) {
-
-		let pitch = Number(r1[i].midi);
-		let ch = Number(r1[i].channel);
-
-		if(channelSum[ch] === undefined){
-			channelSum[ch] = 0;
-			channelCount[ch] = 0;
-		}
-
-		channelSum[ch] += pitch;
-		channelCount[ch] += 1;
-	}
-
-	for (let ch = 0; ch < channelSum.length; ch++) {
-		if (channelCount[ch] > 0) {
-			channelAvg[ch] = channelSum[ch] / channelCount[ch];
-		}
-	}
-
-	for(let i=0;i<=ch_max;i++){
-
-		let [channel,instNumber]=r6[i];
-		let instrument=instName[instNumber];
-
-		ctx.fillStyle=col3[channel];
-		ctx.beginPath();
-		ctx.arc(110,30*(i+1)+40,10,0,2*Math.PI,false);
-		ctx.fill();
-
-		ctx.fillStyle="black";
-
-		if(channel===10){
-			ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
-			ctx.fillText("Percussion",600,30*(i+1)+50);
-		}else{
-			ctx.fillText(Number(channel)+1,200,30*(i+1)+50);
-			ctx.fillText(instrument,600,30*(i+1)+50);
-		}
-
-		ctx.fillText(
-			channelAvg[channel] !== undefined
-				? channelAvg[channel].toFixed(1)
-				: "-",
-			350,
-			30*(i+1)+50
-		);
-	}
-}
 
 function selview1(){
 
