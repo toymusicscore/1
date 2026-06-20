@@ -2457,14 +2457,18 @@ function lineRecord(tick){
 	szy = canvas.height-my;
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
+	let scoreTemp;
 
 	if (document.form1.hands.options[0].selected==true) {
+		scoreTemp = scoreData;
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
-	}else if (document.form1.hands.options[1].selected==true) {
+	} else if (document.form1.hands.options[1].selected==true){
+		scoreTemp = scoreRight;
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
-	} else if (document.form1.hands.options[2].selected==true){
+	}else if (document.form1.hands.options[2].selected==true) {
+		scoreTemp = scoreLeft;
 		midi_max=midi_max_l;
 		midi_min=midi_min_l;
 	}
@@ -2543,37 +2547,41 @@ function lineRecord(tick){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
-			
 			const gt =
 				stop >= tick + ht1*bttl*ppq/ntvl*3
 				? tick + ht1*bttl*ppq/ntvl*3 - start
 				: stop - start;
-				
+
+			let handColor = col[midi % 12];
+
+			if(track == rightTrack && channel == rightChannel){
+				handColor = rightHandColor;
+			}
+			else if(track == leftTrack && channel == leftChannel){
+				handColor = leftHandColor;
+			}
+					
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}			
-			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
-			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
-				ctx.beginPath();
-				ctx.fillStyle=col[midi%12];
-				ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
-				ctx.beginPath();
-				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
-				ctx.fillStyle=col3[channel];
-				ctx.fill();
-				getLabel(midi, n_id);
-				ctx.fillStyle="black";
-				ctx.font="20px Arial";
-				if (nl!=""){
-				ctx.fillText(nl, x0+3, y+7);
-				}
-				if (nll!=""){
-				ctx.fillText(nll, mx, y);
-				}
-				if (nlr!=""){
-				ctx.fillText(nlr, mx+szk, y);
-				}
+			ctx.beginPath();
+			ctx.fillStyle=col[midi%12];
+			ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
+			ctx.beginPath();
+			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+			ctx.fillStyle = handColor;
+			ctx.fill();
+			getLabel(midi, n_id);
+			ctx.fillStyle="black";
+			ctx.font="20px Arial";
+			if (nl!=""){
+			ctx.fillText(nl, x0+3, y+7);
+			}
+			if (nll!=""){
+			ctx.fillText(nll, mx, y);
+			}
+			if (nlr!=""){
+			ctx.fillText(nlr, mx+szk, y);
 			}
 		}
 	}
@@ -2593,18 +2601,16 @@ function lineRecord(tick){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
-
-			if (stop>=tick+ht1*bttl*ppq/ntvl*3){
-				gt=tick+ht1*bttl*ppq/ntvl*3-start;
-			}else{
-				gt=stop-start;
-			}
+			const gt =
+				stop >= tick + ht1*bttl*ppq/ntvl*3
+				? tick + ht1*bttl*ppq/ntvl*3 - start
+				: stop - start;
 
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}
 			ctx.beginPath();
-			ctx.fillStyle = "brown";			
+			ctx.fillStyle = recoredHandColor;			
 			ctx.fillRect(
 				x0 + kw/4,
 				y,
@@ -2613,7 +2619,7 @@ function lineRecord(tick){
 			);
 
 			ctx.beginPath();
-			ctx.fillStyle="brown";
+			ctx.fillStyle = recoredHandColor;
 			ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
