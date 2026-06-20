@@ -5435,7 +5435,7 @@ keyrp10_0=[];
 	for(let i=0;i<scoreData.length;i++){
 		let midi = scoreData[i].midi;
 		let start = scoreData[i].start;
-		ctx.fillStyle=col[midi%12];
+		ctx.fillStyle=col2[midi%12];
 		ctx.fillRect(200+midi%12*50,120+start/eott0*300,50,1);
 		keyrp10_0.push([midi%12,Math.floor(start/eott0*10)]);
 		}
@@ -5599,7 +5599,7 @@ for(let i=0;i<10;i++){
 		for(j=0;j<keyrp10_2.length;j++){
 			if(i===keyrp10_2[j][0]){
 				if(keyrp10_3[i][2]===keyrp10_2[j][2]){
-				ctx.fillStyle=col[keyrp10_2[j][1]];
+				ctx.fillStyle=col2[keyrp10_2[j][1]];
 				ctx.fillRect(200+50*keyrp10_2[j][1],570+30*i,50,30);
 				}
 			ctx.fillStyle="black";
@@ -5677,13 +5677,13 @@ Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1])
 -Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1])
 )/keyrp10_1[j][13]*100).toFixed(2);
 
-ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[0])%12];
+ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[0])%12];
 ctx.fillRect(200,960+i*30,tfmjr0,30);
-ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[4])%12];
+ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[4])%12];
 ctx.fillRect(200+tfmjr0,960+i*30,tfmjr7,30);
-ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[5])%12];
 ctx.fillRect(400,960+i*30,tfmnr0,30);
-ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[2])%12];
+ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[2])%12];
 ctx.fillRect(400+tfmnr0,960+i*30,tfmnr7,30);
 ctx.fillStyle="black";
 if(tfmjr0>=10){
@@ -5717,7 +5717,7 @@ ctx.fillText("= " + tfmnr07,480,990+i*30);
 ctx.fillText("=   " + tfmnr07,480,990+i*30);
 }
 if(tfmjr_mnr>0){
-ctx.fillStyle=col[keyrp10_3[i][1]];
+ctx.fillStyle=col2[keyrp10_3[i][1]];
 ctx.fillRect(600,960+i*30,tfmjr_mnr,30);	
 ctx.fillStyle="black";
 if(tfmjr_mnr>=10){
@@ -5727,7 +5727,7 @@ ctx.fillText("  " + tfmjr_mnr,600,990+i*30);
 }
 keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major");
 }else if(tfmjr_mnr<0){
-ctx.fillStyle=col[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[5])%12];
 ctx.fillRect(700,960+i*30,-tfmjr_mnr,30);	
 ctx.fillStyle="black";
 if(-tfmjr_mnr>=10){
