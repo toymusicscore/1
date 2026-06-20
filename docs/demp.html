@@ -729,6 +729,11 @@ let scoreLeft =[];
 let pairs = [];
 let localFiles = null;
 let rawMidi;
+let rightTrack;
+let rightChannel;
+let leftTrack;
+let leftChannel;
+
 
 window.onload = function(){
 
@@ -1013,33 +1018,33 @@ function setMidi(data1){
 
 	});
 
-let rightTrack =
-    Number(
-        document.getElementById(
-            "x_rightTrack"
-        ).value
-    );
+	rightTrack =
+		Number(
+			document.getElementById(
+				"x_rightTrack"
+			).value
+		);
 
-let rightChannel =
-    Number(
-        document.getElementById(
-            "x_rightChannel"
-        ).value - 1
-    );
+	rightChannel =
+		Number(
+			document.getElementById(
+				"x_rightChannel"
+			).value - 1
+		);
 
-let leftTrack =
-    Number(
-        document.getElementById(
-            "x_leftTrack"
-        ).value
-    );
-	
-let leftChannel =
-    Number(
-        document.getElementById(
-            "x_leftChannel"
-        ).value - 1
-    );
+	leftTrack =
+		Number(
+			document.getElementById(
+				"x_leftTrack"
+			).value
+		);
+		
+	leftChannel =
+		Number(
+			document.getElementById(
+				"x_leftChannel"
+			).value - 1
+		);
 	
 	scoreRight =
 		scoreData.filter(
