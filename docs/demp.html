@@ -2410,18 +2410,17 @@ function lineScore(tick){
 		let n_id = scoreTemp[i].n_id;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-		if (stop>=tick+ht1*bttl*ppq/ntvl*3){
-			gt=tick+ht1*bttl*ppq/ntvl*3-start;
-		}else{
-			gt=stop-start;
-		}
+		const gt =
+			stop >= tick + ht1*bttl*ppq/ntvl*3
+			? tick + ht1*bttl*ppq/ntvl*3 - start
+			: stop - start;
 
 		let handColor = col[midi % 12];
 
-		if(track == rightTrack){
+		if(track == rightTrack && channel == rightChannel){
 			handColor = col3[0];
 		}
-		else if(track == leftTrack){
+		else if(track == leftTrack && channel == leftChannel){
 			handColor = col3[1];
 		}
 		if (dp >=0 && dt < ht1*3/4){
@@ -2544,14 +2543,11 @@ function lineRecord(tick){
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			
-			let gt;
-
-			if (stop>=tick+ht1*bttl*ppq/ntvl*3){
-				gt=tick+ht1*bttl*ppq/ntvl*3-start;
-			}else{
-				gt=stop-start;
-			}
-
+			const gt =
+				stop >= tick + ht1*bttl*ppq/ntvl*3
+				? tick + ht1*bttl*ppq/ntvl*3 - start
+				: stop - start;
+				
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}			
