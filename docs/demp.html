@@ -5432,9 +5432,9 @@ ctx.fillText((k%12).toString(12),220+50*k,120);
 
 keyrp10_0=[];
 
-	for(let i=0;i<scoreViewData.length;i++){
-		let midi = scoreViewData[i].midi;
-		let start = scoreViewData[i].start;
+	for(let i=0;i<scoreData.length;i++){
+		let midi = scoreData[i].midi;
+		let start = scoreData[i].start;
 		ctx.fillStyle=col[midi%12];
 		ctx.fillRect(200+midi%12*50,120+start/eott0*300,50,1);
 		keyrp10_0.push([midi%12,Math.floor(start/eott0*10)]);
