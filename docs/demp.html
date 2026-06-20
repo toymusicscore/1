@@ -1447,6 +1447,45 @@ function changeSong(){
 
 function setColor(){
 
+    // Octave色
+    for(let i = 0; i < 9; i++){
+
+        col2[i] = document.getElementById(
+            "x_oct_" + i
+        ).value;
+
+    }
+
+    // Pitch Class色
+    for(let i = 0; i < 12; i++){
+
+        let id = (
+            i < 10
+            ? "x_pc_" + i
+            : "x_pc_" + String.fromCharCode(87 + i)
+        );
+
+        col[i] = document.getElementById(
+            id
+        ).value;
+
+    }
+
+    // その他
+    scoreRhColor = document.getElementById(
+        "x_score_rh"
+    ).value;
+
+    scoreLhColor = document.getElementById(
+        "x_score_lh"
+    ).value;
+
+    recordBhColor = document.getElementById(
+        "x_record_bh"
+    ).value;
+
+    selview1(); // 再描画
+
 }
 
 function showSetting(){
