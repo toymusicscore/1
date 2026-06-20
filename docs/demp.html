@@ -733,9 +733,6 @@ let rightTrack;
 let rightChannel;
 let leftTrack;
 let leftChannel;
-let rightHandColor = col3[0];
-let leftHandColor  = col3[1];
-let recordHandColor  = col3[2];
 
 window.onload = function(){
 
@@ -2324,18 +2321,18 @@ function lineScore(tick){
 	szy = canvas.height-my;
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
-	let scoreTemp;
+	let scoreViewData;
 
 	if (document.form1.hands.options[0].selected==true) {
-		scoreTemp = scoreData;
+		scoreViewData = scoreData;
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
 	} else if (document.form1.hands.options[1].selected==true){
-		scoreTemp = scoreRight;
+		scoreViewData = scoreRight;
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
 	}else if (document.form1.hands.options[2].selected==true) {
-		scoreTemp = scoreLeft;
+		scoreViewData = scoreLeft;
 		midi_max=midi_max_l;
 		midi_min=midi_min_l;
 	}
@@ -2402,13 +2399,13 @@ function lineScore(tick){
 		}
 	}
 
-	for(let i=0;i<scoreTemp.length;i++){
-		let midi = scoreTemp[i].midi;
-		let start = scoreTemp[i].start;
-		let stop = scoreTemp[i].stop;
-		let track = scoreTemp[i].track;
-		let channel = scoreTemp[i].channel;
-		let n_id = scoreTemp[i].n_id;
+	for(let i=0;i<scoreViewData.length;i++){
+		let midi = scoreViewData[i].midi;
+		let start = scoreViewData[i].start;
+		let stop = scoreViewData[i].stop;
+		let track = scoreViewData[i].track;
+		let channel = scoreViewData[i].channel;
+		let n_id = scoreViewData[i].n_id;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		const gt =
@@ -2419,10 +2416,10 @@ function lineScore(tick){
 		let handColor = col[midi % 12];
 
 		if(track == rightTrack && channel == rightChannel){
-			handColor = rightHandColor;
+			handColor = col3[0];
 		}
 		else if(track == leftTrack && channel == leftChannel){
-			handColor = leftHandColor;
+			handColor = col3[1];
 		}
 		if (dp >=0 && dt < ht1*3/4){
 			const x0 = (midi-midi_min)*kw+mx;
@@ -2457,18 +2454,18 @@ function lineRecord(tick){
 	szy = canvas.height-my;
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
-	let scoreTemp;
+	let scoreViewData;
 
 	if (document.form1.hands.options[0].selected==true) {
-		scoreTemp = scoreData;
+		scoreViewData = scoreData;
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
 	} else if (document.form1.hands.options[1].selected==true){
-		scoreTemp = scoreRight;
+		scoreViewData = scoreRight;
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
 	}else if (document.form1.hands.options[2].selected==true) {
-		scoreTemp = scoreLeft;
+		scoreViewData = scoreLeft;
 		midi_max=midi_max_l;
 		midi_min=midi_min_l;
 	}
@@ -2535,13 +2532,13 @@ function lineRecord(tick){
 		}
 	}
 
-	for(let i=0;i<scoreTemp.length;i++){
-		let midi = scoreTemp[i].midi;
-		let start = scoreTemp[i].start;
-		let stop = scoreTemp[i].stop;
-		let track = scoreTemp[i].track;
-		let channel = scoreTemp[i].channel;
-		let n_id = scoreTemp[i].n_id;
+	for(let i=0;i<scoreViewData.length;i++){
+		let midi = scoreViewData[i].midi;
+		let start = scoreViewData[i].start;
+		let stop = scoreViewData[i].stop;
+		let track = scoreViewData[i].track;
+		let channel = scoreViewData[i].channel;
+		let n_id = scoreViewData[i].n_id;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		if (dp > 0 && dt < ht1*3/4){
@@ -2556,10 +2553,10 @@ function lineRecord(tick){
 			let handColor = col[midi % 12];
 
 			if(track == rightTrack && channel == rightChannel){
-				handColor = rightHandColor;
+				handColor = col3[0];
 			}
 			else if(track == leftTrack && channel == leftChannel){
-				handColor = leftHandColor;
+				handColor = col3[1];
 			}
 					
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
@@ -2611,7 +2608,7 @@ function lineRecord(tick){
 				continue;
 			}
 			ctx.beginPath();
-			ctx.fillStyle = recordHandColor;			
+			ctx.fillStyle = col3[2];			
 			ctx.fillRect(
 				x0 + kw/4,
 				y,
@@ -2620,7 +2617,7 @@ function lineRecord(tick){
 			);
 
 			ctx.beginPath();
-			ctx.fillStyle = recordHandColor;
+			ctx.fillStyle = col3[2];
 			ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
