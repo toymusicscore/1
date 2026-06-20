@@ -382,10 +382,10 @@ canvas.style.touchAction = 'none';
 const ctx=canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-//const col=["#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#ff007f"];
-const col=["#ff3333","#ff6600","#ffcc00","#99cc00","#00cc00","#00cc99","#33ffff","#0099ff","#3333ff","#6600ff","#ff33ff","#ff0099"];
-//const col2=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
-const col2=["#ffffff","#ff3333","#ff6600","#ffcc00","#00cc00","#00ffff","#3333ff","#ff33ff","#ff0099"];
+//const col1=["#ffffff","#ff0000","#ff7f00","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff007f"];
+const col1=["#ffffff","#ff3333","#ff6600","#ffcc00","#00cc00","#00ffff","#3333ff","#ff33ff","#ff0099"];
+//const col2=["#ff0000","#ff7f00","#ffff00","#7fff00","#00ff00","#00ff7f","#00ffff","#007fff","#0000ff","#7f00ff","#ff00ff","#ff007f"];
+const col2=["#ff3333","#ff6600","#ffcc00","#99cc00","#00cc00","#00cc99","#33ffff","#0099ff","#3333ff","#6600ff","#ff33ff","#ff0099"];
 const col3=["#ffcccc","#ffcc00","#9966ff","#ffffff"];
 const drms1=["Do","Di","Re","Ri","Mi","Fa","Fi","Sol","Si","La","Li","Ti"];
 const drmf1=["Do","Ra","Re","Me","Mi","Fa","Se","Sol","Le","La","Te","Ti"];
@@ -1434,7 +1434,7 @@ function setColor(){
     // Octave色
     for(let i = 0; i < 9; i++){
 
-        col2[i] = document.getElementById(
+        col1[i] = document.getElementById(
             "x_oct_" + i
         ).value;
 
@@ -1448,7 +1448,7 @@ function setColor(){
 
 	for(let i = 0; i < 12; i++){
 
-		col[i] = document.getElementById(
+		col2[i] = document.getElementById(
 			"x_pc_" + pcIds[i]
 		).value;
 
@@ -1475,7 +1475,7 @@ function loadColor(){
 
         document.getElementById(
             "x_oct_" + i
-        ).value = col2[i];
+        ).value = col1[i];
 
     }
 
@@ -1488,7 +1488,7 @@ function loadColor(){
 
         document.getElementById(
             "x_pc_" + pcIds[i]
-        ).value = col[i];
+        ).value = col2[i];
 
     }
 
@@ -1505,8 +1505,8 @@ function loadColor(){
 function saveColor(){
 
     localStorage.setItem(
-        "col",
-        JSON.stringify(col)
+        "col1",
+        JSON.stringify(col1)
     );
 
     localStorage.setItem(
@@ -1525,9 +1525,9 @@ function loadSavedColor(){
 
     let tmp;
 
-    tmp = localStorage.getItem("col");
+    tmp = localStorage.getItem("col1");
     if(tmp){
-        col = JSON.parse(tmp);
+        col1 = JSON.parse(tmp);
     }
 
     tmp = localStorage.getItem("col2");
@@ -1544,7 +1544,7 @@ function loadSavedColor(){
 
 function resetColor(){
 
-    localStorage.removeItem("col");
+    localStorage.removeItem("col1");
     localStorage.removeItem("col2");
     localStorage.removeItem("col3");
 
@@ -2348,9 +2348,9 @@ function lineScore(tick){
 	let kw=szk/kn;
 	for(let l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
-		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillStyle=col1[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*kw,0,kw,my/2);
-		ctx.fillStyle=col[k%12];
+		ctx.fillStyle=col2[k%12];
 		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
@@ -2432,7 +2432,7 @@ function lineScore(tick){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
-			ctx.fillStyle=col[midi%12];
+			ctx.fillStyle=col2[midi%12];
 			ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-2*my)/ht1);
 			ctx.beginPath();
 			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
@@ -2481,9 +2481,9 @@ function lineRecord(tick){
 	let kw=szk/kn;
 	for(let l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
-		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillStyle=col1[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*kw,0,kw,my/2);
-		ctx.fillStyle=col[k%12];
+		ctx.fillStyle=col2[k%12];
 		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
@@ -2570,7 +2570,7 @@ function lineRecord(tick){
 				continue;
 			}			
 			ctx.beginPath();
-			ctx.fillStyle=col[midi%12];
+			ctx.fillStyle=col2[midi%12];
 			ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
 			ctx.beginPath();
 			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
@@ -2861,9 +2861,9 @@ function scrollScore(tick){
 	let kw=szk/kn;
 	for(l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
-		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillStyle=col1[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*kw,0,kw,my/2);
-		ctx.fillStyle=col[k%12];
+		ctx.fillStyle=col2[k%12];
 		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
@@ -2920,7 +2920,7 @@ function scrollScore(tick){
 			if((document.form1.hands.options[0].selected==true ) || 
 			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
 			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
-				ctx.fillStyle=col[midi%12];
+				ctx.fillStyle=col2[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
 				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
@@ -2964,9 +2964,9 @@ function scrollRecord(tick){
 	let kw=szk/kn;
 	for(l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
-		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillStyle=col1[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*kw,0,kw,my/2);
-		ctx.fillStyle=col[k%12];
+		ctx.fillStyle=col2[k%12];
 		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
@@ -3023,7 +3023,7 @@ function scrollRecord(tick){
 			if((document.form1.hands.options[0].selected==true ) || 
 			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
 			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
-				ctx.fillStyle=col[midi%12];
+				ctx.fillStyle=col2[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
 				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
@@ -4688,7 +4688,7 @@ function keyLabel(){
 
 	ctx.lineWidth=1;
 	for(let k=22;k<=107;k++){
-		ctx.fillStyle=col2[Math.floor(k/12)-1];
+		ctx.fillStyle=col1[Math.floor(k/12)-1];
 		ctx.fillRect((k-Math.floor(k/12)*12)*kw,(Math.floor(k/12)*2-2)*cl+10,kw,cl);
 		if (k%12===0) {
 			ctx.beginPath();
@@ -4699,7 +4699,7 @@ function keyLabel(){
 			ctx.fillText(Math.floor((k-12)/12), (k-Math.floor(k/12)*12)*kw+30,(Math.floor(k/12)*2-2)*cl+40);
 		}
 		if(k%12<=4){
-			ctx.fillStyle=col[k%12];
+			ctx.fillStyle=col2[k%12];
 			ctx.fillRect((k-Math.floor(k/12)*12)*kw0,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
 			ctx.beginPath();
 			ctx.arc((k-Math.floor(k/12)*12)*kw0+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4708,7 +4708,7 @@ function keyLabel(){
 			ctx.fillStyle="black";
 			ctx.fillText(k%12, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
 		}else{
-			ctx.fillStyle=col[k%12];
+			ctx.fillStyle=col2[k%12];
 			ctx.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1,(Math.floor(k/12)*2-1)*cl+10,kw1,cl);
 			ctx.beginPath();
 			ctx.arc(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4744,7 +4744,7 @@ function keyLabel(){
 		}
 		}
 	}
-	ctx.fillStyle=col2[Math.floor(21/12)-1];
+	ctx.fillStyle=col1[Math.floor(21/12)-1];
 	ctx.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-2)*cl+10,kw1,cl);
 	ctx.beginPath();
 	ctx.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4752,7 +4752,7 @@ function keyLabel(){
 	ctx.fill();
 	ctx.fillStyle="black";
 	ctx.fillText(Math.floor((21-12)/12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-2)*cl+40);
-	ctx.fillStyle=col[21%12];
+	ctx.fillStyle=col2[21%12];
 	ctx.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-1)*cl+10,kw1,cl);
 	ctx.beginPath();
 	ctx.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4771,7 +4771,7 @@ function keyLabel(){
 	ctx.lineTo(13*kw,(Math.floor(21/12)*2-2)*cl+10);
 	ctx.stroke();
 
-	ctx.fillStyle=col2[Math.floor(108/12)-1];
+	ctx.fillStyle=col1[Math.floor(108/12)-1];
 	ctx.fillRect(12*kw,(Math.floor(107/12)*2-2)*cl+10,kw,cl);
 	ctx.beginPath();
 	ctx.arc(12*kw+37,(Math.floor(107/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4779,7 +4779,7 @@ function keyLabel(){
 	ctx.fill();
 	ctx.fillStyle="black";
 	ctx.fillText(Math.floor((108-12)/12), 12*kw+30,(Math.floor(107/12)*2-2)*cl+40);
-	ctx.fillStyle=col[108%12];
+	ctx.fillStyle=col2[108%12];
 	ctx.fillRect(12*kw,(Math.floor(107/12)*2-1)*cl+10,kw,cl);
 	ctx.beginPath();
 	ctx.arc(12*kw+37,(Math.floor(107/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4904,27 +4904,27 @@ function keyLabel(){
 
 	for(let k=21;k<=108;k++){
 		if(k%12>=0 && k%12<=4){
-			ctx.fillStyle=col2[Math.floor(k/12)-1];
+			ctx.fillStyle=col1[Math.floor(k/12)-1];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			if(k%12===0){
 				ctx.fillText(Math.floor((k-12)/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
 			}
-			ctx.fillStyle=col[k%12];
+			ctx.fillStyle=col1[k%12];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			ctx.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
 		}else{
-			ctx.fillStyle=col2[Math.floor(k/12)-1];
+			ctx.fillStyle=col1[Math.floor(k/12)-1];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			if(k===21){
 			ctx.fillText(Math.floor((k-12)/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
 			}
-			ctx.fillStyle=col[k%12];
+			ctx.fillStyle=col2[k%12];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
