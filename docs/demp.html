@@ -2910,106 +2910,8 @@ function scrollScore(tick){
 };
 
 function scrollRecord(tick){
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	szx = canvas.width;
-	szy = canvas.height-my;
-	szk=szx-2*mx;
-	ctx.lineWidth=1;
-
-	if (document.form1.hands.options[0].selected==true) {
-		midi_max=midi_max_b;
-		midi_min=midi_min_b;
-	}else if (document.form1.hands.options[1].selected==true) {
-		midi_max=midi_max_r;
-		midi_min=midi_min_r;
-	} else if (document.form1.hands.options[2].selected==true){
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	}
-
-	let kn=Number(midi_max)-Number(midi_min)+1;
-	let kw=szk/kn;
-	for(l=0;l<Number(kn);l++){
-		let k=Number(midi_min)+l;
-		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
-		ctx.fillRect(mx+l*kw,0,kw,my/2);
-		ctx.fillStyle=workingPcColors[k%12];
-		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
-		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx.fillStyle="lightgrey";
-		ctx.fillRect(mx+l*kw,my,kw,szy-my);
-		}else if (k%12===0){
-		ctx.beginPath();
-		ctx.moveTo(mx+l*kw,my);
-		ctx.lineTo(mx+l*kw,szy);
-		ctx.strokeStyle="red";
-		ctx.stroke();
-		}else if (k%12===5){
-		ctx.beginPath();
-		ctx.moveTo(mx+l*kw,my);
-		ctx.lineTo(mx+l*kw,szy);
-		ctx.strokeStyle="green";
-		ctx.stroke();
-		}
-	}
-
-	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
-		let vmn0=m/ppq/bttl*ntvl/4+1;
-		ctx.beginPath();
-		ctx.moveTo(0,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle="red";
-		ctx.stroke();
-		ctx.fillStyle="black";
-		ctx.font="25px Arial";
-		ctx.fillText(vmn0,0,my*1.6+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
-		ctx.beginPath();
-		ctx.moveTo(mx,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle="blue";
-		ctx.stroke();
-		}
-	}
-
-	for(let i=0;i<r1.length;i++){
-		let midi = r1[i].midi;
-		let start = r1[i].start;
-		let stop = r1[i].stop;
-		let channel = r1[i].channel;
-		let n_id = r1[i].n_id;
-		getLabel(midi, n_id);
-		const dt = (start-tick)/(bttl*ppq/ntvl*4);
-		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-		gt=(stop-start)/(bttl*ppq/ntvl*4);
-		if (dp > 0 && dt < ht1){
-			const x0 = (midi-midi_min)*kw+mx;
-			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+dt*(szy-my)/ht1;
-			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
-			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
-				ctx.fillStyle=workingPcColors[midi%12];
-				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
-				ctx.beginPath();
-				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
-				ctx.fillStyle=workingHandColors[channel];
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.font="20px Arial";
-				if (nl!=""){
-				ctx.fillText(nl, x0+3, y+7);
-				}
-				if (nll!=""){
-				ctx.fillText(nll, mx, y);
-				}
-				if (nlr!=""){
-				ctx.fillText(nlr, mx+szk, y);
-				}
-			}
-		}
-	}
+	scrollScore(tick);
+	const view = getViewInfo();
 	
 	for(let i=0; i<recordData.length; i++){
 		let midi = recordData[i].midi;
@@ -3033,7 +2935,7 @@ function scrollRecord(tick){
 				continue;
 			}
 			ctx.beginPath();
-			ctx.fillStyle = "brown";
+			ctx.fillStyle = workingHandColor[2];
 			ctx.fillRect(
 				x0 + kw/4,
 				y,
@@ -3041,7 +2943,7 @@ function scrollRecord(tick){
 				gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1
 			);
 			ctx.beginPath();
-			ctx.fillStyle="brown";
+			ctx.fillStyle = workingHandColor[2];
 			ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
