@@ -2566,22 +2566,48 @@ function lineRecord(tick){
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}
-			ctx.beginPath();
-			ctx.fillStyle = workingHandColors[2];			
+
 			ctx.fillRect(
 				x0 + view.kw/4,
 				y,
 				view.kw/2,
-				gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1
+				gt*(szy-my)/ht1
 			);
-			
+
 console.log(
     "arc debug",
-    x1,
-    y,
-    radius,
-    view.kw
+    {
+        x1: x1,
+        y: y,
+        radius: view.kw/4,
+        kw: view.kw,
+        midi: midi,
+        midi_min: view.midi_min
+    }
 );
+
+ctx.beginPath();
+ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
+ctx.fill();
+
+if(
+    !isFinite(x1) ||
+    !isFinite(y) ||
+    !isFinite(view.kw) ||
+    view.kw <= 0
+){
+    console.log(
+        "BAD ARC",
+        {
+            x1,
+            y,
+            kw:view.kw,
+            midi,
+            midi_min:view.midi_min
+        }
+    );
+    continue;
+}
 			ctx.beginPath();
 			ctx.fillStyle = workingHandColors[2];
 			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
