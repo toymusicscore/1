@@ -399,9 +399,12 @@ canvas.style.touchAction = 'none';
 const ctx=canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const col1=["#ffffff","#ff0000","#ff9900","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff0099"];
-const col2=["#ff0000","#ff9900","#ffff00","#99ff00","#00ff00","#00ff99","#00ffff","#0099ff","#0000ff","#9900ff","#ff00ff","#ff0099"];
-const col3=["#ffcccc","#ffcc00","#9966ff","#ccffff"];
+const defaultOctColors=["#ffffff","#ff0000","#ff9900","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff0099"];
+const defaultPcColors=["#ff0000","#ff9900","#ffff00","#99ff00","#00ff00","#00ff99","#00ffff","#0099ff","#0000ff","#9900ff","#ff00ff","#ff0099"];
+const defaultHandColors=["#ffcccc","#ffcc00","#9966ff","#ccffff"];
+let workingOctColors=["#ffffff","#ff0000","#ff9900","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff","#ff0099"];
+let workingPcColors=["#ff0000","#ff9900","#ffff00","#99ff00","#00ff00","#00ff99","#00ffff","#0099ff","#0000ff","#9900ff","#ff00ff","#ff0099"];
+let workingHandColors=["#ffcccc","#ffcc00","#9966ff","#ccffff"];
 const drms1=["Do","Di","Re","Ri","Mi","Fa","Fi","Sol","Si","La","Li","Ti"];
 const drmf1=["Do","Ra","Re","Me","Mi","Fa","Se","Sol","Le","La","Te","Ti"];
 const engs1=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
@@ -1449,7 +1452,7 @@ function setColor(){
     // Octave色
     for(let i = 0; i < 9; i++){
 
-        col1[i] = document.getElementById(
+        workingOctColors[i] = document.getElementById(
             "x_oct_" + i
         ).value;
 
@@ -1463,7 +1466,7 @@ function setColor(){
 
 	for(let i = 0; i < 12; i++){
 
-		col2[i] = document.getElementById(
+		workingPcColors[i] = document.getElementById(
 			"x_pc_" + pcIds[i]
 		).value;
 
@@ -1472,7 +1475,7 @@ function setColor(){
 	// hand
     for(let i = 0; i < 3; i++){
 
-        col3[i] = document.getElementById(
+        workingHandColors[i] = document.getElementById(
             "x_hand_" + i
         ).value;
 
@@ -1486,11 +1489,11 @@ function setColor(){
 
 function loadColor(){
 
-    for(let i = 0; i < col1.length; i++){
+    for(let i = 0; i < workingOctColors.length; i++){
 
         document.getElementById(
             "x_oct_" + i
-        ).value = col1[i];
+        ).value = workingOctColors[i];
 
     }
 
@@ -1499,19 +1502,19 @@ function loadColor(){
         "6","7","8","9","a","b"
     ];
 
-    for(let i = 0; i < col2.length; i++){
+    for(let i = 0; i < workingPcColors.length; i++){
 
         document.getElementById(
             "x_pc_" + pcIds[i]
-        ).value = col2[i];
+        ).value = workingPcColors[i];
 
     }
 
-	for(let i = 0; i < col3.length; i++){
+	for(let i = 0; i < workingHandColors.length; i++){
 
         document.getElementById(
             "x_hand_" + i
-        ).value = col3[i];
+        ).value = workingHandColors[i];
 
     }
 
@@ -1519,53 +1522,61 @@ function loadColor(){
 
 function saveColor(){
 
-    localStorage.setItem(
-        "col1",
-        JSON.stringify(col1)
-    );
+	localStorage.setItem(
+		"workingOctColors",
+		JSON.stringify(workingOctColors)
+	);
 
-    localStorage.setItem(
-        "col2",
-        JSON.stringify(col2)
-    );
+	localStorage.setItem(
+		"workingPcColors",
+		JSON.stringify(workingPcColors)
+	);
 
-    localStorage.setItem(
-        "col3",
-        JSON.stringify(col3)
-    );
+	localStorage.setItem(
+		"workingHandColors",
+		JSON.stringify(workingHandColors)
+	);
 
 }
 
+
 function loadSavedColor(){
 
-    let tmp;
+let tmp;
 
-    tmp = localStorage.getItem("col1");
-    if(tmp){
-        col1 = JSON.parse(tmp);
-    }
+temp = localStorage.getItem("workingOctColors");
 
-    tmp = localStorage.getItem("col2");
-    if(tmp){
-        col2 = JSON.parse(tmp);
-    }
+if(tmp){
+    workingOctColors = JSON.parse(tmp);
+}
 
-    tmp = localStorage.getItem("col3");
-    if(tmp){
-        col3 = JSON.parse(tmp);
-    }
+temp = localStorage.getItem("workingPcColors");
 
+if(tmp){
+    workingPcColors = JSON.parse(tmp);
+}
+
+temp = localStorage.getItem("workingHandColors");
+
+if(tmp){
+    workingHandColors = JSON.parse(tmp);
+}
+	
 }
 
 function resetColor(){
 
-    localStorage.removeItem("col1");
-    localStorage.removeItem("col2");
-    localStorage.removeItem("col3");
+    workingOctColors = [...defaultOctColors];
+    workingPcColors = [...defaultPcColors];
+    workingHandColors = [...defaultHandColors];
 
-    location.reload();
+    localStorage.removeItem("workingOctColors");
+    localStorage.removeItem("workingPcColors");
+    localStorage.removeItem("workingHandColors");
 
+    selview1();
 }
+
 
 function showSetting(){
     document.getElementById(
@@ -2408,9 +2419,9 @@ function lineScore(tick){
 
 	for(let l=0;l<Number(view.kn);l++){
 		let k=Number(view.midi_min)+l;
-		ctx.fillStyle=col1[Math.floor(k/12)-1];
+		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
-		ctx.fillStyle=col2[k%12];
+		ctx.fillStyle=workingPcColors[k%12];
 		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
@@ -2481,13 +2492,13 @@ function lineScore(tick){
 			tick
 		);
 
-		let handColor = col3[3];
+		let handColor = workingHandColors[3];
 
 		if(track == rightTrack && channel == rightChannel){
-			handColor = col3[0];
+			handColor = workingHandColors[0];
 		}
 		else if(track == leftTrack && channel == leftChannel){
-			handColor = col3[1];
+			handColor = workingHandColors[1];
 		}
 		if (dp >=0 && dt < ht1*3/4){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
@@ -2497,7 +2508,7 @@ function lineScore(tick){
 					continue;
 				}
 
-			ctx.fillStyle=col2[midi%12];
+			ctx.fillStyle=workingPcColors[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt/(bttl*ppq/ntvl*4)*(szy-2*my)/ht1);
 			ctx.beginPath();
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
@@ -2551,7 +2562,7 @@ function lineRecord(tick){
 				continue;
 			}
 			ctx.beginPath();
-			ctx.fillStyle = col3[2];			
+			ctx.fillStyle = workingHandColors[2];			
 			ctx.fillRect(
 				x0 + view.kw/4,
 				y,
@@ -2560,189 +2571,13 @@ function lineRecord(tick){
 			);
 
 			ctx.beginPath();
-			ctx.fillStyle = col3[2];
+			ctx.fillStyle = workingHandColors[2];
 			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
 	}
 };
 
-function lineRecordBkup(tick){
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	szx = canvas.width;
-	szy = canvas.height-my;
-	szk = szx-2*mx;
-	ctx.lineWidth=1;
-	let scoreViewData;
-
-	if (document.form1.hands.options[0].selected==true) {
-		scoreViewData = scoreData;
-		midi_max=midi_max_b;
-		midi_min=midi_min_b;
-	} else if (document.form1.hands.options[1].selected==true){
-		scoreViewData = scoreRight;
-		midi_max=midi_max_r;
-		midi_min=midi_min_r;
-	}else if (document.form1.hands.options[2].selected==true) {
-		scoreViewData = scoreLeft;
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	}
-
-	let kn=Number(midi_max)-Number(midi_min)+1;
-	let kw=szk/kn;
-	for(let l=0;l<Number(kn);l++){
-		let k=Number(midi_min)+l;
-		ctx.fillStyle=col1[Math.floor(k/12)-1];
-		ctx.fillRect(mx+l*kw,0,kw,my/2);
-		ctx.fillStyle=col2[k%12];
-		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
-		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx.fillStyle="lightgrey";
-		ctx.fillRect(mx+l*kw,my,kw,szy-my);
-		}else if (k%12===0){
-		ctx.beginPath();
-		ctx.moveTo(mx+l*kw,my);
-		ctx.lineTo(mx+l*kw,szy);
-		ctx.strokeStyle="red";
-		ctx.stroke();
-		}else if (k%12===5){
-		ctx.beginPath();
-		ctx.moveTo(mx+l*kw,my);
-		ctx.lineTo(mx+l*kw,szy);
-		ctx.strokeStyle="green";
-		ctx.stroke();
-		}
-	}
-
-	if (tick<eott0){
-	ctx.beginPath();
-	ctx.moveTo(0,my+tick%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-	ctx.lineTo(szx,my+tick%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-	ctx.strokeStyle="grey";
-	ctx.stroke();
-	} else {
-		isPlaying = 0;
-	}
-
-	ctx.beginPath();
-	ctx.moveTo(0,szy);
-	ctx.lineTo(mx+szk,szy);
-	ctx.strokeStyle="red";
-	ctx.stroke();
-
-	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
-		let vmn0=m/ppq/bttl*ntvl/4+1;
-		ctx.beginPath();
-		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle="red";
-		ctx.stroke();
-		ctx.fillStyle="black";
-		ctx.font="25px Arial";
-		ctx.fillText(vmn0,0,my+25+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
-		ctx.beginPath();
-		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle="blue";
-		ctx.stroke();
-		}
-	}
-
-	for(let i=0;i<scoreViewData.length;i++){
-		let midi = scoreViewData[i].midi;
-		let start = scoreViewData[i].start;
-		let stop = scoreViewData[i].stop;
-		let track = scoreViewData[i].track;
-		let channel = scoreViewData[i].channel;
-		let n_id = scoreViewData[i].n_id;
-		const dt = (start-tick)/(bttl*ppq/ntvl*4);
-		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-		if (dp > 0 && dt < ht1*3/4){
-			const x0 = (midi-midi_min)*kw+mx;
-			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
-			const gt = getVisibleLength(
-				start,
-				stop,
-				tick
-			);
-			
-			let handColor = col3[3];
-
-			if(track == rightTrack && channel == rightChannel){
-				handColor = col3[0];
-			}
-			else if(track == leftTrack && channel == leftChannel){
-				handColor = col3[1];
-			}
-					
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
-				continue;
-			}			
-			ctx.beginPath();
-			ctx.fillStyle=col2[midi%12];
-			ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1);
-			ctx.beginPath();
-			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
-			ctx.fillStyle = handColor;
-			ctx.fill();
-			getLabel(midi, n_id);
-			ctx.fillStyle="black";
-			ctx.font="20px Arial";
-			if (nl!=""){
-			ctx.fillText(nl, x0+3, y+7);
-			}
-			if (nll!=""){
-			ctx.fillText(nll, mx, y);
-			}
-			if (nlr!=""){
-			ctx.fillText(nlr, mx+szk, y);
-			}
-		}
-	}
-	
-	for(let i=0; i<recordData.length; i++){
-		let midi = recordData[i].midi;
-		let start = recordData[i].start;
-		let stop = recordData[i].stop;
-		if(stop == null){
-			continue;
-		}
-		const dt = (start-tick)/(bttl*ppq/ntvl*4);
-		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-
-		if (dp > 0 && dt < ht1*3/4){
-
-			const x0 = (midi-midi_min)*kw+mx;
-			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
-			const gt =
-				stop >= tick + ht1*bttl*ppq/ntvl*3
-				? tick + ht1*bttl*ppq/ntvl*3 - start
-				: stop - start;
-
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
-				continue;
-			}
-			ctx.beginPath();
-			ctx.fillStyle = col3[2];			
-			ctx.fillRect(
-				x0 + kw/4,
-				y,
-				kw/2,
-				gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1
-			);
-
-			ctx.beginPath();
-			ctx.fillStyle = col3[2];
-			ctx.arc(x1,y,kw/4,0,2*Math.PI,false);
-			ctx.fill();
-		}
-	}
-};
 
 function startPlayback(){
 
@@ -2974,9 +2809,9 @@ function scrollScore(tick){
 	let kw=szk/kn;
 	for(l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
-		ctx.fillStyle=col1[Math.floor(k/12)-1];
+		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*kw,0,kw,my/2);
-		ctx.fillStyle=col2[k%12];
+		ctx.fillStyle=workingPcColors[k%12];
 		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
@@ -3033,11 +2868,11 @@ function scrollScore(tick){
 			if((document.form1.hands.options[0].selected==true ) || 
 			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
 			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
-				ctx.fillStyle=col2[midi%12];
+				ctx.fillStyle=workingPcColors[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
 				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
-				ctx.fillStyle=col3[channel];
+				ctx.fillStyle=workingHandColors[channel];
 				ctx.fill();
 				ctx.fillStyle="black";
 				ctx.font="20px Arial";
@@ -3077,9 +2912,9 @@ function scrollRecord(tick){
 	let kw=szk/kn;
 	for(l=0;l<Number(kn);l++){
 		let k=Number(midi_min)+l;
-		ctx.fillStyle=col1[Math.floor(k/12)-1];
+		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*kw,0,kw,my/2);
-		ctx.fillStyle=col2[k%12];
+		ctx.fillStyle=workingPcColors[k%12];
 		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
@@ -3136,11 +2971,11 @@ function scrollRecord(tick){
 			if((document.form1.hands.options[0].selected==true ) || 
 			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
 			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
-				ctx.fillStyle=col2[midi%12];
+				ctx.fillStyle=workingPcColors[midi%12];
 				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
 				ctx.beginPath();
 				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
-				ctx.fillStyle=col3[channel];
+				ctx.fillStyle=workingHandColors[channel];
 				ctx.fill();
 				ctx.fillStyle="black";
 				ctx.font="20px Arial";
@@ -4801,7 +4636,7 @@ function keyLabel(){
 
 	ctx.lineWidth=1;
 	for(let k=22;k<=107;k++){
-		ctx.fillStyle=col1[Math.floor(k/12)-1];
+		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
 		ctx.fillRect((k-Math.floor(k/12)*12)*kw,(Math.floor(k/12)*2-2)*cl+10,kw,cl);
 		if (k%12===0) {
 			ctx.beginPath();
@@ -4812,7 +4647,7 @@ function keyLabel(){
 			ctx.fillText(Math.floor((k-12)/12), (k-Math.floor(k/12)*12)*kw+30,(Math.floor(k/12)*2-2)*cl+40);
 		}
 		if(k%12<=4){
-			ctx.fillStyle=col2[k%12];
+			ctx.fillStyle=workingPcColors[k%12];
 			ctx.fillRect((k-Math.floor(k/12)*12)*kw0,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
 			ctx.beginPath();
 			ctx.arc((k-Math.floor(k/12)*12)*kw0+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4821,7 +4656,7 @@ function keyLabel(){
 			ctx.fillStyle="black";
 			ctx.fillText(k%12, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
 		}else{
-			ctx.fillStyle=col2[k%12];
+			ctx.fillStyle=workingPcColors[k%12];
 			ctx.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1,(Math.floor(k/12)*2-1)*cl+10,kw1,cl);
 			ctx.beginPath();
 			ctx.arc(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4857,7 +4692,7 @@ function keyLabel(){
 		}
 		}
 	}
-	ctx.fillStyle=col1[Math.floor(21/12)-1];
+	ctx.fillStyle=workingOctColors[Math.floor(21/12)-1];
 	ctx.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-2)*cl+10,kw1,cl);
 	ctx.beginPath();
 	ctx.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4865,7 +4700,7 @@ function keyLabel(){
 	ctx.fill();
 	ctx.fillStyle="black";
 	ctx.fillText(Math.floor((21-12)/12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-2)*cl+40);
-	ctx.fillStyle=col2[21%12];
+	ctx.fillStyle=workingPcColors[21%12];
 	ctx.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-1)*cl+10,kw1,cl);
 	ctx.beginPath();
 	ctx.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4884,7 +4719,7 @@ function keyLabel(){
 	ctx.lineTo(13*kw,(Math.floor(21/12)*2-2)*cl+10);
 	ctx.stroke();
 
-	ctx.fillStyle=col1[Math.floor(108/12)-1];
+	ctx.fillStyle=workingOctColors[Math.floor(108/12)-1];
 	ctx.fillRect(12*kw,(Math.floor(107/12)*2-2)*cl+10,kw,cl);
 	ctx.beginPath();
 	ctx.arc(12*kw+37,(Math.floor(107/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
@@ -4892,7 +4727,7 @@ function keyLabel(){
 	ctx.fill();
 	ctx.fillStyle="black";
 	ctx.fillText(Math.floor((108-12)/12), 12*kw+30,(Math.floor(107/12)*2-2)*cl+40);
-	ctx.fillStyle=col2[108%12];
+	ctx.fillStyle=workingPcColors[108%12];
 	ctx.fillRect(12*kw,(Math.floor(107/12)*2-1)*cl+10,kw,cl);
 	ctx.beginPath();
 	ctx.arc(12*kw+37,(Math.floor(107/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -5017,27 +4852,27 @@ function keyLabel(){
 
 	for(let k=21;k<=108;k++){
 		if(k%12>=0 && k%12<=4){
-			ctx.fillStyle=col1[Math.floor(k/12)-1];
+			ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			if(k%12===0){
 				ctx.fillText(Math.floor((k-12)/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
 			}
-			ctx.fillStyle=col1[k%12];
+			ctx.fillStyle=workingOctColors[k%12];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			ctx.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
 		}else{
-			ctx.fillStyle=col1[Math.floor(k/12)-1];
+			ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			if(k===21){
 			ctx.fillText(Math.floor((k-12)/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
 			}
-			ctx.fillStyle=col2[k%12];
+			ctx.fillStyle=workingPcColors[k%12];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
@@ -5432,10 +5267,10 @@ function trackChannelInfo(){
 		let handColor = "#ffffff";
 
 		if(row.track == rightTrack && row.channel == rightChannel){
-			handColor = col3[0];
+			handColor = workingHandColors[0];
 		}
 		else if(row.track == leftTrack && row.channel == leftChannel){
-			handColor = col3[1];
+			handColor = workingHandColors[1];
 		}
 		
 		ctx.fillStyle = handColor;
@@ -5549,7 +5384,7 @@ keyrp10_0=[];
 	for(let i=0;i<scoreData.length;i++){
 		let midi = scoreData[i].midi;
 		let start = scoreData[i].start;
-		ctx.fillStyle=col2[midi%12];
+		ctx.fillStyle=workingPcColors[midi%12];
 		ctx.fillRect(200+midi%12*50,120+start/eott0*300,50,1);
 		keyrp10_0.push([midi%12,Math.floor(start/eott0*10)]);
 		}
@@ -5713,7 +5548,7 @@ for(let i=0;i<10;i++){
 		for(j=0;j<keyrp10_2.length;j++){
 			if(i===keyrp10_2[j][0]){
 				if(keyrp10_3[i][2]===keyrp10_2[j][2]){
-				ctx.fillStyle=col2[keyrp10_2[j][1]];
+				ctx.fillStyle=workingPcColors[keyrp10_2[j][1]];
 				ctx.fillRect(200+50*keyrp10_2[j][1],570+30*i,50,30);
 				}
 			ctx.fillStyle="black";
@@ -5791,13 +5626,13 @@ Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1])
 -Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1])
 )/keyrp10_1[j][13]*100).toFixed(2);
 
-ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[0])%12];
+ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[0])%12];
 ctx.fillRect(200,960+i*30,tfmjr0,30);
-ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[4])%12];
+ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[4])%12];
 ctx.fillRect(200+tfmjr0,960+i*30,tfmjr7,30);
-ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[5])%12];
 ctx.fillRect(400,960+i*30,tfmnr0,30);
-ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[2])%12];
+ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[2])%12];
 ctx.fillRect(400+tfmnr0,960+i*30,tfmnr7,30);
 ctx.fillStyle="black";
 if(tfmjr0>=10){
@@ -5831,7 +5666,7 @@ ctx.fillText("= " + tfmnr07,480,990+i*30);
 ctx.fillText("=   " + tfmnr07,480,990+i*30);
 }
 if(tfmjr_mnr>0){
-ctx.fillStyle=col2[keyrp10_3[i][1]];
+ctx.fillStyle=workingPcColors[keyrp10_3[i][1]];
 ctx.fillRect(600,960+i*30,tfmjr_mnr,30);	
 ctx.fillStyle="black";
 if(tfmjr_mnr>=10){
@@ -5841,7 +5676,7 @@ ctx.fillText("  " + tfmjr_mnr,600,990+i*30);
 }
 keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major");
 }else if(tfmjr_mnr<0){
-ctx.fillStyle=col2[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[5])%12];
 ctx.fillRect(700,960+i*30,-tfmjr_mnr,30);	
 ctx.fillStyle="black";
 if(-tfmjr_mnr>=10){
