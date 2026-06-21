@@ -2870,7 +2870,7 @@ function scrollScore(tick){
 		getLabel(midi, n_id);
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-		gt=(stop-start)/(bttl*ppq/ntvl*4);
+		let gt=(stop-start)/(bttl*ppq/ntvl*4);
 
 		let handColor = workingHandColors[3];
 
@@ -2924,14 +2924,13 @@ function scrollRecord(tick){
 		}
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
+		let gt=(stop-start)/(bttl*ppq/ntvl*4);
 
 		if (dp > 0 && dt < ht1){
 
 			const x0 = (midi-midi_min)*view.kw+mx;
 			const x1 = (midi-midi_min+0.5)*view.kw+mx;
 			const y = my+dt*(szy-my)/ht1;
-
-			gt=stop-start;
 
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
