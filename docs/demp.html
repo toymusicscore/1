@@ -5478,6 +5478,9 @@ keyrp10_1.push([i, kx0, kx1, kx2, kx3, kx4, kx5, kx6, kx7, kx8, kx9, kx10, kx11,
 w0=0;
 for(i=0;i<10;i++){
 	for(j=0;j<13;j++){
+	if(keyrp10_1[i][13] === 0){
+		continue;
+		}
 	w0=Math.round(keyrp10_1[i][j+1]/keyrp10_1[i][13]*100);
 	if (j===12 && w0===100){
 		ctx.fillText(w0,810,150+30*i);
