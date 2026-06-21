@@ -2515,13 +2515,13 @@ function lineScore(tick){
 		if (dp >=0 && dt < ht1*3/4){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
+			const y = my+start%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4);
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
 
 			ctx.fillStyle=workingPcColors[midi%12];
-			ctx.fillRect(x0,y,view.kw,gt*(szy-2*my)/ht1);
+			ctx.fillRect(x0,y,view.kw,gt*szy/ht1);
 			ctx.beginPath();
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
@@ -2563,7 +2563,7 @@ function lineRecord(tick){
 
 			const x0 = (midi-midi_min)*view.kw+mx;
 			const x1 = (midi-midi_min+0.5)*view.kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
+			const y = my+start%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4);
 			const gt = getVisibleLength(
 				start,
 				stop,
@@ -2579,7 +2579,7 @@ function lineRecord(tick){
 				x0 + view.kw/4,
 				y,
 				view.kw/2,
-				gt*(szy-2*my)/ht1
+				gt*szy/ht1
 			);
 
 			ctx.beginPath();
@@ -2874,12 +2874,12 @@ function scrollScore(tick){
 		if (dp > -1/4 && dt < ht1){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*(szy-2*my)/ht1;
+			const y = my+dt*szy/ht1;
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
 			ctx.fillStyle=workingPcColors[midi%12];
-			ctx.fillRect(x0,y,view.kw,gt*(szy-2*my)/ht1);
+			ctx.fillRect(x0,y,view.kw,gt*szy/ht1);
 			ctx.beginPath();
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle=handColor;
@@ -2920,7 +2920,7 @@ function scrollRecord(tick){
 
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*(szy-2*my)/ht1;
+			const y = my+dt*szy/ht1;
 
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
@@ -2930,7 +2930,7 @@ function scrollRecord(tick){
 				x0 + view.kw/4,
 				y,
 				view.kw/2,
-				gt*(szy-2*my)/ht1
+				gt*szy/ht1
 			);
 			ctx.beginPath();
 			ctx.fillStyle = workingHandColors[2];
