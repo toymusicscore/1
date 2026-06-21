@@ -5703,13 +5703,13 @@ keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major/" + engMnr1[(keyrp10_3[i][1]+sca
 ctx.fillStyle="black";
 for(i=0;i<10;i++){
 	if(i>0 && keyrp10_4[i].includes("/") && keyrp10_4[i].includes(keyrp10_4[i-1]) && keyrp10_4[i]!=keyrp10_4[i-1]){
-	keyrp10_4.splice(i,1,keyrp10_4[i-1]);			
-	ctx.fillText(keyrp10_4[i-1],810,960+(i+1)*30);
+		keyrp10_4.splice(i,1,keyrp10_4[i-1]);			
+		ctx.fillText(keyrp10_4[i-1],810,960+(i+1)*30);
 	}else if(i<9 && keyrp10_4[i].includes("/") && keyrp10_4[i].includes(keyrp10_4[i+1]) && keyrp10_4[i]!=keyrp10_4[i+1]){
-	keyrp10_4.splice(i,1,keyrp10_4[i+1]);	
-	ctx.fillText(keyrp10_4[i+1],810,960+(i+1)*30);
+		keyrp10_4.splice(i,1,keyrp10_4[i+1]);	
+		ctx.fillText(keyrp10_4[i+1],810,960+(i+1)*30);
 	}else if(keyrp10_3[i][4]===0){
-	ctx.fillText(keyrp10_4[i],810,960+(i+1)*30);
+		ctx.fillText(keyrp10_4[i],810,960+(i+1)*30);
 	}
 }
 
@@ -5719,12 +5719,15 @@ keyrp10_4.push(keyrp10_4[9]);
 
 keyrp10_4.sort();
 keyrp10_5=[];
+let count = 1;
 for(i=0;i<keyrp10_4.length;i++){
-if(i===0 || keyrp10_4[i]!=keyrp10_4[i-1]){
-keyrp10_5.push([keyrp10_4[i],1]);
-}else{
-keyrp10_5.push([keyrp10_4[i],keyrp10_5[i-1][1]+1]);
-}//if()
+	if(i===0 || keyrp10_4[i]!=keyrp10_4[i-1]){
+	keyrp10_5.push([keyrp10_4[i],count]);
+	}else{
+	count +=1;
+	keyrp10_5.push([keyrp10_4[i],count]);
+//	keyrp10_5.push([keyrp10_4[i],keyrp10_5[i-1][1]+1]);
+	}//if()
 }//for(i=0;i<keyrp10_4.length;i++){
 keyrp10_5.sort(function( m, n){return n[1] - m[1];});
 
