@@ -2892,7 +2892,7 @@ function scrollScore(tick){
 		ctx.fillRect(x0,y,view.kw,gt*(szy-my)/ht1);
 		ctx.beginPath();
 		ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
-		ctx.fillStyle=handColor;;
+		ctx.fillStyle=handColor;
 		ctx.fill();
 		ctx.fillStyle="black";
 		ctx.font="20px Arial";
@@ -2910,7 +2910,9 @@ function scrollScore(tick){
 };
 
 function scrollRecord(tick){
+
 	scrollScore(tick);
+	
 	const view = getViewInfo();
 	
 	for(let i=0; i<recordData.length; i++){
@@ -2939,7 +2941,7 @@ function scrollRecord(tick){
 			ctx.fillRect(
 				x0 + view.kw/4,
 				y,
-				kw/2,
+				view.kw/2,
 				gt/(bttl*ppq/ntvl*4)*(szy-my)/ht1
 			);
 			ctx.beginPath();
