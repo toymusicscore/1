@@ -1623,7 +1623,7 @@ function showDownloadPage(){
 
     document.getElementById("downloadPage").style.display = "block";
 
-    downloadMidiTsv();
+    downloadTsv();
 }
 
 
@@ -5816,7 +5816,7 @@ ctx.fillText("Unidentified" ,810,960+(11)*30);
 }
 }
 
-async function downloadMidiTsv(){
+async function downloadTsv(){
 
     const text =
         await (await fetch("./data/SongList.tsv")).text();
