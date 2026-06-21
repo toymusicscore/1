@@ -2463,10 +2463,6 @@ function lineScore(tick){
 			tick
 		);
 
-		if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
-				continue;
-			}
-
 		let handColor = col3[3];
 
 		if(track == rightTrack && channel == rightChannel){
@@ -2479,6 +2475,10 @@ function lineScore(tick){
 			const x0 = (midi-midi_min)*kw+mx;
 			const x1 = (midi-midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+					continue;
+				}
+
 			ctx.fillStyle=col2[midi%12];
 			ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-2*my)/ht1);
 			ctx.beginPath();
@@ -2526,7 +2526,7 @@ function lineRecord(tick){
 				stop,
 				tick
 			);
-			
+
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}
