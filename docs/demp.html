@@ -139,8 +139,7 @@ demp
 	<option value="2"> Label </option>
 	<option value="3"> Track/Channel </option>
 	<option value="4"> Key Estimation </option>
-	<option value="5"> DL TSV </option>
-	<option value="6"> License </option>
+	<option value="5"> License </option>
 	</select>
 
 <label style="font-size:70%">BPM</label>
@@ -1624,7 +1623,7 @@ function showDownloadPage(){
 
     document.getElementById("downloadPage").style.display = "block";
 
-    download1();
+    downloadMidiTsv();
 }
 
 
@@ -5817,7 +5816,7 @@ ctx.fillText("Unidentified" ,810,960+(11)*30);
 }
 }
 
-async function download1(){
+async function downloadMidiTsv(){
 
     const text =
         await (await fetch("./data/SongList.tsv")).text();
@@ -5895,8 +5894,6 @@ function selview1(){
 		keyEst1();
 		showCanvas();
 	}else if(document.form1.sv1.options[5].selected==true){
-		download1();
-	}else if(document.form1.sv1.options[6].selected==true){
 		licenseInfo();
 	}
 
