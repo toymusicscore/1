@@ -2364,6 +2364,38 @@ function getVisibleLength(start, stop, tick){
     );
 }
 
+function getViewInfo(){
+
+    let scoreViewData;
+
+    if(document.form1.hands.options[0].selected){
+        scoreViewData = scoreData;
+        midi_max = midi_max_b;
+        midi_min = midi_min_b;
+    }
+    else if(document.form1.hands.options[1].selected){
+        scoreViewData = scoreRight;
+        midi_max = midi_max_r;
+        midi_min = midi_min_r;
+    }
+    else{
+        scoreViewData = scoreLeft;
+        midi_max = midi_max_l;
+        midi_min = midi_min_l;
+    }
+
+    const kn = midi_max - midi_min + 1;
+    const kw = szk / kn;
+
+    return {
+        scoreViewData,
+        midi_min,
+        midi_max,
+		kn,
+        kw
+    };
+}
+
 function lineScore(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
@@ -2372,41 +2404,27 @@ function lineScore(tick){
 	ctx.lineWidth=1;
 	let scoreViewData;
 
-	if (document.form1.hands.options[0].selected==true) {
-		scoreViewData = scoreData;
-		midi_max=midi_max_b;
-		midi_min=midi_min_b;
-	} else if (document.form1.hands.options[1].selected==true){
-		scoreViewData = scoreRight;
-		midi_max=midi_max_r;
-		midi_min=midi_min_r;
-	}else if (document.form1.hands.options[2].selected==true) {
-		scoreViewData = scoreLeft;
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	}
+	const view = getViewInfo();
 
-	let kn=Number(midi_max)-Number(midi_min)+1;
-	let kw=szk/kn;
-	for(let l=0;l<Number(kn);l++){
-		let k=Number(midi_min)+l;
+	for(let l=0;l<Number(view.kn);l++){
+		let k=Number(view.midi_min)+l;
 		ctx.fillStyle=col1[Math.floor(k/12)-1];
-		ctx.fillRect(mx+l*kw,0,kw,my/2);
+		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
 		ctx.fillStyle=col2[k%12];
-		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
+		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
-		ctx.fillRect(mx+l*kw,my,kw,szy-my);
+		ctx.fillRect(mx+l*view.kw,my,view.kw,szy-my);
 		}else if (k%12===0){
 		ctx.beginPath();
-		ctx.moveTo(mx+l*kw,my);
-		ctx.lineTo(mx+l*kw,szy);
+		ctx.moveTo(mx+l*view.kw,my);
+		ctx.lineTo(mx+l*view.kw,szy);
 		ctx.strokeStyle="red";
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
-		ctx.moveTo(mx+l*kw,my);
-		ctx.lineTo(mx+l*kw,szy);
+		ctx.moveTo(mx+l*view.kw,my);
+		ctx.lineTo(mx+l*view.kw,szy);
 		ctx.strokeStyle="green";
 		ctx.stroke();
 		}
@@ -2448,13 +2466,13 @@ function lineScore(tick){
 		}
 	}
 
-	for(let i=0;i<scoreViewData.length;i++){
-		let midi = scoreViewData[i].midi;
-		let start = scoreViewData[i].start;
-		let stop = scoreViewData[i].stop;
-		let track = scoreViewData[i].track;
-		let channel = scoreViewData[i].channel;
-		let n_id = scoreViewData[i].n_id;
+	for(let i=0;i<view.scoreViewData.length;i++){
+		let midi = view.scoreViewData[i].midi;
+		let start = view.scoreViewData[i].start;
+		let stop = view.scoreViewData[i].stop;
+		let track = view.scoreViewData[i].track;
+		let channel = view.scoreViewData[i].channel;
+		let n_id = view.scoreViewData[i].n_id;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		const gt = getVisibleLength(
@@ -2472,17 +2490,17 @@ function lineScore(tick){
 			handColor = col3[1];
 		}
 		if (dp >=0 && dt < ht1*3/4){
-			const x0 = (midi-midi_min)*kw+mx;
-			const x1 = (midi-midi_min+0.5)*kw+mx;
+			const x0 = (midi-view.midi_min)*kw+mx;
+			const x1 = (midi-view.midi_min+0.5)*kw+mx;
 			const y = my+start%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4);
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
 
 			ctx.fillStyle=col2[midi%12];
-			ctx.fillRect(x0,y,kw,gt/(bttl*ppq/ntvl*4)*(szy-2*my)/ht1);
+			ctx.fillRect(x0,y,view.kw,gt/(bttl*ppq/ntvl*4)*(szy-2*my)/ht1);
 			ctx.beginPath();
-			ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
 			ctx.fill();
 			getLabel(midi, n_id);
