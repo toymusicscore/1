@@ -5719,17 +5719,14 @@ keyrp10_4.push(keyrp10_4[9]);
 
 keyrp10_4.sort();
 keyrp10_5=[];
-let count = 1;
-for(i=0;i<keyrp10_4.length;i++){
-	if(i===0 || keyrp10_4[i]!=keyrp10_4[i-1]){
-	keyrp10_5.push([keyrp10_4[i],count]);
-	}else{
-	count +=1;
-	keyrp10_5.push([keyrp10_4[i],count]);
-//	keyrp10_5.push([keyrp10_4[i],keyrp10_5[i-1][1]+1]);
-	}//if()
-}//for(i=0;i<keyrp10_4.length;i++){
-keyrp10_5.sort(function( m, n){return n[1] - m[1];});
+const counts = {};
+
+for(const key of keyrp10_4){
+    counts[key] = (counts[key] || 0) + 1;
+}
+
+keyrp10_5 = Object.entries(counts);
+keyrp10_5.sort((a,b)=>b[1]-a[1]);
 
 	if(keyrp10_5.length < 2){
 		ctx.fillText(keyrp10_5[0][0],810,960+11*30);
