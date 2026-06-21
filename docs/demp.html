@@ -366,8 +366,24 @@ demp
        value="← Back"
        onclick="showMain()">
 
+</div><div id="mainMenu">
+    <button onclick="showDownloadPage()">
+        Download Data
+    </button>
 </div>
-<div id="downloadArea"></div>
+
+<div id="downloadPage" style="display:none">
+
+    <button onclick="showMainMenu()">
+        Menu
+    </button>
+
+    <h2>Download Files</h2>
+
+    <div id="downloadArea"></div>
+
+</div>
+
 </form>
 <canvas
     id="canvas"
@@ -1610,7 +1626,7 @@ function showDownloadPage(){
     ).style.display = "none";
     
 	document.getElementById(
-		"downloadArea"
+		"download"
 	).style.display = "block";
 
     download1();
