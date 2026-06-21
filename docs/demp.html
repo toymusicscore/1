@@ -2816,7 +2816,7 @@ function scrollScore(tick){
 
 	const view = getViewInfo();
 
-	for(l=0;l<Number(view.kn);l++){
+	for(let l=0;l<Number(view.kn);l++){
 		let k=Number(view.midi_min)+l;
 		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
@@ -2874,10 +2874,10 @@ function scrollScore(tick){
 
 		let handColor = workingHandColors[3];
 
-		if(track == rightTrack && channel == rightChannel){
+		if(track === rightTrack && channel === rightChannel){
 			handColor = workingHandColors[0];
 		}
-		else if(track == leftTrack && channel == leftChannel){
+		else if(track === leftTrack && channel === leftChannel){
 			handColor = workingHandColors[1];
 		}
 		
@@ -2935,7 +2935,6 @@ function scrollRecord(tick){
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}
-			ctx.beginPath();
 			ctx.fillStyle = workingHandColors[2];
 			ctx.fillRect(
 				x0 + view.kw/4,
