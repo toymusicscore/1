@@ -152,12 +152,14 @@ demp
 	</select>
 
 <select name="sv1" onchange="selview1()">
-	<option value="0" selected> Line </option>
-	<option value="1"> Scroll </option>
-	<option value="2"> Label </option>
-	<option value="3"> Track/Channel </option>
-	<option value="4"> Key Estimation </option>
-	<option value="5"> License </option>
+	<option value="0"> License </option>
+	<option value="1" selected> Line </option>
+	<option value="2"> Scroll </option>
+	<option value="3"> Label </option>
+	<option value="4"> Track/Channel </option>
+	<option value="5"> Key Estimation 4</option>
+	<option value="6"> Key Estimation 5</option>
+	<option value="7"> Key Estimation 10</option>
 	</select>
 
 <label style="font-size:70%">BPM</label>
@@ -5789,6 +5791,8 @@ async function downloadTsv(){
 function selview1(){
 
 	if(document.form1.sv1.options[0].selected==true){
+		licenseInfo();
+	}else if(document.form1.sv1.options[1].selected==true){
 		if(recordData && recordData.length > 0){
 			lineRecord(pauseTick);
 			showCanvas();
@@ -5796,7 +5800,7 @@ function selview1(){
 			lineScore(pauseTick);
 			showCanvas();
 		}
-	}else if(document.form1.sv1.options[1].selected==true){
+	}else if(document.form1.sv1.options[2].selected==true){
 		if(recordData && recordData.length > 0){
 			scrollRecord(pauseTick);
 			showCanvas();
@@ -5804,17 +5808,21 @@ function selview1(){
 			scrollScore(pauseTick);
 			showCanvas();
 		}
-	}else if(document.form1.sv1.options[2].selected==true){
+	}else if(document.form1.sv1.options[3].selected==true){
 		keyLabel();
 		showCanvas();
-	}else if(document.form1.sv1.options[3].selected==true){
+	}else if(document.form1.sv1.options[4].selected==true){
 		trackChannelInfo();
 		showCanvas();
-	}else if(document.form1.sv1.options[4].selected==true){
-		keyEst1();
-		showCanvas();
 	}else if(document.form1.sv1.options[5].selected==true){
-		licenseInfo();
+		keyEst4();
+		showCanvas();
+	}else if(document.form1.sv1.options[6].selected==true){
+		keyEst5();
+		showCanvas();
+	}else if(document.form1.sv1.options[7].selected==true){
+		keyEst10();
+		showCanvas();
 	}
 
 }
