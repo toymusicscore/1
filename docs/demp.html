@@ -2567,6 +2567,7 @@ function lineRecord(tick){
 				continue;
 			}
 
+			ctx.fillStyle = workingHandColors[2];
 			ctx.fillRect(
 				x0 + view.kw/4,
 				y,
@@ -2585,10 +2586,6 @@ console.log(
         midi_min: view.midi_min
     }
 );
-
-ctx.beginPath();
-ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
-ctx.fill();
 
 if(
     !isFinite(x1) ||
