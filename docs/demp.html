@@ -41,6 +41,9 @@ demp
     type="button"
     value="⚙ Colors"
     onclick="showColor()">
+<button onclick="showDownloadPage()">
+    Download Data
+</button>
 </div>
 <div id="settingPage"
      style="display:none">
@@ -1589,6 +1592,28 @@ function showMain(){
     document.getElementById(
         "colorPage"
     ).style.display = "none";
+}
+
+function showDownloadPage(){
+
+    document.getElementById(
+		"mainMenu"
+	).style.display = "none";
+    
+	document.getElementById(
+        "settingPage"
+    ).style.display = "none";
+
+    document.getElementById(
+        "colorPage"
+    ).style.display = "none";
+    
+	document.getElementById(
+		"downloadPage"
+	).style.display = "block";
+
+    download1();
+
 }
 
 async function main(){
