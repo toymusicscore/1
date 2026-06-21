@@ -2437,17 +2437,17 @@ function lineScore(tick){
 		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
-		ctx.fillRect(mx+l*view.kw,my,view.kw,szy-my);
+		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
 		}else if (k%12===0){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,szy);
+		ctx.lineTo(mx+l*view.kw,my+szy);
 		ctx.strokeStyle="red";
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,szy);
+		ctx.lineTo(mx+l*view.kw,my+szy);
 		ctx.strokeStyle="green";
 		ctx.stroke();
 		}
@@ -2455,8 +2455,8 @@ function lineScore(tick){
 
 	if (tick<eott0){
 	ctx.beginPath();
-	ctx.moveTo(0,my+tick%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-	ctx.lineTo(szx,my+tick%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+	ctx.moveTo(0,my+tick%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
+	ctx.lineTo(szx,my+tick%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 	ctx.strokeStyle="grey";
 	ctx.stroke();
 	} else {
@@ -2464,8 +2464,8 @@ function lineScore(tick){
 	}
 
 	ctx.beginPath();
-	ctx.moveTo(0,szy);
-	ctx.lineTo(mx+szk,szy);
+	ctx.moveTo(0,my+szy);
+	ctx.lineTo(mx+szk,my+szy);
 	ctx.strokeStyle="red";
 	ctx.stroke();
 
@@ -2473,17 +2473,17 @@ function lineScore(tick){
 		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		let vmn0=m/ppq/bttl*ntvl/4+1;
 		ctx.beginPath();
-		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.strokeStyle="red";
 		ctx.stroke();
 		ctx.fillStyle="black";
 		ctx.font="25px Arial";
-		ctx.fillText(vmn0,0,my+25+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.fillText(vmn0,0,my+25+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
-		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.strokeStyle="blue";
 		ctx.stroke();
 		}
@@ -2814,17 +2814,17 @@ function scrollScore(tick){
 		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
-		ctx.fillRect(mx+l*view.kw,my,view.kw,szy-my);
+		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
 		}else if (k%12===0){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,szy);
+		ctx.lineTo(mx+l*view.kw,my+szy);
 		ctx.strokeStyle="red";
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,szy);
+		ctx.lineTo(mx+l*view.kw,my+szy);
 		ctx.strokeStyle="green";
 		ctx.stroke();
 		}
@@ -2834,17 +2834,17 @@ function scrollScore(tick){
 		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		let vmn0=m/ppq/bttl*ntvl/4+1;
 		ctx.beginPath();
-		ctx.moveTo(0,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(0,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.strokeStyle="red";
 		ctx.stroke();
 		ctx.fillStyle="black";
 		ctx.font="25px Arial";
-		ctx.fillText(vmn0,0,my*1.6+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
 		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
-		ctx.moveTo(mx,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-tick)*(szy-my)/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(mx,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.strokeStyle="blue";
 		ctx.stroke();
 		}
