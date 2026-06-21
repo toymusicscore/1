@@ -2882,20 +2882,20 @@ function scrollScore(tick){
 		}
 		
 		if (dp > -1/4 && dt < ht1){
-		const x0 = (midi-midi_min)*view.kw+mx;
-		const x1 = (midi-midi_min+0.5)*view.kw+mx;
-		const y = my+dt*(szy-my)/ht1;
-		if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
-				continue;
-			}
-		ctx.fillStyle=workingPcColors[midi%12];
-		ctx.fillRect(x0,y,view.kw,gt*(szy-my)/ht1);
-		ctx.beginPath();
-		ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
-		ctx.fillStyle=handColor;
-		ctx.fill();
-		ctx.fillStyle="black";
-		ctx.font="20px Arial";
+			const x0 = (midi-view.midi_min)*view.kw+mx;
+			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
+			const y = my+dt*(szy-my)/ht1;
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+					continue;
+				}
+			ctx.fillStyle=workingPcColors[midi%12];
+			ctx.fillRect(x0,y,view.kw,gt*(szy-my)/ht1);
+			ctx.beginPath();
+			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
+			ctx.fillStyle=handColor;
+			ctx.fill();
+			ctx.fillStyle="black";
+			ctx.font="20px Arial";
 			if (nl!=""){
 			ctx.fillText(nl, x0+3, y+7);
 			}
@@ -2928,8 +2928,8 @@ function scrollRecord(tick){
 
 		if (dp > 0 && dt < ht1){
 
-			const x0 = (midi-midi_min)*view.kw+mx;
-			const x1 = (midi-midi_min+0.5)*view.kw+mx;
+			const x0 = (midi-view.midi_min)*view.kw+mx;
+			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
 			const y = my+dt*(szy-my)/ht1;
 
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
