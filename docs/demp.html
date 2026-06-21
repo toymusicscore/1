@@ -2814,40 +2814,27 @@ function scrollScore(tick){
 	szk=szx-2*mx;
 	ctx.lineWidth=1;
 
+	const view = getViewInfo();
 
-	if (document.form1.hands.options[0].selected==true) {
-		midi_max=midi_max_b;
-		midi_min=midi_min_b;
-	}else if (document.form1.hands.options[1].selected==true) {
-		midi_max=midi_max_r;
-		midi_min=midi_min_r;
-	} else if (document.form1.hands.options[2].selected==true){
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
-	}
-
-
-	let kn=Number(midi_max)-Number(midi_min)+1;
-	let kw=szk/kn;
-	for(l=0;l<Number(kn);l++){
-		let k=Number(midi_min)+l;
+	for(l=0;l<Number(view.kn);l++){
+		let k=Number(view.midi_min)+l;
 		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
-		ctx.fillRect(mx+l*kw,0,kw,my/2);
+		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
 		ctx.fillStyle=workingPcColors[k%12];
-		ctx.fillRect(mx+l*kw,my/2,kw,my/2);
+		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle="lightgrey";
-		ctx.fillRect(mx+l*kw,my,kw,szy-my);
+		ctx.fillRect(mx+l*view.kw,my,view.kw,szy-my);
 		}else if (k%12===0){
 		ctx.beginPath();
-		ctx.moveTo(mx+l*kw,my);
-		ctx.lineTo(mx+l*kw,szy);
+		ctx.moveTo(mx+l*view.kw,my);
+		ctx.lineTo(mx+l*view.kw,szy);
 		ctx.strokeStyle="red";
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
-		ctx.moveTo(mx+l*kw,my);
-		ctx.lineTo(mx+l*kw,szy);
+		ctx.moveTo(mx+l*view.kw,my);
+		ctx.lineTo(mx+l*view.kw,szy);
 		ctx.strokeStyle="green";
 		ctx.stroke();
 		}
@@ -2873,40 +2860,50 @@ function scrollScore(tick){
 		}
 	}
 
-	for(let i=0;i<r1.length;i++){
-		let midi = r1[i].midi;
-		let start = r1[i].start;
-		let stop = r1[i].stop;
-		let channel = r1[i].channel;
-		let n_id = r1[i].n_id;
+	for(let i=0;i<view.scoreViewData.length;i++){
+		let midi = view.scoreViewData[i].midi;
+		let start = view.scoreViewData[i].start;
+		let stop = view.scoreViewData[i].stop;
+		let track = view.scoreViewData[i].track;
+		let channel = view.scoreViewData[i].channel;
+		let n_id = view.scoreViewData[i].n_id;
 		getLabel(midi, n_id);
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		gt=(stop-start)/(bttl*ppq/ntvl*4);
+
+		let handColor = workingHandColors[3];
+
+		if(track == rightTrack && channel == rightChannel){
+			handColor = workingHandColors[0];
+		}
+		else if(track == leftTrack && channel == leftChannel){
+			handColor = workingHandColors[1];
+		}
+		
 		if (dp > -1/4 && dt < ht1){
-			const x0 = (midi-midi_min)*kw+mx;
-			const x1 = (midi-midi_min+0.5)*kw+mx;
-			const y = my+dt*(szy-my)/ht1;
-			if((document.form1.hands.options[0].selected==true ) || 
-			(document.form1.hands.options[1].selected==true && channel==rightChannel) || 
-			(document.form1.hands.options[2].selected==true && channel==leftChannel)){
-				ctx.fillStyle=workingPcColors[midi%12];
-				ctx.fillRect(x0,y,kw,gt*(szy-my)/ht1);
-				ctx.beginPath();
-				ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
-				ctx.fillStyle=workingHandColors[channel];
-				ctx.fill();
-				ctx.fillStyle="black";
-				ctx.font="20px Arial";
-				if (nl!=""){
-				ctx.fillText(nl, x0+3, y+7);
-				}
-				if (nll!=""){
-				ctx.fillText(nll, mx, y);
-				}
-				if (nlr!=""){
-				ctx.fillText(nlr, mx+szk, y);
-				}
+		const x0 = (midi-midi_min)*view.kw+mx;
+		const x1 = (midi-midi_min+0.5)*view.kw+mx;
+		const y = my+dt*(szy-my)/ht1;
+		if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+				continue;
+			}
+		ctx.fillStyle=workingPcColors[midi%12];
+		ctx.fillRect(x0,y,view.kw,gt*(szy-my)/ht1);
+		ctx.beginPath();
+		ctx.arc(x1,y,kw/2,0,2*Math.PI,false);
+		ctx.fillStyle=handColor;;
+		ctx.fill();
+		ctx.fillStyle="black";
+		ctx.font="20px Arial";
+			if (nl!=""){
+			ctx.fillText(nl, x0+3, y+7);
+			}
+			if (nll!=""){
+			ctx.fillText(nll, mx, y);
+			}
+			if (nlr!=""){
+			ctx.fillText(nlr, mx+szk, y);
 			}
 		}
 	}
