@@ -2422,7 +2422,7 @@ console.log(
 function lineScore(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
-	szy = canvas.height-my;
+	szy = canvas.height-2*my;
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
 	let scoreViewData;
@@ -2582,36 +2582,6 @@ function lineRecord(tick){
 				gt*(szy-2*my)/ht1
 			);
 
-console.log(
-    "arc debug",
-    {
-        x1: x1,
-        y: y,
-        radius: view.kw/4,
-        kw: view.kw,
-        midi: midi,
-        midi_min: view.midi_min
-    }
-);
-
-if(
-    !isFinite(x1) ||
-    !isFinite(y) ||
-    !isFinite(view.kw) ||
-    view.kw <= 0
-){
-    console.log(
-        "BAD ARC",
-        {
-            x1,
-            y,
-            kw:view.kw,
-            midi,
-            midi_min:view.midi_min
-        }
-    );
-    continue;
-}
 			ctx.beginPath();
 			ctx.fillStyle = workingHandColors[2];
 			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
@@ -2830,7 +2800,7 @@ function midiToFreq(midi){
 function scrollScore(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
-	szy = canvas.height-my;
+	szy = canvas.height-2*my;
 	szk=szx-2*mx;
 	ctx.lineWidth=1;
 
@@ -2950,7 +2920,7 @@ function scrollRecord(tick){
 
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*(szy-my)/ht1;
+			const y = my+dt*(szy-2*my)/ht1;
 
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
@@ -2960,7 +2930,7 @@ function scrollRecord(tick){
 				x0 + view.kw/4,
 				y,
 				view.kw/2,
-				gt*(szy-my)/ht1
+				gt*(szy-2*my)/ht1
 			);
 			ctx.beginPath();
 			ctx.fillStyle = workingHandColors[2];
