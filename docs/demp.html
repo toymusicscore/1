@@ -2356,6 +2356,13 @@ if (tsv.t4[n_id]!=undefined){
 
 }
 
+function getVisibleLength(start, stop, tick){
+    return (
+        stop >= tick + ht1*bttl*ppq/ntvl*3
+        ? tick + ht1*bttl*ppq/ntvl*3 - start
+        : stop - start
+    );
+}
 
 function lineScore(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -2450,11 +2457,11 @@ function lineScore(tick){
 		let n_id = scoreViewData[i].n_id;
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-		const gt =
-			stop >= tick + ht1*bttl*ppq/ntvl*3
-			? tick + ht1*bttl*ppq/ntvl*3 - start
-			: stop - start;
-
+		const gt = getVisibleLength(
+			start,
+			stop,
+			tick
+		);
 		let handColor = col3[3];
 
 		if(track == rightTrack && channel == rightChannel){
