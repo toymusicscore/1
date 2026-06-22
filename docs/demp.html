@@ -4595,7 +4595,7 @@ function saveMidi(){
         0x4d,0x54,0x68,0x64,
         0x00,0x00,0x00,0x06,
         0x00,0x01,
-        0x00,0x03,
+        0x00,0x04,
         (ppq>>8)&255,
         ppq&255
     );
@@ -4612,21 +4612,25 @@ function saveMidi(){
         len&255
     );
 
-    bytes.push(...trackData);
-
+		bytes.push(...trackData);
 	addTrack(
 		bytes,
-		rightTrackData
+		createMetaTrackData()
 	);
 
 	addTrack(
 		bytes,
-		leftTrackData
+		createTrackData(scoreRight)
 	);
 
 	addTrack(
 		bytes,
-		recordTrackData
+		createTrackData(scoreLeft)
+	);
+
+	addTrack(
+		bytes,
+		createTrackData(recordData,pedalData)
 	);
 
 	const blob =
