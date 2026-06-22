@@ -1090,7 +1090,19 @@ function setMidi(data1){
     	createScoreDataFromTracks(
         rawMidi
     	);
-	
+
+	console.log(
+		"scoreData.length",
+		scoreData.length
+	);
+
+	console.log(
+		"tracks",
+		[...new Set(
+			scoreData.map(n=>n.track)
+		)]
+	);
+
 	recordData =
 		scoreData.filter(
 			n => n.track === 3
