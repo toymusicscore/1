@@ -4591,6 +4591,25 @@ function createMetaTrackData(){
     return track;
 }
 
+function addTrack(
+    bytes,
+    trackData
+){
+
+    const len =
+        trackData.length;
+
+    bytes.push(
+        0x4d,0x54,0x72,0x6b,
+        (len>>24)&255,
+        (len>>16)&255,
+        (len>>8)&255,
+        len&255
+    );
+
+    bytes.push(...trackData);
+}
+
 function saveMidi(){
 
 	console.log(recordData[0].channel);
@@ -4663,6 +4682,7 @@ const songName =
     a.download = fileName;	
     a.click();
 }
+
 
 function getDateTimeString(){
 
