@@ -4595,6 +4595,20 @@ function saveMidi(){
 
 	console.log(recordData[0].channel);
 
+		const scoreRight =
+		scoreData.filter(
+			n =>
+				n.track === rightTrack &&
+				n.channel === rightChannel
+		);
+
+	const scoreLeft =
+		scoreData.filter(
+			n =>
+				n.track === leftTrack &&
+				n.channel === leftChannel
+		);
+		
     const bytes = [];
 
     // MThd
