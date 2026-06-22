@@ -1564,7 +1564,7 @@ function changeSong(){
 function setColor(){
 
     // Octave色
-    for(let i = 0; i < 9; i++){
+    for(let i = 0; i < workingOctColors.length; i++){
 
         workingOctColors[i] = document.getElementById(
             "x_oct_" + i
@@ -1578,7 +1578,7 @@ function setColor(){
 		"6","7","8","9","a","b"
 	];
 
-	for(let i = 0; i < 12; i++){
+	for(let i = 0; i < workingPcColors.length; i++){
 
 		workingPcColors[i] = document.getElementById(
 			"x_pc_" + pcIds[i]
@@ -1591,6 +1591,24 @@ function setColor(){
 
         workingHandColors[i] = document.getElementById(
             "x_hand_" + i
+        ).value;
+
+    }
+
+	// line
+    for(let i = 0; i < workingLineColors.length; i++){
+
+        workingLineColors[i] = document.getElementById(
+            "x_line_" + i
+        ).value;
+
+    }
+
+	// text
+    for(let i = 0; i < workingTextColors.length; i++){
+
+        workingTextColors[i] = document.getElementById(
+            "x_text_" + i
         ).value;
 
     }
@@ -1632,6 +1650,22 @@ function loadColor(){
 
     }
 
+	for(let i = 0; i < workingLineColors.length; i++){
+
+        document.getElementById(
+            "x_line_" + i
+        ).value = workingLineColors[i];
+
+    }
+
+	for(let i = 0; i < workingLineColors.length; i++){
+
+        document.getElementById(
+            "x_line_" + i
+        ).value = workingLineColors[i];
+
+    }
+
 }
 
 function saveColor(){
@@ -1649,6 +1683,16 @@ function saveColor(){
 	localStorage.setItem(
 		"workingHandColors",
 		JSON.stringify(workingHandColors)
+	);
+
+	localStorage.setItem(
+		"workingLineColors",
+		JSON.stringify(workingLineColors)
+	);
+
+	localStorage.setItem(
+		"workingTextColors",
+		JSON.stringify(workingTextColors)
 	);
 
 }
@@ -1676,6 +1720,17 @@ function loadSavedColor(){
         workingHandColors = JSON.parse(tmp);
     }
 
+	tmp = localStorage.getItem("workingLineColors");
+
+    if(tmp){
+        workingLineColors = JSON.parse(tmp);
+    }
+    tmp = localStorage.getItem("workingTextColors");
+
+    if(tmp){
+        workingTextColors = JSON.parse(tmp);
+    }
+
 }
 
 function resetColor(){
@@ -1683,10 +1738,14 @@ function resetColor(){
     workingOctColors = [...defaultOctColors];
     workingPcColors = [...defaultPcColors];
     workingHandColors = [...defaultHandColors];
+    workingHandColors = [...defaultLineColors];
+    workingHandColors = [...defaultTextColors];
 
     localStorage.removeItem("workingOctColors");
     localStorage.removeItem("workingPcColors");
     localStorage.removeItem("workingHandColors");
+    localStorage.removeItem("workingLineColors");
+    localStorage.removeItem("workingTextColors");
 
     loadColor();   // ←追加
 
