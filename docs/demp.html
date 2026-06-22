@@ -2585,19 +2585,19 @@ function lineScore(tick){
 		ctx.fillStyle=workingPcColors[k%12];
 		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx.fillStyle="lightgrey";
+		ctx.fillStyle=workingLineColors[0];
 		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
 		}else if (k%12===0){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
 		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle="red";
+		ctx.strokeStyle=workingLineColors[1];
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
 		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle="green";
+		ctx.strokeStyle=workingLineColors[2];
 		ctx.stroke();
 		}
 	}
@@ -2606,7 +2606,7 @@ function lineScore(tick){
 	ctx.beginPath();
 	ctx.moveTo(0,my+tick%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 	ctx.lineTo(szx,my+tick%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-	ctx.strokeStyle="grey";
+	ctx.strokeStyle=workingLineColors[5];
 	ctx.stroke();
 	} else {
 		isPlaying = 0;
@@ -2615,7 +2615,7 @@ function lineScore(tick){
 	ctx.beginPath();
 	ctx.moveTo(0,my+szy);
 	ctx.lineTo(mx+szk,my+szy);
-	ctx.strokeStyle="red";
+	ctx.strokeStyle=workingLineColors[3];
 	ctx.stroke();
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
@@ -2624,16 +2624,16 @@ function lineScore(tick){
 		ctx.beginPath();
 		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle="red";
+		ctx.strokeStyle=workingLineColors[3];
 		ctx.stroke();
-		ctx.fillStyle="black";
+		ctx.fillStyle=workingTextColors[0];
 		ctx.font="25px Arial";
 		ctx.fillText(vmn0,0,my+25+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
 		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle="blue";
+		ctx.strokeStyle=workingLineColors[4];
 		ctx.stroke();
 		}
 	}
@@ -2676,15 +2676,17 @@ function lineScore(tick){
 			ctx.fillStyle = handColor;
 			ctx.fill();
 			getLabel(midi, n_id);
-			ctx.fillStyle="black";
 			ctx.font="20px Arial";
 			if (nl!=""){
+			ctx.fillStyle=workingTextColors[1];
 			ctx.fillText(nl, x0+3, y+7);
 			}
 			if (nll!=""){
+			ctx.fillStyle=workingTextColors[2];
 			ctx.fillText(nll, mx, y);
 			}
 			if (nlr!=""){
+			ctx.fillStyle=workingTextColors[3];
 			ctx.fillText(nlr, mx+szk, y);
 			}
 		}
@@ -2962,19 +2964,19 @@ function scrollScore(tick){
 		ctx.fillStyle=workingPcColors[k%12];
 		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx.fillStyle="lightgrey";
+		ctx.fillStyle=workingLineColors[0];
 		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
 		}else if (k%12===0){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
 		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle="red";
+		ctx.strokeStyle=workingLineColors[1];
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
 		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle="green";
+		ctx.strokeStyle=workingLineColors[2];
 		ctx.stroke();
 		}
 	}
@@ -2985,16 +2987,16 @@ function scrollScore(tick){
 		ctx.beginPath();
 		ctx.moveTo(0,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle="red";
+		ctx.strokeStyle=workingLineColors[3];
 		ctx.stroke();
-		ctx.fillStyle="black";
+		ctx.fillStyle=workingTextColors[0];
 		ctx.font="25px Arial";
 		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
 		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
 		ctx.moveTo(mx,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle="blue";
+		ctx.strokeStyle=workingLineColors[4];
 		ctx.stroke();
 		}
 	}
@@ -3036,12 +3038,15 @@ function scrollScore(tick){
 			ctx.fillStyle="black";
 			ctx.font="20px Arial";
 			if (nl!=""){
+			ctx.fillStyle=workingTextColors[1];
 			ctx.fillText(nl, x0+3, y+7);
 			}
 			if (nll!=""){
+			ctx.fillStyle=workingTextColors[2];
 			ctx.fillText(nll, mx, y);
 			}
 			if (nlr!=""){
+			ctx.fillStyle=workingTextColors[3];
 			ctx.fillText(nlr, mx+szk, y);
 			}
 		}
