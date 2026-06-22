@@ -1091,6 +1091,16 @@ function setMidi(data1){
         rawMidi
     	);
 	
+	recordData =
+		scoreData.filter(
+			n => n.track === 3
+		);
+
+	scoreData =
+		scoreData.filter(
+			n => n.track !== 3
+		);
+
 	r1 = scoreData;
 
 	picoAudio.setData(parsedData);
