@@ -4343,12 +4343,11 @@ function noteOff(note){
     delete oscillators[note];
 }
 
-function createMidiEvents(){
+function createMidiEvents(noteData, pedalData1=[]){
 
     const events = [];
 
-    // ノート
-    for(const n of recordData){
+    for(const n of noteData){
 
         events.push({
             tick: Math.round(n.start),
@@ -4364,14 +4363,12 @@ function createMidiEvents(){
                 tick: Math.round(n.stop),
                 type: "off",
                 channel: n.channel,
-                note: n.midi,
-                velocity: 0
+                note: n.midi
             });
         }
     }
 
-    // ペダル
-    for(const p of pedalData){
+    for(const p of pedalData1){
 
         events.push({
             tick: Math.round(p.start),
@@ -4418,8 +4415,10 @@ function writeVLQ(value){
     return bytes;
 }
 
-
-function createTrackData(){
+function createTrackData(
+    noteData,
+    pedalData1=[]
+){
 
     const track = [];
 
@@ -4462,8 +4461,11 @@ function createTrackData(){
 
     let prevTick = 0;
 
-    const events =
-        createMidiEvents();
+	const events =
+    createMidiEvents(
+        noteData,
+        pedalData1
+    );
 
     for(const e of events){
 
@@ -4512,6 +4514,30 @@ function createTrackData(){
         0x00
     );
 
+	const scoreRight =
+		scoreData.filter(
+			n => n.track === rightTrack
+				&& n.channel === rightChannel
+		);
+
+	const scoreLeft =
+		scoreData.filter(
+			n => n.track === leftTrack
+				&& n.channel === leftChannel
+		);
+
+	const rightTrackData =
+		createTrackData(scoreRight);
+
+	const leftTrackData =
+		createTrackData(scoreLeft);
+
+	const recordTrackData =
+		createTrackData(
+			recordData,
+			pedalData
+		);
+
     return track;
 }
 
@@ -4528,8 +4554,8 @@ function saveMidi(){
     bytes.push(
         0x4d,0x54,0x68,0x64,
         0x00,0x00,0x00,0x06,
-        0x00,0x00,
         0x00,0x01,
+        0x00,0x03,
         (ppq>>8)&255,
         ppq&255
     );
@@ -4548,7 +4574,22 @@ function saveMidi(){
 
     bytes.push(...trackData);
 
-    const blob =
+	addTrack(
+		bytes,
+		rightTrackData
+	);
+
+	addTrack(
+		bytes,
+		leftTrackData
+	);
+
+	addTrack(
+		bytes,
+		recordTrackData
+	);
+
+	const blob =
         new Blob(
             [new Uint8Array(bytes)],
             {type:"audio/midi"}
