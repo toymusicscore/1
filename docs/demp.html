@@ -4524,30 +4524,6 @@ function createTrackData(
         0x00
     );
 
-	const scoreRight =
-		scoreData.filter(
-			n => n.track === rightTrack
-				&& n.channel === rightChannel
-		);
-
-	const scoreLeft =
-		scoreData.filter(
-			n => n.track === leftTrack
-				&& n.channel === leftChannel
-		);
-
-	const rightTrackData =
-		createTrackData(scoreRight);
-
-	const leftTrackData =
-		createTrackData(scoreLeft);
-
-	const recordTrackData =
-		createTrackData(
-			recordData,
-			pedalData
-		);
-
     return track;
 }
 
