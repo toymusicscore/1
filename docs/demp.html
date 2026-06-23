@@ -3409,6 +3409,75 @@ function createDiffData(pairs){
 
 }
 
+
+function createMeasureStats(diffData){
+
+    const stats = {};
+
+    for(const d of diffData){
+
+        const m = d.measure;
+
+        if(!stats[m]){
+
+            stats[m] = {
+
+                measure: m,
+                missed: 0,
+                extra: 0,
+                pitch: 0,
+                attack: 0,
+                release: 0,
+                total: 0
+            };
+        }
+
+        if(d.missed){
+            stats[m].missed++;
+            stats[m].total += 10;
+            continue;
+        }
+
+        if(d.extra){
+            stats[m].extra++;
+            stats[m].total += 5;
+            continue;
+        }
+
+        if(Math.abs(d.pitchDiff) > 0){
+            stats[m].pitch++;
+            stats[m].total += 8;
+        }
+
+        if(Math.abs(d.attackDiff) > ppq/8){
+            stats[m].attack++;
+            stats[m].total += 1;
+        }
+
+        if(Math.abs(d.releaseDiff) > ppq/8){
+            stats[m].release++;
+            stats[m].total += 1;
+        }
+    }
+
+    return Object.values(stats);
+}
+
+function createMeasureRanking(diffData){
+
+    const stats =
+        createMeasureStats(diffData);
+
+    stats.sort(
+        (a,b) => b.total - a.total
+    );
+
+    return stats;
+	
+	console.log(stats);
+}
+
+
 function calcPitchAccuracy(diffData){
 
     let correct = 0;
