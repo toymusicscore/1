@@ -3520,7 +3520,11 @@ function showMeasureRanking(diffData){
 	html +=
 		"<tr>" +
 		"<td>" + (index+1) + "</td>" +
-		"<td>" + r.measure + "</td>" +
+		"<td onclick='jumpMeasure(" +
+		r.measure +
+		")'>" +
+		r.measure +
+		"</td>"+
 		"<td>" + r.total + "</td>" +
 		"<td>" + r.missed + "</td>" +
 		"<td>" + r.pitch + "</td>" +
