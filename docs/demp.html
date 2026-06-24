@@ -1927,6 +1927,13 @@ function stopRecording(){
     stopRecord();
 }
 
+function updateRecordButton(){
+    const btn = document.getElementById("recordBtn");
+    if(btn){
+        btn.value = showRecord ? "Hide Record" : "Show Record";
+    }
+}
+
 function clearRecord(){
 	baseAudioTime = 0;
 	recordData = [];
@@ -1940,6 +1947,9 @@ function clearRecord(){
     nextIndex = 0;
     pauseTick = 0;
 	highlightMeasure =0;
+	showRecord = true;
+	updateRecordButton();
+
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
