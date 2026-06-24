@@ -2663,6 +2663,10 @@ function lineScore(tick){
 		ctx.stroke();
 		ctx.fillStyle=workingTextColors[0];
 		ctx.font="25px Arial";
+		if(vmn0 === highlightMeasure){
+			ctx.fillStyle =
+				"#ff0000";
+		}
 		ctx.fillText(vmn0,0,my+25+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
