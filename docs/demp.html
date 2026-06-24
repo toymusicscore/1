@@ -30,7 +30,7 @@ demp
 <input 
 	type="button" 
 	value="Ranking" 
-	onClick="showMeasureRanking(diffData);">
+	onClick="showMeasureRanking();">
 <input 
 	type="button" 
 	value="Clear" 
@@ -3499,32 +3499,10 @@ function jumpMeasure(measure){
 	document.getElementById("rankingPage").style.display = "none";
 }
 
-function showMeasureRanking(diffData){
-		let pairs = [];
 
-    if(document.form1.hands.options[0].selected){
+function showMeasureRanking(){
 
-        pairs = matchNotes(
-            scoreData,
-            recordData
-        );
-
-    }else if(document.form1.hands.options[1].selected){
-
-        pairs = matchNotes(
-            scoreRight,
-            hands.right
-        );
-
-    }else if(document.form1.hands.options[2].selected){
-
-        pairs = matchNotes(
-            scoreLeft,
-            hands.left
-        );
-    }
-
-    diffData = createDiffData(pairs);
+    diffData = createCurrentDiffData();
 
     const ranking =
         createMeasureRanking(diffData);
@@ -3820,11 +3798,9 @@ function createPedalGraphData(){
     return data;
 }
 
-function drawLineGraph(){
+function createCurrentDiffData(){
 
-	console.log("hands =", hands);
-
-	let pairs = [];
+    let pairs = [];
 
     if(document.form1.hands.options[0].selected){
 
@@ -3848,7 +3824,13 @@ function drawLineGraph(){
         );
     }
 
-    diffData = createDiffData(pairs);
+    return createDiffData(pairs);
+}
+
+
+function drawLineGraph(){
+
+    diffData = createCurrentDiffData();
 
 	const matched =
 		pairs.filter(
