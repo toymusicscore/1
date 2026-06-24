@@ -3660,16 +3660,16 @@ function saveLessonRecord(){
 
     const record = {
         date: new Date().toLocaleString(),
-        song: currentSong,
-        hands: document.form1.hands.value,
+        song: document.getElementById("song1").value,
+        hands: document.getElementById("hands").value,
 
-        overall: Overall,
+        overall: calcOverall(diffData),
 
-        pitch: pitchAccuracy,
-        attack: attackAccuracy,
-        duration: durationAccuracy,
-        release: releaseAccuracy,
-        velocity: velocityAccuracy,
+        pitch: calcPitchAccuracy(diffData),
+        attack: calcAttackAccuracy(diffData),
+        duration: calcDurationAccuracy(diffData),
+        release: calcReleaseAccuracy(diffdata),
+        velocity: calcVelocityAccuracy(diffData),
 
         worstMeasures:
             createMeasureRanking(diffData)
