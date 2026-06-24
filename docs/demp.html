@@ -2759,6 +2759,8 @@ function toggleRecordView(){
     showRecord = !showRecord;
 
     const btn = document.getElementById("recordBtn");
+    if(!btn) return;
+
     btn.value = showRecord ? "Hide Record" : "Show Record";
 	goTop();
 }	
