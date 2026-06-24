@@ -498,6 +498,7 @@ demp
 >
 </canvas>
 <div id="license"></div>
+<h2>Practice Ranking</h2>
 <div id="rankingArea"></div>
 <script src="https://unpkg.com/picoaudio/dist/browser/PicoAudio.js"></script>
 <script type="module">
@@ -3499,7 +3500,6 @@ function showMeasureRanking(diffData){
     console.log("ranking", ranking);
  
     let html = "";
-
     html += "<table border='1'>";
 	html +=
 		"<tr>" +
@@ -3533,6 +3533,10 @@ function showMeasureRanking(diffData){
     });
 
     html += "</table>";
+
+	html =
+		"<h3>Top 5 Measures to Practice</h3>" +
+		html;
 
 	console.log(html);
 
