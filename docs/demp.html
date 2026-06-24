@@ -3576,45 +3576,45 @@ function showMeasureRanking(){
 
 	const ranking =
         createMeasureRanking(diffData);
-html += "<table border='1' style='font-size:20px; border-collapse:collapse; width:100%;'>";
 
-html +=
-"<tr style='background:#ddd; font-weight:bold;'>" +
-"<th>Rank</th>" +
-"<th>Measure</th>" +
-"<th>Total</th>" +
-"<th>Missed</th>" +
-"<th>Pitch</th>" +
-"<th>Extra</th>" +
-"<th>Attack</th>" +
-"<th>Duration</th>" +
-"<th>Release</th>" +
-"<th>Velocity</th>" +
-"</tr>";
+		html += "<table border='1' style='font-size:25px; border-collapse:collapse; width:100%;'>";
+		html +=
+		"<tr style='background:#ddd; font-weight:bold;'>" +
+		"<th>Rank</th>" +
+		"<th>Measure</th>" +
+		"<th>Total</th>" +
+		"<th>Missed</th>" +
+		"<th>Pitch</th>" +
+		"<th>Extra</th>" +
+		"<th>Attack</th>" +
+		"<th>Duration</th>" +
+		"<th>Release</th>" +
+		"<th>Velocity</th>" +
+		"</tr>";
 
-ranking
-.filter(r => r.total > 0 && r.measure <= lastMeasure)
-.slice(0,5)
-.forEach((r,index)=>{
+		ranking
+		.filter(r => r.total > 0 && r.measure <= lastMeasure)
+		.slice(0,5)
+		.forEach((r,index)=>{
 
-    const bg = (index % 2 === 0) ? "#f7f7f7" : "#ffffff";
+			const bg = (index % 2 === 0) ? "#f7f7f7" : "#ffffff";
 
-    html +=
-        "<tr style='background-color:" + bg + "'>" +
-        "<td>" + (index+1) + "</td>" +
-        "<td onclick='jumpMeasure(" + r.measure + ")' style='cursor:pointer;color:blue;text-decoration:underline'>" +
-        r.measure +
-        "</td>" +
-        "<td>" + r.total + "</td>" +
-        "<td>" + r.missed + "</td>" +
-        "<td>" + r.pitch + "</td>" +
-        "<td>" + r.extra + "</td>" +
-        "<td>" + r.attack + "</td>" +
-        "<td>" + r.duration + "</td>" +
-        "<td>" + r.release + "</td>" +
-        "<td>" + r.velocity + "</td>" +
-        "</tr>";
-});
+			html +=
+				"<tr style='background-color:" + bg + "'>" +
+				"<td>" + (index+1) + "</td>" +
+				"<td onclick='jumpMeasure(" + r.measure + ")' style='cursor:pointer;color:blue;text-decoration:underline'>" +
+				r.measure +
+				"</td>" +
+				"<td>" + r.total + "</td>" +
+				"<td>" + r.missed + "</td>" +
+				"<td>" + r.pitch + "</td>" +
+				"<td>" + r.extra + "</td>" +
+				"<td>" + r.attack + "</td>" +
+				"<td>" + r.duration + "</td>" +
+				"<td>" + r.release + "</td>" +
+				"<td>" + r.velocity + "</td>" +
+				"</tr>";
+		});
 
     html += "</table>";
 
