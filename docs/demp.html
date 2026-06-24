@@ -3647,6 +3647,70 @@ function showMeasureRanking(){
 }
 
 
+const LESSON_KEY = "lessonHistory";
+
+function saveLessonRecord(){
+
+    let history =
+        JSON.parse(localStorage.getItem(LESSON_KEY)) || [];
+
+    const record = {
+        date: new Date().toLocaleString(),
+        song: currentSong,
+        hands: document.form1.hands.value,
+
+        overall: Overall,
+
+        pitch: pitchAccuracy,
+        attack: attackAccuracy,
+        duration: durationAccuracy,
+        release: releaseAccuracy,
+        velocity: velocityAccuracy,
+
+        worstMeasures:
+            createMeasureRanking(diffData)
+                .slice(0,5)
+                .map(r => r.measure)
+    };
+
+    history.push(record);
+
+    localStorage.setItem(
+        LESSON_KEY,
+        JSON.stringify(history)
+    );
+}
+
+
+function loadLessonHistory(){
+
+    return JSON.parse(
+        localStorage.getItem(LESSON_KEY)
+    ) || [];
+}
+
+function showLessonHistory(){
+
+    const history = loadLessonHistory();
+
+    let html = "<h3>Lesson History</h3><table border='1'>";
+    html += "<tr><th>Date</th><th>Song</th><th>Score</th></tr>";
+
+    history.forEach(r => {
+        html +=
+            "<tr>" +
+            "<td>" + r.date + "</td>" +
+            "<td>" + r.song + "</td>" +
+            "<td>" + r.overall + "</td>" +
+            "</tr>";
+    });
+
+    html += "</table>";
+
+    document.getElementById("rankingArea").innerHTML = html;
+}
+
+
 function calcPitchAccuracy(diffData){
 
     let correct = 0;
