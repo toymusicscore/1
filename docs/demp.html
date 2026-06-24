@@ -3504,6 +3504,11 @@ function showMeasureRanking(){
 
 	updateAnalysisData()
 
+	const lastMeasure =
+		Math.floor(
+			lastTick / ticksPerMeasure
+		) + 1;
+
 	const ranking =
         createMeasureRanking(diffData);
  
@@ -3524,7 +3529,11 @@ function showMeasureRanking(){
 		"</tr>";
 
 	ranking
-		.filter(r => r.total > 0)
+		.filter(
+			r =>
+				r.total > 0 &&
+				r.measure <= lastMeasure
+		)
 		.slice(0,5)
 		.forEach((r,index)=>{
 	html +=
@@ -3829,6 +3838,13 @@ function updateAnalysisData(){
 
     diffData =
         createDiffData(pairs);
+
+    lastTick =
+        Math.max(
+            ...recordData.map(
+                n => n.start
+            )
+        );
 }
 
 
