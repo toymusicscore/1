@@ -2790,8 +2790,8 @@ function lineRecord(tick){
 			);
 
 			console.log(showRecord);
-			
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || showRecord){
+
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || !showRecord){
 				continue;
 			}
 
@@ -3101,7 +3101,7 @@ function scrollScore(tick){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
 			const y = my+dt*szy/ht1;
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || showRecord){
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || !showRecord){
 					continue;
 				}
 			ctx.fillStyle=workingPcColors[midi%12];
