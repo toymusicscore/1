@@ -3643,6 +3643,12 @@ function showMeasureRanking(){
         "rankingArea"
     ).innerHTML = html;
 
+	showRankingPage();
+
+}
+
+function showRankingPage(){
+
 	document.getElementById("mainPage").style.display = "none";
 	document.getElementById("canvas").style.display = "none";
     document.getElementById("settingPage").style.display = "none";
@@ -3651,7 +3657,6 @@ function showMeasureRanking(){
 	document.getElementById("rankingPage").style.display = "block";
 
 }
-
 
 const LESSON_KEY = "lessonHistory";
 
@@ -3737,6 +3742,9 @@ function showLessonHistory(){
     html += "</table>";
 
     document.getElementById("rankingArea").innerHTML = html;
+	
+	showRankingPage();
+
 }
 
 
