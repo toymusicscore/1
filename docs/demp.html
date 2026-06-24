@@ -3414,14 +3414,7 @@ function createDiffData(pairs){
 
 }
 
-function showMeasureRanking(diffData){
-
-    console.log("diffData", diffData);
-
-    const ranking =
-        createMeasureRanking(diffData);
-
-    console.log("ranking", ranking);
+function createMeasureStats(diffData){
 
     const stats = {};
 
@@ -3496,6 +3489,7 @@ function createMeasureRanking(diffData){
     return stats;
 	
 }
+
 function showMeasureRanking(diffData){
 	console.log("diffData length", diffData.length);
 	console.log(diffData[0]);
@@ -3518,8 +3512,8 @@ function showMeasureRanking(diffData){
 		"<th>Pitch</th>" +
 		"<th>Extra</th>" +
 		"<th>Attack</th>" +
-		"<th>Release</th>" +
 		"<th>Duration</th>" +
+		"<th>Release</th>" +
 		"<th>Velocity</th>" +
 		"</tr>";
 
@@ -3534,8 +3528,8 @@ function showMeasureRanking(diffData){
 		"<td>" + r.pitch + "</td>" +
 		"<td>" + r.extra + "</td>" +
 		"<td>" + r.attack + "</td>" +
-		"<td>" + r.release + "</td>" +
 		"<td>" + r.duration + "</td>" +
+		"<td>" + r.release + "</td>" +
 		"<td>" + r.velocity + "</td>" +
 	    "</tr>";
     });
