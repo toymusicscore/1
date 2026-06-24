@@ -42,8 +42,12 @@ demp
 	onClick="clearRecord()">
 <input 
 	type="button" 
-	value="Save Midi" 
-	onClick="saveMidi()">
+	value="Save Lesson" 
+	onClick="saveLessonRecord()">
+<input 
+	type="button" 
+	value="Show Lesson" 
+	onClick="showLessonHistory()">
 <input
     type="button"
     value="Download TSV"
@@ -3679,6 +3683,9 @@ function saveLessonRecord(){
         LESSON_KEY,
         JSON.stringify(history)
     );
+
+	saveMidi();
+	
 }
 
 
