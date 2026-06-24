@@ -3798,33 +3798,39 @@ function createPedalGraphData(){
     return data;
 }
 
-function createCurrentDiffData(){
 
-    let pairs = [];
+function createCurrentPairs(){
 
     if(document.form1.hands.options[0].selected){
 
-        pairs = matchNotes(
+        return matchNotes(
             scoreData,
             recordData
         );
 
     }else if(document.form1.hands.options[1].selected){
 
-        pairs = matchNotes(
+        return matchNotes(
             scoreRight,
             hands.right
         );
 
-    }else if(document.form1.hands.options[2].selected){
+    }else{
 
-        pairs = matchNotes(
+        return matchNotes(
             scoreLeft,
             hands.left
         );
     }
+}
 
+
+function createCurrentDiffData(){
+
+	pairs = createCurrentPairs();
+	
     return createDiffData(pairs);
+
 }
 
 
