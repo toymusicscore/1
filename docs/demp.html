@@ -3425,47 +3425,44 @@ function createMeasureStats(diffData){
 
         if(!stats[m]){
 
-            stats[m] = {
-
-                measure: m,
-                missed: 0,
-                extra: 0,
-                pitch: 0,
-                attack: 0,
-                release: 0,
-                total: 0
-            };
+			stats[m] = {
+				measure: m,
+				missed: 0,
+				extra: 0,
+				pitch: 0,
+				attack: 0,
+				duration: 0,
+				release: 0,
+				velocity: 0,
+				total: 0
+			};
         }
+		if(Math.abs(d.pitchDiff) > 0){
+			stats[m].pitch++;
+			stats[m].total += 8;
+		}
 
-        if(d.missed){
-            stats[m].missed++;
-            stats[m].total += 10;
-            continue;
-        }
+		if(Math.abs(d.attackDiff) > ppq/8){
+			stats[m].attack++;
+			stats[m].total += 1;
+		}
 
-        if(d.extra){
-            stats[m].extra++;
-            stats[m].total += 5;
-            continue;
-        }
+		if(Math.abs(d.durationDiff) > ppq/8){
+			stats[m].duration++;
+			stats[m].total += 1;
+		}
 
-        if(Math.abs(d.pitchDiff) > 0){
-            stats[m].pitch++;
-            stats[m].total += 8;
-        }
+		if(Math.abs(d.releaseDiff) > ppq/8){
+			stats[m].release++;
+			stats[m].total += 1;
+		}
 
-        if(Math.abs(d.attackDiff) > ppq/8){
-            stats[m].attack++;
-            stats[m].total += 1;
-        }
-
-        if(Math.abs(d.releaseDiff) > ppq/8){
-            stats[m].release++;
-            stats[m].total += 1;
-        }
-    }
-
-    return Object.values(stats);
+		if(Math.abs(d.velocityDiff) > 20){
+			stats[m].velocity++;
+			stats[m].total += 1;
+		}
+	}
+		return Object.values(stats);
 }
 
 function createMeasureRanking(diffData){
@@ -3489,31 +3486,35 @@ function showMeasureRanking(diffData){
     let html = "";
 
     html += "<table border='1'>";
-    html +=
-        "<tr>" +
-        "<th>順位</th>" +
-        "<th>小節</th>" +
-        "<th>合計</th>" +
-        "<th>弾き忘れ</th>" +
-        "<th>余計な音</th>" +
-        "<th>音高</th>" +
-        "<th>打鍵</th>" +
-        "<th>離鍵</th>" +
-        "</tr>";
+	html +=
+		"<tr>" +
+		"<th>Rank</th>" +
+		"<th>Measure</th>" +
+		"<th>Total</th>" +
+		"<th>Missed</th>" +
+		"<th>Extra</th>" +
+		"<th>Pitch</th>" +
+		"<th>Attack</th>" +
+		"<th>Duration</th>" +
+		"<th>Release</th>" +
+		"<th>Velocity</th>" +
+		"</tr>";
 
     ranking.slice(0,5).forEach((r,index)=>{
 
-        html +=
-            "<tr>" +
-            "<td>" + (index+1) + "</td>" +
-            "<td>" + r.measure + "</td>" +
-            "<td>" + r.total + "</td>" +
-            "<td>" + r.missed + "</td>" +
-            "<td>" + r.extra + "</td>" +
-            "<td>" + r.pitch + "</td>" +
-            "<td>" + r.attack + "</td>" +
-            "<td>" + r.release + "</td>" +
-            "</tr>";
+	html +=
+		"<tr>" +
+		"<td>" + (index+1) + "</td>" +
+		"<td>" + r.measure + "</td>" +
+		"<td>" + r.total + "</td>" +
+		"<td>" + r.missed + "</td>" +
+		"<td>" + r.extra + "</td>" +
+		"<td>" + r.pitch + "</td>" +
+		"<td>" + r.attack + "</td>" +
+		"<td>" + r.duration + "</td>" +
+		"<td>" + r.release + "</td>" +
+		"<td>" + r.velocity + "</td>" +
+	    "</tr>";
     });
 
     html += "</table>";
