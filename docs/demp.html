@@ -1802,6 +1802,15 @@ function showSetting(){
     document.getElementById(
         "colorPage"
     ).style.display = "none";
+
+	document.getElementById(
+		"downloadPage"
+	).style.display = "none";
+
+	document.getElementById(
+		"rankingArea"
+    ).style.display = "none";
+
 }
 
 function showColor(){
@@ -1811,6 +1820,8 @@ function showColor(){
     document.getElementById("mainPage").style.display = "none";
     document.getElementById("settingPage").style.display = "none";
     document.getElementById("colorPage").style.display = "block";
+    document.getElementById("downloadPage").style.display = "none";
+	document.getElementById("rankingArea").style.display = "none";
 
 }
 
@@ -1830,6 +1841,10 @@ function showMain(){
 
     document.getElementById("canvas").style.display = "block";
 
+	document.getElementById(
+		"rankingArea"
+    ).style.display = "none";
+
     selview1();
 }
 
@@ -1843,6 +1858,10 @@ function showDownloadPage(){
     document.getElementById("canvas").style.display = "none";
 
     document.getElementById("downloadPage").style.display = "block";
+
+	document.getElementById(
+		"rankingArea"
+    ).style.display = "none";
 
     downloadTsv();
 }
