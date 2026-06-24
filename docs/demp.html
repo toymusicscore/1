@@ -489,11 +489,15 @@ demp
     onclick="showMain()">
 </div>
 
-<div id="rankingArea" style="display:none">
-<input
-    type="button"
-    value="← Back"
-    onclick="showMain()">
+<div id="rankingPage" style="display:none">
+
+    <input
+        type="button"
+        value="← Back"
+        onclick="showMain()">
+
+    <div id="rankingArea"></div>
+
 </div>
 
 </form>
@@ -1800,7 +1804,7 @@ function showSetting(){
     document.getElementById("settingPage").style.display = "block";
     document.getElementById("colorPage").style.display = "none";
 	document.getElementById("downloadPage").style.display = "none";
-	document.getElementById("rankingArea").style.display = "none";
+	document.getElementById("rankingPage").style.display = "none";
 
 }
 
@@ -1813,7 +1817,7 @@ function showColor(){
 	document.getElementById("settingPage").style.display = "none";
     document.getElementById("colorPage").style.display = "block";
     document.getElementById("downloadPage").style.display = "none";
-	document.getElementById("rankingArea").style.display = "none";
+	document.getElementById("rankingPage").style.display = "none";
 
 }
 
@@ -1824,7 +1828,7 @@ function showMain(){
 	document.getElementById("settingPage").style.display = "none";
     document.getElementById("colorPage").style.display = "none";
     document.getElementById("downloadPage").style.display = "none";
-	document.getElementById("rankingArea").style.display = "none";
+	document.getElementById("rankingPage").style.display = "none";
 
     selview1();
 }
@@ -1837,7 +1841,7 @@ function showDownloadPage(){
     document.getElementById("settingPage").style.display = "none";
     document.getElementById("colorPage").style.display = "none";
     document.getElementById("downloadPage").style.display = "block";
-	document.getElementById("rankingArea").style.display = "none";
+	document.getElementById("rankingPage").style.display = "none";
 
     downloadTsv();
 }
