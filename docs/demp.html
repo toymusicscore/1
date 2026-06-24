@@ -3515,8 +3515,10 @@ function showMeasureRanking(diffData){
 		"<th>Velocity</th>" +
 		"</tr>";
 
-    ranking.slice(0,5).forEach((r,index)=>{
-
+	ranking
+		.filter(r => r.total > 0)
+		.slice(0,5)
+		.forEach((r,index)=>{
 	html +=
 		"<tr>" +
 		"<td " +
@@ -3538,7 +3540,9 @@ function showMeasureRanking(diffData){
     html += "</table>";
 
 	html =
-		"<h3>Top 5 Measures to Practice</h3>" +
+		"<h3 style='text-align:center'>" +
+		"Top 5 Measures to Practice" +
+		"</h3>" +
 		html;
 
 	console.log(html);
