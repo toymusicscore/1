@@ -33,8 +33,8 @@ demp
 	onClick="showMeasureRanking();">
 <input 
 	type="button" 
-	value="Hide Record" 
-	onClick="hideRecord();">
+	value="Show/Hide Record" 
+	onClick="showhideRecord();">
 <input 
 	type="button" 
 	value="Clear" 
@@ -2754,9 +2754,13 @@ function lineScore(tick){
 
 let showRecord = true;
 
-function hideRecord(){
+function showhideRecord(){
 
-	showRecord = false;
+	if (showRecord = true){
+			showRecord = false;
+	}else{
+			showRecord = true;
+	}
 	
 	goTop();
 
