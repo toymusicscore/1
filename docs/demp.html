@@ -3415,58 +3415,21 @@ function createDiffData(pairs){
 }
 
 
-function createMeasureStats(diffData){
+stats[m] = {
 
-    const stats = {};
+    measure: m,
 
-    for(const d of diffData){
+    missed: 0,
+    extra: 0,
 
-        const m = d.measure;
+    pitch: 0,
+    attack: 0,
+    duration: 0,
+    release: 0,
+    velocity: 0,
 
-        if(!stats[m]){
-
-            stats[m] = {
-
-                measure: m,
-                missed: 0,
-                extra: 0,
-                pitch: 0,
-                attack: 0,
-                release: 0,
-                total: 0
-            };
-        }
-
-        if(d.missed){
-            stats[m].missed++;
-            stats[m].total += 10;
-            continue;
-        }
-
-        if(d.extra){
-            stats[m].extra++;
-            stats[m].total += 5;
-            continue;
-        }
-
-        if(Math.abs(d.pitchDiff) > 0){
-            stats[m].pitch++;
-            stats[m].total += 8;
-        }
-
-        if(Math.abs(d.attackDiff) > ppq/8){
-            stats[m].attack++;
-            stats[m].total += 1;
-        }
-
-        if(Math.abs(d.releaseDiff) > ppq/8){
-            stats[m].release++;
-            stats[m].total += 1;
-        }
-    }
-
-    return Object.values(stats);
-}
+    total: 0
+};
 
 function createMeasureRanking(diffData){
 
@@ -3483,46 +3446,29 @@ function createMeasureRanking(diffData){
 	
 }
 
-function showMeasureRanking(diffData){
+if(Math.abs(d.pitchDiff) > 0){
+    stats[m].pitch++;
+    stats[m].total += 8;
+}
 
-    const ranking =
-        createMeasureRanking(diffData);
+if(Math.abs(d.attackDiff) > ppq/8){
+    stats[m].attack++;
+    stats[m].total += 1;
+}
 
-    let html = "";
+if(Math.abs(d.durationDiff) > ppq/8){
+    stats[m].duration++;
+    stats[m].total += 1;
+}
 
-    html += "<table border='1'>";
-	html +=
-		"<tr>" +
-		"<th>Rank</th>" +
-		"<th>Measure</th>" +
-		"<th>Total</th>" +
-		"<th>Missed</th>" +
-		"<th>Extra</th>" +
-		"<th>Pitch</th>" +
-		"<th>Attack</th>" +
-		"<th>Release</th>" +
-		"</tr>";
+if(Math.abs(d.releaseDiff) > ppq/8){
+    stats[m].release++;
+    stats[m].total += 1;
+}
 
-    ranking.slice(0,5).forEach((r,index)=>{
-
-        html +=
-            "<tr>" +
-            "<td>" + (index+1) + "</td>" +
-            "<td>" + r.measure + "</td>" +
-            "<td>" + r.total + "</td>" +
-            "<td>" + r.missed + "</td>" +
-            "<td>" + r.extra + "</td>" +
-            "<td>" + r.pitch + "</td>" +
-            "<td>" + r.attack + "</td>" +
-            "<td>" + r.release + "</td>" +
-            "</tr>";
-    });
-
-    html += "</table>";
-
-    document.getElementById(
-        "rankingArea"
-    ).innerHTML = html;
+if(Math.abs(d.velocityDiff) > 20){
+    stats[m].velocity++;
+    stats[m].total += 1;
 }
 
 
