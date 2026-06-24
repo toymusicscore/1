@@ -3653,31 +3653,40 @@ function showMeasureRanking(){
 
 const LESSON_KEY = "lessonHistory";
 
+
 function saveLessonRecord(){
 
     let history =
         JSON.parse(localStorage.getItem(LESSON_KEY)) || [];
 
-    const record = {
-        date: new Date().toLocaleString(),
-        song: document.getElementById("song1").value,
-        hands: document.getElementById("hands").value,
+	const record = {
+		meta: {
+			date: Date.now(),                // 数値（比較しやすい）
+			song: document.getElementById("song1").value,
+			hands: Number(document.getElementById("hands").value)
+			// 0: Both, 1: Right, 2: Left
+		},
 
-        overall: calcOverallAccuracy(diffData),
+		score: {
+			overall: calcOverallAccuracy(diffData),
+			pitch: calcPitchAccuracy(diffData),
+			attack: calcAttackAccuracy(diffData),
+			duration: calcDurationAccuracy(diffData),
+			release: calcReleaseAccuracy(diffData),
+			velocity: calcVelocityAccuracy(diffData)
+		},
 
-        pitch: calcPitchAccuracy(diffData),
-        attack: calcAttackAccuracy(diffData),
-        duration: calcDurationAccuracy(diffData),
-        release: calcReleaseAccuracy(diffdata),
-        velocity: calcVelocityAccuracy(diffData),
+		analysis: {
+			worstMeasures: createMeasureRanking(diffData)
+				.slice(0, 5)
+				.map(r => ({
+					measure: r.measure,
+					score: r.score ?? null   // 将来拡張用
+				}))
+		}
+	};
 
-        worstMeasures:
-            createMeasureRanking(diffData)
-                .slice(0,5)
-                .map(r => r.measure)
-    };
-
-    history.push(record);
+	history.push(record);
 
     localStorage.setItem(
         LESSON_KEY,
