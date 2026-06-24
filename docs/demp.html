@@ -3491,19 +3491,19 @@ function showMeasureRanking(diffData){
     let html = "";
 
     html += "<table border='1'>";
-    html +=
-        "<tr>" +
-        "<th>順位</th>" +
-        "<th>小節</th>" +
-        "<th>合計</th>" +
-        "<th>弾き忘れ</th>" +
-        "<th>余計な音</th>" +
-        "<th>音高</th>" +
-        "<th>打鍵</th>" +
-        "<th>離鍵</th>" +
-        "</tr>";
+	html +=
+		"<tr>" +
+		"<th>Rank</th>" +
+		"<th>Measure</th>" +
+		"<th>Total</th>" +
+		"<th>Missed Notes</th>" +
+		"<th>Extra Notes</th>" +
+		"<th>Wrong Pitch</th>" +
+		"<th>Attack</th>" +
+		"<th>Release</th>" +
+		"</tr>";
 
-    ranking.forEach((r,index)=>{
+    ranking.slice(0,5).forEach((r,index)=>{
 
         html +=
             "<tr>" +
