@@ -3502,9 +3502,9 @@ function jumpMeasure(measure){
 
 function showMeasureRanking(){
 
-    diffData = createCurrentDiffData();
+	diffData = updateAnalysisData()
 
-    const ranking =
+	const ranking =
         createMeasureRanking(diffData);
 
     console.log("ranking", ranking);
@@ -3825,18 +3825,18 @@ function createCurrentPairs(){
 }
 
 
-function createCurrentDiffData(){
+function updateAnalysisData(){
 
-	pairs = createCurrentPairs();
+    pairs = createCurrentPairs();
 
-    return createDiffData(pairs);
-
+    diffData =
+        createDiffData(pairs);
 }
 
 
 function drawLineGraph(){
 
-    diffData = createCurrentDiffData();
+    diffData = updateAnalysisData();
 
 	const matched =
 		pairs.filter(
