@@ -56,18 +56,19 @@ demp
 <label style="font-size:70%">Measure</label>
 <input onchange ="msr1()"
     type="number"
+    id="x_msr"
     name="x_msr"
     value="1"
     min="1"
     style="width:40px">
 
-<input type="button" name="b_||" value=" || " onClick="pauseButton()">
-<input type="button" name="b_|<" value="|<" onClick="goTop()">
-<input type="button" name="b_<<" value="<<" onClick="goBack2()">
-<input type="button" name="b_<" value="<" onClick="goBack1()">
-<input type="button" name="b_>" value=">" onClick="goForward1()">
-<input type="button" name="b_>>" value=">>" onClick="goForward2()">
-<input type="button" name="b_>|" value=">|" onClick="goEnd()">
+<input type="button" id="b_||" name="b_||" value=" || " onClick="pauseButton()">
+<input type="button" id="b_|<" name="b_|<" value="|<" onClick="goTop()">
+<input type="button" id="b_<<" name="b_<<" value="<<" onClick="goBack2()">
+<input type="button" id="b_<" name="b_<" value="<" onClick="goBack1()">
+<input type="button" id="b_>" name="b_>" value=">" onClick="goForward1()">
+<input type="button" id="b_>>" name="b_>>" value=">>" onClick="goForward2()">
+<input type="button" id="b_>|" name="b_>|" value=">|" onClick="goEnd()">
 <input
     type="button"
     value="⚙ Settings"
@@ -129,21 +130,21 @@ demp
 	onchange = setmidi();
     style="width:40px">
 
-<select name="hands"  onchange="goTop()">
-	<option value="0" selected> BH </option>
-	<option value="1"> RH </option>
-	<option value="2"> LH </option>
+<select id="hands" name="hands" onchange="goTop()">
+	<option value="0" selected> Both Hands </option>
+	<option value="1"> Right Hand </option>
+	<option value="2"> Left Hand </option>
 	</select>
 
 <label style="font-size:70%">M/Screen</label>
-<select name="hg1" onchange="height1()">
+<select id="hg1" name="hg1" onchange="height1()">
 	<option value="0"> 1 </option>
 	<option value="1" selected> 2</option>
 	<option value="2"> 3</option>
 	<option value="3"> 4</option>
 	</select>
 
-<select name="nl1" onchange="selview1()">
+<select id="nl1" name="nl1" onchange="selview1()">
 	<option value="0"> No Label </option>
 	<option value="1"> DoReMi # </option>
 	<option value="2"> DoReMi b </option>
@@ -164,7 +165,7 @@ demp
 	<option value="17"> Text5 </option>
 	</select>
 
-<select name="sv1" onchange="selview1()">
+<select id="sv1" name="sv1" onchange="selview1()">
 	<option value="0"> License </option>
 	<option value="1" selected> Line </option>
 	<option value="2"> Scroll </option>
@@ -177,6 +178,7 @@ demp
 <label style="font-size:70%">BPM</label>
 <input
     type="number"
+    id="x_bpm"
     name="x_bpm"
     value="1"
     min="1"
@@ -3697,6 +3699,17 @@ function saveLessonRecord(){
 
 }
 
+const HANDS = {
+    BOTH: 0,
+    RIGHT: 1,
+    LEFT: 2
+};
+
+const HANDS_LABEL = {
+    0: "Both Hand",
+    1: "Right Hand",
+    2: "Left Hand"
+};
 
 function loadLessonHistory(){
 
