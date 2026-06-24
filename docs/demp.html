@@ -3414,8 +3414,14 @@ function createDiffData(pairs){
 
 }
 
+function showMeasureRanking(diffData){
 
-function createMeasureStats(diffData){
+    console.log("diffData", diffData);
+
+    const ranking =
+        createMeasureRanking(diffData);
+
+    console.log("ranking", ranking);
 
     const stats = {};
 
@@ -3437,6 +3443,19 @@ function createMeasureStats(diffData){
 				total: 0
 			};
         }
+
+		if(d.missed){
+			stats[m].missed++;
+			stats[m].total += 10;
+			continue;
+		}
+
+		if(d.extra){
+			stats[m].extra++;
+			stats[m].total += 5;
+			continue;
+		}
+
 		if(Math.abs(d.pitchDiff) > 0){
 			stats[m].pitch++;
 			stats[m].total += 8;
