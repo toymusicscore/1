@@ -3492,11 +3492,11 @@ function jumpMeasure(measure){
 
     document.form1.x_msr.value =
         measure;
+	
+	showMain();
 
     msr1();
-	document.getElementById("main").style.display = "block";
-	document.getElementById("canvas").style.display = "block";
-	document.getElementById("rankingPage").style.display = "none";
+
 }
 
 
@@ -3828,7 +3828,7 @@ function createCurrentPairs(){
 function createCurrentDiffData(){
 
 	pairs = createCurrentPairs();
-	
+
     return createDiffData(pairs);
 
 }
