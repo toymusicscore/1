@@ -3987,6 +3987,25 @@ function updateAnalysisData(){
 }
 
 
+function calcOverallAccuracy(diffData){
+
+	const pitchAccuracy = Math.round(calcPitchAccuracy(diffData));
+	const attackAccuracy = Math.round(calcAttackAccuracy(diffData));
+	const durationAccuracy = Math.round(calcDurationAccuracy(diffData));
+	const releaseAccuracy = Math.round(calcReleaseAccuracy(diffData));
+	const velocityAccuracy = Math.round(calcVelocityAccuracy(diffData));
+
+	const Overall = Math.round(
+		0.5 * pitchAccuracy +
+		0.25 * attackAccuracy +
+		0.1 * releaseAccuracy +
+		0.1 * durationAccuracy +
+		0.05 * velocityAccuracy
+	);
+
+	return Overall;
+}
+
 function drawLineGraph(){
 
     updateAnalysisData();
@@ -4062,13 +4081,7 @@ function drawLineGraph(){
         440
     );
 
-	const Overall = Math.round(
-		0.5 * pitchAccuracy +
-		0.25 * attackAccuracy +
-		0.1 * releaseAccuracy +
-		0.1 * durationAccuracy +
-		0.05 * velocityAccuracy
-	);
+	const Overall = Math.round(calcOverallAccuracy(diffData));
 
 	ctx.fillText(
         "Overall",
@@ -4104,20 +4117,20 @@ function drawLineGraph(){
 
     drawGraph(
         diffData,
-        "releaseDiff",
-        "Release",
+        "durationDiff",
+        "Duration",
         220,
-        "green",
+        "cyan",
         0.1,
 		false
     );
 
-    drawGraph(
+	drawGraph(
         diffData,
-        "durationDiff",
-        "Duration",
+        "releaseDiff",
+        "Release",
         320,
-        "cyan",
+        "green",
         0.1,
 		false
     );
