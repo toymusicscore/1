@@ -3745,7 +3745,7 @@ function showLessonHistory(){
     const history = loadLessonHistory();
 
     let html = "<h3>Lesson History</h3><table border='1'>";
-    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>BPM</th><th>Score</th></tr>";
+    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th></tr>";
 
     history.forEach(r => {
         html +=
@@ -3755,6 +3755,8 @@ function showLessonHistory(){
             "<td>" + HANDS_LABEL[r.meta.hands] + "</td>" +
             "<td>" + r.meta.bpm + "</td>" +
             "<td>" + r.score.overall + "</td>" +
+            "<td>" + r.score.pitch + "</td>" +
+            "<td>" + r.score.attack + "</td>" +
             "</tr>";
     });
 
