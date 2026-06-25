@@ -183,6 +183,11 @@ demp
     value="1"
     min="1"
     style="width:40px">
+
+<input type="button"
+       value="Delete History"
+       onclick="clearHistory()">
+
 <input type="button"
        value="← Back"
        onclick="showMain()">
@@ -3706,6 +3711,10 @@ function saveLessonRecord(){
 
 }
 
+
+function clearHistory(){
+	localStorage.clear();
+}
 const HANDS = {
     BOTH: 0,
     RIGHT: 1,
