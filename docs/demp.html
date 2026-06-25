@@ -3456,11 +3456,6 @@ function createDiffData(pairs){
 			releaseDiff:
 				r.stop - s.stop,
 
-			durationDiff:
-				(r.stop-r.start)
-				-
-				(s.stop-s.start),
-
 			velocityDiff:
 				r.velocity -
 				s.velocity,
@@ -3497,7 +3492,6 @@ function createMeasureStats(diffData){
 				extra: 0,
 				pitch: 0,
 				attack: 0,
-				duration: 0,
 				release: 0,
 				velocity: 0,
 				total: 0
@@ -3523,11 +3517,6 @@ function createMeasureStats(diffData){
 
 		if(Math.abs(d.attackDiff) > ppq/8){
 			stats[m].attack++;
-			stats[m].total += 1;
-		}
-
-		if(Math.abs(d.durationDiff) > ppq/8){
-			stats[m].duration++;
 			stats[m].total += 1;
 		}
 
@@ -3604,7 +3593,6 @@ function showMeasureRanking(){
 		"<th>Pitch</th>" +
 		"<th>Extra</th>" +
 		"<th>Attack</th>" +
-		"<th>Duration</th>" +
 		"<th>Release</th>" +
 		"<th>Velocity</th>" +
 		"</tr>";
@@ -3627,7 +3615,6 @@ function showMeasureRanking(){
 			"<td style='text-align:right'>" + r.pitch + "</td>" +
 			"<td style='text-align:right'>" + r.extra + "</td>" +
 			"<td style='text-align:right'>" + r.attack + "</td>" +
-			"<td style='text-align:right'>" + r.duration + "</td>" +
 			"<td style='text-align:right'>" + r.release + "</td>" +
 			"<td style='text-align:right'>" + r.velocity + "</td>" +
 			"</tr>";
@@ -3685,7 +3672,6 @@ function saveLessonRecord(){
 			overall: calcOverallAccuracy(diffData),
 			pitch: calcPitchAccuracy(diffData),
 			attack: calcAttackAccuracy(diffData),
-			duration: calcDurationAccuracy(diffData),
 			release: calcReleaseAccuracy(diffData),
 			velocity: calcVelocityAccuracy(diffData)
 		},
@@ -3741,7 +3727,7 @@ function showLessonHistory(){
     const history = loadLessonHistory();
 
     let html = "<h3>Lesson History</h3><table border='1'>";
-    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th></tr>";
+    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
 
     history.forEach(r => {
         html +=
@@ -3753,6 +3739,8 @@ function showLessonHistory(){
             "<td>" + r.score.overall + "</td>" +
             "<td>" + r.score.pitch + "</td>" +
             "<td>" + r.score.attack + "</td>" +
+            "<td>" + r.score.release + "</td>" +
+            "<td>" + r.score.velocity + "</td>" +
             "</tr>";
     });
 
@@ -3880,52 +3868,6 @@ function calcReleaseAccuracy(diffData){
     return count ? total / count : 0;
 }
 
-function calcDurationAccuracy(diffData){
-
-    let total = 0;
-	let count = 0;
-
-	for(const d of diffData){
-
-        if(d.missed || d.extra){
-            continue;
-        }
-
-        count++;
-
-        const err =
-            Math.abs(
-                d.durationDiff
-            );
-
-        let score;
-
-        if(err <= ppq * 0.10){
-
-            score = 100;
-
-        }else if(err <= ppq * 0.20){
-
-            score = 90;
-
-        }else if(err <= ppq * 0.40){
-
-            score = 70;
-
-        }else if(err <= ppq * 0.60){
-
-            score = 40;
-
-        }else{
-
-            score = 0;
-        }
-
-        total += score;
-    }
-
-    return count ? total / count : 0;
-}
 
 function calcVelocityAccuracy(diffData){
 
@@ -3977,15 +3919,13 @@ function calcOverallAccuracy(diffData){
 
 	const pitchAccuracy = Math.round(calcPitchAccuracy(diffData));
 	const attackAccuracy = Math.round(calcAttackAccuracy(diffData));
-	const durationAccuracy = Math.round(calcDurationAccuracy(diffData));
 	const releaseAccuracy = Math.round(calcReleaseAccuracy(diffData));
 	const velocityAccuracy = Math.round(calcVelocityAccuracy(diffData));
 
 	const Overall = Math.round(
 		0.5 * pitchAccuracy +
 		0.25 * attackAccuracy +
-		0.1 * releaseAccuracy +
-		0.1 * durationAccuracy +
+		0.2 * releaseAccuracy +
 		0.05 * velocityAccuracy
 	);
 
@@ -4106,14 +4046,6 @@ function drawLineGraph(){
         140
     );
 
-	const durationAccuracy = Math.round(calcDurationAccuracy(diffData));
-
-	ctx.fillText(
-        durationAccuracy,
-        150,
-        240
-    );
-
 	const releaseAccuracy = Math.round(calcReleaseAccuracy(diffData));
 
 	ctx.fillText(
@@ -4160,16 +4092,6 @@ function drawLineGraph(){
         "Attack",
         120,
         "blue",
-        0.1,
-		false
-    );
-
-    drawGraph(
-        diffData,
-        "durationDiff",
-        "Duration",
-        220,
-        "cyan",
         0.1,
 		false
     );
