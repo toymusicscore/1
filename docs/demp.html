@@ -5065,7 +5065,7 @@ const songName =
     document.getElementById("song1").value;
 
 	const fileName =
-    `${songName}-${getDateTimeString()}.mid`;
+    `${songName}-${getCurrentDateTimeString()}.mid`;
 
 	a.href = url;
     a.download = fileName;	
@@ -5073,7 +5073,7 @@ const songName =
 }
 
 
-function getDateTimeString(){
+function getCurrentDateTimeString(){
 
     const now = new Date();
 
@@ -5101,6 +5101,37 @@ function getDateTimeString(){
 
     return `${y}${m}${d}-${h}${min}${s}`;
 }
+
+
+function getDateTimeString(ms){
+
+    const d = new Date(ms);
+
+    const y = d.getFullYear();
+
+    const m = String(
+        d.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        d.getDate()
+    ).padStart(2, "0");
+
+    const h = String(
+        d.getHours()
+    ).padStart(2, "0");
+
+    const min = String(
+        d.getMinutes()
+    ).padStart(2, "0");
+
+    const s = String(
+        d.getSeconds()
+    ).padStart(2, "0");
+
+    return `${y}${m}${day}-${h}${min}${s}`;
+}
+
 
 function msr1(){
 	const msr =
