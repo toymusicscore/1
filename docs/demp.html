@@ -3650,6 +3650,12 @@ function showRankingPage(){
 
 }
 
+const startMeasure =
+    Number(document.getElementById("startMeasure").value);
+
+const endMeasure =
+    Number(document.getElementById("endMeasure").value);
+
 const LESSON_KEY = "lessonHistory";
 
 
@@ -3985,6 +3991,13 @@ function updateAnalysisData(){
 
     diffData =
         createDiffData(pairs);
+
+    firstTick =
+        Math.min(
+            ...recordData.map(
+                n => n.start
+            )
+        );
 
     lastTick =
         Math.max(
