@@ -3675,10 +3675,10 @@ function saveLessonRecord(){
 			version:1,
 			date: Date.now(),                // 数値（比較しやすい）
 			song: document.getElementById("song1").value,
-			firstMeasure: firstMeasure,
-			lastMeasure: lastMeasure,
 			hands: Number(document.getElementById("hands").value),
 			// 0: Both, 1: Right, 2: Left
+			firstMeasure: firstMeasure,
+			lastMeasure: lastMeasure,
 			bpm:  Number(document.getElementById("x_bpm").value)
 		},
 
@@ -3741,16 +3741,16 @@ function showLessonHistory(){
     const history = loadLessonHistory();
 
     let html = "<h3>Lesson History</h3><table border='1'>";
-    html += "<tr><th>Date</th><th>Song</th><th>FirstMeasure</th><th>LastMeasure</th><th>Hands</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
+    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>FirstMeasure</th><th>LastMeasure</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
 
     history.forEach(r => {
         html +=
             "<tr>" +
             "<td>" + getDateTimeString(r.meta.date) + "</td>" +
             "<td>" + r.meta.song + "</td>" +
+            "<td>" + HANDS_LABEL[r.meta.hands] + "</td>" +
             "<td>" + r.meta.firstMeasure + "</td>" +
             "<td>" + r.meta.lastMeasure + "</td>" +
-            "<td>" + HANDS_LABEL[r.meta.hands] + "</td>" +
             "<td>" + r.meta.bpm + "</td>" +
             "<td>" + r.score.overall + "</td>" +
             "<td>" + r.score.pitch + "</td>" +
