@@ -3575,16 +3575,6 @@ function showMeasureRanking(){
 
 	updateAnalysisData()
 
-	const firstMeasure =
-		Math.floor(
-			firstTick / ticksPerMeasure
-		) + 1;
-
-	const lastMeasure =
-		Math.floor(
-			lastTick / ticksPerMeasure
-		) + 1;
-
 	const ranking =
         createMeasureRanking(diffData);
 	
@@ -3667,15 +3657,6 @@ function saveLessonRecord(){
 
 	updateAnalysisData()
 
-	const firstMeasure =
-		Math.floor(
-			firstTick / ticksPerMeasure
-		) + 1;
-	const lastMeasure =
-		Math.floor(
-			lastTick / ticksPerMeasure
-		) + 1;
-
 	const record = {
 		meta: {
 			date: Date.now(),                // 数値（比較しやすい）
@@ -3746,7 +3727,7 @@ function showLessonHistory(){
     const history = loadLessonHistory();
 
     let html = "<h3>Lesson History</h3><table border='1'>";
-    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>FirstMeasure</th><th>LastMeasure</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
+    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>First Measure</th><th>Last Measure</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
 
     history.forEach(r => {
         html +=
@@ -3999,6 +3980,9 @@ function createCurrentPairs(){
     }
 }
 
+let firstMeasure;
+
+let lastMeasure;
 
 function updateAnalysisData(){
 
@@ -4020,6 +4004,17 @@ function updateAnalysisData(){
                 n => n.start
             )
         );
+
+	firstMeasure =
+		Math.floor(
+			firstTick / ticksPerMeasure
+		) + 1;
+
+	lastMeasure =
+		Math.floor(
+			lastTick / ticksPerMeasure
+		) + 1;
+
 }
 
 
