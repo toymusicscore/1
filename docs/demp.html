@@ -3775,7 +3775,7 @@ function calcPitchAccuracy(diffData){
         return 0;
     }
 
-    return correct / count * 100;
+    return Math.round(correct / count * 100);
 }
 
 function calcAttackAccuracy(diffData){
@@ -3820,7 +3820,7 @@ function calcAttackAccuracy(diffData){
         total += score;
     }
 
-    return count ? total / count : 0;
+    return count ? Math.round(total / count) : 0;
 }
 
 function calcReleaseAccuracy(diffData){
@@ -3865,7 +3865,7 @@ function calcReleaseAccuracy(diffData){
         total += score;
     }
 
-    return count ? total / count : 0;
+    return count ? Math.round(total / count) : 0;
 }
 
 
@@ -3911,7 +3911,7 @@ function calcVelocityAccuracy(diffData){
         total += score;
     }
 
-    return count ? total / count : 0;
+    return count ? Math.round(total / count) : 0;
 }
 
 
