@@ -724,6 +724,9 @@ const picoAudio = new PicoAudio();
 // Global Variables
 //========================================
 
+let prevTick = 0;
+let nextIndex = 0;
+
 let scoreData = [];
 
 let recordData = [];
@@ -2909,8 +2912,6 @@ function startPlayback(){
         );
 }
 
-let prevTick = 0;
-let nextIndex = 0;
 
 function playRecordNotes(tick){
 
