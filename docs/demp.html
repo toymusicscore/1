@@ -1180,7 +1180,6 @@ function updateLocalFileOption(files){
 
 async function loadLocalFiles(files){
 
-        // ★ここで読み込みまでやる
         const midi = files.find(file => file.name.endsWith(".mid"));
         const tsv  = files.find(file => file.name.endsWith(".tsv"));
 
@@ -1202,7 +1201,6 @@ async function loadLocalFiles(files){
 	selview1();
 
 }
-
 
 
 function selectLocalFiles(){
@@ -1278,7 +1276,6 @@ async function fetchData(){
 
     console.log("localFiles =", localFiles);
 
-    // ★ローカル優先
     if(localFiles && localFiles.length > 0){
 
         console.log("LOAD LOCAL FILES");
@@ -1525,7 +1522,7 @@ function setMidi(data1){
 
 }
 
-// save midi
+// score data
 
 function createScoreDataFromTracks(rawMidi){
 
@@ -1823,10 +1820,7 @@ async function loadLocalFiles(files){
 
 function changeSong(){
 
-    // ローカルファイルモード解除
     localFiles = null;
-
-    // file input の表示もクリア
 
 	document.getElementById("localFiles").value = "";
 
@@ -1848,7 +1842,7 @@ function changeSong(){
 
 function setColor(){
 
-    // Octave色
+    // Octave
     for(let i = 0; i < workingOctColors.length; i++){
 
         workingOctColors[i] = document.getElementById(
@@ -1857,7 +1851,7 @@ function setColor(){
 
     }
 	
-	// Pitch Class色    
+	// Pitch Class  
 	const pcIds = [
 		"0","1","2","3","4","5",
 		"6","7","8","9","a","b"
@@ -2109,7 +2103,7 @@ async function main(){
 main();
 
 
-// button
+// control
 
 function pauseButton(){
 	
