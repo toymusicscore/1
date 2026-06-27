@@ -1090,42 +1090,44 @@ async function onLocalFilesChanged(event) {
 
 function updateLocalFileOption(files){
 
-	const files = Array.from(e.target.files);
+    const select =
+        document.getElementById("song1");
 
-		console.log("CHANGE FIRED");
-		console.log("files.length =", files.length);
+    debugLog("CHANGE FIRED");
+    debugLog("files.length =", files.length);
 
-		for(const f of files){
-        console.log(f.name);
-		}
+    for(const file of files){
+        debugLog(file.name);
+    }
 
-        if(files.length === 0) return;
+    const old =
+        select.querySelector('option[value="local"]');
 
-        // 保存
-        localFiles = files;
+    if(old){
+        old.remove();
+    }
 
-        // 表示更新
-        const old = select.querySelector('option[value="local"]');
-        if(old) old.remove();
+    const names =
+        files.map(file => file.name).join(" + ");
 
-        const names = files.map(f => f.name).join(" + ");
+    const option =
+        document.createElement("option");
 
-        const opt = document.createElement("option");
-        opt.value = "local";
-        opt.textContent = names + " (local)";
-        select.appendChild(opt);
+    option.value = "local";
+    option.textContent = names + " (local)";
 
-        select.value = "local";
+    select.appendChild(option);
 
-        console.log("LOCAL FILES:", names);
+    select.value = "local";
 
+    debugLog("LOCAL FILES:", names);
 }
 
 async function loadLocalFiles(files){
 
         // ★ここで読み込みまでやる
-        const midi = files.find(f => f.name.endsWith(".mid"));
-        const tsv  = files.find(f => f.name.endsWith(".tsv"));
+        const midi = files.find(file => file.name.endsWith(".mid"));
+        const tsv  = files.find(file => file.name.endsWith(".tsv"));
 
         if(!midi){
             console.error("MIDI missing");
