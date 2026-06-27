@@ -1038,6 +1038,7 @@ window.addEventListener(
 
 initializeAudio();
 initializeMidi();
+main();
 
 //========================================
 //Functions
@@ -2031,7 +2032,7 @@ function resetColor(){
     selview1();
 }
 
-// setting
+// UI
 
 function showSetting(){
 
@@ -2100,10 +2101,7 @@ async function main(){
     selview1();
 }
 
-main();
-
-
-// control
+// sound control
 
 function pauseButton(){
 	
@@ -2701,6 +2699,7 @@ function getCurrentTick(){
     ppq / 60;
 }
 
+// drawing
 
 function loopScore(){
 	if (isPlaying == 0) return;
@@ -3049,6 +3048,8 @@ function startPlayback(){
 }
 
 
+// sound
+
 function playRecordNotes(tick){
 
 	if(tick < prevTick){
@@ -3234,6 +3235,8 @@ function midiToFreq(midi){
     );
 }
 
+// drawing
+
 function scrollScore(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
@@ -3387,6 +3390,7 @@ function scrollRecord(tick){
 	}
 };
 
+// analysis
 
 function matchNotes(scoreData, recordData){
 
@@ -3750,10 +3754,6 @@ function jumpMeasure(measure){
 }
 
 
-function tdRight(value){
-    return "<td style='text-align:right'>" + value + "</td>";
-}
-
 
 function showMeasureRanking(){
 
@@ -3830,7 +3830,7 @@ function showRankingPage(){
 
 }
 
-
+// lesson
 
 function saveLessonRecord(){
 
@@ -3925,6 +3925,7 @@ function showLessonHistory(){
 
 }
 
+// analysis
 
 function calcPitchAccuracy(diffData){
 
@@ -4695,6 +4696,8 @@ if (navigator.requestMIDIAccess) {
 }
 */
 
+// midi sound
+
 function onMIDISuccess(midiAccess){
 
     for(let input of midiAccess.inputs.values()){
@@ -5210,6 +5213,7 @@ function getDateTimeString(ms){
     return `${y}${m}${day}-${h}${min}${s}`;
 }
 
+// UI
 
 function msr1(){
 	const msr =
