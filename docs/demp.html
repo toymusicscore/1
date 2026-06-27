@@ -724,6 +724,16 @@ const picoAudio = new PicoAudio();
 // Global Variables
 //========================================
 
+let diffData = [];
+
+let nl ="";
+let nll ="";
+let nlr ="";
+
+let activeVoices = new Map();
+
+let currentMidis = new Set();
+
 let touchInitialized = false;
 
 let isRecording = false;
@@ -2252,7 +2262,6 @@ function inputRouter(e, type){
     playSound(e);
 }
 
-let currentMidis = new Set();
 
 function playSound(e){
 
@@ -2324,7 +2333,6 @@ function playSound(e){
     }
 }
 
-let activeVoices = new Map();
 
 function playPicoNow(midi){
 
@@ -2585,9 +2593,6 @@ function loopRecord(){
     rafId = requestAnimationFrame(loopRecord);
 }
 
-let nl ="";
-let nll ="";
-let nlr ="";
 
 function getLabel(midi, n_id){
 	if (document.form1.nl1.options[0].selected==true){
@@ -2683,13 +2688,6 @@ function getViewInfo(){
 		kn,
         kw
     };
-console.log(
-    "getViewInfo",
-    "scoreViewData",
-    scoreViewData?.length,
-    "recordData",
-    recordData?.length
-);
 }
 
 function lineScore(tick){
@@ -3432,7 +3430,6 @@ function matchNotes(scoreData, recordData){
 
 }
 
-let diffData = [];
 
 function createDiffData(pairs){
 
