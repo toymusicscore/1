@@ -724,6 +724,10 @@ const picoAudio = new PicoAudio();
 // Global Variables
 //========================================
 
+let pauseTick = 0;
+let isPlaying = 0;
+let rafId = null;
+
 let prevTick = 0;
 let nextIndex = 0;
 
@@ -1941,9 +1945,6 @@ async function main(){
 
 main();
 
-let pauseTick = 0;
-let isPlaying = 0;
-let rafId = null;
 
 function pauseButton(){
 	
