@@ -544,6 +544,14 @@ window.parseMidi = parseMidi;
 // Constants
 //========================================
 
+const oscillators = {};
+const activeNotes = {};
+
+const audioContext =
+    new AudioContext();
+
+const LESSON_KEY = "lessonHistory";
+
 const HANDS = {
     BOTH: 0,
     RIGHT: 1,
@@ -723,6 +731,15 @@ const picoAudio = new PicoAudio();
 //========================================
 // Global Variables
 //========================================
+
+
+let firstMeasure;
+
+let lastMeasure;
+
+let showRecord = true;
+
+let highlightMeasure = 0;
 
 let diffData = [];
 
@@ -985,6 +1002,109 @@ UI
 Utilities
 */
 
+function initializeAudio() {
+
+    document.addEventListener(
+        "click",
+        resumeAudio,
+        { once: true }
+    );
+
+}
+
+async function resumeAudio() {
+
+    await audioContext.resume();
+
+    debugLog(audioContext.state);
+
+}
+
+function initializeMidi() {
+
+    if (!navigator.requestMIDIAccess) {
+
+        console.error("Web MIDI API not supported");
+        return;
+
+    }
+
+    navigator.requestMIDIAccess()
+        .then(onMIDISuccess)
+        .catch(onMIDIFailure);
+
+}
+
+function onMIDIFailure(error) {
+
+    console.error("MIDI ERROR", error);
+
+}
+
+function initialize() {
+
+    loadSavedColor();
+    loadColor();
+
+}
+
+function initializePage() {
+
+    initializeLocalFiles();
+
+    main();
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    touchSound();
+
+}
+
+function initializeLocalFiles() {
+
+    const input = document.getElementById("localFiles");
+
+    input.addEventListener(
+        "change",
+        onLocalFilesChanged
+    );
+
+}
+
+async function onLocalFilesChanged(event) {
+
+    const files = Array.from(event.target.files);
+
+    if (files.length === 0) return;
+
+    localFiles = files;
+
+    updateLocalFileOption(files);
+
+    await loadLocalFiles(files);
+
+}
+
+/*
+function updateLocalFileOption(files)
+
+async function loadLocalFiles(files)
+*/
+
+//========================================
+// Initialize
+//========================================
+
+window.onload = initialize;
+
+window.addEventListener(
+    "DOMContentLoaded",
+    initializePage
+);
+
+initializeAudio();
+initializeMidi();
 
 
 window.onload = function(){
@@ -2820,7 +2940,6 @@ function lineScore(tick){
 	}
 };
 
-let showRecord = true;
 
 function toggleRecordView(){
     showRecord = !showRecord;
@@ -3591,8 +3710,6 @@ function createMeasureRanking(diffData){
 }
 
 
-let highlightMeasure = 0;
-
 
 function jumpMeasure(measure){
 
@@ -3688,8 +3805,6 @@ function showRankingPage(){
 
 }
 
-
-const LESSON_KEY = "lessonHistory";
 
 
 function saveLessonRecord(){
@@ -4011,9 +4126,6 @@ function createCurrentPairs(){
     }
 }
 
-let firstMeasure;
-
-let lastMeasure;
 
 function updateAnalysisData(){
 
@@ -4334,37 +4446,37 @@ function drawGraph(
 
     ctx.beginPath();
 
-for(let i = 0; i < diffData.length; i++){
+	for(let i = 0; i < diffData.length; i++){
 
-    const x =
-        mx +
-        diffData[i].tick
-        / maxTick
-        * w;
+		const x =
+			mx +
+			diffData[i].tick
+			/ maxTick
+			* w;
 
-    const y =
-        centerY
-        -
-        diffData[i][key] * scaleY;
+		const y =
+			centerY
+			-
+			diffData[i][key] * scaleY;
 
-        // 点
-        ctx.fillRect(
-            x - 2,
-            y - 2,
-            4,
-            4
-        );
+			// 点
+			ctx.fillRect(
+				x - 2,
+				y - 2,
+				4,
+				4
+			);
 
-        // 折れ線
-        if(i === 0){
+			// 折れ線
+			if(i === 0){
 
-            ctx.moveTo(x, y);
+				ctx.moveTo(x, y);
 
-        }else{
+			}else{
 
-            ctx.lineTo(x, y);
-        }
-    }
+				ctx.lineTo(x, y);
+			}
+		}
 
     ctx.stroke();
 }
@@ -4529,9 +4641,8 @@ function drawPedalGraph(
 	ctx.stroke();
 }
 
-const audioContext =
-    new AudioContext();
 
+/*	
 document.addEventListener(
     "click",
     async () => {
@@ -4557,9 +4668,7 @@ if (navigator.requestMIDIAccess) {
 
     console.log("Web MIDI API not supported");
 }
-
-const oscillators = {};
-const activeNotes = {};
+*/
 
 function onMIDISuccess(midiAccess){
 
@@ -5475,131 +5584,132 @@ function keyLabel(){
 	ctx.stroke();
 }
 
-
+/*
 function channelLeft(){
-x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
-x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
+	x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
+	x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
 
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
-}
+	tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
+	if (tr1v<13){
+		trs1=tr1v;
+	}else{
+		trs1=12-tr1v;
+	}
 
-r1=[];
-n_id=1;
+	r1=[];
+	n_id=1;
 
-midi_min=108;
-midi_max=21;
-midi_min_l=108;
-midi_max_l=21;
-midi_min_r=108;
-midi_max_r=21;
-parsedData.channels.forEach(channel => { 
-	channel.notes.forEach(note => { 
-		if(note.channel==x_chL){
-			let trs2=Number(note.pitch)+Number(trs1);
-			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-			if(trs2>midi_max){
-				midi_max=trs2;
+	midi_min=108;
+	midi_max=21;
+	midi_min_l=108;
+	midi_max_l=21;
+	midi_min_r=108;
+	midi_max_r=21;
+	parsedData.channels.forEach(channel => { 
+		channel.notes.forEach(note => { 
+			if(note.channel==x_chL){
+				let trs2=Number(note.pitch)+Number(trs1);
+				r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+				if(trs2>midi_max){
+					midi_max=trs2;
+				}
+				if(trs2<midi_min){
+					midi_min=trs2;
+				}
+				if(trs2>midi_max_l){
+					midi_max_l=trs2;
+				}
+				if(trs2<midi_min_l){
+					midi_min_l=trs2;
+				}
 			}
-			if(trs2<midi_min){
-				midi_min=trs2;
+			if(note.channel==x_chR){
+				let trs2=Number(note.pitch)+Number(trs1);
+				r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+				if(trs2>midi_max){
+					midi_max=trs2;
+				}
+				if(trs2<midi_min){
+					midi_min=trs2;
+				}
+				if(trs2>midi_max_r){
+					midi_max_r=trs2;
+				}
+				if(trs2<midi_min_r){
+					midi_min_r=trs2;
+				}
 			}
-			if(trs2>midi_max_l){
-				midi_max_l=trs2;
-			}
-			if(trs2<midi_min_l){
-				midi_min_l=trs2;
-			}
-		}
-		if(note.channel==x_chR){
-			let trs2=Number(note.pitch)+Number(trs1);
-			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-			if(trs2>midi_max){
-				midi_max=trs2;
-			}
-			if(trs2<midi_min){
-				midi_min=trs2;
-			}
-			if(trs2>midi_max_r){
-				midi_max_r=trs2;
-			}
-			if(trs2<midi_min_r){
-				midi_min_r=trs2;
-			}
-		}
-		n_id+=1;
+			n_id+=1;
+		});
 	});
-});
 
 selview1();
 
 }
 
 function channelRight(){
-x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
-x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
+	x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
+	x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
 
-tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-if (tr1v<13){
-	trs1=tr1v;
-}else{
-	trs1=12-tr1v;
-}
+	tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
+	if (tr1v<13){
+		trs1=tr1v;
+	}else{
+		trs1=12-tr1v;
+	}
 
-r1=[];
-n_id=1;
+	r1=[];
+	n_id=1;
 
-midi_min=108;
-midi_max=21;
-midi_min_l=108;
-midi_max_l=21;
-midi_min_r=108;
-midi_max_r=21;
-parsedData.channels.forEach(channel => { 
-	channel.notes.forEach(note => { 
-		if(note.channel==x_chL){
-			let trs2=Number(note.pitch)+Number(trs1);
-			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-			if(trs2>midi_max){
-				midi_max=trs2;
+	midi_min=108;
+	midi_max=21;
+	midi_min_l=108;
+	midi_max_l=21;
+	midi_min_r=108;
+	midi_max_r=21;
+	parsedData.channels.forEach(channel => { 
+		channel.notes.forEach(note => { 
+			if(note.channel==x_chL){
+				let trs2=Number(note.pitch)+Number(trs1);
+				r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+				if(trs2>midi_max){
+					midi_max=trs2;
+				}
+				if(trs2<midi_min){
+					midi_min=trs2;
+				}
+				if(trs2>midi_max_l){
+					midi_max_l=trs2;
+				}
+				if(trs2<midi_min_l){
+					midi_min_l=trs2;
+				}
 			}
-			if(trs2<midi_min){
-				midi_min=trs2;
+			if(note.channel==x_chR){
+				let trs2=Number(note.pitch)+Number(trs1);
+				r1.push([trs2,note.start,note.stop,note.channel,n_id]);
+				if(trs2>midi_max){
+					midi_max=trs2;
+				}
+				if(trs2<midi_min){
+					midi_min=trs2;
+				}
+				if(trs2>midi_max_r){
+					midi_max_r=trs2;
+				}
+				if(trs2<midi_min_r){
+					midi_min_r=trs2;
+				}
 			}
-			if(trs2>midi_max_l){
-				midi_max_l=trs2;
-			}
-			if(trs2<midi_min_l){
-				midi_min_l=trs2;
-			}
-		}
-		if(note.channel==x_chR){
-			let trs2=Number(note.pitch)+Number(trs1);
-			r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-			if(trs2>midi_max){
-				midi_max=trs2;
-			}
-			if(trs2<midi_min){
-				midi_min=trs2;
-			}
-			if(trs2>midi_max_r){
-				midi_max_r=trs2;
-			}
-			if(trs2<midi_min_r){
-				midi_min_r=trs2;
-			}
-		}
-		n_id+=1;
-		
+			n_id+=1;
+			
+		});
 	});
-});
 
 selview1();
 
 }
+*/
 
 function licenseInfo(){
 
@@ -5667,6 +5777,7 @@ function licenseInfo(){
 	
 }
 
+/*
 function licenseInfo1(){
 
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -5720,6 +5831,7 @@ function licenseInfo1(){
     }
 
 }
+*/
 
 function trackChannelInfo(){
 
