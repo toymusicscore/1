@@ -540,6 +540,25 @@ window.parseMidi = parseMidi;
 
 </script>
 <script>
+//========================================
+// Constants
+//========================================
+
+const HANDS = {
+    BOTH: 0,
+    RIGHT: 1,
+    LEFT: 2
+};
+
+const HANDS_LABEL = {
+    [HANDS.BOTH]: "Both Hands",
+    [HANDS.RIGHT]: "Right Hand",
+    [HANDS.LEFT]: "Left Hand"
+};
+
+const NOTE_MATCH_THRESHOLD = 120;
+const TICKS_PER_BEAT = 480;
+
 const canvas = document.getElementById('canvas');
 canvas.style.touchAction = 'none';
 const ctx=canvas.getContext("2d");
@@ -699,6 +718,28 @@ const instName=[
 'Gunshot',
 ];
 const picoAudio = new PicoAudio();
+
+
+//========================================
+// Global Variables
+//========================================
+
+let scoreData = [];
+
+let recordData = [];
+let recordStart = 0;
+let currentNote = null;
+let recordMidiMin = 0;
+let recordMidiMax = 0;
+let recordKw = 0;
+let baseAudioTime = 0;
+let hands = null;
+
+let pairData = [];
+
+let currentSong = "";
+let currentHand = HANDS.BOTH;
+
 let parsedData ="";
 let r1=[];
 let r2=[];
@@ -898,7 +939,6 @@ let ticksPerMeasure = 1920;
 let pedalData = [];
 let pedalState = false;
 let enableScoreSound = true;
-let scoreData =[];
 let scoreRight =[];
 let scoreLeft =[];
 let pairs = [];
@@ -908,6 +948,23 @@ let rightTrack;
 let rightChannel;
 let leftTrack;
 let leftChannel;
+
+//========================================
+//Functions
+//========================================
+
+/*
+Lesson
+MIDI
+Recording
+Analysis
+Drawing
+Download
+UI
+Utilities
+*/
+
+
 
 window.onload = function(){
 
@@ -2058,14 +2115,6 @@ function touchSound(){
 
 
 
-let recordData = [];
-let recordStart = 0;
-let currentNote = null;
-let recordMidiMin = 0;
-let recordMidiMax = 0;
-let recordKw = 0;
-let baseAudioTime = 0;
-let hands = null;
 
 function startRecord(){
 
@@ -3704,17 +3753,6 @@ function clearHistory(){
 }
 
 
-const HANDS = {
-    BOTH: 0,
-    RIGHT: 1,
-    LEFT: 2
-};
-
-const HANDS_LABEL = {
-    [HANDS.BOTH]: "Both Hands",
-    [HANDS.RIGHT]: "Right Hand",
-    [HANDS.LEFT]: "Left Hand"
-};
 
 function loadLessonHistory(){
 
