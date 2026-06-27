@@ -1024,6 +1024,20 @@ let leftTrack;
 let leftChannel;
 
 //========================================
+// Initialize
+//========================================
+
+window.onload = initialize;
+
+window.addEventListener(
+    "DOMContentLoaded",
+    initializePage
+);
+
+initializeAudio();
+initializeMidi();
+
+//========================================
 //Functions
 //========================================
 
@@ -1184,20 +1198,6 @@ async function loadLocalFiles(files){
 
 }
 
-
-//========================================
-// Initialize
-//========================================
-
-window.onload = initialize;
-
-window.addEventListener(
-    "DOMContentLoaded",
-    initializePage
-);
-
-initializeAudio();
-initializeMidi();
 
 
 function selectLocalFiles(){
