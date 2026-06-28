@@ -109,7 +109,7 @@ demp
     id="x_leftTrack"
     value="2"
     min="1"
-	onchange = "analyzeMidi()";
+	onchange = "changeTrackChannel()";
     style="width:40px">
 
 <label style="font-size:70%">Left Channel</label>
@@ -118,7 +118,7 @@ demp
     id="x_leftChannel"
     value="3"
     min="1"
-	onchange = "analyzeMidi()";
+	onchange = "changeTrackChannel()";
     style="width:40px">
 
 <label style="font-size:70%">Right Track</label>
@@ -127,7 +127,7 @@ demp
     id="x_rightTrack"
     value="1"
     min="1"
-	onchange = "analyzeMidi()";
+	onchange = "changeTrackChannel()";
     style="width:40px">
 
 <label style="font-size:70%">Right Channel</label>
@@ -136,7 +136,7 @@ demp
     id="x_rightChannel"
     value="2"
     min="1"
-	onchange = "analyzeMidi()";
+	onchange = "changeTrackChannel()";
     style="width:40px">
 
 <select id="hands" name="hands" onchange="goTop()">
@@ -1534,9 +1534,14 @@ function analyzeMidi(){
 	console.log(beatTrackData);
 	console.log("analyzeMidi end");
 
-	selview1();
 }
 
+function changeTrackChannel(){
+
+    analyzeMidi();
+
+    selview1();
+}
 // score data
 
 function createScoreDataFromTracks(rawMidi){
