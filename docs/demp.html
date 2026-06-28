@@ -1202,9 +1202,9 @@ async function loadLocalFiles(files){
 
 	console.log("MIDI bytes =", data1.byteLength);
 	console.log("TSV chars =", data2?.length);
-	console.log("before setMidi");
+	console.log("before loadMidi");
 
-	setMidi(data1);
+	loadMidi(data1);
 	setTsv(data2);
 
 	selview1();
@@ -1330,12 +1330,6 @@ async function fetchData(){
     };
 }
 
-function setMidi(data1){
-	
-	loadMidi(data1);
-
-}
-
 
 function loadMidi(arrayBuffer){
 
@@ -1347,7 +1341,7 @@ function loadMidi(arrayBuffer){
 function analyzeMidi(){
 
 
-    console.log("setMidi start");
+    console.log("analyzeMidi start");
 
 	picoAudio.init();
 
@@ -1538,7 +1532,7 @@ function analyzeMidi(){
 	console.log(parsedData.tracks);
 	console.log(tempoTrackData);
 	console.log(beatTrackData);
-	console.log("setMidi end");
+	console.log("analyzeMidi end");
 
 }
 
@@ -2114,7 +2108,7 @@ async function main(){
     const { data1, data2 } =
         await fetchData();
 
-    setMidi(data1);
+    loadMidi(data1);
     setTsv(data2);
 
     selview1();
