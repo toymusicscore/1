@@ -832,6 +832,198 @@ function handToChannel(settings, hand) {
 }
 
 
+function setSetting(){
+
+    // Octave
+    for(let i = 0; i < workingOctColors.length; i++){
+
+        workingOctColors[i] = document.getElementById(
+            "x_oct_" + i
+        ).value;
+
+    }
+	
+	// Pitch Class  
+	const pcIds = [
+		"0","1","2","3","4","5",
+		"6","7","8","9","a","b"
+	];
+
+	for(let i = 0; i < workingPcColors.length; i++){
+
+		workingPcColors[i] = document.getElementById(
+			"x_pc_" + pcIds[i]
+		).value;
+
+	}
+
+	// hand
+    for(let i = 0; i < workingHandColors.length; i++){
+
+        workingHandColors[i] = document.getElementById(
+            "x_hand_" + i
+        ).value;
+
+    }
+
+	// line
+    for(let i = 0; i < workingLineColors.length; i++){
+
+        workingLineColors[i] = document.getElementById(
+            "x_line_" + i
+        ).value;
+
+    }
+
+	// text
+    for(let i = 0; i < workingTextColors.length; i++){
+
+        workingTextColors[i] = document.getElementById(
+            "x_text_" + i
+        ).value;
+
+    }
+
+    saveSettings();
+ 
+    selview1(); // 再描画
+
+}
+
+function loadSetting(){
+
+    for(let i = 0; i < workingOctColors.length; i++){
+
+        document.getElementById(
+            "x_oct_" + i
+        ).value = workingOctColors[i];
+
+    }
+
+    const pcIds = [
+        "0","1","2","3","4","5",
+        "6","7","8","9","a","b"
+    ];
+
+    for(let i = 0; i < workingPcColors.length; i++){
+
+        document.getElementById(
+            "x_pc_" + pcIds[i]
+        ).value = workingPcColors[i];
+
+    }
+
+	for(let i = 0; i < workingHandColors.length; i++){
+
+        document.getElementById(
+            "x_hand_" + i
+        ).value = workingHandColors[i];
+
+    }
+
+	for(let i = 0; i < workingLineColors.length; i++){
+
+        document.getElementById(
+            "x_line_" + i
+        ).value = workingLineColors[i];
+
+    }
+
+	for(let i = 0; i < workingTextColors.length; i++){
+
+        document.getElementById(
+            "x_text_" + i
+        ).value = workingTextColors[i];
+
+    }
+
+}
+
+function saveSetting(){
+
+	localStorage.setItem(
+		"workingOctColors",
+		JSON.stringify(workingOctColors)
+	);
+
+	localStorage.setItem(
+		"workingPcColors",
+		JSON.stringify(workingPcColors)
+	);
+
+	localStorage.setItem(
+		"workingHandColors",
+		JSON.stringify(workingHandColors)
+	);
+
+	localStorage.setItem(
+		"workingLineColors",
+		JSON.stringify(workingLineColors)
+	);
+
+	localStorage.setItem(
+		"workingTextColors",
+		JSON.stringify(workingTextColors)
+	);
+
+}
+
+
+function loadSavedSetting(){
+
+    let tmp;
+
+    tmp = localStorage.getItem("workingOctColors");
+
+    if(tmp){
+        workingOctColors = JSON.parse(tmp);
+    }
+
+    tmp = localStorage.getItem("workingPcColors");
+
+    if(tmp){
+        workingPcColors = JSON.parse(tmp);
+    }
+
+    tmp = localStorage.getItem("workingHandColors");
+
+    if(tmp){
+        workingHandColors = JSON.parse(tmp);
+    }
+
+	tmp = localStorage.getItem("workingLineColors");
+
+    if(tmp){
+        workingLineColors = JSON.parse(tmp);
+    }
+    tmp = localStorage.getItem("workingTextColors");
+
+    if(tmp){
+        workingTextColors = JSON.parse(tmp);
+    }
+
+}
+
+function resetSetting(){
+
+    workingOctColors = [...defaultOctColors];
+    workingPcColors = [...defaultPcColors];
+    workingHandColors = [...defaultHandColors];
+    workingLineColors = [...defaultLineColors];
+    workingTextColors = [...defaultTextColors];
+
+    localStorage.removeItem("workingOctColors");
+    localStorage.removeItem("workingPcColors");
+    localStorage.removeItem("workingHandColors");
+    localStorage.removeItem("workingLineColors");
+    localStorage.removeItem("workingTextColors");
+
+    loadSetting();   // ←追加
+
+    selview1();
+}
+
+
 //========================================
 // Constants
 //========================================
