@@ -619,6 +619,30 @@ let lessonSettings = {
     ...defaultSettings
 };
 
+const UI_HAND_ORDER = ["left", "right"];
+
+function getHand(settings, hand) {
+    return settings.hands[hand];
+}
+
+function getTrack(settings, hand) {
+    return settings.hands[hand].track;
+}
+
+function getChannel(settings, hand) {
+    return settings.hands[hand].channel;
+}
+function channelToHand(channel) {
+    if (channel === 2) return "right";
+    if (channel === 3) return "left";
+    return null;
+}
+
+function handToChannel(settings, hand) {
+    return settings.hands[hand].channel;
+}
+
+
 //========================================
 // Constants
 //========================================
