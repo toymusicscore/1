@@ -49,15 +49,6 @@ demp
 	value="Show History" 
 	onClick="showLessonHistory()">
 
-<label style="font-size:70%">BPM</label>
-<input
-    type="number"
-    id="x_bpm"
-    name="x_bpm"
-    value="1"
-    min="1"
-    style="width:40px">
-
 <label style="font-size:70%">Measure</label>
 <input onchange ="msr1()"
     type="number"
@@ -103,24 +94,6 @@ demp
     multiple
 >
 
-<label style="font-size:70%">Left Track</label>
-<input
-    type="number"
-    id="x_leftTrack"
-    value="2"
-    min="1"
-	onchange = "changeTrackChannel()";
-    style="width:40px">
-
-<label style="font-size:70%">Left Channel</label>
-<input
-    type="number"
-    id="x_leftChannel"
-    value="3"
-    min="1"
-	onchange = "changeTrackChannel()";
-    style="width:40px">
-
 <label style="font-size:70%">Right Track</label>
 <input
     type="number"
@@ -139,19 +112,46 @@ demp
 	onchange = "changeTrackChannel()";
     style="width:40px">
 
+<label style="font-size:70%">Left Track</label>
+<input
+    type="number"
+    id="x_leftTrack"
+    value="2"
+    min="1"
+	onchange = "changeTrackChannel()";
+    style="width:40px">
+
+<label style="font-size:70%">Left Channel</label>
+<input
+    type="number"
+    id="x_leftChannel"
+    value="3"
+    min="1"
+	onchange = "changeTrackChannel()";
+    style="width:40px">
+
 <select id="hands" name="hands" onchange="goTop()">
 	<option value="0" selected> Both Hands </option>
 	<option value="1"> Right Hand </option>
 	<option value="2"> Left Hand </option>
 	</select>
 
-<label style="font-size:70%">M/Screen</label>
+<label style="font-size:70%">Measures/Screen</label>
 <select id="hg1" name="hg1" onchange="height1()">
 	<option value="0"> 1 </option>
 	<option value="1" selected> 2</option>
 	<option value="2"> 3</option>
 	<option value="3"> 4</option>
 	</select>
+
+<label style="font-size:70%">BPM</label>
+<input
+    type="number"
+    id="x_bpm"
+    name="x_bpm"
+    value="1"
+    min="1"
+    style="width:40px">
 
 <select id="nl1" name="nl1" onchange="selview1()">
 	<option value="0"> No Label </option>
@@ -597,12 +597,12 @@ let workingTextColors=["#666600","#990000","#009900","#009999","#ff0000"];
 const defaultSettings =
 {
 	songName: "bach-invention-02",
-    leftTrack: 2,
-    leftChannel: 3,
     rightTrack: 1,
     rightChannel: 2,
-    playbackBpm: 18,
+    leftTrack: 2,
+    leftChannel: 3,
 	measuresPerScreen: 2,
+    playbackBpm: 18,
 	noteTextType: 11,
 	viewSelect: 1,
     hands: 0
