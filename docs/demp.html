@@ -587,7 +587,7 @@ let workingTextColors=["#666600","#990000","#009900","#009999","#ff0000"];
 
 // Color
 
-function loadValues(array, prefix) {
+function replaceArray(array, prefix) {
     for (let i = 0; i < array.length; i++) {
         array[i] = val(prefix + i);
     }
@@ -598,7 +598,7 @@ const pitchClassIds = [
     "6","7","8","9","a","b"
 ];
 
-function loadPcValues(array) {
+function replacePcArray(array) {
 
     for (let i = 0; i < array.length; i++) {
         array[i] = val("x_pc_" + pitchClassIds[i]);
@@ -607,11 +607,11 @@ function loadPcValues(array) {
 
 function setColor(){
 
-	loadValues(workingColors.oct, "x_oct_");
-	loadPcValues(workingColors.pc);
-	loadValues(workingColors.hand, "x_hand_");
-	loadValues(workingColors.line, "x_line_");
-	loadValues(workingColors.text, "x_text_");	
+	replaceArrayValue(workingColors.oct, "x_oct_");
+	replacePcArrayValue(workingColors.pc);
+	replaceArrayValue(workingColors.hand, "x_hand_");
+	replaceArrayValue(workingColors.line, "x_line_");
+	replaceArrayValue(workingColors.text, "x_text_");	
 
     saveColor();
     selview1();
