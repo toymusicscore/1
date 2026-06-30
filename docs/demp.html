@@ -831,23 +831,27 @@ function handToChannel(settings, hand) {
     return settings.hands[hand].channel;
 }
 
+function $(id) {
+    return document.getElementById(id);
+}
 
 function setSettings() {
 
     const settings = lessonSettings;
 
-    settings.song = document.song1.value;
+	settings.song = $("song1").value;
 
-    settings.hands.right.track = document.x_rightTrack.value;
-    settings.hands.right.channel = document.x_rightChannel.value;
+    settings.hands.right.track = $("x_rightTrack").value;
+    settings.hands.right.channel = $("x_rightChannel").value;
 
-    settings.hands.left.track = document.x_leftTrack.value;
-    settings.hands.left.channel = document.x_leftChannel.value;
+    settings.hands.left.track = $("x_leftTrack").value;
+    settings.hands.left.channel = $("x_leftChannel").value;
 
-    settings.measuresPerScreen = document.hg1.value;
-    settings.playbackBpm = document.x_bpm.value;
-    settings.noteTextType = document.nl1.value;
-    settings.viewSelect = document.sv1.value;
+    settings.measuresPerScreen = $("hg1").value;
+	settings.playbackBpm = $("x_bpm").value;
+
+	settings.noteTextType = $("nl1").value;
+	settings.noteTextType = $("sv1").value;
 
     saveSettings();
     selview1();
