@@ -841,17 +841,16 @@ function setSettings() {
 
 	settings.song = $("song1").value;
 
-    settings.hands.right.track = $("x_rightTrack").value;
-    settings.hands.right.channel = $("x_rightChannel").value;
+    settings.hands.right.track = Number($("x_rightTrack").value);
+    settings.hands.right.channel = Number($("x_rightChannel").value);
 
-    settings.hands.left.track = $("x_leftTrack").value;
-    settings.hands.left.channel = $("x_leftChannel").value;
+    settings.hands.left.track = Number($("x_leftTrack").value);
+    settings.hands.left.channel = Number($("x_leftChannel").value);
 
-    settings.measuresPerScreen = $("hg1").value;
-	settings.playbackBpm = $("x_bpm").value;
-
-	settings.noteTextType = $("nl1").value;
-	settings.noteTextType = $("sv1").value;
+    settings.measuresPerScreen = Number($("hg1").value);
+	settings.playbackBpm = Number($("x_bpm").value);
+	settings.noteTextType = Number($("nl1").value);
+	settings.noteTextType = Number($("sv1").value);
 
     saveSettings();
     selview1();
