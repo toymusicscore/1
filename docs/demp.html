@@ -640,7 +640,7 @@ function setColor(){
 }
 
 
-function loadColor(){
+function updateColor(){
 
     writeUi(workingColors.oct,  "x_oct_");
     writeUi(workingColors.pc,   "x_pc_");
@@ -674,7 +674,7 @@ function resetColor(){
   
     localStorage.removeItem("workingColors");
 
-    loadColor();   // ←追加
+    updateColor(); 
 
     selview1();
 }
