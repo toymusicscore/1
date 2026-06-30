@@ -593,11 +593,15 @@ function loadValues(array, prefix) {
     }
 }
 
+const pitchClassIds = [
+    "0","1","2","3","4","5",
+    "6","7","8","9","a","b"
+];
+
 function loadPcValues(array) {
-    const ids = ["0","1","2","3","4","5","6","7","8","9","a","b"];
 
     for (let i = 0; i < array.length; i++) {
-        array[i] = val("x_pc_" + ids[i]);
+        array[i] = val("x_pc_" + pitchClassIds[i]);
     }
 }
 
