@@ -835,11 +835,11 @@ function $(id) {
     return document.getElementById(id);
 }
 
-function value(id) {
+function val(id) {
     return $(id).value;
 }
 
-function number(id) {
+function num(id) {
     return Number($(id).value);
 }
 
@@ -848,18 +848,18 @@ function setSettings() {
 
     const settings = lessonSettings;
 
-	settings.song = value("song1");
+	settings.song = val("song1");
 
-    settings.hands.right.track = number("x_rightTrack");
-    settings.hands.right.channel = number("x_rightChannel");
+    settings.hands.right.track = num("x_rightTrack");
+    settings.hands.right.channel = num("x_rightChannel");
 
-    settings.hands.left.track = number("x_leftTrack");
-    settings.hands.left.channel = number("x_leftChannel");
+    settings.hands.left.track = num("x_leftTrack");
+    settings.hands.left.channel = num("x_leftChannel");
 
-    settings.measuresPerScreen = number("hg1");
-	settings.playbackBpm = number("x_bpm");
-	settings.noteTextType = number("nl1");
-	settings.viewSelect = number("sv1");
+    settings.measuresPerScreen = num("hg1");
+	settings.playbackBpm = num("x_bpm");
+	settings.noteTextType = num("nl1");
+	settings.viewSelect = num("sv1");
 
     saveSettings();
     selview1();
