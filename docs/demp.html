@@ -831,6 +831,10 @@ function handToChannel(settings, hand) {
     return settings.hands[hand].channel;
 }
 
+function $(id) {
+    return document.getElementById(id);
+}
+
 function value(id) {
     return $(id).value;
 }
@@ -844,7 +848,7 @@ function setSettings() {
 
     const settings = lessonSettings;
 
-	settings.song = $("song1").value;
+	settings.song = value("song1");
 
     settings.hands.right.track = number("x_rightTrack");
     settings.hands.right.channel = number("x_rightChannel");
