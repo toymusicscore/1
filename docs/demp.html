@@ -587,9 +587,11 @@ let workingTextColors=["#666600","#990000","#009900","#009999","#ff0000"];
 
 // Color
 
-function replaceArrayValue(array, prefix) {
+function loadArrayValues(array, prefix, ids = null) {
+
     for (let i = 0; i < array.length; i++) {
-        array[i] = val(prefix + i);
+        const id = ids ? ids[i] : i;
+        array[i] = val(prefix + id);
     }
 }
 
@@ -598,20 +600,13 @@ const pitchClassIds = [
     "6","7","8","9","a","b"
 ];
 
-function replacePcArrayValue(array) {
-
-    for (let i = 0; i < array.length; i++) {
-        array[i] = val("x_pc_" + pitchClassIds[i]);
-    }
-}
-
 function setColor(){
 
-	replaceArrayValue(workingColors.oct, "x_oct_");
-	replacePcArrayValue(workingColors.pc);
-	replaceArrayValue(workingColors.hand, "x_hand_");
-	replaceArrayValue(workingColors.line, "x_line_");
-	replaceArrayValue(workingColors.text, "x_text_");	
+	loadArrayValue(workingColors.oct, "x_oct_");
+	loadArrayValue(workingColors.pc, pitchClassIds);
+	loadArrayValue(workingColors.hand, "x_hand_");
+	loadArrayValue(workingColors.line, "x_line_");
+	loadArrayValue(workingColors.text, "x_text_");	
 
     saveColor();
     selview1();
