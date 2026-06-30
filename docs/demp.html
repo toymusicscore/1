@@ -832,63 +832,27 @@ function handToChannel(settings, hand) {
 }
 
 
-function setSetting(){
+function setSettings() {
 
-    // Octave
-    for(let i = 0; i < workingOctColors.length; i++){
+    const settings = lessonSettings;
 
-        workingOctColors[i] = document.getElementById(
-            "x_oct_" + i
-        ).value;
+    settings.song = document.song1.value;
 
-    }
-	
-	// Pitch Class  
-	const pcIds = [
-		"0","1","2","3","4","5",
-		"6","7","8","9","a","b"
-	];
+    settings.hands.right.track = document.x_rightTrack.value;
+    settings.hands.right.channel = document.x_rightChannel.value;
 
-	for(let i = 0; i < workingPcColors.length; i++){
+    settings.hands.left.track = document.x_leftTrack.value;
+    settings.hands.left.channel = document.x_leftChannel.value;
 
-		workingPcColors[i] = document.getElementById(
-			"x_pc_" + pcIds[i]
-		).value;
-
-	}
-
-	// hand
-    for(let i = 0; i < workingHandColors.length; i++){
-
-        workingHandColors[i] = document.getElementById(
-            "x_hand_" + i
-        ).value;
-
-    }
-
-	// line
-    for(let i = 0; i < workingLineColors.length; i++){
-
-        workingLineColors[i] = document.getElementById(
-            "x_line_" + i
-        ).value;
-
-    }
-
-	// text
-    for(let i = 0; i < workingTextColors.length; i++){
-
-        workingTextColors[i] = document.getElementById(
-            "x_text_" + i
-        ).value;
-
-    }
+    settings.measuresPerScreen = document.hg1.value;
+    settings.playbackBpm = document.x_bpm.value;
+    settings.noteTextType = document.nl1.value;
+    settings.viewSelect = document.sv1.value;
 
     saveSettings();
- 
-    selview1(); // 再描画
-
+    selview1();
 }
+
 
 function loadSetting(){
 
