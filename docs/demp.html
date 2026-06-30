@@ -659,11 +659,14 @@ function saveColor() {
 
 function loadSavedColor(){
 
-	const tmp = localStorage.getItem("workingColors");
+    const tmp = localStorage.getItem("workingColors");
 
-	if (tmp) {
-		workingColors = JSON.parse(tmp);
-	}
+    if (tmp) {
+        workingColors = JSON.parse(tmp);
+    } else {
+        workingColors = [...defaultColors];
+    }
+
 }
 
 function resetColor(){
