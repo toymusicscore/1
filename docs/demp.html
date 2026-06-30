@@ -607,47 +607,19 @@ function setColor(){
 
 }
 
+function readArrayValues(array, prefix) {
+
+    for (let i = 0; i < array.length; i++) {
+        val(prefix + id) = array[i];
+    }
+}
+
 function loadColor(){
 
-    for(let i = 0; i < workingOctColors.length; i++){
-
-        document.getElementById(
-            "x_oct_" + i
-        ).value = workingOctColors[i];
-
-    }
-
-    for(let i = 0; i < workingPcColors.length; i++){
-
-        document.getElementById(
-            "x_pc_" + i
-        ).value = workingPcColors[i];
-
-    }
-
-	for(let i = 0; i < workingHandColors.length; i++){
-
-        document.getElementById(
-            "x_hand_" + i
-        ).value = workingHandColors[i];
-
-    }
-
-	for(let i = 0; i < workingLineColors.length; i++){
-
-        document.getElementById(
-            "x_line_" + i
-        ).value = workingLineColors[i];
-
-    }
-
-	for(let i = 0; i < workingTextColors.length; i++){
-
-        document.getElementById(
-            "x_text_" + i
-        ).value = workingTextColors[i];
-
-    }
+	readArrayValues(workingColors.oct, "x_oct_");
+	readArrayValues(workingColors.pc, "x_pc_");
+	readArrayValues(workingColors.hand, "x_hand_");
+	readArrayValues(workingColors.text, "x_text_");
 
 }
 
