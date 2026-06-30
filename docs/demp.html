@@ -657,15 +657,14 @@ function loadSavedColor(){
 
 function resetColor(){
 
-    workingColors = [...defaultColors];
-  
+    workingColors = structuredClone(defaultColors);
+
     localStorage.removeItem("workingColors");
 
-    updateColor(); 
+    updateColor();
 
     selview1();
 }
-
 
 //========================================
 // Lesson Settings
