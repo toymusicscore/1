@@ -649,59 +649,20 @@ function loadColor(){
 
 }
 
-function saveLocalStrage(item){
-
-	localStorage.setItem(
-		text(item),
-		JSON.stringify(item)
-	);
-
+function saveColor() {
+    localStorage.setItem(
+        "workingColors",
+        JSON.stringify(workingColors)
+    );
 }
-
-function saveColor(){
-
-	saveLocalStrage(workingColors.oct);
-	saveLocalStrage(workingColors.pc);
-	saveLocalStrage(workingColors.hand);
-	saveLocalStrage(workingColors.line);
-	saveLocalStrage(workingColors.text);
-
-}
-
 
 function loadSavedColor(){
 
-    let tmp;
+	const tmp = localStorage.getItem("workingColors");
 
-    tmp = localStorage.getItem("workingOctColors");
-
-    if(tmp){
-        workingOctColors = JSON.parse(tmp);
-    }
-
-    tmp = localStorage.getItem("workingPcColors");
-
-    if(tmp){
-        workingPcColors = JSON.parse(tmp);
-    }
-
-    tmp = localStorage.getItem("workingHandColors");
-
-    if(tmp){
-        workingHandColors = JSON.parse(tmp);
-    }
-
-	tmp = localStorage.getItem("workingLineColors");
-
-    if(tmp){
-        workingLineColors = JSON.parse(tmp);
-    }
-    tmp = localStorage.getItem("workingTextColors");
-
-    if(tmp){
-        workingTextColors = JSON.parse(tmp);
-    }
-
+	if (tmp) {
+		workingColors = JSON.parse(tmp);
+	}
 }
 
 function resetColor(){
