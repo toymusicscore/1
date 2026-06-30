@@ -559,6 +559,30 @@ Global Variables
 */
 
 //========================================
+// Value Settings
+//========================================
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+function val(id) {
+    return $(id).value;
+}
+
+function num(id) {
+    return Number($(id).value);
+}
+
+function chk(id) {
+    return $(id).checked;
+}
+
+function setVal(id, value) {
+    $(id).value = value;
+}
+
+//========================================
 // Color Settings
 //========================================
 
@@ -607,19 +631,20 @@ function setColor(){
 
 }
 
-function readArrayValues(array, prefix) {
+
+function writeArrayValues(array, prefix) {
 
     for (let i = 0; i < array.length; i++) {
-        val(prefix + id) = array[i];
+        setVal(prefix + i, array[i]);
     }
 }
 
 function loadColor(){
 
-	readArrayValues(workingColors.oct, "x_oct_");
-	readArrayValues(workingColors.pc, "x_pc_");
-	readArrayValues(workingColors.hand, "x_hand_");
-	readArrayValues(workingColors.text, "x_text_");
+    writeArrayValues(workingColors.oct,  "x_oct_");
+    writeArrayValues(workingColors.pc,   "x_pc_");
+    writeArrayValues(workingColors.hand, "x_hand_");
+    writeArrayValues(workingColors.text, "x_text_");
 
 }
 
@@ -760,21 +785,6 @@ function handToChannel(settings, hand) {
     return settings.hands[hand].channel;
 }
 
-function $(id) {
-    return document.getElementById(id);
-}
-
-function val(id) {
-    return $(id).value;
-}
-
-function num(id) {
-    return Number($(id).value);
-}
-
-function chk(id) {
-    return $(id).checked;
-}
 
 function setSettings() {
 
