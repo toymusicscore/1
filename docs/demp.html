@@ -668,17 +668,9 @@ function loadSavedColor(){
 
 function resetColor(){
 
-    workingOctColors = [...defaultOctColors];
-    workingPcColors = [...defaultPcColors];
-    workingHandColors = [...defaultHandColors];
-    workingLineColors = [...defaultLineColors];
-    workingTextColors = [...defaultTextColors];
-
-    localStorage.removeItem("workingOctColors");
-    localStorage.removeItem("workingPcColors");
-    localStorage.removeItem("workingHandColors");
-    localStorage.removeItem("workingLineColors");
-    localStorage.removeItem("workingTextColors");
+    workingColors = [...defaultColors];
+  
+    localStorage.removeItem("workingColors");
 
     loadColor();   // ←追加
 
