@@ -2964,24 +2964,24 @@ function lineScore(tick){
 
 	for(let l=0;l<Number(view.kn);l++){
 		let k=Number(view.midi_min)+l;
-		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
+		ctx.fillStyle=workingColors.oct[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
-		ctx.fillStyle=workingPcColors[k%12];
+		ctx.fillStyle=workingColors.pc[k%12];
 		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx.fillStyle=workingLineColors[0];
+		ctx.fillStyle=workingColors.line[0];
 		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
 		}else if (k%12===0){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
 		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle=workingLineColors[1];
+		ctx.strokeStyle=workingColors.line[1];
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
 		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle=workingLineColors[2];
+		ctx.strokeStyle=workingColors.line[2];
 		ctx.stroke();
 		}
 	}
@@ -2990,7 +2990,7 @@ function lineScore(tick){
 	ctx.beginPath();
 	ctx.moveTo(0,my+tick%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 	ctx.lineTo(szx,my+tick%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-	ctx.strokeStyle=workingLineColors[5];
+	ctx.strokeStyle=workingColors.line[5];
 	ctx.stroke();
 	} else {
 		isPlaying = 0;
@@ -2999,7 +2999,7 @@ function lineScore(tick){
 	ctx.beginPath();
 	ctx.moveTo(0,my+szy);
 	ctx.lineTo(mx+szk,my+szy);
-	ctx.strokeStyle=workingLineColors[3];
+	ctx.strokeStyle=workingColors.line[3];
 	ctx.stroke();
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
@@ -3008,13 +3008,13 @@ function lineScore(tick){
 		ctx.beginPath();
 		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle=workingLineColors[3];
+		ctx.strokeStyle=workingColors.line[3];
 		ctx.stroke();
 		if(vmn0 === highlightMeasure){
-			ctx.fillStyle = workingTextColors[4];
+			ctx.fillStyle = workingColors.tect[4];
 			ctx.font = "bold 30px Arial";
 		}else{
-			ctx.fillStyle = workingTextColors[0];
+			ctx.fillStyle = workingColors.text[0];
 			ctx.font = "25px Arial";
 		}
 		ctx.fillText(vmn0,0,my+25+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
@@ -3022,7 +3022,7 @@ function lineScore(tick){
 		ctx.beginPath();
 		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle=workingLineColors[4];
+		ctx.strokeStyle=workingColors.line[4];
 		ctx.stroke();
 		}
 	}
@@ -3042,13 +3042,13 @@ function lineScore(tick){
 			tick
 		);
 
-		let handColor = workingHandColors[4];
+		let handColor = workingColors.hand[4];
 
 		if(track == rightTrack && channel == rightChannel){
-			handColor = workingHandColors[0];
+			handColor = workingColors.hand[0];
 		}
 		else if(track == leftTrack && channel == leftChannel){
-			handColor = workingHandColors[1];
+			handColor = workingColors.hand[1];
 		}
 		if (dp >=0 && dt < ht1*3/4){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
@@ -3058,7 +3058,7 @@ function lineScore(tick){
 					continue;
 				}
 
-			ctx.fillStyle=workingPcColors[midi%12];
+			ctx.fillStyle=workingColors.pc[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt*szy/ht1);
 			ctx.beginPath();
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
@@ -3067,15 +3067,15 @@ function lineScore(tick){
 			getLabel(midi, n_id);
 			ctx.font="20px Arial";
 			if (nl!=""){
-			ctx.fillStyle=workingTextColors[1];
+			ctx.fillStyle=workingColors.text[1];
 			ctx.fillText(nl, x0+3, y+7);
 			}
 			if (nll!=""){
-			ctx.fillStyle=workingTextColors[2];
+			ctx.fillStyle=workingColors.text[2];
 			ctx.fillText(nll, mx, y);
 			}
 			if (nlr!=""){
-			ctx.fillStyle=workingTextColors[3];
+			ctx.fillStyle=workingColors.text[3];
 			ctx.fillText(nlr, mx+szk, y);
 			}
 		}
@@ -3130,7 +3130,7 @@ function lineRecord(tick){
 				continue;
 			}
 
-			ctx.fillStyle = workingHandColors[3];
+			ctx.fillStyle = workingColors.hand[3];
 			ctx.fillRect(
 				x0 + view.kw/4,
 				y,
@@ -3139,7 +3139,7 @@ function lineRecord(tick){
 			);
 
 			ctx.beginPath();
-			ctx.fillStyle = workingHandColors[2];
+			ctx.fillStyle = workingColors.hand[2];
 			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
@@ -3366,24 +3366,24 @@ function scrollScore(tick){
 
 	for(let l=0;l<Number(view.kn);l++){
 		let k=Number(view.midi_min)+l;
-		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
+		ctx.fillStyle=workingColors.oct[Math.floor(k/12)-1];
 		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
-		ctx.fillStyle=workingPcColors[k%12];
+		ctx.fillStyle=workingColors.pc[k%12];
 		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx.fillStyle=workingLineColors[0];
+		ctx.fillStyle=workingColors.line[0];
 		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
 		}else if (k%12===0){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
 		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle=workingLineColors[1];
+		ctx.strokeStyle=workingColors.line[1];
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
 		ctx.moveTo(mx+l*view.kw,my);
 		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle=workingLineColors[2];
+		ctx.strokeStyle=workingColors.line[2];
 		ctx.stroke();
 		}
 	}
@@ -3394,13 +3394,13 @@ function scrollScore(tick){
 		ctx.beginPath();
 		ctx.moveTo(0,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle=workingLineColors[3];
+		ctx.strokeStyle=workingColors.line[3];
 		ctx.stroke();
 		if(vmn0 === highlightMeasure){
-			ctx.fillStyle = workingTextColors[4];
+			ctx.fillStyle = workingColors.text[4];
 			ctx.font = "bold 30px Arial";
 		}else{
-			ctx.fillStyle = workingTextColors[0];
+			ctx.fillStyle = workingColors.text[0];
 			ctx.font = "25px Arial";
 		}
 		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
@@ -3408,7 +3408,7 @@ function scrollScore(tick){
 		ctx.beginPath();
 		ctx.moveTo(mx,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
 		ctx.lineTo(mx+szk,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.strokeStyle=workingLineColors[4];
+		ctx.strokeStyle=workingColors.line[4];
 		ctx.stroke();
 		}
 	}
@@ -3425,13 +3425,13 @@ function scrollScore(tick){
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		let gt=(stop-start)/(bttl*ppq/ntvl*4);
 
-		let handColor = workingHandColors[4];
+		let handColor = workingColors.hand[4];
 
 		if(track === rightTrack && channel === rightChannel){
-			handColor = workingHandColors[0];
+			handColor = workingColors.hand[0];
 		}
 		else if(track === leftTrack && channel === leftChannel){
-			handColor = workingHandColors[1];
+			handColor = workingColors.hand[1];
 		}
 		
 		if (dp > -1/4 && dt < ht1){
@@ -3441,7 +3441,7 @@ function scrollScore(tick){
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || !showRecord){
 					continue;
 				}
-			ctx.fillStyle=workingPcColors[midi%12];
+			ctx.fillStyle=workingColors.pc[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt*szy/ht1);
 			ctx.beginPath();
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
@@ -3450,15 +3450,15 @@ function scrollScore(tick){
 			ctx.fillStyle="black";
 			ctx.font="20px Arial";
 			if (nl!=""){
-			ctx.fillStyle=workingTextColors[1];
+			ctx.fillStyle=workingColors.text[1];
 			ctx.fillText(nl, x0+3, y+7);
 			}
 			if (nll!=""){
-			ctx.fillStyle=workingTextColors[2];
+			ctx.fillStyle=workingColors.text[2];
 			ctx.fillText(nll, mx, y);
 			}
 			if (nlr!=""){
-			ctx.fillStyle=workingTextColors[3];
+			ctx.fillStyle=workingColors.text[3];
 			ctx.fillText(nlr, mx+szk, y);
 			}
 		}
@@ -3493,7 +3493,7 @@ function scrollRecord(tick){
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}
-			ctx.fillStyle = workingHandColors[3];
+			ctx.fillStyle = workingColors.hand[3];
 			ctx.fillRect(
 				x0 + view.kw/4,
 				y,
@@ -3501,7 +3501,7 @@ function scrollRecord(tick){
 				gt*szy/ht1
 			);
 			ctx.beginPath();
-			ctx.fillStyle = workingHandColors[2];
+			ctx.fillStyle = workingColors.hand[2];
 			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
@@ -5439,7 +5439,7 @@ function keyLabel(){
 
 	ctx.lineWidth=1;
 	for(let k=22;k<=107;k++){
-		ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
+		ctx.fillStyle=workingColors.oct[Math.floor(k/12)-1];
 		ctx.fillRect((k-Math.floor(k/12)*12)*kw,(Math.floor(k/12)*2-2)*cl+10,kw,cl);
 		if (k%12===0) {
 			ctx.beginPath();
@@ -5450,7 +5450,7 @@ function keyLabel(){
 			ctx.fillText(Math.floor((k-12)/12), (k-Math.floor(k/12)*12)*kw+30,(Math.floor(k/12)*2-2)*cl+40);
 		}
 		if(k%12<=4){
-			ctx.fillStyle=workingPcColors[k%12];
+			ctx.fillStyle=workingColors.pc[k%12];
 			ctx.fillRect((k-Math.floor(k/12)*12)*kw0,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
 			ctx.beginPath();
 			ctx.arc((k-Math.floor(k/12)*12)*kw0+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -5459,7 +5459,7 @@ function keyLabel(){
 			ctx.fillStyle="black";
 			ctx.fillText(k%12, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
 		}else{
-			ctx.fillStyle=workingPcColors[k%12];
+			ctx.fillStyle=workingColors.pc[k%12];
 			ctx.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1,(Math.floor(k/12)*2-1)*cl+10,kw1,cl);
 			ctx.beginPath();
 			ctx.arc(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -5495,7 +5495,7 @@ function keyLabel(){
 		}
 		}
 	}
-	ctx.fillStyle=workingOctColors[Math.floor(21/12)-1];
+	ctx.fillStyle=workingColors.oct[Math.floor(21/12)-1];
 	ctx.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-2)*cl+10,kw1,cl);
 	ctx.beginPath();
 	ctx.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
@@ -5503,7 +5503,7 @@ function keyLabel(){
 	ctx.fill();
 	ctx.fillStyle="black";
 	ctx.fillText(Math.floor((21-12)/12), 5*kw0+4*kw1+30,(Math.floor(21/12)*2-2)*cl+40);
-	ctx.fillStyle=workingPcColors[21%12];
+	ctx.fillStyle=workingColors.pc[21%12];
 	ctx.fillRect(5*kw0+4*kw1,(Math.floor(21/12)*2-1)*cl+10,kw1,cl);
 	ctx.beginPath();
 	ctx.arc(5*kw0+4*kw1+37,(Math.floor(21/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -5522,7 +5522,7 @@ function keyLabel(){
 	ctx.lineTo(13*kw,(Math.floor(21/12)*2-2)*cl+10);
 	ctx.stroke();
 
-	ctx.fillStyle=workingOctColors[Math.floor(108/12)-1];
+	ctx.fillStyle=workingColors.oct[Math.floor(108/12)-1];
 	ctx.fillRect(12*kw,(Math.floor(107/12)*2-2)*cl+10,kw,cl);
 	ctx.beginPath();
 	ctx.arc(12*kw+37,(Math.floor(107/12)*2-2)*cl+31,cl/3,0,2*Math.PI,false);
@@ -5530,7 +5530,7 @@ function keyLabel(){
 	ctx.fill();
 	ctx.fillStyle="black";
 	ctx.fillText(Math.floor((108-12)/12), 12*kw+30,(Math.floor(107/12)*2-2)*cl+40);
-	ctx.fillStyle=workingPcColors[108%12];
+	ctx.fillStyle=workingColors.pc[108%12];
 	ctx.fillRect(12*kw,(Math.floor(107/12)*2-1)*cl+10,kw,cl);
 	ctx.beginPath();
 	ctx.arc(12*kw+37,(Math.floor(107/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
@@ -5655,27 +5655,27 @@ function keyLabel(){
 
 	for(let k=21;k<=108;k++){
 		if(k%12>=0 && k%12<=4){
-			ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
+			ctx.fillStyle=workingColors.oct[Math.floor(k/12)-1];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			if(k%12===0){
 				ctx.fillText(Math.floor((k-12)/12), 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,y2-16);
 			}
-			ctx.fillStyle=workingPcColors[k%12];
+			ctx.fillStyle=workingColors.pc[k%12];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			ctx.fillText(k%12, 2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2+2,kw20+y2-16);
 		}else{
-			ctx.fillStyle=workingOctColors[Math.floor(k/12)-1];
+			ctx.fillStyle=workingColors.oct[Math.floor(k/12)-1];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,y2,kw22,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
 			if(k===21){
 			ctx.fillText(Math.floor((k-12)/12), 2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2+2,y2-16);
 			}
-			ctx.fillStyle=workingPcColors[k%12];
+			ctx.fillStyle=workingColors.pc[k%12];
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
 			ctx.font="10px Arial";
 			ctx.fillStyle="black";
@@ -6019,11 +6019,11 @@ function trackChannelInfo(){
 		let handName;
 
 		if(row.track == rightTrack && row.channel == rightChannel){
-			handColor = workingHandColors[0];
+			handColor = workingColors.hand[0];
 			handName = HANDS_LABEL[HANDS.RIGHT];
 		}
 		else if(row.track == leftTrack && row.channel == leftChannel){
-			handColor = workingHandColors[1];
+			handColor = workingColors.hand[1];
 			handName = HANDS_LABEL[HANDS.LEFT];
 		}
 		
@@ -6145,7 +6145,7 @@ keyrp10_0=[];
 	for(let i=0;i<scoreData.length;i++){
 		let midi = scoreData[i].midi;
 		let start = scoreData[i].start;
-		ctx.fillStyle=workingPcColors[midi%12];
+		ctx.fillStyle=workingColors.pc[midi%12];
 		ctx.fillRect(200+midi%12*50,120+start/eott0*300,50,1);
 		keyrp10_0.push([midi%12,Math.floor(start/eott0*10)]);
 		}
@@ -6313,7 +6313,7 @@ for(let i=0;i<10;i++){
 		for(j=0;j<keyrp10_2.length;j++){
 			if(i===keyrp10_2[j][0]){
 				if(keyrp10_3[i][2]===keyrp10_2[j][2]){
-				ctx.fillStyle=workingPcColors[keyrp10_2[j][1]];
+				ctx.fillStyle=workingColors.pc[keyrp10_2[j][1]];
 				ctx.fillRect(200+50*keyrp10_2[j][1],570+30*i,50,30);
 				}
 			ctx.fillStyle="black";
@@ -6391,13 +6391,13 @@ Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1])
 -Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1])
 )/keyrp10_1[j][13]*100).toFixed(2);
 
-ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[0])%12];
+ctx.fillStyle=workingColors.pc[(keyrp10_3[i][1]+scaleMjr0[0])%12];
 ctx.fillRect(200,960+i*30,tfmjr0,30);
-ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[4])%12];
+ctx.fillStyle=workingColors.pc[(keyrp10_3[i][1]+scaleMjr0[4])%12];
 ctx.fillRect(200+tfmjr0,960+i*30,tfmjr7,30);
-ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillStyle=workingColors.pc[(keyrp10_3[i][1]+scaleMjr0[5])%12];
 ctx.fillRect(400,960+i*30,tfmnr0,30);
-ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[2])%12];
+ctx.fillStyle=workingColors.pc[(keyrp10_3[i][1]+scaleMjr0[2])%12];
 ctx.fillRect(400+tfmnr0,960+i*30,tfmnr7,30);
 ctx.fillStyle="black";
 if(tfmjr0>=10){
@@ -6431,7 +6431,7 @@ ctx.fillText("= " + tfmnr07,480,990+i*30);
 ctx.fillText("=   " + tfmnr07,480,990+i*30);
 }
 if(tfmjr_mnr>0){
-ctx.fillStyle=workingPcColors[keyrp10_3[i][1]];
+ctx.fillStyle=workingColors.pc[keyrp10_3[i][1]];
 ctx.fillRect(600,960+i*30,tfmjr_mnr,30);	
 ctx.fillStyle="black";
 if(tfmjr_mnr>=10){
@@ -6441,7 +6441,7 @@ ctx.fillText("  " + tfmjr_mnr,600,990+i*30);
 }
 keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major");
 }else if(tfmjr_mnr<0){
-ctx.fillStyle=workingPcColors[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillStyle=workingColors.pc[(keyrp10_3[i][1]+scaleMjr0[5])%12];
 ctx.fillRect(700,960+i*30,-tfmjr_mnr,30);	
 ctx.fillStyle="black";
 if(-tfmjr_mnr>=10){
