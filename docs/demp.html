@@ -582,6 +582,21 @@ function setVal(id, value) {
     $(id).value = value;
 }
 
+
+function readUi(array, prefix) {
+
+    for (let i = 0; i < array.length; i++) {
+        array[i] = val(prefix + i);
+    }
+}
+
+function writeUi(array, prefix) {
+
+    for (let i = 0; i < array.length; i++) {
+        setVal(prefix + i, array[i]);
+    }
+}
+
 //========================================
 // Color Settings
 //========================================
@@ -611,13 +626,6 @@ let workingTextColors=["#666600","#990000","#009900","#009999","#ff0000"];
 
 // Color
 
-function readUi(array, prefix) {
-
-    for (let i = 0; i < array.length; i++) {
-        array[i] = val(prefix + i);
-    }
-}
-
 function setColor(){
 
 	readUi(workingColors.oct, "x_oct_");
@@ -631,13 +639,6 @@ function setColor(){
 
 }
 
-
-function writeUi(array, prefix) {
-
-    for (let i = 0; i < array.length; i++) {
-        setVal(prefix + i, array[i]);
-    }
-}
 
 function loadColor(){
 
