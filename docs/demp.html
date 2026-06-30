@@ -356,7 +356,7 @@ demp
 <label style="font-size:70%">PC a</label>
 <input
     type="text"
-    id="x_pc_a"
+    id="x_pc_10"
     value=""
 	onchange = "setColor()";
     style="width:50px">
@@ -364,7 +364,7 @@ demp
 <label style="font-size:70%">PC b</label>
 <input
     type="text"
-    id="x_pc_b"
+    id="x_pc_11"
     value=""
 	onchange = "setColor()";
     style="width:50px">
@@ -587,23 +587,17 @@ let workingTextColors=["#666600","#990000","#009900","#009999","#ff0000"];
 
 // Color
 
-function loadArrayValues(array, prefix, ids = null) {
+function loadArrayValues(array, prefix) {
 
     for (let i = 0; i < array.length; i++) {
-        const id = ids ? ids[i] : i;
         array[i] = val(prefix + id);
     }
 }
 
-const pitchClassIds = [
-    "0","1","2","3","4","5",
-    "6","7","8","9","a","b"
-];
-
 function setColor(){
 
 	loadArrayValue(workingColors.oct, "x_oct_");
-	loadArrayValues(workingColors.pc, "x_pc_", pitchClassIds);
+	loadArrayValues(workingColors.pc, "x_pc_");
 	loadArrayValue(workingColors.hand, "x_hand_");
 	loadArrayValue(workingColors.line, "x_line_");
 	loadArrayValue(workingColors.text, "x_text_");	
@@ -623,15 +617,10 @@ function loadColor(){
 
     }
 
-    const pcIds = [
-        "0","1","2","3","4","5",
-        "6","7","8","9","a","b"
-    ];
-
     for(let i = 0; i < workingPcColors.length; i++){
 
         document.getElementById(
-            "x_pc_" + pcIds[i]
+            "x_pc_" + i
         ).value = workingPcColors[i];
 
     }
