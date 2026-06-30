@@ -587,47 +587,27 @@ let workingTextColors=["#666600","#990000","#009900","#009999","#ff0000"];
 
 // Color
 
+function loadValues(array, prefix) {
+    for (let i = 0; i < array.length; i++) {
+        array[i] = val(prefix + i);
+    }
+}
+
+function loadPcValues(array) {
+    const ids = ["0","1","2","3","4","5","6","7","8","9","a","b"];
+
+    for (let i = 0; i < array.length; i++) {
+        array[i] = val("x_pc_" + ids[i]);
+    }
+}
+
 function setColor(){
 
-    // Octave
-    for(let i = 0; i < workingColors.oct.length; i++){
-
-        workingColors.oct[i] = val("x_oct_" + i);
-
-    }
-	
-	// Pitch Class  
-	const pcIds = [
-		"0","1","2","3","4","5",
-		"6","7","8","9","a","b"
-	];
-
-	for(let i = 0; i < workingColors.pc.length; i++){
-
-		workingColors.pc[i] = val("x_pc_" + pcIds[i]);
-
-	}
-
-	// hand
-    for(let i = 0; i < workingColors.hand.length; i++){
-
-        workingColors.hand[i] = val("x_hand_" + i);
-
-    }
-
-	// line
-    for(let i = 0; i < workingColors.line.length; i++){
-
-        workingColors.line[i] = val("x_line_" + i);
-
-    }
-
-	// text
-    for(let i = 0; i < workingColors.text.length; i++){
-
-        workingColors.text[i] = val("x_text_" + i);
-
-    }
+	loadValues(workingColors.oct, "x_oct_");
+	loadPcValues(workingColors.pc);
+	loadValues(workingColors.hand, "x_hand_");
+	loadValues(workingColors.line, "x_line_");
+	loadValues(workingColors.text, "x_text_");	
 
     saveColor();
  
