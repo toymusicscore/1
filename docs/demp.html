@@ -831,8 +831,12 @@ function handToChannel(settings, hand) {
     return settings.hands[hand].channel;
 }
 
-function $(id) {
-    return document.getElementById(id);
+function value(id) {
+    return $(id).value;
+}
+
+function number(id) {
+    return Number($(id).value);
 }
 
 function setSettings() {
@@ -841,16 +845,16 @@ function setSettings() {
 
 	settings.song = $("song1").value;
 
-    settings.hands.right.track = Number($("x_rightTrack").value);
-    settings.hands.right.channel = Number($("x_rightChannel").value);
+    settings.hands.right.track = number("x_rightTrack");
+    settings.hands.right.channel = number("x_rightChannel");
 
-    settings.hands.left.track = Number($("x_leftTrack").value);
-    settings.hands.left.channel = Number($("x_leftChannel").value);
+    settings.hands.left.track = number("x_leftTrack");
+    settings.hands.left.channel = number("x_leftChannel");
 
-    settings.measuresPerScreen = Number($("hg1").value);
-	settings.playbackBpm = Number($("x_bpm").value);
-	settings.noteTextType = Number($("nl1").value);
-	settings.viewSelect = Number($("sv1").value);
+    settings.measuresPerScreen = number("hg1");
+	settings.playbackBpm = number("x_bpm");
+	settings.noteTextType = number("nl1");
+	settings.viewSelect = number("sv1");
 
     saveSettings();
     selview1();
