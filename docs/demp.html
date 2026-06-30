@@ -649,32 +649,22 @@ function loadColor(){
 
 }
 
+function saveLocalStrage(item){
+
+	localStorage.setItem(
+		text(item),
+		JSON.stringify(item)
+	);
+
+}
+
 function saveColor(){
 
-	localStorage.setItem(
-		"workingOctColors",
-		JSON.stringify(workingOctColors)
-	);
-
-	localStorage.setItem(
-		"workingPcColors",
-		JSON.stringify(workingPcColors)
-	);
-
-	localStorage.setItem(
-		"workingHandColors",
-		JSON.stringify(workingHandColors)
-	);
-
-	localStorage.setItem(
-		"workingLineColors",
-		JSON.stringify(workingLineColors)
-	);
-
-	localStorage.setItem(
-		"workingTextColors",
-		JSON.stringify(workingTextColors)
-	);
+	saveLocalStrage(workingColors.oct);
+	saveLocalStrage(workingColors.pc);
+	saveLocalStrage(workingColors.hand);
+	saveLocalStrage(workingColors.line);
+	saveLocalStrage(workingColors.text);
 
 }
 
