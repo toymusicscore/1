@@ -613,19 +613,6 @@ let workingColors={
     ...defaultColors
 }
 
-const defaultOctColors=["#ffffff","#ff0000","#ff9900","#ffff00","#00ee00","#00ffff","#0000ff","#ff00ff","#ee0099"];
-const defaultPcColors=["#ff0000","#ff9900","#ffff00","#99ff00","#00ee00","#00ff99","#00ffff","#0099ff","#0000ff","#9900ff","#ff00ff","#ee0099"];
-const defaultHandColors=["#ffcccc","#ffcc00","#9966ff","#cc99ff","#ccffff"];
-const defaultLineColors=["#cccccc","#ff0000","#00ff99","#cc00cc","#0000cc","#999999"];
-const defaultTextColors=["#666600","#990000","#009900","#009999","#ff0000"];
-let workingOctColors=["#ffffff","#ff0000","#ff9900","#ffff00","#00ee00","#00ffff","#0000ff","#ff00ff","#ee0099"];
-let workingPcColors=["#ff0000","#ff9900","#ffff00","#99ff00","#00ee00","#00ff99","#00ffff","#0099ff","#0000ff","#9900ff","#ff00ff","#ee0099"];
-let workingHandColors=["#ffcccc","#ffcc00","#9966ff","#cc99ff","#ccffff"];
-let workingLineColors=["#cccccc","#ff0000","#00ff99","#cc00cc","#0000cc","#999999"];
-let workingTextColors=["#666600","#990000","#009900","#009999","#ff0000"];
-
-// Color
-
 function setColor(){
 
 	readUi(workingColors.oct, "x_oct_");
@@ -1409,7 +1396,7 @@ function onMIDIFailure(error) {
 function initialize() {
 
     loadSavedColor();
-    loadColor();
+    updateColor();
 
 }
 
@@ -2174,7 +2161,7 @@ function showSetting(){
 
 function showColor(){
 
-    loadColor();
+    updateColor();
 
     document.getElementById("mainPage").style.display = "none";
     document.getElementById("canvas").style.display = "block";
