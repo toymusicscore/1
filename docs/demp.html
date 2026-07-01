@@ -559,7 +559,7 @@ Global Variables
 */
 
 //========================================
-// Value Settings
+// UI Value
 //========================================
 
 function $(id) {
@@ -581,6 +581,10 @@ function chk(id) {
 function setVal(id, value) {
     $(id).value = value;
 }
+
+//========================================
+// UI Array Value
+//========================================
 
 
 function readUi(array, prefix) {
@@ -689,9 +693,7 @@ const defaultSettings =
     viewSelect: 1
 }
 
-let lessonSettings = {
-    ...defaultSettings
-};
+let lessonSettings = structuredClone(defaultSettings);
 
 const UI_HAND_ORDER = ["left", "right"];
 
@@ -740,52 +742,19 @@ function setSettings() {
 }
 
 
-function loadSetting(){
+function updateSetting(){
 
-    for(let i = 0; i < workingOctColors.length; i++){
+    const settings = lessonSettings;
 
-        document.getElementById(
-            "x_oct_" + i
-        ).value = workingOctColors[i];
-
-    }
-
-    const pcIds = [
-        "0","1","2","3","4","5",
-        "6","7","8","9","a","b"
-    ];
-
-    for(let i = 0; i < workingPcColors.length; i++){
-
-        document.getElementById(
-            "x_pc_" + pcIds[i]
-        ).value = workingPcColors[i];
-
-    }
-
-	for(let i = 0; i < workingHandColors.length; i++){
-
-        document.getElementById(
-            "x_hand_" + i
-        ).value = workingHandColors[i];
-
-    }
-
-	for(let i = 0; i < workingLineColors.length; i++){
-
-        document.getElementById(
-            "x_line_" + i
-        ).value = workingLineColors[i];
-
-    }
-
-	for(let i = 0; i < workingTextColors.length; i++){
-
-        document.getElementById(
-            "x_text_" + i
-        ).value = workingTextColors[i];
-
-    }
+	setVal("song1", settings.song);
+	setVal("x_rightTrack", settings.hands.right.track);
+	setVal("x_rightChannel", settings.hands.right.channel);
+	setVal("x_leftTrack", settings.hands.left.track);
+	setVal("x_leftChannel", settings.hands.left.channel );
+	setVal("hg1", settings.measuresPerScreen);
+	setVal("x_bpm", settings.playbackBpm );
+	setVal("nl1", settings.noteTextType);
+	setVal("sv1", settings.viewSelect);
 
 }
 
