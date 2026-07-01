@@ -742,15 +742,15 @@ function readSettingsUi() {
 
 }
 
-function onSettingChange(){
+function onSettingsChange(){
 
-	readSettingIi();
+	readSettingsUi();
 	saveSettings();
     selview1();
 
 }
 
-function updateSettingUi(){
+function updateSettingsUi(){
 
     const settings = lessonSettings;
 
@@ -766,88 +766,62 @@ function updateSettingUi(){
 
 }
 
-function saveSetting(){
 
-	localStorage.setItem(
-		"workingOctColors",
-		JSON.stringify(workingOctColors)
-	);
 
-	localStorage.setItem(
-		"workingPcColors",
-		JSON.stringify(workingPcColors)
-	);
+function loadSavedColor(){
 
-	localStorage.setItem(
-		"workingHandColors",
-		JSON.stringify(workingHandColors)
-	);
+    const tmp = localStorage.getItem("workingColors");
 
-	localStorage.setItem(
-		"workingLineColors",
-		JSON.stringify(workingLineColors)
-	);
-
-	localStorage.setItem(
-		"workingTextColors",
-		JSON.stringify(workingTextColors)
-	);
-
+    if(tmp){
+        workingColors = JSON.parse(tmp);
+    }else{
+        workingColors = structuredClone(defaultColors);
+    }
 }
 
+function resetColor(){
 
-function loadSavedSetting(){
+    workingColors = structuredClone(defaultColors);
 
-    let tmp;
+    localStorage.removeItem("workingColors");
 
-    tmp = localStorage.getItem("workingOctColors");
-
-    if(tmp){
-        workingOctColors = JSON.parse(tmp);
-    }
-
-    tmp = localStorage.getItem("workingPcColors");
-
-    if(tmp){
-        workingPcColors = JSON.parse(tmp);
-    }
-
-    tmp = localStorage.getItem("workingHandColors");
-
-    if(tmp){
-        workingHandColors = JSON.parse(tmp);
-    }
-
-	tmp = localStorage.getItem("workingLineColors");
-
-    if(tmp){
-        workingLineColors = JSON.parse(tmp);
-    }
-    tmp = localStorage.getItem("workingTextColors");
-
-    if(tmp){
-        workingTextColors = JSON.parse(tmp);
-    }
-
-}
-
-function resetSetting(){
-
-    workingOctColors = [...defaultOctColors];
-    workingPcColors = [...defaultPcColors];
-    workingHandColors = [...defaultHandColors];
-    workingLineColors = [...defaultLineColors];
-    workingTextColors = [...defaultTextColors];
-
-    localStorage.removeItem("workingOctColors");
-    localStorage.removeItem("workingPcColors");
-    localStorage.removeItem("workingHandColors");
-    localStorage.removeItem("workingLineColors");
-    localStorage.removeItem("workingTextColors");
-
-    loadSetting();   // ←追加
+    updateColorUi();
 
     selview1();
+}
+
+function saveSettings(){
+
+    localStorage.setItem(
+        "lesonSettings",
+        JSON.stringify(lessonSettings)
+    );
+
+}
+
+
+function loadSavedSettings(){
+
+    const tmp = localStorage.getItem("lessonSettings");
+
+    if(tmp){
+        lessonSettings = JSON.parse(tmp);
+    }else{
+        lessonSettings = structuredClone(defaultSettings);
+    }
+
+}
+
+function resetSettings(){
+
+    lessonSettings = structuredClone(defaultSettings);
+
+    localStorage.removeItem("lessonsettings");
+
+    updateSettingsUi();
+
+    selview1();
+
 }
 
 
