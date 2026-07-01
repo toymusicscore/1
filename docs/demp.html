@@ -697,7 +697,7 @@ const defaultSettings =
 {
     songName: "bach-invention-02",
 
-    hands: {
+    handsTrackChannel: {
         right: {
             track: 1,
             channel: 2
@@ -708,6 +708,7 @@ const defaultSettings =
         }
     },
 
+	hands: 0,
     measuresPerScreen: 2,
     playbackBpm: 18,
     noteTextType: 11,
@@ -746,12 +747,13 @@ function readSettingsUi() {
 
 	settings.song = val("song1");
 
-    settings.hands.right.track = num("x_rightTrack");
-    settings.hands.right.channel = num("x_rightChannel");
+    settings.handsTrackChannel.right.track = num("x_rightTrack");
+    settings.handsTrackChannel.right.channel = num("x_rightChannel");
 
-    settings.hands.left.track = num("x_leftTrack");
-    settings.hands.left.channel = num("x_leftChannel");
+    settings.handsTrackChannel.left.track = num("x_leftTrack");
+    settings.handsTrackChannel.left.channel = num("x_leftChannel");
 
+	settings.hands = num("hands");
     settings.measuresPerScreen = num("hg1");
 	settings.playbackBpm = num("x_bpm");
 	settings.noteTextType = num("nl1");
@@ -776,10 +778,11 @@ function updateSettingsUi(){
     const settings = lessonSettings;
 
 	setVal("song1", settings.song);
-	setVal("x_rightTrack", settings.hands.right.track);
-	setVal("x_rightChannel", settings.hands.right.channel);
-	setVal("x_leftTrack", settings.hands.left.track);
-	setVal("x_leftChannel", settings.hands.left.channel );
+	setVal("x_rightTrack", settings.handsTrackChannel.right.track);
+	setVal("x_rightChannel", settings.handsTrackChannel.right.channel);
+	setVal("x_leftTrack", settings.handsTrackChannel.left.track);
+	setVal("x_leftChannel", settings.handsTrackChannel.left.channel);
+	setVal("hands", settings.hands);
 	setVal("hg1", settings.measuresPerScreen);
 	setVal("x_bpm", settings.playbackBpm );
 	setVal("nl1", settings.noteTextType);
