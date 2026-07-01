@@ -695,6 +695,8 @@ function resetColors(){
 
 const defaultSettings =
 {
+	version:1,
+
     songName: "bach-invention-02",
 
     handsTrackChannel: {
@@ -800,13 +802,18 @@ function saveSettings(){
 
 }
 
-
 function loadSavedSettings(){
 
     const tmp = localStorage.getItem("lessonSettings");
 
     if(tmp){
         lessonSettings = JSON.parse(tmp);
+
+        // バージョンが違えば初期設定に戻す
+        if (lessonSettings.version !== defaultSettings.version) {
+            resetSettings();
+        }
+
     }else{
         lessonSettings = structuredClone(defaultSettings);
     }
@@ -817,12 +824,11 @@ function resetSettings(){
 
     lessonSettings = structuredClone(defaultSettings);
 
-    localStorage.removeItem("lessonSettings");
+    saveSettings();
 
     updateSettingsUi();
 
     selview1();
-
 }
 
 
