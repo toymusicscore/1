@@ -69,11 +69,11 @@ demp
 <input
     type="button"
     value="⚙ Settings"
-    onclick="showSetting()">
+    onclick="showSettings()">
 <input
     type="button"
     value="⚙ Colors"
-    onclick="showColor()">
+    onclick="showColors()">
 </div>
 
 <div id="settingPage"
@@ -562,7 +562,7 @@ Global Variables
 //
 // read...Ui: from Ui to data
 // update...Ui: from data to Ui
-//
+// on...Changed: action onchanged 
 
 //========================================
 // UI Value
@@ -631,7 +631,7 @@ function readColorsUi(){
 
 }
 
-function onColorsChanged(){
+function onColorsChange(){
 
     readColorsUi();
     saveColors();
@@ -748,7 +748,7 @@ function readSettingsUi() {
 
 }
 
-function onSettingsChanged(){
+function onSettingsChange(){
 
 	readSettingsUi();
 	saveSettings();
@@ -2079,7 +2079,7 @@ function changeSong(){
 
 // UI
 
-function showSetting(){
+function showSettings(){
 
     document.getElementById("mainPage").style.display = "none";
 	document.getElementById("canvas").style.display = "block";
@@ -2090,7 +2090,7 @@ function showSetting(){
 
 }
 
-function showColor(){
+function showColors(){
 
     updateColorUi();
 
