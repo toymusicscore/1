@@ -79,7 +79,7 @@ demp
 <div id="settingsPage"
      style="display:none">
 	 
-<select id="song1" onchange="changeSong()">
+<select id="song1" onchange="onSettingsChange()">
     <option value="bach-invention-01">bwv772-bach-invention-01</option>
     <option value="bach-invention-02" selected>bwv773-bach-invention-02</option>
     <option value="bach-invention-13">bwv773-bach-invention-13</option>
@@ -100,7 +100,7 @@ demp
     id="x_leftTrack"
     value="2"
     min="1"
-	onchange = "changeTrackChannel()";
+	onchange = "onSettingsChange()";
     style="width:40px">
 
 <label style="font-size:70%">Left Channel</label>
@@ -109,7 +109,7 @@ demp
     id="x_leftChannel"
     value="3"
     min="1"
-	onchange = "changeTrackChannel()";
+	onchange = "onSettingsChange()";
     style="width:40px">
 <label style="font-size:70%">Right Track</label>
 
@@ -118,7 +118,7 @@ demp
     id="x_rightTrack"
     value="1"
     min="1"
-	onchange = "changeTrackChannel()";
+	onchange = "onSettingsChange()";
     style="width:40px">
 
 <label style="font-size:70%">Right Channel</label>
@@ -127,17 +127,17 @@ demp
     id="x_rightChannel"
     value="2"
     min="1"
-	onchange = "changeTrackChannel()";
+	onchange = "onSettingsChange()";
     style="width:40px">
 
-<select id="hands" name="hands" onchange="goTop()">
+<select id="hands" name="hands" onchange="onSettingsChange()">
 	<option value="0" selected> Both Hands </option>
 	<option value="1"> Right Hand </option>
 	<option value="2"> Left Hand </option>
 	</select>
 
 <label style="font-size:70%">Measures/Screen</label>
-<select id="hg1" name="hg1" onchange="height1()">
+<select id="hg1" name="hg1" onchange="onSettingsChange()">
 	<option value="0"> 1 </option>
 	<option value="1" selected> 2</option>
 	<option value="2"> 3</option>
@@ -151,9 +151,10 @@ demp
     name="x_bpm"
     value="1"
     min="1"
+	onchange = "onSettingsChange()";
     style="width:40px">
 
-<select id="nl1" name="nl1" onchange="selview1()">
+<select id="nl1" name="nl1" onchange="onSettingsChange()">
 	<option value="0"> No Label </option>
 	<option value="1"> DoReMi # </option>
 	<option value="2"> DoReMi b </option>
@@ -174,7 +175,7 @@ demp
 	<option value="17"> Text5 </option>
 	</select>
 
-<select id="sv1" name="sv1" onchange="selview1()">
+<select id="sv1" name="sv1" onchange="onSettingsChange()">
 	<option value="0"> License </option>
 	<option value="1" selected> Line </option>
 	<option value="2"> Scroll </option>
@@ -196,7 +197,6 @@ demp
 <input type="button"
        value="Rest Sttings"
        onclick="resetSettings()">
-</div>
 
 <input type="button"
        value="← Back"
@@ -763,7 +763,11 @@ function onSettingsChange(){
 
 	readSettingsUi();
 	saveSettings();
-    selview1();
+	
+	changeSong();
+	changeTrackChannel();
+	height1();
+	selview1();
 
 }
 
@@ -1641,7 +1645,6 @@ function analyzeMidi(){
 	eott0 = getSongLength();
 
 	ticksPerMeasure = ppq * bttl / ntvl * 4;
-	document.form1.x_bpm.value=bpm;
 
 	midi_max=21;
 	midi_min=108;
