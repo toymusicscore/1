@@ -629,7 +629,7 @@ function setColor(){
 }
 
 
-function updateColor(){
+function updateColorUi(){
 
     writeUi(workingColors.oct,  "x_oct_");
     writeUi(workingColors.pc,   "x_pc_");
@@ -663,7 +663,7 @@ function resetColor(){
 
     localStorage.removeItem("workingColors");
 
-    updateColor();
+    updateColorUi();
 
     selview1();
 }
@@ -742,7 +742,7 @@ function setSettings() {
 }
 
 
-function updateSetting(){
+function updateSettingUi(){
 
     const settings = lessonSettings;
 
@@ -1362,7 +1362,7 @@ function onMIDIFailure(error) {
 function initialize() {
 
     loadSavedColor();
-    updateColor();
+    updateColorUi();
 
 }
 
@@ -2127,7 +2127,7 @@ function showSetting(){
 
 function showColor(){
 
-    updateColor();
+    updateColorUi();
 
     document.getElementById("mainPage").style.display = "none";
     document.getElementById("canvas").style.display = "block";
