@@ -196,7 +196,7 @@ demp
 
 <input type="button"
        value="Reset Sttings"
-       onclick="resetSettings()">
+       onclick="onResetSettings()">
 
 <input type="button"
        value="← Back"
@@ -826,11 +826,15 @@ function resetSettings(){
 
     saveSettings();
 
-    updateSettingsUi();
-
-    selview1();
 }
 
+function onResetSettings(){
+
+    resetSettings();
+
+    updateSettingsUi();
+    selview1();
+}
 
 //========================================
 // Constants
