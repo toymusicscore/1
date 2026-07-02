@@ -756,7 +756,7 @@ function readSettingsUi() {
     settings.handsTrackChannel.left.channel = num("x_leftChannel");
 
 	settings.hands = num("hands");
-    settings.measuresPerScreen = num("hg1");
+    settings.measuresPerScreen = num("measuresPerScreen");
 	settings.playbackBpm = num("x_bpm");
 	settings.noteTextType = num("nl1");
 	settings.viewSelect = num("sv1");
@@ -785,7 +785,7 @@ function updateSettingsUi(){
 	setVal("x_leftTrack", settings.handsTrackChannel.left.track);
 	setVal("x_leftChannel", settings.handsTrackChannel.left.channel);
 	setVal("hands", settings.hands);
-	setVal("hg1", settings.measuresPerScreen);
+	setVal("measuresPerScreen", settings.measuresPerScreen);
 	setVal("x_bpm", settings.playbackBpm );
 	setVal("nl1", settings.noteTextType);
 	setVal("sv1", settings.viewSelect);
@@ -1148,7 +1148,7 @@ let	midi_max_r=108;
 
 let ch_max=-1;
 let ch_num=0;
-let ht1=Number(document.form1.hg1.options[document.form1.hg1.options.selectedIndex].value)+1;
+let ht1=Number(document.form1.measuresPerScreen.options[document.form1.measuresPerScreen.options.selectedIndex].value)+1;
 
 let x_ch3=0;
 let chr=[];
