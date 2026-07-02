@@ -774,16 +774,18 @@ function applySettings() {
     console.log("ht1=", ht1);
 }
 
-function onSettingsChange(){
+async function onSettingsChange(){
 
-	readSettingsUi();
-	saveSettings();
-	
-	changeSong();
-	changeTrackChannel();
-	applySettings();
-	selview1();
+    readSettingsUi();
+    saveSettings();
 
+    applySettings();
+
+    await changeSong();
+
+    changeTrackChannel();
+
+    selview1();
 }
 
 function updateSettingsUi(){
@@ -1360,12 +1362,16 @@ function onMIDIFailure(error) {
     console.error("MIDI ERROR", error);
 
 }
-function initialize() {
+
+async function initialize(){
 
     loadSavedSettings();
     updateSettingsUi();
+    applySettings();
 
-    applySettings();      // ht1 を設定
+    await changeSong();
+
+    changeTrackChannel();
 
     loadSavedColor();
     updateColorUi();
@@ -2096,25 +2102,21 @@ async function loadLocalFiles(files){
     return { data1, data2 };
 }
 
-function changeSong(){
+async function changeSong(){
 
     localFiles = null;
 
-	document.getElementById("localFiles").value = "";
+    document.getElementById("localFiles").value = "";
 
     const select = document.getElementById("song1");
-    const old =
-        select.querySelector(
-            'option[value="local"]'
-        );
+    const old = select.querySelector('option[value="local"]');
 
     if(old){
         old.remove();
     }
 
-    main();
+    await main();
 }
-
 
 // UI
 
