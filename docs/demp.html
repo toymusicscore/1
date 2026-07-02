@@ -1147,7 +1147,6 @@ let	midi_max_r=108;
 
 let ch_max=-1;
 let ch_num=0;
-const ht1 = lessonSettings.measuresPerScreen;
 let x_ch3=0;
 let chr=[];
 let ch0=0;
@@ -2922,7 +2921,8 @@ function lineScore(tick){
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
 	let scoreViewData;
-
+	
+	const ht1 = lessonSettings.measuresPerScreen;
 	const view = getViewInfo();
 
 	for(let l=0;l<Number(view.kn);l++){
@@ -3325,6 +3325,7 @@ function scrollScore(tick){
 	szk=szx-2*mx;
 	ctx.lineWidth=1;
 
+	const ht1 = lessonSettings.measuresPerScreen;
 	const view = getViewInfo();
 
 	for(let l=0;l<Number(view.kn);l++){
