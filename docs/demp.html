@@ -763,6 +763,15 @@ function readSettingsUi() {
 
 }
 
+let ht1 = lessonSettings.measuresPerScreen;
+
+function applySettings() {
+
+    ht1 =
+        lessonSettings.measuresPerScreen;
+
+}
+
 function onSettingsChange(){
 
 	readSettingsUi();
@@ -770,6 +779,7 @@ function onSettingsChange(){
 	
 	changeSong();
 	changeTrackChannel();
+	applySettings();
 	selview1();
 
 }
@@ -2922,7 +2932,6 @@ function lineScore(tick){
 	ctx.lineWidth=1;
 	let scoreViewData;
 	
-	const ht1 = lessonSettings.measuresPerScreen;
 	const view = getViewInfo();
 
 	for(let l=0;l<Number(view.kn);l++){
@@ -3325,7 +3334,6 @@ function scrollScore(tick){
 	szk=szx-2*mx;
 	ctx.lineWidth=1;
 
-	const ht1 = lessonSettings.measuresPerScreen;
 	const view = getViewInfo();
 
 	for(let l=0;l<Number(view.kn);l++){
