@@ -1360,19 +1360,15 @@ function onMIDIFailure(error) {
     console.error("MIDI ERROR", error);
 
 }
-
 function initialize() {
 
     loadSavedSettings();
     updateSettingsUi();
- 	onSettingsChange();
 
-	loadSavedColor();
+    applySettings();      // ht1 を設定
+
+    loadSavedColor();
     updateColorUi();
-
-	console.log("measeuesPerScreen: ",lessonSettings.measuresPerScreen);
-	console.log("ht1: ",ht1);
-
 }
 
 function initializePage() {
