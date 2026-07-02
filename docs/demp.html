@@ -763,15 +763,15 @@ function readSettingsUi() {
 
 }
 
-let ht1 = lessonSettings.measuresPerScreen;
+let measuresPerScreen = lessonSettings.measuresPerScreen;
 
 function syncMeasuresPerScreen() {
 
     console.log("syncMeasuresPerScreen()");
 
-    ht1 = lessonSettings.measuresPerScreen;
+    measuresPerScreen = lessonSettings.measuresPerScreen;
 
-    console.log("ht1=", ht1);
+    console.log("measuresPerScreen=", measuresPerScreen);
 }
 
 async function onSettingsChange(){
@@ -2889,8 +2889,8 @@ if (tsv.t4[n_id]!=undefined){
 
 function getVisibleLength(start, stop, tick){
     return (
-        stop >= tick + ht1*bttl*ppq/ntvl*3
-        ? (tick + ht1*bttl*ppq/ntvl*3 - start)/(bttl*ppq/ntvl*4)
+        stop >= tick + measuresPerScreen*bttl*ppq/ntvl*3
+        ? (tick + measuresPerScreen*bttl*ppq/ntvl*3 - start)/(bttl*ppq/ntvl*4)
         : (stop - start)/(bttl*ppq/ntvl*4)
     );
 }
@@ -2963,8 +2963,8 @@ function lineScore(tick){
 
 	if (tick<eott0){
 	ctx.beginPath();
-	ctx.moveTo(0,my+tick%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-	ctx.lineTo(szx,my+tick%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
+	ctx.moveTo(0,my+tick%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+	ctx.lineTo(szx,my+tick%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
 	ctx.strokeStyle=workingColors.line[5];
 	ctx.stroke();
 	} else {
@@ -2978,11 +2978,11 @@ function lineScore(tick){
 	ctx.stroke();
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
+		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ppq*bttl/ntvl*4)){
 		let vmn0=m/ppq/bttl*ntvl/4+1;
 		ctx.beginPath();
-		ctx.moveTo(0,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(0,my+m%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+m%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
 		ctx.strokeStyle=workingColors.line[3];
 		ctx.stroke();
 		if(vmn0 === highlightMeasure){
@@ -2992,11 +2992,11 @@ function lineScore(tick){
 			ctx.fillStyle = workingColors.text[0];
 			ctx.font = "25px Arial";
 		}
-		ctx.fillText(vmn0,0,my+25+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
+		ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
-		ctx.moveTo(mx,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+m%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(mx,my+m%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+m%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
 		ctx.strokeStyle=workingColors.line[4];
 		ctx.stroke();
 		}
@@ -3025,16 +3025,16 @@ function lineScore(tick){
 		else if(track == leftTrack && channel == leftChannel){
 			handColor = workingColors.hand[1];
 		}
-		if (dp >=0 && dt < ht1*3/4){
+		if (dp >=0 && dt < measuresPerScreen*3/4){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4);
+			const y = my+start%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4);
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
 
 			ctx.fillStyle=workingColors.pc[midi%12];
-			ctx.fillRect(x0,y,view.kw,gt*szy/ht1);
+			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
 			ctx.beginPath();
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
@@ -3088,11 +3088,11 @@ function lineRecord(tick){
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 
-		if (dp > 0 && dt < ht1*3/4){
+		if (dp > 0 && dt < measuresPerScreen*3/4){
 
 			const x0 = (midi-midi_min)*view.kw+mx;
 			const x1 = (midi-midi_min+0.5)*view.kw+mx;
-			const y = my+start%(ht1*bttl*ppq/ntvl*4)*szy/(ht1*bttl*ppq/ntvl*4);
+			const y = my+start%(measuresPerScreen*bttl*ppq/ntvl*4)*szy/(measuresPerScreen*bttl*ppq/ntvl*4);
 			const gt = getVisibleLength(
 				start,
 				stop,
@@ -3110,7 +3110,7 @@ function lineRecord(tick){
 				x0 + view.kw/4,
 				y,
 				view.kw/2,
-				gt*szy/ht1
+				gt*szy/measuresPerScreen
 			);
 
 			ctx.beginPath();
@@ -3364,11 +3364,11 @@ function scrollScore(tick){
 	}
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
+		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ppq*bttl/ntvl*4)){
 		let vmn0=m/ppq/bttl*ntvl/4+1;
 		ctx.beginPath();
-		ctx.moveTo(0,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(0,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
 		ctx.strokeStyle=workingColors.line[3];
 		ctx.stroke();
 		if(vmn0 === highlightMeasure){
@@ -3378,11 +3378,11 @@ function scrollScore(tick){
 			ctx.fillStyle = workingColors.text[0];
 			ctx.font = "25px Arial";
 		}
-		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
-		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+ht1*ppq*bttl/ntvl*4)){
+		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ppq*bttl/ntvl*4)){
 		ctx.beginPath();
-		ctx.moveTo(mx,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-tick)*szy/(ht1*bttl*ppq/ntvl*4));
+		ctx.moveTo(mx,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
 		ctx.strokeStyle=workingColors.line[4];
 		ctx.stroke();
 		}
@@ -3409,15 +3409,15 @@ function scrollScore(tick){
 			handColor = workingColors.hand[1];
 		}
 		
-		if (dp > -1/4 && dt < ht1){
+		if (dp > -1/4 && dt < measuresPerScreen){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*szy/ht1;
+			const y = my+dt*szy/measuresPerScreen;
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || !showRecord){
 					continue;
 				}
 			ctx.fillStyle=workingColors.pc[midi%12];
-			ctx.fillRect(x0,y,view.kw,gt*szy/ht1);
+			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
 			ctx.beginPath();
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle=handColor;
@@ -3459,11 +3459,11 @@ function scrollRecord(tick){
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		let gt=(stop-start)/(bttl*ppq/ntvl*4);
 
-		if (dp > 0 && dt < ht1){
+		if (dp > 0 && dt < measuresPerScreen){
 
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*szy/ht1;
+			const y = my+dt*szy/measuresPerScreen;
 
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
@@ -3473,7 +3473,7 @@ function scrollRecord(tick){
 				x0 + view.kw/4,
 				y,
 				view.kw/2,
-				gt*szy/ht1
+				gt*szy/measuresPerScreen
 			);
 			ctx.beginPath();
 			ctx.fillStyle = workingColors.hand[2];
@@ -5358,8 +5358,8 @@ function goBack1(){
 }
 
 function goBack2(){
-    if((document.form1.x_msr.value-1-ht1)*(bttl*ppq/ntvl*4)>0){
-        pauseTick=(document.form1.x_msr.value-1-ht1)*(bttl*ppq/ntvl*4);
+    if((document.form1.x_msr.value-1-measuresPerScreen)*(bttl*ppq/ntvl*4)>0){
+        pauseTick=(document.form1.x_msr.value-1-measuresPerScreen)*(bttl*ppq/ntvl*4);
         document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
@@ -5381,8 +5381,8 @@ function goForward1(){
 
 
 function goForward2(){
-    if((Number(document.form1.x_msr.value)-1+ht1)*(bttl*ppq/ntvl*4)<eott0){
-        pauseTick=(Number(document.form1.x_msr.value)-1+ht1)*(bttl*ppq/ntvl*4);
+    if((Number(document.form1.x_msr.value)-1+measuresPerScreen)*(bttl*ppq/ntvl*4)<eott0){
+        pauseTick=(Number(document.form1.x_msr.value)-1+measuresPerScreen)*(bttl*ppq/ntvl*4);
         document.form1.x_msr.value=Math.floor(pauseTick/(bttl*ppq/ntvl*4))+1;
         picoAudio.setData(parsedData);
         picoAudio.setStartTime(pauseTick);
