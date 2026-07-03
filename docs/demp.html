@@ -833,7 +833,7 @@ function loadSavedSettings(){
 
 }
 
-function resetSettings(){
+async function resetSettings(){
 
     lessonSettings = structuredClone(defaultSettings);
 
@@ -842,6 +842,8 @@ function resetSettings(){
     updateSettingsUi();
 
     syncMeasuresPerScreen();
+
+    await changeSong();
 
     selview1();
 }
