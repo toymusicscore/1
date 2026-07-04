@@ -629,6 +629,14 @@ const defaultColors={
 
 let workingColors = structuredClone(defaultColors);
 
+const HAND_COLOR = {
+    SCORE_RIGHT: 0,
+    SCORE_LEFT: 1,
+    RECORD_BOTH_CIRCLE: 2,
+    RECORD_BOTH_BAR: 3,
+    SCORE_NOT_ASSIGNED: 4
+};
+
 function readColorsUi(){
 
 	readUi(workingColors.oct, "x_oct_");
@@ -3181,15 +3189,24 @@ function lineScore(tick){
 			tick
 		);
 
-		let handColor = workingColors.hand[4];
+		let handColor =
+			workingColors.hand[
+				HAND_COLOR.SCORE_NOT_ASSIGNED
+			];
 
 		if(track == lessonSettings.handsTrackChannel.right.track
 		 && channel == lessonSettings.handsTrackChannel.right.channel){
-			handColor = workingColors.hand[0];
+			hhandColor =
+				workingColors.hand[
+					HAND_COLOR.SCORE_RIGHT
+				];
 		}
 		else if(track == lessonSettings.handsTrackChannel.left.track
 		 && channel == lessonSettings.handsTrackChannel.left.channel){
-			handColor = workingColors.hand[1];
+			handColor =
+				workingColors.hand[
+					HAND_COLOR.SCORE_LEFT
+				];
 		}
 		if (dp >=0 && dt < measuresPerScreen*3/4){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
@@ -3358,15 +3375,25 @@ function scrollScore(tick){
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		let gt=(stop-start)/(bttl*ppq/ntvl*4);
 
-		let handColor = workingColors.hand[4];
+
+		let handColor =
+			workingColors.hand[
+				HAND_COLOR.SCORE_NOT_ASSIGNED
+			];
 
 		if(track == lessonSettings.handsTrackChannel.right.track
 		 && channel == lessonSettings.handsTrackChannel.right.channel){
-			handColor = workingColors.hand[0];
+			hhandColor =
+				workingColors.hand[
+					HAND_COLOR.SCORE_RIGHT
+				];
 		}
 		else if(track == lessonSettings.handsTrackChannel.left.track
 		 && channel == lessonSettings.handsTrackChannel.left.channel){
-			handColor = workingColors.hand[1];
+			handColor =
+				workingColors.hand[
+					HAND_COLOR.SCORE_LEFT
+				];
 		}
 		
 		if (dp > -1/4 && dt < measuresPerScreen){
