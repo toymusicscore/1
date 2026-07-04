@@ -2134,7 +2134,7 @@ async function changeSong(){
 }
 
 //
-// Control UI
+// Control Button
 //
 
 function showSettings(){
@@ -2269,6 +2269,10 @@ function clearRecord(){
 	selview1();
 }
 
+
+//
+// Record
+//
 
 async function record(){
 
@@ -2790,8 +2794,213 @@ function getCurrentTick(){
     ppq / 60;
 }
 
+
+function startPlayback(){
+
+    const x_bpm =
+        parseFloat(
+            document.form1.x_bpm.value
+        );
+
+    baseAudioTime =
+        picoAudio.context.currentTime
+        -
+        (
+            pauseTick /
+            ppq *
+            60 /
+            x_bpm
+        );
+}
+
+
+function playRecordNotes(tick){
+
+	if(tick < prevTick){
+        nextIndex = 0;
+    }
+
+    const x_bpm = parseFloat(document.form1.x_bpm.value);
+
+    const currentTick = Math.floor(tick);
+    const previousTick = Math.floor(prevTick);
+
+    const lookAheadTicks =
+        0.1 * x_bpm * ppq / 60;
+
+    while(nextIndex < recordData.length){
+
+        let data = recordData[nextIndex];
+
+        let midi  = data.midi;
+        let start = data.start;
+        let stop  = data.stop;
+
+        if(start > currentTick + lookAheadTicks){
+            break;
+        }
+		if(
+			stop != null &&
+			start >= previousTick &&
+			start <= currentTick + lookAheadTicks
+		){
+            let durationTicks =
+                Math.max(1, stop - start);
+
+            let durationSeconds =
+                durationTicks / ppq * 60 / x_bpm;
+
+            playPico(midi, durationSeconds, start);
+        }
+
+        nextIndex++;
+    }
+
+    prevTick = tick;
+}
+
+
+function playScoreNotes(tick){
+
+	if(tick < prevTick){
+        nextIndex = 0;
+    }
+
+    let data0 = [];
+
+    if(document.form1.hands.options[0].selected){
+
+        data0 = scoreData;
+
+    }else if(document.form1.hands.options[1].selected){
+
+        data0 = scoreRight;
+
+	}else if(document.form1.hands.options[2].selected){
+
+        data0 = scoreLeft;
+
+	}
+
+    const x_bpm = parseFloat(document.form1.x_bpm.value);
+
+    const currentTick = Math.floor(tick);
+    const previousTick = Math.floor(prevTick);
+
+    const lookAheadTicks =
+        0.1 * x_bpm * ppq / 60;
+
+    while(nextIndex < data0.length){
+
+        let data = data0[nextIndex];
+
+        let midi  = data.midi;
+        let start = data.start;
+        let stop  = data.stop;
+
+        if(start > currentTick + lookAheadTicks){
+            break;
+        }
+		if(
+			stop != null &&
+			start >= previousTick &&
+			start <= currentTick + lookAheadTicks
+		){
+            let durationTicks =
+                Math.max(1, stop - start);
+
+            let durationSeconds =
+                durationTicks / ppq * 60 / x_bpm;
+
+            playPico(midi, durationSeconds, start);
+        }
+
+        nextIndex++;
+    }
+
+    prevTick = tick;
+}
+
+
+function playPico(
+    midi,
+    duration,
+    start
+){
+
+    const ctx2 = picoAudio.context;
+
+    const osc =
+        ctx2.createOscillator();
+
+    const gain =
+        ctx2.createGain();
+
+    osc.frequency.value =
+        midiToFreq(midi);
+
+    osc.type = "triangle";
+
+    osc.connect(gain);
+
+    gain.connect(ctx2.destination);
+
+    const x_bpm =
+        parseFloat(
+            document.form1.x_bpm.value
+        );
+
+    const when =
+        baseAudioTime +
+        start / ppq * 60 / x_bpm;
+
+	const sustainEnd =
+		Math.max(
+			when + 0.01,
+			when + duration - 0.02
+		);
+
+	gain.gain.setValueAtTime(
+		0.0001,
+		when
+	);
+
+	gain.gain.exponentialRampToValueAtTime(
+		0.2,
+		when + 0.01
+	);
+
+	gain.gain.setValueAtTime(
+		0.2,
+		sustainEnd
+	);
+
+	gain.gain.exponentialRampToValueAtTime(
+		0.0001,
+		when + duration
+	);
+
+    osc.start(when);
+
+    osc.stop(when + duration);
+
+    osc.onended = () => {
+
+        osc.disconnect();
+        gain.disconnect();
+    };
+}
+
+function midiToFreq(midi){
+
+    return 440 * Math.pow(
+        2,
+        (midi - 69) / 12
+    );
+}
+
 //
-// Drawing
+// Drawing Pianoroll
 //
 
 function loopScore(){
@@ -3280,215 +3489,7 @@ function scrollRecord(tick){
 };
 
 //
-// Sound
-//
-
-function startPlayback(){
-
-    const x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
-
-    baseAudioTime =
-        picoAudio.context.currentTime
-        -
-        (
-            pauseTick /
-            ppq *
-            60 /
-            x_bpm
-        );
-}
-
-
-function playRecordNotes(tick){
-
-	if(tick < prevTick){
-        nextIndex = 0;
-    }
-
-    const x_bpm = parseFloat(document.form1.x_bpm.value);
-
-    const currentTick = Math.floor(tick);
-    const previousTick = Math.floor(prevTick);
-
-    const lookAheadTicks =
-        0.1 * x_bpm * ppq / 60;
-
-    while(nextIndex < recordData.length){
-
-        let data = recordData[nextIndex];
-
-        let midi  = data.midi;
-        let start = data.start;
-        let stop  = data.stop;
-
-        if(start > currentTick + lookAheadTicks){
-            break;
-        }
-		if(
-			stop != null &&
-			start >= previousTick &&
-			start <= currentTick + lookAheadTicks
-		){
-            let durationTicks =
-                Math.max(1, stop - start);
-
-            let durationSeconds =
-                durationTicks / ppq * 60 / x_bpm;
-
-            playPico(midi, durationSeconds, start);
-        }
-
-        nextIndex++;
-    }
-
-    prevTick = tick;
-}
-
-
-function playScoreNotes(tick){
-
-	if(tick < prevTick){
-        nextIndex = 0;
-    }
-
-    let data0 = [];
-
-    if(document.form1.hands.options[0].selected){
-
-        data0 = scoreData;
-
-    }else if(document.form1.hands.options[1].selected){
-
-        data0 = scoreRight;
-
-	}else if(document.form1.hands.options[2].selected){
-
-        data0 = scoreLeft;
-
-	}
-
-    const x_bpm = parseFloat(document.form1.x_bpm.value);
-
-    const currentTick = Math.floor(tick);
-    const previousTick = Math.floor(prevTick);
-
-    const lookAheadTicks =
-        0.1 * x_bpm * ppq / 60;
-
-    while(nextIndex < data0.length){
-
-        let data = data0[nextIndex];
-
-        let midi  = data.midi;
-        let start = data.start;
-        let stop  = data.stop;
-
-        if(start > currentTick + lookAheadTicks){
-            break;
-        }
-		if(
-			stop != null &&
-			start >= previousTick &&
-			start <= currentTick + lookAheadTicks
-		){
-            let durationTicks =
-                Math.max(1, stop - start);
-
-            let durationSeconds =
-                durationTicks / ppq * 60 / x_bpm;
-
-            playPico(midi, durationSeconds, start);
-        }
-
-        nextIndex++;
-    }
-
-    prevTick = tick;
-}
-
-
-function playPico(
-    midi,
-    duration,
-    start
-){
-
-    const ctx2 = picoAudio.context;
-
-    const osc =
-        ctx2.createOscillator();
-
-    const gain =
-        ctx2.createGain();
-
-    osc.frequency.value =
-        midiToFreq(midi);
-
-    osc.type = "triangle";
-
-    osc.connect(gain);
-
-    gain.connect(ctx2.destination);
-
-    const x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
-
-    const when =
-        baseAudioTime +
-        start / ppq * 60 / x_bpm;
-
-	const sustainEnd =
-		Math.max(
-			when + 0.01,
-			when + duration - 0.02
-		);
-
-	gain.gain.setValueAtTime(
-		0.0001,
-		when
-	);
-
-	gain.gain.exponentialRampToValueAtTime(
-		0.2,
-		when + 0.01
-	);
-
-	gain.gain.setValueAtTime(
-		0.2,
-		sustainEnd
-	);
-
-	gain.gain.exponentialRampToValueAtTime(
-		0.0001,
-		when + duration
-	);
-
-    osc.start(when);
-
-    osc.stop(when + duration);
-
-    osc.onended = () => {
-
-        osc.disconnect();
-        gain.disconnect();
-    };
-}
-
-function midiToFreq(midi){
-
-    return 440 * Math.pow(
-        2,
-        (midi - 69) / 12
-    );
-}
-
-//
-// Analysis
+// Analysis Record
 //
 
 function calcPitchAccuracy(diffData){
@@ -4771,8 +4772,9 @@ function showLessonHistory(){
 
 }
 
-
+//
 // midi sound
+//
 
 function onMIDISuccess(midiAccess){
 
