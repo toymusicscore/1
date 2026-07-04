@@ -2755,11 +2755,11 @@ function startPlayback() {
 
     baseAudioTime =
         ctx.currentTime -
-        tickToSec(startTick);
+        tickToSec(pauseTick);
 }
 
 
-function playNote(midi, durationTick, startTick) {
+function playNote(midi, durationTick, noteStartTick) {
 
     const ctx = audioContext;
 
@@ -2776,7 +2776,7 @@ function playNote(midi, durationTick, startTick) {
     osc.connect(gain);
     gain.connect(ctx.destination);
 
-    const when = baseAudioTime + tickToSec(startTick);
+    const when = baseAudioTime + tickToSec(noteStartTick);
     const dur = tickToSec(durationTick);
 
     gain.gain.setValueAtTime(EPS, when);
