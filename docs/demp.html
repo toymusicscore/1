@@ -2859,9 +2859,13 @@ function playNote(
 
 	const x_bpm = num("x_bpm");
 
-    const when =
-        baseAudioTime +
-        start / ppq * 60 / x_bpm;
+	const when =
+		baseAudioTime +
+		start / ppq * 60 / bpm;
+
+	if (when < audioContext.currentTime) {
+		return;
+	}
 
 	const sustainEnd =
 		Math.max(
