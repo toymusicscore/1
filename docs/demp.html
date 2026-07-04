@@ -3181,6 +3181,17 @@ function lineScore(tick){
 
 		let handColor = workingColors.hand[4];
 
+		if (i < 10) {
+			console.log({
+				track,
+				channel,
+				rightTrack: lessonSettings.handsTrackChannel.right.track,
+				rightChannel: lessonSettings.handsTrackChannel.right.channel,
+				leftTrack: lessonSettings.handsTrackChannel.left.track,
+				leftChannel: lessonSettings.handsTrackChannel.left.channel
+			});
+		}
+
 		if(track == lessonSettings.handsTrackChannel.right.track
 		 && channel == lessonSettings.handsTrackChannel.right.channel){
 			handColor = workingColors.hand[0];
