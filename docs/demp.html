@@ -868,13 +868,15 @@ const LESSON_KEY = "lessonHistory";
 const HANDS = {
     BOTH: 0,
     RIGHT: 1,
-    LEFT: 2
+    LEFT: 2,
+	OTHER: 3
 };
 
 const HANDS_LABEL = {
     [HANDS.BOTH]: "Both Hands",
     [HANDS.RIGHT]: "Right Hand",
-    [HANDS.LEFT]: "Left Hand"
+    [HANDS.LEFT]: "Left Hand",
+    [HANDS.OTHER]: "Not Assigned"
 };
 
 const NOTE_MATCH_THRESHOLD = 120;
@@ -5801,7 +5803,7 @@ function trackChannelInfo(){
 			30*(i+1)+50;
 
 		let handColor = workingColors.hand[4];;
-		let handName;
+		let handName = HANDS_LABEL[HANDS.OTHER];;
 
 		if(row.track == lessonSettings.handsTrackChannel.right.track && 
 		row.channel == lessonSettings.handsTrackChannel.right.channel){
@@ -5812,9 +5814,6 @@ function trackChannelInfo(){
 		row.channel == lessonSettings.handsTrackChannel.left.channel){
 			handColor = workingColors.hand[1];
 			handName = HANDS_LABEL[HANDS.LEFT];
-		}else{
-			handColor = workingColors.hand[4];
-			handName = "Not Assigned";
 		}
 		
 		ctx.fillStyle = handColor;
