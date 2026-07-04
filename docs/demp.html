@@ -1764,13 +1764,13 @@ function analyzeMidi(){
 		});
 	}
 
-	if (document.form1.hands.options[0].selected==true) {
+if (lessonSettings.hands === HANDS.BOTH){
 		midi_max=midi_max_b;
 		midi_min=midi_min_b;
-	} else if (document.form1.hands.options[1].selected==true){
+	} else if (lessonSettings.hands === HANDS.RIGHT){
 		midi_max=midi_max_r;
 		midi_min=midi_min_r;
-	}else if (document.form1.hands.options[2].selected==true) {
+	}else if (lessonSettings.hands === HANDS.LEFT){
 		midi_max=midi_max_l;
 		midi_min=midi_min_l;
 	}
@@ -2263,7 +2263,7 @@ async function record(){
 async function cdown(){
 	ctx.font = "25px Arial";
 
-	let	wait0=60000/Math.max(document.form1.x_bpm.value,60);
+	let	wait0=60000/Math.max(num("x_bpm"),60);
 
 	for(let i = 3; i > 0; i--){
 		ctx.clearRect(0,0,mx,my);
@@ -2283,13 +2283,13 @@ async function draw(){
         window.innerHeight;
 
     if(
-        document.form1.hands.options[1].selected
+        lessonSettings.hands === HANDS.RIGHT
     ){
         midi_max = midi_max_r;
         midi_min = midi_min_r;
     }
 	else if(
-        document.form1.hands.options[2].selected
+        lessonSettings.hands === HANDS.LEFT
     ){
         midi_max = midi_max_l;
         midi_min = midi_min_l;
@@ -2502,10 +2502,7 @@ function playSound(e){
             return;
         }
 
-        const x_bpm =
-            parseFloat(
-                document.form1.x_bpm.value
-            );
+        const x_bpm = num("x_bpm");
 
         const audioNow =
             playPicoNow(p);
@@ -2628,10 +2625,7 @@ function offSound(){
         
 		const t = getCurrentTick();
 
-        const x_bpm =
-            parseFloat(
-                document.form1.x_bpm.value
-            );
+        const x_bpm = num("x_bpm");
 
         const minDurSeconds = 0.05;
 
@@ -2748,10 +2742,7 @@ async function playRecord(){
 
 function getCurrentTick(){
 
-    const x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
+    const x_bpm = num("x_bpm");
 
     return (
         picoAudio.context.currentTime
@@ -2765,10 +2756,7 @@ function getCurrentTick(){
 
 function startPlayback(){
 
-    const x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
+	const x_bpm = num("x_bpm");
 
     baseAudioTime =
         picoAudio.context.currentTime
@@ -2788,7 +2776,7 @@ function playRecordNotes(tick){
         nextIndex = 0;
     }
 
-    const x_bpm = parseFloat(document.form1.x_bpm.value);
+    const x_bpm = num("x_bpm");
 
     const currentTick = Math.floor(tick);
     const previousTick = Math.floor(prevTick);
@@ -2836,21 +2824,20 @@ function playScoreNotes(tick){
 
     let data0 = [];
 
-    if(document.form1.hands.options[0].selected){
-
+	if (lessonSettings.hands === HANDS.BOTH){
         data0 = scoreData;
 
-    }else if(document.form1.hands.options[1].selected){
+    }else if (lessonSettings.hands === HANDS.RIGHT){
 
         data0 = scoreRight;
 
-	}else if(document.form1.hands.options[2].selected){
+	}else if (lessonSettings.hands === HANDS.LEFT){
 
         data0 = scoreLeft;
 
 	}
 
-    const x_bpm = parseFloat(document.form1.x_bpm.value);
+	const x_bpm = num("x_bpm");
 
     const currentTick = Math.floor(tick);
     const previousTick = Math.floor(prevTick);
@@ -2913,10 +2900,7 @@ function playPico(
 
     gain.connect(ctx2.destination);
 
-    const x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
+	const x_bpm = num("x_bpm");
 
     const when =
         baseAudioTime +
@@ -4769,10 +4753,7 @@ function onMIDIMessage(event){
 	const channel = status & 0x0f;
 	const audioNow =
 		picoAudio.context.currentTime;
-    const x_bpm =
-        parseFloat(
-            document.form1.x_bpm.value
-        );
+    const x_bpm = num("x_bpm");
 
 	const latency = 0.04;
 
