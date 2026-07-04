@@ -2835,10 +2835,7 @@ function playRecordNotes(tick){
             let durationTicks =
                 Math.max(1, stop - start);
 
-            let durationSeconds =
-                durationTicks / ppq * 60 / x_bpm;
-
-            playNote(midi, durationSeconds, start);
+			playNote(midi, durationTicks, start);
         }
 
         nextIndex++;
