@@ -2247,8 +2247,6 @@ async function draw(){
         midi_min = midi_min_l;
 	}
 
-    picoAudio.setData(parsedData);
-
     startPlayback();
 
     cancelAnimationFrame(rafId);
@@ -2664,8 +2662,6 @@ async function playScore(){
     canvas.height =
         window.innerHeight;
 
-    picoAudio.setData(parsedData);
-
     startPlayback();
 
     isPlaying = 1;
@@ -2698,8 +2694,6 @@ async function playRecord(){
 
     canvas.height =
         window.innerHeight;
-
-    picoAudio.setData(parsedData);
 
     startPlayback();
 
@@ -5268,8 +5262,6 @@ function msr1(){
 		(msr - 1)
 		* ppq * bttl / ntvl * 4;
 
-	picoAudio.setData(parsedData);
-	picoAudio.setStartTime(pauseTick);
 	selview1();
 }
 
@@ -5278,8 +5270,6 @@ function goTop(){
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     pauseTick = 0;
-	picoAudio.setData(parsedData);
-	picoAudio.setStartTime(pauseTick);
 	setVal("x_msr", 1);
     selview1();
 }
@@ -5287,8 +5277,6 @@ function goTop(){
 function goEnd(){
     pauseTick=Math.floor(eott0/ticksPerMeasure-1)*ticksPerMeasure;
 	setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
-	picoAudio.setData(parsedData);
-	picoAudio.setStartTime(pauseTick);
     selview1();
 }
 
@@ -5296,8 +5284,6 @@ function goBack1(){
     if((num("x_msr")-1)*ticksPerMeasure>0){
         pauseTick=(num("x_msr")-2)*ticksPerMeasure;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
-        picoAudio.setData(parsedData);
-        picoAudio.setStartTime(pauseTick);
     }else{
         goTop();	
     }
@@ -5308,8 +5294,6 @@ function goBack2(){
     if((num("x_msr")-1-measuresPerScreen)*ticksPerMeasure>0){
         pauseTick=(num("x_msr")-1-measuresPerScreen)*ticksPerMeasure;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
-        picoAudio.setData(parsedData);
-        picoAudio.setStartTime(pauseTick);
     }else{
         goTop();	
     }
@@ -5320,8 +5304,6 @@ function goForward1(){
     if(num("x_msr")*ticksPerMeasure<eott0){
         pauseTick=num("x_msr")*ticksPerMeasure;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
-        picoAudio.setData(parsedData);
-        picoAudio.setStartTime(pauseTick);
      }
     selview1();
 }
@@ -5331,8 +5313,6 @@ function goForward2(){
     if((num("x_msr")-1+measuresPerScreen)*ticksPerMeasure<eott0){
         pauseTick=(num("x_msr")-1+measuresPerScreen)*ticksPerMeasure;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
-        picoAudio.setData(parsedData);
-        picoAudio.setStartTime(pauseTick);
     }else{
         goEnd();	
     }
