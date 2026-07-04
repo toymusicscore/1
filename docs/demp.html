@@ -152,6 +152,10 @@ demp
     min="1"
 	onchange = "onSettingsChange()";
     style="width:40px">
+<input
+    type="button"
+    value="Song Firsr BPM"
+    onclick="setSongFirstBPM()">
 
 <select id="nl1" name="nl1" onchange="onSettingsChange()">
 	<option value="0"> No Label </option>
@@ -864,14 +868,6 @@ function onResetSettings(){
 // Time Convert
 //
 
-function tickToSeconds(tick) {
-    return tick * 60 / (ppq * bpm);
-}
-
-function secondsToTick(seconds) {
-    return seconds * ppq * bpm / 60;
-}
-
 
 function tickToSec(tick) {
 
@@ -901,14 +897,27 @@ function jumpToTick(tick) {
     pauseTick = tick;
 }
 
+let secondsPerTick = 0;
+let ticksPerSecond = 0;
+let songFirstBpm = 60; //default value, to set song's first tempo event, no considering change tempo
+
+function setSongFirstBPM(){
+
+	setVal("x_bpm", songFirstBpm);
+
+}
+
+function updateTempo() {
+
+    const bpm = lessonSettings.playbackBpm;
+
+    secondsPerTick = 60 / (ppq * bpm);
+    ticksPerSecond = ppq * bpm / 60;
+}
 
 //========================================
 // Constants
 //========================================
-
-const secondsPerTick = 60 / (ppq * bpm);
-const ticksPerSecond = ppq * bpm / 60;
-
 
 const oscillators = {};
 const activeNotes = {};
@@ -1141,7 +1150,6 @@ let midiData;
 
 let vmn0=0;
 let ppq=0;
-let bpm=0;
 let bttl=0;
 let ntvl=0;
 let bttl2=0;
@@ -1653,7 +1661,7 @@ function analyzeMidi(){
 	const beatTrackData =
 		createBeatTrack();
 
-	bpm =
+	songFirstBpm =
 		tempoTrackData.length > 0
 		? tempoTrackData[0].value
 		: 60;
