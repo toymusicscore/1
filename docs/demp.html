@@ -2958,8 +2958,8 @@ function midiToFreq(midi){
 function loopScore(){
 	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
-	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
-	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
+	const sv = lessonSettings.viewSelect;
+	setVal("x_msr", Math.floor(tick/(bttl*ppq/ntvl*4)+1));
 	if (sv=="1"){
 		lineScore(tick);
 		if (enableScoreSound){
@@ -2978,8 +2978,9 @@ function loopScore(){
 function loopRecord(){
 	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
-	const sv = document.form1.sv1.options[document.form1.sv1.options.selectedIndex].value;
+	const sv = lessonSettings.viewSelect;
 	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
+	setVal("x_msr", Math.floor(tick/(bttl*ppq/ntvl*4)+1));
 	if (sv=="1"){
 		lineRecord(tick);
 		playRecordNotes(tick)
