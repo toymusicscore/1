@@ -2896,10 +2896,8 @@ function playScoreNotes(tick){
             let durationTicks =
                 Math.max(1, stop - start);
 
-            let durationSeconds =
-                durationTicks / ppq * 60 / x_bpm;
+			playNote(midi, durationTicks, start);
 
-            playNote(midi, durationSeconds, start);
         }
 
         nextIndex++;
