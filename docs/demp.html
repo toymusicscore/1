@@ -9,7 +9,6 @@ demp
 </title>
 </head>
 <body style="font-family:Arial;font-size:100%">
-<form name="form1" >
 <div id="mainPage">
 <input 
 	type="button" 
@@ -531,8 +530,6 @@ demp
         onclick="showMain()">
     <div id="rankingArea"></div>
 </div>
-
-</form>
 <canvas
     id="canvas"
 >
@@ -3064,17 +3061,17 @@ function getViewInfo(){
 
     let scoreViewData;
 
-    if(document.form1.hands.options[0].selected){
+	if (lessonSettings.hands === HANDS.BOTH){
         scoreViewData = scoreData;
         midi_max = midi_max_b;
         midi_min = midi_min_b;
     }
-    else if(document.form1.hands.options[1].selected){
+    else if (lessonSettings.hands === HANDS.RIGHT){
         scoreViewData = scoreRight;
         midi_max = midi_max_r;
         midi_min = midi_min_r;
     }
-    else{
+    else if (lessonSettings.hands === HANDS.LEFT){
         scoreViewData = scoreLeft;
         midi_max = midi_max_l;
         midi_min = midi_min_l;
@@ -3650,21 +3647,21 @@ function createPedalGraphData(){
 
 function createCurrentPairs(){
 
-    if(document.form1.hands.options[0].selected){
+    if (lessonSettings.hands === HANDS.BOTH){
 
         return matchNotes(
             scoreData,
             recordData
         );
 
-    }else if(document.form1.hands.options[1].selected){
+	}else if (lessonSettings.hands === HANDS.RIGHT){
 
         return matchNotes(
             scoreRight,
             hands.right
         );
 
-    }else{
+    }else if (lessonSettings.hands === HANDS.LEFT){
 
         return matchNotes(
             scoreLeft,
@@ -4546,8 +4543,7 @@ function jumpMeasure(measure){
 
     highlightMeasure = measure;
 
-    document.form1.x_msr.value =
-        measure;
+    setVal("x_msr", measure);
 
     showMain();
 
