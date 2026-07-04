@@ -1330,6 +1330,17 @@ function debugLog(msg){
     console.log(msg);
 }
 
+async function main(){
+
+    const { data1, data2 } =
+        await fetchData();
+
+    loadMidi(data1);
+    setTsv(data2);
+
+    selview1();
+}
+
 function initializeAudio() {
 
     document.addEventListener(
@@ -2123,7 +2134,7 @@ async function changeSong(){
 }
 
 //
-// Settings
+// Control UI
 //
 
 function showSettings(){
@@ -2182,20 +2193,6 @@ function showDownloadPage(){
 }
 
 
-async function main(){
-
-    const { data1, data2 } =
-        await fetchData();
-
-    loadMidi(data1);
-    setTsv(data2);
-
-    selview1();
-}
-
-//
-// Control
-//
 
 function pauseButton(){
 	
@@ -5380,6 +5377,9 @@ function goForward2(){
     selview1();
 }
 
+//
+// Other Menu
+//
 
 function keyLabel(){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
