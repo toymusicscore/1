@@ -3288,7 +3288,10 @@ function lineRecord(tick){
 				continue;
 			}
 
-			ctx.fillStyle = workingColors.hand[3];
+			ctx.fillStyle =
+				workingColors.hand[
+					HAND_COLOR.RECORD_BOTH_BAR
+				];
 			ctx.fillRect(
 				x0 + view.kw/4,
 				y,
@@ -3297,6 +3300,10 @@ function lineRecord(tick){
 			);
 
 			ctx.beginPath();
+			ctx.fillStyle =
+				workingColors.hand[
+					HAND_COLOR.RECORD_BOTH_CIRCLE
+				];
 			ctx.fillStyle = workingColors.hand[2];
 			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
 			ctx.fill();
@@ -3374,7 +3381,6 @@ function scrollScore(tick){
 		const dt = (start-tick)/(bttl*ppq/ntvl*4);
 		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
 		let gt=(stop-start)/(bttl*ppq/ntvl*4);
-
 
 		let handColor =
 			workingColors.hand[
@@ -3455,7 +3461,10 @@ function scrollRecord(tick){
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}
-			ctx.fillStyle = workingColors.hand[3];
+			ctx.fillStyle =
+				workingColors.hand[
+					HAND_COLOR.RECORD_BOTH_BAR
+				];
 			ctx.fillRect(
 				x0 + view.kw/4,
 				y,
@@ -3463,7 +3472,10 @@ function scrollRecord(tick){
 				gt*szy/measuresPerScreen
 			);
 			ctx.beginPath();
-			ctx.fillStyle = workingColors.hand[2];
+			ctx.fillStyle =
+				workingColors.hand[
+					HAND_COLOR.RECORD_BOTH_CIRCLE
+				];
 			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
 			ctx.fill();
 		}
