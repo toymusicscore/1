@@ -2779,6 +2779,13 @@ function playNote(midi, durationTick, noteStartTick) {
     const when = baseAudioTime + tickToSec(noteStartTick);
     const dur = tickToSec(durationTick);
 
+console.log({
+    currentTime: ctx.currentTime,
+    noteStartTick,
+    durationTick,
+    when,
+    dur
+});
     gain.gain.setValueAtTime(EPS, when);
     gain.gain.exponentialRampToValueAtTime(0.2, when + attack);
     gain.gain.setValueAtTime(0.2, when + Math.max(dur - release, attack));
