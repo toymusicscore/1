@@ -5267,12 +5267,14 @@ function goTop(){
 function goEnd(){
     pauseTick=Math.floor(eott0/ticksPerMeasure-1)*ticksPerMeasure;
 	setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
+	baseAudioTime = audioContext.currentTime;
     selview1();
 }
 
 function goBack1(){
     if((num("x_msr")-1)*ticksPerMeasure>0){
         pauseTick=(num("x_msr")-2)*ticksPerMeasure;
+		baseAudioTime = audioContext.currentTime;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
         goTop();	
@@ -5283,6 +5285,7 @@ function goBack1(){
 function goBack2(){
     if((num("x_msr")-1-measuresPerScreen)*ticksPerMeasure>0){
         pauseTick=(num("x_msr")-1-measuresPerScreen)*ticksPerMeasure;
+		baseAudioTime = audioContext.currentTime;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
         goTop();	
@@ -5293,6 +5296,7 @@ function goBack2(){
 function goForward1(){
     if(num("x_msr")*ticksPerMeasure<eott0){
         pauseTick=num("x_msr")*ticksPerMeasure;
+		baseAudioTime = audioContext.currentTime;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
      }
     selview1();
@@ -5302,6 +5306,7 @@ function goForward1(){
 function goForward2(){
     if((num("x_msr")-1+measuresPerScreen)*ticksPerMeasure<eott0){
         pauseTick=(num("x_msr")-1+measuresPerScreen)*ticksPerMeasure;
+		baseAudioTime = audioContext.currentTime;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
         goEnd();	
