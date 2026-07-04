@@ -872,6 +872,36 @@ function secondsToTick(seconds) {
     return seconds * ppq * bpm / 60;
 }
 
+
+function tickToSec(tick) {
+
+    const bpm = num("x_bpm");
+
+    return (tick / ppq) * 60 / bpm;
+}
+
+
+function getCurrentTick(){
+
+    const x_bpm = num("x_bpm");
+	const now =
+    audioContext.currentTime;
+
+    return (
+		now
+        -
+        baseAudioTime
+    ) *
+    x_bpm *
+    ppq / 60;
+}
+
+
+function jumpToTick(tick) {
+    pauseTick = tick;
+}
+
+
 //========================================
 // Constants
 //========================================
@@ -2706,35 +2736,6 @@ async function playRecord(){
     isPlaying = 2;
 
     loopRecord();
-}
-
-
-function getCurrentTick(){
-
-    const x_bpm = num("x_bpm");
-	const now =
-    audioContext.currentTime;
-
-    return (
-		now
-        -
-        baseAudioTime
-    ) *
-    x_bpm *
-    ppq / 60;
-}
-
-
-function jumpToTick(tick) {
-    pauseTick = tick;
-}
-
-
-function tickToSec(tick) {
-
-    const bpm = num("x_bpm");
-
-    return (tick / ppq) * 60 / bpm;
 }
 
 
