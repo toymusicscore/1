@@ -3297,7 +3297,7 @@ function scrollScore(tick){
 
 	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
 		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
-		let vmn0=m/ppq/bttl*ntvl/4+1;
+		let vmn0=m/ticksPerMeasure+1;
 		ctx.beginPath();
 		ctx.moveTo(0,my+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
 		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
@@ -3313,7 +3313,7 @@ function scrollScore(tick){
 		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
 		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 		ctx.beginPath();
-		ctx.moveTo(mx,my+(m-tick)*szy/(measuresPerScreen*bttl*ticksPerMeasure));
+		ctx.moveTo(mx,my+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
 		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
 		ctx.strokeStyle=workingColors.line[4];
 		ctx.stroke();
