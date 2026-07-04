@@ -2122,7 +2122,9 @@ async function changeSong(){
     await main();
 }
 
-// UI
+//
+// Settings
+//
 
 function showSettings(){
 
@@ -2191,7 +2193,9 @@ async function main(){
     selview1();
 }
 
-// sound control
+//
+// Control
+//
 
 function pauseButton(){
 	
@@ -2789,7 +2793,9 @@ function getCurrentTick(){
     ppq / 60;
 }
 
-// drawing
+//
+// Drawing
+//
 
 function loopScore(){
 	if (isPlaying == 0) return;
@@ -3123,6 +3129,163 @@ function lineRecord(tick){
 };
 
 
+function scrollScore(tick){
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	szx = canvas.width;
+	szy = canvas.height-2*my;
+	szk=szx-2*mx;
+	ctx.lineWidth=1;
+
+	const view = getViewInfo();
+
+	for(let l=0;l<Number(view.kn);l++){
+		let k=Number(view.midi_min)+l;
+		ctx.fillStyle=workingColors.oct[Math.floor(k/12)-1];
+		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
+		ctx.fillStyle=workingColors.pc[k%12];
+		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
+		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+		ctx.fillStyle=workingColors.line[0];
+		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
+		}else if (k%12===0){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*view.kw,my);
+		ctx.lineTo(mx+l*view.kw,my+szy);
+		ctx.strokeStyle=workingColors.line[1];
+		ctx.stroke();
+		}else if (k%12===5){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*view.kw,my);
+		ctx.lineTo(mx+l*view.kw,my+szy);
+		ctx.strokeStyle=workingColors.line[2];
+		ctx.stroke();
+		}
+	}
+
+	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ppq*bttl/ntvl*4)){
+		let vmn0=m/ppq/bttl*ntvl/4+1;
+		ctx.beginPath();
+		ctx.moveTo(0,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		ctx.strokeStyle=workingColors.line[3];
+		ctx.stroke();
+		if(vmn0 === highlightMeasure){
+			ctx.fillStyle = workingColors.text[4];
+			ctx.font = "bold 30px Arial";
+		}else{
+			ctx.fillStyle = workingColors.text[0];
+			ctx.font = "25px Arial";
+		}
+		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ppq*bttl/ntvl*4)){
+		ctx.beginPath();
+		ctx.moveTo(mx,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
+		ctx.strokeStyle=workingColors.line[4];
+		ctx.stroke();
+		}
+	}
+
+	for(let i=0;i<view.scoreViewData.length;i++){
+		let midi = view.scoreViewData[i].midi;
+		let start = view.scoreViewData[i].start;
+		let stop = view.scoreViewData[i].stop;
+		let track = view.scoreViewData[i].track;
+		let channel = view.scoreViewData[i].channel;
+		let n_id = view.scoreViewData[i].n_id;
+		getLabel(midi, n_id);
+		const dt = (start-tick)/(bttl*ppq/ntvl*4);
+		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
+		let gt=(stop-start)/(bttl*ppq/ntvl*4);
+
+		let handColor = workingColors.hand[4];
+
+		if(track === rightTrack && channel === rightChannel){
+			handColor = workingColors.hand[0];
+		}
+		else if(track === leftTrack && channel === leftChannel){
+			handColor = workingColors.hand[1];
+		}
+		
+		if (dp > -1/4 && dt < measuresPerScreen){
+			const x0 = (midi-view.midi_min)*view.kw+mx;
+			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
+			const y = my+dt*szy/measuresPerScreen;
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || !showRecord){
+					continue;
+				}
+			ctx.fillStyle=workingColors.pc[midi%12];
+			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
+			ctx.beginPath();
+			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
+			ctx.fillStyle=handColor;
+			ctx.fill();
+			ctx.fillStyle="black";
+			ctx.font="20px Arial";
+			if (nl!=""){
+			ctx.fillStyle=workingColors.text[1];
+			ctx.fillText(nl, x0+3, y+7);
+			}
+			if (nll!=""){
+			ctx.fillStyle=workingColors.text[2];
+			ctx.fillText(nll, mx, y);
+			}
+			if (nlr!=""){
+			ctx.fillStyle=workingColors.text[3];
+			ctx.fillText(nlr, mx+szk, y);
+			}
+		}
+	}
+};
+
+function scrollRecord(tick){
+
+	if(!showRecord) return;
+
+	scrollScore(tick);
+	
+	const view = getViewInfo();
+	
+	for(let i=0; i<recordData.length; i++){
+		let midi = recordData[i].midi;
+		let start = recordData[i].start;
+		let stop = recordData[i].stop;
+		if(stop == null){
+			continue;
+		}
+		const dt = (start-tick)/(bttl*ppq/ntvl*4);
+		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
+		let gt=(stop-start)/(bttl*ppq/ntvl*4);
+
+		if (dp > 0 && dt < measuresPerScreen){
+
+			const x0 = (midi-view.midi_min)*view.kw+mx;
+			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
+			const y = my+dt*szy/measuresPerScreen;
+
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+				continue;
+			}
+			ctx.fillStyle = workingColors.hand[3];
+			ctx.fillRect(
+				x0 + view.kw/4,
+				y,
+				view.kw/2,
+				gt*szy/measuresPerScreen
+			);
+			ctx.beginPath();
+			ctx.fillStyle = workingColors.hand[2];
+			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
+			ctx.fill();
+		}
+	}
+};
+
+//
+// Sound
+//
+
 function startPlayback(){
 
     const x_bpm =
@@ -3141,8 +3304,6 @@ function startPlayback(){
         );
 }
 
-
-// sound
 
 function playRecordNotes(tick){
 
@@ -3329,697 +3490,9 @@ function midiToFreq(midi){
     );
 }
 
-// drawing
-
-function scrollScore(tick){
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	szx = canvas.width;
-	szy = canvas.height-2*my;
-	szk=szx-2*mx;
-	ctx.lineWidth=1;
-
-	const view = getViewInfo();
-
-	for(let l=0;l<Number(view.kn);l++){
-		let k=Number(view.midi_min)+l;
-		ctx.fillStyle=workingColors.oct[Math.floor(k/12)-1];
-		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
-		ctx.fillStyle=workingColors.pc[k%12];
-		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
-		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx.fillStyle=workingColors.line[0];
-		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
-		}else if (k%12===0){
-		ctx.beginPath();
-		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle=workingColors.line[1];
-		ctx.stroke();
-		}else if (k%12===5){
-		ctx.beginPath();
-		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle=workingColors.line[2];
-		ctx.stroke();
-		}
-	}
-
-	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(ppq*bttl/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ppq*bttl/ntvl*4)){
-		let vmn0=m/ppq/bttl*ntvl/4+1;
-		ctx.beginPath();
-		ctx.moveTo(0,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
-		ctx.strokeStyle=workingColors.line[3];
-		ctx.stroke();
-		if(vmn0 === highlightMeasure){
-			ctx.fillStyle = workingColors.text[4];
-			ctx.font = "bold 30px Arial";
-		}else{
-			ctx.fillStyle = workingColors.text[0];
-			ctx.font = "25px Arial";
-		}
-		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
-		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ppq*bttl/ntvl*4)){
-		ctx.beginPath();
-		ctx.moveTo(mx,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
-		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*bttl*ppq/ntvl*4));
-		ctx.strokeStyle=workingColors.line[4];
-		ctx.stroke();
-		}
-	}
-
-	for(let i=0;i<view.scoreViewData.length;i++){
-		let midi = view.scoreViewData[i].midi;
-		let start = view.scoreViewData[i].start;
-		let stop = view.scoreViewData[i].stop;
-		let track = view.scoreViewData[i].track;
-		let channel = view.scoreViewData[i].channel;
-		let n_id = view.scoreViewData[i].n_id;
-		getLabel(midi, n_id);
-		const dt = (start-tick)/(bttl*ppq/ntvl*4);
-		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-		let gt=(stop-start)/(bttl*ppq/ntvl*4);
-
-		let handColor = workingColors.hand[4];
-
-		if(track === rightTrack && channel === rightChannel){
-			handColor = workingColors.hand[0];
-		}
-		else if(track === leftTrack && channel === leftChannel){
-			handColor = workingColors.hand[1];
-		}
-		
-		if (dp > -1/4 && dt < measuresPerScreen){
-			const x0 = (midi-view.midi_min)*view.kw+mx;
-			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*szy/measuresPerScreen;
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || !showRecord){
-					continue;
-				}
-			ctx.fillStyle=workingColors.pc[midi%12];
-			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
-			ctx.beginPath();
-			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
-			ctx.fillStyle=handColor;
-			ctx.fill();
-			ctx.fillStyle="black";
-			ctx.font="20px Arial";
-			if (nl!=""){
-			ctx.fillStyle=workingColors.text[1];
-			ctx.fillText(nl, x0+3, y+7);
-			}
-			if (nll!=""){
-			ctx.fillStyle=workingColors.text[2];
-			ctx.fillText(nll, mx, y);
-			}
-			if (nlr!=""){
-			ctx.fillStyle=workingColors.text[3];
-			ctx.fillText(nlr, mx+szk, y);
-			}
-		}
-	}
-};
-
-function scrollRecord(tick){
-
-	if(!showRecord) return;
-
-	scrollScore(tick);
-	
-	const view = getViewInfo();
-	
-	for(let i=0; i<recordData.length; i++){
-		let midi = recordData[i].midi;
-		let start = recordData[i].start;
-		let stop = recordData[i].stop;
-		if(stop == null){
-			continue;
-		}
-		const dt = (start-tick)/(bttl*ppq/ntvl*4);
-		const dp = (stop-tick)/(bttl*ppq/ntvl*4);
-		let gt=(stop-start)/(bttl*ppq/ntvl*4);
-
-		if (dp > 0 && dt < measuresPerScreen){
-
-			const x0 = (midi-view.midi_min)*view.kw+mx;
-			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*szy/measuresPerScreen;
-
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
-				continue;
-			}
-			ctx.fillStyle = workingColors.hand[3];
-			ctx.fillRect(
-				x0 + view.kw/4,
-				y,
-				view.kw/2,
-				gt*szy/measuresPerScreen
-			);
-			ctx.beginPath();
-			ctx.fillStyle = workingColors.hand[2];
-			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
-			ctx.fill();
-		}
-	}
-};
-
-// analysis
-
-function matchNotes(scoreData, recordData){
-
-    const m = scoreData.length;
-    const n = recordData.length;
-
-    const dp = [];
-	const MISS_COST = 50;
-
-    for(let i=0; i<=m; i++){
-
-        dp[i] = [];
-
-        for(let j=0; j<=n; j++){
-
-            dp[i][j] = Infinity;
-        }
-    }
-
-    dp[0][0] = 0;
-
-    for(let i=0; i<=m; i++){
-
-        for(let j=0; j<=n; j++){
-
-            if(i < m && j < n){
-
-                const s = scoreData[i];
-                const r = recordData[j];
-
-                const pitchCost =
-                    Math.abs(s.midi - r.midi);
-
-                const timeCost =
-                    Math.abs(s.start - r.start) / 100;
-
-				const durationCost =
-					Math.abs(
-						(s.stop - s.start)
-						-
-						(r.stop - r.start)
-					) / 100;
-
-				const matchCost =
-					pitchCost * 10 +
-					timeCost +
-					durationCost;
-
-                dp[i+1][j+1] =
-                    Math.min(
-                        dp[i+1][j+1],
-                        dp[i][j] + matchCost
-                    );
-            }
-
-            // 楽譜側欠落
-            if(i < m){
-
-                dp[i+1][j] =
-                    Math.min(
-                        dp[i+1][j],
-                        dp[i][j] + MISS_COST
-                    );
-            }
-
-            // 余計な音
-            if(j < n){
-
-                dp[i][j+1] =
-                    Math.min(
-                        dp[i][j+1],
-                        dp[i][j] + MISS_COST
-                    );
-            }
-        }
-    }
-
-    const pairs = [];
-
-    let i = m;
-    let j = n;
-
-    while(i > 0 || j > 0){
-
-        if(
-            i > 0 &&
-            j > 0
-        ){
-
-            const s = scoreData[i-1];
-            const r = recordData[j-1];
-
-            const pitchCost =
-                Math.abs(s.midi - r.midi);
-
-            const timeCost =
-                Math.abs(s.start - r.start) / 100;
-
-			const durationCost =
-				Math.abs(
-					(s.stop - s.start)
-					-
-					(r.stop - r.start)
-				) / 100;
-
-			const matchCost =
-				pitchCost * 10 +
-				timeCost +
-				durationCost;
-
-            if(
-                Math.abs(
-                    dp[i][j] -
-                    (dp[i-1][j-1] + matchCost)
-                ) < 0.0001
-            ){
-
-                pairs.unshift({
-
-                    scoreIndex: i-1,
-                    recordIndex: j-1,
-
-                    score: s,
-                    record: r
-
-                });
-
-                i--;
-                j--;
-
-                continue;
-            }
-        }
-
-        if(
-            i > 0 &&
-            Math.abs(
-                dp[i][j] -
-                (dp[i-1][j] + MISS_COST)
-            ) < 0.0001
-        ){
-
-            pairs.unshift({
-
-                scoreIndex: i-1,
-                recordIndex: null,
-
-                score: scoreData[i-1],
-                record: null
-
-            });
-
-            i--;
-
-            continue;
-        }
-
-        if(j > 0){
-
-            pairs.unshift({
-
-                scoreIndex: null,
-                recordIndex: j-1,
-
-                score: null,
-                record: recordData[j-1]
-
-            });
-
-            j--;
-        }
-    }
-
-    return pairs;
-
-	const matched =
-		pairs.filter(
-			p => p.score && p.record
-		);
-
-	console.log(
-		"matched",
-		matched.length
-	);
-
-}
-
-
-function createDiffData(pairs){
-
-    diffData = [];   // ←追加
-
-	for(const pair of pairs){
-
-		// 弾き忘れ
-		if(
-			pair.score != null &&
-			pair.record == null
-		){
-
-			diffData.push({
-
-				missed: true,
-
-				tick:
-					pair.score.start,
-
-				measure:
-					Math.floor(
-						pair.score.start /
-						ticksPerMeasure
-					) + 1
-			});
-
-			continue;
-		}
-
-		// 余計な音
-		if(
-			pair.score == null &&
-			pair.record != null
-		){
-
-			diffData.push({
-
-				extra: true,
-
-				tick:
-					pair.record.start,
-
-				measure:
-					Math.floor(
-						pair.record.start /
-						ticksPerMeasure
-					) + 1
-			});
-
-			continue;
-		}
-
-		const s = pair.score;
-		const r = pair.record;
-
-		diffData.push({
-
-			tick: s.start,
-
-			pitchDiff:
-				r.midi - s.midi,
-
-			attackDiff:
-				r.start - s.start,
-
-			releaseDiff:
-				r.stop - s.stop,
-
-			velocityDiff:
-				r.velocity -
-				s.velocity,
-
-			measure:
-				Math.floor(
-					s.start /
-					ticksPerMeasure
-				) + 1
-		});
-	}
-
-	diffData.sort(
-		(a,b) => a.tick - b.tick
-	);
-
-    return diffData;
-
-}
-
-function createMeasureStats(diffData){
-
-    const stats = {};
-
-    for(const d of diffData){
-    
-        const m = d.measure;
-
-        if(!stats[m]){
-
-			stats[m] = {
-				measure: m,
-				missed: 0,
-				extra: 0,
-				pitch: 0,
-				attack: 0,
-				release: 0,
-				velocity: 0,
-				total: 0
-			};
-        }
-
-		if(d.missed){
-			stats[m].missed++;
-			stats[m].total += 10;
-			continue;
-		}
-
-		if(d.extra){
-			stats[m].extra++;
-			stats[m].total += 5;
-			continue;
-		}
-
-		if(Math.abs(d.pitchDiff) > 0){
-			stats[m].pitch++;
-			stats[m].total += 8;
-		}
-
-		if(Math.abs(d.attackDiff) > ppq/8){
-			stats[m].attack++;
-			stats[m].total += 1;
-		}
-
-		if(Math.abs(d.releaseDiff) > ppq/8){
-			stats[m].release++;
-			stats[m].total += 1;
-		}
-
-		if(Math.abs(d.velocityDiff) > 20){
-			stats[m].velocity++;
-			stats[m].total += 1;
-		}
-	}
-
-    return Object.values(stats);
-}
-
-function createMeasureRanking(diffData){
-
-    const stats =
-        createMeasureStats(diffData);
-
-    stats.sort(
-        (a,b) => b.total - a.total
-    );
-
-    return stats;
-	
-}
-
-
-
-function jumpMeasure(measure){
-
-    highlightMeasure = measure;
-
-    document.form1.x_msr.value =
-        measure;
-
-    showMain();
-
-    msr1();
-
-}
-
-
-
-function showMeasureRanking(){
-
-	updateAnalysisData()
-
-	const ranking =
-        createMeasureRanking(diffData);
-	
-	let html = "";
-		html += "<table border='1' table style='font-size:25px; border-collapse:collapse; width:100%;'>";
-		html +=
-		"<tr style='background:#ddd; font-weight:bold;'>" +
-		"<th>Rank</th>" +
-		"<th>Measure</th>" +
-		"<th>Total</th>" +
-		"<th>Missed</th>" +
-		"<th>Pitch</th>" +
-		"<th>Extra</th>" +
-		"<th>Attack</th>" +
-		"<th>Release</th>" +
-		"<th>Velocity</th>" +
-		"</tr>";
-
-		ranking
-		.filter(r => r.total > 0 && r.measure >= firstMeasure && r.measure <= lastMeasure)
-		.slice(0,5)
-		.forEach((r,index)=>{
-
-			const bg = (index % 2 === 0) ? "#f7f7f7" : "#ffffff";
-
-			html +=
-			"<tr style='background-color:" + bg + "'>" +
-			"<td style='text-align:right'>" + (index+1) + "</td>" +
-			"<td onclick='jumpMeasure(" + r.measure + ")' style='text-align:right;cursor:pointer;color:blue;text-decoration:underline'>" +
-			r.measure +
-			"</td>" +
-			"<td style='text-align:right'>" + r.total + "</td>" +
-			"<td style='text-align:right'>" + r.missed + "</td>" +
-			"<td style='text-align:right'>" + r.pitch + "</td>" +
-			"<td style='text-align:right'>" + r.extra + "</td>" +
-			"<td style='text-align:right'>" + r.attack + "</td>" +
-			"<td style='text-align:right'>" + r.release + "</td>" +
-			"<td style='text-align:right'>" + r.velocity + "</td>" +
-			"</tr>";
-		});
-
-    html += "</table>";
-
-	html =
-		"<h1 style='text-align:center'>"+
-		"Practice Ranking"+
-		"</h1>"+
-		"<h2 style='text-align:center'>" +
-		"Top 5 Measures to Practice" +
-		"</h2>" +
-		html;
-
-    document.getElementById(
-        "rankingArea"
-    ).innerHTML = html;
-
-	showRankingPage();
-
-}
-
-function showRankingPage(){
-
-	document.getElementById("mainPage").style.display = "none";
-	document.getElementById("canvas").style.display = "none";
-    document.getElementById("settingsPage").style.display = "none";
-    document.getElementById("colorsPage").style.display = "none";
-    document.getElementById("downloadPage").style.display = "none";
-	document.getElementById("rankingPage").style.display = "block";
-
-}
-
-// lesson
-
-function saveLessonRecord(){
-
-    let history =
-        JSON.parse(localStorage.getItem(LESSON_KEY)) || [];
-
-	updateAnalysisData()
-
-	const record = {
-		meta: {
-			date: Date.now(),                // 数値（比較しやすい）
-			song: document.getElementById("song1").value,
-			hands: Number(document.getElementById("hands").value),
-			// 0: Both, 1: Right, 2: Left
-			firstMeasure: firstMeasure,
-			lastMeasure: lastMeasure,
-			bpm:  Number(document.getElementById("x_bpm").value)
-		},
-
-		score: {
-			overall: calcOverallAccuracy(diffData),
-			pitch: calcPitchAccuracy(diffData),
-			attack: calcAttackAccuracy(diffData),
-			release: calcReleaseAccuracy(diffData),
-			velocity: calcVelocityAccuracy(diffData)
-		},
-
-		analysis: {
-			worstMeasures: createMeasureRanking(diffData)
-				.slice(0, 5)
-				.map(r => ({
-					measure: r.measure,
-					score: r.score ?? null   // 将来拡張用
-				}))
-		}
-	};
-
-	history.push(record);
-
-    localStorage.setItem(
-        LESSON_KEY,
-        JSON.stringify(history)
-    );
-
-	saveMidi();
-
-}
-
-
-function clearHistory(){
-	localStorage.clear();
-}
-
-
-
-function loadLessonHistory(){
-
-    return JSON.parse(
-        localStorage.getItem(LESSON_KEY)
-    ) || [];
-}
-
-function showLessonHistory(){
-
-    const history = loadLessonHistory();
-
-    let html = "<h3>Lesson History</h3><table border='1'>";
-    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>First Measure</th><th>Last Measure</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
-
-    history.forEach(r => {
-        html +=
-            "<tr>" +
-            "<td>" + getDateTimeString(r.meta.date) + "</td>" +
-            "<td>" + r.meta.song + "</td>" +
-            "<td>" + HANDS_LABEL[r.meta.hands] + "</td>" +
-            "<td style='text-align:right'>" + r.meta.firstMeasure + "</td>" +
-            "<td style='text-align:right'>" + r.meta.lastMeasure + "</td>" +
-            "<td style='text-align:right'>" + r.meta.bpm + "</td>" +
-            "<td style='text-align:right'>" + r.score.overall + "</td>" +
-            "<td style='text-align:right'>" + r.score.pitch + "</td>" +
-            "<td style='text-align:right'>" + r.score.attack + "</td>" +
-            "<td style='text-align:right'>" + r.score.release + "</td>" +
-            "<td style='text-align:right'>" + r.score.velocity + "</td>" +
-            "</tr>";
-    });
-
-    html += "</table>";
-
-    document.getElementById("rankingArea").innerHTML = html;
-	
-	showRankingPage();
-
-}
-
-// analysis
+//
+// Analysis
+//
 
 function calcPitchAccuracy(diffData){
 
@@ -4762,33 +4235,545 @@ function drawPedalGraph(
 }
 
 
-/*	
-document.addEventListener(
-    "click",
-    async () => {
 
-        await audioContext.resume();
+//
+// analysis
+//
 
-        console.log(audioContext.state);
+function matchNotes(scoreData, recordData){
+
+    const m = scoreData.length;
+    const n = recordData.length;
+
+    const dp = [];
+	const MISS_COST = 50;
+
+    for(let i=0; i<=m; i++){
+
+        dp[i] = [];
+
+        for(let j=0; j<=n; j++){
+
+            dp[i][j] = Infinity;
+        }
     }
-);
 
-if (navigator.requestMIDIAccess) {
+    dp[0][0] = 0;
 
-    navigator.requestMIDIAccess()
-        .then(midiAccess => {
-            console.log("MIDI OK");
-            onMIDISuccess(midiAccess);
-        })
-        .catch(err => {
-            console.error("MIDI ERROR", err);
-        });
+    for(let i=0; i<=m; i++){
 
-} else {
+        for(let j=0; j<=n; j++){
 
-    console.log("Web MIDI API not supported");
+            if(i < m && j < n){
+
+                const s = scoreData[i];
+                const r = recordData[j];
+
+                const pitchCost =
+                    Math.abs(s.midi - r.midi);
+
+                const timeCost =
+                    Math.abs(s.start - r.start) / 100;
+
+				const durationCost =
+					Math.abs(
+						(s.stop - s.start)
+						-
+						(r.stop - r.start)
+					) / 100;
+
+				const matchCost =
+					pitchCost * 10 +
+					timeCost +
+					durationCost;
+
+                dp[i+1][j+1] =
+                    Math.min(
+                        dp[i+1][j+1],
+                        dp[i][j] + matchCost
+                    );
+            }
+
+            // 楽譜側欠落
+            if(i < m){
+
+                dp[i+1][j] =
+                    Math.min(
+                        dp[i+1][j],
+                        dp[i][j] + MISS_COST
+                    );
+            }
+
+            // 余計な音
+            if(j < n){
+
+                dp[i][j+1] =
+                    Math.min(
+                        dp[i][j+1],
+                        dp[i][j] + MISS_COST
+                    );
+            }
+        }
+    }
+
+    const pairs = [];
+
+    let i = m;
+    let j = n;
+
+    while(i > 0 || j > 0){
+
+        if(
+            i > 0 &&
+            j > 0
+        ){
+
+            const s = scoreData[i-1];
+            const r = recordData[j-1];
+
+            const pitchCost =
+                Math.abs(s.midi - r.midi);
+
+            const timeCost =
+                Math.abs(s.start - r.start) / 100;
+
+			const durationCost =
+				Math.abs(
+					(s.stop - s.start)
+					-
+					(r.stop - r.start)
+				) / 100;
+
+			const matchCost =
+				pitchCost * 10 +
+				timeCost +
+				durationCost;
+
+            if(
+                Math.abs(
+                    dp[i][j] -
+                    (dp[i-1][j-1] + matchCost)
+                ) < 0.0001
+            ){
+
+                pairs.unshift({
+
+                    scoreIndex: i-1,
+                    recordIndex: j-1,
+
+                    score: s,
+                    record: r
+
+                });
+
+                i--;
+                j--;
+
+                continue;
+            }
+        }
+
+        if(
+            i > 0 &&
+            Math.abs(
+                dp[i][j] -
+                (dp[i-1][j] + MISS_COST)
+            ) < 0.0001
+        ){
+
+            pairs.unshift({
+
+                scoreIndex: i-1,
+                recordIndex: null,
+
+                score: scoreData[i-1],
+                record: null
+
+            });
+
+            i--;
+
+            continue;
+        }
+
+        if(j > 0){
+
+            pairs.unshift({
+
+                scoreIndex: null,
+                recordIndex: j-1,
+
+                score: null,
+                record: recordData[j-1]
+
+            });
+
+            j--;
+        }
+    }
+
+    return pairs;
+
+	const matched =
+		pairs.filter(
+			p => p.score && p.record
+		);
+
+	console.log(
+		"matched",
+		matched.length
+	);
+
 }
-*/
+
+
+function createDiffData(pairs){
+
+    diffData = [];   // ←追加
+
+	for(const pair of pairs){
+
+		// 弾き忘れ
+		if(
+			pair.score != null &&
+			pair.record == null
+		){
+
+			diffData.push({
+
+				missed: true,
+
+				tick:
+					pair.score.start,
+
+				measure:
+					Math.floor(
+						pair.score.start /
+						ticksPerMeasure
+					) + 1
+			});
+
+			continue;
+		}
+
+		// 余計な音
+		if(
+			pair.score == null &&
+			pair.record != null
+		){
+
+			diffData.push({
+
+				extra: true,
+
+				tick:
+					pair.record.start,
+
+				measure:
+					Math.floor(
+						pair.record.start /
+						ticksPerMeasure
+					) + 1
+			});
+
+			continue;
+		}
+
+		const s = pair.score;
+		const r = pair.record;
+
+		diffData.push({
+
+			tick: s.start,
+
+			pitchDiff:
+				r.midi - s.midi,
+
+			attackDiff:
+				r.start - s.start,
+
+			releaseDiff:
+				r.stop - s.stop,
+
+			velocityDiff:
+				r.velocity -
+				s.velocity,
+
+			measure:
+				Math.floor(
+					s.start /
+					ticksPerMeasure
+				) + 1
+		});
+	}
+
+	diffData.sort(
+		(a,b) => a.tick - b.tick
+	);
+
+    return diffData;
+
+}
+
+function createMeasureStats(diffData){
+
+    const stats = {};
+
+    for(const d of diffData){
+    
+        const m = d.measure;
+
+        if(!stats[m]){
+
+			stats[m] = {
+				measure: m,
+				missed: 0,
+				extra: 0,
+				pitch: 0,
+				attack: 0,
+				release: 0,
+				velocity: 0,
+				total: 0
+			};
+        }
+
+		if(d.missed){
+			stats[m].missed++;
+			stats[m].total += 10;
+			continue;
+		}
+
+		if(d.extra){
+			stats[m].extra++;
+			stats[m].total += 5;
+			continue;
+		}
+
+		if(Math.abs(d.pitchDiff) > 0){
+			stats[m].pitch++;
+			stats[m].total += 8;
+		}
+
+		if(Math.abs(d.attackDiff) > ppq/8){
+			stats[m].attack++;
+			stats[m].total += 1;
+		}
+
+		if(Math.abs(d.releaseDiff) > ppq/8){
+			stats[m].release++;
+			stats[m].total += 1;
+		}
+
+		if(Math.abs(d.velocityDiff) > 20){
+			stats[m].velocity++;
+			stats[m].total += 1;
+		}
+	}
+
+    return Object.values(stats);
+}
+
+function createMeasureRanking(diffData){
+
+    const stats =
+        createMeasureStats(diffData);
+
+    stats.sort(
+        (a,b) => b.total - a.total
+    );
+
+    return stats;
+	
+}
+
+
+
+function jumpMeasure(measure){
+
+    highlightMeasure = measure;
+
+    document.form1.x_msr.value =
+        measure;
+
+    showMain();
+
+    msr1();
+
+}
+
+
+function showMeasureRanking(){
+
+	updateAnalysisData()
+
+	const ranking =
+        createMeasureRanking(diffData);
+	
+	let html = "";
+		html += "<table border='1' table style='font-size:25px; border-collapse:collapse; width:100%;'>";
+		html +=
+		"<tr style='background:#ddd; font-weight:bold;'>" +
+		"<th>Rank</th>" +
+		"<th>Measure</th>" +
+		"<th>Total</th>" +
+		"<th>Missed</th>" +
+		"<th>Pitch</th>" +
+		"<th>Extra</th>" +
+		"<th>Attack</th>" +
+		"<th>Release</th>" +
+		"<th>Velocity</th>" +
+		"</tr>";
+
+		ranking
+		.filter(r => r.total > 0 && r.measure >= firstMeasure && r.measure <= lastMeasure)
+		.slice(0,5)
+		.forEach((r,index)=>{
+
+			const bg = (index % 2 === 0) ? "#f7f7f7" : "#ffffff";
+
+			html +=
+			"<tr style='background-color:" + bg + "'>" +
+			"<td style='text-align:right'>" + (index+1) + "</td>" +
+			"<td onclick='jumpMeasure(" + r.measure + ")' style='text-align:right;cursor:pointer;color:blue;text-decoration:underline'>" +
+			r.measure +
+			"</td>" +
+			"<td style='text-align:right'>" + r.total + "</td>" +
+			"<td style='text-align:right'>" + r.missed + "</td>" +
+			"<td style='text-align:right'>" + r.pitch + "</td>" +
+			"<td style='text-align:right'>" + r.extra + "</td>" +
+			"<td style='text-align:right'>" + r.attack + "</td>" +
+			"<td style='text-align:right'>" + r.release + "</td>" +
+			"<td style='text-align:right'>" + r.velocity + "</td>" +
+			"</tr>";
+		});
+
+    html += "</table>";
+
+	html =
+		"<h1 style='text-align:center'>"+
+		"Practice Ranking"+
+		"</h1>"+
+		"<h2 style='text-align:center'>" +
+		"Top 5 Measures to Practice" +
+		"</h2>" +
+		html;
+
+    document.getElementById(
+        "rankingArea"
+    ).innerHTML = html;
+
+	showRankingPage();
+
+}
+
+function showRankingPage(){
+
+	document.getElementById("mainPage").style.display = "none";
+	document.getElementById("canvas").style.display = "none";
+    document.getElementById("settingsPage").style.display = "none";
+    document.getElementById("colorsPage").style.display = "none";
+    document.getElementById("downloadPage").style.display = "none";
+	document.getElementById("rankingPage").style.display = "block";
+
+}
+
+//
+// Lesson Record
+//
+
+function saveLessonRecord(){
+
+    let history =
+        JSON.parse(localStorage.getItem(LESSON_KEY)) || [];
+
+	updateAnalysisData()
+
+	const record = {
+		meta: {
+			date: Date.now(),                // 数値（比較しやすい）
+			song: document.getElementById("song1").value,
+			hands: Number(document.getElementById("hands").value),
+			// 0: Both, 1: Right, 2: Left
+			firstMeasure: firstMeasure,
+			lastMeasure: lastMeasure,
+			bpm:  Number(document.getElementById("x_bpm").value)
+		},
+
+		score: {
+			overall: calcOverallAccuracy(diffData),
+			pitch: calcPitchAccuracy(diffData),
+			attack: calcAttackAccuracy(diffData),
+			release: calcReleaseAccuracy(diffData),
+			velocity: calcVelocityAccuracy(diffData)
+		},
+
+		analysis: {
+			worstMeasures: createMeasureRanking(diffData)
+				.slice(0, 5)
+				.map(r => ({
+					measure: r.measure,
+					score: r.score ?? null   // 将来拡張用
+				}))
+		}
+	};
+
+	history.push(record);
+
+    localStorage.setItem(
+        LESSON_KEY,
+        JSON.stringify(history)
+    );
+
+	saveMidi();
+
+}
+
+
+function clearHistory(){
+	localStorage.clear();
+}
+
+
+
+function loadLessonHistory(){
+
+    return JSON.parse(
+        localStorage.getItem(LESSON_KEY)
+    ) || [];
+}
+
+function showLessonHistory(){
+
+    const history = loadLessonHistory();
+
+    let html = "<h3>Lesson History</h3><table border='1'>";
+    html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>First Measure</th><th>Last Measure</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
+
+    history.forEach(r => {
+        html +=
+            "<tr>" +
+            "<td>" + getDateTimeString(r.meta.date) + "</td>" +
+            "<td>" + r.meta.song + "</td>" +
+            "<td>" + HANDS_LABEL[r.meta.hands] + "</td>" +
+            "<td style='text-align:right'>" + r.meta.firstMeasure + "</td>" +
+            "<td style='text-align:right'>" + r.meta.lastMeasure + "</td>" +
+            "<td style='text-align:right'>" + r.meta.bpm + "</td>" +
+            "<td style='text-align:right'>" + r.score.overall + "</td>" +
+            "<td style='text-align:right'>" + r.score.pitch + "</td>" +
+            "<td style='text-align:right'>" + r.score.attack + "</td>" +
+            "<td style='text-align:right'>" + r.score.release + "</td>" +
+            "<td style='text-align:right'>" + r.score.velocity + "</td>" +
+            "</tr>";
+    });
+
+    html += "</table>";
+
+    document.getElementById("rankingArea").innerHTML = html;
+	
+	showRankingPage();
+
+}
+
 
 // midi sound
 
