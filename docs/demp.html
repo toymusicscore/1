@@ -2673,7 +2673,9 @@ function offSound(){
     currentMidis.clear();
 }
 
-async function playScore(){
+async function playScore() {
+
+    console.log("playScore pauseTick =", pauseTick);
 
     if(isPlaying > 0){
         return;
@@ -2762,7 +2764,7 @@ function startPlayback() {
 function playNote(midi, durationTick, noteStartTick) {
 
 	console.log("playNote", midi, noteStartTick);
-	
+
     const ctx = audioContext;
 
     const EPS = 1e-4;
