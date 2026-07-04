@@ -1086,7 +1086,6 @@ let currentHand = HANDS.BOTH;
 
 let parsedData ="";
 
-let r1=[];
 /*
 let r2=[];
 let r3=[];
@@ -1651,8 +1650,6 @@ function analyzeMidi(){
 		scoreData.filter(
 			n => n.track !== 3
 		);
-
-	r1 = scoreData;
 
 	picoAudio.setData(parsedData);
 
@@ -2715,8 +2712,8 @@ async function playScore(){
     nextIndex = 0;
 
     while(
-        nextIndex < r1.length &&
-        r1[nextIndex].start < pauseTick
+        nextIndex < scoreData.length &&
+        scoreData[nextIndex].start < pauseTick
     ){
         nextIndex++;
     }
@@ -5707,132 +5704,6 @@ function keyLabel(){
 	ctx.stroke();
 }
 
-/*
-function channelLeft(){
-	x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
-	x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
-
-	tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-	if (tr1v<13){
-		trs1=tr1v;
-	}else{
-		trs1=12-tr1v;
-	}
-
-	r1=[];
-	n_id=1;
-
-	midi_min=108;
-	midi_max=21;
-	midi_min_l=108;
-	midi_max_l=21;
-	midi_min_r=108;
-	midi_max_r=21;
-	parsedData.channels.forEach(channel => { 
-		channel.notes.forEach(note => { 
-			if(note.channel==x_chL){
-				let trs2=Number(note.pitch)+Number(trs1);
-				r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-				if(trs2>midi_max){
-					midi_max=trs2;
-				}
-				if(trs2<midi_min){
-					midi_min=trs2;
-				}
-				if(trs2>midi_max_l){
-					midi_max_l=trs2;
-				}
-				if(trs2<midi_min_l){
-					midi_min_l=trs2;
-				}
-			}
-			if(note.channel==x_chR){
-				let trs2=Number(note.pitch)+Number(trs1);
-				r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-				if(trs2>midi_max){
-					midi_max=trs2;
-				}
-				if(trs2<midi_min){
-					midi_min=trs2;
-				}
-				if(trs2>midi_max_r){
-					midi_max_r=trs2;
-				}
-				if(trs2<midi_min_r){
-					midi_min_r=trs2;
-				}
-			}
-			n_id+=1;
-		});
-	});
-
-selview1();
-
-}
-
-function channelRight(){
-	x_chL=document.form1.chnLeft.options[document.form1.chnLeft.options.selectedIndex].value;
-	x_chR=document.form1.chnRight.options[document.form1.chnRight.options.selectedIndex].value;
-
-	tr1v=Number(document.form1.tr1.options[document.form1.tr1.options.selectedIndex].value);
-	if (tr1v<13){
-		trs1=tr1v;
-	}else{
-		trs1=12-tr1v;
-	}
-
-	r1=[];
-	n_id=1;
-
-	midi_min=108;
-	midi_max=21;
-	midi_min_l=108;
-	midi_max_l=21;
-	midi_min_r=108;
-	midi_max_r=21;
-	parsedData.channels.forEach(channel => { 
-		channel.notes.forEach(note => { 
-			if(note.channel==x_chL){
-				let trs2=Number(note.pitch)+Number(trs1);
-				r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-				if(trs2>midi_max){
-					midi_max=trs2;
-				}
-				if(trs2<midi_min){
-					midi_min=trs2;
-				}
-				if(trs2>midi_max_l){
-					midi_max_l=trs2;
-				}
-				if(trs2<midi_min_l){
-					midi_min_l=trs2;
-				}
-			}
-			if(note.channel==x_chR){
-				let trs2=Number(note.pitch)+Number(trs1);
-				r1.push([trs2,note.start,note.stop,note.channel,n_id]);
-				if(trs2>midi_max){
-					midi_max=trs2;
-				}
-				if(trs2<midi_min){
-					midi_min=trs2;
-				}
-				if(trs2>midi_max_r){
-					midi_max_r=trs2;
-				}
-				if(trs2<midi_min_r){
-					midi_min_r=trs2;
-				}
-			}
-			n_id+=1;
-			
-		});
-	});
-
-selview1();
-
-}
-*/
 
 function licenseInfo(){
 
@@ -5908,7 +5779,7 @@ function trackChannelInfo(){
 	
 	const infoMap = {};
 	
-	for(const note of r1){
+	for(const note of scoreData){
 
 		const key =
 			note.track + "_" +
