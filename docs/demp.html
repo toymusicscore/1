@@ -890,7 +890,7 @@ const HANDS_LABEL = {
 const NOTE_MATCH_THRESHOLD = 120;
 const TICKS_PER_BEAT = 480;
 
-const canvas = document.getElementById('canvas');
+const canvas = $('canvas');
 canvas.style.touchAction = 'none';
 const ctx=canvas.getContext("2d");
 canvas.width = window.innerWidth;
@@ -1357,7 +1357,7 @@ function initializePage() {
 
 function initializeLocalFiles() {
 
-    const input = document.getElementById("localFiles");
+    const input = $("localFiles");
 
     input.addEventListener(
         "change",
@@ -1384,7 +1384,7 @@ async function onLocalFilesChanged(event) {
 function updateLocalFileOption(files){
 
     const select =
-        document.getElementById("song1");
+        $("song1");
 
     debugLog("CHANGE FIRED");
     debugLog("files.length =", files.length);
@@ -1442,7 +1442,7 @@ async function loadLocalFiles(files){
 
 
 function selectLocalFiles(){
-    const input = document.getElementById("localFiles");
+    const input = $("localFiles");
 
     if(!input){
         console.error("localFiles not found");
@@ -1463,13 +1463,13 @@ function openLocalFiles(){
 function selectSong(){
 
     let song =
-        document.getElementById("song1").value;
+        val("song1");
 
     console.log("selectSong", song);
 if(song === "local"){
 
     let obj =
-        document.getElementById("localMidi");
+        $("localMidi");
 
     obj.click();
 
@@ -1486,7 +1486,7 @@ if(song === "local"){
 async function getMidiData(){
 
     const localFile =
-        document.getElementById("midiFile")
+        $("midiFile")
         .files[0];
 
     if(localFile){
@@ -1496,7 +1496,7 @@ async function getMidiData(){
     }else{
 
         let file1name =
-            document.getElementById("song1").value;
+            val("song1");
 
         let res =
             await fetch(
@@ -1543,7 +1543,7 @@ async function fetchData(){
 	console.log("LOAD FETCH");
 
     // ★fetch
-    const file1name = document.getElementById("song1").value;
+    const file1name = val("song1");
 
     console.log("LOAD FETCH FILE:", file1name);
 
@@ -2040,9 +2040,9 @@ async function changeSong(){
 
     localFiles = null;
 
-    document.getElementById("localFiles").value = "";
+    val("localFiles") = "";
 
-    const select = document.getElementById("song1");
+    const select = $("song1");
     const old = select.querySelector('option[value="local"]');
 
     if(old){
@@ -2058,12 +2058,12 @@ async function changeSong(){
 
 function showSettings(){
 
-    document.getElementById("mainPage").style.display = "none";
-	document.getElementById("canvas").style.display = "block";
-    document.getElementById("settingsPage").style.display = "block";
-    document.getElementById("colorsPage").style.display = "none";
-	document.getElementById("downloadPage").style.display = "none";
-	document.getElementById("rankingPage").style.display = "none";
+    $("mainPage").style.display = "none";
+	$("canvas").style.display = "block";
+    $("settingsPage").style.display = "block";
+    $("colorsPage").style.display = "none";
+	$("downloadPage").style.display = "none";
+	$("rankingPage").style.display = "none";
 
 }
 
@@ -2071,42 +2071,42 @@ function showColors(){
 
     updateColorsUi();
 
-    document.getElementById("mainPage").style.display = "none";
-    document.getElementById("canvas").style.display = "block";
-	document.getElementById("settingsPage").style.display = "none";
-    document.getElementById("colorsPage").style.display = "block";
-    document.getElementById("downloadPage").style.display = "none";
-	document.getElementById("rankingPage").style.display = "none";
+    $("mainPage").style.display = "none";
+    $("canvas").style.display = "block";
+	$("settingsPage").style.display = "none";
+    $("colorsPage").style.display = "block";
+    $("downloadPage").style.display = "none";
+	$("rankingPage").style.display = "none";
 
 }
 
 function showMain(){
 
-    document.getElementById("mainPage").style.display = "block";
-    document.getElementById("canvas").style.display = "block";
-	document.getElementById("settingsPage").style.display = "none";
-    document.getElementById("colorsPage").style.display = "none";
-    document.getElementById("downloadPage").style.display = "none";
-	document.getElementById("rankingPage").style.display = "none";
+    $("mainPage").style.display = "block";
+    $("canvas").style.display = "block";
+	$("settingsPage").style.display = "none";
+    $("colorsPage").style.display = "none";
+    $("downloadPage").style.display = "none";
+	$("rankingPage").style.display = "none";
 
     selview1();
 }
 
 function showCanvas(){
 
-    document.getElementById("license").style.display ="none";
-    document.getElementById("canvas").style.display ="block";
+    $("license").style.display ="none";
+    $("canvas").style.display ="block";
 
 }
 
 function showDownloadPage(){
 
-    document.getElementById("mainPage").style.display = "none";
-    document.getElementById("canvas").style.display = "none";
-    document.getElementById("settingsPage").style.display = "none";
-    document.getElementById("colorsPage").style.display = "none";
-    document.getElementById("downloadPage").style.display = "block";
-	document.getElementById("rankingPage").style.display = "none";
+    $("mainPage").style.display = "none";
+    $("canvas").style.display = "none";
+    $("settingsPage").style.display = "none";
+    $("colorsPage").style.display = "none";
+    $("downloadPage").style.display = "block";
+	$("rankingPage").style.display = "none";
 
     downloadTsv();
 }
@@ -2160,7 +2160,7 @@ function stopRecording(){
 }
 
 function updateRecordButton(){
-    const btn = document.getElementById("recordBtn");
+    const btn = $("recordBtn");
     if(btn){
         btn.value = showRecord ? "Hide Record " : "Show Record";
     }
@@ -3188,7 +3188,7 @@ function lineScore(tick){
 function toggleRecordView(){
     showRecord = !showRecord;
 
-    const btn = document.getElementById("recordBtn");
+    const btn = $("recordBtn");
     if(!btn) return;
 
     btn.value = showRecord ? "Hide Record" : "Show Record";
@@ -4593,7 +4593,7 @@ function showMeasureRanking(){
 		"</h2>" +
 		html;
 
-    document.getElementById(
+    $(
         "rankingArea"
     ).innerHTML = html;
 
@@ -4603,12 +4603,12 @@ function showMeasureRanking(){
 
 function showRankingPage(){
 
-	document.getElementById("mainPage").style.display = "none";
-	document.getElementById("canvas").style.display = "none";
-    document.getElementById("settingsPage").style.display = "none";
-    document.getElementById("colorsPage").style.display = "none";
-    document.getElementById("downloadPage").style.display = "none";
-	document.getElementById("rankingPage").style.display = "block";
+	$("mainPage").style.display = "none";
+	$("canvas").style.display = "none";
+    $("settingsPage").style.display = "none";
+    $("colorsPage").style.display = "none";
+    $("downloadPage").style.display = "none";
+	$("rankingPage").style.display = "block";
 
 }
 
@@ -4626,12 +4626,12 @@ function saveLessonRecord(){
 	const record = {
 		meta: {
 			date: Date.now(),                // 数値（比較しやすい）
-			song: document.getElementById("song1").value,
-			hands: Number(document.getElementById("hands").value),
+			song: val("song1"),
+			hands: num("hands"),
 			// 0: Both, 1: Right, 2: Left
 			firstMeasure: firstMeasure,
 			lastMeasure: lastMeasure,
-			bpm:  Number(document.getElementById("x_bpm").value)
+			bpm:  num("x_bpm")
 		},
 
 		score: {
@@ -4703,7 +4703,7 @@ function showLessonHistory(){
 
     html += "</table>";
 
-    document.getElementById("rankingArea").innerHTML = html;
+    $("rankingArea").innerHTML = html;
 	
 	showRankingPage();
 
@@ -5159,7 +5159,7 @@ function saveMidi(){
         document.createElement("a");
 
 const songName =
-    document.getElementById("song1").value;
+    val("song1");
 
 	const fileName =
     `${songName}-${getCurrentDateTimeString()}.mid`;
@@ -5677,11 +5677,11 @@ function licenseInfo(){
         );
     }
 
-	document.getElementById("canvas").style.display =
+	$("canvas").style.display =
         "none";
 
     const license =
-        document.getElementById("license");
+        $("license");
 
 	license.style.display = "block";
 	license.style.height = canvas.height + "px";
@@ -6323,7 +6323,7 @@ async function downloadTsv(){
 
     html += "</table>";
 
-    document.getElementById("downloadArea").innerHTML = html;
+    $("downloadArea").innerHTML = html;
 }
 
 
