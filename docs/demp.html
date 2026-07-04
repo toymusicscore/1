@@ -1289,10 +1289,6 @@ let scoreLeft =[];
 let pairs = [];
 let localFiles = null;
 let rawMidi;
-let rightTrack;
-let rightChannel;
-let leftTrack;
-let leftChannel;
 
 //========================================
 // Initialize
@@ -1723,49 +1719,21 @@ function analyzeMidi(){
 		}
 
 	});
-
-	rightTrack =
-		Number(
-			document.getElementById(
-				"x_rightTrack"
-			).value
-		);
-
-	rightChannel =
-		Number(
-			document.getElementById(
-				"x_rightChannel"
-			).value - 1
-		);
-
-	leftTrack =
-		Number(
-			document.getElementById(
-				"x_leftTrack"
-			).value
-		);
-		
-	leftChannel =
-		Number(
-			document.getElementById(
-				"x_leftChannel"
-			).value - 1
-		);
 	
 	scoreRight =
 		scoreData.filter(
 			n => 
-				n.track === rightTrack
+				n.track === lessonSettings.handsTrackChannel.right.track
 				&& 
-				n.channel === rightChannel
+				n.channel === lessonSettings.handsTrackChannel.right.channel
 		);
 
 	scoreLeft =
 		scoreData.filter(
 			n => 
-				n.track === leftTrack
+				n.track === lessonSettings.handsTrackChannel.left.track
 				&& 
-				n.channel === leftChannel
+				n.channel === lessonSettings.handsTrackChannel.left.channel
 		);
 
 
@@ -3232,10 +3200,12 @@ function lineScore(tick){
 
 		let handColor = workingColors.hand[4];
 
-		if(track == rightTrack && channel == rightChannel){
+		if(track == lessonSettings.handsTrackChannel.right.track
+		 && channel == lessonSettings.handsTrackChannel.right.channel){
 			handColor = workingColors.hand[0];
 		}
-		else if(track == leftTrack && channel == leftChannel){
+		else if(track == lessonSettings.handsTrackChannel.left.track
+		 && channel == lessonSettings.handsTrackChannel.left.channel){
 			handColor = workingColors.hand[1];
 		}
 		if (dp >=0 && dt < measuresPerScreen*3/4){
@@ -3407,10 +3377,12 @@ function scrollScore(tick){
 
 		let handColor = workingColors.hand[4];
 
-		if(track === rightTrack && channel === rightChannel){
+		if(track == lessonSettings.handsTrackChannel.right.track
+		 && channel == lessonSettings.handsTrackChannel.right.channel){
 			handColor = workingColors.hand[0];
 		}
-		else if(track === leftTrack && channel === leftChannel){
+		else if(track == lessonSettings.handsTrackChannel.left.track
+		 && channel == lessonSettings.handsTrackChannel.left.channel){
 			handColor = workingColors.hand[1];
 		}
 		
@@ -5169,15 +5141,15 @@ function saveMidi(){
 	const scoreRight =
 		scoreData.filter(
 			n =>
-				n.track === rightTrack &&
-				n.channel === rightChannel
+				n.track === lessonSettings.handsTrackChannel.right.track &&
+				n.channel === lessonSettings.handsTrackChannel.right.channel
 		);
 
 	const scoreLeft =
 		scoreData.filter(
 			n =>
-				n.track === leftTrack &&
-				n.channel === leftChannel
+				n.track === lessonSettings.handsTrackChannel.right.track &&
+				n.channel === lessonSettings.handsTrackChannel.right.channel
 		);
 		
     const bytes = [];
@@ -5855,11 +5827,13 @@ function trackChannelInfo(){
 		let handColor = "#ffffff";
 		let handName;
 
-		if(row.track == rightTrack && row.channel == rightChannel){
+		if(row.track == lessonSettings.handsTrackChannel.right.track && 
+		row.channel == lessonSettings.handsTrackChannel.right.channel){
 			handColor = workingColors.hand[0];
 			handName = HANDS_LABEL[HANDS.RIGHT];
 		}
-		else if(row.track == leftTrack && row.channel == leftChannel){
+		else 		if(row.track == lessonSettings.handsTrackChannel.left.track && 
+		row.channel == lessonSettings.handsTrackChannel.left.channel){
 			handColor = workingColors.hand[1];
 			handName = HANDS_LABEL[HANDS.LEFT];
 		}
