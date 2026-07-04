@@ -860,9 +860,25 @@ function onResetSettings(){
     selview1();
 }
 
+//
+// Time Convert
+//
+
+function tickToSeconds(tick) {
+    return tick * 60 / (ppq * bpm);
+}
+
+function secondsToTick(seconds) {
+    return seconds * ppq * bpm / 60;
+}
+
 //========================================
 // Constants
 //========================================
+
+const secondsPerTick = 60 / (ppq * bpm);
+const ticksPerSecond = ppq * bpm / 60;
+
 
 const oscillators = {};
 const activeNotes = {};
