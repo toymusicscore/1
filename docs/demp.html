@@ -2979,7 +2979,6 @@ function loopRecord(){
 	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
 	const sv = lessonSettings.viewSelect;
-	document.form1.x_msr.value=Math.floor(tick/(bttl*ppq/ntvl*4)+1);
 	setVal("x_msr", Math.floor(tick/(bttl*ppq/ntvl*4)+1));
 	if (sv=="1"){
 		lineRecord(tick);
@@ -2998,48 +2997,48 @@ console.log(tsv);
 console.log(tsv.t3);
 console.log(tsv.t3.length);
 console.log(n_id);
-	if (document.form1.nl1.options[0].selected==true){
+	if (lessonSettings.noteTextType === 0){
 	nl="";
-}else if (document.form1.nl1.options[1].selected==true){
+}else if (lessonSettings.noteTextType === 1){
 	nl=drms1[midi%12];
-}else if (document.form1.nl1.options[2].selected==true){
+}else if (lessonSettings.noteTextType === 2){
 	nl=drmf1[midi%12];
-}else if (document.form1.nl1.options[3].selected==true){
+}else if (lessonSettings.noteTextType === 3){
 	nl=engs1[midi%12];
-}else if (document.form1.nl1.options[4].selected==true){
+}else if (lessonSettings.noteTextType === 4){
 	nl=engf1[midi%12];
-}else if (document.form1.nl1.options[5].selected==true){
+}else if (lessonSettings.noteTextType === 5){
 	nl=gers1[midi%12];
-}else if (document.form1.nl1.options[6].selected==true){
+}else if (lessonSettings.noteTextType === 6){
 	nl=gerf1[midi%12];
-}else if (document.form1.nl1.options[7].selected==true){
+}else if (lessonSettings.noteTextType === 7){
 	nl=" "+(midi%12).toString(12);
-}else if (document.form1.nl1.options[8].selected==true){
+}else if (lessonSettings.noteTextType === 8){
 	nl=Math.floor((midi-12)/12)+(midi%12).toString(12);
-}else if (document.form1.nl1.options[9].selected==true){
+}else if (lessonSettings.noteTextType === 9){
 	nl=midi;
-}else if (document.form1.nl1.options[10].selected==true){
+}else if (lessonSettings.noteTextType === 10){
 	nl=n_id;
 //tsv fingering1
-}else if (document.form1.nl1.options[11].selected==true && tsv.t1[n_id]!=undefined){
+}else if (lessonSettings.noteTextType === 11 && tsv.t1[n_id]!=undefined){
 	nl=" "+tsv.t1[n_id];
 //tsv fingering2
-}else if (document.form1.nl1.options[12].selected==true && tsv.t2[n_id]!=undefined){
+}else if (lessonSettings.noteTextType === 12 && tsv.t2[n_id]!=undefined){
 	nl=" "+tsv.t2[n_id];
 //tsv Text1
-}else if (document.form1.nl1.options[13].selected==true && tsv.t5[n_id]!=undefined){
+}else if (lessonSettings.noteTextType === 13 && tsv.t5[n_id]!=undefined){
 	nl=tsv.t5[n_id];
 //tsv Text2
-}else if (document.form1.nl1.options[14].selected==true && tsv.t6[n_id]!=undefined){
+}else if (lessonSettings.noteTextType === 14 && tsv.t6[n_id]!=undefined){
 	nl=tsv.t6[n_id];
 //tsv Text3
-}else if (document.form1.nl1.options[15].selected==true && tsv.t7[n_id]!=undefined){
+}else if (lessonSettings.noteTextType === 15 && tsv.t7[n_id]!=undefined){
 	nl=tsv.t7[n_id];
 //tsv Text4
-}else if (document.form1.nl1.options[16].selected==true && tsv.t8[n_id]!=undefined){
+}else if (lessonSettings.noteTextType === 16 && tsv.t8[n_id]!=undefined){
 	nl=tsv.t8[n_id];
 //tsv Text5
-}else if (document.form1.nl1.options[17].selected==true && tsv.t9[n_id]!=undefined){
+}else if (lessonSettings.noteTextType === 17 && tsv.t9[n_id]!=undefined){
 	nl=tsv.t9[n_id];
 }
 //tsv notations left
