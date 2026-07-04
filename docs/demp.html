@@ -5841,17 +5841,26 @@ function trackChannelInfo(){
 		const y =
 			30*(i+1)+50;
 
-		let handColor = workingColors.hand[4];;
+		let handColor =
+			workingColors.hand[
+				HAND_COLOR.SCORE_NOT_ASSIGNED
+			];
 		let handName = HANDS_LABEL[HANDS.OTHER];;
 
 		if(row.track == lessonSettings.handsTrackChannel.right.track && 
 		row.channel == lessonSettings.handsTrackChannel.right.channel){
-			handColor = workingColors.hand[0];
+			handColor =
+				workingColors.hand[
+					HAND_COLOR.SCORE_RIGHT
+				];
 			handName = HANDS_LABEL[HANDS.RIGHT];
 		}
 		else if(row.track == lessonSettings.handsTrackChannel.left.track && 
 		row.channel == lessonSettings.handsTrackChannel.left.channel){
-			handColor = workingColors.hand[1];
+			handColor =
+				workingColors.hand[
+					HAND_COLOR.SCORE_LEFT
+				];
 			handName = HANDS_LABEL[HANDS.LEFT];
 		}
 		
