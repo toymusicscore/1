@@ -2142,7 +2142,8 @@ function pausePlayback(){
 
     pauseTick = getCurrentTick();
 
-    picoAudio.pause();
+    stopAllVoices();
+
     cancelAnimationFrame(rafId);
 
     isPlaying = 0;
@@ -2205,7 +2206,7 @@ async function record(){
     enableScoreSound = false;
 
     selview1();
-    await picoAudio.context.resume();
+	await audioContext.resume();
     await cdown();
     await draw();
     await startRecord();
@@ -2268,7 +2269,7 @@ function touchSound(){
 
         e.preventDefault();
 
-        await picoAudio.context.resume();
+		await audioContext.resume();
 
         inputRouter(e, "touch"); // ★ここに統一
     });
@@ -2456,7 +2457,7 @@ function playSound(e){
         const x_bpm = num("x_bpm");
 
         const audioNow =
-            playPicoNow(p);
+            playNoteNow(p);
 
 		const latency =
 			0.04;
@@ -2487,11 +2488,28 @@ function playSound(e){
     }
 }
 
+function stopAllVoices(){
 
-function playPicoNow(midi){
+    for(const midi of activeVoices.keys()){
+        stopNoteNow(midi);
+    }
+}
+
+function pausePlayback(){
+
+    pauseTick = getCurrentTick();
+
+    stopAllVoices();
+
+    cancelAnimationFrame(rafId);
+
+    isPlaying = 0;
+}
+
+function playNoteNow(midi){
 
     const ctx =
-        picoAudio.context;
+    	audioContext;
 
     const osc =
         ctx.createOscillator();
@@ -2532,7 +2550,7 @@ function playPicoNow(midi){
 }
 
 
-function stopPicoNow(midi){
+function stopNoteNow(midi){
 
     const voice =
         activeVoices.get(midi);
@@ -2541,8 +2559,8 @@ function stopPicoNow(midi){
         return;
     }
 
-    const now =
-        picoAudio.context.currentTime;
+	const now =
+		audioContext.currentTime;
 
     voice.gain.gain.cancelScheduledValues(now);
 
@@ -2572,7 +2590,7 @@ function offSound(){
 
     currentMidis.forEach(midi => {
 		
-		stopPicoNow(midi);
+		stopNoteNow(midi);
         
 		const t = getCurrentTick();
 
@@ -2638,7 +2656,7 @@ async function playScore(){
 
     cancelAnimationFrame(rafId);
 
-    await picoAudio.context.resume();
+	await audioContext.resume();
 
     canvas.width =
         window.innerWidth;
@@ -2673,7 +2691,7 @@ async function playRecord(){
 
     cancelAnimationFrame(rafId);
 
-    await picoAudio.context.resume();
+	await audioContext.resume();
 
     canvas.width =
         window.innerWidth;
@@ -2694,9 +2712,11 @@ async function playRecord(){
 function getCurrentTick(){
 
     const x_bpm = num("x_bpm");
+	const now =
+    audioContext.currentTime;
 
     return (
-        picoAudio.context.currentTime
+		now
         -
         baseAudioTime
     ) *
@@ -2708,10 +2728,12 @@ function getCurrentTick(){
 function startPlayback(){
 
 	const x_bpm = num("x_bpm");
+	const now =
+		audioContext.currentTime;
 
     baseAudioTime =
-        picoAudio.context.currentTime
-        -
+		now
+		-
         (
             pauseTick /
             ppq *
@@ -2757,7 +2779,7 @@ function playRecordNotes(tick){
             let durationSeconds =
                 durationTicks / ppq * 60 / x_bpm;
 
-            playPico(midi, durationSeconds, start);
+            playNote(midi, durationSeconds, start);
         }
 
         nextIndex++;
@@ -2818,7 +2840,7 @@ function playScoreNotes(tick){
             let durationSeconds =
                 durationTicks / ppq * 60 / x_bpm;
 
-            playPico(midi, durationSeconds, start);
+            playNote(midi, durationSeconds, start);
         }
 
         nextIndex++;
@@ -2828,13 +2850,13 @@ function playScoreNotes(tick){
 }
 
 
-function playPico(
+function playNote(
     midi,
     duration,
     start
 ){
 
-    const ctx2 = picoAudio.context;
+	const ctx2 = audioContext;
 
     const osc =
         ctx2.createOscillator();
@@ -4733,7 +4755,8 @@ function onMIDIMessage(event){
     const command = status & 0xf0;
 	const channel = status & 0x0f;
 	const audioNow =
-		picoAudio.context.currentTime;
+	    audioContext.currentTime;
+
     const x_bpm = num("x_bpm");
 
 	const latency = 0.04;
@@ -5251,7 +5274,7 @@ function msr1(){
 }
 
 function goTop(){
-	picoAudio.context.resume();
+	audioContext.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     pauseTick = 0;
