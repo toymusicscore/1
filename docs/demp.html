@@ -2709,6 +2709,44 @@ function getCurrentTick(){
 }
 
 
+function jumpToTick(tick) {
+    pauseTick = tick;
+}
+
+
+function tickToSec(tick) {
+
+    const bpm = num("x_bpm");
+
+    return (tick / ppq) * 60 / bpm;
+}
+
+
+function startPlayback() {
+
+    const ctx = audioContext;
+
+    baseAudioTime =
+        ctx.currentTime -
+        tickToSec(startTick);
+}
+
+
+function playNote(midi, durationTick, startTick) {
+
+    const ctx = audioContext;
+
+    const when =
+        baseAudioTime +
+        tickToSec(startTick);
+
+    const durationSec =
+        tickToSec(durationTick);
+
+    osc.start(when);
+    osc.stop(when + durationSec);
+}
+
 function startPlayback(){
 
 	const x_bpm = num("x_bpm");
