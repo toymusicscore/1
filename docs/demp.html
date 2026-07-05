@@ -1286,7 +1286,7 @@ let rst=0;
 let ticksPerMeasure = 1920;
 let pedalData = [];
 let pedalState = false;
-let enableScoreSound = true;
+let enablePlaybackSound = true;
 let scoreRight =[];
 let scoreLeft =[];
 let pairs = [];
@@ -2246,7 +2246,7 @@ function initRecording(){
 
     isRecording = true;
 	pedalState = false;
-    enableScoreSound = false;
+    enablePlaybackSound = false;
 
 }
 
@@ -2648,7 +2648,7 @@ async function playScore(){
 
     await startCountdown();
 
-    enableScoreSound = true;
+    enablePlaybackSound = true;
 
     prevTick = pauseTick;
     nextIndex = -1;
@@ -2698,7 +2698,7 @@ function loopPlayback(){
 
     renderPlayBack(tick);
 
-    if (enableScoreSound){
+    if (enablePlaybackSound){
         scheduleNotes(noteData, tick);
     }
 
