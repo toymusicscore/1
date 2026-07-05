@@ -16,8 +16,8 @@ demp
 	onClick="playScore()">
 <input 
 	type="button" 
-	value="Record" 
-	onClick="record()">
+	value="Start Recording" 
+	onClick="startRecording()">
 <input 
 	type="button" 
 	value="Play Record" 
@@ -2685,7 +2685,7 @@ async function playScore(){
 
     if (!Number.isFinite(pauseTick)) pauseTick = 0;
 
-    await cdown();
+    await startCountdown();
 
     enableScoreSound = true;
 
@@ -2710,7 +2710,7 @@ async function playRecord(){
 
     if (!Number.isFinite(pauseTick)) pauseTick = 0;
 
-    await cdown();
+    await startCountdown();
 
     prevTick = pauseTick;
     nextIndex = -1;
