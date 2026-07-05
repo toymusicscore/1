@@ -1624,11 +1624,11 @@ function loadMidi(arrayBuffer){
 
     midiData = new Uint8Array(arrayBuffer);
 
-    analyzeMidi();
+    initializeScoreSystem();
 }
 
 
-function analyzeMidi(){
+function initializeScoreSystem(){
 
 	rawMidi =
 		parseMidi(midiData);
@@ -1747,7 +1747,7 @@ function resolveMidiRange(scoreMain, scoreRight, scoreLeft){
 
 function changeTrackChannel(){
 
-    analyzeMidi();
+    initializeScoreSystem();
 
     selview1();
 }
