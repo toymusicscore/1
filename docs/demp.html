@@ -1654,14 +1654,16 @@ function analyzeMidi(){
 		)]
 	);
 
+	const RECORD_TRACK = 3;
+
 	recordData =
 		scoreData.filter(
-			n => n.track === 3
+			n => n.track === RECORD_TRACK
 		);
 
 	scoreData =
 		scoreData.filter(
-			n => n.track !== 3
+			n => n.track !== RECORD_TRACK
 		);
 
 	const tempoTrackData =
