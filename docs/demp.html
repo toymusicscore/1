@@ -2259,13 +2259,12 @@ async function startRecording(){
     await audioContext.resume();
     await startCountdown();
 
-    startPlayback();      // ← ここ重要（描画開始準備）
+    initPlayback();   // ← 名前変更推奨
 
-	isPlaying = true;
+    isPlaying = true;
 
-    loopPlayback();       // ← 実行開始
+    loopPlayback();
 }
-
 
 async function startCountdown(){
 	ctx.font = "25px Arial";
@@ -2656,7 +2655,7 @@ async function playScore(){
 
     await audioContext.resume();
 
-    startPlayback();
+    initPlayback();
 
     isPlaying = true;
 
@@ -2679,7 +2678,7 @@ async function playRecord(){
 
     await audioContext.resume();
 
-    startPlayback();
+    initPlayback();
 
     isPlaying = true;
 
@@ -2706,7 +2705,7 @@ function loopPlayback(){
     rafId = requestAnimationFrame(loopPlayback);
 }
 
-function startPlayback() {
+function initPlayback() {
 
     const ctx = audioContext;
 
