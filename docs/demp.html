@@ -1633,21 +1633,9 @@ function analyzeMidi(){
 	rawMidi =
 		parseMidi(midiData);
 
-	const scoreAll = createScoreDataFromTracks(rawMidi);
-
 	const TRACK = {
 		RECORD: 3
 	};
-
-	recordData =
-		scoreAll.filter(
-			n => n.track === TRACK.RECORD
-		);
-
-	scoreData =
-		scoreAll.filter(
-			n => n.track !== TRACK.RECORD
-		);
 
 	const tempoTrackData =
 		createTempoTrack();
@@ -1681,9 +1669,18 @@ function analyzeMidi(){
 		timeSignatureDenominator
 	);
 
+	const scoreAll = createScoreDataFromTracks(rawMidi);
+
+	const scoreMain = scoreAll.filter(
+		n => n.track !== TRACK.RECORD
+	);
+
+	recordData = scoreAll.filter(
+		n => n.track === TRACK.RECORD
+	);
 
 	scoreRight =
-		scoreData.filter(
+		scoreMain.filter(
 			n => 
 				n.track === lessonSettings.handsTrackChannel.right.track
 				&& 
@@ -1691,14 +1688,15 @@ function analyzeMidi(){
 		);
 
 	scoreLeft =
-		scoreData.filter(
+		scoreMain.filter(
 			n => 
 				n.track === lessonSettings.handsTrackChannel.left.track
 				&& 
 				n.channel === lessonSettings.handsTrackChannel.left.channel
 		);
 
-	const range = resolveMidiRange();
+		
+	const range = resolveMidiRange(scoreMain, scoreRight, scoreLeft);
 	midi_min = range.min;
 	midi_max = range.max;
 
@@ -1729,8 +1727,7 @@ function getMidiRange(notes) {
     return { min: min === Infinity ? 0 : min, max: max === -Infinity ? 0 : max };
 }
 
-
-function resolveMidiRange() {
+function resolveMidiRange(scoreMain, scoreRight, scoreLeft){
     switch (lessonSettings.hands) {
         case HANDS.BOTH:
             return getMidiRange(scoreData);
