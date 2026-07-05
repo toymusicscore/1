@@ -59,10 +59,10 @@ demp
 
 <input type="button" id="b_||" name="b_||" value=" || " onClick="pauseButton()">
 <input type="button" id="b_|<" name="b_|<" value="|<" onClick="goToFirstMeasure()">
-<input type="button" id="b_<<" name="b_<<" value="<<" onClick="goBack2()">
-<input type="button" id="b_<" name="b_<" value="<" onClick="goBack1()">
-<input type="button" id="b_>" name="b_>" value=">" onClick="goForward1()">
-<input type="button" id="b_>>" name="b_>>" value=">>" onClick="goForward2()">
+<input type="button" id="b_<<" name="b_<<" value="<<" onClick="goBackOnePage()">
+<input type="button" id="b_<" name="b_<" value="<" onClick="goBackOneMeasure()">
+<input type="button" id="b_>" name="b_>" value=">" onClick="goForwardOneMeasure()">
+<input type="button" id="b_>>" name="b_>>" value=">>" onClick="goForwardOnePage()">
 <input type="button" id="b_>|" name="b_>|" value=">|" onClick="goToLastMeasure()">
 
 <input
@@ -4938,7 +4938,7 @@ function goToLastMeasure(){
     selview1();
 }
 
-function goBack1(){
+function goBackOneMeasure(){
     if((num("x_targetMeasure")-1)*ticksPerMeasure>0){
         pauseTick=(num("x_targetMeasure")-2)*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
@@ -4951,7 +4951,7 @@ function goBack1(){
     selview1();
 }
 
-function goBack2(){
+function goBackOnePage(){
     if((num("x_targetMeasure")-1-measuresPerScreen)*ticksPerMeasure>0){
         pauseTick=(num("x_targetMeasure")-1-measuresPerScreen)*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
@@ -4964,7 +4964,7 @@ function goBack2(){
     selview1();
 }
 
-function goForward1(){
+function goForwardOneMeasure(){
     if(num("x_targetMeasure")*ticksPerMeasure<songLengthTicks){
         pauseTick=num("x_targetMeasure")*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
@@ -4976,7 +4976,7 @@ function goForward1(){
 }
 
 
-function goForward2(){
+function goForwardOnePage(){
     if((num("x_targetMeasure")-1+measuresPerScreen)*ticksPerMeasure<songLengthTicks){
         pauseTick=(num("x_targetMeasure")-1+measuresPerScreen)*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
@@ -4987,7 +4987,6 @@ function goForward2(){
         goToLastMeasure();	
     }
     selview1();
-	console.log("goForward2 pauseTick =", pauseTick);
 }
 
 //
