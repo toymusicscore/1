@@ -1639,13 +1639,17 @@ function analyzeMidi(){
 
 	const scoreAll = createScoreDataFromTracks(rawMidi);
 
-	const scoreMain = scoreAll.filter(
-		n => n.track !== TRACK.RECORD
-	);
+	const scoreMain = [];
 
-	recordData = scoreAll.filter(
-		n => n.track === TRACK.RECORD
-	);
+	recordData = [];
+
+	for (const n of scoreAll) {
+		if (n.track === TRACK.RECORD) {
+			recordData.push(n);
+		} else {
+			scoreMain.push(n);
+		}
+	}
 
 	const tempoTrackData =
 		createTempoTrack();
@@ -1697,7 +1701,11 @@ function analyzeMidi(){
 		);
 
 		
-	const range = resolveMidiRange(scoreMain, scoreRight, scoreLeft)
+	const range = resolveMidiRange({
+		main: scoreMain,
+		right: scoreRight,
+		left: scoreLeft
+	});
 	midi_min = range.min;
 	midi_max = range.max;
 
