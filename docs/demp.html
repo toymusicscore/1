@@ -2297,7 +2297,7 @@ async function draw(){
 
     isPlaying = 1;
 
-    loopScore();
+    loopPlayback();
 }
 
 
@@ -2691,7 +2691,7 @@ async function playScore() {
 
     isPlaying = 1;
 
-    loopScore();
+    loopPlayback();
 }
 
 async function playRecord(){
@@ -2724,7 +2724,7 @@ async function playRecord(){
 
     isPlaying = 2;
 
-    loopRecord();
+    loopPlayback();
 }
 
 
@@ -2866,6 +2866,24 @@ function midiToFreq(midi){
 // Drawing Pianoroll
 //
 
+function loopPlayback(){
+
+    if (!isPlaying) return;
+
+    const tick = getCurrentTick();
+
+    setVal("x_msr", Math.floor(tick / ticksPerMeasure) + 1);
+
+    drawLine(tick);
+
+    if (enableScoreSound){
+        scheduleNotes(tick);
+    }
+
+    rafId = requestAnimationFrame(loopPlayback);
+}
+
+/*
 function loopScore(){
 	if (isPlaying == 0) return;
 	const tick = getCurrentTick();
@@ -2901,7 +2919,7 @@ function loopRecord(){
     cancelAnimationFrame(rafId);
     rafId = requestAnimationFrame(loopRecord);
 }
-
+*/
 
 function getLabel(midi, n_id){
 console.log(tsv);
