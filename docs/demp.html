@@ -1628,14 +1628,14 @@ function loadMidi(arrayBuffer){
 }
 
 
+const TRACK = Object.freeze({
+    RECORD: 3
+});
+
 function initializeScoreSystem(){
 
 	rawMidi =
 		parseMidi(midiData);
-
-	const TRACK = Object.freeze({
-		RECORD: 3
-	});
 
 	const scoreAll = createScoreDataFromTracks(rawMidi);
 
