@@ -2778,54 +2778,6 @@ function playNote(midi, durationTick, noteStartTick) {
     };
 }
 
-function playRecordNotes(tick){
-
-    // 最初だけ検索
-    if (nextIndex < 0){
-
-        nextIndex = 0;
-
-        while (
-            nextIndex < recordData.length &&
-            recordData[nextIndex].start < prevTick
-        ){
-            nextIndex++;
-        }
-    }
-
-    const x_bpm = num("x_bpm");
-
-    const currentTick  = Math.floor(tick);
-    const previousTick = Math.floor(prevTick);
-
-    const lookAheadTicks =
-        0.1 * x_bpm * ppq / 60;
-
-    while (nextIndex < recordData.length){
-
-        const data = recordData[nextIndex];
-
-        if (data.start > currentTick + lookAheadTicks){
-            break;
-        }
-
-        if (
-            data.stop != null &&
-            data.start >= previousTick &&
-            data.start <= currentTick + lookAheadTicks
-        ){
-            playNote(
-                data.midi,
-                Math.max(1, data.stop - data.start),
-                data.start
-            );
-        }
-
-        nextIndex++;
-    }
-
-    prevTick = tick;
-}
 
 function getCurrentScoreData() {
 
@@ -2844,61 +2796,16 @@ function getCurrentScoreData() {
 
 
 function playScoreNotes(tick){
-
-	const data0 = getCurrentScoreData();
-
-    // 最初だけ検索
-    if (nextIndex < 0){
-
-        nextIndex = 0;
-
-        while (
-            nextIndex < data0.length &&
-            data0[nextIndex].start < prevTick
-        ){
-            nextIndex++;
-        }
-    }
-
-    const x_bpm = num("x_bpm");
-
-    const currentTick  = Math.floor(tick);
-    const previousTick = Math.floor(prevTick);
-
-    const lookAheadTicks =
-        0.1 * x_bpm * ppq / 60;
-
-    while (nextIndex < data0.length){
-
-        const data = data0[nextIndex];
-
-        if (data.start > currentTick + lookAheadTicks){
-            break;
-        }
-
-        if (
-            data.stop != null &&
-            data.start >= previousTick &&
-            data.start <= currentTick + lookAheadTicks
-        ){
-
-            playNote(
-                data.midi,
-                Math.max(1, data.stop - data.start),
-                data.start
-            );
-        }
-
-        nextIndex++;
-    }
-
-    prevTick = tick;
+    scheduleNotes(getCurrentScoreData(), tick);
 }
 
+function playRecordNotes(tick){
+    scheduleNotes(recordData, tick);
+}
 
-function playScoreRecordNotes(dataArray, tick){
+function scheduleNotes(dataArray, tick){
 
-	const data0 = getCurrentScoreData();
+	const data0 = dataArray;
 
     // 最初だけ検索
     if (nextIndex < 0){
