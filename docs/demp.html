@@ -63,7 +63,7 @@ demp
 <input type="button" id="b_<" name="b_<" value="<" onClick="goBack1()">
 <input type="button" id="b_>" name="b_>" value=">" onClick="goForward1()">
 <input type="button" id="b_>>" name="b_>>" value=">>" onClick="goForward2()">
-<input type="button" id="b_>|" name="b_>|" value=">|" onClick="goEnd()">
+<input type="button" id="b_>|" name="b_>|" value=">|" onClick="goToLastMeasure()">
 
 <input
     type="button"
@@ -4932,7 +4932,7 @@ function goToFirstMeasure(){
     selview1();
 }
 
-function goEnd(){
+function goToLastMeasure(){
     pauseTick=Math.floor(songLengthTicks/ticksPerMeasure-1)*ticksPerMeasure;
 	setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
     selview1();
@@ -4984,7 +4984,7 @@ function goForward2(){
 		prevTick = pauseTick;
 		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
-        goEnd();	
+        goToLastMeasure();	
     }
     selview1();
 	console.log("goForward2 pauseTick =", pauseTick);
