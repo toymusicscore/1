@@ -181,7 +181,7 @@ demp
 <select id="sv1" name="sv1" onchange="onSettingsChange()">
 	<option value="0"> License </option>
 	<option value="1" selected> Pianoroll </option>
-	<option value="2"> Key Estimation 10</option>
+	<option value="2"> Key Estimation </option>
 	<option value="3"> Label </option>
 	<option value="4"> Track/Channel </option>
 	</select>
@@ -2874,23 +2874,7 @@ function getVisibleLength(start, stop, tick){
 function getViewInfo(){
 
     let scoreViewData;
-
-	if (practiceSettings.hands === HANDS.BOTH){
-        scoreViewData = scoreData;
-        midi_max = midi_max_b;
-        midi_min = midi_min_b;
-    }
-    else if (practiceSettings.hands === HANDS.RIGHT){
-        scoreViewData = scoreRight;
-        midi_max = midi_max_r;
-        midi_min = midi_min_r;
-    }
-    else if (practiceSettings.hands === HANDS.LEFT){
-        scoreViewData = scoreLeft;
-        midi_max = midi_max_l;
-        midi_min = midi_min_l;
-    }
-
+	
     const kn = midi_max - midi_min + 1;
     const kw = szk / kn;
 
