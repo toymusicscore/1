@@ -1689,8 +1689,12 @@ function analyzeMidi(){
 
 	songLengthTicks = getSongLength();
 
-	ticksPerMeasure = ticksPerQuarter * beatsPerMeasure / timeSignatureDenominator * 4;
-
+	ticksPerMeasure = calcTicksPerMeasure(
+		ticksPerQuarterNote,
+		beatsPerMeasure,
+		timeSignatureDenominator
+	);
+	
 	midi_max=21;
 	midi_min=108;
 	midi_min0=0;
@@ -1784,6 +1788,17 @@ if (lessonSettings.hands === HANDS.BOTH){
 	console.log(beatTrackData);
 	console.log("analyzeMidi end");
 
+}
+
+function calcTicksPerMeasure(
+    ticksPerQuarterNote,
+    beatsPerMeasure,
+    timeSignatureDenominator
+) {
+    return ticksPerQuarterNote *
+           4 *
+           beatsPerMeasure /
+           timeSignatureDenominator;
 }
 
 function changeTrackChannel(){
