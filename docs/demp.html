@@ -1633,21 +1633,20 @@ function analyzeMidi(){
 	rawMidi =
 		parseMidi(midiData);
 
-	scoreData =
-    	createScoreDataFromTracks(
-        rawMidi
-    	);
+	const scoreAll = createScoreDataFromTracks(rawMidi);
 
-	const RECORD_TRACK = 3;
+	const TRACK = {
+		RECORD: 3
+	};
 
 	recordData =
-		scoreData.filter(
-			n => n.track === RECORD_TRACK
+		scoreAll.filter(
+			n => n.track === TRACK.RECORD
 		);
 
 	scoreData =
-		scoreData.filter(
-			n => n.track !== RECORD_TRACK
+		scoreAll.filter(
+			n => n.track !== TRACK.RECORD
 		);
 
 	const tempoTrackData =
@@ -1681,6 +1680,23 @@ function analyzeMidi(){
 		beatsPerMeasure,
 		timeSignatureDenominator
 	);
+
+
+	scoreRight =
+		scoreData.filter(
+			n => 
+				n.track === lessonSettings.handsTrackChannel.right.track
+				&& 
+				n.channel === lessonSettings.handsTrackChannel.right.channel
+		);
+
+	scoreLeft =
+		scoreData.filter(
+			n => 
+				n.track === lessonSettings.handsTrackChannel.left.track
+				&& 
+				n.channel === lessonSettings.handsTrackChannel.left.channel
+		);
 
 	if (lessonSettings.hands === HANDS.BOTH){
 		const rangeAll = getMidiRange(scoreData);
