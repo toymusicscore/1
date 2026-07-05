@@ -1655,8 +1655,7 @@ function initializeScoreSystem(){
 	beatsPerMeasure = ts.beats;
 	timeSignatureDenominator = ts.denom;
 
-	ticksPerQuarterNote =
-		rawMidi.header.ticksPerBeat;
+	ticksPerQuarterNote = getTicksPerQuarterNote(midi);
 
 	songLengthTicks = getSongLength();
 
@@ -1680,6 +1679,11 @@ function initializeScoreSystem(){
 	midi_max = range.max;
 
 }
+
+function getTicksPerQuarterNote(midi) {
+    return midi.header.ticksPerBeat;
+}
+
 
 function getTempo(tempoTrackData) {
     return tempoTrackData.length > 0
