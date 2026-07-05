@@ -1639,11 +1639,8 @@ function initializeScoreSystem(){
 
 	const scoreAll = createScoreDataFromTracks(rawMidi);
 
-	const scoreMain = [];
-	const recordDataLocal = [];
-
-	recordDataLocal = scoreAll.filter(n => n.track === TRACK.RECORD);
-	scoreMain  = scoreAll.filter(n => n.track !== TRACK.RECORD);
+	const recordDataLocal = scoreAll.filter(n => n.track === TRACK.RECORD);
+	const scoreMain  = scoreAll.filter(n => n.track !== TRACK.RECORD);
 
 	recordData = recordDataLocal;
 	scoreData  = scoreMain;
