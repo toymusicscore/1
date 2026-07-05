@@ -2780,38 +2780,45 @@ function playNote(midi, durationTick, noteStartTick) {
 
 function playRecordNotes(tick){
 
-	if(tick < prevTick){
+    // 最初だけ検索
+    if (nextIndex < 0){
+
         nextIndex = 0;
+
+        while (
+            nextIndex < recordData.length &&
+            recordData[nextIndex].start < prevTick
+        ){
+            nextIndex++;
+        }
     }
 
     const x_bpm = num("x_bpm");
 
-    const currentTick = Math.floor(tick);
+    const currentTick  = Math.floor(tick);
     const previousTick = Math.floor(prevTick);
 
     const lookAheadTicks =
         0.1 * x_bpm * ppq / 60;
 
-    while(nextIndex < recordData.length){
+    while (nextIndex < recordData.length){
 
-        let data = recordData[nextIndex];
+        const data = recordData[nextIndex];
 
-        let midi  = data.midi;
-        let start = data.start;
-        let stop  = data.stop;
-
-        if(start > currentTick + lookAheadTicks){
+        if (data.start > currentTick + lookAheadTicks){
             break;
         }
-		if(
-			stop != null &&
-			start >= previousTick &&
-			start <= currentTick + lookAheadTicks
-		){
-            let durationTicks =
-                Math.max(1, stop - start);
 
-			playNote(midi, durationTicks, start);
+        if (
+            data.stop != null &&
+            data.start >= previousTick &&
+            data.start <= currentTick + lookAheadTicks
+        ){
+            playNote(
+                data.midi,
+                Math.max(1, data.stop - data.start),
+                data.start
+            );
         }
 
         nextIndex++;
@@ -2819,8 +2826,6 @@ function playRecordNotes(tick){
 
     prevTick = tick;
 }
-
-
 
 function getCurrentScoreData() {
 
@@ -2839,6 +2844,59 @@ function getCurrentScoreData() {
 
 
 function playScoreNotes(tick){
+
+	const data0 = getCurrentScoreData();
+
+    // 最初だけ検索
+    if (nextIndex < 0){
+
+        nextIndex = 0;
+
+        while (
+            nextIndex < data0.length &&
+            data0[nextIndex].start < prevTick
+        ){
+            nextIndex++;
+        }
+    }
+
+    const x_bpm = num("x_bpm");
+
+    const currentTick  = Math.floor(tick);
+    const previousTick = Math.floor(prevTick);
+
+    const lookAheadTicks =
+        0.1 * x_bpm * ppq / 60;
+
+    while (nextIndex < data0.length){
+
+        const data = data0[nextIndex];
+
+        if (data.start > currentTick + lookAheadTicks){
+            break;
+        }
+
+        if (
+            data.stop != null &&
+            data.start >= previousTick &&
+            data.start <= currentTick + lookAheadTicks
+        ){
+
+            playNote(
+                data.midi,
+                Math.max(1, data.stop - data.start),
+                data.start
+            );
+        }
+
+        nextIndex++;
+    }
+
+    prevTick = tick;
+}
+
+
+function playScoreRecordNotes(dataArray, tick){
 
 	const data0 = getCurrentScoreData();
 
