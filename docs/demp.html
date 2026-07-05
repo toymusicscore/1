@@ -25,7 +25,7 @@ demp
 <input 
 	type="button" 
 	value="Review Gragh" 
-	onClick="drawLineGraph()">
+	onClick="drawReviewGraph()">
 <input 
 	type="button" 
 	value="Practice Ranking" 
@@ -33,11 +33,11 @@ demp
 <input 
 	type="button" 
 	value="Save Record" 
-	onClick="saveLessonRecord()">
+	onClick="saveRecord()">
 <input 
 	type="button" 
 	value="Show History" 
-	onClick="showLessonHistory()">
+	onClick="showPracticeHistory()">
 <input 
 	id="recordBtn" 
 	type="button" 
@@ -3380,7 +3380,7 @@ function updateAnalysisData(){
 }
 
 
-function drawLineGraph(){
+function drawReviewGraph(){
 
     updateAnalysisData();
 
@@ -4303,10 +4303,10 @@ function showRankingPage(){
 }
 
 //
-// Lesson Record
+// Save Record
 //
 
-function saveLessonRecord(){
+function saveRecord(){
 
     let history =
         JSON.parse(localStorage.getItem(LESSON_KEY)) || [];
@@ -4360,16 +4360,16 @@ function clearHistory(){
 
 
 
-function loadLessonHistory(){
+function loadPracticeHistory(){
 
     return JSON.parse(
         localStorage.getItem(LESSON_KEY)
     ) || [];
 }
 
-function showLessonHistory(){
+function showPracticeHistory(){
 
-    const history = loadLessonHistory();
+    const history = loadPracticeHistory();
 
     let html = "<h3>Lesson History</h3><table border='1'>";
     html += "<tr><th>Date</th><th>Song</th><th>Hands</th><th>First Measure</th><th>Last Measure</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
