@@ -1633,9 +1633,9 @@ function analyzeMidi(){
 	rawMidi =
 		parseMidi(midiData);
 
-	const TRACK = {
+	const TRACK = Object.freeze({
 		RECORD: 3
-	};
+	});
 
 	const scoreAll = createScoreDataFromTracks(rawMidi);
 
