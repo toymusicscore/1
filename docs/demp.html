@@ -58,7 +58,7 @@ demp
     style="width:40px">
 
 <input type="button" id="b_||" name="b_||" value=" || " onClick="pauseButton()">
-<input type="button" id="b_|<" name="b_|<" value="|<" onClick="goTop()">
+<input type="button" id="b_|<" name="b_|<" value="|<" onClick="goToFirsrMeasure()">
 <input type="button" id="b_<<" name="b_<<" value="<<" onClick="goBack2()">
 <input type="button" id="b_<" name="b_<" value="<" onClick="goBack1()">
 <input type="button" id="b_>" name="b_>" value=">" onClick="goForward1()">
@@ -4923,7 +4923,7 @@ function updateMeasurePosition(){
 	selview1();
 }
 
-function goTop(){
+function goToFirstMeasure(){
 	audioContext.resume();
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
@@ -4946,7 +4946,7 @@ function goBack1(){
 		prevTick = pauseTick;
 		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
-        goTop();	
+        goToFirstMeasure();	
     }
     selview1();
 }
@@ -4959,7 +4959,7 @@ function goBack2(){
 		prevTick = pauseTick;
 		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
-        goTop();	
+        goToFirstMeasure();	
     }
     selview1();
 }
