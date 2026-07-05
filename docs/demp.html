@@ -1648,11 +1648,8 @@ function initializeScoreSystem(){
 	const tempoTrackData = createTempoTrack(rawMidi);
 	const beatTrackData  = createBeatTrack(rawMidi);
 
-	songFirstBpm =
-		tempoTrackData.length > 0
-		? tempoTrackData[0].value
-		: 60;
-
+	songFirstBpm =getTempo(tempoTrackData);
+	
 	const ts = getTimeSignature(beatTrackData);
 
 	beatsPerMeasure = ts.beats;
@@ -1682,6 +1679,12 @@ function initializeScoreSystem(){
 	midi_min = range.min;
 	midi_max = range.max;
 
+}
+
+function getTempo(tempoTrackData) {
+    return tempoTrackData.length > 0
+        ? tempoTrackData[0].value
+        : 60;
 }
 
 function getTimeSignature(beatTrackData) {
