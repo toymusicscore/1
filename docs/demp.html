@@ -2672,7 +2672,6 @@ function offSound(){
 }
 
 let drawPlayback;
-let playNotes;
 let noteData;
 
 async function playScore() {
@@ -2700,10 +2699,6 @@ async function playScore() {
     drawPlayback = lineScore;
 
 	noteData = getCurrentScoreData();
-
-	if (enableScoreSound){
-		playNotes(tick);
-	}
 
     loopPlayback();
 }
@@ -2735,10 +2730,6 @@ async function playRecord(){
     drawPlayback = lineRecord;
 
 	noteData = recordData;
-
-	if (enableScoreSound){
-		playNotes(tick);
-	}
 
     loopPlayback();
 }
