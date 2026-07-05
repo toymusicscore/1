@@ -1682,23 +1682,10 @@ function initializeScoreSystem(){
 		timeSignatureDenominator
 	);
 
+	const hands = splitHands(scoreMain);
 
-	scoreRight =
-		scoreMain.filter(
-			n => 
-				n.track === lessonSettings.handsTrackChannel.right.track
-				&& 
-				n.channel === lessonSettings.handsTrackChannel.right.channel
-		);
-
-	scoreLeft =
-		scoreMain.filter(
-			n => 
-				n.track === lessonSettings.handsTrackChannel.left.track
-				&& 
-				n.channel === lessonSettings.handsTrackChannel.left.channel
-		);
-
+	scoreRight = hands.right;
+	scoreLeft  = hands.left;
 		
 	const range = resolveMidiRange({
 		main: scoreMain,
@@ -1710,6 +1697,18 @@ function initializeScoreSystem(){
 
 }
 
+function splitHands(scoreMain) {
+	return {
+		right: scoreMain.filter(n =>
+			n.track === lessonSettings.handsTrackChannel.right.track &&
+			n.channel === lessonSettings.handsTrackChannel.right.channel
+		),
+		left: scoreMain.filter(n =>
+			n.track === lessonSettings.handsTrackChannel.left.track &&
+			n.channel === lessonSettings.handsTrackChannel.left.channel
+		)
+	};
+}
 
 function calcTicksPerMeasure(
     ticksPerQuarterNote,
