@@ -2674,21 +2674,18 @@ function offSound(){
 let drawPlayback;
 let noteData;
 
-async function playScore() {
+async function playScore(){
 
     if (isPlaying) return;
 
-    if (!Number.isFinite(pauseTick)) {
-        pauseTick = 0;
-    }
+    if (!Number.isFinite(pauseTick)) pauseTick = 0;
 
     await cdown();
 
     enableScoreSound = true;
 
     prevTick = pauseTick;
-
-	nextIndex = -1;
+    nextIndex = -1;
 
     await audioContext.resume();
 
@@ -2697,45 +2694,50 @@ async function playScore() {
     isPlaying = true;
 
     drawPlayback = lineScore;
-
-	noteData = getCurrentScoreData();
+    noteData = getCurrentScoreData();
 
     loopPlayback();
 }
 
 async function playRecord(){
 
-    if(isPlaying){
-        return;
-    }
+    if (isPlaying) return;
 
-    if(!Number.isFinite(pauseTick)){
-        pauseTick = 0;
-    }
+    if (!Number.isFinite(pauseTick)) pauseTick = 0;
 
-	await cdown();
+    await cdown();
 
-	enableScoreSound = true;
-
-	prevTick = pauseTick;
-
+    prevTick = pauseTick;
     nextIndex = -1;
 
-    cancelAnimationFrame(rafId);
-
-	await audioContext.resume();
+    await audioContext.resume();
 
     startPlayback();
 
     isPlaying = true;
 
     drawPlayback = lineRecord;
-
-	noteData = recordData;
+    noteData = recordData;
 
     loopPlayback();
 }
 
+function loopPlayback(){
+
+    if (!isPlaying) return;
+
+    const tick = getCurrentTick();
+
+    setVal("x_msr", Math.floor(tick / ticksPerMeasure) + 1);
+
+    drawPlayback(tick);
+
+    if (enableScoreSound){
+        scheduleNotes(noteData, tick);
+    }
+
+    rafId = requestAnimationFrame(loopPlayback);
+}
 
 function startPlayback() {
 
@@ -2866,24 +2868,6 @@ function midiToFreq(midi){
 //
 // Drawing Pianoroll
 //
-
-
-function loopPlayback(){
-
-    if (!isPlaying) return;
-
-    const tick = getCurrentTick();
-
-    setVal("x_msr", Math.floor(tick / ticksPerMeasure) + 1);
-
-	drawPlayback(tick);
-
-	if (enableScoreSound){
-		scheduleNotes(noteData, tick);
-	}
-
-    rafId = requestAnimationFrame(loopPlayback);
-}
 
 
 function getLabel(midi, n_id){
