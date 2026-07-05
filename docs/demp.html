@@ -1122,7 +1122,7 @@ let touchInitialized = false;
 let isRecording = false;
 
 let pauseTick = 0;
-let isPlaying = 0;
+let isPlaying = false;
 let rafId = null;
 
 let prevTick = 0;
@@ -2170,7 +2170,7 @@ function pauseButton(){
         stopRecording();   // 録音終了
     }
 
-    if(isPlaying > 0){
+    if(isPlaying){
         pausePlayback();   // 再生停止（位置保持）
     }
 	console.log(
@@ -2190,7 +2190,7 @@ function pausePlayback(){
 
     cancelAnimationFrame(rafId);
 
-    isPlaying = 0;
+    isPlaying = false;
 }
 
 function stopRecording(){
@@ -2218,7 +2218,7 @@ function clearRecord(){
 	pedalData = [];
 	pedalData.length = 0;
 	pedalState = false;
-    isPlaying = 0;
+    isPlaying = false;
 	isRecording = false;
 	prevTick = 0;
     nextIndex = 0;
@@ -2295,7 +2295,7 @@ async function draw(){
 
     cancelAnimationFrame(rafId);
 
-    isPlaying = 1;
+    isPlaying = true;
 
     loopPlayback();
 }
@@ -2545,7 +2545,7 @@ function pausePlayback(){
 
     cancelAnimationFrame(rafId);
 
-    isPlaying = 0;
+    isPlaying = false;
 }
 
 function playNoteNow(midi){
@@ -2671,9 +2671,12 @@ function offSound(){
     currentMidis.clear();
 }
 
+let drawPlayback;
+let playNotes;
+
 async function playScore() {
 
-    if (isPlaying > 0) return;
+    if (isPlaying) return;
 
     if (!Number.isFinite(pauseTick)) {
         pauseTick = 0;
@@ -2685,18 +2688,24 @@ async function playScore() {
 
     prevTick = pauseTick;
 
+	nextIndex = -1;
+
     await audioContext.resume();
 
     startPlayback();
 
-    isPlaying = 1;
+    isPlaying = true;
+
+    drawPlayback = lineScore;
+
+	playNotes  = playScoreNotes;
 
     loopPlayback();
 }
 
 async function playRecord(){
 
-    if(isPlaying > 0){
+    if(isPlaying){
         return;
     }
 
@@ -2714,15 +2723,13 @@ async function playRecord(){
 
 	await audioContext.resume();
 
-    canvas.width =
-        window.innerWidth;
-
-    canvas.height =
-        window.innerHeight;
-
     startPlayback();
 
-    isPlaying = 2;
+    isPlaying = true;
+
+    drawPlayback = lineScore;
+
+	playNotes  = playRecordNotes;
 
     loopPlayback();
 }
@@ -2866,6 +2873,7 @@ function midiToFreq(midi){
 // Drawing Pianoroll
 //
 
+
 function loopPlayback(){
 
     if (!isPlaying) return;
@@ -2874,7 +2882,7 @@ function loopPlayback(){
 
     setVal("x_msr", Math.floor(tick / ticksPerMeasure) + 1);
 
-    drawLine(tick);
+    drawPlayback(tick);
 
     if (enableScoreSound){
         scheduleNotes(tick);
@@ -2882,44 +2890,6 @@ function loopPlayback(){
 
     rafId = requestAnimationFrame(loopPlayback);
 }
-
-/*
-function loopScore(){
-	if (isPlaying == 0) return;
-	const tick = getCurrentTick();
-	const sv = lessonSettings.viewSelect;
-	setVal("x_msr", Math.floor(tick/ticksPerMeasure+1));
-	if (sv=="1"){
-		lineScore(tick);
-		if (enableScoreSound){
-			playScoreNotes(tick);
-		}
-	}else if (sv=="2"){
-		scrollScore(tick);
-		if (enableScoreSound){
-			playScoreNotes(tick);
-		}
-	}
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(loopScore);
-}
-
-function loopRecord(){
-	if (isPlaying == 0) return;
-	const tick = getCurrentTick();
-	const sv = lessonSettings.viewSelect;
-	setVal("x_msr", Math.floor(tick/ticksPerMeasure+1));
-	if (sv=="1"){
-		lineRecord(tick);
-		playRecordNotes(tick)
-	}else if (sv=="2"){
-		scrollRecord(tick);
-		playRecordNotes(tick)
-	}
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(loopRecord);
-}
-*/
 
 function getLabel(midi, n_id){
 console.log(tsv);
@@ -3062,7 +3032,7 @@ function lineScore(tick){
 	ctx.strokeStyle=workingColors.line[5];
 	ctx.stroke();
 	} else {
-		isPlaying = 0;
+		isPlaying = false;
 	}
 
 	ctx.beginPath();
