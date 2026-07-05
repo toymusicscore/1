@@ -1661,16 +1661,11 @@ function initializeScoreSystem(){
 		? tempoTrackData[0].value
 		: 60;
 
-	beatsPerMeasure =
-		beatTrackData.length > 0
-		? beatTrackData[0].value[0]
-		: 4;
+	const ts = getTimeSignature(beatTrackData);
 
-	timeSignatureDenominator =
-		beatTrackData.length > 0
-		? beatTrackData[0].value[1]
-		: 4;
-	
+	beatsPerMeasure = ts.beats;
+	timeSignatureDenominator = ts.denom;
+
 	ticksPerQuarterNote =
 		rawMidi.header.ticksPerBeat;
 
@@ -1695,6 +1690,15 @@ function initializeScoreSystem(){
 	midi_min = range.min;
 	midi_max = range.max;
 
+}
+
+function getTimeSignature(beatTrackData) {
+    return beatTrackData.length > 0
+        ? {
+            beats: beatTrackData[0].value[0],
+            denom: beatTrackData[0].value[1]
+        }
+        : { beats: 4, denom: 4 };
 }
 
 function splitHands(scoreMain) {
