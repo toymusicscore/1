@@ -49,10 +49,10 @@ demp
 	onClick="clearRecord()">
 
 <label style="font-size:70%">Measure</label>
-<input onchange ="msr1()"
+<input onchange ="updateMeasurePosition()"
     type="number"
-    id="x_msr"
-    name="x_msr"
+    id="x_targetMeasure"
+    name="x_targetMeasure"
     value="1"
     min="1"
     style="width:40px">
@@ -2665,7 +2665,7 @@ function loopPlayback(){
 
     const tick = getCurrentTick();
 
-    setVal("x_msr", Math.floor(tick / ticksPerMeasure) + 1);
+    setVal("x_targetMeasure", Math.floor(tick / ticksPerMeasure) + 1);
 
     renderPlayBack(tick);
 
@@ -4214,15 +4214,15 @@ function createPracticeRanking(diffData){
 
 
 
-function jumpMeasure(measure){
+function jumpToMeasure(measure){
 
     highlightMeasure = measure;
 
-    setVal("x_msr", measure);
+    setVal("x_targetMeasure", measure);
 
     showMain();
 
-    msr1();
+    updateMeasurePosition();
 
 }
 
@@ -4927,13 +4927,13 @@ function getDateTimeString(ms){
 // Position
 //
 
-function msr1(){
-	const msr = num("x_msr");
+function updateMeasurePosition(){
+	const targetMeasure = num("x_targetMeasure");
 	
-	highlightMeasure = msr;
+	highlightMeasure = targetMeasure;
 
 	pauseTick =
-		(msr - 1)
+		(targetMeasure - 1)
 		* ticksPerMeasure;
 
 	selview1();
@@ -4944,23 +4944,23 @@ function goTop(){
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
     pauseTick = 0;
-	setVal("x_msr", 1);
+	setVal("x_targetMeasure", 1);
     selview1();
 }
 
 function goEnd(){
     pauseTick=Math.floor(songLengthTicks/ticksPerMeasure-1)*ticksPerMeasure;
-	setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
+	setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
     selview1();
 }
 
 function goBack1(){
-    if((num("x_msr")-1)*ticksPerMeasure>0){
-        pauseTick=(num("x_msr")-2)*ticksPerMeasure;
+    if((num("x_targetMeasure")-1)*ticksPerMeasure>0){
+        pauseTick=(num("x_targetMeasure")-2)*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
 		nextIndex = -1;
 		prevTick = pauseTick;
-		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
+		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
         goTop();	
     }
@@ -4968,12 +4968,12 @@ function goBack1(){
 }
 
 function goBack2(){
-    if((num("x_msr")-1-measuresPerScreen)*ticksPerMeasure>0){
-        pauseTick=(num("x_msr")-1-measuresPerScreen)*ticksPerMeasure;
+    if((num("x_targetMeasure")-1-measuresPerScreen)*ticksPerMeasure>0){
+        pauseTick=(num("x_targetMeasure")-1-measuresPerScreen)*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
 		nextIndex = -1;
 		prevTick = pauseTick;
-		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
+		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
         goTop();	
     }
@@ -4981,24 +4981,24 @@ function goBack2(){
 }
 
 function goForward1(){
-    if(num("x_msr")*ticksPerMeasure<songLengthTicks){
-        pauseTick=num("x_msr")*ticksPerMeasure;
+    if(num("x_targetMeasure")*ticksPerMeasure<songLengthTicks){
+        pauseTick=num("x_targetMeasure")*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
 		nextIndex = -1;
 		prevTick = pauseTick;
-		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
+		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
      }
     selview1();
 }
 
 
 function goForward2(){
-    if((num("x_msr")-1+measuresPerScreen)*ticksPerMeasure<songLengthTicks){
-        pauseTick=(num("x_msr")-1+measuresPerScreen)*ticksPerMeasure;
+    if((num("x_targetMeasure")-1+measuresPerScreen)*ticksPerMeasure<songLengthTicks){
+        pauseTick=(num("x_targetMeasure")-1+measuresPerScreen)*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
 		nextIndex = -1;
 		prevTick = pauseTick;
-		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
+		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
         goEnd();	
     }
