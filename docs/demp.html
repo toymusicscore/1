@@ -879,7 +879,7 @@ function tickToSec(tick) {
 
     const bpm = num("x_bpm");
 
-    return (tick / ppq) * 60 / bpm;
+    return (tick / ticksPerQuarter) * 60 / bpm;
 }
 
 
@@ -895,7 +895,7 @@ function getCurrentTick(){
         playbackOffsetTime
     ) *
     x_bpm *
-    ppq / 60;
+    ticksPerQuarter / 60;
 }
 
 
@@ -919,8 +919,8 @@ function updateTempo() {
 
     const bpm = lessonSettings.playbackBpm;
 
-    secondsPerTick = 60 / (ppq * bpm);
-    ticksPerSecond = ppq * bpm / 60;
+    secondsPerTick = 60 / (ticksPerQuarter * bpm);
+    ticksPerSecond = ticksPerQuarter * bpm / 60;
 }
 
 //========================================
@@ -1157,12 +1157,12 @@ let parsedData ="";
 let midiData;
 
 let vmn0=0;
-let ppq=0;
-let bttl=0;
-let ntvl=0;
-let bttl2=0;
-let ntvl2=0;
-let eott0=0;
+let ticksPerQuarter=0;
+let beatsPerMeasure=0;
+let timeSignatureDenominator=0;
+let beatsPerMeasure2=0;
+let timeSignatureDenominator2=0;
+let songLengthTicks=0;
 
 
 let midi_max=21;
@@ -1674,22 +1674,22 @@ function analyzeMidi(){
 		? tempoTrackData[0].value
 		: 60;
 
-	bttl =
+	beatsPerMeasure =
 		beatTrackData.length > 0
 		? beatTrackData[0].value[0]
 		: 4;
 
-	ntvl =
+	timeSignatureDenominator =
 		beatTrackData.length > 0
 		? beatTrackData[0].value[1]
 		: 4;
 	
-	ppq =
+	ticksPerQuarter =
 		rawMidi.header.ticksPerBeat;
 
-	eott0 = getSongLength();
+	songLengthTicks = getSongLength();
 
-	ticksPerMeasure = ppq * bttl / ntvl * 4;
+	ticksPerMeasure = ticksPerQuarter * beatsPerMeasure / timeSignatureDenominator * 4;
 
 	midi_max=21;
 	midi_min=108;
@@ -2489,7 +2489,7 @@ function playSound(e){
 			*
 			x_bpm
 			*
-			ppq
+			ticksPerQuarter
 			/ 60;
 
         recordData.push({
@@ -2617,7 +2617,7 @@ function offSound(){
         const minDur =
             minDurSeconds *
             x_bpm *
-            ppq / 60;
+            ticksPerQuarter / 60;
 
         for(
             let i = recordData.length - 1;
@@ -2801,7 +2801,7 @@ function scheduleNotes(dataArray, tick){
     const previousTick = Math.floor(prevTick);
 
     const lookAheadTicks =
-        0.1 * x_bpm * ppq / 60;
+        0.1 * x_bpm * ticksPerQuarter / 60;
 
     while (nextIndex < data0.length){
 
@@ -2978,7 +2978,7 @@ function lineScore(tick){
 		}
 	}
 
-	if (tick<eott0){
+	if (tick<songLengthTicks){
 	ctx.beginPath();
 	ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 	ctx.lineTo(szx,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
@@ -2994,7 +2994,7 @@ function lineScore(tick){
 	ctx.strokeStyle=workingColors.line[3];
 	ctx.stroke();
 
-	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
+	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarter/timeSignatureDenominator*4){
 		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 		let vmn0=m/ticksPerMeasure+1;
 		ctx.beginPath();
@@ -3010,7 +3010,7 @@ function lineScore(tick){
 			ctx.font = "25px Arial";
 		}
 		ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
+		}else if(m%(ticksPerQuarter/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 		ctx.beginPath();
 		ctx.moveTo(mx,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 		ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
@@ -3204,19 +3204,19 @@ function calcAttackAccuracy(diffData){
 
         let score;
 
-        if(err <= ppq * 0.05){
+        if(err <= ticksPerQuarter * 0.05){
 
             score = 100;
 
-        }else if(err <= ppq * 0.10){
+        }else if(err <= ticksPerQuarter * 0.10){
 
             score = 90;
 
-        }else if(err <= ppq * 0.20){
+        }else if(err <= ticksPerQuarter * 0.20){
 
             score = 70;
 
-        }else if(err <= ppq * 0.30){
+        }else if(err <= ticksPerQuarter * 0.30){
 
             score = 40;
 
@@ -3249,19 +3249,19 @@ function calcReleaseAccuracy(diffData){
 
         let score;
 
-        if(err <= ppq * 0.05){
+        if(err <= ticksPerQuarter * 0.05){
 
             score = 100;
 
-        }else if(err <= ppq * 0.10){
+        }else if(err <= ticksPerQuarter * 0.10){
 
             score = 90;
 
-        }else if(err <= ppq * 0.20){
+        }else if(err <= ticksPerQuarter * 0.20){
 
             score = 70;
 
-        }else if(err <= ppq * 0.30){
+        }else if(err <= ticksPerQuarter * 0.30){
 
             score = 40;
 
@@ -4221,12 +4221,12 @@ function createMeasureStats(diffData){
 			stats[m].total += 8;
 		}
 
-		if(Math.abs(d.attackDiff) > ppq/8){
+		if(Math.abs(d.attackDiff) > ticksPerQuarter/8){
 			stats[m].attack++;
 			stats[m].total += 1;
 		}
 
-		if(Math.abs(d.releaseDiff) > ppq/8){
+		if(Math.abs(d.releaseDiff) > ticksPerQuarter/8){
 			stats[m].release++;
 			stats[m].total += 1;
 		}
@@ -4477,7 +4477,7 @@ function onMIDIMessage(event){
 		+ latency
 	)
 	* x_bpm
-	* ppq
+	* ticksPerQuarter
 	/ 60;
 
     // ペダル
@@ -4793,8 +4793,8 @@ function createMetaTrackData(){
         0xFF,
         0x58,
         0x04,
-        bttl,
-        Math.round(Math.log2(ntvl)),
+        beatsPerMeasure,
+        Math.round(Math.log2(timeSignatureDenominator)),
         24,
         8
     );
@@ -4854,8 +4854,8 @@ function saveMidi(){
         0x00,0x00,0x00,0x06,
         0x00,0x01,
         0x00,0x04,
-        (ppq>>8)&255,
-        ppq&255
+        (ticksPerQuarter>>8)&255,
+        ticksPerQuarter&255
     );
 
 	addTrack(
@@ -4990,7 +4990,7 @@ function goTop(){
 }
 
 function goEnd(){
-    pauseTick=Math.floor(eott0/ticksPerMeasure-1)*ticksPerMeasure;
+    pauseTick=Math.floor(songLengthTicks/ticksPerMeasure-1)*ticksPerMeasure;
 	setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
     selview1();
 }
@@ -5022,7 +5022,7 @@ function goBack2(){
 }
 
 function goForward1(){
-    if(num("x_msr")*ticksPerMeasure<eott0){
+    if(num("x_msr")*ticksPerMeasure<songLengthTicks){
         pauseTick=num("x_msr")*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
 		nextIndex = -1;
@@ -5034,7 +5034,7 @@ function goForward1(){
 
 
 function goForward2(){
-    if((num("x_msr")-1+measuresPerScreen)*ticksPerMeasure<eott0){
+    if((num("x_msr")-1+measuresPerScreen)*ticksPerMeasure<songLengthTicks){
         pauseTick=(num("x_msr")-1+measuresPerScreen)*ticksPerMeasure;
 		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
 		nextIndex = -1;
@@ -5629,7 +5629,7 @@ ctx.fillText("100",14,420);
 
 for(i=0;i<=10;i++){
 ctx.fillStyle="black";
-mslbl0=Math.floor(eott0/ticksPerMeasure*i/10);
+mslbl0=Math.floor(songLengthTicks/ticksPerMeasure*i/10);
 if(i>0 && i<=10){
 	if(mslbl0>=1000){
 		ctx.fillText(mslbl0,100,120+i*30);
@@ -5665,8 +5665,8 @@ keyrp10_0=[];
 		let midi = scoreData[i].midi;
 		let start = scoreData[i].start;
 		ctx.fillStyle=workingColors.pc[midi%12];
-		ctx.fillRect(200+midi%12*50,120+start/eott0*300,50,1);
-		keyrp10_0.push([midi%12,Math.floor(start/eott0*10)]);
+		ctx.fillRect(200+midi%12*50,120+start/songLengthTicks*300,50,1);
+		keyrp10_0.push([midi%12,Math.floor(start/songLengthTicks*10)]);
 		}
 
 ctx.fillStyle="black";
@@ -5689,7 +5689,7 @@ ctx.fillText("100",14,870);
 
 for(i=0;i<=10;i++){
 ctx.fillStyle="black";
-mslbl0=Math.floor(eott0/ticksPerMeasure*i/10);
+mslbl0=Math.floor(songLengthTicks/ticksPerMeasure*i/10);
 if(i>=1 && i<=10){
 	if(mslbl0>=1000){
 		ctx.fillText(mslbl0,100,570+i*30);
@@ -5872,7 +5872,7 @@ ctx.fillText("Estimated Key",810,960);
 
 for(i=0;i<=10;i++){
 ctx.fillStyle="black";
-mslbl0=Math.floor(eott0/ticksPerMeasure*i/10);
+mslbl0=Math.floor(songLengthTicks/ticksPerMeasure*i/10);
 if(i>=1 && i<=10){
 	if(mslbl0>=1000){
 		ctx.fillText(mslbl0,100,960+i*30);
