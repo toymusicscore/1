@@ -29,7 +29,7 @@ demp
 <input 
 	type="button" 
 	value="Practice Ranking" 
-	onClick="showMeasureRanking()">
+	onClick="showPracticeRanking()">
 <input 
 	type="button" 
 	value="Save Record" 
@@ -4141,7 +4141,7 @@ function createDiffData(pairs){
 
 }
 
-function createMeasureStats(diffData){
+function createPracticeStats(diffData){
 
     const stats = {};
 
@@ -4199,10 +4199,10 @@ function createMeasureStats(diffData){
     return Object.values(stats);
 }
 
-function createMeasureRanking(diffData){
+function createPracticeRanking(diffData){
 
     const stats =
-        createMeasureStats(diffData);
+        createPracticeStats(diffData);
 
     stats.sort(
         (a,b) => b.total - a.total
@@ -4227,12 +4227,12 @@ function jumpMeasure(measure){
 }
 
 
-function showMeasureRanking(){
+function showPracticeRanking(){
 
 	updateAnalysisData()
 
 	const ranking =
-        createMeasureRanking(diffData);
+        createPracticeRanking(diffData);
 	
 	let html = "";
 		html += "<table border='1' table style='font-size:25px; border-collapse:collapse; width:100%;'>";
@@ -4333,7 +4333,7 @@ function saveLessonRecord(){
 		},
 
 		analysis: {
-			worstMeasures: createMeasureRanking(diffData)
+			worstMeasures: createPracticeRanking(diffData)
 				.slice(0, 5)
 				.map(r => ({
 					measure: r.measure,
