@@ -2808,62 +2808,58 @@ function midiToFreq(midi){
 
 
 function getLabel(midi, n_id){
-console.log(tsv);
-console.log(tsv.t3);
-console.log(tsv.t3.length);
-console.log(n_id);
-	if (lessonSettings.noteTextType === 0){
-	nl="";
-}else if (lessonSettings.noteTextType === 1){
-	nl=drms1[midi%12];
-}else if (lessonSettings.noteTextType === 2){
-	nl=drmf1[midi%12];
-}else if (lessonSettings.noteTextType === 3){
-	nl=engs1[midi%12];
-}else if (lessonSettings.noteTextType === 4){
-	nl=engf1[midi%12];
-}else if (lessonSettings.noteTextType === 5){
-	nl=gers1[midi%12];
-}else if (lessonSettings.noteTextType === 6){
-	nl=gerf1[midi%12];
-}else if (lessonSettings.noteTextType === 7){
-	nl=" "+(midi%12).toString(12);
-}else if (lessonSettings.noteTextType === 8){
-	nl=Math.floor((midi-12)/12)+(midi%12).toString(12);
-}else if (lessonSettings.noteTextType === 9){
-	nl=midi;
-}else if (lessonSettings.noteTextType === 10){
-	nl=n_id;
-//tsv fingering1
-}else if (lessonSettings.noteTextType === 11 && tsv.t1[n_id]!=undefined){
-	nl=" "+tsv.t1[n_id];
-//tsv fingering2
-}else if (lessonSettings.noteTextType === 12 && tsv.t2[n_id]!=undefined){
-	nl=" "+tsv.t2[n_id];
-//tsv Text1
-}else if (lessonSettings.noteTextType === 13 && tsv.t5[n_id]!=undefined){
-	nl=tsv.t5[n_id];
-//tsv Text2
-}else if (lessonSettings.noteTextType === 14 && tsv.t6[n_id]!=undefined){
-	nl=tsv.t6[n_id];
-//tsv Text3
-}else if (lessonSettings.noteTextType === 15 && tsv.t7[n_id]!=undefined){
-	nl=tsv.t7[n_id];
-//tsv Text4
-}else if (lessonSettings.noteTextType === 16 && tsv.t8[n_id]!=undefined){
-	nl=tsv.t8[n_id];
-//tsv Text5
-}else if (lessonSettings.noteTextType === 17 && tsv.t9[n_id]!=undefined){
-	nl=tsv.t9[n_id];
-}
-//tsv notations left
-if (tsv.t3[n_id]!=undefined){
-	nll=tsv.t3[n_id];
-}
-//tsv notations right
-if (tsv.t4[n_id]!=undefined){
-	nlr=tsv.t4[n_id];
-}
+		if (lessonSettings.noteTextType === 0){
+		nl="";
+	}else if (lessonSettings.noteTextType === 1){
+		nl=drms1[midi%12];
+	}else if (lessonSettings.noteTextType === 2){
+		nl=drmf1[midi%12];
+	}else if (lessonSettings.noteTextType === 3){
+		nl=engs1[midi%12];
+	}else if (lessonSettings.noteTextType === 4){
+		nl=engf1[midi%12];
+	}else if (lessonSettings.noteTextType === 5){
+		nl=gers1[midi%12];
+	}else if (lessonSettings.noteTextType === 6){
+		nl=gerf1[midi%12];
+	}else if (lessonSettings.noteTextType === 7){
+		nl=" "+(midi%12).toString(12);
+	}else if (lessonSettings.noteTextType === 8){
+		nl=Math.floor((midi-12)/12)+(midi%12).toString(12);
+	}else if (lessonSettings.noteTextType === 9){
+		nl=midi;
+	}else if (lessonSettings.noteTextType === 10){
+		nl=n_id;
+	//tsv fingering1
+	}else if (lessonSettings.noteTextType === 11 && tsv.t1[n_id]!=undefined){
+		nl=" "+tsv.t1[n_id];
+	//tsv fingering2
+	}else if (lessonSettings.noteTextType === 12 && tsv.t2[n_id]!=undefined){
+		nl=" "+tsv.t2[n_id];
+	//tsv Text1
+	}else if (lessonSettings.noteTextType === 13 && tsv.t5[n_id]!=undefined){
+		nl=tsv.t5[n_id];
+	//tsv Text2
+	}else if (lessonSettings.noteTextType === 14 && tsv.t6[n_id]!=undefined){
+		nl=tsv.t6[n_id];
+	//tsv Text3
+	}else if (lessonSettings.noteTextType === 15 && tsv.t7[n_id]!=undefined){
+		nl=tsv.t7[n_id];
+	//tsv Text4
+	}else if (lessonSettings.noteTextType === 16 && tsv.t8[n_id]!=undefined){
+		nl=tsv.t8[n_id];
+	//tsv Text5
+	}else if (lessonSettings.noteTextType === 17 && tsv.t9[n_id]!=undefined){
+		nl=tsv.t9[n_id];
+	}
+	//tsv notations left
+	if (tsv.t3[n_id]!=undefined){
+		nll=tsv.t3[n_id];
+	}
+	//tsv notations right
+	if (tsv.t4[n_id]!=undefined){
+		nlr=tsv.t4[n_id];
+	}
 
 }
 
@@ -2942,11 +2938,11 @@ function lineScore(tick){
 	}
 
 	if (tick<songLengthTicks){
-	ctx.beginPath();
-	ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-	ctx.lineTo(szx,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-	ctx.strokeStyle=workingColors.line[5];
-	ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.lineTo(szx,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.strokeStyle=workingColors.line[5];
+		ctx.stroke();
 	} else {
 		isPlaying = false;
 	}
@@ -2959,27 +2955,27 @@ function lineScore(tick){
 
 	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote/timeSignatureDenominator*4){
 		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
-		let vmn0=m/ticksPerMeasure+1;
-		ctx.beginPath();
-		ctx.moveTo(0,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.strokeStyle=workingColors.line[3];
-		ctx.stroke();
-		if(vmn0 === highlightMeasure){
-			ctx.fillStyle = workingColors.text[4];
-			ctx.font = "bold 30px Arial";
-		}else{
-			ctx.fillStyle = workingColors.text[0];
-			ctx.font = "25px Arial";
-		}
-		ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			let vmn0=m/ticksPerMeasure+1;
+			ctx.beginPath();
+			ctx.moveTo(0,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.strokeStyle=workingColors.line[3];
+			ctx.stroke();
+			if(vmn0 === highlightMeasure){
+				ctx.fillStyle = workingColors.text[4];
+				ctx.font = "bold 30px Arial";
+			}else{
+				ctx.fillStyle = workingColors.text[0];
+				ctx.font = "25px Arial";
+			}
+			ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
-		ctx.beginPath();
-		ctx.moveTo(mx,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.strokeStyle=workingColors.line[4];
-		ctx.stroke();
-		}
+			ctx.beginPath();
+			ctx.moveTo(mx,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.strokeStyle=workingColors.line[4];
+			ctx.stroke();
+			}
 	}
 
 	for(let i=0;i<view.scoreViewData.length;i++){
@@ -3033,17 +3029,17 @@ function lineScore(tick){
 			getLabel(midi, n_id);
 			ctx.font="20px Arial";
 			if (nl!=""){
-			ctx.fillStyle=workingColors.text[1];
-			ctx.fillText(nl, x0+3, y+7);
+				ctx.fillStyle=workingColors.text[1];
+				ctx.fillText(nl, x0+3, y+7);
 			}
 			if (nll!=""){
-			ctx.fillStyle=workingColors.text[2];
-			ctx.fillText(nll, mx, y);
+				ctx.fillStyle=workingColors.text[2];
+				ctx.fillText(nll, mx, y);
 			}
 			if (nlr!=""){
-			ctx.fillStyle=workingColors.text[3];
-			ctx.fillText(nlr, mx+szk, y);
-			}
+				ctx.fillStyle=workingColors.text[3];
+				ctx.fillText(nlr, mx+szk, y);
+				}
 		}
 	}
 };
