@@ -1637,6 +1637,16 @@ function analyzeMidi(){
 		RECORD: 3
 	};
 
+	const scoreAll = createScoreDataFromTracks(rawMidi);
+
+	const scoreMain = scoreAll.filter(
+		n => n.track !== TRACK.RECORD
+	);
+
+	recordData = scoreAll.filter(
+		n => n.track === TRACK.RECORD
+	);
+
 	const tempoTrackData =
 		createTempoTrack();
 
@@ -1669,15 +1679,6 @@ function analyzeMidi(){
 		timeSignatureDenominator
 	);
 
-	const scoreAll = createScoreDataFromTracks(rawMidi);
-
-	const scoreMain = scoreAll.filter(
-		n => n.track !== TRACK.RECORD
-	);
-
-	recordData = scoreAll.filter(
-		n => n.track === TRACK.RECORD
-	);
 
 	scoreRight =
 		scoreMain.filter(
@@ -1696,7 +1697,7 @@ function analyzeMidi(){
 		);
 
 		
-	const range = resolveMidiRange(scoreMain, scoreRight, scoreLeft);
+	const range = resolveMidiRange(scoreMain, scoreRight, scoreLeft)
 	midi_min = range.min;
 	midi_max = range.max;
 
