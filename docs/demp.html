@@ -1698,28 +1698,18 @@ function analyzeMidi(){
 		timeSignatureDenominator
 	);
 
-	const rangeAll = getMidiRange(scoreData);
-	midi_min_b = rangeAll.min;
-	midi_max_b = rangeAll.max;
-
-	const rangeR = getMidiRange(scoreRight);
-	midi_min_r = rangeR.min;
-	midi_max_r = rangeR.max;
-
-	const rangeL = getMidiRange(scoreLeft);
-	midi_min_l = rangeL.min;
-	midi_max_l = rangeL.max;
-
-
 if (lessonSettings.hands === HANDS.BOTH){
-		midi_max=midi_max_b;
-		midi_min=midi_min_b;
+	const rangeAll = getMidiRange(scoreData);
+	midi_min = rangeAll.min;
+	midi_max = rangeAll.max;
 	} else if (lessonSettings.hands === HANDS.RIGHT){
-		midi_max=midi_max_r;
-		midi_min=midi_min_r;
+	const rangeR = getMidiRange(scoreRight);
+	midi_min = rangeR.min;
+	midi_max = rangeR.max;
 	}else if (lessonSettings.hands === HANDS.LEFT){
-		midi_max=midi_max_l;
-		midi_min=midi_min_l;
+	const rangeL = getMidiRange(scoreLeft);
+	midi_min = rangeL.min;
+	midi_max = rangeL.max;
 	}
 
 }
