@@ -2238,25 +2238,30 @@ function clearRecord(){
 // Record
 //
 
-async function record(){
-
-    isRecording = true;
+function initRecording(){
 
     recordData = [];
     pedalData = [];
     baseAudioTime = 0;
 
+    isRecording = true;
 	pedalState = false;
     enableScoreSound = false;
 
-    selview1();
-	await audioContext.resume();
-    await cdown();
-    await draw();
-    await startRecord();
 }
 
-async function cdown(){
+
+async function startRecording(){
+
+	initRecording();
+    selview1();
+	await audioContext.resume();
+    await startcountdown();
+    await drawPlayback();
+    await startRecordLoop();
+}
+
+async function startCountdown(){
 	ctx.font = "25px Arial";
 
 	let	wait0=60000/Math.max(num("x_bpm"),60);
@@ -2270,7 +2275,7 @@ async function cdown(){
 	}
 }
 
-async function draw(){
+async function drawPlayback(){
 
     canvas.width =
         window.innerWidth;
@@ -2323,7 +2328,7 @@ function touchSound(){
 
 
 
-function startRecord(){
+function startRecordLoop(){
 
     recordData = [];
     recordMidiMin = midi_min;
