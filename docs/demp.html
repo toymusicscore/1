@@ -1698,19 +1698,9 @@ function analyzeMidi(){
 				n.channel === lessonSettings.handsTrackChannel.left.channel
 		);
 
-	if (lessonSettings.hands === HANDS.BOTH){
-		const rangeAll = getMidiRange(scoreData);
-		midi_min = rangeAll.min;
-		midi_max = rangeAll.max;
-	} else if (lessonSettings.hands === HANDS.RIGHT){
-		const rangeR = getMidiRange(scoreRight);
-		midi_min = rangeR.min;
-		midi_max = rangeR.max;
-	}else if (lessonSettings.hands === HANDS.LEFT){
-		const rangeL = getMidiRange(scoreLeft);
-		midi_min = rangeL.min;
-		midi_max = rangeL.max;
-	}
+	const range = resolveMidiRange();
+	midi_min = range.min;
+	midi_max = range.max;
 
 }
 
@@ -1737,6 +1727,18 @@ function getMidiRange(notes) {
     }
 
     return { min: min === Infinity ? 0 : min, max: max === -Infinity ? 0 : max };
+}
+
+
+function resolveMidiRange() {
+    switch (lessonSettings.hands) {
+        case HANDS.BOTH:
+            return getMidiRange(scoreData);
+        case HANDS.RIGHT:
+            return getMidiRange(scoreRight);
+        case HANDS.LEFT:
+            return getMidiRange(scoreLeft);
+    }
 }
 
 
