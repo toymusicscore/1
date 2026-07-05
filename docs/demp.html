@@ -2250,16 +2250,22 @@ function initRecording(){
 
 }
 
-
 async function startRecording(){
 
-	initRecording();
+    initRecording();
+
     selview1();
-	await audioContext.resume();
-    await startcountdown();
-    await drawPlayback();
-    await startRecordLoop();
+
+    await audioContext.resume();
+    await startCountdown();
+
+    startPlayback();      // ← ここ重要（描画開始準備）
+
+	isPlaying = true;
+
+    loopPlayback();       // ← 実行開始
 }
+
 
 async function startCountdown(){
 	ctx.font = "25px Arial";
@@ -2273,36 +2279,6 @@ async function startCountdown(){
 
 		await new Promise(r => setTimeout(r, wait0));
 	}
-}
-
-async function drawPlayback(){
-
-    canvas.width =
-        window.innerWidth;
-
-    canvas.height =
-        window.innerHeight;
-
-    if(
-        lessonSettings.hands === HANDS.RIGHT
-    ){
-        midi_max = midi_max_r;
-        midi_min = midi_min_r;
-    }
-	else if(
-        lessonSettings.hands === HANDS.LEFT
-    ){
-        midi_max = midi_max_l;
-        midi_min = midi_min_l;
-	}
-
-    startPlayback();
-
-    cancelAnimationFrame(rafId);
-
-    isPlaying = true;
-
-    loopPlayback();
 }
 
 
@@ -2356,26 +2332,12 @@ function stopRecord(){
         return a.start - b.start;
     });
 
-    console.log(recordData);
-
 	hands =
 		assignHands(
 			recordData,
 			scoreRight,
 			scoreLeft
 		);
-
-	console.log(hands.right);
-	console.log(hands.left);
-	console.log(
-		"scoreRight",
-		scoreRight.length
-	);
-
-	console.log(
-		"scoreLeft",
-		scoreLeft.length
-	);
 
 }
 
