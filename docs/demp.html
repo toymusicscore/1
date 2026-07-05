@@ -2694,13 +2694,15 @@ async function playScore() {
 	prevTick = pauseTick;
 
     nextIndex = 0;
-
+/*
     while(
         nextIndex < scoreData.length &&
         scoreData[nextIndex].start < pauseTick
     ){
         nextIndex++;
     }
+*/
+nextIndex = 0;
 
     cancelAnimationFrame(rafId);
 
@@ -2931,11 +2933,6 @@ function loopScore(){
 	const tick = getCurrentTick();
 	const sv = lessonSettings.viewSelect;
 	setVal("x_msr", Math.floor(tick/ticksPerMeasure+1));
-		console.log(
-		"tick=", tick,
-		"pauseTick=", pauseTick,
-		"nextIndex=", nextIndex
-	);
 	if (sv=="1"){
 		lineScore(tick);
 		if (enableScoreSound){
