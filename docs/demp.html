@@ -1642,13 +1642,8 @@ function initializeScoreSystem(){
 	const scoreMain = [];
 	const recordDataLocal = [];
 
-	for (const n of scoreAll) {
-		if (n.track === TRACK.RECORD) {
-			recordDataLocal.push(n);
-		} else {
-			scoreMain.push(n);
-		}
-	}
+	recordDataLocal = scoreAll.filter(n => n.track === TRACK.RECORD);
+	scoreMain  = scoreAll.filter(n => n.track !== TRACK.RECORD);
 
 	recordData = recordDataLocal;
 	scoreData  = scoreMain;
