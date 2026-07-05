@@ -2637,7 +2637,7 @@ function offSound(){
     currentMidis.clear();
 }
 
-let drawPlayback;
+let renderPlayBack;
 let noteData;
 
 async function playScore(){
@@ -2659,7 +2659,7 @@ async function playScore(){
 
     isPlaying = true;
 
-    drawPlayback = lineScore;
+    renderPlayBack = lineScore;
     noteData = getCurrentScoreData();
 
     loopPlayback();
@@ -2682,7 +2682,7 @@ async function playRecord(){
 
     isPlaying = true;
 
-    drawPlayback = lineRecord;
+    renderPlayBack = lineRecord;
     noteData = recordData;
 
     loopPlayback();
@@ -2696,7 +2696,7 @@ function loopPlayback(){
 
     setVal("x_msr", Math.floor(tick / ticksPerMeasure) + 1);
 
-    drawPlayback(tick);
+    renderPlayBack(tick);
 
     if (enableScoreSound){
         scheduleNotes(noteData, tick);
