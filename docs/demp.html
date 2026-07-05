@@ -1640,22 +1640,19 @@ function analyzeMidi(){
 	const scoreAll = createScoreDataFromTracks(rawMidi);
 
 	const scoreMain = [];
-
-	recordData = [];
+	const recordDataLocal = [];
 
 	for (const n of scoreAll) {
 		if (n.track === TRACK.RECORD) {
-			recordData.push(n);
+			recordDatalocal.push(n);
 		} else {
 			scoreMain.push(n);
 		}
 	}
 
-	const tempoTrackData =
-		createTempoTrack();
-
-	const beatTrackData =
-		createBeatTrack();
+	recordData = recordDataLocal;
+	const tempoTrackData = createTempoTrack(rawMidi);
+	const beatTrackData  = createBeatTrack(rawMidi);
 
 	songFirstBpm =
 		tempoTrackData.length > 0
