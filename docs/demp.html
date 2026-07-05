@@ -1128,7 +1128,7 @@ let isPlaying = 0;
 let rafId = null;
 
 let prevTick = 0;
-let nextIndex = 0;
+let nextIndex = -1;
 
 let scoreData = [];
 
@@ -2675,53 +2675,25 @@ function offSound(){
 
 async function playScore() {
 
-    alert("isPlaying = " + isPlaying);
+    if (isPlaying > 0) return;
 
-    console.log("playScore pauseTick =", pauseTick);
-
-    if(isPlaying > 0){
-        return;
-    }
-
-    if(!Number.isFinite(pauseTick)){
+    if (!Number.isFinite(pauseTick)) {
         pauseTick = 0;
     }
 
-	await cdown();
+    await cdown();
 
-	enableScoreSound = true;
+    enableScoreSound = true;
 
-	prevTick = pauseTick;
+    prevTick = pauseTick;
 
-    nextIndex = 0;
-/*
-    while(
-        nextIndex < scoreData.length &&
-        scoreData[nextIndex].start < pauseTick
-    ){
-        nextIndex++;
-    }
-*/
-
-    cancelAnimationFrame(rafId);
-
-	await audioContext.resume();
-
-    canvas.width =
-        window.innerWidth;
-
-    canvas.height =
-        window.innerHeight;
+    await audioContext.resume();
 
     startPlayback();
-
-	console.log("playScore pauseTick =", pauseTick);
-	console.log("baseAudioTime =", baseAudioTime);
 
     isPlaying = 1;
 
     loopScore();
-
 }
 
 async function playRecord(){
@@ -2856,56 +2828,67 @@ function playRecordNotes(tick){
 }
 
 
+
+function getCurrentScoreData() {
+
+    switch (lessonSettings.hands) {
+
+        case HANDS.RIGHT:
+            return scoreRight;
+
+        case HANDS.LEFT:
+            return scoreLeft;
+
+        default:
+            return scoreData;
+    }
+}
+
+
 function playScoreNotes(tick){
 
-	if(tick < prevTick){
+	const data0 = getCurrentScoreData();
+
+    // 最初だけ検索
+    if (nextIndex < 0){
+
         nextIndex = 0;
+
+        while (
+            nextIndex < data0.length &&
+            data0[nextIndex].start < prevTick
+        ){
+            nextIndex++;
+        }
     }
 
-    let data0 = [];
+    const x_bpm = num("x_bpm");
 
-	if (lessonSettings.hands === HANDS.BOTH){
-        data0 = scoreData;
-
-    }else if (lessonSettings.hands === HANDS.RIGHT){
-
-        data0 = scoreRight;
-
-	}else if (lessonSettings.hands === HANDS.LEFT){
-
-        data0 = scoreLeft;
-
-	}
-
-	const x_bpm = num("x_bpm");
-
-    const currentTick = Math.floor(tick);
+    const currentTick  = Math.floor(tick);
     const previousTick = Math.floor(prevTick);
 
     const lookAheadTicks =
         0.1 * x_bpm * ppq / 60;
 
-    while(nextIndex < data0.length){
+    while (nextIndex < data0.length){
 
-        let data = data0[nextIndex];
+        const data = data0[nextIndex];
 
-        let midi  = data.midi;
-        let start = data.start;
-        let stop  = data.stop;
-
-        if(start > currentTick + lookAheadTicks){
+        if (data.start > currentTick + lookAheadTicks){
             break;
         }
-		if(
-			stop != null &&
-			start >= previousTick &&
-			start <= currentTick + lookAheadTicks
-		){
-            let durationTicks =
-                Math.max(1, stop - start);
 
-			playNote(midi, durationTicks, start);
+        if (
+            data.stop != null &&
+            data.start >= previousTick &&
+            data.start <= currentTick + lookAheadTicks
+        ){
 
+            playNote(
+                data.midi,
+                Math.max(1, data.stop - data.start),
+                data.start
+            );
         }
 
         nextIndex++;
@@ -5289,7 +5272,7 @@ function goBack1(){
     if((num("x_msr")-1)*ticksPerMeasure>0){
         pauseTick=(num("x_msr")-2)*ticksPerMeasure;
 		baseAudioTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
-		nextIndex = 0;
+		nextIndex = -1;
 		prevTick = pauseTick;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
@@ -5302,7 +5285,7 @@ function goBack2(){
     if((num("x_msr")-1-measuresPerScreen)*ticksPerMeasure>0){
         pauseTick=(num("x_msr")-1-measuresPerScreen)*ticksPerMeasure;
 		baseAudioTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
-		nextIndex = 0;
+		nextIndex = -1;
 		prevTick = pauseTick;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
@@ -5315,7 +5298,7 @@ function goForward1(){
     if(num("x_msr")*ticksPerMeasure<eott0){
         pauseTick=num("x_msr")*ticksPerMeasure;
 		baseAudioTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
-		nextIndex = 0;
+		nextIndex = -1;
 		prevTick = pauseTick;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
      }
@@ -5327,7 +5310,7 @@ function goForward2(){
     if((num("x_msr")-1+measuresPerScreen)*ticksPerMeasure<eott0){
         pauseTick=(num("x_msr")-1+measuresPerScreen)*ticksPerMeasure;
 		baseAudioTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
-		nextIndex = 0;
+		nextIndex = -1;
 		prevTick = pauseTick;
 		setVal("x_msr", Math.floor(pauseTick/ticksPerMeasure)+1);
     }else{
