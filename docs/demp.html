@@ -1698,81 +1698,18 @@ function analyzeMidi(){
 		timeSignatureDenominator
 	);
 
-	midi_max=21;
-	midi_min=108;
-	midi_min0=0;
-	midi_max0=0;
-	midi_max_b=21;
-	midi_min_b=108;
-	midi_min0_b=0;
-	midi_max0_b=0;
-	midi_max_l=21;
-	midi_min_l=108;
-	midi_min0_l=0;
-	midi_max0_l=0;
-	midi_max_r=21;
-	midi_min_r=108;
-	midi_min0_r=0;
-	midi_max0_r=0;
-	n_id=1;
-	ch_max=-1;
-	ch_num=0;
+	const rangeAll = getMidiRange(scoreData);
+	midi_min_b = rangeAll.min;
+	midi_max_b = rangeAll.max;
 
-	scoreData.forEach(note => {
+	const rangeR = getMidiRange(scoreRight);
+	midi_min_r = rangeR.min;
+	midi_max_r = rangeR.max;
 
-		if(note.midi > midi_max_b){
-			midi_max_b = note.midi;
-		}
+	const rangeL = getMidiRange(scoreLeft);
+	midi_min_l = rangeL.min;
+	midi_max_l = rangeL.max;
 
-		if(note.midi < midi_min_b){
-			midi_min_b = note.midi;
-		}
-
-	});
-	
-	scoreRight =
-		scoreData.filter(
-			n => 
-				n.track === lessonSettings.handsTrackChannel.right.track
-				&& 
-				n.channel === lessonSettings.handsTrackChannel.right.channel
-		);
-
-	scoreLeft =
-		scoreData.filter(
-			n => 
-				n.track === lessonSettings.handsTrackChannel.left.track
-				&& 
-				n.channel === lessonSettings.handsTrackChannel.left.channel
-		);
-
-
-	if(scoreRight.length > 0){
-		scoreRight.forEach(note => {
-
-			if(note.midi > midi_max_r){
-				midi_max_r = note.midi;
-			}
-
-			if(note.midi < midi_min_r){
-				midi_min_r = note.midi;
-			}
-
-		});
-	}
-
-	if(scoreLeft.length > 0){
-		scoreLeft.forEach(note => {
-
-			if(note.midi > midi_max_l){
-				midi_max_l = note.midi;
-			}
-
-			if(note.midi < midi_min_l){
-				midi_min_l = note.midi;
-			}
-		});
-	}
 
 if (lessonSettings.hands === HANDS.BOTH){
 		midi_max=midi_max_b;
@@ -1784,12 +1721,6 @@ if (lessonSettings.hands === HANDS.BOTH){
 		midi_max=midi_max_l;
 		midi_min=midi_min_l;
 	}
-
-	console.log(parsedData);
-	console.log(parsedData.tracks);
-	console.log(tempoTrackData);
-	console.log(beatTrackData);
-	console.log("analyzeMidi end");
 
 }
 
@@ -1803,6 +1734,19 @@ function calcTicksPerMeasure(
            4 *
            beatsPerMeasure /
            timeSignatureDenominator;
+}
+
+
+function getMidiRange(notes) {
+    let min = Infinity;
+    let max = -Infinity;
+
+    for (const n of notes) {
+        if (n.midi < min) min = n.midi;
+        if (n.midi > max) max = n.midi;
+    }
+
+    return { min: min === Infinity ? 0 : min, max: max === -Infinity ? 0 : max };
 }
 
 
