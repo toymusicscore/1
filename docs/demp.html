@@ -1644,13 +1644,15 @@ function initializeScoreSystem(){
 
 	for (const n of scoreAll) {
 		if (n.track === TRACK.RECORD) {
-			recordDatalocal.push(n);
+			recordDataLocal.push(n);
 		} else {
 			scoreMain.push(n);
 		}
 	}
 
 	recordData = recordDataLocal;
+	scoreData  = scoreMain;
+
 	const tempoTrackData = createTempoTrack(rawMidi);
 	const beatTrackData  = createBeatTrack(rawMidi);
 
