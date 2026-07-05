@@ -181,11 +181,9 @@ demp
 <select id="sv1" name="sv1" onchange="onSettingsChange()">
 	<option value="0"> License </option>
 	<option value="1" selected> Line </option>
-	<option value="2"> Scroll </option>
+	<option value="2"> Key Estimation 10</option>
 	<option value="3"> Label </option>
 	<option value="4"> Track/Channel </option>
-	<option value="5"> Key Estimation 10</option>
-	<option value="6"> Key Estimation Test</option>
 	</select>
 
 <input
@@ -3218,176 +3216,6 @@ function lineRecord(tick){
 };
 
 
-function scrollScore(tick){
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	szx = canvas.width;
-	szy = canvas.height-2*my;
-	szk=szx-2*mx;
-	ctx.lineWidth=1;
-
-	const view = getViewInfo();
-
-	for(let l=0;l<Number(view.kn);l++){
-		let k=Number(view.midi_min)+l;
-		ctx.fillStyle=workingColors.oct[Math.floor(k/12)-1];
-		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
-		ctx.fillStyle=workingColors.pc[k%12];
-		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
-		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-		ctx.fillStyle=workingColors.line[0];
-		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
-		}else if (k%12===0){
-		ctx.beginPath();
-		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle=workingColors.line[1];
-		ctx.stroke();
-		}else if (k%12===5){
-		ctx.beginPath();
-		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,my+szy);
-		ctx.strokeStyle=workingColors.line[2];
-		ctx.stroke();
-		}
-	}
-
-	for(let m=0;m<eott0;m=m+ppq/ntvl*4){
-		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
-		let vmn0=m/ticksPerMeasure+1;
-		ctx.beginPath();
-		ctx.moveTo(0,my+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.strokeStyle=workingColors.line[3];
-		ctx.stroke();
-		if(vmn0 === highlightMeasure){
-			ctx.fillStyle = workingColors.text[4];
-			ctx.font = "bold 30px Arial";
-		}else{
-			ctx.fillStyle = workingColors.text[0];
-			ctx.font = "25px Arial";
-		}
-		ctx.fillText(vmn0,0,my*1.6+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
-		}else if(m%(ppq/ntvl*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
-		ctx.beginPath();
-		ctx.moveTo(mx,my+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.lineTo(mx+szk,my+(m-tick)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.strokeStyle=workingColors.line[4];
-		ctx.stroke();
-		}
-	}
-
-	for(let i=0;i<view.scoreViewData.length;i++){
-		let midi = view.scoreViewData[i].midi;
-		let start = view.scoreViewData[i].start;
-		let stop = view.scoreViewData[i].stop;
-		let track = view.scoreViewData[i].track;
-		let channel = view.scoreViewData[i].channel;
-		let n_id = view.scoreViewData[i].n_id;
-		getLabel(midi, n_id);
-		const dt = (start-tick)/ticksPerMeasure;
-		const dp = (stop-tick)/ticksPerMeasure;
-		let gt=(stop-start)/ticksPerMeasure;
-
-		let handColor =
-			workingColors.hand[
-				HAND_COLOR.SCORE_NOT_ASSIGNED
-			];
-
-		if(track == lessonSettings.handsTrackChannel.right.track
-		 && channel == lessonSettings.handsTrackChannel.right.channel){
-			handColor =
-				workingColors.hand[
-					HAND_COLOR.SCORE_RIGHT
-				];
-		}
-		else if(track == lessonSettings.handsTrackChannel.left.track
-		 && channel == lessonSettings.handsTrackChannel.left.channel){
-			handColor =
-				workingColors.hand[
-					HAND_COLOR.SCORE_LEFT
-				];
-		}
-		
-		if (dp > -1/4 && dt < measuresPerScreen){
-			const x0 = (midi-view.midi_min)*view.kw+mx;
-			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*szy/measuresPerScreen;
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt) || !showRecord){
-					continue;
-				}
-			ctx.fillStyle=workingColors.pc[midi%12];
-			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
-			ctx.beginPath();
-			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
-			ctx.fillStyle=handColor;
-			ctx.fill();
-			ctx.fillStyle="black";
-			ctx.font="20px Arial";
-			if (nl!=""){
-			ctx.fillStyle=workingColors.text[1];
-			ctx.fillText(nl, x0+3, y+7);
-			}
-			if (nll!=""){
-			ctx.fillStyle=workingColors.text[2];
-			ctx.fillText(nll, mx, y);
-			}
-			if (nlr!=""){
-			ctx.fillStyle=workingColors.text[3];
-			ctx.fillText(nlr, mx+szk, y);
-			}
-		}
-	}
-};
-
-function scrollRecord(tick){
-
-	if(!showRecord) return;
-
-	scrollScore(tick);
-	
-	const view = getViewInfo();
-	
-	for(let i=0; i<recordData.length; i++){
-		let midi = recordData[i].midi;
-		let start = recordData[i].start;
-		let stop = recordData[i].stop;
-		if(stop == null){
-			continue;
-		}
-		const dt = (start-tick)/ticksPerMeasure;
-		const dp = (stop-tick)/ticksPerMeasure;
-		let gt=(stop-start)/ticksPerMeasure;
-
-		if (dp > 0 && dt < measuresPerScreen){
-
-			const x0 = (midi-view.midi_min)*view.kw+mx;
-			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = my+dt*szy/measuresPerScreen;
-
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
-				continue;
-			}
-			ctx.fillStyle =
-				workingColors.hand[
-					HAND_COLOR.RECORD_BOTH_BAR
-				];
-			ctx.fillRect(
-				x0 + view.kw/4,
-				y,
-				view.kw/2,
-				gt*szy/measuresPerScreen
-			);
-			ctx.beginPath();
-			ctx.fillStyle =
-				workingColors.hand[
-					HAND_COLOR.RECORD_BOTH_CIRCLE
-				];
-			ctx.arc(x1,y,view.kw/4,0,2*Math.PI,false);
-			ctx.fill();
-		}
-	}
-};
-
 //
 // Analysis Record Data
 //
@@ -6309,24 +6137,13 @@ function selview1(){
 			showCanvas();
 		}
 	}else if(lessonSettings.viewSelect === 2){
-		if(recordData && recordData.length > 0){
-			scrollRecord(pauseTick);
-			showCanvas();
-		}else{
-			scrollScore(pauseTick);
-			showCanvas();
-		}
+		keyEst10();
+		showCanvas();
 	}else if(lessonSettings.viewSelect === 3){
 		keyLabel();
 		showCanvas();
 	}else if(lessonSettings.viewSelect === 4){
 		trackChannelInfo();
-		showCanvas();
-	}else if(lessonSettings.viewSelect === 5){
-		keyEst10();
-		showCanvas();
-	}else if(lessonSettings.viewSelect === 6){
-		keyEstTest();
 		showCanvas();
 	}
 
