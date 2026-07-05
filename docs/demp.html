@@ -2673,6 +2673,7 @@ function offSound(){
 
 let drawPlayback;
 let playNotes;
+let noteData;
 
 async function playScore() {
 
@@ -2698,7 +2699,11 @@ async function playScore() {
 
     drawPlayback = lineScore;
 
-	playNotes  = playScoreNotes;
+	noteData = getCurrentScoreData();
+
+	if (enableScoreSound){
+		playNotes(tick);
+	}
 
     loopPlayback();
 }
@@ -2717,7 +2722,7 @@ async function playRecord(){
 
     prevTick = pauseTick;
 
-    nextIndex = 0;
+    nextIndex = -1;
 
     cancelAnimationFrame(rafId);
 
@@ -2727,9 +2732,13 @@ async function playRecord(){
 
     isPlaying = true;
 
-    drawPlayback = lineScore;
+    drawPlayback = lineRecord;
 
-	playNotes  = playRecordNotes;
+	noteData = recordData;
+
+	if (enableScoreSound){
+		playNotes(tick);
+	}
 
     loopPlayback();
 }
@@ -2882,11 +2891,11 @@ function loopPlayback(){
 
     setVal("x_msr", Math.floor(tick / ticksPerMeasure) + 1);
 
-    drawPlayback(tick);
+	drawPlayback(tick);
 
-    if (enableScoreSound){
-        scheduleNotes(tick);
-    }
+	if (enableScoreSound){
+		scheduleNotes(noteData, tick);
+	}
 
     rafId = requestAnimationFrame(loopPlayback);
 }
