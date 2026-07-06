@@ -2090,19 +2090,6 @@ function showMain(){
 }
 
 
-function showDownloadPage(){
-
-    $("mainPage").style.display = "none";
-    $("canvas").style.display = "none";
-    $("settingsPage").style.display = "none";
-    $("colorsPage").style.display = "none";
-    $("htmlPage").style.display = "block";
-
-    downloadTsv();
-}
-
-
-
 function pauseButton(){
 	
     if(isRecording){
@@ -5833,7 +5820,7 @@ keyrp10_5.sort((a,b)=>b[1]-a[1]);
 	}
 }
 
-async function downloadTsv(){
+async function showDownloadPage(){
 
     const text =
         await (await fetch("./data/SongList.tsv")).text();
@@ -5881,6 +5868,9 @@ async function downloadTsv(){
     html += "</table>";
 
     $("htmlArea").innerHTML = html;
+
+    showHtmlPage();
+    
 }
 
 
