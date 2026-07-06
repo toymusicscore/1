@@ -179,11 +179,10 @@ demp
 	</select>
 
 <select id="sv1" name="sv1" onchange="onSettingsChange()">
-	<option value="0"> License </option>
-	<option value="1" selected> Pianoroll </option>
-	<option value="2"> Key Estimation </option>
-	<option value="3"> Keyboard Label </option>
-	<option value="4"> Track/Channel </option>
+	<option value="0" selected> Pianoroll </option>
+	<option value="1"> Key Estimation </option>
+	<option value="2"> Keyboard Label </option>
+	<option value="3"> Track/Channel </option>
 	</select>
 
 <input
@@ -198,6 +197,10 @@ demp
 <input type="button"
        value="Reset Settings"
        onclick="onResetSettings()">
+<input 
+	type="button" 
+	value="License" 
+	onClick="showLicense()">
 
 <input type="button"
        value="← Back"
@@ -5197,7 +5200,7 @@ function showKeyboardLabel(){
 }
 
 
-function licenseInfo(){
+function showLicense(){
 
 	const logo =
 	'<span style="font-family:Arial;font-size:32px;font-weight:bold;">' +
@@ -5252,6 +5255,9 @@ function licenseInfo(){
 
     const license =
         $("license");
+
+	$("license").style.display =
+        showLicense ? "block" : "none";
 
 	license.style.height = canvas.height + "px";
 	license.style.overflowY = "auto";
@@ -5898,22 +5904,12 @@ async function downloadTsv(){
 
 function showSelectedView() {
 
-    const showLicense =
-        practiceSettings.viewSelect === 0;
-
-    $("license").style.display =
-        showLicense ? "block" : "none";
-
     $("canvas").style.display =
         showLicense ? "none" : "block";
 
     switch (practiceSettings.viewSelect) {
 
         case 0:
-            licenseInfo();
-            break;
-
-        case 1:
             if (recordData?.length > 0) {
                 lineRecord(pauseTick);
             } else {
@@ -5921,15 +5917,15 @@ function showSelectedView() {
             }
             break;
 
-        case 2:
+        case 1:
             keyEstimation();
             break;
 
-        case 3:
+        case 2:
             showKeyboardLabel();
             break;
 
-        case 4:
+        case 3:
             trackChannelInfo();
             break;
     }
