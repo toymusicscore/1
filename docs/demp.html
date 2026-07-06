@@ -2556,11 +2556,6 @@ async function playScore(){
 
     await startCountdown();
 
-    enablePlaybackSound = true;
-
-    prevTick = pauseTick;
-    nextIndex = -1;
-
     await audioContext.resume();
 
     initPlayback();
@@ -2570,7 +2565,11 @@ async function playScore(){
         getCurrentScoreData()
     );
 
+    prevTick = pauseTick;
+    nextIndex = -1;
+    
     isPlaying = true;
+    enablePlaybackSound = true;
 
     loopPlayback();
 }
@@ -2583,9 +2582,6 @@ async function playRecord(){
 
     await startCountdown();
 
-    prevTick = pauseTick;
-    nextIndex = -1;
-
     await audioContext.resume();
 
     initPlayback();
@@ -2595,7 +2591,11 @@ async function playRecord(){
         recordData
     );
 
+    prevTick = pauseTick;
+    nextIndex = -1;
+
     isPlaying = true;
+    enablePlaybackSound = true;
 
     loopPlayback();
 }
