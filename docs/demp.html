@@ -2098,12 +2098,6 @@ function showMain(){
     showSelectedView();
 }
 
-function showCanvas(){
-
-    $("license").style.display ="none";
-    $("canvas").style.display ="block";
-
-}
 
 function showDownloadPage(){
 
@@ -5256,13 +5250,9 @@ function licenseInfo(){
         );
     }
 
-	$("canvas").style.display =
-        "none";
-
     const license =
         $("license");
 
-	license.style.display = "block";
 	license.style.height = canvas.height + "px";
 	license.style.overflowY = "auto";
 	license.style.padding = "20px";
@@ -5903,6 +5893,46 @@ async function downloadTsv(){
     html += "</table>";
 
     $("downloadArea").innerHTML = html;
+}
+
+
+function showSelectedView() {
+
+    const showLicense =
+        practiceSettings.viewSelect === 0;
+
+    $("license").style.display =
+        showLicense ? "block" : "none";
+
+    $("canvas").style.display =
+        showLicense ? "none" : "block";
+
+    switch (practiceSettings.viewSelect) {
+
+        case 0:
+            licenseInfo();
+            break;
+
+        case 1:
+            if (recordData?.length > 0) {
+                lineRecord(pauseTick);
+            } else {
+                lineScore(pauseTick);
+            }
+            break;
+
+        case 2:
+            keyEstimation();
+            break;
+
+        case 3:
+            showKeyboardLabel();
+            break;
+
+        case 4:
+            trackChannelInfo();
+            break;
+    }
 }
 
 
