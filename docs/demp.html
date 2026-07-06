@@ -68,11 +68,11 @@ demp
 <input
     type="button"
     value="⚙ Settings"
-    onclick="showSettings()">
+    onclick="showPage(PAGE.SETTINGS)">
 <input
     type="button"
     value="⚙ Colors"
-    onclick="showColors()">
+    onclick="showPage(PAGE.COLORS)">
 </div>
 
 <div id="settingsPage"
@@ -204,7 +204,7 @@ demp
 
 <input type="button"
        value="← Back"
-       onclick="showMain()">
+       onclick="showPage(PAGE.MAIN)">
 </div>
 
 <div id="colorsPage"
@@ -516,7 +516,7 @@ demp
 
 <input type="button"
        value="← Back"
-       onclick="showMain()">
+       onclick="showPage(PAGE.MAIN)">
 
 </div>
 
@@ -524,7 +524,7 @@ demp
     <input
         type="button"
         value="← Back"
-        onclick="showMain()">
+        onclick="showPage(PAGE.MAIN)">
     <div id="htmlArea"></div>
 </div>
 <canvas
@@ -2056,48 +2056,31 @@ async function changeSong(){
 // Control Button
 //
 
-function showMain(){
+const PAGE = {
+    MAIN: "main",
+    SETTINGS: "settings",
+    COLORS: "colors",
+    HTML: "html"
+};
 
-    $("mainPage").style.display = "block";
-    $("canvas").style.display = "block";
-	$("settingsPage").style.display = "none";
-    $("colorsPage").style.display = "none";
-    $("htmlPage").style.display = "none";
+function showPage(page){
 
+    $("mainPage").style.display =
+        page === "main" ? "block" : "none";
+
+    $("canvas").style.display =
+        page === "html" ? "none" : "block";
+
+    $("settingsPage").style.display =
+        page === "settings" ? "block" : "none";
+
+    $("colorsPage").style.display =
+        page === "colors" ? "block" : "none";
+
+    $("htmlPage").style.display =
+        page === "html" ? "block" : "none";
 }
 
-
-function showSettings(){
-
-    $("mainPage").style.display = "none";
-	$("canvas").style.display = "block";
-    $("settingsPage").style.display = "block";
-    $("colorsPage").style.display = "none";
-	$("htmlPage").style.display = "none";
-
-}
-
-function showColors(){
-
-    updateColorsUi();
-
-    $("mainPage").style.display = "none";
-    $("canvas").style.display = "block";
-	$("settingsPage").style.display = "none";
-    $("colorsPage").style.display = "block";
-	$("htmlPage").style.display = "none";
-
-}
-
-function showHtmlPage(){
-
-	$("mainPage").style.display = "none";
-	$("canvas").style.display = "none";
-    $("settingsPage").style.display = "none";
-    $("colorsPage").style.display = "none";
-	$("htmlPage").style.display = "block";
-
-}
 
 
 function pauseButton(){
@@ -4216,7 +4199,7 @@ function showPracticeRanking(){
         "htmlArea"
     ).innerHTML = html;
 
-	showHtmlPage();
+	showPage(PAGE.HTML);
 
 }
 
@@ -5237,7 +5220,7 @@ function showLicense(){
 		"<br><br>" +
 		texts.join("<br>");
 
-    showHtmlPage();
+    showPage(PAGE.HTML);
 
 }
 
@@ -5869,7 +5852,7 @@ async function showDownloadPage(){
 
     $("htmlArea").innerHTML = html;
 
-    showHtmlPage();
+    showPage(PAGE.HTML);
 
 }
 
