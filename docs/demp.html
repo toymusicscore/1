@@ -2173,12 +2173,14 @@ async function startRecording(){
     await audioContext.resume();
     await startCountdown();
 
-    initPlayback();   // ← 名前変更推奨
+    initPlayback(); 
+
+    setPlaybackTarget(
+        lineScore,
+        getCurrentScoreData()
+    );
 
     isPlaying = true;
-
-    renderPlayBack = lineScore;
-    noteData = getCurrentScoreData();
 
     loopPlayback();
 }
@@ -2560,10 +2562,12 @@ async function playScore(){
 
     initPlayback();
 
-    isPlaying = true;
+    setPlaybackTarget(
+        lineScore,
+        getCurrentScoreData()
+    );
 
-    renderPlayBack = lineScore;
-    noteData = getCurrentScoreData();
+    isPlaying = true;
 
     loopPlayback();
 }
@@ -2583,10 +2587,12 @@ async function playRecord(){
 
     initPlayback();
 
-    isPlaying = true;
+    setPlaybackTarget(
+        lineRecord,
+        recordData
+    );
 
-    renderPlayBack = lineRecord;
-    noteData = recordData;
+    isPlaying = true;
 
     loopPlayback();
 }
@@ -2617,6 +2623,10 @@ function initPlayback() {
         tickToSec(pauseTick);
 }
 
+function setPlaybackTarget(renderer, data) {
+    renderPlayBack = renderer;
+    noteData = data;
+}
 
 function playNote(midi, durationTick, noteStartTick) {
 
