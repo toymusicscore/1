@@ -2166,11 +2166,6 @@ function initRecording(){
 
 async function startRecording(){
 
-    if (!recordData || recordData.length === 0) {
-    alert("No record data");
-    return;
-    }
-
     initRecording();
 
     showSelectedView();
@@ -4229,6 +4224,11 @@ function showPracticeRanking(){
 //
 
 function saveRecord(){
+
+    if (!recordData || recordData.length === 0) {
+    alert("No record data");
+    return;
+    }
 
     let history =
         JSON.parse(localStorage.getItem(PRACTICE_KEY)) || [];
