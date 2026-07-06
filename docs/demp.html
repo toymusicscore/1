@@ -781,11 +781,8 @@ let measuresPerScreen = practiceSettings.measuresPerScreen;
 
 function syncMeasuresPerScreen() {
 
-    console.log("syncMeasuresPerScreen");
-
     measuresPerScreen = practiceSettings.measuresPerScreen;
 
-    console.log("measuresPerScreen=", measuresPerScreen);
 }
 
 async function onSettingsChange(){
@@ -1525,17 +1522,12 @@ function selectSong(){
     let song =
         val("song1");
 
-    console.log("selectSong", song);
 if(song === "local"){
 
     let obj =
         $("localMidi");
 
     obj.click();
-
-    console.log(
-        "after click"
-    );
 
     return;
     }
@@ -2130,13 +2122,6 @@ function showDownloadPage(){
 
 function pauseButton(){
 	
-	console.log(
-		"pause",
-		"isPlaying=", isPlaying,
-		"isRecording=", isRecording,
-		"recordData.length:",recordData.length
-	);
-
     if(isRecording){
         stopRecording();   // 録音終了
     }
@@ -2144,12 +2129,6 @@ function pauseButton(){
     if(isPlaying){
         pausePlayback();   // 再生停止（位置保持）
     }
-	console.log(
-		"pause",
-		"isPlaying=", isPlaying,
-		"isRecording=", isRecording,
-		"recordData.length:",recordData.length
-	);
 
 }
 
@@ -2361,23 +2340,9 @@ function assignHands(
 
 	if(rightCost <= leftCost){
 
-		console.log(
-			"R",
-			r.midi,
-			rightCost,
-			leftCost
-		);
-
 		right.push(r);
 
 	}else{
-
-		console.log(
-			"L",
-			r.midi,
-			rightCost,
-			leftCost
-		);
 
 		left.push(r);
 	}    }
