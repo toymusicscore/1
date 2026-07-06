@@ -2086,7 +2086,6 @@ function showMain(){
     $("colorsPage").style.display = "none";
     $("htmlPage").style.display = "none";
 
-    showSelectedView();
 }
 
 
@@ -5870,14 +5869,13 @@ async function showDownloadPage(){
     $("htmlArea").innerHTML = html;
 
     showHtmlPage();
-    
+
 }
 
 
 function showSelectedView() {
 
-    $("canvas").style.display = "block";
-	$("license").style.display = "none";
+    showMain();
 
     switch (practiceSettings.viewSelect) {
 
