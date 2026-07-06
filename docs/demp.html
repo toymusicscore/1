@@ -5253,11 +5253,8 @@ function showLicense(){
         );
     }
 
-    const license =
-        $("license");
-
-	$("license").style.display =
-        showLicense ? "block" : "none";
+	$("license").style.display = "block";
+	$("canvas").style.display = "none";
 
 	license.style.height = canvas.height + "px";
 	license.style.overflowY = "auto";
@@ -5904,8 +5901,8 @@ async function downloadTsv(){
 
 function showSelectedView() {
 
-    $("canvas").style.display =
-        showLicense ? "none" : "block";
+    $("canvas").style.display = "block";
+	$("license").style.display = "none";
 
     switch (practiceSettings.viewSelect) {
 
