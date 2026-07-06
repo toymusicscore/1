@@ -520,26 +520,17 @@ demp
 
 </div>
 
-<div id="downloadPage" style="display:none">
-<input
-    type="button"
-    value="← Back"
-    onclick="showMain()">
-<div id="downloadArea"></div>
-</div>
-
-<div id="rankingPage" style="display:none">
+<div id="htmlPage" style="display:none">
     <input
         type="button"
         value="← Back"
         onclick="showMain()">
-    <div id="rankingArea"></div>
+    <div id="htmlArea"></div>
 </div>
 <canvas
     id="canvas"
 >
 </canvas>
-<div id="license"></div>
 <script type="module">
 
 import { parseMidi }
@@ -2071,8 +2062,7 @@ function showSettings(){
 	$("canvas").style.display = "block";
     $("settingsPage").style.display = "block";
     $("colorsPage").style.display = "none";
-	$("downloadPage").style.display = "none";
-	$("rankingPage").style.display = "none";
+	$("htmlPage").style.display = "none";
 
 }
 
@@ -2084,8 +2074,7 @@ function showColors(){
     $("canvas").style.display = "block";
 	$("settingsPage").style.display = "none";
     $("colorsPage").style.display = "block";
-    $("downloadPage").style.display = "none";
-	$("rankingPage").style.display = "none";
+	$("htmlPage").style.display = "none";
 
 }
 
@@ -2095,8 +2084,7 @@ function showMain(){
     $("canvas").style.display = "block";
 	$("settingsPage").style.display = "none";
     $("colorsPage").style.display = "none";
-    $("downloadPage").style.display = "none";
-	$("rankingPage").style.display = "none";
+    $("htmlPage").style.display = "none";
 
     showSelectedView();
 }
@@ -2108,8 +2096,7 @@ function showDownloadPage(){
     $("canvas").style.display = "none";
     $("settingsPage").style.display = "none";
     $("colorsPage").style.display = "none";
-    $("downloadPage").style.display = "block";
-	$("rankingPage").style.display = "none";
+    $("htmlPage").style.display = "block";
 
     downloadTsv();
 }
@@ -4229,21 +4216,20 @@ function showPracticeRanking(){
 		html;
 
     $(
-        "rankingArea"
+        "htmlPage"
     ).innerHTML = html;
 
-	showRankingPage();
+	showHtmlPage();
 
 }
 
-function showRankingPage(){
+function showHtmlPage(){
 
 	$("mainPage").style.display = "none";
 	$("canvas").style.display = "none";
     $("settingsPage").style.display = "none";
     $("colorsPage").style.display = "none";
-    $("downloadPage").style.display = "none";
-	$("rankingPage").style.display = "block";
+	$("htmlPage").style.display = "block";
 
 }
 
@@ -4340,7 +4326,7 @@ function showPracticeHistory(){
 
     $("rankingArea").innerHTML = html;
 	
-	showRankingPage();
+	showHtmlPage();
 
 }
 
@@ -5253,20 +5239,19 @@ function showLicense(){
         );
     }
 
-	$("license").style.display = "block";
-	$("canvas").style.display = "none";
+	$("htmlPage").style.height = canvas.height + "px";
+	$("htmlPage").style.overflowY = "auto";
+	$("htmlPage").style.padding = "20px";
+	$("htmlPage").style.fontFamily = "Arial";
+	$("htmlPage").style.fontSize = "15px";
 
-	license.style.height = canvas.height + "px";
-	license.style.overflowY = "auto";
-	license.style.padding = "20px";
-	license.style.fontFamily = "Arial";
-	license.style.fontSize = "15px";
-
-    license.innerHTML =
+    $("htmlPage").innerHTML =
 		logo +
 		"<br><br>" +
 		texts.join("<br>");
-	
+
+    showHtmlPage();
+
 }
 
 function trackChannelInfo(){
@@ -5895,7 +5880,7 @@ async function downloadTsv(){
 
     html += "</table>";
 
-    $("downloadArea").innerHTML = html;
+    $("htmlArea").innerHTML = html;
 }
 
 
