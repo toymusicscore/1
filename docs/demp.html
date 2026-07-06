@@ -660,7 +660,7 @@ function onColorsChange(){
 
     readColorsUi();
     saveColors();
-    selview1();
+    showSelectedView();
 
 }
 
@@ -700,7 +700,7 @@ function resetColors(){
 
     updateColorsUi();
 
-    selview1();
+    showSelectedView();
 }
 
 //========================================
@@ -796,7 +796,7 @@ async function onSettingsChange(){
 
     changeTrackChannel();
 
-    selview1();
+    showSelectedView();
 }
 
 function updateSettingsUi(){
@@ -856,7 +856,7 @@ async function resetSettings(){
 
     await changeSong();
 
-    selview1();
+    showSelectedView();
 }
 
 function onResetSettings(){
@@ -864,7 +864,7 @@ function onResetSettings(){
     resetSettings();
 
     updateSettingsUi();
-    selview1();
+    showSelectedView();
 }
 
 //
@@ -1340,7 +1340,7 @@ async function main(){
 
     loadMidi(data1);
     setTsv(data2);
-    selview1();
+    showSelectedView();
 }
 
 function initializeAudio() {
@@ -1490,7 +1490,7 @@ async function loadLocalFiles(files){
 	loadMidi(data1);
 	setTsv(data2);
 
-	selview1();
+	showSelectedView();
 
 }
 
@@ -1744,7 +1744,7 @@ function changeTrackChannel(){
 
     initializeScoreSystem();
 
-    selview1();
+    showSelectedView();
 }
 // score data
 
@@ -2095,7 +2095,7 @@ function showMain(){
     $("downloadPage").style.display = "none";
 	$("rankingPage").style.display = "none";
 
-    selview1();
+    showSelectedView();
 }
 
 function showCanvas(){
@@ -2179,7 +2179,7 @@ function clearRecord(){
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
-	selview1();
+	showSelectedView();
 }
 
 
@@ -2203,7 +2203,7 @@ async function startRecording(){
 
     initRecording();
 
-    selview1();
+    showSelectedView();
 
     await audioContext.resume();
     await startCountdown();
@@ -3001,7 +3001,7 @@ function toggleRecordView(){
 
     btn.value = showRecord ? "Hide Record" : "Show Record";
 	
-	selview1();
+	showSelectedView();
 
 }	
 
@@ -4884,7 +4884,7 @@ function updateMeasurePosition(){
 		(targetMeasure - 1)
 		* ticksPerMeasure;
 
-	selview1();
+	showSelectedView();
 }
 
 function goToFirstMeasure(){
@@ -4893,13 +4893,13 @@ function goToFirstMeasure(){
 	canvas.height = window.innerHeight;
     pauseTick = 0;
 	setVal("x_targetMeasure", 1);
-    selview1();
+    showSelectedView();
 }
 
 function goToLastMeasure(){
     pauseTick=Math.floor(songLengthTicks/ticksPerMeasure-1)*ticksPerMeasure;
 	setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
-    selview1();
+    showSelectedView();
 }
 
 function goBackOneMeasure(){
@@ -4912,7 +4912,7 @@ function goBackOneMeasure(){
     }else{
         goToFirstMeasure();	
     }
-    selview1();
+    showSelectedView();
 }
 
 function goBackOnePage(){
@@ -4925,7 +4925,7 @@ function goBackOnePage(){
     }else{
         goToFirstMeasure();	
     }
-    selview1();
+    showSelectedView();
 }
 
 function goForwardOneMeasure(){
@@ -4936,7 +4936,7 @@ function goForwardOneMeasure(){
 		prevTick = pauseTick;
 		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
      }
-    selview1();
+    showSelectedView();
 }
 
 
@@ -4950,7 +4950,7 @@ function goForwardOnePage(){
     }else{
         goToLastMeasure();	
     }
-    selview1();
+    showSelectedView();
 }
 
 //
@@ -5906,7 +5906,7 @@ async function downloadTsv(){
 }
 
 
-function selview1(){
+function showSelectedView(){
 
 	if(practiceSettings.viewSelect === 0){
 		licenseInfo();
