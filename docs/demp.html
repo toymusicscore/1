@@ -2262,6 +2262,11 @@ function stopRecord(){
 
 }
 
+function stopPlayback() {
+
+    isPlaying = false;
+    enablePlaybackSound = false;
+}
 
 function assignHands(
     recordData,
@@ -2598,6 +2603,17 @@ async function playRecord(){
 function loopPlayback(){
 
     if (!isPlaying) return;
+
+    if (tick >= songLengthTicks) {
+
+        if (isRecording) {
+            stopRecording();
+        } else {
+            stopPlayback();
+        }
+
+        return;
+    }
 
     const tick = getCurrentTick();
 
