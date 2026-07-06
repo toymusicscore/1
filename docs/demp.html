@@ -2565,8 +2565,6 @@ async function playScore(){
         getCurrentScoreData()
     );
 
-    prevTick = pauseTick;
-    nextIndex = -1;
     
     isPlaying = true;
     enablePlaybackSound = true;
@@ -2590,9 +2588,6 @@ async function playRecord(){
         lineRecord,
         recordData
     );
-
-    prevTick = pauseTick;
-    nextIndex = -1;
 
     isPlaying = true;
     enablePlaybackSound = true;
@@ -2624,6 +2619,10 @@ function initPlayback() {
     playbackOffsetTime =
         ctx.currentTime -
         tickToSec(pauseTick);
+
+    prevTick = pauseTick;
+    nextIndex = -1;
+
 }
 
 function setPlaybackTarget(renderer, data) {
