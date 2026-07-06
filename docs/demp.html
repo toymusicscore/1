@@ -2604,6 +2604,8 @@ function loopPlayback(){
 
     if (!isPlaying) return;
 
+    const tick = getCurrentTick();
+
     if (tick >= songLengthTicks) {
 
         if (isRecording) {
@@ -2614,8 +2616,6 @@ function loopPlayback(){
 
         return;
     }
-
-    const tick = getCurrentTick();
 
     setVal("x_targetMeasure", Math.floor(tick / ticksPerMeasure) + 1);
 
