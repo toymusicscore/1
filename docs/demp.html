@@ -2166,6 +2166,11 @@ function initRecording(){
 
 async function startRecording(){
 
+    if (!recordData || recordData.length === 0) {
+    alert("No record data");
+    return;
+    }
+
     initRecording();
 
     showSelectedView();
