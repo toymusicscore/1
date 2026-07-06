@@ -39,7 +39,7 @@ demp
 	value="Show History" 
 	onClick="showPracticeHistory()">
 <input 
-	id="recordBtn" 
+	id="btnToggleRecordView" 
 	type="button" 
 	value="Hide Record" 
 	onclick="toggleRecordView()">
@@ -2154,7 +2154,7 @@ function stopRecording(){
 }
 
 function updateRecordButton(){
-    const btn = $("recordBtn");
+    const btn = $("btnToggleRecordView");
     if(btn){
         btn.value = showRecord ? "Hide Record " : "Show Record";
     }
@@ -2996,7 +2996,7 @@ function lineScore(tick){
 function toggleRecordView(){
     showRecord = !showRecord;
 
-    const btn = $("recordBtn");
+    const btn = $("btnToggleRecordView");
     if(!btn) return;
 
     btn.value = showRecord ? "Hide Record" : "Show Record";
