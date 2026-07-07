@@ -195,6 +195,11 @@ demp
 	value="License Page" 
 	onClick="showLicensePage()">
 
+<input 
+	type="button" 
+	value="Privacy Policy, Terms And Conditions" 
+	onClick="showPrivacyPolicyTermsAndConditions()">
+
 <input type="button"
        value="Clear History"
        onclick="clearHistory()">
@@ -5270,6 +5275,59 @@ function showLicensePage(){
         );
     }
 
+	$("htmlArea").style.height = canvas.height + "px";
+	$("htmlArea").style.overflowY = "auto";
+	$("htmlArea").style.padding = "20px";
+	$("htmlArea").style.fontFamily = "Arial";
+	$("htmlArea").style.fontSize = "15px";
+
+    $("htmlArea").innerHTML =
+		logo +
+		"<br><br>" +
+		texts.join("<br>");
+
+    showPage(PAGE.HTML);
+
+}
+
+
+function showPrivacyPolicyTermsAndConditions(){
+
+	const logo =
+	'<span style="font-family:Arial;font-size:32px;font-weight:bold;">' +
+	'<span style="color:#ff0000;">T</span>' +
+	'<span style="color:#ff7f00;">o</span>' +
+	'<span style="color:#ffff00;">y</span>' +
+	'<span style="color:#00ff00;">S</span>' +
+	'<span style="color:#00ffff;">c</span>' +
+	'<span style="color:#0000ff;">o</span>' +
+	'<span style="color:#ff00ff;">r</span>' +
+	'<span style="color:#ff007f;">e</span>' +
+	'</span>' 
+
+	const texts = [
+        "Privacy Policy",
+        "Last updated: July 7, 2026",
+        "",
+        "ToyScore does not collect or transmit personal information.",
+        "All data is processed locally on your device.",
+        "Contact: toyscore2023@gmail.com",
+        "",
+        "Terms and Conditions",
+        "",
+        "ToyScore may be used for personal, educational, and non-commercial purposes.",
+        "",
+        "Teachers and educational institutions may use ToyScore for teaching and learning activities.",
+        "",
+        "ToyScore is provided 'as is' without warranty of any kind.",
+        "",
+        "The author shall not be responsible for any damages arising from the use of this software.",
+        "",
+        "Unauthorized redistribution, resale, or use for commercial purposes without permission is prohibited.",
+        "",
+		"",
+	]
+    
 	$("htmlArea").style.height = canvas.height + "px";
 	$("htmlArea").style.overflowY = "auto";
 	$("htmlArea").style.padding = "20px";
