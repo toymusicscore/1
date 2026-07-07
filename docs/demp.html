@@ -73,6 +73,10 @@ demp
     type="button"
     value="⚙ Colors"
     onclick="showPage(PAGE.COLORS)">
+<input
+    type="button"
+    value="⚙ Fingers"
+    onclick="showPage(PAGE.FINGERS)">
 </div>
 
 <div id="settingsPage"
@@ -2234,7 +2238,8 @@ const PAGE = {
     MAIN: "main",
     SETTINGS: "settings",
     COLORS: "colors",
-    HTML: "html"
+    HTML: "html",
+    FINGERS: "fingers"
 };
 
 function showPage(page){
@@ -2253,7 +2258,11 @@ function showPage(page){
 
     $("htmlPage").style.display =
         page === "html" ? "block" : "none";
-}
+
+    $("fingerPage").style.display =
+        page === "finger" ? "block" : "none";
+
+    }
 
 
 
