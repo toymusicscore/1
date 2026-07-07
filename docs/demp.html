@@ -581,6 +581,45 @@ demp
     value=""
     onclick="setFingersPosition()">
 <br>
+<label style="font-size:70%">Minimum 2-3</label>
+<input
+    type="text"
+    id="x_Min_2_3"
+    value=""
+    onclick="setFingersPosition()">
+<label style="font-size:70%">Minimum 2-4</label>
+<input
+    type="text"
+    id="x_Min_2_4"
+    value=""
+    onclick="setFingersPosition()">
+<label style="font-size:70%">Minimum 2-5</label>
+<input
+    type="text"
+    id="x_Min_2_5"
+    value=""
+    onclick="setFingersPosition()">
+<br>
+<label style="font-size:70%">Minimum 3-4</label>
+<input
+    type="text"
+    id="x_Min_3_4"
+    value=""
+    onclick="setFingersPosition()">
+<label style="font-size:70%">Minimum 3-5</label>
+<input
+    type="text"
+    id="x_Min_3_5"
+    value=""
+    onclick="setFingersPosition()">
+<br>
+<label style="font-size:70%">Minimum 4-5</label>
+<input
+    type="text"
+    id="x_Min_4_5"
+    value=""
+    onclick="setFingersPosition()">
+<br>
 <label style="font-size:70%">Maximum 1-2</label>
 <input
     type="text"
@@ -606,25 +645,6 @@ demp
     value=""
     onclick="setFingersPosition()">
 <br>
-<label style="font-size:70%">Minimum 2-3</label>
-<input
-    type="text"
-    id="x_Min_2_3"
-    value=""
-    onclick="setFingersPosition()">
-<label style="font-size:70%">Minimum 2-4</label>
-<input
-    type="text"
-    id="x_Min_2_4"
-    value=""
-    onclick="setFingersPosition()">
-<label style="font-size:70%">Minimum 2-5</label>
-<input
-    type="text"
-    id="x_Min_2_5"
-    value=""
-    onclick="setFingersPosition()">
-<br>
 <label style="font-size:70%">Maximum 2-3</label>
 <input
     type="text"
@@ -644,19 +664,6 @@ demp
     value=""
     onclick="setFingersPosition()">
 <br>
-<label style="font-size:70%">Minimum 3-4</label>
-<input
-    type="text"
-    id="x_Min_3_4"
-    value=""
-    onclick="setFingersPosition()">
-<label style="font-size:70%">Minimum 3-5</label>
-<input
-    type="text"
-    id="x_Min_3_5"
-    value=""
-    onclick="setFingersPosition()">
-<br>
 <label style="font-size:70%">Maximum 3-4</label>
 <input
     type="text"
@@ -670,12 +677,6 @@ demp
     value=""
     onclick="setFingersPosition()">
 <br>
-<label style="font-size:70%">Minimum 4-5</label>
-<input
-    type="text"
-    id="x_Min_4_5"
-    value=""
-    onclick="setFingersPosition()">
 <label style="font-size:70%">Maximum 4-5</label>
 <input
     type="text"
@@ -863,6 +864,23 @@ function resetColors(){
     updateColorsUi();
 
     showSelectedView();
+}
+
+
+//========================================
+// Fingers Settings
+//========================================
+
+const defaultFingers = {
+    natural: ["2","2","1","2"],
+    minimum1: ["-3","-2","-1","0"],
+    minimum2: ["0","1","2"],
+    minimum3: ["0","1"],
+    minimum4: ["0"],
+    maximum1: ["9","10","11","12"],
+    maximum2: ["4","5","6"],
+    maximum3: ["3","4"],
+    maximum4: ["2"],
 }
 
 //========================================
