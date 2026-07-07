@@ -884,6 +884,76 @@ const defaultFingers = {
     maximum4: ["2"],
 }
 
+
+let workingFingers = structuredClone(defaultFingers);
+
+
+function readFingersUi(){
+
+	readUi(workingFingers.natural, "x_nat_1_");
+	readUi(workingFingers.minimum1, "x_min_1_");
+	readUi(workingFingers.minimum2, "x_min_2_");
+	readUi(workingFingers.minimum3, "x_min_3_");
+	readUi(workingFingers.minimum4, "x_min_4_");
+	readUi(workingFingers.maximum1, "x_max_1_");
+	readUi(workingFingers.maximum2, "x_max_2_");
+	readUi(workingFingers.maximum3, "x_max_3_");
+	readUi(workingFingers.maximum4, "x_max_4_");
+
+}
+
+function onFingersChange(){
+
+    readFingersUi();
+    saveFingers();
+    showSelectedView();
+
+}
+
+function updateFingersUi(){
+
+    writeUi(workingFingers.natural,  "x_nat_1_");
+    writeUi(workingFingers.minimum1, "x_min_1_");
+    writeUi(workingFingers.minimum2, "x_min_2_");
+	writeUi(workingFingers.minimum3, "x_min_3_");
+    writeUi(workingFingers.minimum4, "x_min_4_");
+    writeUi(workingFingers.maximum1, "x_max_1_");
+    writeUi(workingFingers.maximum2, "x_max_2_");
+	writeUi(workingFingers.maximum3, "x_max_3_");
+    writeUi(workingFingers.maximum4, "x_max_4_");
+
+}
+
+function saveFingers() {
+    localStorage.setItem(
+        "workingFingers",
+        JSON.stringify(workingFingers)
+    );
+}
+
+function loadSavedFingers(){
+
+    const tmp = localStorage.getItem("workingFingers");
+
+    if(tmp){
+        workingFingers = JSON.parse(tmp);
+    }else{
+        workingFingers = structuredClone(defaultFingers);
+    }
+}
+
+function resetFingers(){
+
+    workingFingers = structuredClone(defaultFingers);
+
+    localStorage.removeItem("workingFingers");
+
+    updateFingersUi();
+
+    showSelectedView();
+}
+
+
 //========================================
 // Practice Settings
 //========================================
