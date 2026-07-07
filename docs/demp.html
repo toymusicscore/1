@@ -582,30 +582,30 @@ Upper Limit: Largest allowable distance between the two fingers.
 
 <tr>
     <td>Lower limit</td>
-    <td><input id="x_Min_1_2"></td>
-    <td><input id="x_Min_1_3"></td>
-    <td><input id="x_Min_1_4"></td>
-    <td><input id="x_Min_1_5"></td>
-    <td><input id="x_Min_2_3"></td>
-    <td><input id="x_Min_2_4"></td>
-    <td><input id="x_Min_2_5"></td>
-    <td><input id="x_Min_3_4"></td>
-    <td><input id="x_Min_3_5"></td>
-    <td><input id="x_Min_4_5"></td>
+    <td><input id="x_lowerLimit_1_2"></td>
+    <td><input id="x_lowerLimit_1_3"></td>
+    <td><input id="x_lowerLimit_1_4"></td>
+    <td><input id="x_lowerLimit_1_5"></td>
+    <td><input id="x_lowerLimit_2_3"></td>
+    <td><input id="x_lowerLimit_2_4"></td>
+    <td><input id="x_lowerLimit_2_5"></td>
+    <td><input id="x_lowerLimit_3_4"></td>
+    <td><input id="x_lowerLimit_3_5"></td>
+    <td><input id="x_lowerLimit_4_5"></td>
 </tr>
 
 <tr>
     <td>Upper limit</td>
-    <td><input id="x_Max_1_2"></td>
-    <td><input id="x_Max_1_3"></td>
-    <td><input id="x_Max_1_4"></td>
-    <td><input id="x_Max_1_5"></td>
-    <td><input id="x_Max_2_3"></td>
-    <td><input id="x_Max_2_4"></td>
-    <td><input id="x_Max_2_5"></td>
-    <td><input id="x_Max_3_4"></td>
-    <td><input id="x_Max_3_5"></td>
-    <td><input id="x_Max_4_5"></td>
+    <td><input id="x_upperLimit_1_2"></td>
+    <td><input id="x_upperLimit_1_3"></td>
+    <td><input id="x_upperLimit_1_4"></td>
+    <td><input id="x_upperLimit_1_5"></td>
+    <td><input id="x_upperLimit_2_3"></td>
+    <td><input id="x_upperLimit_2_4"></td>
+    <td><input id="x_upperLimit_2_5"></td>
+    <td><input id="x_upperLimit_3_4"></td>
+    <td><input id="x_upperLimit_3_5"></td>
+    <td><input id="x_upperLimit_4_5"></td>
 </tr>
 </table>
 <input type="button"
@@ -837,21 +837,7 @@ const defaultFingerDistances = {
     }
 };
 
-const defaultFingers = {
-    default: ["2","2","1","1"],
-    minimum1: ["-3","-2","-1","0"],
-    minimum2: ["0","1","2"],
-    minimum3: ["0","1"],
-    minimum4: ["0"],
-    maximum1: ["9","10","11","12"],
-    maximum2: ["4","5","6"],
-    maximum3: ["3","4"],
-    maximum4: ["2"],
-}
-
-
 let workingFingers = structuredClone(defaultFingers);
-
 
 function readFingersUi(){
 
