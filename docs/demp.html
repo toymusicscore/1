@@ -553,16 +553,16 @@ demp
 
 <tr>
     <td>Default</td>
-    <td><input id="x_Nat_1_2"></td>
-    <td><input id="x_Nat_1_3"></td>
-    <td><input id="x_Nat_1_4"></td>
-    <td><input id="x_Nat_1_5"></td>
-    <td><input id="x_Nat_2_3"></td>
-    <td><input id="x_Nat_2_4"></td>
-    <td><input id="x_Nat_2_5"></td>
-    <td><input id="x_Nat_3_4"></td>
-    <td><input id="x_Nat_3_5"></td>
-    <td><input id="x_Nat_4_5"></td>
+    <td><input id="x_default_1_2"></td>
+    <td><input id="x_default_1_3"></td>
+    <td><input id="x_default_1_4"></td>
+    <td><input id="x_default_1_5"></td>
+    <td><input id="x_default_2_3"></td>
+    <td><input id="x_default_2_4"></td>
+    <td><input id="x_default_2_5"></td>
+    <td><input id="x_default_3_4"></td>
+    <td><input id="x_default_3_5"></td>
+    <td><input id="x_default_4_5"></td>
 </tr>
 
 <tr>
@@ -789,8 +789,41 @@ function resetColors(){
 // Fingers Settings
 //========================================
 
+const defaultFingerDistances = {
+    default: {
+        "1_2": 2,
+        "1_3": 4,
+        "1_4": 5,
+        "1_5": 6,
+    },
+    lowerLimit: {
+        "1_2": -3,
+        "1_3": -2,
+        "1_4": -1,
+        "1_5": 0,
+        "2_3": 0,
+        "2_4": 0,
+        "2_5": 0,
+        "3_4": 0,
+        "3_5": 0,
+        "4_5": 0,
+    },
+    upperLimit: {
+        "1_2": 9,
+        "1_3": 10,
+        "1_4": 11,
+        "1_5": 12,
+        "2_3": 5,
+        "2_4": 7,
+        "2_5": 9,
+        "3_4": 4,
+        "3_5": 7,
+        "4_5": 4,
+    }
+};
+
 const defaultFingers = {
-    natural: ["2","2","1","1"],
+    default: ["2","2","1","1"],
     minimum1: ["-3","-2","-1","0"],
     minimum2: ["0","1","2"],
     minimum3: ["0","1"],
@@ -807,7 +840,7 @@ let workingFingers = structuredClone(defaultFingers);
 
 function readFingersUi(){
 
-	readUi(workingFingers.natural, "x_nat_1_");
+	readUi(workingFingers.default, "x_default_1_");
 	readUi(workingFingers.minimum1, "x_min_1_");
 	readUi(workingFingers.minimum2, "x_min_2_");
 	readUi(workingFingers.minimum3, "x_min_3_");
@@ -829,7 +862,7 @@ function onFingersChange(){
 
 function updateFingersUi(){
 
-    writeUi(workingFingers.natural,  "x_nat_1_");
+    writeUi(workingFingers.default,  "x_default_1_");
     writeUi(workingFingers.minimum1, "x_min_1_");
     writeUi(workingFingers.minimum2, "x_min_2_");
 	writeUi(workingFingers.minimum3, "x_min_3_");
