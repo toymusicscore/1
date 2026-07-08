@@ -723,18 +723,35 @@ function setVal(id, value) {
 //========================================
 
 
-function readUi(array, prefix) {
+function readArrayUi(array, prefix) {
 
     for (let i = 0; i < array.length; i++) {
         array[i] = val(prefix + i);
     }
 }
 
-function writeUi(array, prefix) {
+function writeArrayUi(array, prefix) {
 
     for (let i = 0; i < array.length; i++) {
         setVal(prefix + i, array[i]);
     }
+}
+
+
+function readObjUi(obj, prefix) {
+
+    for (const key in obj) {
+        obj[key] = val(prefix + key);
+    }
+
+}
+
+function writeObjUi(obj, prefix) {
+
+    for (const key in obj) {
+        setVal(prefix + key, obj[key]);
+    }
+
 }
 
 //========================================
@@ -761,11 +778,11 @@ const HAND_COLOR = {
 
 function readColorUi(){
 
-	readUi(workingColor.oct, "x_oct_");
-	readUi(workingColor.pc, "x_pc_");
-	readUi(workingColor.hand, "x_hand_");
-	readUi(workingColor.line, "x_line_");
-	readUi(workingColor.text, "x_text_");	
+	readArrayUi(workingColor.oct, "x_oct_");
+	readArrayUi(workingColor.pc, "x_pc_");
+	readArrayUi(workingColor.hand, "x_hand_");
+	readArrayUi(workingColor.line, "x_line_");
+	readArrayUi(workingColor.text, "x_text_");	
 
 }
 
@@ -779,11 +796,11 @@ function onColorChange(){
 
 function updateColorUi(){
 
-    writeUi(workingColor.oct,  "x_oct_");
-    writeUi(workingColor.pc,   "x_pc_");
-    writeUi(workingColor.hand, "x_hand_");
-	writeUi(workingColor.line, "x_line_");
-    writeUi(workingColor.text, "x_text_");
+    writeArrayUi(workingColor.oct,  "x_oct_");
+    writeArrayUi(workingColor.pc,   "x_pc_");
+    writeArrayUi(workingColor.hand, "x_hand_");
+	writeArrayUi(workingColor.line, "x_line_");
+    writeArrayUi(workingColor.text, "x_text_");
 
 }
 
@@ -858,9 +875,9 @@ let workingFinger = structuredClone(defaultFinger);
 
 function readFingerUi(){
 
-	readUi(workingFinger.defaultDistance, "x_defaultDistance_");
-	readUi(workingFinger.lowerLimit, "x_lowerLimit_");
-	readUi(workingFinger.upperLimit, "x_upperLimit_");
+	readObjUi(workingFinger.defaultDistance, "x_defaultDistance_");
+	readObjUi(workingFinger.lowerLimit, "x_lowerLimit_");
+	readObjUi(workingFinger.upperLimit, "x_upperLimit_");
 
 }
 
@@ -874,9 +891,9 @@ function onFingerChange(){
 
 function updateFingerUi(){
 
-    writeUi(workingFinger.defaultDistance,  "x_defaultDistance_");
-    writeUi(workingFinger.lowerLimit, "x_lowerLimit_");
-    writeUi(workingFinger.upperLimit, "x_upperLimit_");
+    writeObjUi(workingFinger.defaultDistance,  "x_defaultDistance_");
+    writeObjUi(workingFinger.lowerLimit, "x_lowerLimit_");
+    writeObjUi(workingFinger.upperLimit, "x_upperLimit_");
 
 }
 function onSaveFinger(){
