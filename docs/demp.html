@@ -627,11 +627,11 @@ Upper Limit: Largest allowable distance between the two fingers.
 </table>
 <input type="button"
        value="Save Finger Settings"
-       onclick="onSaveFingerSettings()">
+       onclick="onSaveFinger()">
 
 <input type="button"
        value="Reset Finger Settings"
-       onclick="onResetFingerSettings()">
+       onclick="onResetFinger()">
 
 <input
     type="button"
@@ -821,7 +821,7 @@ function resetColor(){
 // Fingering Settings
 //========================================
 
-const defaultFingerDistances = {
+const defaultFinger = {
     default: {
         "1_2": 2,
         "1_3": 4,
@@ -854,9 +854,9 @@ const defaultFingerDistances = {
     }
 };
 
-let workingFingerDistances = structuredClone(defaultFingerDistances);
+let workingFinger = structuredClone(defaultFinger);
 
-function readFingeringUi(){
+function readFingerUi(){
 
 	readUi(workingFinger.default, "x_default_1_");
 	readUi(workingFinger.minimum1, "x_min_1_");
@@ -873,7 +873,7 @@ function readFingeringUi(){
 function onFingerChange(){
 
     readFingerUi();
-    saveFinger();
+    saveFingers();
     showSelectedView();
 
 }
@@ -910,7 +910,7 @@ function loadSavedFinger(){
     }
 }
 
-function resetFinger(){
+function onResetFinger(){
 
     workingFinger = structuredClone(defaultFinger);
 
@@ -1617,7 +1617,7 @@ async function initialize(){
 
     loadSavedFinger();
     updateFingerUi();
-    
+
 }
 
 function initializePage() {
