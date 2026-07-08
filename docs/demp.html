@@ -822,7 +822,7 @@ function resetColor(){
 //========================================
 
 const defaultFinger = {
-    default: {
+    defaultDistance: {
         "1_2": 2,
         "1_3": 4,
         "1_4": 5,
@@ -858,7 +858,7 @@ let workingFinger = structuredClone(defaultFinger);
 
 function readFingerUi(){
 
-	readUi(workingFinger.default, "x_default_");
+	readUi(workingFinger.defaultDistance, "x_default_");
 	readUi(workingFinger.lowerLimit, "x_lowerLimit_");
 	readUi(workingFinger.upperLimit, "x_upperLimit_");
 
@@ -874,7 +874,7 @@ function onFingerChange(){
 
 function updateFingerUi(){
 
-    writeUi(workingFinger.default,  "x_default_");
+    writeUi(workingFinger.defaultDistance,  "x_default_");
     writeUi(workingFinger.lowerLimit, "x_lowerLimit_");
     writeUi(workingFinger.upperLimit, "x_upperLimit_");
 
