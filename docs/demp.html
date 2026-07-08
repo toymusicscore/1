@@ -904,19 +904,19 @@ function loadSavedFinger(){
     const tmp = localStorage.getItem("workingFinger");
 
     if(tmp){
-        workingFingers = JSON.parse(tmp);
+        workingFinger = JSON.parse(tmp);
     }else{
-        workingFingers = structuredClone(defaultFinger);
+        workingFinger = structuredClone(defaultFinger);
     }
 }
 
 function resetFinger(){
 
-    workingFingers = structuredClone(defaultFinger);
+    workingFinger = structuredClone(defaultFinger);
 
     localStorage.removeItem("workingFinger");
 
-    updateFingersUi();
+    updateFingerUi();
 
     showSelectedView();
 }
