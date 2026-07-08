@@ -858,37 +858,25 @@ let workingFinger = structuredClone(defaultFinger);
 
 function readFingerUi(){
 
-	readUi(workingFinger.default, "x_default_1_");
-	readUi(workingFinger.minimum1, "x_min_1_");
-	readUi(workingFinger.minimum2, "x_min_2_");
-	readUi(workingFinger.minimum3, "x_min_3_");
-	readUi(workingFinger.minimum4, "x_min_4_");
-	readUi(workingFinger.maximum1, "x_max_1_");
-	readUi(workingFinger.maximum2, "x_max_2_");
-	readUi(workingFinger.maximum3, "x_max_3_");
-	readUi(workingFinger.maximum4, "x_max_4_");
+	readUi(workingFinger.default, "x_default_");
+	readUi(workingFinger.lowerLimit, "x_lowerLimit_");
+	readUi(workingFinger.upperLimit, "x_upperLimit_");
 
 }
 
 function onFingerChange(){
 
     readFingerUi();
-    saveFingers();
+    onSaveFingers();
     showSelectedView();
 
 }
 
 function updateFingerUi(){
 
-    writeUi(workingFinger.default,  "x_default_1_");
-    writeUi(workingFinger.minimum1, "x_min_1_");
-    writeUi(workingFinger.minimum2, "x_min_2_");
-	writeUi(workingFinger.minimum3, "x_min_3_");
-    writeUi(workingFinger.minimum4, "x_min_4_");
-    writeUi(workingFinger.maximum1, "x_max_1_");
-    writeUi(workingFinger.maximum2, "x_max_2_");
-	writeUi(workingFinger.maximum3, "x_max_3_");
-    writeUi(workingFinger.maximum4, "x_max_4_");
+    writeUi(workingFinger.default,  "x_default_");
+    writeUi(workingFinger.lowerLimit, "x_lowerlimit_");
+    writeUi(workingFinger.upperLimit, "x_upperLimit_");
 
 }
 
