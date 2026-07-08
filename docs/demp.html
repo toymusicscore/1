@@ -7,6 +7,27 @@
 <title>
 demp
 </title>
+<style>
+
+.fingerInput{
+    width:40px;
+    text-align:center;
+}
+
+.fingerLabel{
+    font-size:90%;
+}
+
+.fingerTable{
+    border-collapse:collapse;
+}
+
+.fingerTable td,
+.fingerTable th{
+    padding:2px 4px;
+}
+
+</style>
 </head>
 <body style="font-family:Arial;font-size:100%">
 <div id="mainPage">
@@ -531,27 +552,20 @@ demp
 </div>
 
 <div id="fingersPage">
-<label style="font-size:100%">
+
+<label class="fingerLabel">
 Two-finger distances (semitones)
-</label>
 <br>
-<label style="font-size:90%">
 Values are specified for the right hand only. Left-hand values are generated automatically.
-</label>
 <br>
-<label style="font-size:90%">
 Default: Default distance between the two fingers in a relaxed hand position. Used to estimate the thumb position.
-</label>
 <br>
-<label style="font-size:90%">
 Lower Limit: Smallest allowable distance between the two fingers.
-</label>
 <br>
-<label style="font-size:90%">
 Upper Limit: Largest allowable distance between the two fingers.
 </label>
 
-<table>
+<table class="fingerTable">
 <tr>
     <th></th>
     <th>1-2</th>
@@ -801,7 +815,7 @@ function resetColors(){
 
 
 //========================================
-// Fingers Settings
+// Fingering Settings
 //========================================
 
 const defaultFingerDistances = {
@@ -837,9 +851,9 @@ const defaultFingerDistances = {
     }
 };
 
-let workingFingers = structuredClone(defaultFingers);
+let workingFingerDistances = structuredClone(defaultFingerDistances);
 
-function readFingersUi(){
+function readFingeringUi(){
 
 	readUi(workingFingers.default, "x_default_1_");
 	readUi(workingFingers.minimum1, "x_min_1_");
