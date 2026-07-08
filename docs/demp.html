@@ -96,8 +96,8 @@ demp
     onclick="showPage(PAGE.COLORS)">
 <input
     type="button"
-    value="⚙ Fingers"
-    onclick="showPage(PAGE.FINGERS)">
+    value="⚙ Finger"
+    onclick="showPage(PAGE.FINGER)">
 </div>
 
 <div id="settingsPage"
@@ -858,63 +858,63 @@ let workingFingerDistances = structuredClone(defaultFingerDistances);
 
 function readFingeringUi(){
 
-	readUi(workingFingers.default, "x_default_1_");
-	readUi(workingFingers.minimum1, "x_min_1_");
-	readUi(workingFingers.minimum2, "x_min_2_");
-	readUi(workingFingers.minimum3, "x_min_3_");
-	readUi(workingFingers.minimum4, "x_min_4_");
-	readUi(workingFingers.maximum1, "x_max_1_");
-	readUi(workingFingers.maximum2, "x_max_2_");
-	readUi(workingFingers.maximum3, "x_max_3_");
-	readUi(workingFingers.maximum4, "x_max_4_");
+	readUi(workingFinger.default, "x_default_1_");
+	readUi(workingFinger.minimum1, "x_min_1_");
+	readUi(workingFinger.minimum2, "x_min_2_");
+	readUi(workingFinger.minimum3, "x_min_3_");
+	readUi(workingFinger.minimum4, "x_min_4_");
+	readUi(workingFinger.maximum1, "x_max_1_");
+	readUi(workingFinger.maximum2, "x_max_2_");
+	readUi(workingFinger.maximum3, "x_max_3_");
+	readUi(workingFinger.maximum4, "x_max_4_");
 
 }
 
-function onFingersChange(){
+function onFingerChange(){
 
-    readFingersUi();
-    saveFingers();
+    readFingerUi();
+    saveFinger();
     showSelectedView();
 
 }
 
-function updateFingersUi(){
+function updateFingerUi(){
 
-    writeUi(workingFingers.default,  "x_default_1_");
-    writeUi(workingFingers.minimum1, "x_min_1_");
-    writeUi(workingFingers.minimum2, "x_min_2_");
-	writeUi(workingFingers.minimum3, "x_min_3_");
-    writeUi(workingFingers.minimum4, "x_min_4_");
-    writeUi(workingFingers.maximum1, "x_max_1_");
-    writeUi(workingFingers.maximum2, "x_max_2_");
-	writeUi(workingFingers.maximum3, "x_max_3_");
-    writeUi(workingFingers.maximum4, "x_max_4_");
+    writeUi(workingFinger.default,  "x_default_1_");
+    writeUi(workingFinger.minimum1, "x_min_1_");
+    writeUi(workingFinger.minimum2, "x_min_2_");
+	writeUi(workingFinger.minimum3, "x_min_3_");
+    writeUi(workingFinger.minimum4, "x_min_4_");
+    writeUi(workingFinger.maximum1, "x_max_1_");
+    writeUi(workingFinger.maximum2, "x_max_2_");
+	writeUi(workingFinger.maximum3, "x_max_3_");
+    writeUi(workingFinger.maximum4, "x_max_4_");
 
 }
 
-function saveFingers() {
+function saveFinger() {
     localStorage.setItem(
-        "workingFingers",
-        JSON.stringify(workingFingers)
+        "workingFinger",
+        JSON.stringify(workingFinger)
     );
 }
 
-function loadSavedFingers(){
+function loadSavedFinger(){
 
-    const tmp = localStorage.getItem("workingFingers");
+    const tmp = localStorage.getItem("workingFinger");
 
     if(tmp){
         workingFingers = JSON.parse(tmp);
     }else{
-        workingFingers = structuredClone(defaultFingers);
+        workingFingers = structuredClone(defaultFinger);
     }
 }
 
-function resetFingers(){
+function resetFinger(){
 
-    workingFingers = structuredClone(defaultFingers);
+    workingFingers = structuredClone(defaultFinger);
 
-    localStorage.removeItem("workingFingers");
+    localStorage.removeItem("workingFinger");
 
     updateFingersUi();
 
