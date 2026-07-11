@@ -627,29 +627,25 @@ Upper Limit: Largest allowable distance between the two fingers.
 </table>
 
 
-<select name="fg1" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> RH </option>
-	<option value="1" style="font-size:100%"> LH </option>
-	</select>
-
 <select name="fg2" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> L0 </option>
-	<option value="1" style="font-size:100%"> L1 </option>
-	<option value="2" style="font-size:100%"> L2 </option>
+	<option value="0" style="font-size:100%" selected="selected"> Limit Finger Range </option>
+	<option value="1" style="font-size:100%"> Limit Finger Range + 1 </option>
+	<option value="2" style="font-size:100%"> Limit Finger Range + 2 </option>
+	<option value="3" style="font-size:100%"> No Limit Finger Range </option>
 	</select>
 
 <select name="fg3" style="font-size:100%">
-	<option value="0" style="font-size:100%" selected="selected"> X0 </option>
-	<option value="1" style="font-size:100%"> X1 </option>
+	<option value="0" style="font-size:100%" selected="selected"> No Limit Fingering </option>
+	<option value="1" style="font-size:100%"> Limit Bleck Keys Fingering </option>
 	</select>
 
 <select name="fg4" style="font-size:100%">
-	<option value="0" style="font-size:100%"> C0 </option>
-	<option value="1" style="font-size:100%"> C1 </option>
-	<option value="2" style="font-size:100%"> C2 </option>
-	<option value="3" style="font-size:100%"> C3 </option>
-	<option value="4" style="font-size:100%"> C4 </option>
-	<option value="5" style="font-size:100%" selected="selected"> C5 </option>
+	<option value="0" style="font-size:100%"> No Connect </option>
+	<option value="1" style="font-size:100%" selected="selected"> Connect 1 </option>
+	<option value="2" style="font-size:100%"> Connect 2 </option>
+	<option value="3" style="font-size:100%"> Connect 3 </option>
+	<option value="4" style="font-size:100%"> Connect 4 </option>
+	<option value="5" style="font-size:100%"> Connect 5 </option>
 	</select>
 
 <select name="fg41" style="font-size:100%">
@@ -698,27 +694,23 @@ Upper Limit: Largest allowable distance between the two fingers.
 	</select>
 
 <select name="fg5" style="font-size:100%">
-	<option value="0" style="font-size:100%"> N6 </option>
-	<option value="1" style="font-size:100%"> N7 </option>
-	<option value="2" style="font-size:100%"> N8 </option>
-	<option value="3" style="font-size:100%"> N9 </option>
-	<option value="4" style="font-size:100%"> N10 </option>
-	<option value="5" style="font-size:100%"> N11 </option>
-	<option value="6" style="font-size:100%"> N12 </option>
-	<option value="7" style="font-size:100%"> N13 </option>
-	<option value="8" style="font-size:100%"> N14 </option>
-	<option value="9" style="font-size:100%" selected="selected"> N15 </option>
-	<option value="10" style="font-size:100%"> N16 </option>
-	<option value="11" style="font-size:100%"> N17 </option>
-	<option value="12" style="font-size:100%"> N18 </option>
+	<option value="10" style="font-size:100%"> N10 </option>
+	<option value="11" style="font-size:100%"> N11 </option>
+	<option value="12" style="font-size:100%"> N12 </option>
+	<option value="13" style="font-size:100%"> N13 </option>
+	<option value="14" style="font-size:100%"> N14 </option>
+	<option value="15" style="font-size:100%" selected="selected"> N15 </option>
+	<option value="16" style="font-size:100%"> N16 </option>
+	<option value="17" style="font-size:100%"> N17 </option>
+	<option value="18" style="font-size:100%"> N18 </option>
 	</select>
 
 <select name="fg6" style="font-size:100%">
-	<option value="0" style="font-size:100%"> n2 </option>
-	<option value="1" style="font-size:100%"> n3 </option>
-	<option value="2" style="font-size:100%" selected="selected"> n4 </option>
-	<option value="3" style="font-size:100%"> n5 </option>
-	<option value="4" style="font-size:100%"> n6 </option>
+	<option value="2" style="font-size:100%"> n2 </option>
+	<option value="3" style="font-size:100%"> n3 </option>
+	<option value="4" style="font-size:100%" selected="selected"> n4 </option>
+	<option value="5" style="font-size:100%"> n5 </option>
+	<option value="6" style="font-size:100%"> n6 </option>
 	</select>
 
 <select name="fg7" style="font-size:100%">
@@ -6378,28 +6370,28 @@ function finger1(){
 fc=[];
 fp=[];
 
-let fg5v=Number(document.form1.fg5.options[document.form1.fg5.options.selectedIndex].value)+6;//N
+let fg5v=num(fg5);//N
 let fg5vp=n_idf+fg5v-1;//last position of N
-let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;
-let fg2v=document.form1.fg2.options[document.form1.fg2.options.selectedIndex].value;
-let fg4v=document.form1.fg4.options[document.form1.fg4.options.selectedIndex].value;
-let fg7v=2**document.form1.fg7.options[document.form1.fg7.options.selectedIndex].value;
-let rst7=ppq*bttl/ntvl/fg7v;
-let fg8v=2**document.form1.fg8.options[document.form1.fg8.options.selectedIndex].value;
-let rst8=ppq*bttl/ntvl/fg8v;
+let fg1v=val(fg1);
+let fg2v=val(fg2);
+let fg4v=val(fg4);
+let fg7v=1/2**num(fg7);
+let rst7=beatsPerMeasure*fg7v/4;
+let fg8v=1/2**num(fg8);
+let rst8=beatsPerMeasur*fg8v/4;
 
-if (document.form1.fg1.options[1].selected==true){
-x_ch3=document.form1.chn1.options[document.form1.chn1.options.selectedIndex].value;
-}else if (document.form1.fg1.options[0].selected==true){
-x_ch3=document.form1.chn2.options[document.form1.chn2.options.selectedIndex].value;
+if (num(fg1)==1){
+    x_ch3=num("x_rightChannel");
+}else if (num(fg1)==0){
+    x_ch3=num("x_leftChannel");
 }
 
 for(i=0;i<r1.length;i++){
-	let [midi1, start1, stop1, channel1, n_id1]=r1[i];
+	let [midi1, start1, stop1, channel1, n_id1]=songData[i];
 	if (i==0 && channel1==x_ch3 && n_id1>=n_idf && n_id1<=fg5vp){
 			fp.push([midi1, start1, stop1, channel1, n_id1, 1]);
 	}else if (i>0){
-		let [midi0, start0, stop0, channel0, n_id0]=r1[i-1];
+		let [midi0, start0, stop0, channel0, n_id0]=songData[i-1];
 		if (channel0==x_ch3 && channel1==x_ch3 && n_id0+1==n_id1 && n_id1>=n_idf && n_id1<=fg5vp && start1-stop0<rst8){
 			fp.push([midi1, start1, stop1, channel1, n_id1, 0]);
 		}else if (channel0==x_ch3 && channel1==x_ch3 && n_id0+1==n_id1 && n_id1>=n_idf && n_id1<=fg5vp && start1-stop0>=rst8){
@@ -6409,8 +6401,8 @@ for(i=0;i<r1.length;i++){
 }
 
 
-for(i=0;i<r1.length;i++){
-	let [midi, start, stop, channel, n_id]=r1[i];
+for(i=0;i<songData.length;i++){
+	let [midi, start, stop, channel, n_id]=songData[i];
 	if (channel==x_ch3 && n_id==n_idf){
 		fc.push([midi, n_id]);
 	}
