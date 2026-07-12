@@ -6327,7 +6327,7 @@ for (p=1;p<fp.length;p++){
     const fp0=fp[p];
 	const fp1=fp[p-1];
 	for(q=0;q<tsvsd.length;q++){
-		if(num(hand)==1 && 
+		if(num(hand)==2 && 
 		fp0.start-fp1.stop<rst7 &&
 		tsvsd[q]==fp1.midi-fp0.midi && 
 		fp1.n_id==fp0.n_id-1 && 
@@ -6336,7 +6336,7 @@ for (p=1;p<fp.length;p++){
 			cp0=Number(fp1.midi)+Number(tsvsc[tsvff[q]]);
 			cp1=Number(fp0.midi)+Number(tsvsc[tsvft[q]]);
 			f0.push([[fp1.n_id,fp0.n_id],[tsvff[q],tsvft[q]],[cp0,cp1],[fp1.midi, fp1.midi],[fp1.start, fp0.stop]]);
-		}else if(num(hand)==2 && 
+		}else if(num(hand)==1 && 
 		fp0.start-fp1.stop<rst7 &&
 		tsvsd[q]==fp0.midi-fp1.midi && 
 		fp1.n_id==fp0.n_id-1 && 
@@ -6375,12 +6375,12 @@ if(f0.length>0 && fp.length>1){
 			 [cf0, ct0],
 			 [midif0, midit0],
 			 [tf0, tt0]]=f0[p];
-		if (document.form1.fg3.options[0].selected==true){
+		if (num(fg3)==0){
 			f1.push([[nf0, nt0], 
 			[ff0, ft0], 
 			[cf0, ct0],
 			[tf0, tt0]]);
-		}else if(document.form1.fg3.options[1].selected==true &&
+		}else if(num(fg3)==1 &&
 			(
 				(
 					(midif0%12==0||midif0%12==2||midif0%12==4||midif0%12==5||
