@@ -6277,7 +6277,7 @@ function finger1(){
 fc=[];
 fp=[];
 
-let fg5v=num(fg5);//N
+let fg5v=15;//N
 let fg5vp=n_idf+fg5v-1;//last position of N
 let fg1v=val(hand);
 let fg2v=val(fg2);
@@ -6297,13 +6297,14 @@ if (num(hand)==1){
 
 for(i=0;i<scoreData.length;i++){
 	const s0 = songData[i];
-	if (i==0 && s0.track==ftr && s0.channel==fch && s0.n_id>=i && s0.n_id<=fg5vp){
+    let n_idf=i;
+	if (i==0 && s0.track==ftr && s0.channel==fch && s0.n_id>=n_idf && s0.n_id<=fg5vp){
 			fp.push([s0.midi, s0.start, s0.stop, s0.track, s0.channel, s0.n_id, 1]);
 	}else if (i>0){
 		const s1=songData[i-1];
-		if (s1.track==ftr && s1.channel==fch && s0.track==ftr && s0.channel==fch && s1.n_id+1==s0.n_id && s0.n_id>=i && s0.n_id<=fg5vp && s0.start-s1.stop<rst8){
+		if (s1.track==ftr && s1.channel==fch && s0.track==ftr && s0.channel==fch && s1.n_id+1==s0.n_id && s0.n_id>=n_idf && s0.n_id<=fg5vp && s0.start-s1.stop<rst8){
 			fp.push([s0.midi, s0.start, s0.stop, s0.track, s0.channel, s0.n_id, 0]);
-		}else if (s1.track==ftr && s1.channel==fch && s0.track==ftr && s0.channel==fch && s1.n_id+1==s0.n_id && s0.n_id>=i && s0.n_id<=fg5vp && s0.start-s1.stop>=rst8){
+		}else if (s1.track==ftr && s1.channel==fch && s0.track==ftr && s0.channel==fch && s1.n_id+1==s0.n_id && s0.n_id>=n_idf && s0.n_id<=fg5vp && s0.start-s1.stop>=rst8){
 			fp.push([s0.midi, s0.start, s0.stop, s0.track, s0.channel, s0.n_id, 1]);
 		}
 	}
