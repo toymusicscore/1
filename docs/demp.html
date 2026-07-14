@@ -682,6 +682,7 @@ Upper Limit: Largest allowable distance between the two fingers.
     <button onclick="setFinger(3)">3</button>
     <button onclick="setFinger(4)">4</button>
     <button onclick="setFinger(5)">5</button>
+    <button onclick="setFinger(0)">×</button>
 </div>
 <canvas
     id="canvas"
@@ -6379,6 +6380,44 @@ function showFingerMenu(x,y){
     menu.style.top=(y-50)+"px";
 
     menu.style.display="block";
+}
+
+let selectedNoteIndex = -1;
+
+function setFinger(finger){
+
+    if(selectedNoteIndex < 0) return;
+
+    noteData[selectedNoteIndex].finger = finger;
+
+    drawScore();
+
+    $("fingerMenu").style.display = "none";
+
+}
+
+function onNoteTap(index, x, y){
+
+    selectedNoteIndex = index;
+
+    showFingerMenu(x, y);
+
+}
+
+
+
+function setFinger(finger){
+
+    if(selectedNoteIndex < 0) return;
+
+    noteData[selectedNoteIndex].finger = finger;   // 0なら削除
+
+    drawScore();
+
+    $("fingerMenu").style.display = "none";
+
+    selectedNoteIndex = -1;
+
 }
 
  // Define a function 'standardDeviation' to calculate the standard deviation of an array
