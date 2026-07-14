@@ -692,7 +692,7 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="setFinger(4)">4</button>
         <button onclick="setFinger(5)">5</button>
 		<br>
-        <button onclick="hideFingerMenu()">Label</button>
+        <button onclick="setFinger()">Label</button>
         <button onclick="hideFingerMenu()">Text</button>
         <button onclick="hideFingerMenu()">X</button>
 </div>
@@ -6602,6 +6602,19 @@ function hideNoteMenu(){
 
 let selectedNote = null;
 
+
+function setFinger(finger){
+
+    if(!selectedNote) return;
+
+    selectedNote.finger = finger;
+
+    lineScore(currentViewTick);
+
+    $("fingerMenu").style.display = "none";
+
+    selectedNote = null;
+}
 
 function setFinger(finger){
 
