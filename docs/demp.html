@@ -6412,16 +6412,34 @@ function findNote(x, y){
 
 function editFinger(e){
 
-    const index = findNote(e.offsetX, e.offsetY);
+    const index = findNote(
+        e.offsetX,
+        e.offsetY
+    );
 
     if(index < 0) return;
 
-    selectedNoteIndex = index;
-    selectedNote = view.scoreViewData[i];
+    selectedNote =
+        notePosition[index].note;
 
-    showFingerMenu(e.clientX, e.clientY);
+    showFingerMenu(
+        e.clientX,
+        e.clientY
+    );
+}
+
+
+function showFingerMenu(x, y){
+
+    const menu = $("fingerMenu");
+
+    menu.style.left = x + "px";
+    menu.style.top = y + "px";
+
+    menu.style.display = "block";
 
 }
+
 
 const rect = canvas.getBoundingClientRect();
 
