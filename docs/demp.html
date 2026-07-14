@@ -26,6 +26,20 @@ demp
 .fingerTable th{
     padding:2px 4px;
 }
+.fingerMenu{
+    position:absolute;
+    display:none;
+    background:white;
+    border:1px solid #888;
+    border-radius:8px;
+    padding:4px;
+}
+
+.fingerMenu button{
+    width:40px;
+    height:40px;
+    font-size:20px;
+}
 
 </style>
 </head>
@@ -661,6 +675,13 @@ Upper Limit: Largest allowable distance between the two fingers.
         value="← Back"
         onclick="showPage(PAGE.MAIN)">
     <div id="htmlArea"></div>
+</div>
+<div id="fingerMenu" class="fingerMenu">
+    <button onclick="setFinger(1)">1</button>
+    <button onclick="setFinger(2)">2</button>
+    <button onclick="setFinger(3)">3</button>
+    <button onclick="setFinger(4)">4</button>
+    <button onclick="setFinger(5)">5</button>
 </div>
 <canvas
     id="canvas"
@@ -6346,6 +6367,19 @@ function showSelectedView() {
     }
 }
 
+//
+// Finger
+//
+
+function showFingerMenu(x,y){
+
+    const menu=$("fingerMenu");
+
+    menu.style.left=x+"px";
+    menu.style.top=(y-50)+"px";
+
+    menu.style.display="block";
+}
 
  // Define a function 'standardDeviation' to calculate the standard deviation of an array
  const standardDeviation = (arr, usePopulation = false) => {
