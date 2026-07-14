@@ -2998,6 +2998,7 @@ function stopPlayback() {
     enablePlaybackSound = false;
 }
 
+let currentViewTick = 0;
 
 function loopPlayback(){
 
@@ -3005,6 +3006,7 @@ function loopPlayback(){
 
     const tick = getCurrentTick();
 
+    currentViewTick = tick;
 
     if (tick >= songLengthTicks) {
 
@@ -3360,7 +3362,7 @@ function lineScore(tick){
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
-                
+
             notePosition.push({
                 note: view.scoreViewData[i],
                 x: x1,
@@ -6415,8 +6417,10 @@ function editFinger(e){
     if(index < 0) return;
 
     selectedNoteIndex = index;
+    selectedNote = view.scoreViewData[i];
 
     showFingerMenu(e.clientX, e.clientY);
+
 }
 
 const rect = canvas.getBoundingClientRect();
@@ -6428,22 +6432,22 @@ showFingerMenu(
 );
 
 
-let selectedNoteIndex = -1;
+let selectedNote = null;
 
 
 function setFinger(finger){
 
-    if(selectedNoteIndex < 0) return;
+    if(!selectedNote) return;
 
-    noteData[selectedNoteIndex].finger = finger;  
+    selectedNote.finger = finger;
 
-    lineScore();
+    renderPlayBack(currentViewTick);
 
     $("fingerMenu").style.display = "none";
 
-    selectedNoteIndex = -1;
-
+    selectedNote = null;
 }
+
 
  // Define a function 'standardDeviation' to calculate the standard deviation of an array
  const standardDeviation = (arr, usePopulation = false) => {
