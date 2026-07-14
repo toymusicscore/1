@@ -6751,10 +6751,29 @@ function showTextMenu(){
 }
 
 
-function showTextCategory(){
+function showTextCategory(category){
+
+    const menu = $("noteMenu");
+
+    menu.innerHTML = "";
+
+    textMenuData[category].forEach(text => {
+
+        const btn = document.createElement("button");
+
+        btn.textContent = text;
+
+        btn.onclick = function(){
+
+            setText(text);
+
+        };
+
+        menu.appendChild(btn);
+
+    });
 
 }
-
 function setText(){
 
 }
