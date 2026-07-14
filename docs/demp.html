@@ -3401,6 +3401,18 @@ function lineScore(tick){
                 );
             }
 
+			if(view.scoreViewData[i].text){
+
+				ctx.fillStyle = workingColor.text[1];
+				ctx.font = "20px Arial";
+
+				ctx.fillText(
+					view.scoreViewData[i].text,
+					x0 + 5,
+					y + 30
+				);
+			}
+
 			const label =
 			    view.scoreViewData[i].label;
 			if(label){
