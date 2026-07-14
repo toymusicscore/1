@@ -2779,10 +2779,13 @@ function startVoice(voice, when) {
 function playNoteNow(midi){
 
     const when = audioContext.currentTime;
+
     const voice = createVoice(midi);
     activeVoices.set(midi, voice);
+
     startVoice(voice, when);
 
+    return when;
 }
 
 function stopNoteNow(midi){
