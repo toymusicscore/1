@@ -2715,10 +2715,16 @@ function createVoice(midi) {
     pan2.pan.value = Math.max(-1, Math.min(1, keyboardPan));
     pan3.pan.value = Math.max(-1, Math.min(1, keyboardPan + 0.1));
 
-    osc1.type = "triangle";
-    osc2.type = "triangle";
-    osc3.type = "triangle";
-
+    if (midi < 48) {
+        osc1.type = "triangle";
+        osc2.type = "triangle";
+        osc3.type = "triangle";
+    } else {
+        osc1.type = "sawtooth";
+        osc2.type = "triangle";
+        osc3.type = "sawtooth";
+    }
+    
     osc1.detune.value = -detune;
     osc2.detune.value = 0;
     osc3.detune.value = detune;
