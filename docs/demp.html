@@ -2724,7 +2724,7 @@ function createVoice(midi) {
         osc2.type = "triangle";
         osc3.type = "sawtooth";
     }
-    
+
     osc1.detune.value = -detune;
     osc2.detune.value = 0;
     osc3.detune.value = detune;
@@ -2786,6 +2786,12 @@ function startVoice(voice, when) {
 
     voice.gain.gain.setValueAtTime(0.0001, when);
     voice.gain.gain.exponentialRampToValueAtTime(0.15, when + 0.003);
+
+    voice.filter.frequency.setValueAtTime(5000, when);
+    voice.filter.frequency.exponentialRampToValueAtTime(
+        1800,
+        when + 0.3
+    );
 
     voice.osc1.start(when);
     voice.osc2.start(when);
