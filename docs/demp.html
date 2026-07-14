@@ -693,6 +693,20 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="setFinger(5)">5</button>
         <button onclick="hideFingerMenu()">X</button>
 </div>
+<div id="noteMenu">
+
+    <input id="noteLabelInput">
+
+    <button onclick="setLabel()">
+        OK
+    </button>
+
+    <button onclick="hideNoteMenu()">
+        Cancel
+    </button>
+
+</div>
+
 </canvas>
 
 <script type="module">
@@ -6450,6 +6464,52 @@ function editFinger(e){
         rect.left + n.x,
         rect.top + n.y
     );
+}
+
+
+function editNote(e){
+
+    const index = findNote(
+        e.offsetX,
+        e.offsetY
+    );
+
+    if(index < 0) return;
+
+    selectedNote =
+        notePosition[index].note;
+
+    showNoteMenu(
+        e.clientX,
+        e.clientY
+    );
+}
+
+function showNoteMenu(x,y){
+
+    const menu = $("noteMenu");
+
+    menu.style.left = x+"px";
+    menu.style.top  = y+"px";
+
+    menu.style.display="block";
+
+    $("noteLabelInput").value =
+        selectedNote.label || "";
+}
+
+
+function setLabel(){
+
+    if(!selectedNote) return;
+
+    selectedNote.label =
+        $("noteLabelInput").value;
+
+    renderPlayBack(currentViewTick);
+
+    hideNoteMenu();
+
 }
 
 
