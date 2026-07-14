@@ -2772,13 +2772,7 @@ function createVoice(midi) {
 function startVoice(voice, when) {
 
     voice.gain.gain.setValueAtTime(0.0001, when);
-
-    const volume = velocity / 127 * 0.18;
-
-    voice.gain.gain.exponentialRampToValueAtTime(
-        volume,
-        when + 0.003
-    );
+    voice.gain.gain.exponentialRampToValueAtTime(0.15, when + 0.003);
 
     voice.osc1.start(when);
     voice.osc2.start(when);
