@@ -2989,46 +2989,33 @@ function playNote(midi, durationTick, startTick) {
 
     const voice = createVoice(midi);
 
-    const when =
-        playbackOffsetTime +
-        tickToSec(startTick);
+    const startTime =
+        playbackOffsetTime + tickToSec(startTick);
 
-    const dur =
+    const duration =
         tickToSec(durationTick);
 
-    startVoice(voice, when);
+    startVoice(voice, startTime);
+    stopVoiceLater(voice, startTime, duration);
 
-    stopVoiceLater(voice, when + dur);
 }
 
 
-function stopVoiceLater(voice, when) {
+function stopVoiceLater(voice, startTime, duration) {
 
-    voice.gain.gain.setValueAtTime(0.15, when);
-    voice.gain.gain.exponentialRampToValueAtTime(0.0001, when + 0.05);
+    const stopTime = startTime + duration;
 
-    voice.osc1.stop(when + 0.05);
-    voice.osc2.stop(when + 0.05);
-    voice.osc3.stop(when + 0.05);
+    voice.gain.gain.setValueAtTime(0.15, stopTime);
+    voice.gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        stopTime + 0.05
+    );
 
-    voice.osc3.onended = () => {
-
-        voice.osc1.disconnect();
-        voice.osc2.disconnect();
-        voice.osc3.disconnect();
-
-        voice.gain1.disconnect();
-        voice.gain2.disconnect();
-        voice.gain3.disconnect();
-
-        voice.pan1.disconnect();
-        voice.pan2.disconnect();
-        voice.pan3.disconnect();
-
-        voice.filter.disconnect();
-        voice.gain.disconnect();
-    };
+    voice.osc1.stop(stopTime + 0.05);
+    voice.osc2.stop(stopTime + 0.05);
+    voice.osc3.stop(stopTime + 0.05);
 }
+
 
 function getCurrentScoreData() {
 
