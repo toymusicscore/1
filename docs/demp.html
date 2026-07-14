@@ -2702,7 +2702,7 @@ function createVoice(midi) {
     const osc3 = ctx.createOscillator();
     osc3.frequency.value = freq;
 
-    const detune = 0.5 + (midi - 21) * 0.02;
+    const detune = 0.3 + (midi - 21) * 0.01;
 
     const pan1 = ctx.createStereoPanner();
     const pan2 = ctx.createStereoPanner();
