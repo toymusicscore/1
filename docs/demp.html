@@ -2790,12 +2790,17 @@ function stopNoteNow(midi){
 		audioContext.currentTime;
 
     voice.gain.gain.cancelScheduledValues(now);
-    voice.gain.gain.setValueAtTime(0.15, now);
-    voice.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
-
-    voice.osc1.stop(now + 0.05);
-    voice.osc2.stop(now + 0.05);
-    voice.osc3.stop(now + 0.05);
+    voice.gain.gain.setValueAtTime(
+        voice.gain.gain.value,
+        now
+    );
+    voice.gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.05
+    );
+        voice.osc1.stop(now + 0.05);
+        voice.osc2.stop(now + 0.05);
+        voice.osc3.stop(now + 0.05);
 
     setTimeout(() => {
 
