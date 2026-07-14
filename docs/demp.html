@@ -694,7 +694,7 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="setFinger(5)">5</button>
 		<br>
         <button onclick="setLabel()">Label</button>
-        <button onclick="setText()">Text</button>
+        <button onclick="selectTextMenuItem(text)">Text</button>
         <button onclick="hideNoteMenu()">X</button>
 </div>
 
@@ -6598,6 +6598,83 @@ function setLabel(label){
 }
 
 
+const textMenuData = {
+
+    "Technique": {
+
+        "Fingering": [
+            "Check fingering",
+            "Use correct fingering",
+            "Keep fingers relaxed"
+        ],
+
+        "Hand Position": [
+            "Keep hand position",
+            "Relax your hand",
+            "Avoid unnecessary movement"
+        ]
+
+    },
+
+
+    "Rhythm": {
+
+        "Timing": [
+            "Keep steady tempo",
+            "Check rhythm",
+            "Practice slowly"
+        ],
+
+        "Counting": [
+            "Count carefully",
+            "Feel the beat",
+            "Use a metronome"
+        ]
+
+    },
+
+
+    "Sound": {
+
+        "Dynamics": [
+            "Play softly",
+            "Play louder",
+            "Emphasize this note"
+        ],
+
+        "Expression": [
+            "Play musically",
+            "Shape the phrase",
+            "Listen to the sound"
+        ]
+
+    },
+
+
+    "Practice": {
+
+        "Method": [
+            "Practice hands separately",
+            "Practice slowly",
+            "Repeat this section"
+        ],
+
+        "Review": [
+            "Review this measure",
+            "Check difficult notes",
+            "Try again"
+        ]
+
+    }
+
+};
+
+function selectTextMenuItem(text){
+
+    setText(text);
+
+}
+
 function setText(text){
 
     if(!selectedNote) return;
@@ -6606,6 +6683,7 @@ function setText(text){
 
     updateNote();
 }
+
 
 /*
 function setFinger(finger){
