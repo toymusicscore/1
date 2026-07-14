@@ -6511,7 +6511,7 @@ function editNote(e){
         e.clientY
     );
 }
-*/
+
 
 function showNoteMenu(x,y){
 
@@ -6525,11 +6525,11 @@ function showNoteMenu(x,y){
     $("noteLabelInput").value =
         selectedNote.label || "";
 }
+*/
 
+function showNoteMenu(x, y){
 
-function showFingerMenu(x, y){
-
-    const menu = $("fingerMenu");
+    const menu = $("noteMenu");
 
     menu.style.left = x + "px";
     menu.style.top = y + "px";
@@ -6540,7 +6540,7 @@ function showFingerMenu(x, y){
 
         if(e.key === "Escape"){
 
-            $("fingerMenu").style.display = "none";
+            $("noteMenu").style.display = "none";
 
             selectedNote = null;
         }
@@ -6550,7 +6550,7 @@ function showFingerMenu(x, y){
     document.addEventListener("keydown", function(e){
 
         if(e.key === "Escape"){
-            hideFingerMenu();
+            hideNoteMenu();
         }
 
     });
