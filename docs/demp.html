@@ -3375,7 +3375,20 @@ function lineScore(tick){
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
 			ctx.fill();
-			getLabel(midi, n_id);
+
+            if(view.scoreViewData[i].finger){
+
+                ctx.fillStyle = "black";
+                ctx.font = "18px Arial";
+
+                ctx.fillText(
+                    view.scoreViewData[i].finger,
+                    x0 + view.kw/3,
+                    y - 5
+                );
+            }
+
+            getLabel(midi, n_id);
 			ctx.font="20px Arial";
 			if (nl!=""){
 				ctx.fillStyle=workingColor.text[1];
