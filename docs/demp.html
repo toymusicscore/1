@@ -2763,18 +2763,6 @@ function playNoteNow(midi){
         osc1,
         osc2,
         osc3,
-        gain
-    });
-
-    return now;
-}
-
-function stopNoteNow(midi){
-
-    activeVoices.set(midi, {
-        osc1,
-        osc2,
-        osc3,
         gain,
         gain1,
         gain2,
@@ -2784,6 +2772,12 @@ function stopNoteNow(midi){
         pan3,
         filter
     });
+
+    return now;
+
+}
+
+function stopNoteNow(midi){
 
     const voice =
         activeVoices.get(midi);
