@@ -2612,21 +2612,27 @@ function assignHands(
     };
 }
 
-function canInput(){
-    return isRecording;
-}
 
-function inputRouter(e, type){
+const MODE = {
+    PLAY: 0,
+    RECORD: 1,
+    EDIT_FINGER: 2
+};
 
-    if(!canInput()) return;
+let inputMode = MODE.PLAY;
 
-    playSound(e);
+function inputRouter(e){
+
+    if(isRecording){
+        playSound(e);
+        return;
+    }
+
+    editFinger(e);
 }
 
 
 function playSound(e){
-
-    if(!canInput()) return;
 
     let szx =
         canvas.width;
@@ -6377,6 +6383,24 @@ function showSelectedView() {
 //
 // Finger
 //
+
+
+canvas.onclick = function(e){
+
+    const x = ...
+    const y = ...
+
+    const index = findNote(x, y);
+
+    if(index >= 0){
+
+        selectedNoteIndex = index;
+
+        showFingerMenu(x, y);
+
+    }
+
+}
 
 const rect = canvas.getBoundingClientRect();
 
