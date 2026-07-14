@@ -694,10 +694,10 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="setFinger(5)">5</button>
 		<br>
         <button onclick="setLabel()">Label</button>
-		<button onclick="setText('Practice slowly')">
-		Practice slowly
+		<button onclick="showTextMenu()">
+		Text
 		</button>
-        <button onclick="hideNoteMenu()">X</button>
+		<button onclick="hideNoteMenu()">X</button>
 </div>
 
 </canvas>
@@ -6610,7 +6610,7 @@ function setLabel(label){
 }
 
 
-const textMenuData = {
+const textMenuData0 = {
 
     "Technique": {
 
@@ -6680,6 +6680,36 @@ const textMenuData = {
     }
 
 };
+
+
+const textMenuData = {
+
+    "Technique": [
+        "Check fingering",
+        "Keep fingers relaxed",
+        "Keep hand position"
+    ],
+
+    "Rhythm": [
+        "Keep steady tempo",
+        "Check rhythm",
+        "Feel the beat"
+    ],
+
+    "Practice": [
+        "Practice slowly",
+        "Repeat this section",
+        "Practice hands separately"
+    ],
+
+    "Expression": [
+        "Play musically",
+        "Shape the phrase",
+        "Listen to the sound"
+    ]
+
+};
+
 
 function selectTextMenuItem(text){
 
