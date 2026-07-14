@@ -2762,8 +2762,6 @@ function createVoice(midi) {
         filter
     };
 
-    activeVoices.set(midi, voice);
-
     return voice;
 
 }
@@ -2782,6 +2780,7 @@ function playNoteNow(midi){
 
     const when = audioContext.currentTime;
     const voice = createVoice(midi);
+    activeVoices.set(midi, voice);
     startVoice(voice, when);
 
 }
