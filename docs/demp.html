@@ -26,7 +26,8 @@ demp
 .fingerTable th{
     padding:2px 4px;
 }
-.fingerMenu{
+
+.noteMenu{
     position:absolute;
     display:none;
     background:white;
@@ -35,7 +36,7 @@ demp
     padding:4px;
 }
 
-.fingerMenu button{
+.noteMenu button{
     width:40px;
     height:40px;
     font-size:20px;
@@ -677,7 +678,7 @@ Upper Limit: Largest allowable distance between the two fingers.
     <div id="htmlArea"></div>
 </div>
 <canvas id="canvas"></canvas>
-<div id="fingerMenu" style="
+<div id="noteMenu" style="
         position:absolute;
         display:none;
         background:white;
@@ -692,23 +693,9 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="setFinger(4)">4</button>
         <button onclick="setFinger(5)">5</button>
 		<br>
-        <button onclick="setFinger()">Label</button>
-        <button onclick="hideFingerMenu()">Text</button>
-        <button onclick="hideFingerMenu()">X</button>
-</div>
-<div id="noteMenu">
-
-    <input id="noteLabelInput">
-
-    <button onclick="setLabel()">
-        OK
-    </button>
-<button onclick="showFingerEditor()">Finger</button>
-<button onclick="showLabelEditor()">Label</button>
-    <button onclick="hideNoteMenu()">
-        X
-    </button>
-
+        <button onclick="setLabel()">Label</button>
+        <button onclick="setText()">Text</button>
+        <button onclick="hideNoteMenu()">X</button>
 </div>
 
 </canvas>
@@ -2645,7 +2632,7 @@ function inputRouter(e){
     if(isRecording){
         playSound(e);
     }else{
-        editFinger(e);
+        editNote(e);
     }
 }
 
@@ -6525,6 +6512,7 @@ function editNote(e){
     );
 }
 
+
 function showNoteMenu(x,y){
 
     const menu = $("noteMenu");
@@ -6536,20 +6524,6 @@ function showNoteMenu(x,y){
 
     $("noteLabelInput").value =
         selectedNote.label || "";
-}
-
-
-function setLabel(){
-
-    if(!selectedNote) return;
-
-    selectedNote.label =
-        $("noteLabelInput").value;
-
-    renderPlayBack(currentViewTick);
-
-    hideNoteMenu();
-
 }
 
 
@@ -6602,7 +6576,46 @@ function hideNoteMenu(){
 
 let selectedNote = null;
 
+function updateNote(){
 
+    renderPlayBack(currentViewTick);
+
+    $("fingerMenu").style.display = "none";
+
+    selectedNote = null;
+}
+
+
+function setFinger(finger){
+
+    if(!selectedNote) return;
+
+    selectedNote.finger = finger;
+
+    updateNote();
+}
+
+
+function setLabel(label){
+
+    if(!selectedNote) return;
+
+    selectedNote.label = label;
+
+    updateNote();
+}
+
+
+function setText(text){
+
+    if(!selectedNote) return;
+
+    selectedNote.text = text;
+
+    updateNote();
+}
+
+/*
 function setFinger(finger){
 
     if(!selectedNote) return;
@@ -6615,19 +6628,7 @@ function setFinger(finger){
 
     selectedNote = null;
 }
-
-function setFinger(finger){
-
-    if(!selectedNote) return;
-
-    selectedNote.finger = finger;
-
-    lineScore(currentViewTick);
-
-    $("fingerMenu").style.display = "none";
-
-    selectedNote = null;
-}
+*/
 
 
  // Define a function 'standardDeviation' to calculate the standard deviation of an array
