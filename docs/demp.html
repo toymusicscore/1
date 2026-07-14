@@ -2788,12 +2788,6 @@ function startVoice(voice, when) {
     voice.gain.gain.setValueAtTime(0.0001, when);
     voice.gain.gain.exponentialRampToValueAtTime(0.15, when + 0.003);
 
-    voice.filter.frequency.setValueAtTime(1000, when);
-    voice.filter.frequency.exponentialRampToValueAtTime(
-        1800,
-        when + 0.3
-    );
-
     voice.osc1.start(when);
     voice.osc2.start(when);
     voice.osc3.start(when);
