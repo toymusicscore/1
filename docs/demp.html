@@ -2762,7 +2762,8 @@ function createVoice(midi) {
         pan1,
         pan2,
         pan3,
-        filter
+        filter,
+        detune
     };
 
     return voice;
@@ -2770,6 +2771,12 @@ function createVoice(midi) {
 }
 
 function startVoice(voice, when) {
+
+    voice.osc1.detune.setValueAtTime(-voice.detune, when);
+    voice.osc1.detune.linearRampToValueAtTime(-voice.detune * 0.3, when + 0.5);
+
+    voice.osc3.detune.setValueAtTime( voice.detune, when);
+    voice.osc3.detune.linearRampToValueAtTime( voice.detune * 0.3, when + 0.5);
 
     voice.gain.gain.setValueAtTime(0.0001, when);
     voice.gain.gain.exponentialRampToValueAtTime(0.15, when + 0.003);
