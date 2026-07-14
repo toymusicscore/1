@@ -3407,6 +3407,23 @@ function lineScore(tick){
                 );
             }
 
+			const label =
+			    view.scoreViewData[i].label;
+			if(label){
+
+				ctx.fillStyle =
+					workingColor.text[1];
+
+				ctx.font="20px Arial";
+
+				ctx.fillText(
+					label,
+					x0+3,
+					y+7
+				);
+			}
+
+			/*
             getLabel(midi, n_id);
 			ctx.font="20px Arial";
 			if (nl!=""){
@@ -3421,6 +3438,7 @@ function lineScore(tick){
 				ctx.fillStyle=workingColor.text[3];
 				ctx.fillText(nlr, mx+szk, y);
 				}
+*/
 		}
 	}
 };
@@ -6547,6 +6565,14 @@ function showFingerMenu(x, y){
 function hideFingerMenu(){
 
     $("fingerMenu").style.display = "none";
+
+    selectedNote = null;
+}
+
+
+function hideNoteMenu(){
+
+    $("NoteLabelInput").style.display = "none";
 
     selectedNote = null;
 }
