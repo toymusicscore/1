@@ -3375,7 +3375,7 @@ function lineScore(tick){
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
 			ctx.fill();
-            
+
             if(view.scoreViewData[i] === selectedNote){
                 ctx.strokeStyle = "red";
                 ctx.strokeRect(x0,y,view.kw,20);
@@ -6460,6 +6460,17 @@ function showFingerMenu(x, y){
     menu.style.top = y + "px";
 
     menu.style.display = "block";
+
+    document.addEventListener("keydown", function(e){
+
+        if(e.key === "Escape"){
+
+            $("fingerMenu").style.display = "none";
+
+            selectedNote = null;
+        }
+
+    });
 
 }
 
