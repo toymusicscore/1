@@ -2707,9 +2707,12 @@ function playNoteNow(midi){
     const pan2 = ctx.createStereoPanner();
     const pan3 = ctx.createStereoPanner();
 
-    pan1.pan.value = -0.3;
-    pan2.pan.value = 0;
-    pan3.pan.value = 0.3;
+    const keyboardPan = Math.max(-1,
+        Math.min(1, (midi - 64) / 44));
+
+    pan1.pan.value = Math.max(-1, Math.min(1, keyboardPan - 0.1));
+    pan1.pan.value = Math.max(-1, Math.min(1, keyboardPan));
+    pan1.pan.value = Math.max(-1, Math.min(1, keyboardPan + 0.1));
 
     osc1.type = "sawtooth";
     osc2.type = "sawtooth";
@@ -2728,6 +2731,11 @@ function playNoteNow(midi){
     const gain3 = ctx.createGain();
     gain3.gain.value = 0.2;
 
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 2500;
+    filter.Q.value = 0.7;
+
     osc1.connect(gain1);
     osc2.connect(gain2);
     osc3.connect(gain3);
@@ -2736,15 +2744,16 @@ function playNoteNow(midi){
     gain2.connect(pan2);
     gain3.connect(pan3);
 
-    pan1.connect(gain);
-    pan2.connect(gain);
-    pan3.connect(gain);
+    pan1.connect(filter);
+    pan2.connect(filter);
+    pan3.connect(filter);
+
+    filter.connect(gain);
 
     const now = ctx.currentTime;
 
-    gain.gain.setValueAtTime(0.15, now);
-    gain.gain.exponentialRampToValueAtTime(0.05, now + 0.05);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.15, now + 0.003);
 
     osc1.start(now);
     osc2.start(now + 0.0003);
@@ -2773,6 +2782,8 @@ function stopNoteNow(midi){
 		audioContext.currentTime;
 
     voice.gain.gain.cancelScheduledValues(now);
+    voice.gain.gain.setValueAtTime(gain.gain.value, now);
+    voice.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
 
 	voice.gain.gain.setValueAtTime(
 		0.2,
