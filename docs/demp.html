@@ -2698,7 +2698,6 @@ function playNoteNow(midi){
     osc2.frequency.value = freq;
 
     const osc3 = ctx.createOscillator();
-//    osc3.type = "triangle";
     osc3.frequency.value = freq;
 
     const detune = 1 + (midi - 21) * 0.04;
@@ -2714,9 +2713,9 @@ function playNoteNow(midi){
     pan2.pan.value = Math.max(-1, Math.min(1, keyboardPan));
     pan3.pan.value = Math.max(-1, Math.min(1, keyboardPan + 0.1));
 
-    osc1.type = "sawtooth";
-    osc2.type = "sawtooth";
-    osc3.type = "sawtooth";
+    osc1.type = "triangle";
+    osc2.type = "triangle";
+    osc3.type = "triangle";
 
     osc1.detune.value = -detune;
     osc2.detune.value = 0;
