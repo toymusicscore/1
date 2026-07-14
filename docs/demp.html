@@ -2642,7 +2642,7 @@ function inputRouter(e){
     if(isRecording){
         playSound(e);
     }else{
-        editFinger(e);
+        selectNote(e);
     }
 }
 
@@ -6463,6 +6463,23 @@ function findNote(x,y){
     return -1;
 }
 
+function selectNote(e){
+
+    const index = findNote(
+        e.offsetX,
+        e.offsetY
+    );
+
+    if(index < 0) return;
+
+    selectedNote =
+        notePosition[index].note;
+
+    showNoteMenu(
+        e.clientX,
+        e.clientY
+    );
+}
 
 function editFinger(e){
 
