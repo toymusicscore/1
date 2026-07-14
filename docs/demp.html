@@ -2748,22 +2748,7 @@ function createVoice(midi) {
     pan3.connect(filter);
 
     filter.connect(gain);
-
-    activeVoices.set(midi, {
-        osc1,
-        osc2,
-        osc3,
-        gain,
-        gain1,
-        gain2,
-        gain3,
-        pan1,
-        pan2,
-        pan3,
-        filter
-    });
-
-    return {
+    const voice = {
         osc1,
         osc2,
         osc3,
@@ -2777,26 +2762,27 @@ function createVoice(midi) {
         filter
     };
 
+    activeVoices.set(midi, voice);
+
+    return voice;
+
 }
 
+function startVoice(voice, when) {
 
-function startVoice(midi, when){
+    voice.gain.gain.setValueAtTime(0.0001, when);
+    voice.gain.gain.exponentialRampToValueAtTime(0.15, when + 0.003);
 
-    gain.gain.setValueAtTime(0.0001, when);
-    gain.gain.exponentialRampToValueAtTime(0.15, when + 0.003);
-
-    osc1.start(when);
-    osc2.start(when);
-    osc3.start(when);
+    voice.osc1.start(when);
+    voice.osc2.start(when);
+    voice.osc3.start(when);
 }
-
 
 function playNoteNow(midi){
 
-    const when = ctx.currentTime;
-    createVoice(midi);
-    startVoice(midi, when)
-    return when;
+    const when = audioContext.currentTime;
+    const voice = createVoice(midi);
+    startVoice(voice, when);
 
 }
 
@@ -3000,44 +2986,13 @@ function setPlaybackTarget(renderer, data) {
     noteData = data;
 }
 
-function playNote(midi, durationTick, noteStartTick) {
+function playNote(midi, dur, when) {
+    const voice = createVoice(midi);
 
-	console.log("playNote", midi, noteStartTick);
+    startVoice(voice, when);
 
-    const ctx = audioContext;
-
-    const EPS = 1e-4;
-    const attack = 0.01;
-    const release = 0.02;
-
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.frequency.value = midiToFreq(midi);
-    osc.type = "triangle";
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    const when = playbackOffsetTime + tickToSec(noteStartTick);
-    const dur = tickToSec(durationTick);
-
-    gain.gain.setValueAtTime(EPS, when);
-    gain.gain.exponentialRampToValueAtTime(0.2, when + attack);
-    gain.gain.setValueAtTime(0.2, when + Math.max(dur - release, attack));
-    gain.gain.exponentialRampToValueAtTime(EPS, when + dur);
-
-    osc.start(when);
-    osc.stop(when + dur);
-
-    osc.onended = () => {
-        try {
-            osc.disconnect();
-            gain.disconnect();
-        } catch (e) {}
-    };
+    stopVoiceLater(voice, when + dur);
 }
-
 
 function getCurrentScoreData() {
 
