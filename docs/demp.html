@@ -2795,7 +2795,7 @@ function stopNoteNow(midi){
 	const now =
 		audioContext.currentTime;
 
-const currentGain = voice.gain.gain.value;
+    const currentGain = voice.gain.gain.value;
 
     voice.gain.gain.cancelScheduledValues(now);
     voice.gain.gain.setValueAtTime(currentGain, now);
@@ -2824,8 +2824,8 @@ const currentGain = voice.gain.gain.value;
 
     }, 100);
 
-
     activeVoices.delete(midi);
+
 }
 
 function offSound(){
