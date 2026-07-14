@@ -6726,9 +6726,30 @@ function setText(text){
     updateNote();
 }
 
+
 function showTextMenu(){
 
+    const menu = $("noteMenu");
+
+    menu.innerHTML = "";
+
+    for(const category in textMenuData){
+
+        const btn = document.createElement("button");
+
+        btn.textContent = category;
+
+        btn.onclick = function(){
+
+            showTextCategory(category);
+
+        };
+
+        menu.appendChild(btn);
+    }
+
 }
+
 
 function showTextCategory(){
 
