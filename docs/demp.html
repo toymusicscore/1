@@ -2985,15 +2985,22 @@ function setPlaybackTarget(renderer, data) {
     noteData = data;
 }
 
-function playNote(midi, dur, when) {
+function playNote(midi, durationTick, startTick) {
 
     const voice = createVoice(midi);
+
+    const when =
+        playbackOffsetTime +
+        tickToSec(startTick);
+
+    const dur =
+        tickToSec(durationTick);
 
     startVoice(voice, when);
 
     stopVoiceLater(voice, when + dur);
-
 }
+
 
 function stopVoiceLater(voice, when) {
 
