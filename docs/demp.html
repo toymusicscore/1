@@ -2680,7 +2680,8 @@ function pausePlayback(){
     isPlaying = false;
 }
 
-function playNoteNow(midi){
+
+function createVoice(midi) {
 
     const ctx = audioContext;
 
@@ -2748,15 +2749,6 @@ function playNoteNow(midi){
 
     filter.connect(gain);
 
-    const now = ctx.currentTime;
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.15, now + 0.003);
-
-    osc1.start(now);
-    osc2.start(now);
-    osc3.start(now);
-
     activeVoices.set(midi, {
         osc1,
         osc2,
@@ -2771,11 +2763,48 @@ function playNoteNow(midi){
         filter
     });
 
-    return now;
+    return {
+        osc1,
+        osc2,
+        osc3,
+        gain,
+        gain1,
+        gain2,
+        gain3,
+        pan1,
+        pan2,
+        pan3,
+        filter
+    };
+
+}
+
+
+function startVoice(midi, when){
+
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.exponentialRampToValueAtTime(0.15, when + 0.003);
+
+    osc1.start(when);
+    osc2.start(when);
+    osc3.start(when);
+}
+
+
+function playNoteNow(midi){
+
+    const when = ctx.currentTime;
+    createVoice(midi);
+    startVoice(midi, when)
+    return when;
 
 }
 
 function stopNoteNow(midi){
+    stopVoice(midi);
+}
+
+function stopVoice(midi){
 
     const voice =
         activeVoices.get(midi);
