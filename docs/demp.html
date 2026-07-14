@@ -3240,7 +3240,11 @@ function getViewInfo(){
     };
 }
 
+let notePosition = [];
+
+
 function lineScore(tick){
+    notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
 	szy = canvas.height-2*my;
@@ -3356,6 +3360,12 @@ function lineScore(tick){
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
+
+            notePosition.push({
+                index: i,
+                x: x1,
+                y: y
+            });
 
 			ctx.fillStyle=workingColor.pc[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
@@ -6382,25 +6392,35 @@ function showSelectedView() {
 // Finger
 //
 
+function findNote(x, y){
 
-canvas.onclick = function(e){
+    for(const n of notePosition){
 
-    const x = ...
-    const y = ...
-
-    const index = findNote(x, y);
-
-    if(index >= 0){
-
-        selectedNoteIndex = index;
-
-        showFingerMenu(x, y);
-
+        if(
+            Math.abs(x - n.x) < 15 &&
+            Math.abs(y - n.y) < 15
+        ){
+            return n.index;
+        }
     }
 
+    return -1;
+}
+
+
+function editFinger(e){
+
+    const index = findNote(e.offsetX, e.offsetY);
+
+    if(index < 0) return;
+
+    selectedNoteIndex = index;
+
+    showFingerMenu(e.clientX, e.clientY);
 }
 
 const rect = canvas.getBoundingClientRect();
+
 
 showFingerMenu(
     rect.left + note.x,
@@ -6410,14 +6430,6 @@ showFingerMenu(
 
 let selectedNoteIndex = -1;
 
-
-function onNoteTap(index, x, y){
-
-    selectedNoteIndex = index;
-
-    showFingerMenu(x, y);
-
-}
 
 
 function setFinger(finger){
