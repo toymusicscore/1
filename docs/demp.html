@@ -2794,6 +2794,14 @@ function startVoice(voice, when) {
         when + 0.3
     );
 
+    const cutoff =
+    Math.min(4000, voice.freq * 4);
+    voice.filter.frequency.setValueAtTime(cutoff, when);
+    voice.filter.frequency.exponentialRampToValueAtTime(
+        cutoff * 0.5,
+        when + 0.3
+    );
+
     voice.osc1.start(when);
     voice.osc2.start(when);
     voice.osc3.start(when);
