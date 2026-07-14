@@ -2711,8 +2711,8 @@ function playNoteNow(midi){
         Math.min(1, (midi - 64) / 44));
 
     pan1.pan.value = Math.max(-1, Math.min(1, keyboardPan - 0.1));
-    pan1.pan.value = Math.max(-1, Math.min(1, keyboardPan));
-    pan1.pan.value = Math.max(-1, Math.min(1, keyboardPan + 0.1));
+    pan2.pan.value = Math.max(-1, Math.min(1, keyboardPan));
+    pan3.pan.value = Math.max(-1, Math.min(1, keyboardPan + 0.1));
 
     osc1.type = "sawtooth";
     osc2.type = "sawtooth";
@@ -2771,6 +2771,20 @@ function playNoteNow(midi){
 
 function stopNoteNow(midi){
 
+    activeVoices.set(midi, {
+        osc1,
+        osc2,
+        osc3,
+        gain,
+        gain1,
+        gain2,
+        gain3,
+        pan1,
+        pan2,
+        pan3,
+        filter
+    });
+
     const voice =
         activeVoices.get(midi);
 
@@ -2781,28 +2795,35 @@ function stopNoteNow(midi){
 	const now =
 		audioContext.currentTime;
 
+const currentGain = voice.gain.gain.value;
+
     voice.gain.gain.cancelScheduledValues(now);
-    voice.gain.gain.setValueAtTime(gain.gain.value, now);
-    voice.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+    voice.gain.gain.setValueAtTime(currentGain, now);
+    voice.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
 
-	voice.gain.gain.setValueAtTime(
-		0.2,
-		now
-	);
+    voice.osc1.stop(now + 0.05);
+    voice.osc2.stop(now + 0.05);
+    voice.osc3.stop(now + 0.05);
 
-    voice.gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        now + 0.05
-    );
+    setTimeout(() => {
 
-    voice.osc.stop(now + 0.05);
+        voice.osc1.disconnect();
+        voice.osc2.disconnect();
+        voice.osc3.disconnect();
 
-    voice.osc.onended = () => {
+        voice.gain1.disconnect();
+        voice.gain2.disconnect();
+        voice.gain3.disconnect();
 
-        voice.osc.disconnect();
+        voice.pan1.disconnect();
+        voice.pan2.disconnect();
+        voice.pan3.disconnect();
 
+        voice.filter.disconnect();
         voice.gain.disconnect();
-    };
+
+    }, 100);
+
 
     activeVoices.delete(midi);
 }
