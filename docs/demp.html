@@ -2789,14 +2789,8 @@ function startVoice(voice, when) {
     voice.gain.gain.setValueAtTime(0.0001, when);
     voice.gain.gain.exponentialRampToValueAtTime(0.15, when + 0.003);
 
-    voice.filter.frequency.setValueAtTime(5000, when);
-    voice.filter.frequency.exponentialRampToValueAtTime(
-        1800,
-        when + 0.3
-    );
-
     const cutoff = voice.freq * 3;
-    
+
     voice.filter.frequency.setValueAtTime(cutoff, when);
     voice.filter.frequency.exponentialRampToValueAtTime(
         cutoff * 0.5,
