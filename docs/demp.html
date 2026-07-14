@@ -3375,7 +3375,11 @@ function lineScore(tick){
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
 			ctx.fill();
-
+            
+            if(view.scoreViewData[i] === selectedNote){
+                ctx.strokeStyle = "red";
+                ctx.strokeRect(x0,y,view.kw,20);
+            }
             if(view.scoreViewData[i].finger){
 
                 ctx.fillStyle = "black";
