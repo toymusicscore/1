@@ -6382,19 +6382,9 @@ function showFingerMenu(x,y){
     menu.style.display="block";
 }
 
+
 let selectedNoteIndex = -1;
 
-function setFinger(finger){
-
-    if(selectedNoteIndex < 0) return;
-
-    noteData[selectedNoteIndex].finger = finger;
-
-    drawScore();
-
-    $("fingerMenu").style.display = "none";
-
-}
 
 function onNoteTap(index, x, y){
 
@@ -6403,7 +6393,6 @@ function onNoteTap(index, x, y){
     showFingerMenu(x, y);
 
 }
-
 
 
 function setFinger(finger){
