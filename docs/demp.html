@@ -6806,6 +6806,26 @@ function setText(text){
 }
 
 
+function onNoteTap(index, x, y){
+
+    selectedNote = scoreData[index];
+
+    resetNoteMenu();
+
+    showNoteMenu(x, y);
+}
+
+
+function resetNoteMenu(){
+
+    $("mainNoteMenu").style.display = "block";
+
+    $("textMenu").style.display = "none";
+
+    $("textMenu").innerHTML = "";
+
+}
+
 /*
 function setFinger(finger){
 
