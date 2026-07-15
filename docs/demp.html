@@ -6732,11 +6732,14 @@ console.log($("mainNoteMenu"));
 
 function showTextCategory(category){
 
+    console.log("selected category:", category);
+
     const menu = $("textMenu");
 
     menu.innerHTML = "";
 
     menu.style.display = "block";
+
 
     textMenuData[category].forEach(text => {
 
@@ -6745,13 +6748,14 @@ function showTextCategory(category){
         btn.textContent = text;
 
         btn.onclick = function(){
+
             setText(text);
+
         };
 
         menu.appendChild(btn);
 
     });
-
 }
 
 function showTextMenu(){
