@@ -6622,7 +6622,7 @@ function setLabel(label){
 }
 
 
-const textMenuData0 = {
+const textMenuData = {
 
     "Technique": {
 
@@ -6769,7 +6769,7 @@ function showTextMenu(){
     menu.style.display = "block";
 
 
-    for(const category in textMenuData0){
+    for(const category in textMenuData){
 
         const btn = document.createElement("button");
 
@@ -6791,7 +6791,7 @@ function showTextSubMenu(category){
     menu.innerHTML = "";
 
 
-    for(const sub in textMenuData0[category]){
+    for(const sub in textMenuData[category]){
 
         const btn = document.createElement("button");
 
@@ -6815,7 +6815,7 @@ function showTextItems(category, sub){
     menu.innerHTML = "";
 
 
-    textMenuData0[category][sub].forEach(text=>{
+    textMenuData[category][sub].forEach(text=>{
 
         const btn = document.createElement("button");
 
