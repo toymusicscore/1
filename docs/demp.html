@@ -6733,6 +6733,8 @@ function showTextMenu(){
 
     menu.innerHTML = "";
 
+    menu.style.display = "block";
+
     for(const category in textMenuData){
 
         const btn = document.createElement("button");
@@ -6740,24 +6742,21 @@ function showTextMenu(){
         btn.textContent = category;
 
         btn.onclick = function(){
-
             showTextCategory(category);
-
         };
 
         menu.appendChild(btn);
     }
-
 }
 
 
 function showTextCategory(category){
 
-    console.log("category =", category);
-
     const menu = $("noteMenu");
 
     menu.innerHTML = "";
+
+    menu.style.display = "block";
 
     textMenuData[category].forEach(text => {
 
@@ -6766,16 +6765,14 @@ function showTextCategory(category){
         btn.textContent = text;
 
         btn.onclick = function(){
-
             setText(text);
-
         };
 
         menu.appendChild(btn);
 
     });
-
 }
+
 
 function setText(text){
 
