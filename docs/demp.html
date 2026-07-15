@@ -6729,19 +6729,6 @@ console.log($("mainNoteMenu"));
 
 }
 
-function setText(text){
-
-    if(!selectedNote) return;
-
-    selectedNote.text = text;
-
-    lineScore(currentViewTick);
-
-    $("noteMenu").style.display = "none";
-
-    selectedNote = null;
-}
-
 
 function showTextCategory(category){
 
@@ -6765,6 +6752,34 @@ function showTextCategory(category){
 
     });
 
+}
+
+function showTextMenu(){
+
+    $("mainNoteMenu").style.display = "none";
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+
+    menu.style.display = "block";
+
+
+    for(const category in textMenuData){
+
+        const btn = document.createElement("button");
+
+        btn.textContent = category;
+
+        btn.onclick = function(){
+
+            showTextCategory(category);
+
+        };
+
+        menu.appendChild(btn);
+
+    }
 }
 
 
