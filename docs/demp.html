@@ -6735,7 +6735,11 @@ function setText(text){
 
     selectedNote.text = text;
 
-    updateNote();
+    lineScore(currentViewTick);
+
+    $("noteMenu").style.display = "none";
+
+    selectedNote = null;
 }
 
 
