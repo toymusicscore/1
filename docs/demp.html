@@ -6622,7 +6622,7 @@ function setLabel(label){
 }
 
 
-const textMenuData0 = {
+const textMenuData = {
 
     "Technique": {
 
@@ -6694,7 +6694,7 @@ const textMenuData0 = {
 };
 
 
-const textMenuData = {
+const textMenuData1 = {
 
     "Technique": [
         "Check fingering",
@@ -6758,6 +6758,7 @@ function showTextCategory(category){
     });
 }
 
+
 function showTextMenu(){
 
     $("mainNoteMenu").style.display = "none";
@@ -6765,19 +6766,40 @@ function showTextMenu(){
     const menu = $("textMenu");
 
     menu.innerHTML = "";
-
     menu.style.display = "block";
 
 
-    for(const category in textMenuData){
+    for(const category in textMenuData0){
 
         const btn = document.createElement("button");
 
         btn.textContent = category;
 
         btn.onclick = function(){
+            showTextSubMenu(category);
+        };
 
-            showTextCategory(category);
+        menu.appendChild(btn);
+    }
+}
+
+
+function showTextSubMenu(category){
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+
+
+    for(const sub in textMenuData0[category]){
+
+        const btn = document.createElement("button");
+
+        btn.textContent = sub;
+
+        btn.onclick = function(){
+
+            showTextItems(category, sub);
 
         };
 
@@ -6786,6 +6808,30 @@ function showTextMenu(){
     }
 }
 
+function showTextItems(category, sub){
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+
+
+    textMenuData0[category][sub].forEach(text=>{
+
+        const btn = document.createElement("button");
+
+        btn.textContent = text;
+
+        btn.onclick = function(){
+
+            setText(text);
+
+        };
+
+        menu.appendChild(btn);
+
+    });
+
+}
 
 function setText(text){
 
