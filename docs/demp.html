@@ -6753,6 +6753,8 @@ function showTextMenu(){
 
 function showTextCategory(category){
 
+    console.log("category =", category);
+
     const menu = $("noteMenu");
 
     menu.innerHTML = "";
@@ -6774,7 +6776,19 @@ function showTextCategory(category){
     });
 
 }
+
+
 function setText(){
+
+    if(!selectedNote) return;
+
+    selectedNote.text = text;
+
+    lineScore(currentViewTick);
+
+    $("noteMenu").style.display = "none";
+
+    selectedNote = null;
 
 }
 
