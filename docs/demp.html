@@ -6743,38 +6743,9 @@ function setText(text){
 }
 
 
-function showTextMenu(){
-
-    $("mainNoteMenu").style.display = "none";
-
-    const menu = $("textMenu");
-
-    menu.innerHTML = "";
-
-    menu.style.display = "block";
-
-
-    for(const category in textMenuData){
-
-        const btn = document.createElement("button");
-
-        btn.textContent = category;
-
-        btn.onclick = function(){
-
-            showTextCategory(category);
-
-        };
-
-        menu.appendChild(btn);
-
-    }
-}
-
-
 function showTextCategory(category){
 
-    const menu = $("noteMenu");
+    const menu = $("textMenu");
 
     menu.innerHTML = "";
 
@@ -6793,6 +6764,7 @@ function showTextCategory(category){
         menu.appendChild(btn);
 
     });
+
 }
 
 
