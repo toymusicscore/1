@@ -6785,11 +6785,14 @@ function setText(text){
 
     lineScore(currentViewTick);
 
-    $("noteMenu").style.display = "none";
+    const menu = $("noteMenu");
+
+    menu.innerHTML = "";
+
+    menu.style.display = "none";
 
     selectedNote = null;
 }
-
 
 /*
 function setFinger(finger){
