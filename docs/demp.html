@@ -679,27 +679,36 @@ Upper Limit: Largest allowable distance between the two fingers.
 </div>
 <canvas id="canvas"></canvas>
 <div id="noteMenu" style="
-        position:absolute;
-        display:none;
-        background:white;
-        border:1px solid #888;
-        border-radius:6px;
-        padding:4px;
-        z-index:1000;
-    ">
+    position:absolute;
+    display:none;
+    background:white;
+    border:1px solid #888;
+    border-radius:6px;
+    padding:4px;
+    z-index:1000;
+">
+
+    <div id="mainNoteMenu">
+
         <button onclick="setFinger(1)">1</button>
         <button onclick="setFinger(2)">2</button>
         <button onclick="setFinger(3)">3</button>
         <button onclick="setFinger(4)">4</button>
         <button onclick="setFinger(5)">5</button>
-		<br>
-        <button onclick="setLabel()">Label</button>
-		<button onclick="showTextMenu()">
-		Text
-		</button>
-		<button onclick="hideNoteMenu()">X</button>
-</div>
 
+        <br>
+
+        <button onclick="setLabel()">Label</button>
+        <button onclick="showTextMenu()">Text</button>
+        <button onclick="hideNoteMenu()">X</button>
+
+    </div>
+
+
+    <div id="textMenu" style="display:none;">
+    </div>
+
+</div>
 </canvas>
 
 <script type="module">
@@ -6782,11 +6791,7 @@ function setText(text){
 
     lineScore(currentViewTick);
 
-    const menu = $("noteMenu");
-
-    menu.innerHTML = "";
-
-    menu.style.display = "none";
+    $("noteMenu").style.display = "none";
 
     selectedNote = null;
 }
