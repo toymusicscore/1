@@ -3409,6 +3409,7 @@ function lineScore(tick){
             getLabel(midi, n_id);
 			if (nl!=""){
 				ctx.fillStyle=workingColor.text[1];
+				ctx.textAlign = "left";
 				ctx.font="20px Arial";
 				ctx.fillText(
 					nl,
@@ -3424,6 +3425,7 @@ function lineScore(tick){
 				ctx.fill();
 
 				ctx.fillStyle = workingColor.text[1];
+				ctx.textAlign = "left";
                 ctx.font = "20px Arial";
                 ctx.fillText(
                     view.scoreViewData[i].finger,
@@ -3436,8 +3438,8 @@ function lineScore(tick){
 			if(view.scoreViewData[i].symbol){
 
 				ctx.fillStyle = workingColor.text[2];
-				ctx.font = "20px Arial";
 				ctx.textAlign = "left";
+				ctx.font = "20px Arial";
 				ctx.fillText(
 					view.scoreViewData[i].symbol,
 					20,
@@ -3448,8 +3450,8 @@ function lineScore(tick){
 			if(view.scoreViewData[i].text){
 
 				ctx.fillStyle = workingColor.text[3];
-				ctx.font = "20px Arial";
 				ctx.textAlign = "right";
+				ctx.font = "20px Arial";
 				ctx.fillText(
 					view.scoreViewData[i].text,
 					canvas.width-20,
