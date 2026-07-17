@@ -3408,6 +3408,11 @@ function lineScore(tick){
 
             getLabel(midi, n_id);
 			if (nl!=""){
+				ctx.beginPath();
+				ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
+				ctx.fillStyle = handColor;
+				ctx.fill();
+
 				ctx.fillStyle=workingColor.text[1];
 				ctx.textAlign = "center";
 				ctx.textBaseline = "middle";
