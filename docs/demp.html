@@ -3397,11 +3397,26 @@ function lineScore(tick){
                 ctx.strokeStyle = "red";
                 ctx.strokeRect(x0,y,view.kw,20);
             }
+
+            getLabel(midi, n_id);
+			ctx.font="20px Arial";
+			if (nl!=""){
+				ctx.fillStyle=workingColor.text[1];
+				ctx.fillText(
+				nl,
+                x0 + view.kw/3.5,
+                y + view.kw/4
+				);
+			}
+
             if(view.scoreViewData[i].finger){
+				ctx.beginPath();
+				ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
+				ctx.fillStyle = handColor;
+				ctx.fill();
 
 				ctx.fillStyle = workingColor.text[1];
                 ctx.font = "20px Arial";
-
                 ctx.fillText(
                     view.scoreViewData[i].finger,
                     x0 + view.kw/3.5,
@@ -3431,18 +3446,6 @@ function lineScore(tick){
 					view.scoreViewData[i].text,
 					canvas.width-20,
 					y
-				);
-			}
-
-
-            getLabel(midi, n_id);
-			ctx.font="20px Arial";
-			if (nl!=""){
-				ctx.fillStyle=workingColor.text[1];
-				ctx.fillText(
-				nl,
-                x0 + view.kw/3.5,
-                y + view.kw/4
 				);
 			}
 		}
