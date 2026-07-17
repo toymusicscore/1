@@ -6703,35 +6703,6 @@ console.log($("mainNoteMenu"));
 }
 
 
-function showTextCategory(category){
-
-    console.log("selected category:", category);
-
-    const menu = $("textMenu");
-
-    menu.innerHTML = "";
-
-    menu.style.display = "block";
-
-
-    textMenuData[category].forEach(text => {
-
-        const btn = document.createElement("button");
-
-        btn.textContent = text;
-
-        btn.onclick = function(){
-
-            setText(text);
-
-        };
-
-        menu.appendChild(btn);
-
-    });
-}
-
-
 function showTextMenu(){
 
     $("mainNoteMenu").style.display = "none";
@@ -6928,35 +6899,6 @@ function selectSymbolMenuItem(symbol){
 console.log($("mainNoteMenu"));
     setSymbol(symbol);
 
-}
-
-
-function showSymbolCategory(category){
-
-    console.log("selected category:", category);
-
-    const menu = $("textMenu");
-
-    menu.innerHTML = "";
-
-    menu.style.display = "block";
-
-
-    symbolMenuData[category].forEach(text => {
-
-        const btn = document.createElement("button");
-
-        btn.textContent = text;
-
-        btn.onclick = function(){
-
-            setSymbol(text);
-
-        };
-
-        menu.appendChild(btn);
-
-    });
 }
 
 
