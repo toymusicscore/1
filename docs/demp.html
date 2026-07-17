@@ -6694,33 +6694,6 @@ const textMenuData = {
 };
 
 
-const textMenuData1 = {
-
-    "Technique": [
-        "Check fingering",
-        "Keep fingers relaxed",
-        "Keep hand position"
-    ],
-
-    "Rhythm": [
-        "Keep steady tempo",
-        "Check rhythm",
-        "Feel the beat"
-    ],
-
-    "Practice": [
-        "Practice slowly",
-        "Repeat this section",
-        "Practice hands separately"
-    ],
-
-    "Expression": [
-        "Play musically",
-        "Shape the phrase",
-        "Listen to the sound"
-    ]
-
-};
 
 
 function selectTextMenuItem(text){
@@ -6844,7 +6817,215 @@ function setText(text){
     $("noteMenu").style.display = "none";
 
     $("mainNoteMenu").style.display = "block";
-    $("textMenu").style.display = "none";
+
+	$("textMenu").style.display = "none";
+
+	$("symbolMenu").style.display = "none";
+
+    selectedNote = null;
+}
+
+
+
+const symbolMenuData = {
+
+    "Technique": {
+
+        "Fingering": [
+            "Check fingering",
+            "Use correct fingering",
+            "Keep fingers relaxed"
+        ],
+
+        "Hand Position": [
+            "Keep hand position",
+            "Relax your hand",
+            "Avoid unnecessary movement"
+        ]
+
+    },
+
+
+    "Rhythm": {
+
+        "Timing": [
+            "Keep steady tempo",
+            "Check rhythm",
+            "Practice slowly"
+        ],
+
+        "Counting": [
+            "Count carefully",
+            "Feel the beat",
+            "Use a metronome"
+        ]
+
+    },
+
+
+    "Sound": {
+
+        "Dynamics": [
+            "Play softly",
+            "Play louder",
+            "Emphasize this note"
+        ],
+
+        "Expression": [
+            "Play musically",
+            "Shape the phrase",
+            "Listen to the sound"
+        ]
+
+    },
+
+
+    "Practice": {
+
+        "Method": [
+            "Practice hands separately",
+            "Practice slowly",
+            "Repeat this section"
+        ],
+
+        "Review": [
+            "Review this measure",
+            "Check difficult notes",
+            "Try again"
+        ]
+
+    }
+
+};
+
+
+
+
+function selectSymbolMenuItem(symbol){
+console.log($("mainNoteMenu"));
+    setSymbol(symbol);
+
+}
+
+
+function showSymbolCategory(category){
+
+    console.log("selected category:", category);
+
+    const menu = $("symbolMenu");
+
+    menu.innerHTML = "";
+
+    menu.style.display = "block";
+
+
+    textMenuData[category].forEach(text => {
+
+        const btn = document.createElement("button");
+
+        btn.textContent = text;
+
+        btn.onclick = function(){
+
+            setSymbol(symbol);
+
+        };
+
+        menu.appendChild(btn);
+
+    });
+}
+
+
+function showSymbolMenu(){
+
+    $("mainNoteMenu").style.display = "none";
+
+    const menu = $("symbolMenu");
+
+    menu.innerHTML = "";
+    menu.style.display = "block";
+
+
+    for(const category in symbolMenuData){
+
+        const btn = document.createElement("button");
+
+        btn.textContent = category;
+
+        btn.onclick = function(){
+            showTextSubMenu(category);
+        };
+
+        menu.appendChild(btn);
+    }
+}
+
+
+function showSymbolSubMenu(category){
+
+    const menu = $("symbolMenu");
+
+    menu.innerHTML = "";
+
+
+    for(const sub in symbolMenuData[category]){
+
+        const btn = document.createElement("button");
+
+        btn.symbolContent = sub;
+
+        btn.onclick = function(){
+
+            showSymbolItems(category, sub);
+
+        };
+
+        menu.appendChild(btn);
+
+    }
+}
+
+function showSymbolItems(category, sub){
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+
+
+    symbolMenuData[category][sub].forEach(text=>{
+
+        const btn = document.createElement("button");
+
+        btn.symbolContent = symbol;
+
+        btn.onclick = function(){
+
+            setSymbol(symbol);
+
+        };
+
+        menu.appendChild(btn);
+
+    });
+
+}
+
+function setSymbol(symbol){
+
+    if(!selectedNote) return;
+
+    selectedNote.symbol = symbol;
+
+    lineScore(currentViewTick);
+
+    $("noteMenu").style.display = "none";
+
+    $("mainNoteMenu").style.display = "block";
+
+	$("textMenu").style.display = "none";
+
+    $("symbolMenu").style.display = "none";
 
     selectedNote = null;
 }
