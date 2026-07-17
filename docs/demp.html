@@ -3409,13 +3409,9 @@ function lineScore(tick){
             getLabel(midi, n_id);
 			if (nl!=""){
 				ctx.fillStyle=workingColor.text[1];
-				ctx.textAlign = "left";
-				ctx.font="20px Arial";
-				ctx.fillText(
-					nl,
-					x0 + view.kw/3.5,
-					y + view.kw/4
-				);
+				ctx.textAlign = "center";
+				ctx.textBaseline = "middle";
+				ctx.fillText(view.scoreViewData[i].finger, x1, y);
 			}
 
             if(view.scoreViewData[i].finger){
@@ -3425,13 +3421,9 @@ function lineScore(tick){
 				ctx.fill();
 
 				ctx.fillStyle = workingColor.text[2];
-				ctx.textAlign = "left";
-                ctx.font = "20px Arial";
-                ctx.fillText(
-                    view.scoreViewData[i].finger,
-                    x0 + view.kw/3.5,
-                    y + view.kw/4
-                );
+				ctx.textAlign = "center";
+				ctx.textBaseline = "middle";
+				ctx.fillText(view.scoreViewData[i].finger, x1, y);
             }
 
 
