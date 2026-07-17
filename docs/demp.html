@@ -3409,17 +3409,6 @@ function lineScore(tick){
                 );
             }
 
-			if(view.scoreViewData[i].text){
-
-				ctx.fillStyle = workingColor.text[1];
-				ctx.font = "20px Arial";
-				ctx.textAlign = "right";
-				ctx.fillText(
-					view.scoreViewData[i].text,
-					canvas.width-10,
-					y
-				);
-			}
 
 			if(view.scoreViewData[i].symbol){
 
@@ -3429,6 +3418,18 @@ function lineScore(tick){
 				ctx.fillText(
 					view.scoreViewData[i].symbol,
 					xLeft,
+					y
+				);
+			}
+
+			if(view.scoreViewData[i].text){
+
+				ctx.fillStyle = workingColor.text[1];
+				ctx.font = "20px Arial";
+				ctx.textAlign = "right";
+				ctx.fillText(
+					view.scoreViewData[i].text,
+					canvas.width-10,
 					y
 				);
 			}
