@@ -7039,6 +7039,31 @@ function showMarkerSubMenu(category){
 }
 
 
+function showMarkerItems(category, sub){
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+
+
+    markerMenuData[category][sub].forEach(text=>{
+
+        const btn = document.createElement("button");
+
+        btn.textContent = text;
+
+        btn.onclick = function(){
+
+            setmarker(category, sub, text);
+
+        };
+
+        menu.appendChild(btn);
+
+    });
+
+}
+
 
 function setMarker(shape, color, width){
 
