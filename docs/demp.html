@@ -740,10 +740,10 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="deleteText()">Delete Text</button>
 		<br>
 		<input 
-			id="btnToggleSymbolTextView" 
+			id="btnToggleTextPositionView" 
 			type="button" 
 			value="Text Left" 
-			onclick="toggleSymbolTextView()">
+			onclick="toggleTextPositionView()">
 
     </div>
 
@@ -2481,10 +2481,11 @@ function updateTextButton(){
     }
 }
 
-function updateSymbolTextButton(){
-    const btn = $("btnToggleSymbolTextView");
+function updateTextPositionButton(){
+	selectedNote();
+    const btn = $("btnToggleTextPositionView");
     if(btn){
-        btn.value = symbolLeftTextRight ? "Text Left" : "Text Right";
+        btn.value = selectedNote.textPosition == Right ? "Text Left" : "Text Right";
     }
 }
 
@@ -3324,7 +3325,6 @@ let fingerVisible = true;
 let markerVisible = true;
 let symbolVisible = true;
 let textVisible = true;
-let symbolLeftTextRight = true;
 
 function lineScore(tick){
     notePosition = [];
@@ -3544,7 +3544,7 @@ function lineScore(tick){
 				ctx.fillText(view.scoreViewData[i].finger, x1, y);
             }
 
-			if(symbolVisible && symbolLeftTextRight && view.scoreViewData[i].symbol){
+			if(symbolVisible && view.scoreViewData[i].symbol){
 
 				const symbol = view.scoreViewData[i].symbol;
 
@@ -3571,36 +3571,10 @@ function lineScore(tick){
 					x,
 					y
 				);
-			}else if(symbolVisible && view.scoreViewData[i].symbol){
-
-				const symbol = view.scoreViewData[i].symbol;
-
-				ctx.font = "20px Arial";
-				ctx.textAlign = "right";
-				ctx.textBaseline = "middle";
-
-				const x = canvas.width - 4;
-				const w = ctx.measureText(symbol).width;
-				const h = 24;
-
-				ctx.fillStyle = "#ffffff";
-				ctx.fillRect(
-					x - w - 4,
-					y - h / 2,
-					w + 4,
-					h
-				);
-
-				ctx.fillStyle = workingColor.text[3];
-
-				ctx.fillText(
-					symbol,
-					x,
-					y
-				);
 			}
 
-			if(textVisible && symbolLeftTextRight && view.scoreViewData[i].text){
+
+			if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition =="right"){
 
 				const text = view.scoreViewData[i].text;
 
@@ -3608,7 +3582,7 @@ function lineScore(tick){
 				ctx.textAlign = "right";
 				ctx.textBaseline = "middle";
 
-				const x = canvas.width - 4;
+				const x = canvas.width - 20;
 				const w = ctx.measureText(text).width;
 				const h = 24;
 
@@ -3628,7 +3602,7 @@ function lineScore(tick){
 					x,
 					y
 				);
-			}else if(textVisible && view.scoreViewData[i].text){
+			}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition =="left"){
 
 				const text = view.scoreViewData[i].text;
 
@@ -3636,7 +3610,7 @@ function lineScore(tick){
 				ctx.textAlign = "left";
 				ctx.textBaseline = "middle";
 
-				const x = 2;
+				const x = 25;
 				const w = ctx.measureText(text).width;
 				const h = 24;
 
@@ -3723,13 +3697,18 @@ function toggleTextView(){
 
 }	
 
-function toggleSymbolTextView(){
-    symbolLeftTextRight = !symbolLeftTextRight;
+function toggleTextPositionView(){
+	selectedNote();
+	if(selectedNote.textPosition =="left"){
+		selectedNote.textPosition = "right"
+	}else if(selectedNote.textPosition =="right"){
+		selectedNote.textPosition = "left"
+	}
 
-    const btn = $("btnToggleSymbolTextView");
+    const btn = $("btnToggleTextPositionView");
     if(!btn) return;
 
-    btn.value = symbolLeftTextRight ? "Text Left" : "Text Right";
+    btn.value = selectedNote.textPosition == "right" ? "Text Left" : "Text Right";
 	
 	showSelectedView();
 
