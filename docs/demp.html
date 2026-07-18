@@ -3700,16 +3700,16 @@ function toggleTextView(){
 function toggleTextPositionView(){
     if(!selectedNote) return;
 
-	if(selectedNote.textPosition =="left"){
-		selectedNote.textPosition = "right"
-	}else if(selectedNote.textPosition =="right"){
-		selectedNote.textPosition = "left"
+	if(selectedNote.textPosition =="Left"){
+		selectedNote.textPosition = "Right"
+	}else if(selectedNote.textPosition =="Right"){
+		selectedNote.textPosition = "Left"
 	}
 
     const btn = $("btnToggleTextPositionView");
     if(!btn) return;
 
-    btn.value = selectedNote.textPosition == "right" ? "Text Left" : "Text Right";
+    btn.value = selectedNote.textPosition == "Right" ? "Text Left" : "Text Right";
 	
 	showSelectedView();
 
