@@ -3317,6 +3317,7 @@ function lineScore(tick){
 				ctx.fillStyle = workingColor.text[0];
 				ctx.font = "25px Arial";
 			}
+			ctx.textAlign = "left";
 			ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			ctx.beginPath();
@@ -3376,8 +3377,10 @@ function lineScore(tick){
             });
 
 			if(view.scoreViewData[i] === selectedNote){
-                ctx.strokeStyle = "red";
-                ctx.strokeRect(x0,y,view.kw,20);
+				ctx.beginPath();
+				ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
+				ctx.strokeStyle = "red";
+				ctx.stroke();
             }
 
 			ctx.fillStyle=workingColor.pc[midi%12];
