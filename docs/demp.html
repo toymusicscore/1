@@ -706,7 +706,7 @@ Upper Limit: Largest allowable distance between the two fingers.
 
         <br>
 
-        <button onclick="showMarkerMenu()">Marker</button>
+        <button onclick="showMarkerSubMenu('Shape')">Marker</button>
         <button onclick="showSymbolMenu()">Symbol</button>
         <button onclick="showTextMenu()">Text</button>
         <button onclick="hideNoteMenu()">X</button>
@@ -6983,20 +6983,6 @@ let currentMarker = {
     width: 2
 };
 
-
-function showMarkerMenu(){
-
-	showMarkerSubMenu("Shape");
-	currentMarker.shape = item;
-
-	showMarkerSubMenu("Color");
-	currentMarker.color = item;
-
-	showMarkerSubMenu("Width");
-	currentMarker.width = item;
-
-	setMarker();
-}
 
 function showMarkerSubMenu(category){
 
