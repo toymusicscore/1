@@ -3529,7 +3529,7 @@ function lineScore(tick){
 				ctx.fillText(view.scoreViewData[i].finger, x1, y);
             }
 
-			if(symbolVisible && view.scoreViewData[i].symbol){
+			if(symbolVisible && symbolLeftTextRight && view.scoreViewData[i].symbol){
 
 				const symbol = view.scoreViewData[i].symbol;
 
@@ -3556,9 +3556,36 @@ function lineScore(tick){
 					x,
 					y
 				);
+			}else if(symbolVisible && view.scoreViewData[i].symbol){
+
+				const symbol = view.scoreViewData[i].symbol;
+
+				ctx.font = "20px Arial";
+				ctx.textAlign = "right";
+				ctx.textBaseline = "middle";
+
+				const x = canvas.width - 20;
+				const w = ctx.measureText(symbol).width;
+				const h = 24;
+
+				ctx.fillStyle = "#ffffff";
+				ctx.fillRect(
+					x - 2,
+					y - h / 2,
+					w + 4,
+					h
+				);
+
+				ctx.fillStyle = workingColor.text[3];
+
+				ctx.fillText(
+					symbol,
+					x,
+					y
+				);
 			}
 
-			if(textVisible && view.scoreViewData[i].text){
+			if(textVisible && symbolLeftTextRight && view.scoreViewData[i].text){
 
 				const text = view.scoreViewData[i].text;
 
@@ -3586,7 +3613,36 @@ function lineScore(tick){
 					x,
 					y
 				);
+			}else if(textVisible && view.scoreViewData[i].text){
+
+				const text = view.scoreViewData[i].text;
+
+				ctx.font = "20px Arial";
+				ctx.textAlign = "left";
+				ctx.textBaseline = "middle";
+
+				const x = 20;
+				const w = ctx.measureText(text).width;
+				const h = 24;
+
+				ctx.fillStyle = "#ffffff";
+
+				ctx.fillRect(
+					x - w - 4,
+					y - h / 2,
+					w + 4,
+					h
+				);
+
+				ctx.fillStyle = workingColor.text[4];
+
+				ctx.fillText(
+					text,
+					x,
+					y
+				);
 			}
+
 		}
 	}
 };
