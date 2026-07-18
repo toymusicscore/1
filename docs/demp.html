@@ -3574,9 +3574,8 @@ function lineScore(tick){
 			}
 
 
-			if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition){
+			if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition == "Right"){
 
-				console.log(view.scoreViewData[i].textPosition)
 				const text = view.scoreViewData[i].text;
 
 				ctx.font = "20px Arial";
@@ -3603,7 +3602,7 @@ function lineScore(tick){
 					x,
 					y
 				);
-			}else if(textVisible && view.scoreViewData[i].text){
+			}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition == "Left"){
 
 				const text = view.scoreViewData[i].text;
 
