@@ -6984,20 +6984,13 @@ let currentMarker = {
 };
 
 
-function selectSymbolMenuItem(shape, color, width){
-
-	setMarker(shape, color, width);
-
-}
-
-
-function showMarkerSubMenu(category){
+function showMarkerSubMenu(){
 
     const menu = $("textMenu");
 
     menu.innerHTML = "";
 
-    markerMenuData[category].forEach(item => {
+    markerMenuData[sub].forEach(item => {
 
         const btn = document.createElement("button");
 
@@ -7005,7 +6998,7 @@ function showMarkerSubMenu(category){
 
         btn.onclick = function(){
 
-			setMarker(shape, color, width);
+			showMarkerItems(item);
 
 		};
 
@@ -7015,14 +7008,14 @@ function showMarkerSubMenu(category){
 }
 
 
-function showMarkerItems(category, sub){
+function showMarkerItems(item){
 
     const menu = $("textMenu");
 
     menu.innerHTML = "";
 
 
-    markerMenuData[category][sub].forEach(text=>{
+    markerMenuData[sub][item].forEach(text=>{
 
         const btn = document.createElement("button");
 
@@ -7030,7 +7023,7 @@ function showMarkerItems(category, sub){
 
         btn.onclick = function(){
 
-            setmarker(category, sub, text);
+            setmarker(sub, item, text);
 
         };
 
