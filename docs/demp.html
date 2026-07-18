@@ -711,8 +711,11 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="showTextMenu()">Text</button>
         <button onclick="hideNoteMenu()">Cancel</button>
 		<br>
-        <button onclick="hideMarker()">Hide Marker</button>
-        <button onclick="showMarker()">Show Marker</button>
+		<input 
+			id="btnToggleMarkerView" 
+			type="button" 
+			value="Hide Marker" 
+			onclick="toggleMarkerView()">
         <button onclick="deleteMarker()">Delete Marker</button>
 
     </div>
@@ -1411,7 +1414,7 @@ let firstMeasure;
 
 let lastMeasure;
 
-let showRecord = true;
+let recordVisible = true;
 
 let highlightMeasure = 0;
 
@@ -2416,10 +2419,17 @@ function stopRecording(){
     stopRecord();
 }
 
+function updateMarkerButton(){
+    const btn = $("btnToggleMarkerView");
+    if(btn){
+        btn.value = markerVisivle ? "Hide Marker " : "Show Marker";
+    }
+}
+
 function updateRecordButton(){
     const btn = $("btnToggleRecordView");
     if(btn){
-        btn.value = showRecord ? "Hide Record " : "Show Record";
+        btn.value = recordVisible ? "Hide Record " : "Show Record";
     }
 }
 
@@ -3502,9 +3512,21 @@ function lineScore(tick){
 
 
 function toggleRecordView(){
-    showRecord = !showRecord;
+    recordVisivle = !recordVisible;
 
     const btn = $("btnToggleRecordView");
+    if(!btn) return;
+
+    btn.value = showRecord ? "Hide Record" : "Show Record";
+	
+	showSelectedView();
+
+}	
+
+function toggleMarkerView(){
+    markerVisible = !markerVisible;
+
+    const btn = $("btnToggleMarkerView");
     if(!btn) return;
 
     btn.value = showRecord ? "Hide Record" : "Show Record";
