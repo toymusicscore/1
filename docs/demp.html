@@ -6977,11 +6977,6 @@ const markerMenuData = {
 
 };
 
-let currentMarker = {
-    shape: "Circle",
-    color: "#ff0000",
-    width: 2
-};
 
 function selectSymbolMenuItem(shape, color, width){
 
@@ -7054,7 +7049,7 @@ function showMarkerItems(category, sub){
 
         btn.onclick = function(){
 
-            setMarker(text);
+            setMarker(category, sub, text);
 
         };
 
@@ -7064,11 +7059,13 @@ function showMarkerItems(category, sub){
 
 }
 
-function setMarker(marker){
+function setMarker(shape, color, width){
 
     if(!selectedNote) return;
 
-    selectedNote.marker = marker;
+    selectedNote.shape = shape;
+    selectedNote.color = color;
+    selectedNote.width = width;
 
     lineScore(currentViewTick);
 
