@@ -5038,7 +5038,7 @@ function showPracticeHistory(){
             "<tr>" +
             "<td>" + getDateTimeString(r.meta.dateStart) + "</td>" +
             "<td>" + getDateTimeString(r.meta.dateStop) + "</td>" +
-            "<td>" + getDateTimeString(r.meta.dateStop - r.meta.dateStart) + "</td>" +
+            "<td>" + getDateTimeString(r.meta.dateStop.getTime() - r.meta.dateStart.getTime()) + "</td>" +
             "<td>" + r.meta.song + "</td>" +
             "<td>" + HANDS_LABEL[r.meta.hands] + "</td>" +
             "<td style='text-align:right'>" + r.meta.firstMeasure + "</td>" +
