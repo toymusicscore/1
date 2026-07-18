@@ -3378,11 +3378,17 @@ function lineScore(tick){
             });
 
 			if(view.scoreViewData[i] === selectedNote){
-				ctx.beginPath();
-				ctx.arc(x1,y,view.kw,0,2*Math.PI,false);
-				ctx.strokeStyle = "red";
-				ctx.stroke();
-            }
+				if(view.scoreViewData[i].shape === "circle"){
+					ctx.beginPath();
+					ctx.arc(x1,y,view.kw,0,2*Math.PI,false);
+					ctx.strokeStyle = view.scoreViewData[i].color;
+					ctx.width = view.scoreViewData[i].width;
+					ctx.stroke();
+				}else if(view.scoreViewData[i].shape === "square"){
+					ctx.fillStyle= view.scoreViewData[i].color;
+					ctx.fillRect(x0,y,view.kw*2,view.kw*2);
+				}
+			}
 
 			ctx.fillStyle=workingColor.pc[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
