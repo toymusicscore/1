@@ -6933,14 +6933,13 @@ const textMenuData = {
         ]
 
     },
-	
-	"Position":[
-		"Left",
-		"Right"
-	]
 
 };
 
+const textPositionMenuData = [
+    "Left",
+    "Right"
+];
 
 
 
@@ -7014,7 +7013,7 @@ function showTextItems(category, sub){
 
         btn.onclick = function(){
 
-            setText(text);
+            showTextposition(text);
 
         };
 
@@ -7024,13 +7023,38 @@ function showTextItems(category, sub){
 
 }
 
-function setText(text){
+
+function showTextPosition(text){
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+
+    textPositionData.forEach(position=>{
+
+        const btn = document.createElement("button");
+
+        btn.textContent = position;
+
+        btn.onclick = function(){
+
+            setText(text, position);
+
+        };
+
+        menu.appendChild(btn);
+
+    });
+
+}
+
+function setText(text, position){
 
     if(!selectedNote) return;
 
     selectedNote.text = text;
 
-	selectedNote.textPosition = "right";
+	selectedNote.textPosition = position;
 
     lineScore(currentViewTick);
 
