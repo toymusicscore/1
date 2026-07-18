@@ -3251,6 +3251,7 @@ function getViewInfo(){
 
 let notePosition = [];
 
+let markerVisible = true;
 
 function lineScore(tick){
     notePosition = [];
@@ -3377,8 +3378,7 @@ function lineScore(tick){
                 y: y
             });
 
-		if(view.scoreViewData[i].marker){
-
+		if(markerVisible && view.scoreViewData[i].marker){
 			let size = view.kw;
 
 			switch(view.scoreViewData[i].marker.shape){
