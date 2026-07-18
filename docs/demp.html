@@ -6982,10 +6982,6 @@ let currentMarker = {
     width: 2
 };
 
-currentMarker.shape = "Triangle";
-currentMarker.color = "#0000ff";
-currentMarker.width = 4;
-selectedNote.marker = structuredClone(currentMarker);
 
 function selectSymbolMenuItem(shape, color, width){
 
@@ -7032,8 +7028,9 @@ function showMarkerSubMenu(category){
 
         btn.onclick = function(){
 
-            // Shape, Color, Width を currentMarker に保存
-        };
+			setMarker(shape, color, width);
+
+		};
 
         menu.appendChild(btn);
 
@@ -7041,62 +7038,15 @@ function showMarkerSubMenu(category){
 }
 
 
-function showMarkerSubMenu(category){
-
-    const menu = $("textMenu");
-
-    menu.innerHTML = "";
-
-
-    for(const sub in markerMenuData[category]){
-
-        const btn = document.createElement("button");
-
-        btn.textContent = sub;
-
-        btn.onclick = function(){
-
-            showMarkerItems(category, sub);
-
-        };
-
-        menu.appendChild(btn);
-
-    }
-}
-
-function showMarkerItems(category, sub){
-
-    const menu = $("textMenu");
-
-    menu.innerHTML = "";
-
-
-    markerMenuData[category][sub].forEach(text=>{
-
-        const btn = document.createElement("button");
-
-        btn.textContent = text;
-
-        btn.onclick = function(){
-
-            setMarker(category, sub, text);
-
-        };
-
-        menu.appendChild(btn);
-
-    });
-
-}
 
 function setMarker(shape, color, width){
 
     if(!selectedNote) return;
 
-    selectedNote.shape = shape;
-    selectedNote.color = color;
-    selectedNote.width = width;
+	currentMarker.shape = shape;
+	currentMarker.color = color;
+	currentMarker.width = width;
+	selectedNote.marker = structuredClone(currentMarker);
 
     lineScore(currentViewTick);
 
