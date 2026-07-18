@@ -5038,7 +5038,7 @@ function showPracticeHistory(){
             "<tr>" +
             "<td>" + getDateTimeString(r.meta.dateStart) + "</td>" +
             "<td>" + getDateTimeString(r.meta.dateStop) + "</td>" +
-            "<td>" + getDateTimeString(r.meta.dateStop.getTime() - r.meta.dateStart.getTime()) + "</td>" +
+            "<td>" + getDurationTimeString(r.meta.dateStop.getTime() - r.meta.dateStart.getTime()) + "</td>" +
             "<td>" + r.meta.song + "</td>" +
             "<td>" + HANDS_LABEL[r.meta.hands] + "</td>" +
             "<td style='text-align:right'>" + r.meta.firstMeasure + "</td>" +
@@ -5584,6 +5584,24 @@ function getDateTimeString(ms){
     ).padStart(2, "0");
 
     return `${y}${m}${day}-${h}${min}${s}`;
+}
+
+
+function getDurationTimeString(ms){
+
+    const h = String(
+        d.getHours()
+    ).padStart(2, "0");
+
+    const min = String(
+        d.getMinutes()
+    ).padStart(2, "0");
+
+    const s = String(
+        d.getSeconds()
+    ).padStart(2, "0");
+
+    return `${h}${min}${s}`;
 }
 
 //
