@@ -3376,7 +3376,26 @@ function lineScore(tick){
                 x: x1,
                 y: y
             });
-			
+/*
+			if(view.scoreViewData[i] === selectedNote){
+				if(view.scoreViewData[i].marker.shape === "Circle"){
+					ctx.beginPath();
+					ctx.arc(x1,y,view.kw,0,2*Math.PI,false);
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.width = view.scoreViewData[i].marker.width;
+					ctx.stroke();
+				}else if(view.scoreViewData[i].marker.shape === "Square"){
+					ctx.fillStyle= view.scoreViewData[i].marker.color;
+					ctx.width = view.scoreViewData[i].marker.width;
+					ctx.strokeRect(
+						x0 - view.kw/2,
+						y - view.kw,
+						view.kw*2,
+						view.kw*2
+					);
+				}
+			}
+*/
 			let size = view.kw;
 			switch(view.scoreViewData[i].marker.shape){
 				case "Circle":
