@@ -3574,7 +3574,7 @@ function lineScore(tick){
 			}
 
 
-			if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition == "Right"){
+			if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition === "Right"){
 
 				const text = view.scoreViewData[i].text;
 
@@ -3602,7 +3602,7 @@ function lineScore(tick){
 					x,
 					y
 				);
-			}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition == "Left"){
+			}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition === "Left"){
 
 				const text = view.scoreViewData[i].text;
 
@@ -3610,7 +3610,7 @@ function lineScore(tick){
 				ctx.textAlign = "left";
 				ctx.textBaseline = "middle";
 
-				const x = 25;
+				const x = 30;
 				const w = ctx.measureText(text).width;
 				const h = 24;
 
