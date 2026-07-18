@@ -2482,7 +2482,7 @@ function updateTextButton(){
 }
 
 function updateTextPositionButton(){
-
+    if(!selectedNote) return;
     const btn = $("btnToggleTextPositionView");
     if(btn){
         btn.value = selectedNote.textPosition == "Right" ? "Text Left" : "Text Right";
@@ -3698,6 +3698,7 @@ function toggleTextView(){
 }	
 
 function toggleTextPositionView(){
+    if(!selectedNote) return;
 
 	if(selectedNote.textPosition =="left"){
 		selectedNote.textPosition = "right"
