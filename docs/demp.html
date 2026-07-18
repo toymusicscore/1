@@ -3378,14 +3378,15 @@ function lineScore(tick){
             });
 
 			if(view.scoreViewData[i] === selectedNote){
-				if(view.scoreViewData[i].shape === "circle"){
+				if(view.scoreViewData[i].marker.shape === "circle"){
 					ctx.beginPath();
 					ctx.arc(x1,y,view.kw,0,2*Math.PI,false);
-					ctx.strokeStyle = view.scoreViewData[i].color;
-					ctx.width = view.scoreViewData[i].width;
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.width = view.scoreViewData[i].marker.width;
 					ctx.stroke();
 				}else if(view.scoreViewData[i].shape === "square"){
-					ctx.fillStyle= view.scoreViewData[i].color;
+					ctx.fillStyle= view.scoreViewData[i].marker.color;
+					ctx.width = view.scoreViewData[i].marker.width;
 					ctx.fillRect(x0,y,view.kw*2,view.kw*2);
 				}
 			}
