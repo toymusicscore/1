@@ -712,6 +712,13 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="hideNoteMenu()">Hide Menu</button>
 		<br>
 		<input 
+			id="btnToggleFingerView" 
+			type="button" 
+			value="Hide Finger" 
+			onclick="toggleFingerView()">
+        <button onclick="deleteFinger()">Delete Finger</button>
+		<br>
+		<input 
 			id="btnToggleMarkerView" 
 			type="button" 
 			value="Hide Marker" 
@@ -2446,6 +2453,13 @@ function updateRecordButton(){
     }
 }
 
+function updateFingerButton(){
+    const btn = $("btnToggleFingerView");
+    if(btn){
+        btn.value = fingerVisivle ? "Hide Finger" : "Show Finger";
+    }
+}
+
 function updateMarkerButton(){
     const btn = $("btnToggleMarkerView");
     if(btn){
@@ -3306,6 +3320,7 @@ function getViewInfo(){
 
 let notePosition = [];
 
+let fingerVisible = true;
 let markerVisible = true;
 let symbolVisible = true;
 let textVisible = true;
@@ -3655,6 +3670,18 @@ function toggleRecordView(){
     if(!btn) return;
 
     btn.value = recordVisible ? "Hide Record" : "Show Record";
+	
+	showSelectedView();
+
+}	
+
+function toggleFingerView(){
+    fingerVisible = !fingerVisible;
+
+    const btn = $("btnToggleFingerView");
+    if(!btn) return;
+
+    btn.value = fingerVisible ? "Hide Finger" : "Show Finger";
 	
 	showSelectedView();
 
@@ -6816,16 +6843,27 @@ function setFinger(finger){
     updateNote();
 }
 
-/*
-function setLabel(label){
+
+function hideFinger(){
+	fingerVisible = false;
+    lineScore(currentViewTick);
+}
+
+function showFinger(){
+    fingerVisible = true;
+    lineScore(currentViewTick);
+}
+
+function deleteFinger(){
 
     if(!selectedNote) return;
 
-    selectedNote.label = label;
+    selectedNote.finger = null;
 
-    updateNote();
+    lineScore(currentViewTick);
+
 }
-*/
+
 
 const textMenuData = {
 
