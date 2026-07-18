@@ -2482,10 +2482,10 @@ function updateTextButton(){
 }
 
 function updateTextPositionButton(){
-	selectNote();
+
     const btn = $("btnToggleTextPositionView");
     if(btn){
-        btn.value = selectedNote.textPosition == Right ? "Text Left" : "Text Right";
+        btn.value = selectedNote.textPosition == "Right" ? "Text Left" : "Text Right";
     }
 }
 
@@ -3698,7 +3698,7 @@ function toggleTextView(){
 }	
 
 function toggleTextPositionView(){
-	selectNote();
+
 	if(selectedNote.textPosition =="left"){
 		selectedNote.textPosition = "right"
 	}else if(selectedNote.textPosition =="right"){
