@@ -4973,8 +4973,8 @@ function saveRecord(){
 
 	const record = {
 		meta: {
-			dateStart: recordStartTime,
-			dateStop: recordStopTime,			                // 数値（比較しやすい）
+			dateStart: recordStartTime.getTime(),
+			dateStop: recordStopTime.getTime(),			                // 数値（比較しやすい）
 			song: val("song1"),
 			hands: num("hands"),
 			// 0: Both, 1: Right, 2: Left
@@ -5036,9 +5036,9 @@ function showPracticeHistory(){
     history.forEach(r => {
         html +=
             "<tr>" +
-            "<td>" + getDateTimeString(r.meta.dateStart) + "</td>" +
-            "<td>" + getDateTimeString(r.meta.dateStop) + "</td>" +
-            "<td>" + getDurationTimeString(r.meta.dateStop.getTime() - r.meta.dateStart.getTime()) + "</td>" +
+            "<td>" + getDateTimeString(new Date(r.meta.dateStart)) + "</td>" +
+            "<td>" + getDateTimeString(new Date(r.meta.dateStop)) + "</td>" +
+            "<td>" + getDurationTimeString(r.meta.dateStop - r.meta.dateStart) + "</td>" +
             "<td>" + r.meta.song + "</td>" +
             "<td>" + HANDS_LABEL[r.meta.hands] + "</td>" +
             "<td style='text-align:right'>" + r.meta.firstMeasure + "</td>" +
