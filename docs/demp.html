@@ -2453,41 +2453,6 @@ function updateRecordButton(){
     }
 }
 
-function updateFingerButton(){
-    const btn = $("btnToggleFingerView");
-    if(btn){
-        btn.value = fingerVisivle ? "Hide Finger" : "Show Finger";
-    }
-}
-
-function updateMarkerButton(){
-    const btn = $("btnToggleMarkerView");
-    if(btn){
-        btn.value = markerVisivle ? "Hide Marker" : "Show Marker";
-    }
-}
-
-function updateSymbolButton(){
-    const btn = $("btnToggleSymbolView");
-    if(btn){
-        btn.value = symbolVisivle ? "Hide Symbol" : "Show Symbol";
-    }
-}
-
-function updateTextButton(){
-    const btn = $("btnToggleTextView");
-    if(btn){
-        btn.value = textVisivle ? "Hide Text" : "Show Text";
-    }
-}
-
-function updateTextPositionButton(){
-    if(!selectedNote) return;
-    const btn = $("btnToggleTextPositionView");
-    if(btn){
-        btn.value = selectedNote.textPosition == "Right" ? "Text Left" : "Text Right";
-    }
-}
 
 function clearRecord(){
 	playbackOffsetTime = 0;
@@ -3698,6 +3663,8 @@ function toggleTextView(){
 
 function toggleTextPositionView(){
     if(!selectedNote) return;
+    const btn = $("btnToggleTextPositionView");
+    if(!btn) return;
 
 	if(selectedNote.textPosition =="Left0"){
 		selectedNote.textPosition = "Left1";
@@ -3730,10 +3697,6 @@ function toggleTextPositionView(){
 		selectedNote.textPosition = "Right";
 		btn.value="Left0";
 	}
-
-    const btn = $("btnToggleTextPositionView");
-    if(!btn) return;
-
 	
 	showSelectedView();
 
