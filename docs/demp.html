@@ -6828,7 +6828,7 @@ let selectedNote = null;
 
 function updateNote(){
 
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 
     $("noteMenu").style.display = "none";
 
@@ -6848,12 +6848,12 @@ function setFinger(finger){
 
 function hideFinger(){
 	fingerVisible = false;
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 }
 
 function showFinger(){
     fingerVisible = true;
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 }
 
 function deleteFinger(){
@@ -6862,7 +6862,7 @@ function deleteFinger(){
 
     selectedNote.finger = null;
 
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 
 }
 
@@ -7063,7 +7063,7 @@ function setText(text, position){
 
 	selectedNote.textPosition = position;
 
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 
     $("noteMenu").style.display = "none";
 
@@ -7262,7 +7262,7 @@ function setSymbol(symbol){
 
     selectedNote.symbol = symbol;
 
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 
     $("noteMenu").style.display = "none";
 
@@ -7357,7 +7357,7 @@ function setMarker(){
 
 	selectedNote.marker = structuredClone(currentMarker);
 
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 
     $("noteMenu").style.display = "none";
 
@@ -7372,12 +7372,12 @@ function setMarker(){
 
 function hideMarker(){
 	markerVisible = false;
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 }
 
 function showMarker(){
     markerVisible = true;
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 }
 
 function deleteMarker(){
@@ -7386,19 +7386,19 @@ function deleteMarker(){
 
     selectedNote.marker = null;
 
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 
 }
 
 
 function hideSymbol(){
 	symbolVisible = false;
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 }
 
 function showSymbol(){
     symbolVisible = true;
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 }
 
 function deleteSymbol(){
@@ -7407,19 +7407,19 @@ function deleteSymbol(){
 
     selectedNote.symbol = null;
 
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 
 }
 
 
 function hideText(){
 	textVisible = false;
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 }
 
 function showText(){
     textVisible = true;
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 }
 
 function deleteText(){
@@ -7428,7 +7428,7 @@ function deleteText(){
 
     selectedNote.text = null;
 
-    lineScore(currentViewTick);
+    lineScore(pauseTick);
 
 }
 
