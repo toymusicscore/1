@@ -6994,6 +6994,30 @@ function selectSymbolMenuItem(shape, color, width){
 }
 
 
+function showMarkerMenu(){
+
+    $("mainNoteMenu").style.display = "none";
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+    menu.style.display = "block";
+
+
+    for(const category in markerMenuData){
+
+        const btn = document.createElement("button");
+
+        btn.textContent = category;
+
+        btn.onclick = function(){
+            showMarkerSubMenu(category);
+        };
+
+        menu.appendChild(btn);
+    }
+}
+
 function showMarkerSubMenu(category){
 
     const menu = $("textMenu");
