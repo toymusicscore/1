@@ -706,6 +706,7 @@ Upper Limit: Largest allowable distance between the two fingers.
 
         <br>
 
+        <button onclick="showMarker()">Marker</button>
         <button onclick="showSymbolMenu()">Symbol</button>
         <button onclick="showTextMenu()">Text</button>
         <button onclick="hideNoteMenu()">X</button>
@@ -6932,6 +6933,148 @@ function setSymbol(symbol){
     if(!selectedNote) return;
 
     selectedNote.symbol = symbol;
+
+    lineScore(currentViewTick);
+
+    $("noteMenu").style.display = "none";
+
+    $("mainNoteMenu").style.display = "block";
+
+	$("textMenu").style.display = "none";
+
+    selectedNote = null;
+}
+
+const markerMenuData = {
+
+    "Shape": {
+
+        "Basic": [
+            "Circle",
+            "Square",
+            "Triangle"
+        ],
+
+        "Other": [
+            "Diamond",
+            "Star",
+            "Check"
+        ]
+
+    },
+
+    "Color": {
+
+        "Standard": [
+            "Red",
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Purple",
+            "Black"
+        ]
+
+    },
+
+    "Line Width": {
+
+        "Width": [
+            "Thin",
+            "Normal",
+            "Thick"
+        ]
+
+    }
+
+};
+
+function selectSymbolMenuItem(marker){
+console.log($("mainNoteMenu"));
+    setMarker(marker);
+
+}
+
+
+function showMarkerMenu(){
+
+    $("mainNoteMenu").style.display = "none";
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+    menu.style.display = "block";
+
+
+    for(const category in symbolMenuData){
+
+        const btn = document.createElement("button");
+
+        btn.textContent = category;
+
+        btn.onclick = function(){
+            showMarkerSubMenu(category);
+        };
+
+        menu.appendChild(btn);
+    }
+}
+
+
+function showMarkerSubMenu(category){
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+
+
+    for(const sub in markerMenuData[category]){
+
+        const btn = document.createElement("button");
+
+        btn.textContent = sub;
+
+        btn.onclick = function(){
+
+            showMarkerItems(category, sub);
+
+        };
+
+        menu.appendChild(btn);
+
+    }
+}
+
+function showMarkerItems(category, sub){
+
+    const menu = $("textMenu");
+
+    menu.innerHTML = "";
+
+
+    symbolMenuData[category][sub].forEach(text=>{
+
+        const btn = document.createElement("button");
+
+        btn.textContent = text;
+
+        btn.onclick = function(){
+
+            setMarker(text);
+
+        };
+
+        menu.appendChild(btn);
+
+    });
+
+}
+
+function setSymbol(marker){
+
+    if(!selectedNote) return;
+
+    selectedNote.marker = marker;
 
     lineScore(currentViewTick);
 
