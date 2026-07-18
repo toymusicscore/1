@@ -3486,8 +3486,15 @@ function lineScore(tick){
             }
 
 			if(view.scoreViewData[i].symbol){
-				ctx.fillStyle = workingColor.text[3];
 				ctx.textAlign = "left";
+				ctx.fillStyle = "#ffffff";
+				ctx.fillRect(
+					20,
+					y,
+					view.scoreViewData[i].symbol.length * 20,
+					20
+				);
+				ctx.fillStyle = workingColor.text[3];
 				ctx.font = "20px Arial";
 				ctx.fillText(
 					view.scoreViewData[i].symbol,
@@ -3497,6 +3504,13 @@ function lineScore(tick){
 			}
 
 			if(view.scoreViewData[i].text){
+				ctx.fillStyle = "#ffffff";
+				ctx.fillRect(
+					canvas.width-20,
+					y,
+					view.scoreViewData[i].text.length * 20,
+					20
+				);
 				ctx.fillStyle = workingColor.text[4];
 				ctx.textAlign = "right";
 				ctx.font = "20px Arial";
@@ -6729,7 +6743,6 @@ const textMenuData = {
 
 
 function selectTextMenuItem(text){
-console.log($("mainNoteMenu"));
     setText(text);
 
 }
