@@ -7080,7 +7080,7 @@ function showMarkerSubMenu(category){
 function setMarker(){
 
     if(!selectedNote) return;
-console.log("selectedNote =", selectedNote);
+
 	selectedNote.marker = structuredClone(currentMarker);
 
     lineScore(currentViewTick);
@@ -7094,6 +7094,14 @@ console.log("selectedNote =", selectedNote);
     selectedNote = null;
 }
 
+function hideMarker(){
+	markerVisible = false;
+}
+
+function deleteMarler(){
+	selectNote();
+	selectedNote.marker = null;
+}
 
 function onNoteTap(index, x, y){
 
