@@ -7040,46 +7040,18 @@ function showMarkerSubMenu(category){
     });
 }
 
-function showMarkerItems(item){
 
-    const menu = $("textMenu");
-
-    menu.innerHTML = "";
-
-
-    markerMenuData[sub][item].forEach(text=>{
-
-        const btn = document.createElement("button");
-
-        btn.textContent = text;
-
-        btn.onclick = function(){
-
-            setmarker(sub, item, text);
-
-        };
-
-        menu.appendChild(btn);
-
-    });
-
-}
-
-
-function setMarker(shape, color, width){
+function setMarker(){
 
     if(!selectedNote) return;
 
-	currentMarker.shape = shape;
-	currentMarker.color = color;
-	currentMarker.width = width;
 	selectedNote.marker = structuredClone(currentMarker);
 
     lineScore(currentViewTick);
 
     $("noteMenu").style.display = "none";
 
-    $("mainNoteMenu").style.display = "block";
+    $("mainNoteMenu").style.display = "none";
 
 	$("textMenu").style.display = "none";
 
