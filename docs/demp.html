@@ -3384,7 +3384,7 @@ function lineScore(tick){
 
 						ctx.beginPath();
 						ctx.strokeStyle = view.scoreViewData[i].marker.color;
-						ctx.width = view.scoreViewData[i].marker.width;
+						ctx.lineWidth = view.scoreViewData[i].marker.width;
 						ctx.arc(x1, y, size, 0, Math.PI * 2);
 						ctx.stroke();
 						break;
@@ -3392,7 +3392,7 @@ function lineScore(tick){
 					case "Square":
 
 						ctx.strokeStyle = view.scoreViewData[i].marker.color;
-						ctx.width = view.scoreViewData[i].marker.width;
+						ctx.lineWidth = view.scoreViewData[i].marker.width;
 						ctx.strokeRect(
 							x1 - size,
 							y - size,
@@ -3404,7 +3404,7 @@ function lineScore(tick){
 					case "Triangle":
 
 						ctx.strokeStyle = view.scoreViewData[i].marker.color;
-						ctx.width = view.scoreViewData[i].marker.width;
+						ctx.lineWidth = view.scoreViewData[i].marker.width;
 						ctx.beginPath();
 
 						ctx.moveTo(
