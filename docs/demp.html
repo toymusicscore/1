@@ -3574,7 +3574,7 @@ function lineScore(tick){
 			}
 
 
-			if(textVisible && view.scoreViewData[i].text){
+			if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition){
 
 				console.log(view.scoreViewData[i].textPosition)
 				const text = view.scoreViewData[i].text;
@@ -3603,7 +3603,7 @@ function lineScore(tick){
 					x,
 					y
 				);
-			}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition == "left"){
+			}else if(textVisible && view.scoreViewData[i].text){
 
 				const text = view.scoreViewData[i].text;
 
