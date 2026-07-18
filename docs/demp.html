@@ -6953,29 +6953,28 @@ function setSymbol(symbol){
 
 const markerMenuData = {
 
-    shape: [
+    "Shape": [
         "Circle",
         "Square",
         "Triangle"
     ],
 
-    color: {
-        "Red":    "#ff0000",
-        "Green":  "#00ff00",
-        "Blue":   "#0000ff",
-        "Yellow": "#ffff00",
-        "Black":  "#000000"
-    },
+    "Color": [
+        "Red",
+        "Green",
+        "Blue",
+        "Yellow",
+        "Black"
+    ],
 
-    width: [
-        1,
-        2,
-        3,
-        4,
-        5
+    "Width": [
+        "Thin",
+        "Normal",
+        "Thick"
     ]
 
 };
+
 
 let currentMarker = {
     shape: "Circle",
@@ -6995,28 +6994,26 @@ function selectSymbolMenuItem(shape, color, width){
 }
 
 
-function showMarkerMenu(){
-
-    $("mainNoteMenu").style.display = "none";
+function showMarkerSubMenu(category){
 
     const menu = $("textMenu");
 
     menu.innerHTML = "";
-    menu.style.display = "block";
 
-
-    for(const category in markerMenuData){
+    markerMenuData[category].forEach(item => {
 
         const btn = document.createElement("button");
 
-        btn.textContent = category;
+        btn.textContent = item;
 
         btn.onclick = function(){
-            showMarkerSubMenu(category);
+
+            // Shape, Color, Width を currentMarker に保存
         };
 
         menu.appendChild(btn);
-    }
+
+    });
 }
 
 
