@@ -3396,51 +3396,52 @@ function lineScore(tick){
 				}
 			}
 */
-			let size = view.kw;
-			switch(view.scoreViewData[i].marker.shape){
-				case "Circle":
+			if(view.scoreViewData[i] === selectedNote){
+				let size = view.kw;
+				switch(view.scoreViewData[i].marker.shape){
+					case "Circle":
 
-					ctx.beginPath();
-					ctx.arc(x, y, size, 0, Math.PI * 2);
-					ctx.fill();
-					break;
+						ctx.beginPath();
+						ctx.arc(x, y, size, 0, Math.PI * 2);
+						ctx.fill();
+						break;
 
-				case "Square":
+					case "Square":
 
-					ctx.fillRect(
-						x - size/2,
-						y - size,
-						size * 2,
-						size * 2
-					);
-					break;
+						ctx.fillRect(
+							x - size/2,
+							y - size,
+							size * 2,
+							size * 2
+						);
+						break;
 
-				case "Triangle":
+					case "Triangle":
 
-					ctx.beginPath();
+						ctx.beginPath();
 
-					ctx.moveTo(
-						x,
-						y - size
-					);
+						ctx.moveTo(
+							x,
+							y - size
+						);
 
-					ctx.lineTo(
-						x - size,
-						y + size
-					);
+						ctx.lineTo(
+							x - size,
+							y + size
+						);
 
-					ctx.lineTo(
-						x + size,
-						y + size
-					);
+						ctx.lineTo(
+							x + size,
+							y + size
+						);
 
-					ctx.closePath();
+						ctx.closePath();
 
-					ctx.fill();
-					break;
+						ctx.fill();
+						break;
 
+				}
 			}
-
 			ctx.fillStyle=workingColor.pc[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
 			ctx.beginPath();
