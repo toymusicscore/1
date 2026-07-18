@@ -3394,17 +3394,17 @@ function lineScore(tick){
                 y: y
             });
 
+			if(view.scoreViewData[i] === selectedNote){
+                ctx.strokeStyle = "red";
+                ctx.strokeRect(x0,y,view.kw,20);
+            }
+
 			ctx.fillStyle=workingColor.pc[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
 			ctx.beginPath();
 			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
 			ctx.fill();
-
-            if(view.scoreViewData[i] === selectedNote){
-                ctx.strokeStyle = "red";
-                ctx.strokeRect(x0,y,view.kw,20);
-            }
 
             getLabel(midi, n_id);
 			if (nl!=""){
