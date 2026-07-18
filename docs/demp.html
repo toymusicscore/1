@@ -6984,29 +6984,43 @@ let currentMarker = {
 };
 
 
-function showMarkerSubMenu(){
+function showMarkerSubMenu(category){
 
     const menu = $("textMenu");
-
     menu.innerHTML = "";
 
-    markerMenuData[sub].forEach(item => {
+    markerMenuData[category].forEach(item => {
 
         const btn = document.createElement("button");
-
         btn.textContent = item;
 
         btn.onclick = function(){
 
-			showMarkerItems(item);
+            switch(category){
 
-		};
+                case "Shape":
+                    currentMarker.shape = item;
+                    showMarkerSubMenu("Color");
+                    break;
+
+                case "Color":
+                    currentMarker.color = item;
+                    showMarkerSubMenu("Width");
+                    break;
+
+                case "Width":
+                    currentMarker.width = item;
+                    selectedNote.marker = structuredClone(currentMarker);
+                    setMarker();
+                    break;
+            }
+
+        };
 
         menu.appendChild(btn);
 
     });
 }
-
 
 function showMarkerItems(item){
 
