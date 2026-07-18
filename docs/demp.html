@@ -7104,9 +7104,15 @@ function showMarker(){
     lineScore(currentViewTick);
 }
 
-function deleteMarler(){
-	selectNote();
-	selectedNote.marker = null;
+function deleteMarker(){
+
+    selectNote();
+
+    if(!selectedNote) return;
+
+    selectedNote.marker = null;
+
+    lineScore(currentViewTick);
 
 }
 
