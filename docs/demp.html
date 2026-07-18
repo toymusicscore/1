@@ -6986,6 +6986,9 @@ let currentMarker = {
 
 function showMarkerSubMenu(category){
 
+    alert(category);
+	alert(JSON.stringify(markerMenuData));
+
     console.log("category =", category);
     console.log("markerMenuData =", markerMenuData);
     console.log("markerMenuData[category] =", markerMenuData[category]);
@@ -6994,6 +6997,8 @@ function showMarkerSubMenu(category){
     menu.innerHTML = "";
 
     markerMenuData[category].forEach(item => {
+
+    console.log("add button:", item);
 
         const btn = document.createElement("button");
         btn.textContent = item;
