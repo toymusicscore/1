@@ -3602,7 +3602,7 @@ function lineScore(tick){
 					x,
 					y
 				);
-			}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition === "Left"){
+			}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition.substr(0,3) === "Left"){
 
 				const text = view.scoreViewData[i].text;
 
@@ -3610,35 +3610,7 @@ function lineScore(tick){
 				ctx.textAlign = "left";
 				ctx.textBaseline = "middle";
 
-				const x = 60;
-				const w = ctx.measureText(text).width;
-				const h = 24;
-
-				ctx.fillStyle = "#ffffff";
-
-				ctx.fillRect(
-					x - 2,
-					y - h / 2,
-					w + 4,
-					h
-				);
-
-				ctx.fillStyle = workingColor.text[4];
-
-				ctx.fillText(
-					text,
-					x,
-					y
-				);
-				}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition === "Center"){
-
-				const text = view.scoreViewData[i].text;
-
-				ctx.font = "20px Arial";
-				ctx.textAlign = "left";
-				ctx.textBaseline = "middle";
-
-				const x = 200;
+				const x = view.scoreViewData[i].textPosition.substr(4,1) * 100;
 				const w = ctx.measureText(text).width;
 				const h = 24;
 
@@ -3659,8 +3631,6 @@ function lineScore(tick){
 					y
 				);
 			}
-
-
 		}
 	}
 };
@@ -6946,8 +6916,11 @@ const textMenuData = {
 };
 
 const textPositionMenuData = [
-    "Left",
-	"Center",
+    "Left0",
+	"Left1",
+	"Left2",
+	"Left3",
+	"Left4",
     "Right"
 ];
 
