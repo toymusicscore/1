@@ -3606,11 +3606,15 @@ function lineScore(tick){
 
 				const text = view.scoreViewData[i].text;
 
+				const symbolLen = 0;
+				if (view.scoreViewData[i].symbol){
+				symbolLen = view.scoreViewData[i].symbol.length;}
+
 				ctx.font = "20px Arial";
 				ctx.textAlign = "left";
 				ctx.textBaseline = "middle";
 
-				const x = 100;
+				const x = symbolLen * 20 + 20;
 				const w = ctx.measureText(text).width;
 				const h = 24;
 
