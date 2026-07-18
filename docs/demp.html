@@ -7233,6 +7233,48 @@ function deleteMarker(){
 }
 
 
+function hideSymbol(){
+	symbolVisible = false;
+    lineScore(currentViewTick);
+}
+
+function showSymbol(){
+    symbolVisible = true;
+    lineScore(currentViewTick);
+}
+
+function deleteSymbol(){
+
+    if(!selectedNote) return;
+
+    selectedNote.symbol = null;
+
+    lineScore(currentViewTick);
+
+}
+
+
+function hideText(){
+	textVisible = false;
+    lineScore(currentViewTick);
+}
+
+function showText(){
+    textVisible = true;
+    lineScore(currentViewTick);
+}
+
+function deleteMarker(){
+
+    if(!selectedNote) return;
+
+    selectedNote.marker = null;
+
+    lineScore(currentViewTick);
+
+}
+
+
 function onNoteTap(index, x, y){
 
     selectedNote = scoreData[index];
