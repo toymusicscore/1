@@ -3376,6 +3376,13 @@ function lineScore(tick){
                 y: y
             });
 
+			if(view.scoreViewData[i] === selectedNote){
+				ctx.beginPath();
+				ctx.arc(x1,y,view.kw,0,2*Math.PI,false);
+				ctx.strokeStyle = "red";
+				ctx.stroke();
+            }
+
 			ctx.fillStyle=workingColor.pc[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
 			ctx.beginPath();
