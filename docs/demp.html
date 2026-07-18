@@ -6947,51 +6947,39 @@ function setSymbol(symbol){
 
 const markerMenuData = {
 
-    "Shape": {
+    shape: [
+        "Circle",
+        "Square",
+        "Triangle"
+    ],
 
-        "Basic": [
-            "Circle",
-            "Square",
-            "Triangle"
-        ],
-
-        "Other": [
-            "Diamond",
-            "Star",
-            "Check"
-        ]
-
+    color: {
+        "Red":    "#ff0000",
+        "Green":  "#00ff00",
+        "Blue":   "#0000ff",
+        "Yellow": "#ffff00",
+        "Black":  "#000000"
     },
 
-    "Color": {
-
-        "Standard": [
-            "Red",
-            "Orange",
-            "Yellow",
-            "Green",
-            "Blue",
-            "Purple",
-            "Black"
-        ]
-
-    },
-
-    "Line Width": {
-
-        "Width": [
-            "Thin",
-            "Normal",
-            "Thick"
-        ]
-
-    }
+    width: [
+        1,
+        2,
+        3,
+        4,
+        5
+    ]
 
 };
 
-function selectSymbolMenuItem(marker){
-console.log($("mainNoteMenu"));
-    setMarker(marker);
+let currentMarker = {
+    shape: "Circle",
+    color: "#ff0000",
+    width: 2
+};
+
+function selectSymbolMenuItem(shape, color, width){
+
+	setMarker(shape, color, width);
 
 }
 
@@ -7070,7 +7058,7 @@ function showMarkerItems(category, sub){
 
 }
 
-function setSymbol(marker){
+function setMarker(marker){
 
     if(!selectedNote) return;
 
