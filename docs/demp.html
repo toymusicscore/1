@@ -731,6 +731,12 @@ Upper Limit: Largest allowable distance between the two fingers.
 			value="Hide Text" 
 			onclick="toggleTextView()">
         <button onclick="deleteText()">Delete Text</button>
+		<br>
+		<input 
+			id="btnToggleSymbolTextView" 
+			type="button" 
+			value="Text Left" 
+			onclick="toggleSymboleTextView()">
 
     </div>
 
@@ -2461,6 +2467,13 @@ function updateTextButton(){
     }
 }
 
+function updateSymbolTextButton(){
+    const btn = $("btnToggleSymbolTextView");
+    if(btn){
+        btn.value = symbolLeftTextRight ? "Text Left" : "Text Right";
+    }
+}
+
 function clearRecord(){
 	playbackOffsetTime = 0;
 	recordData = [];
@@ -3296,6 +3309,7 @@ let notePosition = [];
 let markerVisible = true;
 let symbolVisible = true;
 let textVisible = true;
+let symbolLeftTextRight = true;
 
 function lineScore(tick){
     notePosition = [];
@@ -3621,6 +3635,18 @@ function toggleTextView(){
     if(!btn) return;
 
     btn.value = textVisible ? "Hide Text" : "Show Text";
+	
+	showSelectedView();
+
+}	
+
+function toggleSymbolTextView(){
+    symbolLeftTextRight = !symbolLeftTextRight;
+
+    const btn = $("btnToggleSymbolTextView");
+    if(!btn) return;
+
+    btn.value = symbolLeftTextRight ? "Text Left" : "Text Right";
 	
 	showSelectedView();
 
