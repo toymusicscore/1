@@ -717,6 +717,20 @@ Upper Limit: Largest allowable distance between the two fingers.
 			value="Hide Marker" 
 			onclick="toggleMarkerView()">
         <button onclick="deleteMarker()">Delete Marker</button>
+		<br>
+		<input 
+			id="btnToggleSymbolView" 
+			type="button" 
+			value="Hide Symbol" 
+			onclick="toggleSymbolView()">
+        <button onclick="deleteSymbol()">Delete Symbol</button>
+		<br>
+		<input 
+			id="btnToggleTextView" 
+			type="button" 
+			value="Hide Text" 
+			onclick="toggleTextView()">
+        <button onclick="deleteText()">Delete Text</button>
 
     </div>
 
@@ -2419,17 +2433,31 @@ function stopRecording(){
     stopRecord();
 }
 
-function updateMarkerButton(){
-    const btn = $("btnToggleMarkerView");
-    if(btn){
-        btn.value = markerVisivle ? "Hide Marker " : "Show Marker";
-    }
-}
-
 function updateRecordButton(){
     const btn = $("btnToggleRecordView");
     if(btn){
-        btn.value = recordVisible ? "Hide Record " : "Show Record";
+        btn.value = recordVisible ? "Hide Record" : "Show Record";
+    }
+}
+
+function updateMarkerButton(){
+    const btn = $("btnToggleMarkerView");
+    if(btn){
+        btn.value = markerVisivle ? "Hide Marker" : "Show Marker";
+    }
+}
+
+function updateSymbolButton(){
+    const btn = $("btnToggleSymbolView");
+    if(btn){
+        btn.value = symbolVisivle ? "Hide Symbol" : "Show Symbol";
+    }
+}
+
+function updateTextButton(){
+    const btn = $("btnToggleTextView");
+    if(btn){
+        btn.value = textVisivle ? "Hide Text" : "Show Text";
     }
 }
 
@@ -3266,6 +3294,8 @@ function getViewInfo(){
 let notePosition = [];
 
 let markerVisible = true;
+let symbolVisible = true;
+let textVisible = true;
 
 function lineScore(tick){
     notePosition = [];
@@ -3567,6 +3597,30 @@ function toggleMarkerView(){
     if(!btn) return;
 
     btn.value = markerVisible ? "Hide Marker" : "Show Marker";
+	
+	showSelectedView();
+
+}	
+
+function toggleSymbolView(){
+    symbolVisible = !symbolVisible;
+
+    const btn = $("btnToggleSymbolView");
+    if(!btn) return;
+
+    btn.value = symbolVisible ? "Hide Symbol" : "Show Symbol";
+	
+	showSelectedView();
+
+}	
+
+function toggleTextView(){
+    textVisible = !textVisible;
+
+    const btn = $("btnToggleTextView");
+    if(!btn) return;
+
+    btn.value = textVisible ? "Hide Text" : "Show Text";
 	
 	showSelectedView();
 
