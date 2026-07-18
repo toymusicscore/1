@@ -6932,7 +6932,12 @@ const textMenuData = {
             "Try again"
         ]
 
-    }
+    },
+	
+	"Position":[
+		"Left",
+		"Right"
+	]
 
 };
 
@@ -7024,6 +7029,8 @@ function setText(text){
     if(!selectedNote) return;
 
     selectedNote.text = text;
+
+	selectedNote.textPosition = "right";
 
     lineScore(currentViewTick);
 
