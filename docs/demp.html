@@ -3699,16 +3699,41 @@ function toggleTextView(){
 function toggleTextPositionView(){
     if(!selectedNote) return;
 
-	if(selectedNote.textPosition.sucstr(0,4) =="Left"){
-		selectedNote.textPosition = "Right"
-	}else if(selectedNote.textPosition =="Right"){
-		selectedNote.textPosition = "Left0"
+	if(selectedNote.textPosition =="Left0"){
+		selectedNote.textPosition = "Left1";
+		btn.value="Text Left2";
+	}else if(selectedNote.textPosition =="Left1"){
+		selectedNote.textPosition = "Left2";
+		btn.value="Text Left3";
+	}else if(selectedNote.textPosition =="Left2"){
+		selectedNote.textPosition = "Left3";
+		btn.value="Text Left4";
+	}else if(selectedNote.textPosition =="Left3"){
+		selectedNote.textPosition = "Left4";
+		btn.value="Text Left5";
+	}else if(selectedNote.textPosition =="Left4"){
+		selectedNote.textPosition = "Left5";
+		btn.value="Text Left6";
+	}else if(selectedNote.textPosition =="Left5"){
+		selectedNote.textPosition = "Left6";
+		btn.value="Text Left7";
+	}else if(selectedNote.textPosition =="Left6"){
+		selectedNote.textPosition = "Left7";
+		btn.value="Text Left8";
+	}else if(selectedNote.textPosition =="Left7"){
+		selectedNote.textPosition = "Left8";
+		btn.value="Text Left9";
+	}else if(selectedNote.textPosition =="Left8"){
+		selectedNote.textPosition = "Left9";
+		btn.value="Right";
+	}else if(selectedNote.textPosition =="Left9"){
+		selectedNote.textPosition = "Right";
+		btn.value="Left0";
 	}
 
     const btn = $("btnToggleTextPositionView");
     if(!btn) return;
 
-    btn.value = selectedNote.textPosition == "Right" ? "Text Left" : "Text Right";
 	
 	showSelectedView();
 
