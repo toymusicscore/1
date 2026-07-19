@@ -6955,24 +6955,36 @@ function showSongInfoTable(){
 
     table.innerHTML = `
         <tr>
-            <th>Category 1</th>
-            <th>Category 2</th>
-            <th>Item</th>
+            <th>title</th>
+            <th>composer</th>
+            <th>sourceUri</th>
+            <th>sourceLicense</th>
+            <th>soueceLicenseUrir</th>
+            <th>sourceStatus</th>
+            <th>performanceLicense</th>
+            <th>performanceLicenseUri</th>
+            <th>performanceStatus</th>
         </tr>
     `;
 
-    textMenuData.forEach((row, i) => {
+    songInfoData.forEach((row, i) => {
 
         table.innerHTML += `
             <tr>
-                <td><input class="category1" data-index="${i}" value="${row.category1}"></td>
-                <td><input class="category2" data-index="${i}" value="${row.category2}"></td>
-                <td><input class="item"      data-index="${i}" value="${row.item}"></td>
+                <td><input class="title" data-index="${i}" value="${row.title}"></td>
+                <td><input class="composer" data-index="${i}" value="${row.composer}"></td>
+                <td><input class="sourceUri"      data-index="${i}" value="${row.sourceUri}"></td>
+                <td><input class="sourceLicense" data-index="${i}" value="${row.sourceLicense}"></td>
+                <td><input class="sourceLicenseUri" data-index="${i}" value="${row.sourceLicenseUri}"></td>
+                <td><input class="sourceStatus"      data-index="${i}" value="${row.sourceStatus}"></td>
+                <td><input class="performanceLicense" data-index="${i}" value="${row.performanceLicense}"></td>
+                <td><input class="performanceLicenseUri" data-index="${i}" value="${row.performanceLicenseUri}"></td>
+                <td><input class="performanceStatus"      data-index="${i}" value="${row.performanceStatus}"></td>
             </tr>
         `;
     });
-$("textTable").style.display = "table";
-$("textTable").style.border = "2px solid black";
+$("songInfoTable").style.display = "table";
+$("songInfoTable").style.border = "2px solid black";
 }
 
 
