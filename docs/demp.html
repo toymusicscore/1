@@ -7169,29 +7169,6 @@ const textMenuData = [
     },
 ];
 
-function buildTextMenuData(){
-
-    const data = {};
-
-    textMenuData.forEach(row=>{
-
-        if(!data[row.category1]){
-            data[row.category1] = {};
-        }
-
-        if(!data[row.category1][row.category2]){
-            data[row.category1][row.category2] = [];
-        }
-
-        data[row.category1][row.category2].push(row.item);
-
-    });
-
-    return data;
-}
-
-
-const textMenuTree = buildTextMenuData();
 
 function showTextTable(){
 
