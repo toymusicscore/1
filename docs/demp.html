@@ -679,7 +679,10 @@ Upper Limit: Largest allowable distance between the two fingers.
 </div>
 
 <div id="textMenuPage" style="display:none">
-    <table id="textTable"></table>
+
+<table id="textTable" border="1">
+</table>
+
 </div>
 
 <div id="htmlPage" style="display:none">
@@ -6895,94 +6898,163 @@ function deleteFinger(){
 
 }
 
-
-const textMenuData = {
-
-    "Technique": {
-
-        "Fingering": [
-            "Check fingering",
-            "Use correct fingering",
-            "Keep fingers relaxed"
-        ],
-
-        "Hand Position": [
-            "Keep hand position",
-            "Relax your hand",
-            "Avoid unnecessary movement"
-        ]
-
+const textMenuData = [
+    {
+        category1: "Technique",
+        category2: "Fingering",
+        item: "Check fingering"
     },
-
-
-    "Rhythm": {
-
-        "Timing": [
-            "Keep steady tempo",
-            "Check rhythm",
-            "Practice slowly"
-        ],
-
-        "Counting": [
-            "Count carefully",
-            "Feel the beat",
-            "Use a metronome"
-        ]
-
+    {
+        category1: "Technique",
+        category2: "Fingering",
+        item: "Use correct fingering"
     },
-
-
-    "Sound": {
-
-        "Dynamics": [
-            "Play softly",
-            "Play louder",
-            "Emphasize this note"
-        ],
-
-        "Expression": [
-            "Play musically",
-            "Shape the phrase",
-            "Listen to the sound"
-        ]
-
+    {
+        category1: "Technique",
+        category2: "Fingering",
+        item: "Keep fingers relaxed"
     },
-
-
-    "Practice": {
-
-        "Method": [
-            "Practice hands separately",
-            "Practice slowly",
-            "Repeat this section"
-        ],
-
-        "Review": [
-            "Review this measure",
-            "Check difficult notes",
-            "Try again"
-        ]
-
+    {
+        category1: "Technique",
+        category2: "Hand Position",
+        item: "Keep hand position"
     },
+    {
+        category1: "Technique",
+        category2: "Hand Position",
+        item: "Relax your hand"
+    },
+    {
+        category1: "Technique",
+        category2: "Hand Position",
+        item: "Avoid unnecessary movement"
+    },
+    {
+        category1: "Rhythm",
+        category2: "Timing",
+        item: "Keep steady tempo"
+    },
+    {
+        category1: "Rhythm",
+        category2: "Timing",
+        item: "Check rhythm"
+    },
+    {
+        category1: "Rhythm",
+        category2: "Timing",
+        item: "Practice slowly"
+    },
+    {
+        category1: "Rhythm",
+        category2: "Counting",
+        item: "Count carefully"
+    },
+    {
+        category1: "Rhythm",
+        category2: "Counting",
+        item: "Feel the beat"
+    },
+    {
+        category1: "Rhythm",
+        category2: "Counting",
+        item: "Use a metronome"
+    },
+	{
+        category1: "Sound",
+        category2: "Dynamics",
+        item: "Play softly"
+    },
+    {
+        category1: "Sound",
+        category2: "Dynamics",
+        item: "Play louder"
+    },
+    {
+        category1: "Sound",
+        category2: "Dynamics",
+        item: "Emphasize this note"
+    },
+	{
+        category1: "Sound",
+        category2: "Expression",
+        item: "Play musically"
+    },
+    {
+        category1: "Sound",
+        category2: "Expression",
+        item: "Shape the phrase"
+    },
+    {
+        category1: "Sound",
+        category2: "Expression",
+        item: "Listen to the sound"
+    },
+	{
+        category1: "Practice",
+        category2: "Method",
+        item: "Practice hands separately"
+    },
+    {
+        category1: "Practice",
+        category2: "Method",
+        item: "Practice slowly"
+    },
+    {
+        category1: "Practice",
+        category2: "Method",
+        item: "Repeat this section"
+    },
+	{
+        category1: "Practice",
+        category2: "Review",
+        item: "Review this measure"
+    },
+    {
+        category1: "Practice",
+        category2: "Review",
+        item: "Check difficult notes"
+    },
+    {
+        category1: "Practice",
+        category2: "Review",
+        item: "Try again"
+    },
+];
 
-};
 
+function showTextTable(){
 
-function textMenuTable(){
-	const rows = document.querySelectorAll("#textTable tr");
+    const table = $("textTable");
 
-	for(let i = 1; i < rows.length; i++){
+    table.innerHTML = `
+        <tr>
+            <th>Category 1</th>
+            <th>Category 2</th>
+            <th>Item</th>
+        </tr>
+    `;
 
-		const row = rows[i];
+    for(const category1 in textMenuData){
 
-		const category1 = row.querySelector(".category1").value;
-		const category2 = row.querySelector(".category2").value;
-		const item      = row.querySelector(".item").value;
+        for(const category2 in textMenuData[category1]){
 
-		console.log(category1, category2, item);
-	}
+            textMenuData[category1][category2].forEach(item =>{
+
+                table.innerHTML += `
+                    <tr>
+                        <td><input class="category1" value="${category1}"></td>
+                        <td><input class="category2" value="${category2}"></td>
+                        <td><input class="item" value="${item}"></td>
+                    </tr>
+                `;
+
+            });
+
+        }
+
+    }
+
 }
-
 
 const textPositionMenuData = [
     "Left00",
