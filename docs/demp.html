@@ -3652,16 +3652,16 @@ function lineScore(tick){
 					x,
 					y
 				);
-			}else if(commentVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition.substr(0,4) === "Left"){
+			}else if(commentVisible && view.scoreViewData[i].comment && view.scoreViewData[i].commentPosition.substr(0,4) === "Left"){
 
-				const text = view.scoreViewData[i].text;
+				const comment = view.scoreViewData[i].comment;
 
 				ctx.font = "20px Arial";
 				ctx.textAlign = "left";
 				ctx.textBaseline = "middle";
 
-				const x = view.scoreViewData[i].textPosition.substr(4,2) * 100;
-				const w = ctx.measureText(text).width;
+				const x = view.scoreViewData[i].commentPosition.substr(4,2) * 100;
+				const w = ctx.measureText(comment).width;
 				const h = 24;
 
 				ctx.fillStyle = "#ffffff";
