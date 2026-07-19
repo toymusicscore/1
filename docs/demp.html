@@ -7265,6 +7265,29 @@ const commentPositionData = [
     "Right"
 ];
 
+function buildCommentMenuData(){
+
+    const data = {};
+
+    commentMenuData.forEach(row=>{
+
+        if(!data[row.category1]){
+            data[row.category1] = {};
+        }
+
+        if(!data[row.category1][row.category2]){
+            data[row.category1][row.category2] = [];
+        }
+
+        data[row.category1][row.category2].push(row.item);
+
+    });
+
+    return data;
+}
+
+
+const commentMenuTree = buildCommentMenuData();
 
 function showCommentMenu(){
 
