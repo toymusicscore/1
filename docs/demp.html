@@ -2423,6 +2423,7 @@ const PAGE = {
     HTML: "html",
     FINGER: "finger",
     TEXT: "text"
+    SONGINFO: "songInfo"
 };
 
 
@@ -2434,7 +2435,8 @@ function showPage(page){
         "color",
         "html",
         "finger",
-        "text"
+        "text",
+        "songInfo"
     ];
 
     pages.forEach(name => {
@@ -2443,7 +2445,7 @@ function showPage(page){
     });
 
 	$("canvas").style.display =
-		(page === "html" || page === "text") ? "none" : "block";
+		(page === "html" || page === "text" || page === "songInfo") ? "none" : "block";
 
 }
 
