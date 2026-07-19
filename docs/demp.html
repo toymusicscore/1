@@ -2434,8 +2434,11 @@ function showPage(page){
 
 function openTextPage(){
 
-//    showPage(PAGE.TEXT);
-    showTextTable();
+    showPage(PAGE.TEXT);
+
+    setTimeout(()=>{
+        showTextTable();
+    },0);
 
 }
 
@@ -7037,7 +7040,10 @@ const textMenuData = [
 
 function showTextTable(){
 
+    console.log("showTextTable start");
+
     const table = $("textTable");
+	console.log(table);
 
     table.innerHTML = `
         <tr>
