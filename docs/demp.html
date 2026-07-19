@@ -6925,7 +6925,7 @@ const songInfoData = [
 		id:1,
         title: "Invention 1",
         composer: "Johann Sebastian Bach",
-        SourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV772/bach-invention-01/bach-invention-01.mid",
+        sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV772/bach-invention-01/bach-invention-01.mid",
         sourceLicense: "Public Domain",
         soueceLicenseUri: "https://creativecommons.org/publicdomain/",
         sourceStatus: "Unmodified",
@@ -6937,7 +6937,7 @@ const songInfoData = [
 		id:2,
         title: "Invention 2",
         composer: "Johann Sebastian Bach",
-        SourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV773/bach-invention-02/bach-invention-02.mid",
+        sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV773/bach-invention-02/bach-invention-02.mid",
         sourceLicense: "Public Domain",
         soueceLicenseUri: "https://creativecommons.org/publicdomain/",
         sourceStatus: "Unmodified",
@@ -6947,36 +6947,9 @@ const songInfoData = [
     },
 ];
 
-function buildSongInfoData(){
-
-    const data = {};
-
-    songInfoData.forEach(row=>{
-
-        if(!data[row.category1]){
-            data[row.category1] = {};
-        }
-
-        if(!data[row.category1][row.category2]){
-            data[row.category1][row.category2] = [];
-        }
-
-        data[row.category1][row.category2].push(row.item);
-
-    });
-
-    return data;
-}
-
-
-const songInfoTree = buildSongInfoData();
-
 function showSongInfoTable(){
 
-    console.log("showSongInfoTable start");
-
     const table = $("songInfoTable");
-	console.log(table);
 
     table.innerHTML = `
         <tr>
@@ -6984,7 +6957,7 @@ function showSongInfoTable(){
             <th>composer</th>
             <th>sourceUri</th>
             <th>sourceLicense</th>
-            <th>soueceLicenseUrir</th>
+            <th>sourceLicenseUrir</th>
             <th>sourceStatus</th>
             <th>performanceLicense</th>
             <th>performanceLicenseUri</th>
@@ -7019,14 +6992,32 @@ function saveSongInfoTable(){
 
     for(let i = 1; i < rows.length; i++){
 
-        songInfoData[i - 1].category1 =
-            rows[i].querySelector(".title").value;
+		songInfoData[i - 1].title =
+			rows[i].querySelector(".title").value;
 
-        songInfoData[i - 1].category2 =
-            rows[i].querySelector(".composer").value;
+		songInfoData[i - 1].composer =
+			rows[i].querySelector(".composer").value;
 
-        songInfoData[i - 1].item =
-            rows[i].querySelector(".sourceUri").value;
+		songInfoData[i - 1].sourceUri =
+			rows[i].querySelector(".sourceUri").value;
+
+		songInfoData[i - 1].sourceLicense =
+			rows[i].querySelector(".sourceLicense").value;
+
+		songInfoData[i - 1].sourceLicenseUri =
+			rows[i].querySelector(".sourceLicenseUri").value;
+
+		songInfoData[i - 1].sourceStatus =
+			rows[i].querySelector(".sourceStatus").value;
+
+		songInfoData[i - 1].performanceLicense =
+			rows[i].querySelector(".performanceLicense").value;
+
+		songInfoData[i - 1].performanceLicenseUri =
+			rows[i].querySelector(".performanceLicenseUri").value;
+
+		songInfoData[i - 1].performanceStatus =
+			rows[i].querySelector(".performanceStatus").value;
     }
 }
 
