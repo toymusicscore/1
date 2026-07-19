@@ -2428,11 +2428,8 @@ function showPage(page){
             (page === name) ? "block" : "none";
     });
 
-    $("canvas").style.display =
-        (page === "html") ? "none" : "block";
-
-		console.log("end showPage");
-		console.log($("textPage").style.display);
+	$("canvas").style.display =
+		(page === "html" || page === "text") ? "none" : "block";
 
 }
 
