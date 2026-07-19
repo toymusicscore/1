@@ -2414,6 +2414,8 @@ const PAGE = {
 
 function showPage(page){
 
+    console.log("showPage called:", page);
+
     const pages = [
         "main",
         "settings",
@@ -2430,10 +2432,8 @@ function showPage(page){
 
     $("canvas").style.display =
         (page === "html") ? "none" : "block";
-
-    console.log("showPage:", page,
-        $("textPage").style.display);
 }
+
 
 function pauseButton(){
 	
