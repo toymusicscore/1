@@ -678,6 +678,16 @@ Upper Limit: Largest allowable distance between the two fingers.
     onclick="showPage(PAGE.MAIN)">
 </div>
 
+<div id="textMenuPage"
+     style="display:none">
+<tr>
+<td><input class="category1"></td>
+<td><input class="category2"></td>
+<td><input class="item"></td>
+</tr>
+
+</div>
+
 <div id="htmlPage" style="display:none">
     <input
         type="button"
@@ -751,7 +761,6 @@ Upper Limit: Largest allowable distance between the two fingers.
     </div>
 
 </div>
-</canvas>
 
 <script type="module">
 
@@ -6961,6 +6970,18 @@ const textMenuData = {
     },
 
 };
+
+
+function textMenuTable(){
+	const rows = document.querySelectorAll("#textTable tr");
+
+rows.forEach(row => {
+    const c1 = row.querySelector(".category1").value;
+    const c2 = row.querySelector(".category2").value;
+    const item = row.querySelector(".item").value;
+});
+}
+
 
 const textPositionMenuData = [
     "Left00",
