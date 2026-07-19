@@ -3600,11 +3600,13 @@ function lineScore(tick){
 					ctx.stroke();
 					break;
 
-					case "Star":
-						drawStar(ctx, x1, y, 2 * size);
-					break;
-				}
+				case "Star":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawStar(ctx, x1, y, 2 * size);
+				break;
 			}
+		}
 			ctx.fillStyle=workingColor.pc[midi%12];
 			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
 			ctx.beginPath();
