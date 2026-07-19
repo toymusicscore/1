@@ -3417,24 +3417,22 @@ function drawStar(ctx, cx, cy, r){
 
 }
 
-function drawHeart(ctx, cx, cy, size){
-
-    const s = size;
+function drawHeart(ctx, cx, cy, s){
 
     ctx.beginPath();
 
-    ctx.moveTo(cx, cy + s * 0.3);
+    ctx.moveTo(cx, cy + s * 0.4);
 
     ctx.bezierCurveTo(
-        cx - s, cy - s * 0.3,
-        cx - s, cy - s * 1.3,
-        cx,     cy - s * 0.6
+        cx - s * 1.2, cy + s * 0.1,
+        cx - s * 1.3, cy - s * 1.0,
+        cx,           cy - s * 0.7
     );
 
     ctx.bezierCurveTo(
-        cx + s, cy - s * 1.3,
-        cx + s, cy - s * 0.3,
-        cx,     cy + s * 0.3
+        cx + s * 1.3, cy - s * 1.0,
+        cx + s * 1.2, cy + s * 0.1,
+        cx,           cy + s * 0.4
     );
 
     ctx.closePath();
@@ -3442,6 +3440,7 @@ function drawHeart(ctx, cx, cy, size){
     ctx.stroke();
 //  ctx.fill();
 }
+
 
 function lineScore(tick){
     notePosition = [];
