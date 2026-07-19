@@ -7045,7 +7045,7 @@ function saveSongInfoTable(){
 }
 
 
-const defaultTextMenuData = [
+const defaultCommentData = [
     {
 		id:1,
         category1: "Technique",
@@ -7193,22 +7193,19 @@ const defaultTextMenuData = [
 ];
 
 
-let textMenuData = structuredClone(defaultTextMenuData);
+let commentData = structuredClone(defaultCommentData);
 
-function resetTextMenuData(){
+function resetCommentData(){
 
-    textMenuData = structuredClone(defaultTextMenuData);
+    commentData = structuredClone(defaultCommentData);
 
-    showTextTable();
+    showCommentTable();
 }
 
 
-function showTextTable(){
+function showCommentTable(){
 
-    console.log("showTextTable start");
-
-    const table = $("textTable");
-	console.log(table);
+    const table = $("commentTable");
 
     table.innerHTML = `
         <tr>
@@ -7218,7 +7215,7 @@ function showTextTable(){
         </tr>
     `;
 
-    textMenuData.forEach((row, i) => {
+    commentData.forEach((row, i) => {
 
         table.innerHTML += `
             <tr>
@@ -7228,30 +7225,30 @@ function showTextTable(){
             </tr>
         `;
     });
-$("textTable").style.display = "table";
-$("textTable").style.border = "2px solid black";
+$("commentTable").style.display = "table";
+$("commentTable").style.border = "2px solid black";
 }
 
 
-function saveTextTable(){
+function saveCommentTable(){
 
-    const rows = $("textTable").rows;
+    const rows = $("commentTable").rows;
 
     for(let i = 1; i < rows.length; i++){
 
-        textMenuData[i - 1].category1 =
+        commentData[i - 1].category1 =
             rows[i].querySelector(".category1").value;
 
-        textMenuData[i - 1].category2 =
+        commentData[i - 1].category2 =
             rows[i].querySelector(".category2").value;
 
-        textMenuData[i - 1].item =
+        commentData[i - 1].item =
             rows[i].querySelector(".item").value;
     }
 }
 
 
-const textPositionMenuData = [
+const commentPositionData = [
     "Left00",
 	"Left01",
 	"Left02",
@@ -7269,24 +7266,24 @@ const textPositionMenuData = [
 ];
 
 
-function showTextMenu(){
+function showCommentMenu(){
 
     $("mainNoteMenu").style.display = "none";
 
-    const menu = $("textMenu");
+    const menu = $("commentMenu");
 
     menu.innerHTML = "";
     menu.style.display = "block";
 
 
-    for(const category in textMenuTree){
+    for(const category in commentMenuTree){
 
         const btn = document.createElement("button");
 
         btn.textContent = category;
 
         btn.onclick = function(){
-            showTextSubMenu(category);
+            showCommentSubMenu(category);
         };
 
         menu.appendChild(btn);
@@ -7294,7 +7291,7 @@ function showTextMenu(){
 }
 
 
-function showTextSubMenu(category){
+function showCommentSubMenu(category){
 
     const menu = $("textMenu");
 
@@ -7309,7 +7306,7 @@ function showTextSubMenu(category){
 
         btn.onclick = function(){
 
-            showTextItems(category, sub);
+            showCommentItems(category, sub);
 
         };
 
@@ -7318,13 +7315,13 @@ function showTextSubMenu(category){
     }
 }
 
-function showTextItems(category, sub){
+function showCommentItems(category, sub){
 
-    const menu = $("textMenu");
+    const menu = $("commentMenu");
 
     menu.innerHTML = "";
 
-    textMenuTree[category][sub].forEach(text=>{
+    commentMenuTree[category][sub].forEach(text=>{
 
         const btn = document.createElement("button");
 
@@ -7332,7 +7329,7 @@ function showTextItems(category, sub){
 
         btn.onclick = function(){
 
-            showTextPosition(text);
+            showCommentPosition(text);
 
         };
 
@@ -7343,13 +7340,13 @@ function showTextItems(category, sub){
 }
 
 
-function showTextPosition(text){
+function showCommentPosition(text){
 
-    const menu = $("textMenu");
+    const menu = $("commentMenu");
 
     menu.innerHTML = "";
 
-    textPositionMenuData.forEach(position=>{
+    commentPositionData.forEach(position=>{
 
         const btn = document.createElement("button");
 
@@ -7357,7 +7354,7 @@ function showTextPosition(text){
 
         btn.onclick = function(){
 
-            setText(text, position);
+            setText(comment, position);
 
         };
 
@@ -7367,13 +7364,13 @@ function showTextPosition(text){
 
 }
 
-function setText(text, position){
+function setComment(comment, position){
 
     if(!selectedNote) return;
 
-    selectedNote.text = text;
+    selectedNote.text = comment;
 
-	selectedNote.textPosition = position;
+	selectedNote.commentPosition = position;
 
     lineScore(pauseTick);
 
@@ -7381,7 +7378,7 @@ function setText(text, position){
 
     $("mainNoteMenu").style.display = "block";
 
-	$("textMenu").style.display = "none";
+	$("commentMenu").style.display = "none";
 
     selectedNote = null;
 }
