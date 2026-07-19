@@ -3624,16 +3624,16 @@ function lineScore(tick){
 			}
 
 
-			if(commentVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition === "Right"){
+			if(commentVisible && view.scoreViewData[i].comment && view.scoreViewData[i].commentPosition === "Right"){
 
-				const text = view.scoreViewData[i].text;
+				const comment = view.scoreViewData[i].comment;
 
 				ctx.font = "20px Arial";
 				ctx.textAlign = "right";
 				ctx.textBaseline = "middle";
 
 				const x = canvas.width - 20;
-				const w = ctx.measureText(text).width;
+				const w = ctx.measureText(comment).width;
 				const h = 24;
 
 				ctx.fillStyle = "#ffffff";
@@ -3648,7 +3648,7 @@ function lineScore(tick){
 				ctx.fillStyle = workingColor.text[4];
 
 				ctx.fillText(
-					text,
+					comment,
 					x,
 					y
 				);
@@ -3676,7 +3676,7 @@ function lineScore(tick){
 				ctx.fillStyle = workingColor.text[4];
 
 				ctx.fillText(
-					text,
+					comment,
 					x,
 					y
 				);
