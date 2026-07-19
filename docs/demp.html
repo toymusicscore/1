@@ -678,13 +678,21 @@ Upper Limit: Largest allowable distance between the two fingers.
     onclick="showPage(PAGE.MAIN)">
 </div>
 
-<div id="textMenuPage"
-     style="display:none">
-<tr>
-<td><input class="category1"></td>
-<td><input class="category2"></td>
-<td><input class="item"></td>
-</tr>
+<div id="textMenuPage" style="display:none">
+
+<table id="textTable">
+    <tr>
+        <th>Category 1</th>
+        <th>Category 2</th>
+        <th>Item</th>
+    </tr>
+
+    <tr>
+        <td><input class="category1"></td>
+        <td><input class="category2"></td>
+        <td><input class="item"></td>
+    </tr>
+</table>
 
 </div>
 
@@ -6975,11 +6983,16 @@ const textMenuData = {
 function textMenuTable(){
 	const rows = document.querySelectorAll("#textTable tr");
 
-rows.forEach(row => {
-    const c1 = row.querySelector(".category1").value;
-    const c2 = row.querySelector(".category2").value;
-    const item = row.querySelector(".item").value;
-});
+	for(let i = 1; i < rows.length; i++){
+
+		const row = rows[i];
+
+		const category1 = row.querySelector(".category1").value;
+		const category2 = row.querySelector(".category2").value;
+		const item      = row.querySelector(".item").value;
+
+		console.log(category1, category2, item);
+	}
 }
 
 
