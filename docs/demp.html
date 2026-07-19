@@ -718,6 +718,10 @@ Upper Limit: Largest allowable distance between the two fingers.
     onclick="saveSongInfoTable()">
 <input
     type="button"
+    value="Reset"
+    onclick="resetSongInfoData()">
+<input
+    type="button"
     value="← Back"
     onclick="showPage(PAGE.MAIN)">
 </div>
@@ -6930,7 +6934,7 @@ function deleteFinger(){
 }
 
 
-const songInfoData = [
+const defaultSongInfoData = [
     {
 		id:1,
         title: "Invention 1",
@@ -6956,6 +6960,15 @@ const songInfoData = [
         performanceStatus: "Created by User"
     },
 ];
+
+let songInfoData = structuredClone(defaultSongInfoData);
+
+function resetSongInfoData(){
+
+    songInfoData = structuredClone(defaultSongInfoData);
+
+    showSongInfoTable();
+}
 
 function showSongInfoTable(){
 
@@ -7032,7 +7045,7 @@ function saveSongInfoTable(){
 }
 
 
-const textMenuData = [
+const defaultTextMenuData = [
     {
 		id:1,
         category1: "Technique",
@@ -7178,6 +7191,16 @@ const textMenuData = [
         item: "Try again"
     },
 ];
+
+
+let textMenuData = structuredClone(defaultTextMenuData);
+
+function resetTextMenuData(){
+
+    textMenuData = structuredClone(defaultTextMenuData);
+
+    showTextTable();
+}
 
 
 function showTextTable(){
