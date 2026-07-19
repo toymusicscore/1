@@ -3047,15 +3047,11 @@ function stopPlayback() {
     enablePlaybackSound = false;
 }
 
-let currentViewTick = 0;
-
 function loopPlayback(){
 
     if (!isPlaying) return;
 
     const tick = getCurrentTick();
-
-    currentViewTick = tick;
 
     if (tick >= songLengthTicks) {
 
