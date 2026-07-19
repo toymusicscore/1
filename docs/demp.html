@@ -6895,6 +6895,230 @@ function deleteFinger(){
 }
 
 
+const songInfoData = [
+    {
+		id:1,
+        title: "Invention 2",
+        composer: "Johann Sebastian Bach",
+        SourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV773/bach-invention-02/bach-invention-02.mid",
+        sourceLicense: "Public Domain",
+        souecelicenseUri: "https://creativecommons.org/publicdomain/",
+        sourceMidi: "Unmodified",
+        recordLicense: "CC BY 4.0",
+        recordlicenseUri: "https://creativecommons.org/licenses/by/4.0/",
+        recordMidi: "created by user"
+    },
+    {
+		id:2,
+        category1: "Technique",
+        category2: "Fingering",
+        item: "Use correct fingering"
+    },
+    {
+		id:3,
+        category1: "Technique",
+        category2: "Fingering",
+        item: "Keep fingers relaxed"
+    },
+    {
+		id:4,
+        category1: "Technique",
+        category2: "Hand Position",
+        item: "Keep hand position"
+    },
+    {
+		id:5,
+        category1: "Technique",
+        category2: "Hand Position",
+        item: "Relax your hand"
+    },
+    {
+		id:6,
+        category1: "Technique",
+        category2: "Hand Position",
+        item: "Avoid unnecessary movement"
+    },
+    {
+		id:7,
+        category1: "Rhythm",
+        category2: "Timing",
+        item: "Keep steady tempo"
+    },
+    {
+		id:8,
+        category1: "Rhythm",
+        category2: "Timing",
+        item: "Check rhythm"
+    },
+    {
+		id:9,
+        category1: "Rhythm",
+        category2: "Timing",
+        item: "Practice slowly"
+    },
+    {
+		id:10,
+        category1: "Rhythm",
+        category2: "Counting",
+        item: "Count carefully"
+    },
+    {
+		id:11,
+        category1: "Rhythm",
+        category2: "Counting",
+        item: "Feel the beat"
+    },
+    {
+		id:12,
+        category1: "Rhythm",
+        category2: "Counting",
+        item: "Use a metronome"
+    },
+	{
+		id:13,
+        category1: "Sound",
+        category2: "Dynamics",
+        item: "Play softly"
+    },
+    {
+		id:14,
+        category1: "Sound",
+        category2: "Dynamics",
+        item: "Play louder"
+    },
+    {
+		id:15,
+        category1: "Sound",
+        category2: "Dynamics",
+        item: "Emphasize this note"
+    },
+	{
+		id:16,
+        category1: "Sound",
+        category2: "Expression",
+        item: "Play musically"
+    },
+    {
+		id:17,
+        category1: "Sound",
+        category2: "Expression",
+        item: "Shape the phrase"
+    },
+    {
+		id:18,
+        category1: "Sound",
+        category2: "Expression",
+        item: "Listen to the sound"
+    },
+	{
+		id:19,
+        category1: "Practice",
+        category2: "Method",
+        item: "Practice hands separately"
+    },
+    {
+		id:20,
+        category1: "Practice",
+        category2: "Method",
+        item: "Practice slowly"
+    },
+    {
+		id:21,
+        category1: "Practice",
+        category2: "Method",
+        item: "Repeat this section"
+    },
+	{
+		id:22,
+        category1: "Practice",
+        category2: "Review",
+        item: "Review this measure"
+    },
+    {
+		id:23,
+        category1: "Practice",
+        category2: "Review",
+        item: "Check difficult notes"
+    },
+    {
+		id:24,
+        category1: "Practice",
+        category2: "Review",
+        item: "Try again"
+    },
+];
+
+function buildTextMenuData(){
+
+    const data = {};
+
+    textMenuData.forEach(row=>{
+
+        if(!data[row.category1]){
+            data[row.category1] = {};
+        }
+
+        if(!data[row.category1][row.category2]){
+            data[row.category1][row.category2] = [];
+        }
+
+        data[row.category1][row.category2].push(row.item);
+
+    });
+
+    return data;
+}
+
+
+const textMenuTree = buildTextMenuData();
+
+function showTextTable(){
+
+    console.log("showTextTable start");
+
+    const table = $("textTable");
+	console.log(table);
+
+    table.innerHTML = `
+        <tr>
+            <th>Category 1</th>
+            <th>Category 2</th>
+            <th>Item</th>
+        </tr>
+    `;
+
+    textMenuData.forEach((row, i) => {
+
+        table.innerHTML += `
+            <tr>
+                <td><input class="category1" data-index="${i}" value="${row.category1}"></td>
+                <td><input class="category2" data-index="${i}" value="${row.category2}"></td>
+                <td><input class="item"      data-index="${i}" value="${row.item}"></td>
+            </tr>
+        `;
+    });
+$("textTable").style.display = "table";
+$("textTable").style.border = "2px solid black";
+}
+
+
+function saveTextTable(){
+
+    const rows = $("textTable").rows;
+
+    for(let i = 1; i < rows.length; i++){
+
+        textMenuData[i - 1].category1 =
+            rows[i].querySelector(".category1").value;
+
+        textMenuData[i - 1].category2 =
+            rows[i].querySelector(".category2").value;
+
+        textMenuData[i - 1].item =
+            rows[i].querySelector(".item").value;
+    }
+}
+
 const textMenuData = [
     {
 		id:1,
