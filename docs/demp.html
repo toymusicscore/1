@@ -3382,7 +3382,8 @@ let symbolVisible = true;
 let commentVisible = true;
 
 function drawStar(ctx, cx, cy, r){
-
+	ctx.lineJoin = "round";
+	ctx.lineCap  = "round";
     const p = [];
 
     for(let i = 0; i < 5; i++){
@@ -3411,6 +3412,7 @@ function drawStar(ctx, cx, cy, r){
 
     }
 
+	ctx.closePath();
     ctx.stroke();
 
 }
