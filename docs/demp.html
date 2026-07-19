@@ -797,7 +797,7 @@ Upper Limit: Largest allowable distance between the two fingers.
 
     </div>
 
-    <div id="commentMenu" style="display:none;">
+    <div id="textMenu" style="display:none;">
     </div>
 
 </div>
@@ -3365,7 +3365,7 @@ let notePosition = [];
 let fingerVisible = true;
 let markerVisible = true;
 let symbolVisible = true;
-let textVisible = true;
+let commentVisible = true;
 
 function lineScore(tick){
     notePosition = [];
@@ -3615,7 +3615,7 @@ function lineScore(tick){
 			}
 
 
-			if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition === "Right"){
+			if(commentVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition === "Right"){
 
 				const text = view.scoreViewData[i].text;
 
@@ -3643,7 +3643,7 @@ function lineScore(tick){
 					x,
 					y
 				);
-			}else if(textVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition.substr(0,4) === "Left"){
+			}else if(commentVisible && view.scoreViewData[i].text && view.scoreViewData[i].textPosition.substr(0,4) === "Left"){
 
 				const text = view.scoreViewData[i].text;
 
@@ -7270,7 +7270,7 @@ function showCommentMenu(){
 
     $("mainNoteMenu").style.display = "none";
 
-    const menu = $("commentMenu");
+    const menu = $("textMenu");
 
     menu.innerHTML = "";
     menu.style.display = "block";
@@ -7298,7 +7298,7 @@ function showCommentSubMenu(category){
     menu.innerHTML = "";
 
 
-    for(const sub in textMenuTree[category]){
+    for(const sub in commentMenuTree[category]){
 
         const btn = document.createElement("button");
 
@@ -7317,7 +7317,7 @@ function showCommentSubMenu(category){
 
 function showCommentItems(category, sub){
 
-    const menu = $("commentMenu");
+    const menu = $("textMenu");
 
     menu.innerHTML = "";
 
@@ -7342,7 +7342,7 @@ function showCommentItems(category, sub){
 
 function showCommentPosition(text){
 
-    const menu = $("commentMenu");
+    const menu = $("textMenu");
 
     menu.innerHTML = "";
 
@@ -7378,7 +7378,7 @@ function setComment(comment, position){
 
     $("mainNoteMenu").style.display = "block";
 
-	$("commentMenu").style.display = "none";
+	$("textMenu").style.display = "none";
 
     selectedNote = null;
 }
@@ -7722,12 +7722,12 @@ function deleteSymbol(){
 
 
 function hideComment(){
-	textVisible = false;
+	commentVisible = false;
     lineScore(pauseTick);
 }
 
 function showComment(){
-    textVisible = true;
+    commentVisible = true;
     lineScore(pauseTick);
 }
 
