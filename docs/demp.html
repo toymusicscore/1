@@ -3417,6 +3417,31 @@ function drawStar(ctx, cx, cy, r){
 
 }
 
+function drawHeart(ctx, cx, cy, size){
+
+    const s = size;
+
+    ctx.beginPath();
+
+    ctx.moveTo(cx, cy + s * 0.3);
+
+    ctx.bezierCurveTo(
+        cx - s, cy - s * 0.3,
+        cx - s, cy - s * 1.3,
+        cx,     cy - s * 0.6
+    );
+
+    ctx.bezierCurveTo(
+        cx + s, cy - s * 1.3,
+        cx + s, cy - s * 0.3,
+        cx,     cy + s * 0.3
+    );
+
+    ctx.closePath();
+
+    ctx.stroke();
+//  ctx.fill();
+}
 
 function lineScore(tick){
     notePosition = [];
@@ -3606,6 +3631,12 @@ function lineScore(tick){
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
 					drawStar(ctx, x1, y, 1.5 * size);
+				break;
+
+				case "Hart":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawHart(ctx, x1, y, 1.5 * size);
 				break;
 			}
 		}
@@ -7696,6 +7727,7 @@ const markerMenuData = {
         "Square",
         "Triangle",
 		"Star",
+		"Hart",
     ],
 
     "Color": [
