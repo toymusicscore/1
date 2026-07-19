@@ -7021,7 +7021,6 @@ const textMenuData = [
     },
 ];
 
-
 function showTextTable(){
 
     const table = $("textTable");
@@ -7034,27 +7033,36 @@ function showTextTable(){
         </tr>
     `;
 
-    for(const category1 in textMenuData){
+    textMenuData.forEach((row, i) => {
 
-        for(const category2 in textMenuData[category1]){
-
-            textMenuData[category1][category2].forEach(item =>{
-
-                table.innerHTML += `
-                    <tr>
-                        <td><input class="category1" value="${category1}"></td>
-                        <td><input class="category2" value="${category2}"></td>
-                        <td><input class="item" value="${item}"></td>
-                    </tr>
-                `;
-
-            });
-
-        }
-
-    }
-
+        table.innerHTML += `
+            <tr>
+                <td><input class="category1" data-index="${i}" value="${row.category1}"></td>
+                <td><input class="category2" data-index="${i}" value="${row.category2}"></td>
+                <td><input class="item"      data-index="${i}" value="${row.item}"></td>
+            </tr>
+        `;
+    });
 }
+
+
+function saveTextTable(){
+
+    const rows = $("textTable").rows;
+
+    for(let i = 1; i < rows.length; i++){
+
+        textMenuData[i - 1].category1 =
+            rows[i].querySelector(".category1").value;
+
+        textMenuData[i - 1].category2 =
+            rows[i].querySelector(".category2").value;
+
+        textMenuData[i - 1].item =
+            rows[i].querySelector(".item").value;
+    }
+}
+
 
 const textPositionMenuData = [
     "Left00",
