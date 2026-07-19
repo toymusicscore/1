@@ -7042,6 +7042,30 @@ const textMenuData = [
     },
 ];
 
+function buildTextMenuData(){
+
+    const data = {};
+
+    textMenuData.forEach(row=>{
+
+        if(!data[row.category1]){
+            data[row.category1] = {};
+        }
+
+        if(!data[row.category1][row.category2]){
+            data[row.category1][row.category2] = [];
+        }
+
+        data[row.category1][row.category2].push(row.item);
+
+    });
+
+    return data;
+}
+
+
+const textMenuTree = buildTextMenuData();
+
 function showTextTable(){
 
     console.log("showTextTable start");
@@ -7118,7 +7142,7 @@ function showTextMenu(){
     menu.style.display = "block";
 
 
-    for(const category in textMenuData){
+    for(const category in textMenuTree){
 
         const btn = document.createElement("button");
 
@@ -7140,7 +7164,7 @@ function showTextSubMenu(category){
     menu.innerHTML = "";
 
 
-    for(const sub in textMenuData[category]){
+    for(const sub in textMenuTree[category]){
 
         const btn = document.createElement("button");
 
@@ -7163,7 +7187,7 @@ function showTextItems(category, sub){
 
     menu.innerHTML = "";
 
-    textMenuData[category][sub].forEach(text=>{
+    textMenuTree[category][sub].forEach(text=>{
 
         const btn = document.createElement("button");
 
