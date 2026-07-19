@@ -122,11 +122,10 @@ demp
     value="⚙ Finger"
     onclick="showPage(PAGE.FINGER)">
 <input
-    type="button"
-    value="⚙ Text"
-    onclick="showTextTable()">
-</div>
-
+	type="button"
+	value="⚙ Text"
+	onclick="openTextPage()">
+	
 <div id="settingsPage" style="display:none">
 	 
 <select id="song1" onchange="onSettingsChange()">
@@ -2431,10 +2430,14 @@ function showPage(page){
     $("canvas").style.display =
         (page === "html") ? "none" : "block";
 
-    console.log("showPage called:", page);
-    console.log("text display:", $("textPage").style.display);
 }
 
+function openTextPage(){
+
+    showPage(PAGE.TEXT);
+    showTextTable();
+
+}
 
 function pauseButton(){
 	
