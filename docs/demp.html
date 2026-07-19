@@ -6920,145 +6920,13 @@ const songInfoData = [
         performanceLicenseUri: "https://creativecommons.org/licenses/by/4.0/",
         performanceStatus: "Created by User"
     },
-    {
-		id:3,
-        category1: "Technique",
-        category2: "Fingering",
-        item: "Keep fingers relaxed"
-    },
-    {
-		id:4,
-        category1: "Technique",
-        category2: "Hand Position",
-        item: "Keep hand position"
-    },
-    {
-		id:5,
-        category1: "Technique",
-        category2: "Hand Position",
-        item: "Relax your hand"
-    },
-    {
-		id:6,
-        category1: "Technique",
-        category2: "Hand Position",
-        item: "Avoid unnecessary movement"
-    },
-    {
-		id:7,
-        category1: "Rhythm",
-        category2: "Timing",
-        item: "Keep steady tempo"
-    },
-    {
-		id:8,
-        category1: "Rhythm",
-        category2: "Timing",
-        item: "Check rhythm"
-    },
-    {
-		id:9,
-        category1: "Rhythm",
-        category2: "Timing",
-        item: "Practice slowly"
-    },
-    {
-		id:10,
-        category1: "Rhythm",
-        category2: "Counting",
-        item: "Count carefully"
-    },
-    {
-		id:11,
-        category1: "Rhythm",
-        category2: "Counting",
-        item: "Feel the beat"
-    },
-    {
-		id:12,
-        category1: "Rhythm",
-        category2: "Counting",
-        item: "Use a metronome"
-    },
-	{
-		id:13,
-        category1: "Sound",
-        category2: "Dynamics",
-        item: "Play softly"
-    },
-    {
-		id:14,
-        category1: "Sound",
-        category2: "Dynamics",
-        item: "Play louder"
-    },
-    {
-		id:15,
-        category1: "Sound",
-        category2: "Dynamics",
-        item: "Emphasize this note"
-    },
-	{
-		id:16,
-        category1: "Sound",
-        category2: "Expression",
-        item: "Play musically"
-    },
-    {
-		id:17,
-        category1: "Sound",
-        category2: "Expression",
-        item: "Shape the phrase"
-    },
-    {
-		id:18,
-        category1: "Sound",
-        category2: "Expression",
-        item: "Listen to the sound"
-    },
-	{
-		id:19,
-        category1: "Practice",
-        category2: "Method",
-        item: "Practice hands separately"
-    },
-    {
-		id:20,
-        category1: "Practice",
-        category2: "Method",
-        item: "Practice slowly"
-    },
-    {
-		id:21,
-        category1: "Practice",
-        category2: "Method",
-        item: "Repeat this section"
-    },
-	{
-		id:22,
-        category1: "Practice",
-        category2: "Review",
-        item: "Review this measure"
-    },
-    {
-		id:23,
-        category1: "Practice",
-        category2: "Review",
-        item: "Check difficult notes"
-    },
-    {
-		id:24,
-        category1: "Practice",
-        category2: "Review",
-        item: "Try again"
-    },
 ];
 
-function buildTextMenuData(){
+function buildSongInfoData(){
 
     const data = {};
 
-    textMenuData.forEach(row=>{
+    songInfoData.forEach(row=>{
 
         if(!data[row.category1]){
             data[row.category1] = {};
@@ -7076,13 +6944,13 @@ function buildTextMenuData(){
 }
 
 
-const textMenuTree = buildTextMenuData();
+const songInfoTree = buildSongInfoData();
 
-function showTextTable(){
+function showSongInfoTable(){
 
-    console.log("showTextTable start");
+    console.log("showSongInfoTable start");
 
-    const table = $("textTable");
+    const table = $("songInfoTable");
 	console.log(table);
 
     table.innerHTML = `
@@ -7108,9 +6976,9 @@ $("textTable").style.border = "2px solid black";
 }
 
 
-function saveTextTable(){
+function saveSongInfoTable(){
 
-    const rows = $("textTable").rows;
+    const rows = $("songInfoTable").rows;
 
     for(let i = 1; i < rows.length; i++){
 
@@ -7124,6 +6992,7 @@ function saveTextTable(){
             rows[i].querySelector(".item").value;
     }
 }
+
 
 const textMenuData = [
     {
