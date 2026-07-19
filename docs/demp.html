@@ -113,6 +113,10 @@ demp
     type="button"
     value="⚙ Finger"
     onclick="showPage(PAGE.FINGER)">
+<input
+    type="button"
+    value="⚙ Text"
+    onclick="showPage(PAGE.TEXT)">
 </div>
 
 <div id="settingsPage"
@@ -683,6 +687,10 @@ Upper Limit: Largest allowable distance between the two fingers.
 <table id="textTable" border="1">
 </table>
 
+<input
+    type="button"
+    value="← Back"
+    onclick="showPage(PAGE.MAIN)">
 </div>
 
 <div id="htmlPage" style="display:none">
@@ -2415,6 +2423,9 @@ function showPage(page){
 
     $("fingerPage").style.display =
         page === "finger" ? "block" : "none";
+
+    $("textPage").style.display =
+        page === "text" ? "block" : "none";
 
     }
 
