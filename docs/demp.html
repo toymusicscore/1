@@ -2396,39 +2396,36 @@ async function changeSong(){
 // Control Button
 //
 
+
 const PAGE = {
     MAIN: "main",
     SETTINGS: "settings",
     COLOR: "color",
     HTML: "html",
-    FINGER: "finger"
+    FINGER: "finger",
+    TEXT: "text"
 };
+
 
 function showPage(page){
 
-    $("mainPage").style.display =
-        page === "main" ? "block" : "none";
+    const pages = [
+        "main",
+        "settings",
+        "color",
+        "html",
+        "finger",
+        "text"
+    ];
+
+    pages.forEach(name => {
+        $(name + "Page").style.display =
+            (page === name) ? "block" : "none";
+    });
 
     $("canvas").style.display =
-        page === "html" ? "none" : "block";
-
-    $("settingsPage").style.display =
-        page === "settings" ? "block" : "none";
-
-    $("colorPage").style.display =
-        page === "color" ? "block" : "none";
-
-    $("htmlPage").style.display =
-        page === "html" ? "block" : "none";
-
-    $("fingerPage").style.display =
-        page === "finger" ? "block" : "none";
-
-    $("textPage").style.display =
-        page === "text" ? "block" : "none";
-
-    }
-
+        (page === "html") ? "none" : "block";
+}
 
 
 function pauseButton(){
