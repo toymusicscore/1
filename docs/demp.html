@@ -7348,15 +7348,15 @@ function showCommentItems(category, sub){
 
     menu.innerHTML = "";
 
-    commentMenuTree[category][sub].forEach(text=>{
+    commentMenuTree[category][sub].forEach(comment=>{
 
         const btn = document.createElement("button");
 
-        btn.textContent = text;
+        btn.textContent = comment;
 
         btn.onclick = function(){
 
-            showCommentPosition(text);
+            showCommentPosition(comment);
 
         };
 
@@ -7367,7 +7367,7 @@ function showCommentItems(category, sub){
 }
 
 
-function showCommentPosition(text){
+function showCommentPosition(comment){
 
     const menu = $("textMenu");
 
@@ -7395,7 +7395,7 @@ function setComment(comment, position){
 
     if(!selectedNote) return;
 
-    selectedNote.text = comment;
+    selectedNote.comment = comment;
 
 	selectedNote.commentPosition = position;
 
