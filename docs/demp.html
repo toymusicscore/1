@@ -795,10 +795,15 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="deleteComment()">Delete Comment</button>
 		<br>
 		<input 
-			id="btnToggleCommentPositionView" 
+			id="btnToggleCommentPositionMoveLeft" 
 			type="button" 
-			value="Comment Left00" 
-			onclick="toggleCommentPositionView()">
+			value="Comment Move Left" 
+			onclick="toggleCommentPositionMoveLeft()">
+		<input 
+			id="btnToggleCommentPositionMoveRight" 
+			type="button" 
+			value="Comment Move Right" 
+			onclick="toggleCommentPositionMoveRight()">
 
     </div>
 
@@ -3746,53 +3751,80 @@ function toggleCommentView(){
 
 }	
 
-function toggleCommentPositionView(){
+function toggleCommentPositionMoveLeft(){
     if(!selectedNote) return;
-    const btn = $("btnToggleCommentPositionView");
+    const btn = $("btnToggleCommentPositionMoveLeft");
+	btn.value="Comment Move Left";
+    if(!btn) return;
+
+	if(selectedNote.commentPosition =="Right"){
+		selectedNote.commentPosition = "Left12";
+	}else if(selectedNote.commentPosition =="Left12"){
+		selectedNote.commentPosition = "Left11";
+	}else if(selectedNote.commentPosition =="Left11"){
+		selectedNote.commentPosition = "Left10";
+	}else if(selectedNote.commentPosition =="Left10"){
+		selectedNote.commentPosition = "Left09";
+	}else if(selectedNote.commentPosition =="Left09"){
+		selectedNote.commentPosition = "Left08";
+	}else if(selectedNote.commentPosition =="Left08"){
+		selectedNote.commentPosition = "Left07";
+	}else if(selectedNote.commentPosition =="Left07"){
+		selectedNote.commentPosition = "Left06";
+	}else if(selectedNote.commentPosition =="Left06"){
+		selectedNote.commentPosition = "Left05";
+	}else if(selectedNote.commentPosition =="Left05"){
+		selectedNote.commentPosition = "Left04";
+	}else if(selectedNote.commentPosition =="Left04"){
+		selectedNote.commentPosition = "Left03";
+	}else if(selectedNote.commentPosition =="Left03"){
+		selectedNote.commentPosition = "Left02";
+	}else if(selectedNote.commentPosition =="Left02"){
+		selectedNote.commentPosition = "Left01";
+	}else if(selectedNote.commentPosition =="Left01"){
+		selectedNote.commentPosition = "Left00";
+	}else if(selectedNote.commentPosition =="Left00"){
+		selectedNote.commentPosition = "Right";
+	}
+	
+	showSelectedView();
+
+}	
+
+function toggleCommentPositionMoveRight(){
+    if(!selectedNote) return;
+    const btn = $("btnToggleCommentPositionMoveRight");
+	btn.value="Comment Move Right";
     if(!btn) return;
 
 	if(selectedNote.commentPosition =="Right"){
 		selectedNote.commentPosition = "Left00";
-		btn.value="Comment Left01";
 	}else if(selectedNote.commentPosition =="Left00"){
 		selectedNote.commentPosition = "Left01";
-		btn.value="Comment Left02";
 	}else if(selectedNote.commentPosition =="Left01"){
 		selectedNote.commentPosition = "Left02";
-		btn.value="Comment Left03";
 	}else if(selectedNote.commentPosition =="Left02"){
 		selectedNote.commentPosition = "Left03";
-		btn.value="Comment Left04";
 	}else if(selectedNote.commentPosition =="Left03"){
 		selectedNote.commentPosition = "Left04";
-		btn.value="Comment Left05";
 	}else if(selectedNote.commentPosition =="Left04"){
 		selectedNote.commentPosition = "Left05";
-		btn.value="Comment Left06";
 	}else if(selectedNote.commentPosition =="Left05"){
 		selectedNote.commentPosition = "Left06";
-		btn.value="Comment Left07";
 	}else if(selectedNote.commentPosition =="Left06"){
 		selectedNote.commentPosition = "Left07";
-		btn.value="Comment Left08";
 	}else if(selectedNote.commentPosition =="Left07"){
 		selectedNote.commentPosition = "Left08";
-		btn.value="Comment Left09";
 	}else if(selectedNote.commentPosition =="Left08"){
 		selectedNote.commentPosition = "Left09";
-		btn.value="Comment Left10";
 	}else if(selectedNote.commentPosition =="Left09"){
 		selectedNote.commentPosition = "Left10";
-		btn.value="Comment Left11";
 	}else if(selectedNote.commentPosition =="Left10"){
 		selectedNote.commentPosition = "Left11";
-		btn.value="Comment Left12";
 	}else if(selectedNote.commentPosition =="Left11"){
 		selectedNote.commentPosition = "Left12";
-		btn.value="Comment Right";
 	}else if(selectedNote.commentPosition =="Left12"){
 		selectedNote.commentPosition = "Right";
-		btn.value="Comment Left00";
 	}
 	
 	showSelectedView();
