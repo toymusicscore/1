@@ -1711,8 +1711,12 @@ Utilities
 */
 
 // Initialize
-function debugLog(msg){
-    console.log(msg);
+const DEBUG = true;
+
+function debugLog(...args){
+    if (DEBUG){
+        console.log(...args);
+    }
 }
 
 async function main(){
