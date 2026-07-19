@@ -797,12 +797,12 @@ Upper Limit: Largest allowable distance between the two fingers.
 		<input 
 			id="btnToggleCommentPositionMoveLeft" 
 			type="button" 
-			value="Comment Move Left" 
+			value="Move Comment Left" 
 			onclick="toggleCommentPositionMoveLeft()">
 		<input 
 			id="btnToggleCommentPositionMoveRight" 
 			type="button" 
-			value="Comment Move Right" 
+			value="Move Comment Right" 
 			onclick="toggleCommentPositionMoveRight()">
 
     </div>
@@ -3754,7 +3754,7 @@ function toggleCommentView(){
 function toggleCommentPositionMoveLeft(){
     if(!selectedNote) return;
     const btn = $("btnToggleCommentPositionMoveLeft");
-	btn.value="Comment Move Left";
+	btn.value="Move Comment Left";
     if(!btn) return;
 
 	if(selectedNote.commentPosition =="Right"){
@@ -3794,7 +3794,7 @@ function toggleCommentPositionMoveLeft(){
 function toggleCommentPositionMoveRight(){
     if(!selectedNote) return;
     const btn = $("btnToggleCommentPositionMoveRight");
-	btn.value="Comment Move Right";
+	btn.value="Move Comment Right";
     if(!btn) return;
 
 	if(selectedNote.commentPosition =="Right"){
