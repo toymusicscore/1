@@ -758,7 +758,7 @@ Upper Limit: Largest allowable distance between the two fingers.
 
         <button onclick="showMarkerSubMenu('Shape')">Marker</button>
         <button onclick="showSymbolMenu()">Symbol</button>
-        <button onclick="showTextMenu()">Text</button>
+        <button onclick="showCommentMenu()">Comment</button>
         <button onclick="hideNoteMenu()">Hide Menu</button>
 		<br>
 		<input 
@@ -783,21 +783,21 @@ Upper Limit: Largest allowable distance between the two fingers.
         <button onclick="deleteSymbol()">Delete Symbol</button>
 		<br>
 		<input 
-			id="btnToggleTextView" 
+			id="btnToggleCommentView" 
 			type="button" 
-			value="Hide Text" 
-			onclick="toggleTextView()">
-        <button onclick="deleteText()">Delete Text</button>
+			value="Hide Comment" 
+			onclick="toggleCommentView()">
+        <button onclick="deleteComment()">Delete Comment</button>
 		<br>
 		<input 
-			id="btnToggleTextPositionView" 
+			id="btnToggleCommentPositionView" 
 			type="button" 
-			value="Text Left00" 
-			onclick="toggleTextPositionView()">
+			value="Comment Left00" 
+			onclick="toggleCommentPositionView()">
 
     </div>
 
-    <div id="textMenu" style="display:none;">
+    <div id="commentMenu" style="display:none;">
     </div>
 
 </div>
@@ -2449,7 +2449,7 @@ function showPage(page){
         "color",
         "html",
         "finger",
-        "text",
+        "comment",
         "songInfo"
     ];
 
@@ -2459,16 +2459,16 @@ function showPage(page){
     });
 
 	$("canvas").style.display =
-		(page === "html" || page === "text" || page === "songInfo") ? "none" : "block";
+		(page === "html" || page === "comment" || page === "songInfo") ? "none" : "block";
 
 }
 
-function openTextPage(){
+function openCommentPage(){
 
     showPage(PAGE.TEXT);
 
     setTimeout(()=>{
-        showTextTable();
+        showCommentTable();
     },0);
 
 }
@@ -3725,65 +3725,65 @@ function toggleSymbolView(){
 
 }	
 
-function toggleTextView(){
-    textVisible = !textVisible;
+function toggleCommentView(){
+    commentVisible = !commentVisible;
 
-    const btn = $("btnToggleTextView");
+    const btn = $("btnToggleCommentView");
     if(!btn) return;
 
-    btn.value = textVisible ? "Hide Text" : "Show Text";
+    btn.value = commentVisible ? "Hide Comment" : "Show Comment";
 	
 	showSelectedView();
 
 }	
 
-function toggleTextPositionView(){
+function toggleCommentPositionView(){
     if(!selectedNote) return;
-    const btn = $("btnToggleTextPositionView");
+    const btn = $("btnToggleCommentPositionView");
     if(!btn) return;
 
-	if(selectedNote.textPosition =="Right"){
-		selectedNote.textPosition = "Left00";
-		btn.value="Text Left01";
-	}else if(selectedNote.textPosition =="Left00"){
-		selectedNote.textPosition = "Left01";
-		btn.value="Text Left02";
-	}else if(selectedNote.textPosition =="Left01"){
-		selectedNote.textPosition = "Left02";
-		btn.value="Text Left03";
-	}else if(selectedNote.textPosition =="Left02"){
-		selectedNote.textPosition = "Left03";
-		btn.value="Text Left04";
-	}else if(selectedNote.textPosition =="Left03"){
-		selectedNote.textPosition = "Left04";
-		btn.value="Text Left05";
-	}else if(selectedNote.textPosition =="Left04"){
-		selectedNote.textPosition = "Left05";
-		btn.value="Text Left06";
-	}else if(selectedNote.textPosition =="Left05"){
-		selectedNote.textPosition = "Left06";
-		btn.value="Text Left07";
-	}else if(selectedNote.textPosition =="Left06"){
-		selectedNote.textPosition = "Left07";
-		btn.value="Text Left08";
-	}else if(selectedNote.textPosition =="Left07"){
-		selectedNote.textPosition = "Left08";
-		btn.value="Text Left09";
-	}else if(selectedNote.textPosition =="Left08"){
-		selectedNote.textPosition = "Left09";
-		btn.value="Text Left10";
-	}else if(selectedNote.textPosition =="Left09"){
-		selectedNote.textPosition = "Left10";
-		btn.value="Text Left11";
-	}else if(selectedNote.textPosition =="Left10"){
-		selectedNote.textPosition = "Left11";
-		btn.value="Text Left12";
-	}else if(selectedNote.textPosition =="Left11"){
-		selectedNote.textPosition = "Left12";
-		btn.value="Text Right";
-	}else if(selectedNote.textPosition =="Left12"){
-		selectedNote.textPosition = "Right";
-		btn.value="Text Left00";
+	if(selectedNote.commentPosition =="Right"){
+		selectedNote.commentPosition = "Left00";
+		btn.value="Comment Left01";
+	}else if(selectedNote.commentPosition =="Left00"){
+		selectedNote.commentPosition = "Left01";
+		btn.value="Comment Left02";
+	}else if(selectedNote.commentPosition =="Left01"){
+		selectedNote.commentPosition = "Left02";
+		btn.value="Comment Left03";
+	}else if(selectedNote.commentPosition =="Left02"){
+		selectedNote.commentPosition = "Left03";
+		btn.value="Comment Left04";
+	}else if(selectedNote.commentPosition =="Left03"){
+		selectedNote.commentPosition = "Left04";
+		btn.value="Comment Left05";
+	}else if(selectedNote.commentPosition =="Left04"){
+		selectedNote.commentPosition = "Left05";
+		btn.value="Comment Left06";
+	}else if(selectedNote.commentPosition =="Left05"){
+		selectedNote.commentPosition = "Left06";
+		btn.value="Comment Left07";
+	}else if(selectedNote.commentPosition =="Left06"){
+		selectedNote.commentPosition = "Left07";
+		btn.value="Comment Left08";
+	}else if(selectedNote.commentPosition =="Left07"){
+		selectedNote.commentPosition = "Left08";
+		btn.value="Comment Left09";
+	}else if(selectedNote.commentPosition =="Left08"){
+		selectedNote.commentPosition = "Left09";
+		btn.value="Comment Left10";
+	}else if(selectedNote.commentPosition =="Left09"){
+		selectedNote.commentPosition = "Left10";
+		btn.value="Comment Left11";
+	}else if(selectedNote.commentPosition =="Left10"){
+		selectedNote.commentPosition = "Left11";
+		btn.value="Comment Left12";
+	}else if(selectedNote.commentPosition =="Left11"){
+		selectedNote.commentPosition = "Left12";
+		btn.value="Comment Right";
+	}else if(selectedNote.CommentPosition =="Left12"){
+		selectedNote.commentPosition = "Right";
+		btn.value="Comment Left00";
 	}
 	
 	showSelectedView();
@@ -7721,17 +7721,17 @@ function deleteSymbol(){
 }
 
 
-function hideText(){
+function hideComment(){
 	textVisible = false;
     lineScore(pauseTick);
 }
 
-function showText(){
+function showComment(){
     textVisible = true;
     lineScore(pauseTick);
 }
 
-function deleteText(){
+function deleteComment(){
 
     if(!selectedNote) return;
 
