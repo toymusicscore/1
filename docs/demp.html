@@ -3404,7 +3404,7 @@ function drawTriangle(ctx, cx, cy, s){
 	ctx.stroke();
 }
 
-function drawPentagram(ctx, cx, cy, r){
+function drawStar(ctx, cx, cy, r){
 	ctx.lineJoin = "round";
 	ctx.lineCap  = "round";
     const p = [];
@@ -3721,10 +3721,10 @@ function lineScore(tick){
 					drawTriangle(ctx, x1, y, 0.9 * Number(size));
 					break;
 
-				case "Pentagram":
+				case "Star":
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
-					drawPentagram(ctx, x1, y, size);
+					drawStar(ctx, x1, y, size);
 				break;
 
 				case "Heart":
@@ -7858,20 +7858,20 @@ function setSymbol(symbol){
 
 const markerMenuData = {
 
-    "Shape": [
-        "Circle",
-        "Triangle",
-        "Square",
-		"Pentagram",
-		"Heart",
+	"Shape": [
+		"Circle",
+		"Triangle",
+		"Square",
 		"Diamond",
+		"Heart",
+		"Star",
 		"Pentagon",
 		"Hexagon",
 		"Heptagon",
 		"Octagon",
 		"Nonagon",
 		"Decagon"
-    ],
+	],
 
     "Color": [
         "Red",
