@@ -3448,14 +3448,14 @@ function drawHeart(ctx, cx, cy, s){
 	ctx.moveTo(cx, cy + s * 0.5);
 
 	ctx.bezierCurveTo(
-		cx - s * 1.0, cy + s * 0.2,
-		cx - s * 1.0, cy - s * 0.8,
+		cx - s * 0.8, cy + s * 0.2,
+		cx - s * 0.8, cy - s * 0.8,
 		cx,           cy - s * 0.5
 	);
 
 	ctx.bezierCurveTo(
-		cx + s * 1.0, cy - s * 0.8,
-		cx + s * 1.0, cy + s * 0.2,
+		cx + s * 0.8, cy - s * 0.8,
+		cx + s * 0.8, cy + s * 0.2,
 		cx,           cy + s * 0.5
 	);
     ctx.closePath();
@@ -3638,7 +3638,7 @@ function lineScore(tick){
 				case "Heart":
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
-					drawHeart(ctx, x1, y, 1.5 * size);
+					drawHeart(ctx, x1, y + 0.2 * size, 1.5 * size);
 				break;
 			}
 		}
