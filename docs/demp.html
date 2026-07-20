@@ -3480,6 +3480,84 @@ function drawDiamond(ctx, cx, cy, s){
 
 }
 
+
+function drawPentagon(ctx, cx, cy, r){
+
+    ctx.beginPath();
+
+    for(let i = 0; i < 5; i++){
+
+        const a = (-90 + i * 72) * Math.PI / 180;
+
+        const x = cx + r * Math.cos(a);
+        const y = cy + r * Math.sin(a);
+
+        if(i == 0){
+            ctx.moveTo(x, y);
+        }else{
+            ctx.lineTo(x, y);
+        }
+    }
+
+    ctx.closePath();
+
+    ctx.stroke();
+//  ctx.fill();
+
+}
+
+
+function drawHexagon(ctx, cx, cy, r){
+
+    ctx.beginPath();
+
+    for(let i = 0; i < 6; i++){
+
+        const a = (-90 + i * 60) * Math.PI / 180;
+
+        const x = cx + r * Math.cos(a);
+        const y = cy + r * Math.sin(a);
+
+        if(i == 0){
+            ctx.moveTo(x, y);
+        }else{
+            ctx.lineTo(x, y);
+        }
+    }
+
+    ctx.closePath();
+
+    ctx.stroke();
+//  ctx.fill();
+
+}
+
+function drawPolygon(ctx, cx, cy, r, n){
+
+    ctx.beginPath();
+
+    for(let i = 0; i < n; i++){
+
+        const a = (-90 + i * 360 / n) * Math.PI / 180;
+
+        const x = cx + r * Math.cos(a);
+        const y = cy + r * Math.sin(a);
+
+        if(i == 0){
+            ctx.moveTo(x, y);
+        }else{
+            ctx.lineTo(x, y);
+        }
+    }
+
+    ctx.closePath();
+
+    ctx.stroke();
+//  ctx.fill();
+
+}
+
+
 function lineScore(tick){
     notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -3660,6 +3738,42 @@ function lineScore(tick){
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
 					drawDiamond(ctx, x1, y, 0.9 * Number(size));
+				break;
+
+				case "Pentagon":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawPentagon(ctx, x1, y, 0.9 * Number(size));
+				break;
+				
+				case "Hexagon":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawHexagon(ctx, x1, y, 0.9 * Number(size));
+				break;
+
+				case "Heptagon":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawPoligon(ctx, x1, y, 0.9 * Number(size), 7);
+				break;
+
+				case "Octagon":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawPoligon(ctx, x1, y, 0.9 * Number(size), 8);
+				break;
+
+				case "Nonagon":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawPoligon(ctx, x1, y, 0.9 * Number(size), 9);
+				break;
+
+				case "Decagon":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawPoligon(ctx, x1, y, 0.9 * Number(size), 10);
 				break;
 			}
 		}
@@ -7747,11 +7861,17 @@ const markerMenuData = {
 
     "Shape": [
         "Circle",
-        "Square",
         "Triangle",
+        "Square",
 		"Star",
 		"Heart",
 		"Diamond",
+		"Pentagon",
+		"Hexagon",
+		"Heptagon",
+		"Octagon",
+		"Nonagon",
+		"Decagon"
     ],
 
     "Color": [
