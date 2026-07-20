@@ -3464,6 +3464,21 @@ function drawHeart(ctx, cx, cy, s){
 //  ctx.fill();
 }
 
+function drawDiamond(ctx, cx, cy, s){
+
+    ctx.beginPath();
+
+    ctx.moveTo(cx,     cy - s); // 上
+    ctx.lineTo(cx + s, cy);     // 右
+    ctx.lineTo(cx,     cy + s); // 下
+    ctx.lineTo(cx - s, cy);     // 左
+
+    ctx.closePath();
+
+    ctx.stroke();
+//  ctx.fill();
+
+}
 
 function lineScore(tick){
     notePosition = [];
@@ -3639,6 +3654,12 @@ function lineScore(tick){
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
 					drawHeart(ctx, x1, y + 0.2 * Number(size), 1.5 * size);
+				break;
+
+				case "Diamond":
+					ctx.strokeStyle = view.scoreViewData[i].marker.color;
+					ctx.lineWidth = view.scoreViewData[i].marker.width;
+					drawDiamond(ctx, x1, y, 1.5 * size);
 				break;
 			}
 		}
@@ -7730,6 +7751,7 @@ const markerMenuData = {
         "Triangle",
 		"Star",
 		"Heart",
+		"Diamond",
     ],
 
     "Color": [
