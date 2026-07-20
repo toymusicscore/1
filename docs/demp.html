@@ -3381,6 +3381,29 @@ let markerVisible = true;
 let symbolVisible = true;
 let commentVisible = true;
 
+function drawTriangle(ctx, cx, cy, s){
+
+	ctx.beginPath();
+
+	ctx.moveTo(
+		cx,
+		cy - s * (Math.sqrt(3) * 2 / 3)
+	);
+
+	ctx.lineTo(
+		cx - s,
+		cy + s * (Math.sqrt(3) * 1 / 3)
+	);
+
+	ctx.lineTo(
+		cx + s,
+		cy + s * (Math.sqrt(3) * 1 / 3)
+	);
+
+	ctx.closePath();
+	ctx.stroke();
+}
+
 function drawStar(ctx, cx, cy, r){
 	ctx.lineJoin = "round";
 	ctx.lineCap  = "round";
@@ -3603,27 +3626,7 @@ function lineScore(tick){
 
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
-
-					ctx.beginPath();
-
-					ctx.moveTo(
-						x1,
-						y - size * (Math.sqrt(3) * 2 / 3)
-					);
-
-					ctx.lineTo(
-						x1 - size,
-						y + size * (Math.sqrt(3) * 1 / 3)
-					);
-
-					ctx.lineTo(
-						x1 + size,
-						y + size * (Math.sqrt(3) * 1 / 3)
-					);
-
-					ctx.closePath();
-
-					ctx.stroke();
+					drawTriangle(ctx, x1, y, size);
 					break;
 
 				case "Star":
@@ -3635,7 +3638,7 @@ function lineScore(tick){
 				case "Heart":
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
-					drawHeart(ctx, x1, y - 0.25 * size, 1.5 * size);
+					drawHeart(ctx, x1, y, 1.5 * size);
 				break;
 			}
 		}
