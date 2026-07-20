@@ -3616,7 +3616,7 @@ function lineScore(tick){
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
 
-					ctx.arc(x1, y, 0.6 * size, 0, Math.PI * 2);
+					ctx.arc(x1, y, 0.7 * size, 0, Math.PI * 2);
 
 					ctx.stroke();
 					break;
@@ -3641,7 +3641,7 @@ function lineScore(tick){
 
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
-					drawTriangle(ctx, x1, y, 0.5 * size);
+					drawTriangle(ctx, x1, y, size);
 					break;
 
 				case "Star":
@@ -3653,13 +3653,13 @@ function lineScore(tick){
 				case "Heart":
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
-					drawHeart(ctx, x1, y + 0.2 * Number(size), 0.7 * Number(size));
+					drawHeart(ctx, x1, y + 0.2 * Number(size), 0.9 * Number(size));
 				break;
 
 				case "Diamond":
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
-					drawDiamond(ctx, x1, y, 0.7 * Number(size));
+					drawDiamond(ctx, x1, y, 0.9 * Number(size));
 				break;
 			}
 		}
