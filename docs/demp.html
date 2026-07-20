@@ -3616,7 +3616,7 @@ function lineScore(tick){
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
 
-					ctx.arc(x1, y, 0.7 * size, 0, Math.PI * 2);
+					ctx.arc(x1, y, size, 0, Math.PI * 2);
 
 					ctx.stroke();
 					break;
@@ -3628,10 +3628,10 @@ function lineScore(tick){
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
 
 					ctx.strokeRect(
-						x1 - 0.75 * Number(size),
-						y - 0.75 * Number(size),
-						1.5 * Number(size),
-						1.5 * Number(size)
+						x1 - 0.6 * Number(size),
+						y - 0.6 * Number(size),
+						1.2 * Number(size),
+						1.2 * Number(size)
 					);
 
 					break;
@@ -3653,7 +3653,7 @@ function lineScore(tick){
 				case "Heart":
 					ctx.strokeStyle = view.scoreViewData[i].marker.color;
 					ctx.lineWidth = view.scoreViewData[i].marker.width;
-					drawHeart(ctx, x1, y + 0.2 * Number(size), 0.9 * Number(size));
+					drawHeart(ctx, x1, y + 0.2 * Number(size), size);
 				break;
 
 				case "Diamond":
