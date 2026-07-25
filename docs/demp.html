@@ -49,10 +49,57 @@ demp
     background-color: white;
     border: 1px solid black;
 }
+#floatingMenu{
+    position:absolute;
+    left:50px;
+    top:50px;
+
+    width:260px;
+
+    background:white;
+    border:1px solid gray;
+    border-radius:8px;
+
+    box-shadow:0 0 10px #888;
+}
 
 </style>
 </head>
 <body style="font-family:Arial;font-size:100%">
+<div id="floatingMenu">
+    <div id="menuHeader">
+        ☰ ToyScore
+    </div>
+
+    <div id="menuTabs">
+        <button>Play</button>
+			▶ Score
+			▶ Record
+			⏺ Record
+			⏹ Stop
+			📈 Graph
+			🏆 Ranking
+        <button>Edit</button>
+			✋ Finger
+			💬 Comment
+			🎨 Color
+			| Measure
+        <button>Song</button>
+			ℹ Song Info
+			📂 Open
+			💾 Save
+			🕘 History
+		<button>Settings</button>
+			⚙ General
+			🎨 Color
+			✋ Finger
+    </div>
+
+    <div id="menuContents">
+
+	</div>
+</div>
+
 <div id="mainPage" style="display:block">
 <input 
 	type="button" 
@@ -915,6 +962,14 @@ function writeObjUi(obj, prefix) {
     }
 
 }
+
+//
+//menu
+//
+
+menuHeader.onpointerdown=startDrag;
+floatingMenu.style.left = x + "px";
+floatingMenu.style.top  = y + "px";
 
 //========================================
 // Color Settings
