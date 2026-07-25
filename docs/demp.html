@@ -49,58 +49,74 @@ demp
     background-color: white;
     border: 1px solid black;
 }
-#floatingMenu{
-    position:absolute;
-    left:50px;
-    top:50px;
 
-    width:260px;
+.window{
+
+    position:absolute;
+
+    left:100px;
+    top:80px;
+
+    width:280px;
+    height:350px;
 
     background:white;
+
     border:1px solid gray;
+
     border-radius:8px;
 
-    box-shadow:0 0 10px #888;
+    box-shadow:0 4px 10px gray;
+
+    display:none;
+
+    z-index:1000;
+
+}
+
+.windowHeader{
+
+    height:36px;
+
+    background:#ddd;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:5px;
+
+    cursor:move;
+
+    user-select:none;
+
+}
+
+#menuBody{
+
+    padding:10px;
+
 }
 
 </style>
 </head>
 <body style="font-family:Arial;font-size:100%">
-<div id="floatingMenu">
-    <div id="menuHeader">
+<div id="menuWindow" class="window">
+
+    <div id="menuHeader" class="windowHeader">
+
         ☰ ToyScore
+
+        <button id="menuClose">×</button>
+
     </div>
 
-    <div id="menuTabs">
-        <button>Play</button>
-        <button>Edit</button>
-        <button>Song</button>
-		<button>Settings</button>
+    <div id="menuBody">
+
     </div>
-			▶ Score
-			▶ Record
-			⏺ Record
-			⏹ Stop
-			📈 Graph
-			🏆 Ranking
 
-			✋ Finger
-			💬 Comment
-			🎨 Color
-			| Measure
-
-			ℹ Song Info
-			📂 Open
-			💾 Save
-			🕘 History
-
-			⚙ General
-			🎨 Color
-			✋ Finger
-
-    <div id="menuContents">
-
-	</div>
 </div>
 
 <div id="mainPage" style="display:block">
@@ -970,9 +986,52 @@ function writeObjUi(obj, prefix) {
 //menu
 //
 
-menuHeader.onpointerdown=startDrag;
-floatingMenu.style.left = x + "px";
-floatingMenu.style.top  = y + "px";
+function showMenu(){
+
+    menuWindow.style.display="block";
+
+}
+
+function hideMenu(){
+
+    menuWindow.style.display="none";
+
+}
+
+menuClose.onclick=hideMenu;
+
+let dragging=false;
+
+let offsetX=0;
+let offsetY=0;
+
+menuHeader.onpointerdown=function(e){
+
+    dragging=true;
+
+    offsetX=e.clientX-menuWindow.offsetLeft;
+    offsetY=e.clientY-menuWindow.offsetTop;
+
+}
+
+document.onpointermove=function(e){
+
+    if(!dragging) return;
+
+    menuWindow.style.left=
+        e.clientX-offsetX+"px";
+
+    menuWindow.style.top=
+        e.clientY-offsetY+"px";
+
+}
+
+document.onpointerup=function(){
+
+    dragging=false;
+
+}
+
 
 //========================================
 // Color Settings
