@@ -114,25 +114,35 @@ demp
 }
 
 
+#app{
+    position:relative;
+}
+
 #menuButton{
 
     position:absolute;
 
-    left:0px;
-    top:0px;
+    left:10px;
+    top:10px;
 
-    font-size:24px;
+    font-size:32px;
 
-    background:none;
-    border:none;
-
-    z-index:10;
+    z-index:1000;
 
 }
 
 </style>
 </head>
 <body style="font-family:Arial;font-size:100%">
+<div id="app">
+
+    <button id="menuButton" onclick="showMenu()">☰</button>
+
+    <canvas id="canvas"></canvas>
+
+    <div id="htmlArea"></div>
+
+</div>
 
 	<div id="menuWindow" class="window">
 
@@ -770,14 +780,6 @@ Upper Limit: Largest allowable distance between the two fingers.
         value="← Back"
         onclick="showPage(PAGE.MAIN)">
     <div id="htmlArea"></div>
-</div>
-
-<div id="canvasContainer">
-
-    <canvas id="canvas"></canvas>
-
-    <button id="menuButton" onclick="showMenu()">☰</button>
-
 </div>
 
 <div id="noteMenu" style="
