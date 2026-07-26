@@ -118,7 +118,7 @@ demp
 
 		<button onclick="showTab('play')">Play</button>
 
-		<button onclick="showTab('edit')">Edit</button>
+		<button onclick="showTab('analysis')">Analysis</button>
 
 		<button onclick="showTab('song')">Song</button>
 
@@ -133,28 +133,6 @@ demp
 </div>
 
 <div id="mainPage" style="display:block">
-
-<input
-    type="button"
-    value="⚙ Settings"
-    onclick="showPage(PAGE.SETTINGS)">
-<input
-    type="button"
-    value="🎨 Color"
-    onclick="showPage(PAGE.COLOR)">
-<input
-    type="button"
-    value="☝ Finger"
-    onclick="showPage(PAGE.FINGER)">
-<input
-	type="button"
-	value="📝  Comment"
-	onclick="openCommentPage()">
-<input
-	type="button"
-	value="ⓘ  Song Info"
-	onclick="openSongInfoPage()">
-</div>	
 
 <div id="settingsPage" style="display:none">
 	 
@@ -1028,6 +1006,30 @@ function showTab(tab){
 					value="▶ Play Record" 
 					onclick="playRecord()">
 					<br>
+				<label style="font-size:70%">| Measure</label>
+				<input onchange ="updateMeasurePosition()"
+					type="number"
+					id="x_targetMeasure"
+					name="x_targetMeasure"
+					value="1"
+					min="1"
+					style="width:40px">
+					<br>
+				<input type="button" id="btnPause" value=" || " onclick="pauseButton()">
+				<input type="button" id="btnFirstMeasure" name="b_|<" value="|<" onclick="goToFirstMeasure()">
+				<input type="button" id="btnBackOnePage" value="<<" onclick="goBackOnePage()">
+				<input type="button" id="btnBackOneMeasure" value="<" onclick="goBackOneMeasure()">
+				<input type="button" id="btnForwardOneMeasure" value=">" onclick="goForwardOneMeasure()">
+				<input type="button" id="btnForwardOnePage" value=">>" onclick="goForwardOnePage()">
+				<input type="button" id="btnLastMeasure" value=">|" onclick="goToLastMeasure()">
+
+            `;
+
+            break;
+
+        case "analysis":
+
+            menuBody.innerHTML = `
 				<input 
 					type="button" 
 					value="📈 Performance Gragh" 
@@ -1059,33 +1061,49 @@ function showTab(tab){
 					value="Clear Record" 
 					onclick="clearRecord()">
 					<br>
-					<label style="font-size:70%">Measure</label>
-				<input onchange ="updateMeasurePosition()"
-					type="number"
-					id="x_targetMeasure"
-					name="x_targetMeasure"
-					value="1"
-					min="1"
-					style="width:40px">
-				<input type="button" id="btnPause" value=" || " onclick="pauseButton()">
-				<input type="button" id="btnFirstMeasure" name="b_|<" value="|<" onclick="goToFirstMeasure()">
-				<input type="button" id="btnBackOnePage" value="<<" onclick="goBackOnePage()">
-				<input type="button" id="btnBackOneMeasure" value="<" onclick="goBackOneMeasure()">
-				<input type="button" id="btnForwardOneMeasure" value=">" onclick="goForwardOneMeasure()">
-				<input type="button" id="btnForwardOnePage" value=">>" onclick="goForwardOnePage()">
-				<input type="button" id="btnLastMeasure" value=">|" onclick="goToLastMeasure()">
-
             `;
 
             break;
 
-        case "edit":
+		case "song":
 
             menuBody.innerHTML = `
                 <button>✋ Finger</button>
                 <button>💬 Comment</button>
                 <button>🎨 Color</button>
             `;
+
+            break;
+        case "settings":
+
+            menuBody.innerHTML = `
+					<input
+						type="button"
+						value="⚙ Settings"
+						onclick="showPage(PAGE.SETTINGS)">
+					<input
+						type="button"
+						value="🎨 Color"
+						onclick="showPage(PAGE.COLOR)">
+					<input
+						type="button"
+						value="✋ Finger"
+						onclick="showPage(PAGE.FINGER)">
+					<input
+						type="button"
+						value="💬 Comment"
+						onclick="openCommentPage()">
+					<input
+						type="button"
+						value="📝 Free Comment"
+						onclick="openFreeCommentPage()">
+					<input
+						type="button"
+						value="ⓘ  Song Info"
+						onclick="openSongInfoPage()">
+					</div>	
+
+				`;
 
             break;
 
