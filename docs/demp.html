@@ -1028,8 +1028,7 @@ function showTab(tab){
             menuBody.innerHTML = `
 				<input 
 					type="button" 
-					value="▶ Play Score" 
-					onclick="playScore()">
+					value="▶ Play Score" >
 					<br>
 				<input 
 					type="button" 
@@ -1069,6 +1068,27 @@ function showTab(tab){
 				<input type="button" id="btnLastMeasure" value=">|" onclick="goToLastMeasure()">
 				<br>
             `;
+				$("▶ Play Score").onclick = function(){
+
+					playScore();
+
+					closeFloatingWindow();
+
+				};
+				$("▶ Play Record").onclick = function(){
+
+					playRecord();
+
+					closeFloatingWindow();
+
+				};
+				$("⏺ Start Recording").onclick = function(){
+
+					startRecording();
+
+					closeFloatingWindow();
+
+				};
 
             break;
 
@@ -1166,6 +1186,12 @@ function showTab(tab){
             break;
 
     }
+
+}
+
+function closeFloatingWindow(){
+
+    document.getElementById("window").style.display = "none";
 
 }
 
@@ -2864,23 +2890,6 @@ async function startRecording(){
 
 }
 
-/*
-async function startCountdown(){
-	ctx.font = "25px Arial";
-
-	let	wait0=60000/Math.max(num("x_bpm"),60);
-
-	for(let i = 3; i > 0; i--){
-		ctx.clearRect(10,100,10,10);
-		ctx.fillStyle = "red";
-		ctx.fillText(i,20,110);
-
-		await new Promise(r => setTimeout(r, wait0));
-	}
-
-}
-
-*/
 
 async function startCountdown(){
 
