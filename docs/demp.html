@@ -2864,6 +2864,7 @@ async function startRecording(){
 
 }
 
+/*
 async function startCountdown(){
 	ctx.font = "25px Arial";
 
@@ -2876,6 +2877,39 @@ async function startCountdown(){
 
 		await new Promise(r => setTimeout(r, wait0));
 	}
+
+}
+
+*/
+
+async function startCountdown(){
+
+    ctx.font = "80px Arial";
+
+    let wait0 = 60000 / Math.max(num("x_bpm"),60);
+
+    for(let i = 3; i > 0; i--){
+
+		ctx.clearRect(
+			canvas.width/2 - 50,
+			canvas.height/2 - 50,
+			100,
+			100
+		);
+
+        ctx.fillStyle = "red";
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        ctx.fillText(
+            i,
+            canvas.width / 2,
+            canvas.height / 2
+        );
+
+        await new Promise(r => setTimeout(r, wait0));
+    }
 
 }
 
