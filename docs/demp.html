@@ -2913,6 +2913,25 @@ function touchSound(){
 
     canvas.addEventListener('pointerdown', async (e) => {
 
+			const rect = canvas.getBoundingClientRect();
+
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+
+
+			// ☰ の範囲
+			if(
+				x >= 10 &&
+				x <= 60 &&
+				y >= 10 &&
+				y <= 60
+			){
+
+				showMenu();
+
+				return;
+			}
+
 		e.preventDefault();
 
 		await audioContext.resume();
