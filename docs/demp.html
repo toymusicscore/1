@@ -5650,7 +5650,9 @@ function loadPracticeHistory(){
 function showPracticeHistory(){
 
     const history = loadPracticeHistory();
-	let	html = "<tr><th>Start Date Time</th><th>Stop Date Time</th><th>Practice Time</th><th>Song</th><th>Hands</th><th>First Measure</th><th>Last Measure</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
+	let html = "";
+		html += "<table border='1' table style='font-size:25px; border-collapse:collapse; width:100%;'>";
+		html += "<tr><th>Start Date Time</th><th>Stop Date Time</th><th>Practice Time</th><th>Song</th><th>Hands</th><th>First Measure</th><th>Last Measure</th><th>BPM</th><th>Score</th><th>Pitch</th><th>Attack</th><th>Release</th><th>Velocity</th></tr>";
 
     history.forEach(r => {
         html +=
@@ -5672,7 +5674,7 @@ function showPracticeHistory(){
     });
 
     html += "</table>";
-	html ="<h1 style='text-align:center'>Practice History</h1><table border='1'>" + html;
+	html ="<h1 style='text-align:center'>Practice History</h1>" + html;
 
     $("htmlArea").innerHTML = html;
 	
