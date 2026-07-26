@@ -311,11 +311,6 @@ demp
        value="Reset Settings"
        onclick="onResetSettings()">
 
-<input type="button"
-       value="← Back"
-       onclick="showPage(PAGE.MAIN)">
-</div>
-
 <div id="colorPage" style="display:none">
 
 <label style="font-size:70%">Oct 0</label>
@@ -630,10 +625,6 @@ demp
     value="Reset Color"
     onclick="resetColor()">
 
-<input type="button"
-       value="← Back"
-       onclick="showPage(PAGE.MAIN)">
-
 </div>
 
 <div id="fingerPage" style="display:none">
@@ -732,12 +723,6 @@ Upper Limit: Largest allowable distance between the two fingers.
        value="Reset Finger Settings"
        onclick="onResetFinger()">
 
-<input
-    type="button"
-    value="← Back"
-    onclick="showPage(PAGE.MAIN)">
-</div>
-
 <div id="commentPage" style="display:none">
 
 <table id="commentTable">
@@ -753,12 +738,6 @@ Upper Limit: Largest allowable distance between the two fingers.
     value="Reset Comment"
     onclick="resetCommentData()">
 
-<input
-    type="button"
-    value="← Back"
-    onclick="showPage(PAGE.MAIN)">
-</div>
-
 <div id="songInfoPage" style="display:none">
 
 <table id="songInfoTable">
@@ -773,17 +752,8 @@ Upper Limit: Largest allowable distance between the two fingers.
     type="button"
     value="Reset Song Info"
     onclick="resetSongInfoData()">
-<input
-    type="button"
-    value="← Back"
-    onclick="showPage(PAGE.MAIN)">
-</div>
 
 <div id="htmlPage" style="display:none">
-    <input
-        type="button"
-        value="← Back"
-        onclick="showPage(PAGE.MAIN)">
     <div id="htmlArea"></div>
 </div>
 
@@ -1083,6 +1053,13 @@ function showTab(tab){
 				<input type="button" id="btnLastMeasure" value=">|" onclick="goToLastMeasure()">
 				<br>
             `;
+				$("mainButton").onclick = function(){
+
+					showPage(PAGE.MAIN);
+
+					closeFloatingWindow();
+
+				};
 				$("playScoreButton").onclick = function(){
 
 					playScore();
