@@ -127,48 +127,12 @@ demp
 	</div>
 
 	<div id="menuBody">
+	
 	</div>
 
 </div>
 
 <div id="mainPage" style="display:block">
-<input 
-	type="button" 
-	value="Play Score" 
-	onclick="playScore()">
-<input 
-	type="button" 
-	value="Start Recording" 
-	onclick="startRecording()">
-<input 
-	type="button" 
-	value="Play Record" 
-	onclick="playRecord()">
-<input 
-	type="button" 
-	value="Performance Gragh" 
-	onclick="drawPerformanceGraph()">
-<input 
-	type="button" 
-	value="Practice Ranking" 
-	onclick="showPracticeRanking()">
-<input 
-	type="button" 
-	value="Save Record" 
-	onclick="saveRecord()">
-<input 
-	type="button" 
-	value="Show History" 
-	onclick="showPracticeHistory()">
-<input 
-	id="btnToggleRecordView" 
-	type="button" 
-	value="Hide Record" 
-	onclick="toggleRecordView()">
-<input 
-	type="button" 
-	value="Clear Record" 
-	onclick="clearRecord()">
 
 <label style="font-size:70%">Measure</label>
 <input onchange ="updateMeasurePosition()"
@@ -1058,12 +1022,6 @@ const history =
 const info =
     new Window("Song Info");
 
-function showMenu(){
-
-    document.getElementById("menuWindow").style.display = "block";
-
-}
-
 function showTab(tab){
 
     switch(tab){
@@ -1071,10 +1029,52 @@ function showTab(tab){
         case "play":
 
             menuBody.innerHTML = `
-                <button>▶ Score</button>
-                <button>▶ Record</button>
-                <button>⏺ Record</button>
-                <button>📈 Graph</button>
+				<input 
+					type="button" 
+					value="▶ Play Score" 
+					onclick="playScore()">
+					<br>
+				<input 
+					type="button" 
+					value="⏺ Start Recording" 
+					onclick="startRecording()">
+					<br>
+				<input 
+					type="button" 
+					value="▶ Play Record" 
+					onclick="playRecord()">
+					<br>
+				<input 
+					type="button" 
+					value="📈 Performance Gragh" 
+					onclick="drawPerformanceGraph()">
+					<br>
+				<input 
+					type="button" 
+					value="Practice Ranking" 
+					onclick="showPracticeRanking()">
+					<br>
+				<input 
+					type="button" 
+					value="Save Record" 
+					onclick="saveRecord()">
+					<br>
+				<input 
+					type="button" 
+					value="Show History" 
+					onclick="showPracticeHistory()">
+					<br>
+				<input 
+					id="btnToggleRecordView" 
+					type="button" 
+					value="Hide Record" 
+					onclick="toggleRecordView()">
+					<br>
+				<input 
+					type="button" 
+					value="Clear Record" 
+					onclick="clearRecord()">
+					<br>
             `;
 
             break;
