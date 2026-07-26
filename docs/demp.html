@@ -1028,15 +1028,18 @@ function showTab(tab){
             menuBody.innerHTML = `
 				<input 
 					type="button" 
+					id="playScoreButton"
 					value="▶ Play Score" >
 					<br>
 				<input 
 					type="button" 
+					id="playRecordButton"
 					value="▶ Play Record" 
 					onclick="playRecord()">
 					<br>
 				<input 
 					type="button" 
+					id="startRecordingButton"
 					value="⏺ Start Recording" 
 					onclick="startRecording()">
 					<br>
@@ -1068,21 +1071,21 @@ function showTab(tab){
 				<input type="button" id="btnLastMeasure" value=">|" onclick="goToLastMeasure()">
 				<br>
             `;
-				$("▶ Play Score").onclick = function(){
+				$("playScoreButton").onclick = function(){
 
 					playScore();
 
 					closeFloatingWindow();
 
 				};
-				$("▶ Play Record").onclick = function(){
+				$("PlayRecordButton").onclick = function(){
 
 					playRecord();
 
 					closeFloatingWindow();
 
 				};
-				$("⏺ Start Recording").onclick = function(){
+				$("StartRecordingButton").onclick = function(){
 
 					startRecording();
 
