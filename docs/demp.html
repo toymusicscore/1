@@ -99,6 +99,20 @@ demp
     padding:10px;
 
 }
+
+#canvasContainer{
+
+    position:relative;
+
+}
+
+
+#canvas{
+
+    display:block;
+
+}
+
 #menuButton{
 
     position:absolute;
@@ -106,10 +120,12 @@ demp
     left:20px;
     top:20px;
 
-    font-size:30px;
+    font-size:32px;
 
     background:none;
     border:none;
+
+    z-index:10;
 
 }
 </style>
@@ -754,8 +770,14 @@ Upper Limit: Largest allowable distance between the two fingers.
     <div id="htmlArea"></div>
 </div>
 
-<canvas id="canvas"></canvas>
-	 
+<div id="canvasContainer">
+
+    <canvas id="canvas"></canvas>
+
+    <button id="menuButton" onclick="showMenu()">☰</button>
+
+</div>
+
 <div id="noteMenu" style="
     position:absolute;
     display:none;
