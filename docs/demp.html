@@ -100,34 +100,12 @@ demp
 
 }
 
-#canvasContainer{
-
-    position:relative;
-
-}
-
-
 #canvas{
 
     display:block;
 
 }
 
-#menuButton{
-
-    position:absolute;
-
-    left:0px;
-    top:0px;
-
-    font-size:24px;
-
-    background:none;
-    border:none;
-
-    z-index:10;
-
-}
 </style>
 </head>
 <body style="font-family:Arial;font-size:100%">
@@ -770,13 +748,7 @@ Upper Limit: Largest allowable distance between the two fingers.
     <div id="htmlArea"></div>
 </div>
 
-<div id="canvasContainer">
-
-    <canvas id="canvas"></canvas>
-
-    <button id="menuButton" onclick="showMenu()">☰</button>
-
-</div>
+<canvas id="canvas"></canvas>
 
 <div id="noteMenu" style="
     position:absolute;
@@ -956,6 +928,14 @@ function writeObjUi(obj, prefix) {
 //
 //menu
 //
+
+function drawMenuIcon(){
+
+    ctx.font = "32px sans-serif";
+    ctx.fillStyle = "black";
+    ctx.fillText("☰", 10, 10);
+
+}
 
 function showMenu(){
 
@@ -2079,6 +2059,7 @@ async function initialize(){
 
     loadSavedFinger();
     updateFingerUi();
+	drawMenuIcon();
 
 }
 
@@ -5570,6 +5551,8 @@ function showPracticeRanking(){
     $(
         "htmlArea"
     ).innerHTML = html;
+
+	drawMenuIcon()
 
 	showPage(PAGE.HTML);
 
