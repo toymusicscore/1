@@ -99,11 +99,23 @@ demp
     padding:10px;
 
 }
+#menuButton{
 
+    position:absolute;
+
+    left:20px;
+    top:20px;
+
+    font-size:30px;
+
+    background:none;
+    border:none;
+
+}
 </style>
 </head>
 <body style="font-family:Arial;font-size:100%">
-
+<button onclick="showMenu()">☰</button>
 <div id="menuWindow" class="window">
 
     <div id="menuHeader" class="windowHeader">
@@ -922,14 +934,6 @@ function writeObjUi(obj, prefix) {
 //
 //menu
 //
-function drawMenuIcon(){
-
-    ctx.font = "24px sans-serif";
-    ctx.fillStyle = "black";
-
-    ctx.fillText("☰", 10, 10);
-
-}
 
 function showMenu(){
 
@@ -2021,7 +2025,6 @@ async function initialize(){
 
     loadSavedFinger();
     updateFingerUi();
-	drawMenuIcon();
 
 }
 
