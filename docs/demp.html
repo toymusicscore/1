@@ -2870,9 +2870,9 @@ async function startCountdown(){
 	let	wait0=60000/Math.max(num("x_bpm"),60);
 
 	for(let i = 3; i > 0; i--){
-		ctx.clearRect(mx,my,10,10);
+		ctx.clearRect(10,100,10,10);
 		ctx.fillStyle = "red";
-		ctx.fillText(i,mx,my);
+		ctx.fillText(i,10,100);
 
 		await new Promise(r => setTimeout(r, wait0));
 	}
