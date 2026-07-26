@@ -2866,19 +2866,6 @@ function touchSound(){
 
     canvas.addEventListener('pointerdown', async (e) => {
 
-		const rect = canvas.getBoundingClientRect();
-
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
-
-
-		if(x < 40 && y < 40){
-
-			showMenu();
-
-			return;
-		}
-
 		e.preventDefault();
 
 		await audioContext.resume();
