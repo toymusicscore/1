@@ -120,6 +120,8 @@ demp
 
 		<button onclick="showTab('analysis')">Analysis</button>
 
+		<button onclick="showTab('edit')">Edit</button>
+
 		<button onclick="showTab('song')">Song</button>
 
 		<button onclick="showTab('settings')">Settings</button>
@@ -1065,43 +1067,48 @@ function showTab(tab){
 
             break;
 
-		case "song":
+		case "edit":
 
             menuBody.innerHTML = `
-                <button>✋ Finger</button>
-                <button>💬 Comment</button>
-                <button>🎨 Color</button>
+				<input
+					type="button"
+					value="🎨 Color"
+					onclick="showPage(PAGE.COLOR)">
+				<input
+					type="button"
+					value="✋ Finger"
+					onclick="showPage(PAGE.FINGER)">
+				<input
+					type="button"
+					value="💬 Comment"
+					onclick="openCommentPage()">
+				<input
+					type="button"
+					value="📝 Free Comment"
+					onclick="openFreeCommentPage()">
             `;
 
             break;
-        case "settings":
+
+		case "song":
+
+            menuBody.innerHTML = `
+				<input
+					type="button"
+					value="ⓘ  Song Info"
+					onclick="openSongInfoPage()">
+				</div>	
+            `;
+
+            break;
+
+			case "settings":
 
             menuBody.innerHTML = `
 					<input
 						type="button"
 						value="⚙ Settings"
 						onclick="showPage(PAGE.SETTINGS)">
-					<input
-						type="button"
-						value="🎨 Color"
-						onclick="showPage(PAGE.COLOR)">
-					<input
-						type="button"
-						value="✋ Finger"
-						onclick="showPage(PAGE.FINGER)">
-					<input
-						type="button"
-						value="💬 Comment"
-						onclick="openCommentPage()">
-					<input
-						type="button"
-						value="📝 Free Comment"
-						onclick="openFreeCommentPage()">
-					<input
-						type="button"
-						value="ⓘ  Song Info"
-						onclick="openSongInfoPage()">
-					</div>	
 
 				`;
 
