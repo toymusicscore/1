@@ -923,6 +923,14 @@ function writeObjUi(obj, prefix) {
 //
 //menu
 //
+function drawMenuIcon(){
+
+    ctx.font = "32px sans-serif";
+    ctx.fillStyle = "black";
+
+    ctx.fillText("☰", 20, 40);
+
+}
 
 function showMenu(){
 
@@ -1999,7 +2007,8 @@ function onMIDIFailure(error) {
 }
 
 async function initialize(){
-
+	
+	drawMenuIcon();
     loadSavedSettings();
     updateSettingsUi();
     syncMeasuresPerScreen();
