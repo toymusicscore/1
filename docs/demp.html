@@ -1013,6 +1013,11 @@ function showTab(tab){
 					value="⏹ Stop Recording" 
 					onclick="stopRecording()">
 					<br>
+				<input 
+					type="button" 
+					value="💾 Save Record" 
+					onclick="saveRecord()">
+					<br>
 				<label style="font-size:70%">Measure</label>
 				<input onchange ="updateMeasurePosition()"
 					type="number"
@@ -1049,18 +1054,13 @@ function showTab(tab){
 					<br>
 				<input 
 					type="button" 
-					value="💾 Save Record" 
-					onclick="saveRecord()">
-					<br>
-				<input 
-					type="button" 
 					value="🕘 Show History" 
 					onclick="showPracticeHistory()">
 					<br>
 				<input 
 					id="btnToggleRecordView" 
 					type="button" 
-					value="📂 Hide Record" 
+					value="👁 Hide Record" 
 					onclick="toggleRecordView()">
 					<br>
 				<input 
@@ -1106,7 +1106,12 @@ function showTab(tab){
 					type="button"
 					value="ⓘ  Song Info"
 					onclick="openSongInfoPage()">
-				</div>	
+				<br>
+				<input
+					type="button"
+					value="📂 Open Song"
+					onclick="openSongInfoPage()">
+				<br>
             `;
 
             break;
@@ -1118,9 +1123,13 @@ function showTab(tab){
 						type="button"
 						value="⚙ Settings"
 						onclick="showPage(PAGE.SETTINGS)">
-
+						<br>
+					<input
+						type="button"
+						value="🎹 Practice Settings"
+						onclick="showPage(PAGE.SETTINGS)">
+						<br>
 				`;
-
             break;
 
     }
