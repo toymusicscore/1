@@ -777,8 +777,7 @@ Upper Limit: Largest allowable distance between the two fingers.
 
         <br>
 
-		<button onclick="setLabel('#')">#</button>
-        <button onclick="setLabel('b')">b</button>
+		<button onclick="setLabel(true)">#<->b</button>
 
         <br>
 
@@ -3721,6 +3720,22 @@ function getLabel(midi, n_id){
 
 }
 
+function getLabelReverse(midi, n_id){
+		  if (practiceSettings.noteTextType === 2){
+		nlr=drms1[midi%12];
+	}else if (practiceSettings.noteTextType === 1){
+		nlr=drmf1[midi%12];
+	}else if (practiceSettings.noteTextType === 4){
+		nlr=engs1[midi%12];
+	}else if (practiceSettings.noteTextType === 3){
+		nlr=engf1[midi%12];
+	}else if (practiceSettings.noteTextType === 6){
+		nlr=gers1[midi%12];
+	}else if (practiceSettings.noteTextType === 5){
+		nlr=gerf1[midi%12];
+	}
+}
+
 function getVisibleLength(start, stop, tick){
     return (
         stop >= tick + measuresPerScreen*ticksPerMeasure*3/4
@@ -4191,9 +4206,11 @@ function lineScore(tick){
 				ctx.textAlign = "center";
 				ctx.textBaseline = "middle";
 				ctx.font = "20px Arial";
-				ctx.fillText(view.scoreViewData[i].label, x1, y);
-            }
-
+				if(view.scoreViewData[i].label=== true){
+		            getLabel(midi, n_id);
+					ctx.fillText(nlr, x1, y);
+				}
+			}
 			if(symbolVisible && view.scoreViewData[i].symbol){
 
 				const symbol = view.scoreViewData[i].symbol;
