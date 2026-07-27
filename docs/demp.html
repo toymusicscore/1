@@ -1201,25 +1201,42 @@ function showTab(tab){
             menuBody.innerHTML = `
 				<input
 					type="button"
-					value="⬇️ Download"
-					onclick="showDownloadPage()">
+					id="downloadButton"
+					value="⬇️ Download">
 					<br><br>
 				<input
 					type="button"
-					value="📂 Open Song"
-					onclick="openSongInfoPage()">
+					id="openSongButton"
+					value="📂 Open Song">
 					<br><br>
 				<input
 					type="button"
-					value="⚙ Settings"
-					onclick="showPage(PAGE.SETTINGS)">
+					id="settingsButton"
+					value="⚙ Settings">
 					<br><br>
 				<input
 					type="button"
-					value="🎹 Practice Settings"
-					onclick="showPage(PAGE.SETTINGS)">
+					id="practiceSettingsButton"
+					value="🎹 Practice Settings">
 					<br><br>
 				`;
+				$("downloadButton").onclick = function(){
+					showDownloadPage();
+					closeMenuWindow();
+				};
+				$("openSongButton").onclick = function(){
+					openSongPage();
+					closeMenuWindow();
+				};
+				$("settingsButton").onclick = function(){
+					showPage(PAGE.SETTINGS);
+					closeMenuWindow();
+				};
+				$("practiceSettingsButton").onclick = function(){
+					showPage(PAGE.SETTINGS);
+					closeMenuWindow();
+				};
+
             break;
 
     }
