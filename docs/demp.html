@@ -1063,26 +1063,25 @@ function showTab(tab){
 					<br><br>
             `;
 				$("mainButton").onclick = function(){
-					showMainPage();
+						showPage(PAGE.MAIN);
+						lineScore(pauseTick);
+						closeMenuWindow();
 				};
 				$("playScoreButton").onclick = function(){
 
 					playScore();
-
 					closeMenuWindow();
 
 				};
 				$("playRecordButton").onclick = function(){
 
 					playRecord();
-
 					closeMenuWindow();
 
 				};
 				$("startRecordingButton").onclick = function(){
 
 					startRecording();
-
 					closeMenuWindow();
 
 				};
@@ -1094,20 +1093,38 @@ function showTab(tab){
 		menuBody.innerHTML = `
 				<input 
 					type="button" 
-					value="📈 Performance Gragh" 
-					onclick="showPerformanceGraph()">
+					id="performaceGraphButton"
+					value="📈 Performance Gragh">
 					<br><br>
 				<input 
 					type="button" 
-					value="🏆 Practice Ranking" 
-					onclick="showPracticeRanking()">
+					id="practiceRankingButton"
+					value="🏆 Practice Ranking">
 					<br><br>
 				<input 
 					type="button" 
-					value="🕘 Show History" 
-					onclick="showPracticeHistory()">
+					id="practiceHistoryButton"
+					value="🕘 Show History">
 					<br><br>
             `;
+				$("performaceGraphButton").onclick = function(){
+
+					drawPerformanceGraph();
+					closeMenuWindow();
+
+				};
+				$("practiceRankingButton").onclick = function(){
+
+					showPracticeRanking();
+					closeMenuWindow();
+
+				};
+				$("practiceHistoryButton").onclick = function(){
+
+					showPracticeHistory();
+					closeMenuWindow();
+
+				};
 
 			break;
 
@@ -1181,17 +1198,6 @@ function closeMenuWindow(){
 
 }
 
-function showMainPage(){
-	showPage(PAGE.MAIN);
-	lineScore(pauseTick);
-	closeMenuWindow();
-}
-
-function showPerformanceGraph(){
-	showPage(PAGE.MAIN);
-	drawPerformanceGraph();
-	closeMenuWindow();
-}
 
 //========================================
 // Color Settings
