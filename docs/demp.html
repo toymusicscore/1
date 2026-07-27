@@ -1085,7 +1085,7 @@ function showTab(tab){
 				<input 
 					type="button" 
 					value="📈 Performance Gragh" 
-					onclick="drawPerformanceGraph()">
+					onclick="showPerformanceGraph()">
 					<br><br>
 				<input 
 					type="button" 
@@ -1185,6 +1185,12 @@ function closeMenuWindow(){
 function showMainPage(){
 	showPage(PAGE.MAIN);
 	lineScore(pauseTick);
+	closeMenuWindow();
+}
+
+function showPerformanceGraph(){
+	showPage(PAGE.MAIN);
+	drawPerformanceGraph();
 	closeMenuWindow();
 }
 
