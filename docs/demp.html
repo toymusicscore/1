@@ -7413,25 +7413,23 @@ keyrp10_0=[];
 		ctx.fillRect(100+midi%12*50,40+start/ticksPerMeasure*10,50,1);
 		keyrp10_0.push([midi%12,Math.floor(start/ticksPerMeasure+1)]);
 		}
-/*
+
 ctx.fillStyle="black";
-ctx.fillText("Proportions of keys and the best relative keys in time windows",0,480);
-ctx.fillText("Major scale",0,510);
-ctx.fillText("Minor scale",0,540);
-ctx.fillText("Time%",0,570);
-ctx.fillText("Measure",90,570);
-ctx.fillText("Comments",810,570);
+ctx.fillText("Proportions of keys and the best relative keys in time windows",100,60+mscnt*10);
+ctx.fillText("Major scale",0,70+msnt*10);
+ctx.fillText("Minor scale",0,80+msnt*10);
+ctx.fillText("Measure",0,90+msnt*10);
+ctx.fillText("Comments",600,90+msnt*10);
 
-for (let i=1; i<mscnt; i++){
-	ctx.fillText(i,28,570*10*i);
-
+for (let i=0; i<mscnt; i++){
+	ctx.fillText(i+1,0,570*10*i);
 	ctx.beginPath();
-	ctx.moveTo(0,570+i*10);
-	ctx.lineTo(1050,570+i*10);
-	ctx.strokeStyle="gray";
+	ctx.moveTo(0,90+mscnt*10+i*10);
+	ctx.lineTo(800,90+mscnt*10+i*10);
+	ctx.strokeStyle="lightgray";
 	ctx.stroke();
 }
-
+/*
 for(let k=0;k<=11;k++){
 ctx.fillStyle="black";
 ctx.fillText(engf1[k],220+50*k,510);
