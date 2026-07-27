@@ -1053,12 +1053,7 @@ function showTab(tab){
 				<br><br>
             `;
 				$("mainButton").onclick = function(){
-
-					showPage(PAGE.MAIN);
- 					//resizeCanvas();
-					lineScore(pauseTick);
-					closeMenuWindow();
-
+					showMainPage();
 				};
 				$("playScoreButton").onclick = function(){
 
@@ -1185,6 +1180,12 @@ function closeMenuWindow(){
 
     $("menuWindow").style.display = "none";
 
+}
+
+function showMainPage(){
+	showPage(PAGE.MAIN);
+	lineScore(pauseTick);
+	closeMenuWindow();
 }
 
 //========================================
