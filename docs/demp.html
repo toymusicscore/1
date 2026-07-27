@@ -7380,9 +7380,10 @@ ctx.font="10px Arial";
 ctx.lineWidth=1;
 ctx.fillStyle="black";
 ctx.fillText("Proportions of pitch classes in time windows and scatter plot of pitch classes and time",0,10);
-ctx.fillText("Note #",0,20);
-ctx.fillText("Note b",0,30);
-ctx.fillText("PC",0,40);
+ctx.fillText("Note #",50,20);
+ctx.fillText("Note b",50,30);
+ctx.fillText("PC",50,40);
+ctx.fillText("Measure",0,40);
 ctx.fillText("Total %",700,40);
 ctx.fillText("Count",750,40);
 
@@ -7392,7 +7393,7 @@ for(let i=0; i<mscnt; i++){
 	ctx.beginPath();
 	ctx.strokeStyle="gray";
 	ctx.moveTo(0,50+i*10);
-	ctx.lineTo(10,50+i*10);
+	ctx.lineTo(100,50+i*10);
 	ctx.stroke();
 	ctx.moveTo(700,50+i*10);
 	ctx.lineTo(800,50+i*10);
@@ -7401,8 +7402,8 @@ for(let i=0; i<mscnt; i++){
 
 for(let k=0;k<=11;k++){
 ctx.fillStyle="black";
-ctx.fillText(engs1[k],30+50*k,20);
-ctx.fillText(engf1[k],30+50*k,30);
+ctx.fillText(engs1[k],100+50*k,20);
+ctx.fillText(engf1[k],100+50*k,30);
 ctx.fillText((k%12).toString(12),30+50*k,40);
 }
 
