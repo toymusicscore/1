@@ -6959,7 +6959,7 @@ function trackChannelInfo(){
 }
 
 
-function keyEstimation(){
+function keyEstimationOriginal(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
 canvas.width = 1300;
 canvas.height = 1300;
@@ -7370,6 +7370,378 @@ keyrp10_5.sort((a,b)=>b[1]-a[1]);
 		ctx.fillText("Unidentified" ,810,960+(11)*30);
 	}
 }
+
+
+function keyEstimation(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+canvas.width = 1300;
+canvas.height = 1300;
+ctx.font="6px Arial";
+ctx.lineWidth=1;
+ctx.fillStyle="black";
+ctx.fillText("Proportions of pitch classes in time windows and scatter plot of pitch classes and time",0,10);
+ctx.fillText("Note name #",0,20);
+ctx.fillText("Note name b",0,30);
+ctx.fillText("Time%",0,40);
+ctx.fillText("Measure",90,50);
+ctx.fillText("Total %",810,50);
+ctx.fillText("Count",900,50);
+
+const mscnt=Math.floor(songLengthTicks/ticksPerMeasure);
+for(let i=0; i<mscnt; i++){
+	ctx.fillText(i, 28,60+i*10);
+	ctx.beginPath();
+	ctx.strokeStyle="gray";
+	ctx.moveTo(0,60+i*10);
+	ctx.lineTo(200,60+i*10);
+	ctx.stroke();
+	ctx.moveTo(800,60+i*10);
+	ctx.lineTo(1000,60+i*10);
+	ctx.stroke();
+}
+
+for(let k=0;k<=11;k++){
+ctx.fillStyle="black";
+ctx.fillText(engs1[k],220+50*k,20);
+ctx.fillText(engf1[k],220+50*k,30);
+ctx.fillText((k%12).toString(12),220+50*k,40);
+}
+
+keyrp10_0=[];
+
+	for(let i=0;i<scoreData.length;i++){
+		let midi = scoreData[i].midi;
+		let start = scoreData[i].start;
+		ctx.fillStyle=workingColor.pc[midi%12];
+		ctx.fillRect(200+midi%12*50,40+start/songLengthTicks*100,50,1);
+		keyrp10_0.push([midi%12,Math.floor(start/songLengthTicks*10)]);
+		}
+/*
+ctx.fillStyle="black";
+ctx.fillText("Proportions of keys and the best relative keys in time windows",0,480);
+ctx.fillText("Major scale",0,510);
+ctx.fillText("Minor scale",0,540);
+ctx.fillText("Time%",0,570);
+ctx.fillText("Measure",90,570);
+ctx.fillText("Comments",810,570);
+
+for (let i=1; i<mscnt; i++){
+	ctx.fillText(i,28,570*10*i);
+
+	ctx.beginPath();
+	ctx.moveTo(0,570+i*10);
+	ctx.lineTo(1050,570+i*10);
+	ctx.strokeStyle="gray";
+	ctx.stroke();
+}
+
+for(let k=0;k<=11;k++){
+ctx.fillStyle="black";
+ctx.fillText(engf1[k],220+50*k,510);
+ctx.fillText(engMnr1[(k+9)%12],220+50*k,540);
+}
+
+keyrp10_1=[];
+for(let i=0;i<10;i++){
+kx0=0;
+kx1=0;
+kx2=0;
+kx3=0;
+kx4=0;
+kx5=0;
+kx6=0;
+kx7=0;
+kx8=0;
+kx9=0;
+kx10=0;
+kx11=0;
+kxttl=0;
+for(let j=0;j<keyrp10_0.length;j++){
+	if(i===keyrp10_0[j][1]){
+		switch(Number(keyrp10_0[j][0])){
+		case 0: kx0+=1;break;
+		case 1: kx1+=1;break;
+		case 2: kx2+=1;break;
+		case 3: kx3+=1;break;
+		case 4: kx4+=1;break;
+		case 5: kx5+=1;break;
+		case 6: kx6+=1;break;
+		case 7: kx7+=1;break;
+		case 8: kx8+=1;break;
+		case 9: kx9+=1;break;
+		case 10: kx10+=1;break;
+		case 11: kx11+=1;break;
+		}
+		kxttl+=1;
+	}
+}
+keyrp10_1.push([i, kx0, kx1, kx2, kx3, kx4, kx5, kx6, kx7, kx8, kx9, kx10, kx11, kxttl]);
+}
+
+let w0=0;
+for(let i=0;i<10;i++){
+	for(let j=0;j<13;j++){
+	if(keyrp10_1[i][13] === 0){
+		continue;
+		}
+	w0=Math.round(keyrp10_1[i][j+1]/keyrp10_1[i][13]*100);
+	if (j===12 && w0===100){
+		ctx.fillText(w0,810,150+10*i);
+		ctx.fillText(keyrp10_1[i][13],900,150+10*i);
+	}else if(w0===100){
+		ctx.fillText(w0,200+50*j,150+10*i);
+	}else if(w0>=10){
+		ctx.fillText(w0,214+50*j,150+10*i);
+	}else{
+		ctx.fillText(w0,228+50*j,150+10*i);
+	}	
+	}
+}
+
+keyrp10_2=[];
+for(let i=1;i<mscnt;i++){
+	for(let j=0;j<12;j++){
+		num0=0;
+		for(let k=0;k<12;k++){
+			if(scaleMjr0.includes((12-j+k)%12)){
+			num0=num0+Number(keyrp10_1[i][k+1]);
+			}
+		}
+		keyrp10_2.push([i, j, num0,keyrp10_1[i][13]]);
+	}
+}
+
+
+keyrp10_3=[];
+for (let i=0;i<10;i++){
+		num1=0;
+		num2=0;
+		num3=0;
+		num4=0;
+	for (let j=0;j<keyrp10_2.length;j++){
+		if(i===keyrp10_2[j][0] && num2<keyrp10_2[j][2]){
+		num1=keyrp10_2[j][1];
+		num2=keyrp10_2[j][2];
+		num3=keyrp10_2[j][3];
+		num4=0;
+		}else if(i===keyrp10_2[j][0] && num2===keyrp10_2[j][2]){
+		num1=keyrp10_2[j][1];
+		num2=keyrp10_2[j][2];
+		num3=keyrp10_2[j][3];
+		num4+=1;
+		}
+	}
+	keyrp10_3.push([i,num1,num2,num3,num4]);
+}
+
+//mltiple max weights
+for (let i=0;i<10;i++){
+	for(let j=0;j<keyrp10_2.length;j++){
+		if(i>0 && keyrp10_3[i][4]>0 && keyrp10_2[j][0]===i 
+		 && keyrp10_2[j][2]===keyrp10_3[i][2] && keyrp10_2[j][1]===keyrp10_3[i-1][1] && keyrp10_3[i-1][4]===0){
+		keyrp10_3[i].splice(1, 1, keyrp10_3[i-1][1]);
+		keyrp10_3[i].splice(4, 1, 0);
+		}else if(i<9 && keyrp10_3[i][4]>0 && keyrp10_2[j][0]===i 
+		 && keyrp10_2[j][2]===keyrp10_3[i][2] && keyrp10_2[j][1]===keyrp10_3[i+1][1] && keyrp10_3[i+1][4]===0){
+		keyrp10_3[i].splice(1, 1, keyrp10_3[i+1][1]);
+		keyrp10_3[i].splice(4, 1, 0);
+		}
+	}
+}
+
+let w1=0;
+for(let i=1;i<mscnt;i++){
+	if(i===keyrp10_3[i][0]){
+		if(keyrp10_3[i][4]>0){
+		ctx.fillStyle="black";
+		ctx.fillText(keyrp10_3[i][4]+1+" best pairs",810,600+30*i);
+		}
+		for(j=0;j<keyrp10_2.length;j++){
+			if(i===keyrp10_2[j][0]){
+				if(keyrp10_3[i][2]===keyrp10_2[j][2]){
+				ctx.fillStyle=workingColor.pc[keyrp10_2[j][1]];
+				ctx.fillRect(200+50*keyrp10_2[j][1],570+30*i,50,30);
+				}
+			ctx.fillStyle="black";
+			w1=Math.round(keyrp10_2[j][2]/keyrp10_2[j][3]*100)
+				if (w1===100){
+				ctx.fillText(w1,200+50*keyrp10_2[j][1],600+30*i);
+				}else if(w1>=10){
+				ctx.fillText(w1,214+50*keyrp10_2[j][1],600+30*i);
+				}else{
+				ctx.fillText(w1,228+50*keyrp10_2[j][1],600+30*i);
+				}
+			}
+		}
+	}
+}
+
+ctx.fillStyle="black";
+ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",0,930);
+ctx.fillText("Time%",0,960);
+ctx.fillText("Measure",90,960);
+ctx.fillText("10",28,990);
+ctx.fillText("20",28,1020);
+ctx.fillText("30",28,1050);
+ctx.fillText("40",28,1080);
+ctx.fillText("50",28,1110);
+ctx.fillText("60",28,1140);
+ctx.fillText("70",28,1170);
+ctx.fillText("80",28,1200);
+ctx.fillText("90",28,1230);
+ctx.fillText("100",14,1260);
+ctx.fillText("Conclusion",0,1290);
+ctx.fillText("Major 1st+5th",200,960);
+ctx.fillText("Minor 1st+5th",400,960);
+ctx.fillText("Major",600,960);
+ctx.fillText("Minor",700,960);
+ctx.fillText("Estimated Key",810,960);
+
+for(i=0;i<=10;i++){
+ctx.fillStyle="black";
+mslbl0=Math.floor(songLengthTicks/ticksPerMeasure*i/10);
+if(i>=1 && i<=10){
+	if(mslbl0>=1000){
+		ctx.fillText(mslbl0,100,960+i*30);
+	}else if(mslbl0>=100){
+		ctx.fillText(mslbl0,114,960+i*30);
+	}else if(mslbl0>=10){
+		ctx.fillText(mslbl0,128,960+i*30);
+	}else{
+		ctx.fillText(mslbl0,142,960+i*30);
+	}
+}
+ctx.beginPath();
+ctx.moveTo(0,960+i*30);
+ctx.lineTo(1050,960+i*30);
+ctx.strokeStyle="gray";
+ctx.stroke();
+}
+
+keyrp10_4=[];
+for(i=0;i<keyrp10_3.length;i++){
+for(j=0;j<keyrp10_1.length;j++){
+if(i===keyrp10_1[j][0] && keyrp10_3[i][4]>0){
+keyrp10_4.push("Unidentified");
+}else if(i===keyrp10_1[j][0] && keyrp10_3[i][4]===0){
+tfmjr0=Math.round(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1]/keyrp10_1[j][13]*100);
+tfmjr7=Math.round(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[4])%12+1]/keyrp10_1[j][13]*100);
+tfmnr0=Math.round(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[5])%12+1]/keyrp10_1[j][13]*100);
+tfmnr7=Math.round(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1]/keyrp10_1[j][13]*100);
+tfmjr07=((Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1])+Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[4])%12+1]))/keyrp10_1[j][13]*100).toFixed(2);
+tfmnr07=((Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[5])%12+1])+Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1]))/keyrp10_1[j][13]*100).toFixed(2);
+tfmjr_mnr=((
+Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1])
++Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[4])%12+1])
+-Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[5])%12+1])
+-Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1])
+)/keyrp10_1[j][13]*100).toFixed(2);
+
+ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[0])%12];
+ctx.fillRect(200,960+i*30,tfmjr0,30);
+ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[4])%12];
+ctx.fillRect(200+tfmjr0,960+i*30,tfmjr7,30);
+ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillRect(400,960+i*30,tfmnr0,30);
+ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[2])%12];
+ctx.fillRect(400+tfmnr0,960+i*30,tfmnr7,30);
+ctx.fillStyle="black";
+if(tfmjr0>=10){
+ctx.fillText(tfmjr0,200,990+i*30);
+}else{
+ctx.fillText("  " + tfmjr0,200,990+i*30);
+}
+if(tfmjr7>=10){
+ctx.fillText("+" + tfmjr7,230,990+i*30);
+}else{
+ctx.fillText("+  " + tfmjr7,230,990+i*30);
+}
+if(tfmjr07>=10){
+ctx.fillText("= " + tfmjr07,280,990+i*30);
+}else{
+ctx.fillText("=   " + tfmjr07,280,990+i*30);
+}
+if(tfmnr0>=10){
+ctx.fillText(tfmnr0,400,990+i*30);
+}else{
+ctx.fillText("  " + tfmnr0,400,990+i*30);
+}
+if(tfmnr7>=10){
+ctx.fillText("+" + tfmnr7,430,990+i*30);
+}else{
+ctx.fillText("+  " + tfmnr7,430,990+i*30);
+}
+if(tfmnr07>=10){
+ctx.fillText("= " + tfmnr07,480,990+i*30);
+}else{
+ctx.fillText("=   " + tfmnr07,480,990+i*30);
+}
+if(tfmjr_mnr>0){
+ctx.fillStyle=workingColor.pc[keyrp10_3[i][1]];
+ctx.fillRect(600,960+i*30,tfmjr_mnr,30);	
+ctx.fillStyle="black";
+if(tfmjr_mnr>=10){
+ctx.fillText(tfmjr_mnr,600,990+i*30);
+}else{
+ctx.fillText("  " + tfmjr_mnr,600,990+i*30);
+}
+keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major");
+}else if(tfmjr_mnr<0){
+ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[5])%12];
+ctx.fillRect(700,960+i*30,-tfmjr_mnr,30);	
+ctx.fillStyle="black";
+if(-tfmjr_mnr>=10){
+ctx.fillText(-tfmjr_mnr,700,990+i*30);
+}else{
+ctx.fillText("  " + -tfmjr_mnr,700,990+i*30);
+}
+keyrp10_4.push(engMnr1[(keyrp10_3[i][1]+scaleMjr0[5])%12] + " minor");
+}else if(Number(tfmjr_mnr)===0){
+keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major/" + engMnr1[(keyrp10_3[i][1]+scaleMjr0[5])%12] + " minor");
+}//if(tfmjr_mnr)
+}//if(keyrp10_3[i][4]===1){
+}//for(j=0;j<keyrp10_1.length;j++){
+}//for(i=0;i<keyrp10_3.length;i++){
+
+//multiple best relative scales
+ctx.fillStyle="black";
+for(i=0;i<10;i++){
+	if(i>0 && keyrp10_4[i].includes("/") && keyrp10_4[i].includes(keyrp10_4[i-1]) && keyrp10_4[i]!=keyrp10_4[i-1]){
+		keyrp10_4.splice(i,1,keyrp10_4[i-1]);			
+		ctx.fillText(keyrp10_4[i-1],810,960+(i+1)*30);
+	}else if(i<9 && keyrp10_4[i].includes("/") && keyrp10_4[i].includes(keyrp10_4[i+1]) && keyrp10_4[i]!=keyrp10_4[i+1]){
+		keyrp10_4.splice(i,1,keyrp10_4[i+1]);	
+		ctx.fillText(keyrp10_4[i+1],810,960+(i+1)*30);
+	}else if(keyrp10_3[i][4]===0){
+		ctx.fillText(keyrp10_4[i],810,960+(i+1)*30);
+	}
+}
+
+//weight double for first & last
+keyrp10_4.push(keyrp10_4[0]);
+keyrp10_4.push(keyrp10_4[9]);
+
+keyrp10_4.sort();
+keyrp10_5=[];
+const counts = {};
+
+for(const key of keyrp10_4){
+    counts[key] = (counts[key] || 0) + 1;
+}
+
+keyrp10_5 = Object.entries(counts);
+keyrp10_5.sort((a,b)=>b[1]-a[1]);
+
+	if(keyrp10_5.length < 2){
+		ctx.fillText(keyrp10_5[0][0],810,960+11*30);
+	}else if(keyrp10_5[0][1] > keyrp10_5[1][1]){
+		ctx.fillText(keyrp10_5[0][0] ,810,960+(11)*30);
+	}else{
+		ctx.fillText("Unidentified" ,810,960+(11)*30);
+	}
+*/
+}
+
 
 async function showDownloadPage(){
 
