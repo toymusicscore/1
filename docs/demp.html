@@ -777,6 +777,22 @@ Upper Limit: Largest allowable distance between the two fingers.
 
         <br>
 
+		<button onclick="setLabel(Di)">Di</button>
+        <button onclick="setLabel(Ri)">Ri</button>
+        <button onclick="setLabel(Fi)">Fi</button>
+        <button onclick="setLabel(Si)">Si</button>
+        <button onclick="setLabel(Li)">Li</button>
+
+        <br>
+
+		<button onclick="setLabel(Ro)">Ro</button>
+        <button onclick="setLabel(Me)">Me</button>
+        <button onclick="setLabel(Se)">Se</button>
+        <button onclick="setLabel(Le)">Le</button>
+        <button onclick="setLabel(Te)">Te</button>
+
+        <br>
+
         <button onclick="showMarkerSubMenu('Shape')">Marker</button>
         <button onclick="showSymbolMenu()">Symbol</button>
         <button onclick="showCommentMenu()">Comment</button>
@@ -7512,6 +7528,15 @@ function setFinger(finger){
     if(!selectedNote) return;
 
     selectedNote.finger = finger;
+
+    updateNote();
+}
+
+function setLabel(label){
+
+    if(!selectedNote) return;
+
+    selectedNote.label = label;
 
     updateNote();
 }
