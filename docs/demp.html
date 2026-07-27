@@ -139,6 +139,10 @@ demp
     background:white;
     overflow:auto;
 }
+.hiddenControl {
+    display:none;
+}
+
 </style>
 </head>
 <body style="font-family:Arial;font-size:100%">
@@ -148,8 +152,8 @@ demp
     <canvas id="canvas"></canvas>
 </div>
 
-<div id="controlArea" style="display:none">
-    <label style="font-size:70%">🔖 Measure</label>
+<div id="controlArea" class="hiddenControl">
+    <label>🔖 Measure</label>
     <input 
         onchange="updateMeasurePosition()"
         type="number"
