@@ -287,24 +287,6 @@ demp
 	<option value="3"> Track/Channel </option>
 	</select>
 
-<input
-    type="button"
-    value="Download Page"
-    onclick="showDownloadPage()">
-
-<input 
-	type="button" 
-	value="License Page" 
-	onclick="showLicensePage()">
-
-    <input
-    type="button"
-    value="Privacy Policy & Terms and Conditions"
-    onclick="showPrivacyPolicyTermsAndConditions()">
-
-<input type="button"
-       value="Clear History"
-       onclick="clearHistory()">
 
 <input type="button"
        value="Reset Settings"
@@ -1099,6 +1081,12 @@ function showTab(tab){
 					id="practiceHistoryButton"
 					value="🕘 Show History">
 					<br><br>
+				<input type="button"
+					id="clearHistoryButton"
+					value="🗑 Clear History">
+					<br><br>
+
+
             `;
 				$("performaceGraphButton").onclick = function(){
 					drawPerformanceGraph();
@@ -1110,6 +1098,10 @@ function showTab(tab){
 				};
 				$("practiceHistoryButton").onclick = function(){
 					showPracticeHistory();
+					closeMenuWindow();
+				};
+				$("clearHistoryButton").onclick = function(){
+					clearHistory();
 					closeMenuWindow();
 				};
 
@@ -1142,13 +1134,23 @@ function showTab(tab){
 
             break;
 
-		case "song":
+		case "info":
 
             menuBody.innerHTML = `
 				<input
 					type="button"
-					value="📂 Open Song"
-					onclick="openSongInfoPage()">
+					value="⬇️　Download"
+					onclick="showDownloadPage()">
+				<br><br>
+				<input 
+					type="button" 
+					value="📜　License" 
+					onclick="showLicensePage()">
+				<br><br>
+				<input
+					type="button"
+					value="🔒　Privacy & Terms"
+					onclick="showPrivacyPolicyTermsAndConditions()">
 				<br><br>
             `;
 
@@ -1157,6 +1159,11 @@ function showTab(tab){
 			case "settings":
 
             menuBody.innerHTML = `
+					<input
+						type="button"
+						value="📂 Open Song"
+						onclick="openSongInfoPage()">
+						<br><br>
 					<input
 						type="button"
 						value="⚙ Settings"
