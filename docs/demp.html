@@ -1156,53 +1156,69 @@ function showTab(tab){
 		case "info":
 
             menuBody.innerHTML = `
+				<input 
+					type="button" 
+					id="licenseButton"
+					value="📜 License">
+					<br><br>
+				<input 
+					type="button"
+					id="aboutButton" 
+					value="ℹ️ About">
+					<br><br>
+				<input 
+					type="button"
+					id="helpButton" 
+					value="❓ Help">
+					<br><br>
 				<input
 					type="button"
-					value="⬇️ Download"
-					onclick="showDownloadPage()">
-				<br><br>
-				<input 
-					type="button" 
-					value="📜 License" 
-					onclick="showLicensePage()">
-				<br><br>
-				<input 
-					type="button" 
-					value="ℹ️ About" 
-					onclick="showLicensePage()">
-				<br><br>
-				<input 
-					type="button" 
-					value="❓ Help" 
-					onclick="showLicensePage()">
-				<br><br>
-				<input
-					type="button"
-					value="🔒 Privacy & Terms"
-					onclick="showPrivacyPolicyTermsAndConditions()">
-				<br><br>
+					id="privacy&Terms"
+					value="🔒 Privacy & Terms">
+					<br><br>
             `;
+				$("licenseButton").onclick = function(){
+					showLicensePage();
+					closeMenuWindow();
+				};
+				$("aboutButton").onclick = function(){
+					showAboutPage();
+					closeMenuWindow();
+				};
+				$("helpButton").onclick = function(){
+					showHelpPage();
+					closeMenuWindow();
+				};
+				$("privacy&TermsButton").onclick = function(){
+					showPrivacyPolicyTermsAndConditions();
+					closeMenuWindow();
+				};
 
             break;
 
 			case "settings":
 
             menuBody.innerHTML = `
-					<input
-						type="button"
-						value="📂 Open Song"
-						onclick="openSongInfoPage()">
-						<br><br>
-					<input
-						type="button"
-						value="⚙ Settings"
-						onclick="showPage(PAGE.SETTINGS)">
-						<br><br>
-					<input
-						type="button"
-						value="🎹 Practice Settings"
-						onclick="showPage(PAGE.SETTINGS)">
-						<br><br>
+				<input
+					type="button"
+					value="⬇️ Download"
+					onclick="showDownloadPage()">
+					<br><br>
+				<input
+					type="button"
+					value="📂 Open Song"
+					onclick="openSongInfoPage()">
+					<br><br>
+				<input
+					type="button"
+					value="⚙ Settings"
+					onclick="showPage(PAGE.SETTINGS)">
+					<br><br>
+				<input
+					type="button"
+					value="🎹 Practice Settings"
+					onclick="showPage(PAGE.SETTINGS)">
+					<br><br>
 				`;
             break;
 
