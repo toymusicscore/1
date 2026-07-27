@@ -1092,12 +1092,13 @@ function showTab(tab){
 					<br><br>
             `;
 				$("performaceGraphButton").onclick = function(){
-					showPerforamceGraph();
+					showPage(PAGE.MAIN);
+					drawPerformanceGraph();
+					closeMenuWindow();
 				};
 				$("practiceRankingButton").onclick = function(){
 					showPracticeRanking();
 					closeMenuWindow();
-
 				};
 				$("practiceHistoryButton").onclick = function(){
 					showPracticeHistory();
@@ -1114,25 +1115,41 @@ function showTab(tab){
             menuBody.innerHTML = `
 				<input
 					type="button"
-					value="🎨 Color"
-					onclick="showPage(PAGE.COLOR)">
+					id="colorButton"
+					value="🎨 Color">
 					<br><br>
 				<input
 					type="button"
-					value="✋ Finger"
-					onclick="showPage(PAGE.FINGER)">
+					id="fingerButton"
+					value="✋ Finger">
 					<br><br>
 				<input
 					type="button"
-					value="📝 Comment"
-					onclick="openCommentPage()">
+					id="commentButton"
+					value="📝 Comment">
 					<br><br>
 				<input
 					type="button"
-					value="ⓘ  Song Info"
-					onclick="openSongInfoPage()">
+					id="songInfoButton"
+					value="ⓘ  Song Info">
 				<br><br>
             `;
+				$("colorButton").onclick = function(){
+					showPage(PAGE.COLOR);
+					closeMenuWindow();
+				};
+				$("fingerButton").onclick = function(){
+					showPage(PAGE.FINGER);
+					closeMenuWindow();
+				};
+				$("commentButton").onclick = function(){
+					openCommentPage();
+					closeMenuWindow();
+				};
+				$("songInfoButton").onclick = function(){
+					openSongInfoPage();
+					closeMenuWindow();
+				};
 
             break;
 
@@ -1204,14 +1221,6 @@ function showMain(){
 	lineScore(pauseTick);
 	closeMenuWindow();
 }
-
-function showPerforamceGraph(){
-	showPage(PAGE.MAIN);
-	drawPerformanceGraph();
-	closeMenuWindow();
-}
-
-
 
 //========================================
 // Color Settings
