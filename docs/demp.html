@@ -4199,14 +4199,8 @@ function lineScore(tick){
 
 function toggleRecordView(){
     recordVisible = !recordVisible;
-
-    const btn = $("btnToggleRecordView");
-    if(!btn) return;
-
-    btn.value = recordVisible ? "🙈 Hide Record" : "👁 Show Record";
-	
+	updateRecordButton();	
 	showSelectedView();
-
 }	
 
 function toggleFingerView(){
