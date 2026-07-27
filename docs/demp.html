@@ -148,6 +148,16 @@ demp
     <canvas id="canvas"></canvas>
 </div>
 
+<div id="controlArea">
+	<input onchange ="updateMeasurePosition()"
+		type="number"
+		id="x_targetMeasure"
+		name="x_targetMeasure"
+		value="1"
+		min="1"
+		style="width:40px">
+</div>
+
 <div id="menuWindow" class="window">
 
     <div id="menuHeader" class="windowHeader">
@@ -1017,14 +1027,6 @@ function showTab(tab){
 					value="💾 Save" 
 					onclick="saveRecord()">
 					<br><br>
-				<label style="font-size:70%">🔖 Measure</label>
-				<input onchange ="updateMeasurePosition()"
-					type="number"
-					id="x_targetMeasure"
-					name="x_targetMeasure"
-					value="1"
-					min="1"
-					style="width:40px">
 				<input type="button" id="btnPause" value="⏸ Pause" onclick="pauseButton()">
 				<br><br>
 				<input type="button" id="btnFirstMeasure" value="|◀" onclick="goToFirstMeasure()">
