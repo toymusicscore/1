@@ -7552,16 +7552,6 @@ function setFinger(finger){
     updateNote();
 }
 
-function setLabel(label){
-
-    if(!selectedNote) return;
-
-    selectedNote.label = label;
-
-    updateNote();
-}
-
-
 function hideFinger(){
 	fingerVisible = false;
     lineScore(pauseTick);
@@ -7582,6 +7572,15 @@ function deleteFinger(){
 
 }
 
+
+function setLabel(label){
+
+    if(!selectedNote) return;
+
+    selectedNote.label = label;
+
+    updateNote();
+}
 
 function hideLabel(){
 	labelVisible = false;
