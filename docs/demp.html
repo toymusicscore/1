@@ -1045,8 +1045,7 @@ function showTab(tab){
 					<br><br>
             `;
 				$("mainButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					lineScore(pauseTick);
+					showMain();
 				};
 				$("playScoreButton").onclick = function(){
 					playScore();
@@ -1087,8 +1086,7 @@ function showTab(tab){
 					<br><br>
             `;
 				$("performaceGraphButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					drawPerformanceGraph();
+					showPerforamceGraph();
 				};
 				$("practiceRankingButton").onclick = function(){
 					showPracticeRanking();
@@ -1191,6 +1189,19 @@ function closeMenuWindow(){
     $("menuWindow").style.display = "none";
 
 }
+
+function showPerforamceGraph(){
+	showPage(PAGE.MAIN);
+	drawPerformanceGraph();
+	closeMenuWindow();
+}
+
+function showMain(){
+	showPage(PAGE.MAIN);
+	lineScore(pauseTick);
+	closeMenuWindow();
+}
+
 
 
 //========================================
@@ -5493,7 +5504,7 @@ function jumpToMeasure(measure){
 
     setVal("x_targetMeasure", measure);
 
-    showPage(PAGE.MAIN);
+    showMain();
 
     updateMeasurePosition();
 
