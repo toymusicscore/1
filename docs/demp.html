@@ -7379,7 +7379,18 @@ function keyEstimation(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
 canvas.width = 1000;
 canvas.height = 1000;
+ctx.font="10px Arial";
+ctx.lineWidth=1;
+ctx.fillStyle="black";
+ctx.fillText("Proportions of pitch classes in time windows and scatter plot of pitch classes and time",100,10);
+ctx.fillText("Note #",50,20);
+ctx.fillText("Note b",50,30);
+ctx.fillText("PitchClass",50,40);
+ctx.fillText("Measure",0,40);
+ctx.fillText("Total %",700,40);
+ctx.fillText("Count",750,40);
 
+/*
 for(const note of scoreData){
 
     const measure = Math.floor(note.start / ticksPerMeasure);
@@ -7393,17 +7404,6 @@ for(const note of scoreData){
     measurePc[measure][pc]++;
 }
 
-ctx.font="10px Arial";
-ctx.lineWidth=1;
-ctx.fillStyle="black";
-ctx.fillText("Proportions of pitch classes in time windows and scatter plot of pitch classes and time",100,10);
-ctx.fillText("Note #",50,20);
-ctx.fillText("Note b",50,30);
-ctx.fillText("PitchClass",50,40);
-ctx.fillText("Measure",0,40);
-ctx.fillText("Total %",700,40);
-ctx.fillText("Count",750,40);
-
 let lastStart = 0;
 
 for (const note of scoreData) {
@@ -7414,6 +7414,10 @@ for (const note of scoreData) {
 }
 
 const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
+
+*/
+
+const mscnt = Math.floor(songLengthTicks / ticksPerMeasure) + 1;
 
 for(let i=0; i<mscnt; i++){
 	if (i+1>=10){
