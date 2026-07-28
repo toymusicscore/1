@@ -7579,6 +7579,11 @@ ctx.fillText("Measure",0,110+mscnt*20);
 
 for (let i=0; i<mscnt; i++){
 	ctx.fillText(i+1,0,120+mscnt*20+10*i);
+	ctx.beginPath();
+	ctx.moveTo(0,120+mscnt*20+10*i);
+	ctx.lineTo(1050,120+mscnt*20+10*i);
+	ctx.strokeStyle="lightgray";
+	ctx.stroke();
 }
 ctx.fillText("Conclusion",0,120+mscnt*30);
 ctx.fillText("Major 1st+5th",200,120+mscnt*30);
@@ -7588,27 +7593,6 @@ ctx.fillText("Minor",700,120+mscnt*30);
 ctx.fillText("Estimated Key",810,120+mscnt*30);
 
 /*
-for(i=0;i<=10;i++){
-ctx.fillStyle="black";
-mslbl0=Math.floor(songLengthTicks/ticksPerMeasure*i/10);
-if(i>=1 && i<=10){
-	if(mslbl0>=1000){
-		ctx.fillText(mslbl0,100,960+i*30);
-	}else if(mslbl0>=100){
-		ctx.fillText(mslbl0,114,960+i*30);
-	}else if(mslbl0>=10){
-		ctx.fillText(mslbl0,128,960+i*30);
-	}else{
-		ctx.fillText(mslbl0,142,960+i*30);
-	}
-}
-ctx.beginPath();
-ctx.moveTo(0,960+i*30);
-ctx.lineTo(1050,960+i*30);
-ctx.strokeStyle="gray";
-ctx.stroke();
-}
-
 keyrp10_4=[];
 for(i=0;i<keyrp10_3.length;i++){
 for(j=0;j<keyrp10_1.length;j++){
