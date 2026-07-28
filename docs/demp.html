@@ -7389,7 +7389,11 @@ ctx.fillText("Count",750,40);
 
 const mscnt=Math.ceil(songLengthTicks/ticksPerMeasure);
 for(let i=0; i<mscnt; i++){
-	ctx.fillText(i+1, 0, 50+i*10);
+	if (i+1>=10){
+		ctx.fillText(i+1, 0, 50+i*10);
+	}else{	
+		ctx.fillText(i+1, 5, 50+i*10);
+	}
 	ctx.beginPath();
 	ctx.strokeStyle="lightgray";
 	ctx.moveTo(0,50+i*10);
@@ -7422,7 +7426,11 @@ ctx.fillText("Measure",0,90+mscnt*10);
 ctx.fillText("Comments",700,90+mscnt*10);
 
 for (let i=0; i<mscnt; i++){
-	ctx.fillText(i+1,0,100+mscnt*10+i*10);
+	if (i+1>=10){
+		ctx.fillText(i+1,0,100+mscnt*10+i*10);
+	}else{	
+		ctx.fillText(i+1,5,100+mscnt*10+i*10);
+	}
 	ctx.beginPath();
 	ctx.moveTo(0,100+mscnt*10+i*10);
 	ctx.lineTo(800,100+mscnt*10+i*10);
@@ -7578,7 +7586,11 @@ ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes o
 ctx.fillText("Measure",0,120+mscnt*20);
 
 for (let i=0; i<mscnt; i++){
-	ctx.fillText(i+1,0,130+mscnt*20+10*i);
+	if (i+1>=10){
+		ctx.fillText(i+1,0,130+mscnt*20+10*i);
+	}else{	
+		ctx.fillText(i+1,5,130+mscnt*20+10*i);
+	}
 	ctx.beginPath();
 	ctx.moveTo(0,130+mscnt*20+10*i);
 	ctx.lineTo(800,130+mscnt*20+10*i);
