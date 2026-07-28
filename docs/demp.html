@@ -7493,7 +7493,7 @@ for(let i=0;i<mscnt;i++){
 	}
 }
 
-/*
+
 keyrp10_2=[];
 for(let i=1;i<mscnt;i++){
 	for(let j=0;j<12;j++){
@@ -7509,7 +7509,7 @@ for(let i=1;i<mscnt;i++){
 
 
 keyrp10_3=[];
-for (let i=0;i<10;i++){
+for (let i=0;i<mscnt;i++){
 		num1=0;
 		num2=0;
 		num3=0;
@@ -7531,7 +7531,7 @@ for (let i=0;i<10;i++){
 }
 
 //mltiple max weights
-for (let i=0;i<10;i++){
+for (let i=0;i<mscnt;i++){
 	for(let j=0;j<keyrp10_2.length;j++){
 		if(i>0 && keyrp10_3[i][4]>0 && keyrp10_2[j][0]===i 
 		 && keyrp10_2[j][2]===keyrp10_3[i][2] && keyrp10_2[j][1]===keyrp10_3[i-1][1] && keyrp10_3[i-1][4]===0){
@@ -7550,28 +7550,29 @@ for(let i=1;i<mscnt;i++){
 	if(i===keyrp10_3[i][0]){
 		if(keyrp10_3[i][4]>0){
 		ctx.fillStyle="black";
-		ctx.fillText(keyrp10_3[i][4]+1+" best pairs",810,600+30*i);
+		ctx.fillText(keyrp10_3[i][4]+1+" best pairs",810,100+mscnt*10+10*i);
 		}
 		for(j=0;j<keyrp10_2.length;j++){
 			if(i===keyrp10_2[j][0]){
 				if(keyrp10_3[i][2]===keyrp10_2[j][2]){
 				ctx.fillStyle=workingColor.pc[keyrp10_2[j][1]];
-				ctx.fillRect(200+50*keyrp10_2[j][1],570+30*i,50,30);
+				ctx.fillRect(100+50*keyrp10_2[j][1],100+mscnt*10+10*i,50,10);
 				}
 			ctx.fillStyle="black";
 			w1=Math.round(keyrp10_2[j][2]/keyrp10_2[j][3]*100)
 				if (w1===100){
-				ctx.fillText(w1,200+50*keyrp10_2[j][1],600+30*i);
+				ctx.fillText(w1,100+50*keyrp10_2[j][1],100+mscnt*10+10*i);
 				}else if(w1>=10){
-				ctx.fillText(w1,214+50*keyrp10_2[j][1],600+30*i);
+				ctx.fillText(w1,105+50*keyrp10_2[j][1],100+mscnt*10+10*i);
 				}else{
-				ctx.fillText(w1,228+50*keyrp10_2[j][1],600+30*i);
+				ctx.fillText(w1,110+50*keyrp10_2[j][1],100+mscnt*10+10*i);
 				}
 			}
 		}
 	}
 }
 
+/*
 ctx.fillStyle="black";
 ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",0,930);
 ctx.fillText("Time%",0,960);
