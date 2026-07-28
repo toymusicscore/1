@@ -7636,54 +7636,70 @@ ctx.fillRect(300,120+mscnt*20+10*i,tfmnr0,10);
 ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[2])%12];
 ctx.fillRect(300+tfmnr0,120+mscnt*20+10*i,tfmnr7,10);
 ctx.fillStyle="black";
-if(tfmjr0>=10){
-ctx.fillText(tfmjr0,100,130+mscnt*20+10*i);
+if(tfmjr0==100){
+	ctx.fillText(tfmjr0,100,130+mscnt*20+10*i);
+}else if(tfmjr0>=10){
+	ctx.fillText("  " + tfmjr0,100,130+mscnt*20+10*i);
 }else{
-ctx.fillText("  " + tfmjr0,100,130+mscnt*20+10*i);
+	ctx.fillText("    " + tfmjr0,100,130+mscnt*20+10*i);
 }
-if(tfmjr7>=10){
+if(tfmjr7==100){
 ctx.fillText("+" + tfmjr7,130,130+mscnt*20+10*i);
-}else{
+}else if(tfmjr7>=10){
 ctx.fillText("+  " + tfmjr7,130,130+mscnt*20+10*i);
+}else{
+ctx.fillText("+    " + tfmjr7,130,130+mscnt*20+10*i);
 }
-if(tfmjr07>=10){
+if(tfmjr07==100){
 ctx.fillText("= " + tfmjr07,180,130+mscnt*20+10*i);
-}else{
+}else if(tfmjr07>=10){
 ctx.fillText("=   " + tfmjr07,180,130+mscnt*20+10*i);
+}else{
+ctx.fillText("=     " + tfmjr07,180,130+mscnt*20+10*i);
 }
-if(tfmnr0>=10){
+if(tfmnr0==100){
 ctx.fillText(tfmnr0,300,130+mscnt*20+10*i);
-}else{
+}else if(tfmnr0>=10){
 ctx.fillText("  " + tfmnr0,300,130+mscnt*20+10*i);
+}else{
+ctx.fillText("    " + tfmnr0,300,130+mscnt*20+10*i);
 }
-if(tfmnr7>=10){
+if(tfmnr7==100){
 ctx.fillText("+" + tfmnr7,330,130+mscnt*20+10*i);
-}else{
+}else if(tfmnr7>=10){
 ctx.fillText("+  " + tfmnr7,330,130+mscnt*20+10*i);
-}
-if(tfmnr07>=10){
-ctx.fillText("= " + tfmnr07,380,130+mscnt*20+10*i);
 }else{
+ctx.fillText("+    " + tfmnr7,330,130+mscnt*20+10*i);
+}
+if(tfmnr07==100){
+ctx.fillText("= " + tfmnr07,380,130+mscnt*20+10*i);
+}else if(tfmnr07>=10){
 ctx.fillText("=   " + tfmnr07,380,130+mscnt*20+10*i);
+}else{
+ctx.fillText("=     " + tfmnr07,380,130+mscnt*20+10*i);
 }
 if(tfmjr_mnr>0){
 ctx.fillStyle=workingColor.pc[keyrp10_3[i][1]];
 ctx.fillRect(500,120+mscnt*20+10*i,tfmjr_mnr,10);	
 ctx.fillStyle="black";
-if(tfmjr_mnr>=10){
+if(tfmjr_mnr==100){
 ctx.fillText(tfmjr_mnr,500,130+mscnt*20+10*i);
-}else{
+}else if(tfmjr_mnr>=10){
 ctx.fillText(tfmjr_mnr,505,130+mscnt*20+10*i);
+}else{
+ctx.fillText(tfmjr_mnr,510,130+mscnt*20+10*i);
 }
 keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major");
 }else if(tfmjr_mnr<0){
 ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[5])%12];
 ctx.fillRect(600,120+mscnt*20+10*i,-tfmjr_mnr,10);	
 ctx.fillStyle="black";
-if(-tfmjr_mnr>=10){
+if(-tfmjr_mnr==100){
 ctx.fillText(-tfmjr_mnr,600,130+mscnt*20+10*i);
-}else{
+}else if(-tfmjr_mnr>=10){
 ctx.fillText(-tfmjr_mnr,605,130+mscnt*20+10*i);
+}else{
+ctx.fillText(-tfmjr_mnr,610,130+mscnt*20+10*i);
 }
 keyrp10_4.push(engMnr1[(keyrp10_3[i][1]+scaleMjr0[5])%12] + " minor");
 }else if(Number(tfmjr_mnr)===0){
