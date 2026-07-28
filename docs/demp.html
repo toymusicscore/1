@@ -7387,13 +7387,16 @@ ctx.fillText("Measure",0,40);
 ctx.fillText("Total %",700,40);
 ctx.fillText("Count",750,40);
 
-let lastTick = 0;
+let lastStart = 0;
 
-for (const note of scoreData){
-	lastTick = Math.max(lastTick, note.end);
+for (const note of scoreData) {
+
+    if (note.start > lastStart) {
+        lastStart = note.start;
+    }
 }
 
-const mscnt = Math.floor(lastTick / ticksPerMeasure) + 1;
+const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
 
 for(let i=0; i<mscnt; i++){
 	if (i+1>=10){
