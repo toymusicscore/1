@@ -7476,6 +7476,45 @@ ctx.fillText(engMnr1[(k+9)%12],100+50*k,80+mscnt*10);
 }
 
 
+
+keyrp10_1=[];
+for(let i=0;i<=mscnt;i++){
+kx0=0;
+kx1=0;
+kx2=0;
+kx3=0;
+kx4=0;
+kx5=0;
+kx6=0;
+kx7=0;
+kx8=0;
+kx9=0;
+kx10=0;
+kx11=0;
+kxttl=0;
+for(let j=0;j<keyrp10_0.length;j++){
+	if(i===keyrp10_0[j][1]){
+		switch(Number(keyrp10_0[j][0])){
+		case 0: kx0+=1;break;
+		case 1: kx1+=1;break;
+		case 2: kx2+=1;break;
+		case 3: kx3+=1;break;
+		case 4: kx4+=1;break;
+		case 5: kx5+=1;break;
+		case 6: kx6+=1;break;
+		case 7: kx7+=1;break;
+		case 8: kx8+=1;break;
+		case 9: kx9+=1;break;
+		case 10: kx10+=1;break;
+		case 11: kx11+=1;break;
+		}
+		kxttl+=1;
+	}
+}
+keyrp10_1.push([i, kx0, kx1, kx2, kx3, kx4, kx5, kx6, kx7, kx8, kx9, kx10, kx11, kxttl]);
+}
+
+/*
 let count = new Array(12).fill(0);
 
 keyrp10_1=[];
@@ -7501,7 +7540,7 @@ for(j=0;j<keyrp10_0.length;j++){
 }
 keyrp10_1.push([i, kx0, kx1, kx2, kx3, kx4, kx5, kx6, kx7, kx8, kx9, kx10, kx11, kxttl]);
 }
-
+*/
 
 let w0=0;
 for(let i=0;i<mscnt;i++){
