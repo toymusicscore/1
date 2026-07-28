@@ -7387,7 +7387,7 @@ ctx.fillText("Measure",0,40);
 ctx.fillText("Total %",700,40);
 ctx.fillText("Count",750,40);
 
-const mscnt=Math.ceil(songLengthTicks/ticksPerMeasure);
+const mscnt=Math.floor(songLengthTicks/ticksPerMeasure);
 for(let i=0; i<mscnt; i++){
 	if (i+1>=10){
 		ctx.fillText(i+1, 0, 50+i*10);
@@ -7410,12 +7410,12 @@ ctx.fillText((k%12).toString(12),100+50*k,40);
 
 keyrp10_0=[];
 
-	for(let i=0;i<scoreData.length;i++){
+	for(let i=0;i<=scoreData.length;i++){
 		let midi = scoreData[i].midi;
 		let start = scoreData[i].start;
 		ctx.fillStyle=workingColor.pc[midi%12];
 		ctx.fillRect(100+midi%12*50,40+start/ticksPerMeasure*10,50,1);
-		keyrp10_0.push([midi%12,Math.floor(start/ticksPerMeasure+1)]);
+		keyrp10_0.push([midi%12,Math.floor(start/ticksPerMeasure)]);
 		}
 
 ctx.fillStyle="black";
