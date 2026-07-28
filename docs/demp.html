@@ -7387,7 +7387,14 @@ ctx.fillText("Measure",0,40);
 ctx.fillText("Total %",700,40);
 ctx.fillText("Count",750,40);
 
-const mscnt=Math.floor(songLengthTicks/ticksPerMeasure);
+let lastTick = 0;
+
+for (const note of scoreData){
+	lastTick = Math.max(lastTick, note.end);
+}
+
+const mscnt = Math.floor(lastTick / ticksPerMeasure) + 1;
+
 for(let i=0; i<mscnt; i++){
 	if (i+1>=10){
 		ctx.fillText(i+1, 0, 50+i*10);
@@ -7482,7 +7489,7 @@ keyrp10_1.push([i, kx0, kx1, kx2, kx3, kx4, kx5, kx6, kx7, kx8, kx9, kx10, kx11,
 }
 
 let w0=0;
-for(let i=0;i<=mscnt;i++){
+for(let i=0;i<mscnt;i++){
 	for(let j=0;j<13;j++){
 	if(keyrp10_1[i][13] === 0){
 		continue;
@@ -7508,7 +7515,7 @@ for(let i=0;i<=mscnt;i++){
 
 
 keyrp10_2=[];
-for(let i=0;i<=mscnt;i++){
+for(let i=0;i<mscnt;i++){
 	for(let j=0;j<12;j++){
 		num0=0;
 		for(let k=0;k<12;k++){
@@ -7522,7 +7529,7 @@ for(let i=0;i<=mscnt;i++){
 
 
 keyrp10_3=[];
-for (let i=0;i<=mscnt;i++){
+for (let i=0;i<mscnt;i++){
 		num1=0;
 		num2=0;
 		num3=0;
