@@ -7378,7 +7378,6 @@ keyrp10_5.sort((a,b)=>b[1]-a[1]);
 function keyEstimation(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
 canvas.width = 1000;
-canvas.height = 1000;
 ctx.font="10px Arial";
 ctx.lineWidth=1;
 ctx.fillStyle="black";
@@ -7415,6 +7414,8 @@ for (const note of scoreData) {
 }
 
 const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
+
+canvas.height = 140+ mscnt*30;
 
 for(let i=0; i<mscnt; i++){
 	if (i+1>=10){
@@ -7807,38 +7808,6 @@ keyrp10_5.sort((a,b)=>b[1]-a[1]);
 	}
 
 }
-
-const keyInfo = [
-
-    // Major
-    { id: 0,  name: "C",  mode: "major", tonic: 0,  accidental:  0 },
-    { id: 1,  name: "Db", mode: "major", tonic: 1,  accidental: -5 },
-    { id: 2,  name: "D",  mode: "major", tonic: 2,  accidental:  2 },
-    { id: 3,  name: "Eb", mode: "major", tonic: 3,  accidental: -3 },
-    { id: 4,  name: "E",  mode: "major", tonic: 4,  accidental:  4 },
-    { id: 5,  name: "F",  mode: "major", tonic: 5,  accidental: -1 },
-    { id: 6,  name: "F#", mode: "major", tonic: 6,  accidental:  6 },
-    { id: 7,  name: "G",  mode: "major", tonic: 7,  accidental:  1 },
-    { id: 8,  name: "Ab", mode: "major", tonic: 8,  accidental: -4 },
-    { id: 9,  name: "A",  mode: "major", tonic: 9,  accidental:  3 },
-    { id:10,  name: "Bb", mode: "major", tonic:10,  accidental: -2 },
-    { id:11,  name: "B",  mode: "major", tonic:11,  accidental:  5 },
-
-    // Minor
-    { id:12, name:"Cm",  mode:"minor", tonic:0, accidental:-3 },
-    { id:13, name:"C#m", mode:"minor", tonic:1, accidental: 4 },
-    { id:14, name:"Dm",  mode:"minor", tonic:2, accidental:-1 },
-    { id:15, name:"Ebm", mode:"minor", tonic:3, accidental:-6 },
-    { id:16, name:"Em",  mode:"minor", tonic:4, accidental: 1 },
-    { id:17, name:"Fm",  mode:"minor", tonic:5, accidental:-4 },
-    { id:18, name:"F#m", mode:"minor", tonic:6, accidental: 3 },
-    { id:19, name:"Gm",  mode:"minor", tonic:7, accidental:-2 },
-    { id:20, name:"Abm", mode:"minor", tonic:8, accidental:-7 },
-    { id:21, name:"Am",  mode:"minor", tonic:9, accidental: 0 },
-    { id:22, name:"Bbm", mode:"minor", tonic:10, accidental:-5 },
-    { id:23, name:"Bm",  mode:"minor", tonic:11, accidental: 2 }
-
-];
 
 
 async function showDownloadPage(){
