@@ -7380,17 +7380,13 @@ function keyEstimation(){
 let measurePc=[];
 
 for(const note of scoreData){
+	measurePc[measure] = {
+		pc: new Array(12).fill(0),
+		count: 0
+	};
 
-    const measure = Math.floor(note.start / ticksPerMeasure);
-    const pc = note.midi % 12;
-
-    if(!measurePc[measure]){
-
-        measurePc[measure]=new Array(13).fill(0);
-    }
-
-    measurePc[measure][pc]++;
-    measurePc[measure]["13"]++;
+	measurePc[measure].pc[pc]++;
+	measurePc[measure].count++;
 }
 
 let lastStart = 0;
