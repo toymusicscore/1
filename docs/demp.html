@@ -7382,15 +7382,14 @@ let measurePc=[];
 for(const note of scoreData){
 
     const measure = Math.floor(note.start / ticksPerMeasure);
-    const pc = note.midi % 12;
-	let count = 0;
-
+    const pcs = note.midi % 12;
+	
 	measurePc[measure] = {
 		pc: new Array(12).fill(0),
 		count: 0
 	};
 
-	measurePc[measure].pc[pc]++;
+	measurePc[measure].pc[pcs]++;
 	measurePc[measure].count++;
 }
 
