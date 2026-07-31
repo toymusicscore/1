@@ -7394,7 +7394,7 @@ let measurePC=[];
 
 for(const note of scoreData){
 
-    const measure = Math.floor(note.start / ticksPerMeasure);
+    const measure = Math.floor(note.start / ticksPerMeasure) + 1;
     const pc = note.midi % 12;
 
     if(!measurePc[measure]){
