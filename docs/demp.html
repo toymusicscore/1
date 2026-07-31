@@ -7514,14 +7514,13 @@ keyrp10_1.push([i, kx0, kx1, kx2, kx3, kx4, kx5, kx6, kx7, kx8, kx9, kx10, kx11,
 
 
 for(i=0;i<mscnt;i++){
-	let kxttl=0;
+	let pcCountTotal=0;
 	for(j=0;j<measurePc.length;j++){
-		kx0=measurePc[i][j];
 		if(i===measurePc[i]){
-			kxttl+=measurePc[i][j];
+			pcCountTotal+=measurePc[i][j];
 		}
 	}
-	measurePc.push([kxttl]);
+	measurePc.push([pcCountTotal]);
 }
 console.log(measurePc);
 
