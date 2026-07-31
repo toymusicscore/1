@@ -7377,20 +7377,22 @@ keyrp10_5.sort((a,b)=>b[1]-a[1]);
 
 function keyEstimation(){
 
-let measurePc=[];
+let measurePc = [];
 
-for(const note of scoreData){
+for (const note of scoreData) {
 
     const measure = Math.floor(note.start / ticksPerMeasure);
-    const pcs = note.midi % 12;
-	
-	measurePc[measure] = {
-		pc: new Array(12).fill(0),
-		count: 0
-	};
+    const pc = note.midi % 12;
 
-	measurePc[measure].pc[pcs]++;
-	measurePc[measure].count++;
+    if (!measurePc[measure]) {
+        measurePc[measure] = {
+            pc: new Array(12).fill(0),
+            count: 0
+        };
+    }
+
+    measurePc[measure].pc[pc]++;
+    measurePc[measure].count++;
 }
 
 let lastStart = 0;
