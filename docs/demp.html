@@ -7386,10 +7386,11 @@ for(const note of scoreData){
 
     if(!measurePc[measure]){
 
-        measurePc[measure]=new Array(12).fill(0);
+        measurePc[measure]=new Array(13).fill(0);
     }
 
     measurePc[measure][pc]++;
+    measurePc[measure][13]++;
 }
 
 let lastStart = 0;
@@ -7524,33 +7525,6 @@ for(i=0;i<mscnt;i++){
 }
 console.log(measurePc);
 
-/*
-let count = new Array(12).fill(0);
-
-keyrp10_1=[];
-for(i=0;i<mscnt;i++){
-kx0=0;
-kx1=0;
-kx2=0;
-kx3=0;
-kx4=0;
-kx5=0;
-kx6=0;
-kx7=0;
-kx8=0;
-kx9=0;
-kx10=0;
-kx11=0;
-kxttl=0;
-for(j=0;j<keyrp10_0.length;j++){
-	if(i===keyrp10_0[j][1]){
-		count[Number(keyrp10_0[j][0])]++;
-		kxttl+=1;
-	}
-}
-keyrp10_1.push([i, kx0, kx1, kx2, kx3, kx4, kx5, kx6, kx7, kx8, kx9, kx10, kx11, kxttl]);
-}
-*/
 
 let w0=0;
 for(let i=0;i<mscnt;i++){
