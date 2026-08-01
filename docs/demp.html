@@ -7419,8 +7419,8 @@ ctx.fillText("Note #",50,20);
 ctx.fillText("Note b",50,30);
 ctx.fillText("PitchClass",50,40);
 ctx.fillText("Measure",0,40);
-ctx.fillText("Total %",700,40);
-ctx.fillText("Count",750,40);
+ctx.fillText("Count",700,40);
+ctx.fillText("Estimated Key",750,40);
 
 for(let i=0; i<mscnt; i++){
 	if (i+1>=10){
@@ -7483,12 +7483,8 @@ for (let i = 0; i < mscnt; i++) {
         continue;
     }
 
-	let total = 0;
-
     for (let j = 0; j < 12; j++) {
 	
-		total += measurePc[i].pc[j];
-
         const w0 = Math.round(
             measurePc[i].pc[j] / measurePc[i].count * 100
         );
@@ -7501,8 +7497,7 @@ for (let i = 0; i < mscnt; i++) {
             ctx.fillText(w0, 110 + 50 * j, 50 + 10 * i);
         }
     }
-	ctx.fillText(Math.round(total / measurePc[i].count * 100), 700, 50 + 10 * i);
-    ctx.fillText(measurePc[i].count, 750, 50 + 10 * i);
+    ctx.fillText(measurePc[i].count, 700, 50 + 10 * i);
 
 }
 
