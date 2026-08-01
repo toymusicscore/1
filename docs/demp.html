@@ -7598,13 +7598,16 @@ for(let i=0;i<mscnt;i++){
 		}
 		ctx.fillStyle = "black";
 
-		const w1 = measurePc[i].scale[j][1] / 100;
+		const w1 = Math.round(measurePc[i].scale[j][1] / 100);
 
-		ctx.fillText(
-			w1,
-			100 + 50 * j,
-			100 + mscnt * 10 + 10 * i
-		);
+		if (w1 ==100){
+			ctx.fillText(w1, 100 + 50 * j, 100 + mscnt * 10 + 10 * i);
+		}else if (w1>=10){
+			ctx.fillText(w1, 105 + 50 * j, 100 + mscnt * 10 + 10 * i);
+		}else if (w1<10){
+			ctx.fillText(w1, 110 + 50 * j, 100 + mscnt * 10 + 10 * i);
+		}
+
 	}
 	if (measurePc[i].bestScale.length > 1){
 		ctx.fillText(
