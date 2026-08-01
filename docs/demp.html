@@ -7657,10 +7657,10 @@ for (let i = 0; i < mscnt; i++) {
     measurePc[i].minorWeight5 = measurePc[i].scale[(j + 4) % 12];
 
     measurePc[i].keyWeight = [
-        measurePc[i].scale[j][0],
+        j,
         measurePc[i].scale[j][1] + measurePc[i].scale[(j + 7) % 12][1],
 
-        measurePc[i].scale[(j + 9) % 12][0],
+        (j + 9) % 12,
         measurePc[i].scale[(j + 9) % 12][1] + measurePc[i].scale[(j + 4) % 12][1]
     ];
 }
