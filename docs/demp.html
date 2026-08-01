@@ -7582,7 +7582,7 @@ for (let i = 0; i < mscnt; i++) {
             measurePc[i].bestScale1 = j;
         }
 	    else {
-            measurePc[i].bestScale1 = j;
+            measurePc[i].bestScale1 = measurePc[i].bestScale[0];
         }
 
     }
@@ -7593,8 +7593,8 @@ for(let i=0;i<mscnt;i++){
 
 		const key = measurePc[i].bestScale1;
 		if (j == key){
-			ctx.fillStyle = workingColor.pc[key];
-			ctx.fillRect(100 + 50 * key, 90 + mscnt * 10 + 10 * i, 50, 10);
+			ctx.fillStyle = workingColor.pc[j];
+			ctx.fillRect(100 + 50 * j, 90 + mscnt * 10 + 10 * i, 50, 10);
 		}
 		ctx.fillStyle = "black";
 
