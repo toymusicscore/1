@@ -7393,6 +7393,10 @@ for (const note of scoreData) {
 
     measurePc[measure].pc[pc]++;
     measurePc[measure].count++;
+
+	ctx.fillStyle=workingColor.pc[pc];
+	ctx.fillRect(200 + pc * 50, 120+note.start / songLengthTicks * 300, 50, 1);
+
 }
 
 let lastStart = 0;
