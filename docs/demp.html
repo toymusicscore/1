@@ -7553,23 +7553,38 @@ for (let i = 0; i < mscnt; i++) {
 
 }
 
-console.log(measurePc);
-
 
 //mltiple max weights
-for (i=0;i<mscnt;i++){
-	for(j=0;j<measurePc[i].scaleMember.length;j++){
-		if(i>0 && measurePc[i].count>0
-			&& measurePc[i].scale[j]===measurePc[i-1].scale[j] && keyrp10_3[i-1][4]===0){
-		keyrp10_3[i].splice(1, 1, keyrp10_3[i-1][1]);
-		keyrp10_3[i].splice(4, 1, 0);
-		}else if(i<mscnt-1 && keyrp10_3[i][4]>0 && keyrp10_2[j][0]===i 
-		 && keyrp10_2[j][2]===keyrp10_3[i][2] && keyrp10_2[j][1]===keyrp10_3[i+1][1] && keyrp10_3[i+1][4]===0){
-		keyrp10_3[i].splice(1, 1, keyrp10_3[i+1][1]);
-		keyrp10_3[i].splice(4, 1, 0);
-		}
-	}
+for (let i = 0; i < mscnt; i++) {
+
+    if (!measurePc[i] || measurePc[i].count === 0) continue;
+
+    measurePc[i].bestScale1 = -1;
+
+    for (let j = 0; j < 12; j++) {
+
+        const score = measurePc[i].scale[j][1];
+
+        if (
+            i > 0 &&
+            measurePc[i - 1] &&
+            score === measurePc[i].bestScore &&
+            measurePc[i - 1].scale[j][1] === measurePc[i - 1].bestScore
+        ) {
+            measurePc[i].bestScale1 = j;
+        }
+
+        if (
+            i < mscnt - 1 &&
+            measurePc[i + 1] &&
+            score === measurePc[i].bestScore &&
+            measurePc[i + 1].scale[j][1] === measurePc[i + 1].bestScore
+        ) {
+            measurePc[i].bestScale1 = j;
+        }
+    }
 }
+
 /*
 for (i=0;i<mscnt;i++){
 	for(j=0;j<keyrp10_2.length;j++){
