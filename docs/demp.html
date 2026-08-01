@@ -7523,20 +7523,25 @@ for (let i = 0; i < mscnt; i++) {
     }
 }
 
-for (let i=0;i<mscnt;i++){
-    if (!measurePc[i] || measurePc[i].count === 0) continue;
+measurePc[i].bestScale = -1;
+measurePc[i].scaleMax = 0;
 
-    measurePc[i].scaleMax = 0;
+let maxScore = -1;
 
-	for (let j=0;j<measurePc[i].scale.length;j++){
-		if(num2<measurePc[i].scale[j][1]){
-			measurePc[i].scaleMax = 1;
-		}else if(num2===measurePc[j][1]){
-			measurePc[i].scaleMax +=1;
-		}
-	}
+for (let j = 0; j < 12; j++) {
+
+    const score = measurePc[i].scale[j][1];
+
+    if (score > maxScore) {
+        maxScore = score;
+        measurePc[i].bestScale = j;
+        measurePc[i].scaleMax = 1;
+    } else if (score === maxScore) {
+        measurePc[i].scaleMax++;
+    }
 }
-console.log(measurePc);
+
+measurePc[i].bestScore = maxScore;console.log(measurePc);
 
 /*
 keyrp10_3=[];
