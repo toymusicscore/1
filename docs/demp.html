@@ -7396,22 +7396,6 @@ for (const note of scoreData) {
 
 }
 
-for (const note of scoreData) {
-
-	const y = Math.floor(120 + note.start / songLengthTicks * 300);
-    const pc = note.midi % 12;
-	ctx.fillStyle=workingColor.pc[pc];
-	ctx.fillRect(200 + Number(pc * 50), y, 50, 1);
-
-}
-
-for(let i=0;i<scoreData.length;i++){
-	let midi = scoreData[i].midi;
-	let start = scoreData[i].start;
-	ctx.fillStyle=workingColor.pc[midi%12];
-	ctx.fillRect(200+midi%12*50,120+start/songLengthTicks*300,50,1);
-}
-
 let lastStart = 0;
 
 for (const note of scoreData) {
@@ -7456,6 +7440,15 @@ for(let k=0;k<=11;k++){
 	ctx.fillText(engs1[k],100+50*k,20);
 	ctx.fillText(engf1[k],100+50*k,30);
 	ctx.fillText((k%12).toString(12),100+50*k,40);
+}
+
+for (const note of scoreData) {
+
+	const y = Math.floor(120 + note.start / songLengthTicks * 300);
+    const pc = note.midi % 12;
+	ctx.fillStyle=workingColor.pc[pc];
+	ctx.fillRect(200 + Number(pc * 50), y, 50, 1);
+
 }
 
 ctx.fillStyle="black";
