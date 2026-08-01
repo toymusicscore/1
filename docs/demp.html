@@ -7561,18 +7561,23 @@ for (let i = 0; i < mscnt; i++) {
 
     measurePc[i].bestScale1 = -1;
 
+	if (measurePc[i].scaleMax === 1) {
+		measurePc[i].bestScale1 = measurePc[i].bestScale[0];
+		continue;
+	}
+
 	for (const j of measurePc[i].bestScale) {
-		if (measurePc[i].scaleMax === 1) {
-			measurePc[i].bestScale1 = measurePc[i].bestScale[0];
-			continue;
-		} else if (
+
+		if (
 			i > 0 &&
 			measurePc[i - 1] &&
 			measurePc[i - 1].scale[j][1] === measurePc[i - 1].bestScore
 		) {
 			measurePc[i].bestScale1 = j;
 			break;
-		} else if (
+		}
+
+		if (
 			i < mscnt - 1 &&
 			measurePc[i + 1] &&
 			measurePc[i + 1].scale[j][1] === measurePc[i + 1].bestScore
