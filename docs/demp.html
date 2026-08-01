@@ -7589,29 +7589,31 @@ for (let i = 0; i < mscnt; i++) {
 }
 
 let w1=0;
-for (let j = 0; j < measurePc[i].bestScale.length; j++) {
+for(let i=0;i<mscnt;i++){
+	for (let j = 0; j < measurePc[i].bestScale.length; j++) {
 
-    const key = measurePc[i].bestScale[j];
+		const key = measurePc[i].bestScale[j];
 
-    ctx.fillStyle = workingColor.pc[key];
-    ctx.fillRect(100 + 50 * key, 90 + mscnt * 10 + 10 * i, 50, 10);
+		ctx.fillStyle = workingColor.pc[key];
+		ctx.fillRect(100 + 50 * key, 90 + mscnt * 10 + 10 * i, 50, 10);
 
-    ctx.fillStyle = "black";
+		ctx.fillStyle = "black";
 
-    const w1 = measurePc[i].scale[key][1] / 100;
+		const w1 = measurePc[i].scale[key][1] / 100;
 
-    ctx.fillText(
-        w1,
-        100 + 50 * key,
-        100 + mscnt * 10 + 10 * i
-    );
+		ctx.fillText(
+			w1,
+			100 + 50 * key,
+			100 + mscnt * 10 + 10 * i
+		);
+	}
+
+	ctx.fillText(
+		measurePc[i].bestScale.length + " best pairs",
+		700,
+		100 + mscnt * 10 + 10 * i
+	);
 }
-
-ctx.fillText(
-    measurePc[i].bestScale.length + " best pairs",
-    700,
-    100 + mscnt * 10 + 10 * i
-);
 
 /*
 ctx.fillStyle="black";
