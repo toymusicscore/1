@@ -7588,7 +7588,6 @@ for (let i = 0; i < mscnt; i++) {
 	}
 }
 
-console.log(measurePc);
 
 for(let i=0;i<mscnt;i++){
 	for (let j = 0; j < 12; j++) {
@@ -7645,26 +7644,36 @@ for (let i=0; i<mscnt; i++){
 }
 
 
-keyrp10_4=[];
-for(i=0;i<keyrp10_3.length;i++){
-for(j=0;j<keyrp10_1.length;j++){
-if(i===keyrp10_1[j][0] && keyrp10_3[i][4]>0){
-keyrp10_4.push("Unidentified");
-}else if(i===keyrp10_1[j][0] && keyrp10_3[i][4]===0){
-tfmjr0=Math.round(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1]/keyrp10_1[j][13]*100);
-tfmjr7=Math.round(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[4])%12+1]/keyrp10_1[j][13]*100);
-tfmnr0=Math.round(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[5])%12+1]/keyrp10_1[j][13]*100);
-tfmnr7=Math.round(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1]/keyrp10_1[j][13]*100);
-tfmjr07=((Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1])+Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[4])%12+1]))/keyrp10_1[j][13]*100).toFixed(2);
-tfmnr07=((Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[5])%12+1])+Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1]))/keyrp10_1[j][13]*100).toFixed(2);
-tfmjr_mnr=((
-Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[0])%12+1])
-+Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[4])%12+1])
--Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[5])%12+1])
--Number(keyrp10_1[j][(keyrp10_3[i][1]+scaleMjr0[2])%12+1])
-)/keyrp10_1[j][13]*100).toFixed(2);
+for(i=0;i<mscnt.length;i++){
 
+    if (!measurePc[i] || measurePc[i].count === 0) continue;
 
+    measurePc[i].majorWeight1 = new Array(2);
+    measurePc[i].majorWeight5 = new Array(2);
+    measurePc[i].minorWeight1 = new Array(2);
+    measurePc[i].minorWeight5 = new Array(2);
+    measurePc[i].keyWeight = new Array(4);
+
+	for(j=0;j<12;j++){
+		if(measurePc[i].bestScale1 > -1){
+		measurePc[i].majorWeight1=measurePc[i].scale[j];
+		measurePc[i].majorWeight5=measurePc[i].scale[(j+7+12)%12];
+		measurePc[i].minorWeight1=measurePc[i].scale[(j+9+12)%12];
+		measurePc[i].minorWeight5=measurePc[i].scale[(j+4+12)%12];
+		measurePc[i].keyWeights = [
+			measurePc[i].scale[j][0],
+			measurePc[i].scale[j][1] + Number(measurePc[i].scale[(j+7+12)%12][1]),
+			measurePc[i].scale[(j+9+12)%12][0],
+			measurePc[i].scale[(j+9+12)%12][1] + Number(measurePc[i].scale[(j+2+12)%12][1]),
+		];
+
+		}
+	}
+}
+
+console.log(measurePc);
+
+/*
 ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[0])%12];
 ctx.fillRect(100,120+mscnt*20+10*i,tfmjr0,10);
 ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[4])%12];
