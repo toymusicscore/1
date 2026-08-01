@@ -7589,20 +7589,20 @@ for (let i = 0; i < mscnt; i++) {
 }
 
 for(let i=0;i<mscnt;i++){
-	for (let j = 0; j < measurePc[i].bestScale.length; j++) {
+	for (let j = 0; j < measurePc[i].Scale.length; j++) {
 
-		const key = measurePc[i].bestScale[j];
-
-		ctx.fillStyle = workingColor.pc[key];
-		ctx.fillRect(100 + 50 * key, 90 + mscnt * 10 + 10 * i, 50, 10);
-
+		const key = measurePc[i].bestScale1;
+		if (j == key){
+			ctx.fillStyle = workingColor.pc[key];
+			ctx.fillRect(100 + 50 * key, 90 + mscnt * 10 + 10 * i, 50, 10);
+		}
 		ctx.fillStyle = "black";
 
-		const w1 = measurePc[i].scale[key][1] / 100;
+		const w1 = measurePc[i].scale[j][1] / 100;
 
 		ctx.fillText(
 			w1,
-			100 + 50 * key,
+			100 + 50 * j,
 			100 + mscnt * 10 + 10 * i
 		);
 	}
