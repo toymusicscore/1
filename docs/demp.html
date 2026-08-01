@@ -7656,13 +7656,15 @@ for (let i = 0; i < mscnt; i++) {
     measurePc[i].minorWeight1 = [(j + 9) % 12, measurePc[i].scale[(j + 9) % 12][1]];
     measurePc[i].minorWeight5 = [(j + 4) % 12, measurePc[i].scale[(j + 4) % 12][1]];
 
-    measurePc[i].keyWeight = [
-        j,
-        measurePc[i].scale[j][1] + measurePc[i].scale[(j + 7) % 12][1],
+	measurePc[i].keyWeight = {
+		majorKey: j,
+		majorWeight: measurePc[i].scale[j][1] + 
+					measurePc[i].scale[(j + 7) % 12][1],
 
-        (j + 9) % 12,
-        measurePc[i].scale[(j + 9) % 12][1] + measurePc[i].scale[(j + 4) % 12][1]
-    ];
+		minorKey: (j + 9) % 12,
+		minorWeight: measurePc[i].scale[(j + 9) % 12][1] +
+					measurePc[i].scale[(j + 4) % 12][1]
+	};
 }
 
 console.log(measurePc);
