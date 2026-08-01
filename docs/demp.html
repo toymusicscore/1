@@ -7387,6 +7387,7 @@ for (const note of scoreData) {
     if (!measurePc[measure]) {
         measurePc[measure] = {
             pc: new Array(12).fill(0),
+			scale: new Array(2).fill(0),
             count: 0
         };
     }
@@ -7546,18 +7547,19 @@ for (let i = 0; i < mscnt; i++) {
 }
 
 keyrp10_2=[];
-for(let i=0;i<mscnt;i++){
-	for(let j=0;j<12;j++){
-		num0=0;
-		for(let k=0;k<12;k++){
-			if(scaleMjr0.includes((12-j+k)%12)){
-			num0=num0+Number(keyrp10_1[i][k+1]);
+for(let i = 0; i < mscnt; i++){
+	for(let j = 0; j < 12; j++){
+		let scaleMember = 0;
+		for(let k = 0; k < 12; k++){
+			if(scaleMjr0.includes((12 - j + k) % 12)){
+			scaleMember += Number(measurePc[i].pc[k]);
 			}
 		}
-		keyrp10_2.push([i, j, num0,keyrp10_1[i][13]]);
+		measurePc[i].scale.push([j, scaleMember]);
 	}
 }
 
+console.log(measurePc);
 
 keyrp10_3=[];
 for (let i=0;i<mscnt;i++){
