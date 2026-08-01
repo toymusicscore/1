@@ -7573,8 +7573,7 @@ for (let i = 0; i < mscnt; i++) {
         ) {
             measurePc[i].bestScale1 = j;
         }
-
-        if (
+        else if (
             i < mscnt - 1 &&
             measurePc[i + 1] &&
             score === measurePc[i].bestScore &&
@@ -7585,21 +7584,9 @@ for (let i = 0; i < mscnt; i++) {
     }
 }
 
-/*
-for (i=0;i<mscnt;i++){
-	for(j=0;j<keyrp10_2.length;j++){
-		if(i>0 && keyrp10_3[i][4]>0 && keyrp10_2[j][0]===i 
-		 && keyrp10_2[j][2]===keyrp10_3[i][2] && keyrp10_2[j][1]===keyrp10_3[i-1][1] && keyrp10_3[i-1][4]===0){
-		keyrp10_3[i].splice(1, 1, keyrp10_3[i-1][1]);
-		keyrp10_3[i].splice(4, 1, 0);
-		}else if(i<mscnt-1 && keyrp10_3[i][4]>0 && keyrp10_2[j][0]===i 
-		 && keyrp10_2[j][2]===keyrp10_3[i][2] && keyrp10_2[j][1]===keyrp10_3[i+1][1] && keyrp10_3[i+1][4]===0){
-		keyrp10_3[i].splice(1, 1, keyrp10_3[i+1][1]);
-		keyrp10_3[i].splice(4, 1, 0);
-		}
-	}
-}
+console.log = (measurePc);
 
+/*
 let w1=0;
 for(let i=0;i<mscnt;i++){
 	if(i===keyrp10_3[i][0]){
