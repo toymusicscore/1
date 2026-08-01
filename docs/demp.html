@@ -7405,6 +7405,13 @@ for (const note of scoreData) {
 
 }
 
+for(let i=0;i<scoreData.length;i++){
+	let midi = scoreData[i].midi;
+	let start = scoreData[i].start;
+	ctx.fillStyle=workingColor.pc[midi%12];
+	ctx.fillRect(200+midi%12*50,120+start/songLengthTicks*300,50,1);
+}
+
 let lastStart = 0;
 
 for (const note of scoreData) {
