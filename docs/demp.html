@@ -7516,25 +7516,34 @@ keyrp10_1.push([i, kx0, kx1, kx2, kx3, kx4, kx5, kx6, kx7, kx8, kx9, kx10, kx11,
 }
 
 
-let w0=0;
-for(let i=0;i<mscnt;i++){
-	for(let j=0;j<12;j++){
-		if(measurePc[i].count === 0){
-			continue;
-			}
-		w0=Math.round(measurePc[i].pc[j]/measurePc[i].count*100);
-		ctx.fillText(100,700,50+10*i);
-		ctx.fillText(measurePc[i].count,750,50+10*i);
-		if(w0===100){
-			ctx.fillText(w0,100+50*j,50+10*i);
-		}else if(w0>=10){
-			ctx.fillText(w0,105+50*j,50+10*i);
-		}else{
-			ctx.fillText(w0,110+50*j,50+10*i);
-		}	
-	}
-}
+for (let i = 0; i < mscnt; i++) {
 
+    if (!measurePc[i] || measurePc[i].count === 0) {
+        continue;
+    }
+
+    ctx.fillText(measurePc[i].count, 750, 50 + 10 * i);
+	let total = 0;
+
+    for (let j = 0; j < 12; j++) {
+	
+		total += Math.round(measurePc[i].pc[j] / measurePc[i].count * 100);
+
+        const w0 = Math.round(
+            measurePc[i].pc[j] / measurePc[i].count * 100
+        );
+
+        if (w0 === 100) {
+            ctx.fillText(w0, 100 + 50 * j, 50 + 10 * i);
+        } else if (w0 >= 10) {
+            ctx.fillText(w0, 105 + 50 * j, 50 + 10 * i);
+        } else {
+            ctx.fillText(w0, 110 + 50 * j, 50 + 10 * i);
+        }
+    }
+	ctx.fillText(total, 700, 50 + 10 * i);
+
+}
 
 keyrp10_2=[];
 for(let i=0;i<mscnt;i++){
