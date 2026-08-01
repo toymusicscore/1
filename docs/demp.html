@@ -7444,7 +7444,7 @@ for(let k=0;k<=11;k++){
 
 for (const note of scoreData) {
 
-	const y = Math.floor(40 + note.start / songLengthTicks * 100);
+	const y = Math.floor(40 + note.start / ticksPerMeasure * 10);
     const pc = note.midi % 12;
 	ctx.fillStyle=workingColor.pc[pc];
 	ctx.fillRect(100 + Number(pc * 50), y, 50, 1);
