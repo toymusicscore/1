@@ -7644,31 +7644,25 @@ for (let i=0; i<mscnt; i++){
 }
 
 
-for(i=0;i<mscnt.length;i++){
+for (let i = 0; i < mscnt; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
+    if (measurePc[i].bestScale1 < 0) continue;
 
-    measurePc[i].majorWeight1 = new Array(2);
-    measurePc[i].majorWeight5 = new Array(2);
-    measurePc[i].minorWeight1 = new Array(2);
-    measurePc[i].minorWeight5 = new Array(2);
-    measurePc[i].keyWeight = new Array(4);
+    const j = measurePc[i].bestScale1;
 
-	for(j=0;j<12;j++){
-		if(measurePc[i].bestScale1 > -1){
-		measurePc[i].majorWeight1=measurePc[i].scale[j];
-		measurePc[i].majorWeight5=measurePc[i].scale[(j+7+12)%12];
-		measurePc[i].minorWeight1=measurePc[i].scale[(j+9+12)%12];
-		measurePc[i].minorWeight5=measurePc[i].scale[(j+4+12)%12];
-		measurePc[i].keyWeights = [
-			measurePc[i].scale[j][0],
-			measurePc[i].scale[j][1] + Number(measurePc[i].scale[(j+7+12)%12][1]),
-			measurePc[i].scale[(j+9+12)%12][0],
-			measurePc[i].scale[(j+9+12)%12][1] + Number(measurePc[i].scale[(j+2+12)%12][1]),
-		];
+    measurePc[i].majorWeight1 = measurePc[i].scale[j];
+    measurePc[i].majorWeight5 = measurePc[i].scale[(j + 7) % 12];
+    measurePc[i].minorWeight1 = measurePc[i].scale[(j + 9) % 12];
+    measurePc[i].minorWeight5 = measurePc[i].scale[(j + 4) % 12];
 
-		}
-	}
+    measurePc[i].keyWeight = [
+        measurePc[i].scale[j][0],
+        measurePc[i].scale[j][1] + measurePc[i].scale[(j + 7) % 12][1],
+
+        measurePc[i].scale[(j + 9) % 12][0],
+        measurePc[i].scale[(j + 9) % 12][1] + measurePc[i].scale[(j + 4) % 12][1]
+    ];
 }
 
 console.log(measurePc);
