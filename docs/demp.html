@@ -7581,6 +7581,10 @@ for (let i = 0; i < mscnt; i++) {
         ) {
             measurePc[i].bestScale1 = j;
         }
+	    else {
+            measurePc[i].bestScale1 = j;
+        }
+
     }
 }
 
@@ -7600,23 +7604,8 @@ for(let i=0;i<mscnt;i++){
 				ctx.fillText(w1,110+50*measurePc[i].scaleMax[j],100+mscnt*10+10*i);
 			}
 		}
-	}else{
-		for(j=0;j<measurePc[i].scale;j++){
-			ctx.fillStyle=workingColor.pc[measurePc[i].scale[j]];
-			ctx.fillRect(100+50*measurePc[i].pc[j],90+mscnt*10+10*i,50,10);
-			ctx.fillStyle="black";
-			w1=measurePc[i].scale[j][1]/100;
-			if (w1===100){
-				ctx.fillText(w1,100+50*measurePc[i].scaleMax[j],100+mscnt*10+10*i);
-			}else if(w1>=10){
-				ctx.fillText(w1,105+50*measurePc[i].scaleMax[j],100+mscnt*10+10*i);
-			}else{
-				ctx.fillText(w1,110+50*measurePc[i].scaleMax[j],100+mscnt*10+10*i);
-			}
-		}
 	}
 }
-
 
 /*
 ctx.fillStyle="black";
