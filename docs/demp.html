@@ -7547,7 +7547,11 @@ for (let i = 0; i < mscnt; i++) {
 }
 
 keyrp10_2=[];
+
 for(let i = 0; i < mscnt; i++){
+	if (!measurePc[i] || measurePc[i].count === 0) {
+		continue;
+	}
 	for(let j = 0; j < 12; j++){
 		let scaleMember = 0;
 		for(let k = 0; k < 12; k++){
