@@ -7523,25 +7523,32 @@ for (let i = 0; i < mscnt; i++) {
     }
 }
 
-measurePc[i].bestScale = -1;
-measurePc[i].scaleMax = 0;
 
-let maxScore = -1;
+for (let i = 0; i < mscnt; i++) {
 
-for (let j = 0; j < 12; j++) {
+    if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-    const score = measurePc[i].scale[j][1];
+	measurePc[i].bestScale = -1;
+	measurePc[i].scaleMax = 0;
 
-    if (score > maxScore) {
-        maxScore = score;
-        measurePc[i].bestScale = j;
-        measurePc[i].scaleMax = 1;
-    } else if (score === maxScore) {
-        measurePc[i].scaleMax++;
-    }
+	let maxScore = -1;
+
+	for (let j = 0; j < 12; j++) {
+
+		const score = measurePc[i].scale[j][1];
+
+		if (score > maxScore) {
+			maxScore = score;
+			measurePc[i].bestScale = j;
+			measurePc[i].scaleMax = 1;
+		} else if (score === maxScore) {
+			measurePc[i].scaleMax++;
+		}
+	}
+
+	measurePc[i].bestScore = maxScore;
+
 }
-
-measurePc[i].bestScore = maxScore;
 
 console.log(measurePc);
 
