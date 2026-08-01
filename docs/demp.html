@@ -7529,8 +7529,7 @@ for (let i = 0; i < mscnt; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-	measurePc[i].bestScale = -1;
-	measurePc[i].scaleMax = 0;
+	measurePc[i].bestScale = [];
 
 	let maxScore = -1;
 
@@ -7539,15 +7538,18 @@ for (let i = 0; i < mscnt; i++) {
 		const score = measurePc[i].scale[j][1];
 
 		if (score > maxScore) {
+
 			maxScore = score;
-			measurePc[i].bestScale = j;
-			measurePc[i].scaleMax = 1;
+			measurePc[i].bestScale = [j];
+
 		} else if (score === maxScore) {
-			measurePc[i].scaleMax++;
+
+			measurePc[i].bestScale.push(j);
 		}
 	}
 
-	measurePc[i].bestScore = maxScore;
+measurePc[i].bestScore = maxScore;
+measurePc[i].scaleMax = measurePc[i].bestScale.length;
 
 }
 
