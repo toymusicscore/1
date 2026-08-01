@@ -7606,12 +7606,13 @@ for(let i=0;i<mscnt;i++){
 			100 + mscnt * 10 + 10 * i
 		);
 	}
-
-	ctx.fillText(
-		measurePc[i].bestScale.length + " best pairs",
-		700,
-		100 + mscnt * 10 + 10 * i
-	);
+	if (measurePc[i].bestScale.length > 1){
+		ctx.fillText(
+			measurePc[i].bestScale.length + " best pairs",
+			700,
+			100 + mscnt * 10 + 10 * i
+		);
+	}
 }
 
 /*
