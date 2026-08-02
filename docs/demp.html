@@ -7643,14 +7643,17 @@ for (let i=0; i<mscnt; i++){
 	ctx.stroke();
 }
 
-for (let i = 0; i < mscnt; i++) {
-	if (!measurePc[i] || measurePc[i].count === 0) continue;
-	if (measurePc[i].bestScale1 < 0) continue;
-	const j = measurePc[i].bestScale1;
-	measurePc[i].majorWeight1 = [j, Math.round(measurePc[i].pc[j] / measurePc[i].count * 10000)];
-	measurePc[i].majorWeight5 = [(j + 7) % 12, Math.round(measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 10000)];
-	measurePc[i].minorWeight1 = [(j + 9) % 12, Math.round(measurePc[i].pc[(j + 9) % 12] / measurePc[i].count * 10000)];
-	measurePc[i].minorWeight5 = [(j + 4) % 12, Math.round(measurePc[i].pc[(j + 4) % 12] / measurePc[i].count * 10000)];
+
+
+
+	for (let i = 0; i < mscnt; i++) {
+		if (!measurePc[i] || measurePc[i].count === 0) continue;
+		if (measurePc[i].bestScale1 < 0) continue;
+		const j = measurePc[i].bestScale1;
+		measurePc[i].majorWeight1 = [j, Math.round(measurePc[i].pc[j] / measurePc[i].count * 10000)];
+		measurePc[i].majorWeight5 = [(j + 7) % 12, Math.round(measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 10000)];
+		measurePc[i].minorWeight1 = [(j + 9) % 12, Math.round(measurePc[i].pc[(j + 9) % 12] / measurePc[i].count * 10000)];
+		measurePc[i].minorWeight5 = [(j + 4) % 12, Math.round(measurePc[i].pc[(j + 4) % 12] / measurePc[i].count * 10000)];
 
 			measurePc[i].majorMinorDiff =
 				measurePc[i].majorWeight1[1] +
@@ -7690,7 +7693,7 @@ for (let i = 0; i < mscnt; i++) {
 				};
 			}
 		}
-	}
+	
 /*
 	ctx.fillStyle=workingColor.pc[measurePc[i].majorWeight1[0]];
 	ctx.fillRect(100,120+mscnt*20+10*i,measurePc[i].majorWeight1[1] / 100,10);
