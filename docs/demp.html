@@ -7602,6 +7602,10 @@ for(let i=0;i<mscnt;i++){
 			ctx.fillStyle = workingColor.pc[j];
 			ctx.fillRect(100 + 50 * j, 90 + mscnt * 10 + 10 * i, 50, 10);
 		}
+		if (measurePc[i].scale[j] === measurePc[i].bestScore){	
+			ctx.fillStyle = workingColor.pc[j];
+			ctx.fillRect(100 + 50 * j, 100 + mscnt * 10 + 10 * i, 50, 1);
+		}
 		ctx.fillStyle = "black";
 
 		const w1 = measurePc[i].scale[j][1].toFixed(2);
@@ -7615,10 +7619,6 @@ for(let i=0;i<mscnt;i++){
 		}
 
 	}
-		for (let k=0; k< measurePc[i].bestScale; k++){	
-			ctx.fillStyle = workingColor.pc[k];
-			ctx.fillRect(100 + 50 * k, 100 + mscnt * 10 + 10 * i, 50, 1);
-		}
 }
 
 
