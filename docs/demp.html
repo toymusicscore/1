@@ -7772,12 +7772,24 @@ for (let i = 0; i < mscnt; i++) {
 
 console.log(measurePc);
 
-/*
-//weight double for first & last
-keyrp10_4.push(keyrp10_4[0]);
-keyrp10_4.push(keyrp10_4[mscnt-1]);
 
-keyrp10_4.sort();
+//weight double for first & last
+measurePc.keyCount = [];
+if (measurePc[i].estKey.includes("/")){
+	measurePc.keyCount.push([trim(measurePc[i].estKey.split("/")[0]),0.5]);
+	measurePc.keyCount.push([trim(measurePc[i].estKey.split("/")[1]),0.5]);
+}else{
+	measurePc[i].keyCount.push([measurePc[i].estKey,1]);
+}
+if (i == 0){
+	measurePc.keyCount.push([measurePc[i].estKey,1]);
+}
+if (i == mscnt -1){
+	measurePc.keyCount.push([measurePc[i].estKey,1]);
+}
+
+measurePc.keyCount.sort();
+/*
 keyrp10_5=[];
 const counts = {};
 
