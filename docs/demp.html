@@ -7645,6 +7645,7 @@ for (let i=0; i<mscnt; i++){
 	ctx.stroke();
 }
 
+measurePc.keyCount = [];
 
 for (let i = 0; i < mscnt; i++) {
 	if (!measurePc[i] || measurePc[i].count === 0) continue;
@@ -7771,7 +7772,6 @@ for (let i = 0; i < mscnt; i++) {
 }
 
 //weight double for first & last
-measurePc.keyCount = [];
 if (measurePc[i].estKey.includes("/")){
 	measurePc.keyCount.push([measurePc[i].estKey.split("/")[0].trim(),0.5]);
 	measurePc.keyCount.push([measurePc[i].estKey.split("/")[1].trim(),0.5]);
@@ -7789,12 +7789,14 @@ measurePc.keyCount.sort();
 
 const counts = {};
 
-for(const key of measurePc.keyCount[0]){
-    counts[key] = (counts[key] || 0) + measurePc.keyCount[1];
+for (const [key, weight] of measurePc.keyCount) {
+    counts[key] = (counts[key] || 0) + weight;
 }
 
 measurePc.counts = Object.entries(counts);
-measurePc.counts.sort((a,b)=>b[1]-a[1]);
+measurePc.counts.sort((a, b) => b[1] - a[1]);
+
+measurePc.counts[0]
 
 console.log(measurePc);
 
