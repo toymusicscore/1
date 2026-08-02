@@ -7749,7 +7749,6 @@ for (let i = 0; i < mscnt; i++) {
 		}else{
 		ctx.fillText(measurePc[i].majorMinorDiff.toFixed(2),510,130+mscnt*20+10*i);
 		}
-		ctx.fillText(engf1[measurePc[i].estKey.root] + " " + measurePc[i].estKey.mode, 700, 130+mscnt*20+10*i);
 	}else if(measurePc[i].majorMinorDiff < 0){
 		ctx.fillStyle=workingColor.pc[measurePc[i].estKey.root];
 		ctx.fillRect(600,120+mscnt*20+10*i,-measurePc[i].majorMinorDiff,10);	
@@ -7761,11 +7760,9 @@ for (let i = 0; i < mscnt; i++) {
 		}else{
 		ctx.fillText(-measurePc[i].majorMinorDiff.toFixed(2),610,130+mscnt*20+10*i);
 		}
-		ctx.fillText(engMnr1[measurePc[i].estKey.root] + " " + measurePc[i].estKey.mode, 700, 130+mscnt*20+10*i);
-/*	}else if(Number(measurePc[i].majorMinorDiff)===0){
-		ctx.fillText(engf1[measure[i].majorWeigt[0]] + " major/" + engMnr1[measure[i].minorWeigt[0]] + " minor", 700, 130+mscnt*20+10*i);
-*/	}
-
+	}
+		ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
+		ctx.fillText(measurePc[i].estKey, 700, 50+10*i);
 }
 
 console.log(measurePc);
