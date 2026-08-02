@@ -7656,6 +7656,20 @@ for (let i = 0; i < mscnt; i++) {
     measurePc[i].minorWeight1 = [(j + 9) % 12, Math.round(measurePc[i].pc[(j + 9) % 12] / measurePc[i].count * 10000)];
     measurePc[i].minorWeight5 = [(j + 4) % 12, Math.round(measurePc[i].pc[(j + 4) % 12] / measurePc[i].count * 10000)];
 
+	let majorMinorDiff =
+		measurePc[i].majorWeight1[1] +
+		measurePc[i].majorWeight5[1] -
+		(measurePc[i].minorWeight1[1] +
+		measurePc[i].minorWeight5[1]);
+	let estKey;
+	if(majorMinorDiff > 0){
+		estKey=[j, "major"]
+	}else if (majorMinorDiff < 0){
+		estKey = [(j + 9) % 12, "minor"]
+	}else if (majorMinorDiff == 0){
+		estKey = [, "major/minor"]
+	};
+
 	measurePc[i].keyWeight = {
 		majorKey: j,
 		majorWeight: 
@@ -7664,7 +7678,11 @@ for (let i = 0; i < mscnt; i++) {
 		minorKey: (j + 9) % 12,
 		minorWeight:     
 			measurePc[i].minorWeight1[1] +
-		    measurePc[i].minorWeight5[1]
+		    measurePc[i].minorWeight5[1],
+		estimatedKey:
+			estKey, 
+		estimatedWeight:
+			majorMinorDiff
 	};
 
 	ctx.fillStyle=workingColor.pc[measurePc[i].majorWeight1[0]];
@@ -7722,32 +7740,32 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillText("=     " + measurePc[i].keyWeight.minorWeight / 100, 380, 130 + mscnt * 20 + 10 * i);
 	}
 
-	if(tfmjr_mnr>0){
-	ctx.fillStyle=workingColor.pc[keyrp10_3[i][1]];
-	ctx.fillRect(500,120+mscnt*20+10*i,tfmjr_mnr,10);	
-	ctx.fillStyle="black";
-	if(tfmjr_mnr==100){
-	ctx.fillText(tfmjr_mnr,500,130+mscnt*20+10*i);
-	}else if(tfmjr_mnr>=10){
-	ctx.fillText(tfmjr_mnr,505,130+mscnt*20+10*i);
-	}else{
-	ctx.fillText(tfmjr_mnr,510,130+mscnt*20+10*i);
-	}
-	keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major");
-	}else if(tfmjr_mnr<0){
-	ctx.fillStyle=workingColor.pc[(keyrp10_3[i][1]+scaleMjr0[5])%12];
-	ctx.fillRect(600,120+mscnt*20+10*i,-tfmjr_mnr,10);	
-	ctx.fillStyle="black";
-	if(-tfmjr_mnr==100){
-	ctx.fillText(-tfmjr_mnr,600,130+mscnt*20+10*i);
-	}else if(-tfmjr_mnr>=10){
-	ctx.fillText(-tfmjr_mnr,605,130+mscnt*20+10*i);
-	}else{
-	ctx.fillText(-tfmjr_mnr,610,130+mscnt*20+10*i);
-	}
-	keyrp10_4.push(engMnr1[(keyrp10_3[i][1]+scaleMjr0[5])%12] + " minor");
+	if(majorMinorDiff > 0){
+		ctx.fillStyle=workingColor.pc[measurePc[i].keyWeight.estimatedKey];
+		ctx.fillRect(500,120+mscnt*20+10*i,measurePc[i].keyWeight.estimatedWeight,10);	
+		ctx.fillStyle="black";
+		if(measurePc[i].keyWeight.estimatedWeight==100){
+		ctx.fillText(measurePc[i].keyWeight.estimatedWeight,500,130+mscnt*20+10*i);
+		}else if(measurePc[i].keyWeight.estimatedWeight>=10){
+		ctx.fillText(measurePc[i].keyWeight.estimatedWeight,505,130+mscnt*20+10*i);
+		}else{
+		ctx.fillText(measurePc[i].keyWeight.estimatedWeight,510,130+mscnt*20+10*i);
+		}
+		keyrp10_4.push(engf1[measurePc[i].keyWeight.estimatedKey] + " major");
+	}else if(majorMinorDiff < 0){
+		ctx.fillStyle=workingColor.pc[measurePc[i].keyWeight.estimatedKey];
+		ctx.fillRect(600,120+mscnt*20+10*i,-measurePc[i].keyWeight.estimatedWeight,10);	
+		ctx.fillStyle="black";
+		if(-measurePc[i].keyWeight.estimatedWeight==100){
+		ctx.fillText(-measurePc[i].keyWeight.estimatedWeight,600,130+mscnt*20+10*i);
+		}else if(-measurePc[i].keyWeight.estimatedWeight>=10){
+		ctx.fillText(-measurePc[i].keyWeight.estimatedWeight,605,130+mscnt*20+10*i);
+		}else{
+		ctx.fillText(-measurePc[i].keyWeight.estimatedWeight,610,130+mscnt*20+10*i);
+		}
+		keyrp10_4.push(engMnr1[(keyrp10_3[i][1]+scaleMjr0[5])%12] + " minor");
 	}else if(Number(tfmjr_mnr)===0){
-	keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major/" + engMnr1[(keyrp10_3[i][1]+scaleMjr0[5])%12] + " minor");
+		keyrp10_4.push(engf1[keyrp10_3[i][1]] + " major/" + engMnr1[(keyrp10_3[i][1]+scaleMjr0[5])%12] + " minor");
 	}
 
 }
