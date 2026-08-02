@@ -7678,54 +7678,55 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillRect(300+Number(measurePc[i].minorWeight1[1] / 100),
 		120+mscnt*20+10*i,measurePc[i].minorWeight5[1] / 100,10);
 
+		ctx.fillStyle="black";
+	if(measurePc[i].majorWeight1[1] / 100 == 100){
+		ctx.fillText(measurePc[i].majorWeight1[1] / 100, 100, 130 + mscnt * 20 + 10 * i);
+	}else if(measurePc[i].majorWeight1[1] / 100>=10){
+		ctx.fillText("  " + measurePc[i].majorWeight1[1] / 100, 100, 130 + mscnt * 20 + 10 * i);
+	}else{
+		ctx.fillText("    " + measurePc[i].majorWeight1[1] / 100, 100, 130 + mscnt * 20 + 10 * i);
+	}
+	if(measurePc[i].majorWeight5[1] / 100 == 100){
+	ctx.fillText("+" + measurePc[i].majorWeight5[1] / 100 , 130, 130 + mscnt * 20 + 10 * i);
+	}else if(measurePc[i].majorWeight5[1] / 100 >= 10){
+	ctx.fillText("+  " + measurePc[i].majorWeight5[1] / 100, 130, 130 + mscnt * 20 + 10 * i);
+	}else{
+	ctx.fillText("+    " + measurePc[i].majorWeight5[1] / 100, 130, 130 + mscnt * 20 + 10 * i);
+	}
+	if(measurePc[i].keyWeight.majorWeight / 100  == 100){
+	ctx.fillText("= " + measurePc[i].keyWeight.majorWeight / 100, 180, 130 + mscnt * 20 + 10 * i);
+	}else if(measurePc[i].keyWeight.majorWeight / 100 >= 10){
+	ctx.fillText("=   " + measurePc[i].keyWeight.majorWeight / 100, 180, 130 + mscnt * 20 + 10 * i);
+	}else{
+	ctx.fillText("=     " + measurePc[i].keyWeight.majorWeight / 100, 180, 130 + mscnt * 20 + 10 * i);
+	}
+	if(measurePc[i].minorWeight1[1] / 100 == 100){
+	ctx.fillText(measurePc[i].minorWeight1[1] / 100, 300, 130 + mscnt * 20 + 10 * i);
+	}else if(measurePc[i].minorWeight1[1] / 100 >= 10){
+	ctx.fillText("  " + measurePc[i].minorWeight1[1] / 100, 300, 130 + mscnt * 20 + 10 * i);
+	}else{
+	ctx.fillText("    " + measurePc[i].minorWeight1[1] / 100, 300, 130 + mscnt * 20 + 10 * i);
+	}
+	if(measurePc[i].minorWeight5[1] / 100 == 100){
+	ctx.fillText("+" + measurePc[i].minorWeight5[1] / 100, 330, 130 + mscnt * 20 + 10 * i);
+	}else if(measurePc[i].minorWeight5[1] / 100 >= 10){
+	ctx.fillText("+  " + measurePc[i].minorWeight5[1] / 100, 330, 130 + mscnt * 20 + 10 * i);
+	}else{
+	ctx.fillText("+    " + measurePc[i].minorWeight5[1] / 100, 330, 130 + mscnt * 20 + 10 * i);
+	}
+	if(measurePc[i].keyWeight.minorWeight / 100 == 100){
+	ctx.fillText("= " + measurePc[i].keyWeight.minorWeight / 100, 380, 130 + mscnt * 20 + 10 * i);
+	}else if(measurePc[i].keyWeight.minorWeight / 100 >= 10){
+	ctx.fillText("=   " + measurePc[i].keyWeight.minorWeight / 100, 380, 130 + mscnt * 20 + 10 * i);
+	}else{
+	ctx.fillText("=     " + measurePc[i].keyWeight.minorWeight / 100, 380, 130 + mscnt * 20 + 10 * i);
+	}
+
 }
 
 console.log(measurePc);
 
 
-ctx.fillStyle="black";
-if(tfmjr0==100){
-	ctx.fillText(tfmjr0,100,130+mscnt*20+10*i);
-}else if(tfmjr0>=10){
-	ctx.fillText("  " + tfmjr0,100,130+mscnt*20+10*i);
-}else{
-	ctx.fillText("    " + tfmjr0,100,130+mscnt*20+10*i);
-}
-if(tfmjr7==100){
-ctx.fillText("+" + tfmjr7,130,130+mscnt*20+10*i);
-}else if(tfmjr7>=10){
-ctx.fillText("+  " + tfmjr7,130,130+mscnt*20+10*i);
-}else{
-ctx.fillText("+    " + tfmjr7,130,130+mscnt*20+10*i);
-}
-if(tfmjr07==100){
-ctx.fillText("= " + tfmjr07,180,130+mscnt*20+10*i);
-}else if(tfmjr07>=10){
-ctx.fillText("=   " + tfmjr07,180,130+mscnt*20+10*i);
-}else{
-ctx.fillText("=     " + tfmjr07,180,130+mscnt*20+10*i);
-}
-if(tfmnr0==100){
-ctx.fillText(tfmnr0,300,130+mscnt*20+10*i);
-}else if(tfmnr0>=10){
-ctx.fillText("  " + tfmnr0,300,130+mscnt*20+10*i);
-}else{
-ctx.fillText("    " + tfmnr0,300,130+mscnt*20+10*i);
-}
-if(tfmnr7==100){
-ctx.fillText("+" + tfmnr7,330,130+mscnt*20+10*i);
-}else if(tfmnr7>=10){
-ctx.fillText("+  " + tfmnr7,330,130+mscnt*20+10*i);
-}else{
-ctx.fillText("+    " + tfmnr7,330,130+mscnt*20+10*i);
-}
-if(tfmnr07==100){
-ctx.fillText("= " + tfmnr07,380,130+mscnt*20+10*i);
-}else if(tfmnr07>=10){
-ctx.fillText("=   " + tfmnr07,380,130+mscnt*20+10*i);
-}else{
-ctx.fillText("=     " + tfmnr07,380,130+mscnt*20+10*i);
-}
 if(tfmjr_mnr>0){
 ctx.fillStyle=workingColor.pc[keyrp10_3[i][1]];
 ctx.fillRect(500,120+mscnt*20+10*i,tfmjr_mnr,10);	
