@@ -7671,17 +7671,17 @@ for (let i = 0; i < mscnt; i++) {
 				measurePc[i].minorWeight1[1] +
 				measurePc[i].minorWeight5[1],
 		};
-
-		if (measurePc[i].majorMinorDiff > 0) {
-			measurePc[i].estKey = engf1[j] & " major";
-		}
-		else if (measurePc[i].majorMinorDiff < 0) {
-			measurePc[i].estKey = engMnr1[ (j + 9) % 12] & " minor";
-		}
-		else {
-			measurePc[i].estKey = engf1[j] & " major / " 
-			& engMnr1[ (j + 9) % 12] & " minor";
-		}
+		
+	if (measurePc[i].majorMinorDiff > 0) {
+		measurePc[i].estKey = `${engf1[j]} major`;
+	}
+	else if (measurePc[i].majorMinorDiff < 0) {
+		measurePc[i].estKey = `${engMnr1[(j + 9) % 12]} minor`;
+	}
+	else {
+		measurePc[i].estKey =
+			`${engf1[j]} major / ${engMnr1[(j + 9) % 12]} minor`;
+	}
 
 	ctx.fillStyle=workingColor.pc[measurePc[i].majorWeight1[0]];
 	ctx.fillRect(100,120+mscnt*20+10*i,measurePc[i].majorWeight1[1],10);
