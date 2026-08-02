@@ -7769,7 +7769,6 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillText(measurePc[i].estKey, 700, 50+10*i);
 		ctx.fillText(measurePc[i].estKey, 700, 100+mscnt*10+10*i);
 		ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
-}
 
 //weight double for first & last
 if (measurePc[i].estKey.includes("/")){
@@ -7796,29 +7795,14 @@ for (const [key, weight] of measurePc.keyCount) {
 measurePc.counts = Object.entries(counts);
 measurePc.counts.sort((a, b) => b[1] - a[1]);
 
-measurePc.counts[0]
-
 console.log(measurePc);
 
-/*
-keyrp10_5=[];
-const counts = {};
-
-for(const key of keyrp10_4){
-    counts[key] = (counts[key] || 0) + 1;
-}
-
-keyrp10_5 = Object.entries(counts);
-keyrp10_5.sort((a,b)=>b[1]-a[1]);
-
-	if(keyrp10_5.length < 2){
-		ctx.fillText(keyrp10_5[0][0],700,130+mscnt*30);
-	}else if(keyrp10_5[0][1] > keyrp10_5[1][1]){
-		ctx.fillText(keyrp10_5[0][0] ,700,130+mscnt*30);
+	if(measurePc.counts[0] > measurePc.counts[1]){
+		ctx.fillText(measurePc.counts[0] ,700,130+mscnt*30);
 	}else{
 		ctx.fillText("Unidentified" ,700,130+mscnt*30);
 	}
-*/
+}
 }
 
 
