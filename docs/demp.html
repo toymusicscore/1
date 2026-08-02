@@ -7673,23 +7673,14 @@ for (let i = 0; i < mscnt; i++) {
 		};
 
 		if (measurePc[i].majorMinorDiff > 0) {
-			measurePc[i].estKey = {
-				root: j,
-				mode: "major"
-			};
+			measurePc[i].estKey = engf1[j] & " major";
 		}
 		else if (measurePc[i].majorMinorDiff < 0) {
-			measurePc[i].estKey = {
-				root: (j + 9) % 12,
-				mode: "minor"
-			};
+			measurePc[i].estKey = engMnr1[ (j + 9) % 12] & " minor";
 		}
 		else {
-			measurePc[i].estKey = {
-				root: j,
-				mode: "major/minor"
-			};
-
+			measurePc[i].estKey = engf1[j] & " major" & "/" 
+			& engMnr1[ (j + 9) % 12] & " minor";
 		}
 
 	ctx.fillStyle=workingColor.pc[measurePc[i].majorWeight1[0]];
