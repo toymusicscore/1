@@ -7789,6 +7789,15 @@ measurePc.keyCount.sort();
 
 console.log(measurePc);
 
+const counts = {};
+
+for(const key of measurePc.keyCount[0]){
+    counts[key] = (counts[key] || 0) + measurePc.keyCount[1];
+}
+
+measurePc.counts = Object.entries(counts);
+measurePc.counts.sort((a,b)=>b[1]-a[1]);
+
 /*
 keyrp10_5=[];
 const counts = {};
