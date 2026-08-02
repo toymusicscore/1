@@ -7494,8 +7494,11 @@ for (let i = 0; i < mscnt; i++) {
             ctx.fillText(w0, 110 + 50 * j, 50 + 10 * i);
         }
     }
-    ctx.fillText(measurePc[i].count, 50, 50 + 10 * i);
-
+	if (measurePc[i].count >= 10){
+	    ctx.fillText(measurePc[i].count, 50, 50 + 10 * i);
+	}else {
+	    ctx.fillText(measurePc[i].count, 55, 50 + 10 * i);
+	}
 }
 
 for (let i = 0; i < mscnt; i++) {
