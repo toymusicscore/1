@@ -7785,8 +7785,6 @@ if (i == mscnt -1){
 	measurePc.keyCount.push([measurePc[i].estKey,1]);
 }
 
-measurePc.keyCount.sort();
-
 const counts = {};
 
 for (const [key, weight] of measurePc.keyCount) {
@@ -7796,14 +7794,13 @@ for (const [key, weight] of measurePc.keyCount) {
 measurePc.counts = Object.entries(counts);
 measurePc.counts.sort((a, b) => b[1] - a[1]);
 
-console.log(measurePc);
-
 	if(measurePc.counts[0] > measurePc.counts[1]){
 		ctx.fillText(measurePc.counts[0] ,700,130+mscnt*30);
 	}else{
 		ctx.fillText("Unidentified" ,700,130+mscnt*30);
 	}
 }
+console.log(measurePc);
 }
 
 
