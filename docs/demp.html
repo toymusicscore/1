@@ -7456,7 +7456,7 @@ ctx.fillText("Major",50,70+mscnt*10);
 ctx.fillText("Minor",50,80+mscnt*10);
 ctx.fillText("Measure",0,90+mscnt*10);
 ctx.fillText("Count",50,90+mscnt*10);
-ctx.fillText("Comments",700,90+mscnt*10);
+ctx.fillText("Estimated Key",700,90+mscnt*20);
 
 for (let i=0; i<mscnt; i++){
 	if (i+1>=10){
@@ -7524,7 +7524,7 @@ for (let i = 0; i < mscnt; i++) {
 
         measurePc[i].scale[j] = [
             scaleMember,
-            Math.round(scaleMember / measurePc[i].count * 10000)
+            scaleMember / measurePc[i].count * 100
         ];
     }
 }
@@ -7604,7 +7604,7 @@ for(let i=0;i<mscnt;i++){
 		}
 		ctx.fillStyle = "black";
 
-		const w1 = (measurePc[i].scale[j][1] / 100).toFixed(2);
+		const w1 = measurePc[i].scale[j][1].toFixed(2);
 
 		if (w1 ==100){
 			ctx.fillText(w1, 100 + 50 * j, 100 + mscnt * 10 + 10 * i);
@@ -7614,13 +7614,6 @@ for(let i=0;i<mscnt;i++){
 			ctx.fillText(w1, 110 + 50 * j, 100 + mscnt * 10 + 10 * i);
 		}
 
-	}
-	if (measurePc[i].bestScale.length > 1){
-		ctx.fillText(
-			measurePc[i].bestScale.length + " best pairs",
-			700,
-			100 + mscnt * 10 + 10 * i
-		);
 	}
 }
 
@@ -7767,8 +7760,9 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillText(-measurePc[i].majorMinorDiff.toFixed(2),610,130+mscnt*20+10*i);
 		}
 	}
-		ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
 		ctx.fillText(measurePc[i].estKey, 700, 50+10*i);
+		ctx.fillText(measurePc[i].estKey, 700, 100+mscnt*10+10*i);
+		ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
 }
 
 console.log(measurePc);
