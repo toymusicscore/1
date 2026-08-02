@@ -7661,6 +7661,17 @@ for (let i = 0; i < mscnt; i++) {
 				measurePc[i].minorWeight5[1]
 			);
 
+		measurePc[i].keyWeight = {
+			majorKey: j,
+			majorWeight:
+				measurePc[i].majorWeight1[1] +
+				measurePc[i].majorWeight5[1],
+			minorKey: (j + 9) % 12,
+			minorWeight:
+				measurePc[i].minorWeight1[1] +
+				measurePc[i].minorWeight5[1],
+		};
+
 		if (measurePc[i].majorMinorDiff > 0) {
 			measurePc[i].estKey = {
 				root: j,
@@ -7679,16 +7690,6 @@ for (let i = 0; i < mscnt; i++) {
 				mode: "major/minor"
 			};
 
-			measurePc[i].keyWeight = {
-				majorKey: j,
-				majorWeight: 
-					measurePc[i].majorWeight1[1] +
-					measurePc[i].majorWeight5[1],
-				minorKey: (j + 9) % 12,
-				minorWeight:     
-					measurePc[i].minorWeight1[1] +
-					measurePc[i].minorWeight5[1],
-			};
 		}
 	}
 
