@@ -7711,6 +7711,12 @@ for (let i = 0; i < mscnt; i++) {
 		}
 		ctx.textAlign = "left";		
 
+		// major scale
+		ctx.fillText(
+			pair.major.map(k => k.key.name),
+			50,
+			ry
+		);
 		// 採用キー
 		ctx.fillText(
 			pair.selected.map(k => k.key.name).join(" / "),
