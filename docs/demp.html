@@ -7639,26 +7639,38 @@ for (let i = 0; i < mscnt; i++) {
 		const pair = {
 			major: major,
 			minor: minor,
-			selected: null
+			selected: [],
+			point: scalePoint
 		};
-
 		if (major.weight > minor.weight) {
-            major.point = scalePoint;
-			pair.selected = [major];
+
+			pair.selected.push({
+				key: major,
+				point: scalePoint
+			});
+
 		}
 		else if (major.weight < minor.weight) {
-            minor.point = scalePoint;
-			pair.selected = [minor];
+
+			pair.selected.push({
+				key: minor,
+				point: scalePoint
+			});
+
 		}
 		else {
-            major.point = scalePoint / 2;
-            minor.point = scalePoint / 2;
-			pair.selected = [major, minor];
+
+			pair.selected.push({
+				key: major,
+				point: scalePoint / 2
+			});
+
+			pair.selected.push({
+				key: minor,
+				point: scalePoint / 2
+			});
+
 		}
-		pair.name =
-			pair.selected
-				.map(k => k.name)
-				.join(" / ");
 
 		measurePc[i].pairs.push(pair);
     }
