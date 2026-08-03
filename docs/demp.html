@@ -7675,11 +7675,11 @@ for (let i = 0; i < mscnt; i++) {
 		measurePc[i].pairs.push(pair);
     }
 
-		measurePc[i].estKey =
-			measurePc[i].pairs
-				.flatMap(pair => pair.selected)
-				.map(key => key.name)
-				.join(" / ");
+	measurePc[i].estKey =
+		measurePc[i].pairs
+			.flatMap(pair => pair.selected)
+			.map(item => item.key.name)
+			.join(" / ");
 
     ctx.fillStyle = "black";
     ctx.fillText(measurePc[i].estKey,700,50+10*i);
