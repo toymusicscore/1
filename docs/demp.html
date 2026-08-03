@@ -7840,16 +7840,6 @@ for (let i = 0; i < mscnt; i++) {
 			root = engMnr1.indexOf(keyName.replace(" minor", ""));
 		}
 
-		ctx.fillStyle = workingColor.pc[root];
-
-		ctx.beginPath();
-		ctx.moveTo(cx, cy);
-		ctx.arc(cx, cy, r, startAngle, endAngle);
-		ctx.closePath();
-		ctx.fill();
-
-		startAngle = endAngle;
-
 		const key = measurePc.keyPoints[i][0];
 
 		let color = workingColor.pc[root];
@@ -7859,6 +7849,14 @@ for (let i = 0; i < mscnt; i++) {
 		}
 
 		ctx.fillStyle = color;
+
+		ctx.beginPath();
+		ctx.moveTo(cx, cy);
+		ctx.arc(cx, cy, r, startAngle, endAngle);
+		ctx.closePath();
+		ctx.fill();
+
+		startAngle = endAngle;
 
 		ctx.fillRect(cx + r + 30, y - 8, 12, 12);
 
