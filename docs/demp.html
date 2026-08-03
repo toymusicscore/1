@@ -7694,11 +7694,11 @@ for (let i = 0; i < mscnt; i++) {
         // weight1, weight5 を利用して描画
 		const scaleRoot = measurePc[i].bestKeys[0].scaleRoot;
 
-		const majorKey = measurePc[i].keyCandidates.find(
+		const majorKey = measurePc[i].bestKeys.find(
 			key => key.mode === "major" && key.scaleRoot === scaleRoot
 		);
 
-		const minorKey = measurePc[i].keyCandidates.find(
+		const minorKey = measurePc[i].bestKeys.find(
 			key => key.mode === "minor" && key.scaleRoot === scaleRoot
 		);
 
