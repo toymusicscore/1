@@ -7771,25 +7771,26 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillText(measurePc[i].estKey, 700, 100+mscnt*10+10*i);
 		ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
 
-//weight double for first & last
-if (measurePc[i].estKey.includes("/")){
-	measurePc.keyCount.push([measurePc[i].estKey.split("/")[0].trim(),0.5]);
-	measurePc.keyCount.push([measurePc[i].estKey.split("/")[1].trim(),0.5]);
-}else{
-	measurePc.keyCount.push([measurePc[i].estKey,1]);
-}
-if (i == 0){
-	measurePc.keyCount.push([measurePc[i].estKey,1]);
-}
-if (i == mscnt -1){
-	measurePc.keyCount.push([measurePc[i].estKey,1]);
+	//weight double for first & last
+	if (measurePc[i].estKey.includes("/")){
+		measurePc.keyCount.push([measurePc[i].estKey.split("/")[0].trim(),0.5]);
+		measurePc.keyCount.push([measurePc[i].estKey.split("/")[1].trim(),0.5]);
+	}else{
+		measurePc.keyCount.push([measurePc[i].estKey,1]);
+	}
+	if (i == 0){
+		measurePc.keyCount.push([measurePc[i].estKey,1]);
+	}
+	if (i == mscnt -1){
+		measurePc.keyCount.push([measurePc[i].estKey,1]);
+	}
 }
 
-const counts = {};
+	const counts = {};
 
-for (const [key, weight] of measurePc.keyCount) {
-    counts[key] = (counts[key] || 0) + weight;
-}
+	for (const [key, weight] of measurePc.keyCount) {
+		counts[key] = (counts[key] || 0) + weight;
+	}
 
 measurePc.counts = Object.entries(counts);
 measurePc.counts.sort((a, b) => b[1] - a[1]);
@@ -7799,7 +7800,6 @@ measurePc.counts.sort((a, b) => b[1] - a[1]);
 	}else{
 		ctx.fillText("Unidentified" ,700,130+mscnt*30);
 	}
-}
 console.log(measurePc);
 }
 
