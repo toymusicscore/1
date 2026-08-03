@@ -7675,8 +7675,6 @@ for (let i = 0; i < mscnt; i++) {
 		measurePc[i].pairs.push(pair);
 
 	}
-}
-}
 
 	measurePc[i].keyPoints = [];
 
@@ -7688,7 +7686,9 @@ for (let i = 0; i < mscnt; i++) {
 				item.key.name,
 				item.point
 			]);
-
+		}
+	}
+	
 	measurePc[i].estKey =
 		measurePc[i].pairs
 			.flatMap(pair => pair.selected)
@@ -7699,27 +7699,27 @@ for (let i = 0; i < mscnt; i++) {
     ctx.fillText(measurePc[i].estKey,700,50+10*i);
     ctx.fillText(measurePc[i].estKey,700,100+mscnt*10+10*i);
 
-if (!measurePc[i]) continue;
+	if (!measurePc[i]) continue;
 
-for (const pair of measurePc[i].pairs) {
+	for (const pair of measurePc[i].pairs) {
 
-    const majorKey = pair.major;
-    const minorKey = pair.minor;
+		const majorKey = pair.major;
+		const minorKey = pair.minor;
 
-    const y = 120 + mscnt * 20 + 10 * row;
-    const ry = y + 10;
+		const y = 120 + mscnt * 20 + 10 * row;
+		const ry = y + 10;
 
-    // 小節番号（最初のペアだけ表示）
-    if (pair === measurePc[i].pairs[0]) {
-		ctx.fillText(majorKey.measure, 0, ry);
-    }
+		// 小節番号（最初のペアだけ表示）
+		if (pair === measurePc[i].pairs[0]) {
+			ctx.fillText(majorKey.measure, 0, ry);
+		}
 
-    // 採用キー
-    ctx.fillText(
-        pair.selected.map(k => k.name).join(" / "),
-        700,
-        ry
-    );
+		// 採用キー
+		ctx.fillText(
+			pair.selected.map(k => k.name).join(" / "),
+			700,
+			ry
+		);
 
 		// ===== Major 左側 =====
 
