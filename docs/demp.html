@@ -7807,7 +7807,7 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillText("Total", 0, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
     ctx.fillText(total, 50, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
 
-	const cx = 350;      // 中心X
+	const cx = 500;      // 中心X
 	const cy = 250 + mscnt * 30;
 	const r = 80;        // 半径
 
@@ -7816,9 +7816,8 @@ for (let i = 0; i < mscnt; i++) {
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
 		const percent = measurePc.keyPoints[i][1] / total * 100;
 		if (i === 0) {
-			ctx.font = "bold 14px sans-serif";
-		} else {
-			ctx.font = "12px sans-serif";
+		ctx.fillStyle=workingColor.pc[(j + 9) % 12];
+		ctx.fillRect(0,180 + mscnt * 30,100,1);	
 		}
 
 		ctx.fillText(measurePc.keyPoints[i][0],0,180 + mscnt * 30 + 10 * i);
