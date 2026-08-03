@@ -7795,11 +7795,23 @@ for (let i = 0; i < mscnt; i++) {
 measurePc.counts = Object.entries(counts);
 measurePc.counts.sort((a, b) => b[1] - a[1]);
 
-	if(measurePc.counts[0] > measurePc.counts[1]){
-		ctx.fillText(measurePc.counts[0] ,700,130+mscnt*30);
-	}else{
-		ctx.fillText("Unidentified" ,700,130+mscnt*30);
-	}
+if (
+    measurePc.counts.length === 1 ||
+    measurePc.counts[0][1] > measurePc.counts[1][1]
+) {
+    ctx.fillText(
+        measurePc.counts[0][0],
+        700,
+        130 + mscnt * 30
+    );
+} else {
+    ctx.fillText(
+        measurePc.counts[0][0] +" "+ measurePc.counts[0][1] +" / "+
+        measurePc.counts[1][0] +" "+ measurePc.counts[1][1],
+        700,
+        130 + mscnt * 30
+    );
+}
 
 	console.log(counts);
 
