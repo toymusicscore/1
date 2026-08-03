@@ -7814,7 +7814,9 @@ for (let i = 0; i < mscnt; i++) {
 	let startAngle = -Math.PI / 2;   // 12時から開始
 
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
+
 		const percent = measurePc.keyPoints[i][1] / total * 100;
+		ctx.fillStyle = "black";
 
 		if (i === 0) {
 		ctx.fillRect(0,180 + mscnt * 30,150,1);	
@@ -7823,7 +7825,6 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillText(measurePc.keyPoints[i][0],0,180 + mscnt * 30 + 10 * i);
 		ctx.fillText(measurePc.keyPoints[i][1],50,180 + mscnt * 30 + 10 * i);
 		ctx.fillText(percent.toFixed(1) + " %",100,180 + mscnt * 30 + 10 * i);
-
 
 		const endAngle = startAngle + percent * Math.PI * 2;
 
