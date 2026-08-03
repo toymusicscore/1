@@ -7602,14 +7602,14 @@ for (let i=0; i<mscnt; i++){
 	ctx.stroke();
 }
 
-measurePc.keyCount = [];
+//measurePc.keyCount = [];
 let row = 0;
 
 for (let i = 0; i < mscnt; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-    measurePc[i].bestKeys = [];
+	measurePc[i].pairs = [];
 
     const scalePoint = 1 / measurePc[i].bestScale.length;
 
@@ -7639,32 +7639,34 @@ for (let i = 0; i < mscnt; i++) {
 
         minor.weight = minor.weight1 + minor.weight5;
 
-        if (major.weight > minor.weight) {
+		const pair = {
+			major: major,
+			minor: minor,
+			selected: null
+		};
 
+		if (major.weight > minor.weight) {
             major.point = scalePoint;
-            measurePc[i].bestKeys.push(major);
-
-        }
-        else if (major.weight < minor.weight) {
-
+			pair.selected = [major];
+		}
+		else if (major.weight < minor.weight) {
             minor.point = scalePoint;
-            measurePc[i].bestKeys.push(minor);
-
-        }
-        else {
-
+			pair.selected = [minor];
+		}
+		else {
             major.point = scalePoint / 2;
             minor.point = scalePoint / 2;
+			pair.selected = [major, minor];
+		}
 
-            measurePc[i].bestKeys.push(major);
-            measurePc[i].bestKeys.push(minor);
-        }
+		measurePc[i].pairs.push(pair);
     }
 
-    measurePc[i].estKey =
-        measurePc[i].bestKeys
-            .map(key => key.name)
-            .join(" / ");
+		measurePc[i].estKey =
+			measurePc[i].pairs
+				.flatMap(pair => pair.selected)
+				.map(key => key.name)
+				.join(" / ");
 
     ctx.fillStyle = "black";
     ctx.fillText(measurePc[i].estKey,700,50+10*i);
@@ -7675,32 +7677,28 @@ for (let i = 0; i < mscnt; i++) {
 
 //for (let i = 0; i < mscnt; i++) {
 
-    if (!measurePc[i]) continue;
+if (!measurePc[i]) continue;
 
-    for (const key of measurePc[i].bestKeys) {
+for (const pair of measurePc[i].pairs) {
 
-		const y = 120 + mscnt * 20 + 10 * row;
-        const ry = y+10;
+    const majorKey = pair.major;
+    const minorKey = pair.minor;
+	const scaleRoot = pair.scaleRoot;
 
-        // 小節番号（最初の行だけ表示）
-        if (key === measurePc[i].bestKeys[0]) {
-            ctx.fillText(i + 1, 0, ry);
-        }
+    const y = 120 + mscnt * 20 + 10 * row;
+    const ry = y + 10;
 
-        // キー名
-        ctx.fillText(key.name, 700, ry);
+    // 小節番号（最初のペアだけ表示）
+    if (pair === measurePc[i].pairs[0]) {
+        ctx.fillText(i + 1, 0, ry);
+    }
 
-        // 第1音・第5音グラフ
-        // weight1, weight5 を利用して描画
-		const scaleRoot = measurePc[i].bestKeys[0].scaleRoot;
-
-		const majorKey = measurePc[i].bestKeys.find(
-			key => key.mode === "major" && key.scaleRoot === scaleRoot
-		);
-
-		const minorKey = measurePc[i].bestKeys.find(
-			key => key.mode === "minor" && key.scaleRoot === scaleRoot
-		);
+    // 採用キー
+    ctx.fillText(
+        pair.selected.map(k => k.name).join(" / "),
+        700,
+        ry
+    );
 
 		// ===== Major 左側 =====
 
