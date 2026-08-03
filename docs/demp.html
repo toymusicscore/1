@@ -7806,6 +7806,11 @@ for (let i = 0; i < mscnt; i++) {
 
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
 		const percent = measurePc.keyPoints[i][1] / total * 100;
+		if (i === 0) {
+			ctx.font = "bold 14px sans-serif";
+		} else {
+			ctx.font = "12px sans-serif";
+		}
 
 		ctx.fillText(measurePc.keyPoints[i][0],0,180 + mscnt * 30 + 10 * i);
 		ctx.fillText(measurePc.keyPoints[i][1],50,180 + mscnt * 30 + 10 * i);
@@ -7814,12 +7819,6 @@ for (let i = 0; i < mscnt; i++) {
 
     ctx.fillText("Total", 0, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
     ctx.fillText(total, 50, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
-
-	if (i === 0) {
-		ctx.font = "bold 14px sans-serif";
-	} else {
-		ctx.font = "12px sans-serif";
-	}
 
 	console.log(measurePc.keypoints);
 
