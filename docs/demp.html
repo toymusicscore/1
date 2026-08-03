@@ -7673,6 +7673,20 @@ for (let i = 0; i < mscnt; i++) {
 		}
 
 		measurePc[i].pairs.push(pair);
+		measurePc[i].keyPoints = [];
+
+		for (const pair of measurePc[i].pairs){
+
+			for(const item of pair.selected){
+
+				measurePc[i].keyPoints.push([
+					item.key.name,
+					item.point
+				]);
+
+			}
+
+		}
     }
 
 	measurePc[i].estKey =
