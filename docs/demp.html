@@ -7816,20 +7816,21 @@ if (
 const total = measurePc.counts.reduce((sum, [, w]) => sum + w, 0);
 
 ctx.fillStyle="black";
-ctx.fillText("Keys for the song",100,140+mscnt*30);
-ctx.fillText("Key",0,150+mscnt*30);
-ctx.fillText("Point",50,150+mscnt*30);
-ctx.fillText("Weight",100,150+mscnt*30);
+ctx.fillText("Weights of Keys for the Song",100,150+mscnt*30);
+ctx.fillText("Key",0,170+mscnt*30);
+ctx.fillText("Point",50,170+mscnt*30);
+ctx.fillText("Weight",100,170+mscnt*30);
+ctx.fillText("First and Last Keys are Pointed Double",100,160+mscnt*30);
 
 for (let i = 0; i < measurePc.counts.length; i++) {
     const percent = measurePc.counts[i][1] / total * 100;
 
-    ctx.fillText(measurePc.counts[i][0],0,160 + mscnt * 30 + 10 * i);
-    ctx.fillText(measurePc.counts[i][1],50,160 + mscnt * 30 + 10 * i);
-    ctx.fillText(percent.toFixed(1) + " %",100,160 + mscnt * 30 + 10 * i);
+    ctx.fillText(measurePc.counts[i][0],0,180 + mscnt * 30 + 10 * i);
+    ctx.fillText(measurePc.counts[i][1],50,180 + mscnt * 30 + 10 * i);
+    ctx.fillText(percent.toFixed(1) + " %",100,180 + mscnt * 30 + 10 * i);
 }
 
-    ctx.fillText(total, 50, 160 + mscnt * 30 + 10 * measurePc.counts.length);
+    ctx.fillText(total, 50, 180 + mscnt * 30 + 10 * measurePc.counts.length);
 
 	console.log(measurePc.keyCount);
 
