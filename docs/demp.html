@@ -7794,24 +7794,6 @@ for (let i = 0; i < mscnt; i++) {
 measurePc.keyPoints = Object.entries(points);
 measurePc.keyPoints.sort((a, b) => b[1] - a[1]);
 
-if (
-    measurePc.keyPoints.length === 1 ||
-    measurePc.keyPoints[0][1] > measurePc.keyPoints[1][1]
-) {
-    ctx.fillText(
-        measurePc.keyPoints[0][0],
-        700,
-        130 + mscnt * 30
-    );
-} else {
-    ctx.fillText(
-        measurePc.counts[0][0] +" "+ measurePc.counts[0][1] +" / "+
-        measurePc.counts[1][0] +" "+ measurePc.counts[1][1],
-        700,
-        130 + mscnt * 30
-    );
-}
-
 const total = measurePc.keyPoints.reduce((sum, [, w]) => sum + w, 0);
 
 ctx.fillStyle="black";
@@ -7819,8 +7801,8 @@ ctx.fillText("Estimated Key for the Song",100,150+mscnt*30);
 ctx.fillText("Key",0,170+mscnt*30);
 ctx.fillText("Point",50,170+mscnt*30);
 ctx.fillText("Weight",100,170+mscnt*30);
-ctx.fillText("First and Last Keys are Pointed Double",0,190 + mscnt * 30 + 10 * measurePc.counts.length);
-ctx.fillText("Two Keys for one Part are Pointed Half",0,200 + mscnt * 30 + 10 * measurePc.counts.length);
+ctx.fillText("First and Last Keys are Pointed Double",0,190 + mscnt * 30 + 10 * measurePc.keyPoints.length);
+ctx.fillText("Two Keys for one Part are Pointed Half",0,200 + mscnt * 30 + 10 * measurePc.keyPoints.length);
 
 for (let i = 0; i < measurePc.keyPoints.length; i++) {
     const percent = measurePc.keyPoints[i][1] / total * 100;
@@ -7832,9 +7814,7 @@ for (let i = 0; i < measurePc.keyPoints.length; i++) {
 
     ctx.fillText(total, 50, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
 
-	console.log(measurePc.keyCount);
-
-	console.log(measurePc.counts);
+	console.log(measurePc.keypoints);
 
 }
 
