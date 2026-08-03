@@ -7608,88 +7608,92 @@ for (let i = 0; i < mscnt; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-    measurePc[i].keyCandidates = [];
+    measurePc[i].bestKeys = [];
 
-    // bestScale に含まれるスケールだけ調べる
-	for (const j of measurePc[i].bestScale) {
+    const scalePoint = 1 / measurePc[i].bestScale.length;
 
-		const majorWeight1 = measurePc[i].pc[j] / measurePc[i].count * 100;
-		const majorWeight5 = measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 100;
+    for (const j of measurePc[i].bestScale) {
 
-		const minorWeight1 = measurePc[i].pc[(j + 9) % 12] / measurePc[i].count * 100;
-		const minorWeight5 = measurePc[i].pc[(j + 4) % 12] / measurePc[i].count * 100;
+        const major = {
+			measure: i+1,
+            scaleRoot: j,
+            root: j,
+            mode: "major",
+            name: engf1[j] + " major",
+            weight1: measurePc[i].pc[j] / measurePc[i].count * 100,
+            weight5: measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 100
+        };
 
-		const majorWeight = majorWeight1 + majorWeight5;
-		const minorWeight = minorWeight1 + minorWeight5;
+        major.weight = major.weight1 + major.weight5;
 
-		measurePc[i].keyCandidates.push({
-			scaleRoot:j,
-			root:j,
-			mode:"major",
-			name:engf1[j]+" major",
-			weight1:majorWeight1,
-			weight5:majorWeight5,
-			weight:majorWeight
-		});
+        const minor = {
+			measure: i+1,
+            scaleRoot: j,
+            root: (j + 9) % 12,
+            mode: "minor",
+            name: engMnr1[(j + 9) % 12] + " minor",
+            weight1: measurePc[i].pc[(j + 9) % 12] / measurePc[i].count * 100,
+            weight5: measurePc[i].pc[(j + 4) % 12] / measurePc[i].count * 100
+        };
 
-		measurePc[i].keyCandidates.push({
-			scaleRoot:j,
-			root:(j+9)%12,
-			mode:"minor",
-			name:engMnr1[(j+9)%12]+" minor",
-			weight1:minorWeight1,
-			weight5:minorWeight5,
-			weight:minorWeight
-		});
-	}
-    // 最大ウェイトを探す
-    let maxWeight = -1;
+        minor.weight = minor.weight1 + minor.weight5;
 
-    for (const key of measurePc[i].keyCandidates) {
-        if (key.weight > maxWeight) {
-            maxWeight = key.weight;
+        if (major.weight > minor.weight) {
+
+            major.point = scalePoint;
+            measurePc[i].bestKeys.push(major);
+
+        }
+        else if (major.weight < minor.weight) {
+
+            minor.point = scalePoint;
+            measurePc[i].bestKeys.push(minor);
+
+        }
+        else {
+
+            major.point = scalePoint / 2;
+            minor.point = scalePoint / 2;
+
+            measurePc[i].bestKeys.push(major);
+            measurePc[i].bestKeys.push(minor);
         }
     }
 
-    // 最大ウェイトの候補だけ残す
-    measurePc[i].bestKeys =
-        measurePc[i].keyCandidates.filter(
-            key => key.weight === maxWeight
-        );
+    measurePc[i].estKey =
+        measurePc[i].bestKeys
+            .map(key => key.name)
+            .join(" / ");
 
-    // 均等にポイント配分
-    const point = 1 / measurePc[i].bestKeys.length;
+    ctx.fillStyle = "black";
+    ctx.fillText(measurePc[i].estKey,700,50+10*i);
+    ctx.fillText(measurePc[i].estKey,700,100+mscnt*10+10*i);
 
-    measurePc[i].keyPoints = [];
 
-    for (const key of measurePc[i].bestKeys) {
-        measurePc[i].keyPoints.push([
-            key.name,
-            point
-        ]);
-    }
 
-	if (measurePc[i].bestKeys.length === 1) {
-
-		measurePc[i].estKey = measurePc[i].bestKeys[0].name;
-
-	} else {
-
-		measurePc[i].estKey =
-			measurePc[i].bestKeys
-				.map(key => key.name)
-				.join(" / ");
-
-	}
-
-	ctx.fillStyle="black";
-
-	ctx.fillText(measurePc[i].estKey, 700, 50+10*i);
-	ctx.fillText(measurePc[i].estKey, 700, 100+mscnt*10+10*i);
-	ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
 
 //	if (measurePc[i].bestKeys.length === 1) {
+let row = 0;
 
+for (let i = 0; i < mscnt; i++) {
+
+    if (!measurePc[i]) continue;
+
+    for (const key of measurePc[i].bestKeys) {
+
+		const y = 120 + mscnt * 20 + 10 * row;
+        const ry = y+10;
+
+        // 小節番号（最初の行だけ表示）
+        if (key === measurePc[i].bestKeys[0]) {
+            ctx.fillText(i + 1, 0, ry);
+        }
+
+        // キー名
+        ctx.fillText(key.name, 700, ry);
+
+        // 第1音・第5音グラフ
+        // weight1, weight5 を利用して描画
 		const scaleRoot = measurePc[i].bestKeys[0].scaleRoot;
 
 		const majorKey = measurePc[i].keyCandidates.find(
@@ -7699,10 +7703,6 @@ for (let i = 0; i < mscnt; i++) {
 		const minorKey = measurePc[i].keyCandidates.find(
 			key => key.mode === "minor" && key.scaleRoot === scaleRoot
 		);
-
-
-		const y = 120 + mscnt * 20 + 10 * i;
-
 
 		// ===== Major 左側 =====
 
@@ -7855,6 +7855,11 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.textAlign = "left";		
 	
 		}	
+
+        row++;
+    }
+}
+
 //	}
 		/*
 	//weight double for first & last
