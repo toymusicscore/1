@@ -7625,21 +7625,23 @@ for (let i = 0; i < mscnt; i++) {
 		const minorWeight = minorWeight1 + minorWeight5;
 
 		measurePc[i].keyCandidates.push({
-			root: j,
-			mode: "major",
-			name: engf1[j] + " major",
-			weight1: majorWeight1,
-			weight5: majorWeight5,
-			weight: majorWeight
+			scaleRoot:j,
+			root:j,
+			mode:"major",
+			name:engf1[j]+" major",
+			weight1:majorWeight1,
+			weight5:majorWeight5,
+			weight:majorWeight
 		});
 
 		measurePc[i].keyCandidates.push({
-			root: (j + 9) % 12,
-			mode: "minor",
-			name: engMnr1[(j + 9) % 12] + " minor",
-			weight1: minorWeight1,
-			weight5: minorWeight5,
-			weight: minorWeight
+			scaleRoot:j,
+			root:(j+9)%12,
+			mode:"minor",
+			name:engMnr1[(j+9)%12]+" minor",
+			weight1:minorWeight1,
+			weight5:minorWeight5,
+			weight:minorWeight
 		});
 	}
     // 最大ウェイトを探す
@@ -7688,14 +7690,14 @@ for (let i = 0; i < mscnt; i++) {
 
 		if (measurePc[i].bestKeys.length === 1) {
 
-			const root = measurePc[i].bestKeys[0].root;
+			const scaleRoot = measurePc[i].bestKeys[0].scaleRoot;
 
 			const majorKey = measurePc[i].keyCandidates.find(
-				key => key.mode === "major" && key.root === root
+				key => key.mode === "major" && key.scaleRoot === scaleRoot
 			);
 
 			const minorKey = measurePc[i].keyCandidates.find(
-				key => key.mode === "minor" && key.root === (root + 9) % 12
+				key => key.mode === "minor" && key.scaleRoot === scaleRoot
 			);
 
 
@@ -7744,7 +7746,7 @@ for (let i = 0; i < mscnt; i++) {
 			);
 		}
 	}
-	
+
 /*
 		ctx.fillStyle=workingColor.pc[measurePc[i].majorWeight5[0]];
 		ctx.fillRect(300-Number(measurePc[i].majorWeight1[1])
