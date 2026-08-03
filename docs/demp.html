@@ -7605,6 +7605,7 @@ for (let i=0; i<mscnt; i++){
 }
 
 measurePc.keyCount = [];
+
 for (let i = 0; i < mscnt; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
@@ -7612,31 +7613,34 @@ for (let i = 0; i < mscnt; i++) {
     measurePc[i].keyCandidates = [];
 
     // bestScale に含まれるスケールだけ調べる
-    for (const j of measurePc[i].bestScale) {
+	for (const j of measurePc[i].bestScale) {
 
-        const majorWeight =
-            measurePc[i].pc[j] +
-            measurePc[i].pc[(j + 7) % 12];
+		const majorWeight1 = measurePc[i].pc[j] / measurePc[i].count * 100;
+		const majorWeight5 = measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 100;
 
-        const minorWeight =
-            measurePc[i].pc[(j + 9) % 12] +
-            measurePc[i].pc[(j + 4) % 12];
+		const minorWeight1 = measurePc[i].pc[(j + 9) % 12] / measurePc[i].count * 100;
+		const minorWeight5 = measurePc[i].pc[(j + 4) % 12] / measurePc[i].count * 100;
 
-        measurePc[i].keyCandidates.push({
-            root: j,
-            mode: "major",
-            name: engf1[j] + " major",
-            weight: majorWeight
-        });
+		const majorWeight = majorWeight1 + majorWeight5;
+		const minorWeight = minorWeight1 + minorWeight5;
 
-        measurePc[i].keyCandidates.push({
-            root: (j + 9) % 12,
-            mode: "minor",
-            name: engMnr1[(j + 9) % 12] + " minor",
-            weight: minorWeight
-        });
-    }
+		measurePc[i].keyCandidates.push({
+			root: j,
+			mode: "major",
+			name: engf1[j] + " major",
+			weight1: majorWeight1,
+			weight5: majorWeight5,
+			weight: majorWeight
+		});
 
+		measurePc[i].keyCandidates.push({
+			root: (j + 9) % 12,
+			mode: "minor",
+			name: engMnr1[(j + 9) % 12] + " minor",
+			weight1: majorWeight1,
+			weight5: majorWeight5,
+			weight: majorWeight		});
+	}
     // 最大ウェイトを探す
     let maxWeight = -1;
 
