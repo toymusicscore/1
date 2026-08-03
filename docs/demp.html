@@ -7804,6 +7804,15 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillText("The First and Last Measures Count Double.",0,190 + mscnt * 30 + 10 * measurePc.keyPoints.length);
 	ctx.fillText("If Two Keys Are Estimated for a Measure, Each Receives Half a Point.",0,200 + mscnt * 30 + 10 * measurePc.keyPoints.length);
 
+	ctx.fillText("Total", 0, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
+    ctx.fillText(total, 50, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
+
+	const cx = 350;      // 中心X
+	const cy = 250 + mscnt * 30;
+	const r = 80;        // 半径
+
+	let startAngle = -Math.PI / 2;   // 12時から開始
+
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
 		const percent = measurePc.keyPoints[i][1] / total * 100;
 		if (i === 0) {
@@ -7815,22 +7824,7 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillText(measurePc.keyPoints[i][0],0,180 + mscnt * 30 + 10 * i);
 		ctx.fillText(measurePc.keyPoints[i][1],50,180 + mscnt * 30 + 10 * i);
 		ctx.fillText(percent.toFixed(1) + " %",100,180 + mscnt * 30 + 10 * i);
-	}
 
-    ctx.fillText("Total", 0, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
-    ctx.fillText(total, 50, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
-
-	console.log(measurePc.keypoints);
-
-	const cx = 350;      // 中心X
-	const cy = 250 + mscnt * 30;
-	const r = 80;        // 半径
-
-	let startAngle = -Math.PI / 2;   // 12時から開始
-
-	for (let i = 0; i < measurePc.keyPoints.length; i++) {
-
-		const percent = measurePc.keyPoints[i][1] / total;
 		const endAngle = startAngle + percent * Math.PI * 2;
 
 		// キー名から色を決定
