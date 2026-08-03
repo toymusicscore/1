@@ -7602,7 +7602,6 @@ for (let i=0; i<mscnt; i++){
 	ctx.stroke();
 }
 
-//measurePc.keyCount = [];
 let row = 0;
 
 for (let i = 0; i < mscnt; i++) {
@@ -7617,7 +7616,6 @@ for (let i = 0; i < mscnt; i++) {
 
         const major = {
 			measure: i+1,
-            scaleRoot: j,
             root: j,
             mode: "major",
             name: engf1[j] + " major",
@@ -7629,7 +7627,6 @@ for (let i = 0; i < mscnt; i++) {
 
         const minor = {
 			measure: i+1,
-            scaleRoot: j,
             root: (j + 9) % 12,
             mode: "minor",
             name: engMnr1[(j + 9) % 12] + " minor",
@@ -7683,7 +7680,6 @@ for (const pair of measurePc[i].pairs) {
 
     const majorKey = pair.major;
     const minorKey = pair.minor;
-	const scaleRoot = pair.scaleRoot;
 
     const y = 120 + mscnt * 20 + 10 * row;
     const ry = y + 10;
