@@ -7810,6 +7810,7 @@ for (let i = 0; i < mscnt; i++) {
 	const cx = 500;      // 中心X
 	const cy = 250 + mscnt * 30;
 	const r = 80;        // 半径
+	let y = cy - r;
 
 	let startAngle = -Math.PI / 2;   // 12時から開始
 
@@ -7864,9 +7865,23 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillStyle = "black";
 		ctx.fillText(percent.toFixed(0) + "%", tx - 8, ty + 4);
 
+		const key = measurePc.keyPoints[i][0];
+
+		// 色
+		ctx.fillStyle = workingColor.pc[root];
+		ctx.fillRect(cx + r + 30, y - 8, 12, 12);
+
+		// 文字
+		ctx.fillStyle = "black";
+		ctx.fillText(
+			`${key} ${percent.toFixed(1)}%`,
+			cx + r + 50,
+			y + 2
+		);
+
+		y += 18;
+
 	}
-
-
 }
 
 
