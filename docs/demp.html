@@ -7816,6 +7816,38 @@ for (let i = 0; i < mscnt; i++) {
 
 	console.log(measurePc.keypoints);
 
+	const cx = 350;      // 中心X
+	const cy = 250 + mscnt * 30;
+	const r = 80;        // 半径
+
+	let startAngle = -Math.PI / 2;   // 12時から開始
+
+	for (let i = 0; i < measurePc.keyPoints.length; i++) {
+
+		const percent = measurePc.keyPoints[i][1] / total;
+		const endAngle = startAngle + percent * Math.PI * 2;
+
+		// キー名から色を決定
+		let keyName = measurePc.keyPoints[i][0];
+		let root;
+
+		if (keyName.includes("major")) {
+			root = engf1.indexOf(keyName.replace(" major", ""));
+		} else {
+			root = engMnr1.indexOf(keyName.replace(" minor", ""));
+		}
+
+		ctx.fillStyle = workingColor.pc[root];
+
+		ctx.beginPath();
+		ctx.moveTo(cx, cy);
+		ctx.arc(cx, cy, r, startAngle, endAngle);
+		ctx.closePath();
+		ctx.fill();
+
+		startAngle = endAngle;
+	}
+
 }
 
 
