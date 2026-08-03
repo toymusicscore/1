@@ -7686,7 +7686,66 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillText(measurePc[i].estKey, 700, 100+mscnt*10+10*i);
 	ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
 
-	if (measurePc[i].bestKeys.length === 1) {
+		if (measurePc[i].bestKeys.length === 1) {
+
+			const root = measurePc[i].bestKeys[0].root;
+
+			const majorKey = measurePc[i].keyCandidates.find(
+				key => key.mode === "major" && key.root === root
+			);
+
+			const minorKey = measurePc[i].keyCandidates.find(
+				key => key.mode === "minor" && key.root === (root + 9) % 12
+			);
+
+
+			const y = 120 + mscnt * 20 + 10 * i;
+
+
+			// ===== Major 左側 =====
+
+			// 第5音
+			ctx.fillStyle = workingColor.pc[(majorKey.root + 7) % 12];
+			ctx.fillRect(
+				300 - majorKey.weight1 - majorKey.weight5,
+				y,
+				majorKey.weight5,
+				10
+			);
+
+			// 第1音
+			ctx.fillStyle = workingColor.pc[majorKey.root];
+			ctx.fillRect(
+				300 - majorKey.weight1,
+				y,
+				majorKey.weight1,
+				10
+			);
+
+
+			// ===== Minor 右側 =====
+
+			// 第1音
+			ctx.fillStyle = workingColor.pc[minorKey.root];
+			ctx.fillRect(
+				300,
+				y,
+				minorKey.weight1,
+				10
+			);
+
+			// 第5音
+			ctx.fillStyle = workingColor.pc[(minorKey.root + 7) % 12];
+			ctx.fillRect(
+				300 + minorKey.weight1,
+				y,
+				minorKey.weight5,
+				10
+			);
+		}
+	}
+	
+/*
 		ctx.fillStyle=workingColor.pc[measurePc[i].majorWeight5[0]];
 		ctx.fillRect(300-Number(measurePc[i].majorWeight1[1])
 						-Number(measurePc[i].majorWeight5[1]),
