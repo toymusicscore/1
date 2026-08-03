@@ -7852,8 +7852,14 @@ for (let i = 0; i < mscnt; i++) {
 
 		const key = measurePc.keyPoints[i][0];
 
-		// 色
-		ctx.fillStyle = workingColor.pc[root];
+		let color = workingColor.pc[root];
+
+		if (keyName.includes("minor")) {
+			color = darkenColor(color, 0.8);
+		}
+
+		ctx.fillStyle = color;
+
 		ctx.fillRect(cx + r + 30, y - 8, 12, 12);
 
 		// 文字
@@ -7869,6 +7875,24 @@ for (let i = 0; i < mscnt; i++) {
 	}
 }
 
+function darkenColor(color, factor) {
+
+    // "#"を除去
+    color = color.replace("#", "");
+
+    let r = parseInt(color.substring(0, 2), 16);
+    let g = parseInt(color.substring(2, 4), 16);
+    let b = parseInt(color.substring(4, 6), 16);
+
+    r = Math.round(r * factor);
+    g = Math.round(g * factor);
+    b = Math.round(b * factor);
+
+    return "#" +
+        r.toString(16).padStart(2, "0") +
+        g.toString(16).padStart(2, "0") +
+        b.toString(16).padStart(2, "0");
+}
 
 async function showDownloadPage(){
 
