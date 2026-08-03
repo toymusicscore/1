@@ -7560,51 +7560,12 @@ for (let i = 0; i < mscnt; i++) {
 
 
 //mltiple max weights
-for (let i = 0; i < mscnt; i++) {
-
-    if (!measurePc[i] || measurePc[i].count === 0) continue;
-
-    measurePc[i].bestScale1 = -1;
-
-	if (measurePc[i].scaleMax === 1) {
-		measurePc[i].bestScale1 = measurePc[i].bestScale[0];
-		continue;
-	}
-
-	for (const j of measurePc[i].bestScale) {
-
-		if (
-			i > 0 &&
-			measurePc[i - 1] &&
-			measurePc[i - 1].scale[j][1] === measurePc[i - 1].bestScore
-		) {
-			measurePc[i].bestScale1 = j;
-			break;
-		}
-
-		if (
-			i < mscnt - 1 &&
-			measurePc[i + 1] &&
-			measurePc[i + 1].scale[j][1] === measurePc[i + 1].bestScore
-		) {
-			measurePc[i].bestScale1 = j;
-			break;
-		}
-	}
-}
-
-
 for(let i=0;i<mscnt;i++){
 	for (let j = 0; j < 12; j++) {
 
-		const key = measurePc[i].bestScale1;
-		if (j == key){
-			ctx.fillStyle = workingColor.pc[j];
-			ctx.fillRect(100 + 50 * j, 90 + mscnt * 10 + 10 * i, 50, 10);
-		}
 		if (measurePc[i].scale[j][1] === measurePc[i].bestScore){	
 			ctx.fillStyle = workingColor.pc[j];
-			ctx.fillRect(100 + 50 * j, 100 + mscnt * 10 + 10 * i, 50, 1);
+			ctx.fillRect(100 + 50 * j, 90 + mscnt * 10 + 10 * i, 50, 10);
 		}
 		ctx.fillStyle = "black";
 
@@ -7617,10 +7578,8 @@ for(let i=0;i<mscnt;i++){
 		}else if (w1<10){
 			ctx.fillText(w1, 110 + 50 * j, 100 + mscnt * 10 + 10 * i);
 		}
-
 	}
 }
-
 
 ctx.fillStyle="black";
 ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",100,110+mscnt*20);
@@ -7649,8 +7608,7 @@ measurePc.keyCount = [];
 
 for (let i = 0; i < mscnt; i++) {
 	if (!measurePc[i] || measurePc[i].count === 0) continue;
-	if (measurePc[i].bestScale1 < 0) continue;
-	const j = measurePc[i].bestScale1;
+	for (let j = 0; j < 12; j++) {
 	measurePc[i].majorWeight1 = [j, (measurePc[i].pc[j] / measurePc[i].count * 100)];
 	measurePc[i].majorWeight5 = [(j + 7) % 12, (measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 100)];
 	measurePc[i].minorWeight1 = [(j + 9) % 12, (measurePc[i].pc[(j + 9) % 12] / measurePc[i].count * 100)];
@@ -7871,6 +7829,7 @@ for (let i = 0; i < mscnt; i++) {
 		y += 18;
 
 	}
+}
 }
 
 function darkenColor(color, factor) {
