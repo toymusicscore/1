@@ -7815,14 +7815,6 @@ for (let i = 0; i < mscnt; i++) {
 
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
 		const percent = measurePc.keyPoints[i][1] / total * 100;
-		if (i === 0) {
-		ctx.fillStyle=workingColor.pc[(j + 9) % 12];
-		ctx.fillRect(0,180 + mscnt * 30,100,1);	
-		}
-
-		ctx.fillText(measurePc.keyPoints[i][0],0,180 + mscnt * 30 + 10 * i);
-		ctx.fillText(measurePc.keyPoints[i][1],50,180 + mscnt * 30 + 10 * i);
-		ctx.fillText(percent.toFixed(1) + " %",100,180 + mscnt * 30 + 10 * i);
 
 		const endAngle = startAngle + percent * Math.PI * 2;
 
@@ -7837,6 +7829,14 @@ for (let i = 0; i < mscnt; i++) {
 		}
 
 		ctx.fillStyle = workingColor.pc[root];
+
+		if (i === 0) {
+		ctx.fillRect(0,180 + mscnt * 30,100,1);	
+		}
+
+		ctx.fillText(measurePc.keyPoints[i][0],0,180 + mscnt * 30 + 10 * i);
+		ctx.fillText(measurePc.keyPoints[i][1],50,180 + mscnt * 30 + 10 * i);
+		ctx.fillText(percent.toFixed(1) + " %",100,180 + mscnt * 30 + 10 * i);
 
 		ctx.beginPath();
 		ctx.moveTo(cx, cy);
