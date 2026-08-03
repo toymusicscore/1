@@ -7690,186 +7690,178 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillText(measurePc[i].estKey, 700, 100+mscnt*10+10*i);
 	ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
 
-		if (measurePc[i].bestKeys.length === 1) {
+	if (measurePc[i].bestKeys.length === 1) {
 
-			const scaleRoot = measurePc[i].bestKeys[0].scaleRoot;
+		const scaleRoot = measurePc[i].bestKeys[0].scaleRoot;
 
-			const majorKey = measurePc[i].keyCandidates.find(
-				key => key.mode === "major" && key.scaleRoot === scaleRoot
-			);
+		const majorKey = measurePc[i].keyCandidates.find(
+			key => key.mode === "major" && key.scaleRoot === scaleRoot
+		);
 
-			const minorKey = measurePc[i].keyCandidates.find(
-				key => key.mode === "minor" && key.scaleRoot === scaleRoot
-			);
-
-
-			const y = 120 + mscnt * 20 + 10 * i;
+		const minorKey = measurePc[i].keyCandidates.find(
+			key => key.mode === "minor" && key.scaleRoot === scaleRoot
+		);
 
 
-			// ===== Major 左側 =====
+		const y = 120 + mscnt * 20 + 10 * i;
 
-			// 第5音
-			ctx.fillStyle = workingColor.pc[(majorKey.root + 7) % 12];
-			ctx.fillRect(
-				300 - majorKey.weight1 - majorKey.weight5,
-				y,
-				majorKey.weight5,
-				10
-			);
 
-			// 第1音
+		// ===== Major 左側 =====
+
+		// 第5音
+		ctx.fillStyle = workingColor.pc[(majorKey.root + 7) % 12];
+		ctx.fillRect(
+			300 - majorKey.weight1 - majorKey.weight5,
+			y,
+			majorKey.weight5,
+			10
+		);
+
+		// 第1音
+		ctx.fillStyle = workingColor.pc[majorKey.root];
+		ctx.fillRect(
+			300 - majorKey.weight1,
+			y,
+			majorKey.weight1,
+			10
+		);
+
+
+		// ===== Minor 右側 =====
+
+		// 第1音
+		ctx.fillStyle = workingColor.pc[minorKey.root];
+		ctx.fillRect(
+			300,
+			y,
+			minorKey.weight1,
+			10
+		);
+
+		// 第5音
+		ctx.fillStyle = workingColor.pc[(minorKey.root + 7) % 12];
+		ctx.fillRect(
+			300 + minorKey.weight1,
+			y,
+			minorKey.weight5,
+			10
+		);
+
+		ctx.fillStyle = "black";
+		ctx.textAlign = "right";		
+
+		const ty = y + 10;
+
+		// Major
+		ctx.fillText(
+			majorKey.weight1.toFixed(2),
+			140,
+			ty
+		);
+
+		ctx.fillText(
+			"+" + majorKey.weight5.toFixed(2),
+			180,
+			ty
+		);
+
+		ctx.fillText(
+			"= " + majorKey.weight.toFixed(2),
+			230,
+			ty
+		);
+
+
+		// Minor
+		ctx.fillText(
+			minorKey.weight1.toFixed(2),
+			390,
+			ty
+		);
+
+		ctx.fillText(
+			"+" + minorKey.weight5.toFixed(2),
+			430,
+			ty
+		);
+
+		ctx.fillText(
+			"= " + minorKey.weight.toFixed(2),
+			480,
+			ty
+		);
+
+		ctx.textAlign = "left";		
+	
+	}
+
+		const majorMinorDiff = majorKey.weight - minorKey.weight;
+
+		const y = 120 + mscnt * 20 + 10 * i;
+
+		if (majorMinorDiff > 0) {
+
+			// Major優勢
 			ctx.fillStyle = workingColor.pc[majorKey.root];
+
 			ctx.fillRect(
-				300 - majorKey.weight1,
+				600 - majorMinorDiff,
 				y,
-				majorKey.weight1,
-				10
-			);
-
-
-			// ===== Minor 右側 =====
-
-			// 第1音
-			ctx.fillStyle = workingColor.pc[minorKey.root];
-			ctx.fillRect(
-				300,
-				y,
-				minorKey.weight1,
-				10
-			);
-
-			// 第5音
-			ctx.fillStyle = workingColor.pc[(minorKey.root + 7) % 12];
-			ctx.fillRect(
-				300 + minorKey.weight1,
-				y,
-				minorKey.weight5,
+				majorMinorDiff,
 				10
 			);
 
 			ctx.fillStyle = "black";
-			ctx.textAlign = "right";		
-
-			const ty = y + 10;
-
-			// Major
-			ctx.fillText(
-				majorKey.weight1.toFixed(2),
-				140,
-				ty
-			);
 
 			ctx.fillText(
-				"+" + majorKey.weight5.toFixed(2),
-				180,
-				ty
+				majorMinorDiff.toFixed(2),
+				500,
+				y + 10
 			);
 
-			ctx.fillText(
-				"= " + majorKey.weight.toFixed(2),
-				230,
-				ty
-			);
-
-
-			// Minor
-			ctx.fillText(
-				minorKey.weight1.toFixed(2),
-				390,
-				ty
-			);
-
-			ctx.fillText(
-				"+" + minorKey.weight5.toFixed(2),
-				430,
-				ty
-			);
-
-			ctx.fillText(
-				"= " + minorKey.weight.toFixed(2),
-				480,
-				ty
-			);
-
-			ctx.textAlign = "left";		
-		
 		}
+		else if (majorMinorDiff < 0) {
+
+			// Minor優勢
+			ctx.fillStyle = workingColor.pc[minorKey.root];
+
+			ctx.fillRect(
+				600,
+				y,
+				-majorMinorDiff,
+				10
+			);
+
+			ctx.fillStyle = "black";
+
+			ctx.fillText(
+				(-majorMinorDiff).toFixed(2),
+				650,
+				y + 10
+			);
+		}
+		else {
+
+			// 完全同率
+			ctx.fillStyle = "gray";
+
+			ctx.fillRect(
+				575,
+				y,
+				50,
+				10
+			);
+
+			ctx.fillStyle = "black";
+
+			ctx.fillText(
+				"50 / 50",
+				650,
+				y + 10
+			);
+		}
+	
 	}
-
-/*
-
-		ctx.fillStyle="black";
-		if(measurePc[i].majorWeight1[1] == 100){
-			ctx.fillText(measurePc[i].majorWeight1[1].toFixed(2), 100, 130 + mscnt * 20 + 10 * i);
-		}else if(measurePc[i].majorWeight1[1] >=10){
-			ctx.fillText("  " + measurePc[i].majorWeight1[1].toFixed(2), 100, 130 + mscnt * 20 + 10 * i);
-		}else{
-			ctx.fillText("    " + measurePc[i].majorWeight1[1].toFixed(2), 100, 130 + mscnt * 20 + 10 * i);
-		}
-		if(measurePc[i].majorWeight5[1] == 100){
-		ctx.fillText("+" + measurePc[i].majorWeight5[1].toFixed(2), 135, 130 + mscnt * 20 + 10 * i);
-		}else if(measurePc[i].majorWeight5[1] >= 10){
-		ctx.fillText("+  " + measurePc[i].majorWeight5[1].toFixed(2), 135, 130 + mscnt * 20 + 10 * i);
-		}else{
-		ctx.fillText("+    " + measurePc[i].majorWeight5[1].toFixed(2), 135, 130 + mscnt * 20 + 10 * i);
-		}
-		if(measurePc[i].keyWeight.majorWeight == 100){
-		ctx.fillText("= " + measurePc[i].keyWeight.majorWeight.toFixed(2), 180, 130 + mscnt * 20 + 10 * i);
-		}else if(measurePc[i].keyWeight.majorWeight >= 10){
-		ctx.fillText("=   " + measurePc[i].keyWeight.majorWeight.toFixed(2), 180, 130 + mscnt * 20 + 10 * i);
-		}else{
-		ctx.fillText("=     " + measurePc[i].keyWeight.majorWeight.toFixed(2), 180, 130 + mscnt * 20 + 10 * i);
-		}
-		if(measurePc[i].minorWeight1[1] == 100){
-		ctx.fillText(measurePc[i].minorWeight1[1].toFixed(2), 350, 130 + mscnt * 20 + 10 * i);
-		}else if(measurePc[i].minorWeight1[1] >= 10){
-		ctx.fillText("  " + measurePc[i].minorWeight1[1].toFixed(2), 350, 130 + mscnt * 20 + 10 * i);
-		}else{
-		ctx.fillText("    " + measurePc[i].minorWeight1[1].toFixed(2), 350, 130 + mscnt * 20 + 10 * i);
-		}
-		if(measurePc[i].minorWeight5[1] == 100){
-		ctx.fillText("+" + measurePc[i].minorWeight5[1].toFixed(2), 385, 130 + mscnt * 20 + 10 * i);
-		}else if(measurePc[i].minorWeight5[1] >= 10){
-		ctx.fillText("+  " + measurePc[i].minorWeight5[1].toFixed(2), 385, 130 + mscnt * 20 + 10 * i);
-		}else{
-		ctx.fillText("+    " + measurePc[i].minorWeight5[1].toFixed(2), 385, 130 + mscnt * 20 + 10 * i);
-		}
-		if(measurePc[i].keyWeight.minorWeight == 100){
-		ctx.fillText("= " + measurePc[i].keyWeight.minorWeight.toFixed(2), 430, 130 + mscnt * 20 + 10 * i);
-		}else if(measurePc[i].keyWeight.minorWeight >= 10){
-		ctx.fillText("=   " + measurePc[i].keyWeight.minorWeight.toFixed(2), 430, 130 + mscnt * 20 + 10 * i);
-		}else{
-		ctx.fillText("=     " + measurePc[i].keyWeight.minorWeight.toFixed(2), 430, 130 + mscnt * 20 + 10 * i);
-		}
-
-	if(measurePc[i].majorMinorDiff > 0){
-		ctx.fillStyle=workingColor.pc[j];
-		ctx.fillRect(600-measurePc[i].majorMinorDiff,120+mscnt*20+10*i,measurePc[i].majorMinorDiff,10);	
-		ctx.fillStyle="black";
-		if(measurePc[i].majorMinorDiff == 100){
-		ctx.fillText(measurePc[i].majorMinorDiff.toFixed(2),500,130+mscnt*20+10*i);
-		}else if(measurePc[i].majorMinorDiff>=10){
-		ctx.fillText(measurePc[i].majorMinorDiff.toFixed(2),505,130+mscnt*20+10*i);
-		}else{
-		ctx.fillText(measurePc[i].majorMinorDiff.toFixed(2),510,130+mscnt*20+10*i);
-		}
-	}else if(measurePc[i].majorMinorDiff < 0){
-		ctx.fillStyle=workingColor.pc[(j + 9) % 12];
-		ctx.fillRect(600,120+mscnt*20+10*i,-measurePc[i].majorMinorDiff,10);	
-		ctx.fillStyle="black";
-		if(-measurePc[i].majorMinorDiff == 100){
-		ctx.fillText(-measurePc[i].majorMinorDiff.toFixed(2),650,130+mscnt*20+10*i);
-		}else if(-measurePc[i].majorMinorDiff >= 10){
-		ctx.fillText(-measurePc[i].majorMinorDiff.toFixed(2),655,130+mscnt*20+10*i);
-		}else{
-		ctx.fillText(-measurePc[i].majorMinorDiff.toFixed(2),660,130+mscnt*20+10*i);
-		}
-	}
-		ctx.fillText(measurePc[i].estKey, 700, 50+10*i);
-		ctx.fillText(measurePc[i].estKey, 700, 100+mscnt*10+10*i);
-		ctx.fillText(measurePc[i].estKey, 700, 130+mscnt*20+10*i);
-}
-}
 		/*
 	//weight double for first & last
 	if (measurePc[i].estKey.includes("/")){
