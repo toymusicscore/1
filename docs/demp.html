@@ -7815,7 +7815,8 @@ for (let i = 0; i < mscnt; i++) {
 
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
 
-		const percent = measurePc.keyPoints[i][1] / total * 100;
+		const ratio = measurePc.keyPoints[i][1] / total;
+		const percent = ratio * 100;
 		ctx.fillStyle = "black";
 
 		if (i === 0) {
@@ -7826,7 +7827,7 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillText(measurePc.keyPoints[i][1],50,180 + mscnt * 30 + 10 * i);
 		ctx.fillText(percent.toFixed(1) + " %",100,180 + mscnt * 30 + 10 * i);
 
-		const endAngle = startAngle + percent * Math.PI * 2;
+		const endAngle = startAngle + ratio * Math.PI * 2;
 
 		// キー名から色を決定
 		let keyName = measurePc.keyPoints[i][0];
