@@ -7673,11 +7673,12 @@ for (let i = 0; i < mscnt; i++) {
 			.map(item => item.key.name)
 			.join(" / ");
 
-	console.log(item.key.name, item.point);
 
     ctx.fillStyle = "black";
     ctx.fillText(measurePc[i].estKey,700,50+10*i);
     ctx.fillText(measurePc[i].estKey,700,100+mscnt*10+10*i);
+
+	console.log(i, measurePc[i].pairs.item.key.name, measurePc[i].pairs.item.point);
 
 	if (!measurePc[i]) continue;
 
