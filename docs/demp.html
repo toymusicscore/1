@@ -7663,6 +7663,13 @@ for (let i = 0; i < mscnt; i++) {
 				item.key.name,
 				item.point
 			]);
+			//weight double for first & last
+			if (i==0 || i==mscnt-1){
+			measurePc[i].keyPoints.push([
+				item.key.name,
+				item.point
+			]);
+			}
 		}
 	}
 
@@ -7845,24 +7852,6 @@ for (let i = 0; i < mscnt; i++) {
 	
 		}	
 
-    }
-
-
-//	}
-		/*
-	//weight double for first & last
-	if (measurePc[i].estKey.includes("/")){
-		measurePc.keyCount.push([measurePc[i].estKey.split("/")[0].trim(),0.5]);
-		measurePc.keyCount.push([measurePc[i].estKey.split("/")[1].trim(),0.5]);
-	}else{
-		measurePc.keyCount.push([measurePc[i].estKey,1]);
-	}
-	if (i == 0){
-		measurePc.keyCount.push([measurePc[i].estKey,1]);
-	}
-	if (i == mscnt -1){
-		measurePc.keyCount.push([measurePc[i].estKey,1]);
-	}
 	}
 
 	const points = {};
@@ -7951,8 +7940,6 @@ for (let i = 0; i < mscnt; i++) {
 		y += 18;
 
 	}
-}
-	*/
 }
 
 function darkenColor(color, factor) {
