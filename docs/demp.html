@@ -7876,7 +7876,7 @@ for (let i = 0; i < mscnt; i++) {
 
 	const total = measurePc.keyPoints.reduce((sum, [, w]) => sum + w, 0);
 
-	const rowPointStart = 150+mscnt*30+rowTotal*10;
+	const rowPointStart = 150+Number(mscnt*30)+Number(rowTotal*10);
 
 	ctx.fillStyle="black";
 	ctx.fillText("Estimated Key for the Song",100,rowPointStart);
@@ -7903,7 +7903,7 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillStyle = "black";
 
 		if (i === 0) {
-		ctx.fillRect(0,180 + mscnt * 30,150,1);	
+		ctx.fillRect(0,30+rowPointStart,150,1);	
 		}
 
 		ctx.fillText(measurePc.keyPoints[i][0],0,30+rowPointStart + 10 * i);
