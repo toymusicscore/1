@@ -7888,11 +7888,13 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillText("Point",100,rowPointStart);
 	ctx.fillText("Weight",200,rowPointStart);
 
+	ctx.textAlign = "right";		
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
-	ctx.fillText(measurePc.keyPoints[i][0],0,rowPointStart+10*(i+1));
-	ctx.fillText(measurePc.keyPoints[i][1].toFixed(2),100,rowPointStart+10*(i+1));
-	ctx.fillText((measurePc.keyPoints[i][1]/total*100).toFixed(2),200,rowPointStart+10*(i+1));
+	ctx.fillText(measurePc.keyPoints[i][0],180,rowPointStart+10*(i+1));
+	ctx.fillText(measurePc.keyPoints[i][1].toFixed(2),250,rowPointStart+10*(i+1));
+	ctx.fillText((measurePc.keyPoints[i][1]/total*100).toFixed(2),350,rowPointStart+10*(i+1));
 	}
+	ctx.textAlign = "left";		
 
 	const cx = 400;      // 中心X
 	const cy = 100 + rowPointStart;
