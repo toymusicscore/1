@@ -7580,6 +7580,7 @@ ctx.fillText("Minor",650,120+mscnt*20);
 ctx.fillText("Estimated Key",700,120+mscnt*20);
 
 let row = 0;
+let rowTotal =0;
 
 for (let i = 0; i < mscnt; i++) {
 
@@ -7854,10 +7855,12 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.textAlign = "left";		
 
 		row++;
-	
-		}	
 
-	}
+	}	
+
+	rowTotal +=row;
+
+}
 
 	const points = {};
 
@@ -7871,22 +7874,24 @@ for (let i = 0; i < mscnt; i++) {
 
 	measurePc.keyPoints = Object.entries(points);
 	measurePc.keyPoints.sort((a, b) => b[1] - a[1]);
-	
+
 	const total = measurePc.keyPoints.reduce((sum, [, w]) => sum + w, 0);
 
-	ctx.fillStyle="black";
-	ctx.fillText("Estimated Key for the Song",100,150+mscnt*30);
-	ctx.fillText("Key",0,170+mscnt*30);
-	ctx.fillText("Point",50,170+mscnt*30);
-	ctx.fillText("Weight",100,170+mscnt*30);
-	ctx.fillText("The First and Last Measures Count Double.",0,190 + mscnt * 30 + 10 * measurePc.keyPoints.length);
-	ctx.fillText("If Two Keys Are Estimated for a Measure, Each Receives Half a Point.",0,200 + mscnt * 30 + 10 * measurePc.keyPoints.length);
+	const rowPointStart = 150+mscnt*30+rowTotal*10;
 
-	ctx.fillText("Total", 0, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
-    ctx.fillText(total, 50, 180 + mscnt * 30 + 10 * measurePc.keyPoints.length);
+	ctx.fillStyle="black";
+	ctx.fillText("Estimated Key for the Song",100,rowPointStart);
+	ctx.fillText("Key",0,20+rowPointStart);
+	ctx.fillText("Point",50,20+rowPointStart);
+	ctx.fillText("Weight",100,20+rowPointStart);
+	ctx.fillText("The First and Last Measures Count Double.",0,40 + rowPointStart + 10 * measurePc.keyPoints.length);
+	ctx.fillText("If Two Keys Are Estimated for a Measure, Each Receives Half a Point.",0,50 + rowPointStart + 10 * measurePc.keyPoints.length);
+
+	ctx.fillText("Total", 0, 30 + rowPointStart + 10 * measurePc.keyPoints.length);
+    ctx.fillText(total, 50, 30 + rowPointStart + 10 * measurePc.keyPoints.length);
 
 	const cx = 500;      // 中心X
-	const cy = 250 + mscnt * 30;
+	const cy = 100 + rowPointStart;
 	const r = 80;        // 半径
 	let y = cy - r;
 
@@ -7902,9 +7907,9 @@ for (let i = 0; i < mscnt; i++) {
 		ctx.fillRect(0,180 + mscnt * 30,150,1);	
 		}
 
-		ctx.fillText(measurePc.keyPoints[i][0],0,180 + mscnt * 30 + 10 * i);
-		ctx.fillText(measurePc.keyPoints[i][1],50,180 + mscnt * 30 + 10 * i);
-		ctx.fillText(percent.toFixed(1) + " %",100,180 + mscnt * 30 + 10 * i);
+		ctx.fillText(measurePc.keyPoints[i][0],0,30+rowPointStart + 10 * i);
+		ctx.fillText(measurePc.keyPoints[i][1],50,30+rowPointStart + 10 * i);
+		ctx.fillText(percent.toFixed(1) + " %",100,30+rowPointStart + 10 * i);
 
 		const endAngle = startAngle + ratio * Math.PI * 2;
 
