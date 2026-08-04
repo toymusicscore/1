@@ -7376,8 +7376,6 @@ keyrp10_5.sort((a,b)=>b[1]-a[1]);
 
 
 function keyEstimation(){
-canvas.width = window.innerWidth;
-canvas.height = 1500;
 
 let measurePc = [];
 
@@ -7875,7 +7873,8 @@ for (let i = 0; i < mscnt; i++) {
 
 	const rowPointStart = 150+Number(mscnt*30)+Number(row*10);
 
-	canvas.height=500 + rowPointStart;
+	canvas.width = 1200;
+	canvas.height = 500 + rowPointStart;
 
 	ctx.fillStyle="black";
 	ctx.fillText("Estimated Key for the Song",100,rowPointStart);
