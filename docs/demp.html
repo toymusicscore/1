@@ -7665,13 +7665,15 @@ for (let i = 0; i < mscnt; i++) {
 			]);
 		}
 	}
-	
+
 	measurePc[i].estKey =
 		measurePc[i].pairs
 			.flatMap(pair => pair.selected)
 			.filter(item => item.point > 0)
 			.map(item => item.key.name)
 			.join(" / ");
+
+	console.log(i, item.key.name, item.point);
 
     ctx.fillStyle = "black";
     ctx.fillText(measurePc[i].estKey,700,50+10*i);
