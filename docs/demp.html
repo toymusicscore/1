@@ -7875,20 +7875,13 @@ for (let i = 0; i < mscnt; i++) {
 
 	const rowPointStart = 150+Number(mscnt*30)+Number(row*10);
 
-	console.log(rowPointStart);
-	console.log(row);
-	console.log(measurePc.keyPoints.length);
-
 	ctx.fillStyle="black";
 	ctx.fillText("Estimated Key for the Song",100,rowPointStart);
 	ctx.fillText("Key",0,20+rowPointStart);
 	ctx.fillText("Point",50,20+rowPointStart);
 	ctx.fillText("Weight",100,20+rowPointStart);
 	ctx.fillText("The First and Last Measures Count Double.",0,40 + rowPointStart + 10 * measurePc.keyPoints.length);
-	ctx.fillText("If Two Keys Are Estimated for a Measure, Each Receives Half a Point.",0,50 + rowPointStart + 10 * measurePc.keyPoints.length);
-
-	ctx.fillText("Total", 0, 30 + rowPointStart + 10 * measurePc.keyPoints.length);
-    ctx.fillText(total, 50, 30 + rowPointStart + 10 * measurePc.keyPoints.length);
+	ctx.fillText("If Two Scales Are Estimated for a Measure, Each Receives Half a Point.",0,50 + rowPointStart + 10 * measurePc.keyPoints.length);
 
 	const cx = 500;      // 中心X
 	const cy = 100 + rowPointStart;
@@ -7902,14 +7895,6 @@ for (let i = 0; i < mscnt; i++) {
 		const ratio = measurePc.keyPoints[i][1] / total;
 		const percent = ratio * 100;
 		ctx.fillStyle = "black";
-
-		if (i === 0) {
-		ctx.fillRect(0,30+rowPointStart,150,1);	
-		}
-
-		ctx.fillText(measurePc.keyPoints[i][0],0,30+rowPointStart + 10 * i);
-		ctx.fillText(measurePc.keyPoints[i][1].toFixed(2),50,30+rowPointStart + 10 * i);
-		ctx.fillText(percent.toFixed(2) + " %",100,30+rowPointStart + 10 * i);
 
 		const endAngle = startAngle + ratio * Math.PI * 2;
 
@@ -7946,7 +7931,7 @@ for (let i = 0; i < mscnt; i++) {
 		// 文字
 		ctx.fillStyle = "black";
 		ctx.fillText(
-			`${key} ${percent.toFixed(1)}%`,
+			`${key} ${percent.toFixed(2)}%`,
 			cx + r + 50,
 			y + 2
 		);
