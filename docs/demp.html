@@ -7886,8 +7886,13 @@ for (let i = 0; i < mscnt; i++) {
 
 	ctx.fillText("Estimated Key",0,rowPointStart);
 	ctx.fillText("Point",100,rowPointStart);
-	ctx.fillText(majorPc,keyPoints[0].toFixed(2),0,rowPointStart+10);
-	ctx.fillText(majorPc,keyPoints[1].toFixed(2),100,rowPointStart+10);
+	ctx.fillText("Weight",200,rowPointStart);
+
+	for (let i = 0; i < measurePc.keyPoints.length; i++) {
+	ctx.fillText(majorPc,keyPoints[i][0].toFixed(2),0,rowPointStart+10);
+	ctx.fillText(majorPc,keyPoints[i][1].toFixed(2),100,rowPointStart+10);
+	ctx.fillText((majorPc,keyPoints[i][1]/total*100).toFixed(2),200,rowPointStart+10);
+	}
 
 	const cx = 600;      // 中心X
 	const cy = 100 + rowPointStart;
