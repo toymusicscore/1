@@ -7657,18 +7657,23 @@ for (let i = 0; i < mscnt; i++) {
 
 	for (const pair of measurePc[i].pairs){
 
-		for(const item of pair.selected){
+		for (const item of pair.selected){
 
-			measurePc[i].keyPoints.push([
-				item.key.name,
-				item.point
-			]);
-			//weight double for first & last
-			if (i==0 || i==mscnt-1){
-			measurePc[i].keyPoints.push([
-				item.key.name,
-				item.point
-			]);
+			if (item.point > 0) {
+
+				measurePc[i].keyPoints.push([
+					item.key.name,
+					item.point
+				]);
+
+				// weight double for first & last
+				if (i == 0 || i == mscnt - 1){
+
+					measurePc[i].keyPoints.push([
+						item.key.name,
+						item.point
+					]);
+				}
 			}
 		}
 	}
