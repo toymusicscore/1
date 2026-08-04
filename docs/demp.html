@@ -7623,7 +7623,7 @@ for (let i = 0; i < mscnt; i++) {
 
 			pair.selected.push({
 				key: major,
-				point: scalePoint
+				point: scalePoint * (major.weight - minor.weight)
 			});
 
 		}
@@ -7631,7 +7631,7 @@ for (let i = 0; i < mscnt; i++) {
 
 			pair.selected.push({
 				key: minor,
-				point: scalePoint
+				point: scalePoint * (minor.weight - major.weight)
 			});
 
 		}
@@ -7639,12 +7639,12 @@ for (let i = 0; i < mscnt; i++) {
 
 			pair.selected.push({
 				key: major,
-				point: scalePoint / 2
+				point: 0
 			});
 
 			pair.selected.push({
 				key: minor,
-				point: scalePoint / 2
+				point: 0
 			});
 
 		}
@@ -7665,10 +7665,11 @@ for (let i = 0; i < mscnt; i++) {
 			]);
 		}
 	}
-
+	
 	measurePc[i].estKey =
 		measurePc[i].pairs
 			.flatMap(pair => pair.selected)
+			.filter(item => item.point > 0)
 			.map(item => item.key.name)
 			.join(" / ");
 
