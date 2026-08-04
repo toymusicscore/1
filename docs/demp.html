@@ -7861,13 +7861,17 @@ for (let i = 0; i < mscnt; i++) {
 
 	const points = {};
 
-	for (const [key, point] of measurePc[i].keyPoints) {
-		points[key] = (points[key] || 0) + point;
+	for (let i = 0; i < measurePc.length; i++) {
+
+		for (const [key, point] of measurePc[i].keyPoints) {
+
+			points[key] = (points[key] || 0) + point;
+		}
 	}
 
 	measurePc.keyPoints = Object.entries(points);
 	measurePc.keyPoints.sort((a, b) => b[1] - a[1]);
-
+	
 	const total = measurePc.keyPoints.reduce((sum, [, w]) => sum + w, 0);
 
 	ctx.fillStyle="black";
