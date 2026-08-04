@@ -7861,11 +7861,8 @@ for (let i = 0; i < mscnt; i++) {
 
 	const points = {};
 
-	for (const [key, point] of measurePc.keyPoints) {
-
-		if (point > 0) {
-			points[key] = (points[key] || 0) + point;
-		}
+	for (const [key, point] of measurePc[i].keyPoints) {
+		points[key] = (points[key] || 0) + point;
 	}
 
 	measurePc.keyPoints = Object.entries(points);
