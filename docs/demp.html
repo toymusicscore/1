@@ -7881,10 +7881,15 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillStyle="black";
 	ctx.fillText("Estimated Key",100,rowPointStart);
 	ctx.fillText(val("song1"),100,rowPointStart+10);
-	ctx.fillText("The First and Last Measures Count Double.",0,rowPointStart +210);
-	ctx.fillText("If Two Scales Are Estimated for a Measure, the Points Are Divided Equally Between Them.",0, rowPointStart+220);
+	ctx.fillText("The First and Last Measures Count Double.",500,rowPointStart +210);
+	ctx.fillText("If Two Scales Are Estimated for a Measure, the Points Are Divided Equally Between Them.",500, rowPointStart+220);
 
-	const cx = 300;      // 中心X
+	ctx.fillText("Estimated Key",0,rowPointStart);
+	ctx.fillText("Point",100,rowPointStart);
+	ctx.fillText(majorPc,keyPoints[0].toFixed(2),0,rowPointStart+10);
+	ctx.fillText(majorPc,keyPoints[1].toFixed(2),100,rowPointStart+10);
+
+	const cx = 600;      // 中心X
 	const cy = 100 + rowPointStart;
 	const r = 80;        // 半径
 
