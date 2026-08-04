@@ -7678,15 +7678,6 @@ for (let i = 0; i < mscnt; i++) {
     ctx.fillText(measurePc[i].estKey,700,50+10*i);
     ctx.fillText(measurePc[i].estKey,700,100+mscnt*10+10*i);
 
-	console.log(
-		measurePc[i].pairs.flatMap(pair =>
-			pair.selected.map(item => ({
-				name: item.key.name,
-				point: item.point
-			}))
-		)
-	);
-
 	if (!measurePc[i]) continue;
 
 	for (const pair of measurePc[i].pairs) {
@@ -7712,7 +7703,10 @@ for (let i = 0; i < mscnt; i++) {
 		);
 		// 採用キー
 		ctx.fillText(
-			pair.selected.map(k => k.key.name).join(" / "),
+			pair.selected
+				.filter(k => k.point > 0)
+				.map(k => k.key.name)
+				.join(" / "),
 			700,
 			ry
 		);
