@@ -7376,6 +7376,8 @@ keyrp10_5.sort((a,b)=>b[1]-a[1]);
 
 
 function keyEstimation(){
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 let measurePc = [];
 
@@ -7406,9 +7408,6 @@ for (const note of scoreData) {
 }
 
 const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
-
-canvas.width = window.innerWidth;
-canvas.height = 140 + mscnt*40;
 
 ctx.clearRect(0,0,canvas.width,canvas.height);
 ctx.font="10px Arial";
