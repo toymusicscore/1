@@ -3981,11 +3981,13 @@ function musicPointCloud(tick){
 	
 	const view = getViewInfo();
 
-		ctx.beginPath();
-		ctx.moveTo(canvas.width / 2, my);
-		ctx.lineTo(canvas.width / 2 ,my + szy);
-		ctx.strokeStyle=workingColor.line[5];
-		ctx.stroke();
+	const centerX = mx + (canvas.width - 2 * mx) / 2;
+
+	ctx.beginPath();
+	ctx.moveTo(centerX, my);
+	ctx.lineTo(centerX, my + szy);
+	ctx.strokeStyle = workingColor.line[5];
+	ctx.stroke();
 
 	if (tick<songLengthTicks){
 		ctx.beginPath();
@@ -4093,8 +4095,8 @@ function musicPointCloud(tick){
 			const midiBase = measureBase[measure];
 
 			const measurePitch = midi - midiBase;
-						
-			const x = measurePitch * view.kw + canvas.width / 2 + mx;
+
+			const x = measurePitch * view.kw + centerX;
 
 			if(x < 0 || x > canvas.width){
 				continue;
