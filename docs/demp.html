@@ -3953,6 +3953,140 @@ function drawPolygon(ctx, cx, cy, r, n){
 }
 
 
+
+function shapeScore(tick){
+    notePosition = [];
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	szx = canvas.width;
+	szy = canvas.height-2*my;
+	szk = szx-2*mx;
+	ctx.lineWidth=1;
+	let scoreViewData;
+	
+	const view = getViewInfo();
+
+	for(let l=0;l<Number(view.kn);l++){
+		let k=Number(view.midi_min)+l;
+		ctx.fillStyle=workingColor.oct[Math.floor(k/12)-1];
+		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
+		ctx.fillStyle=workingColor.pc[k%12];
+		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
+		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
+		ctx.fillStyle=workingColor.line[0];
+		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
+		}else if (k%12===0){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*view.kw,my);
+		ctx.lineTo(mx+l*view.kw,my+szy);
+		ctx.strokeStyle=workingColor.line[1];
+		ctx.stroke();
+		}else if (k%12===5){
+		ctx.beginPath();
+		ctx.moveTo(mx+l*view.kw,my);
+		ctx.lineTo(mx+l*view.kw,my+szy);
+		ctx.strokeStyle=workingColor.line[2];
+		ctx.stroke();
+		}
+	}
+
+	if (tick<songLengthTicks){
+		ctx.beginPath();
+		ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.lineTo(szx,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.strokeStyle=workingColor.line[5];
+		ctx.stroke();
+	} else {
+		isPlaying = false;
+	}
+
+	ctx.beginPath();
+	ctx.moveTo(0,my+szy);
+	ctx.lineTo(mx+szk,my+szy);
+	ctx.strokeStyle=workingColor.line[3];
+	ctx.stroke();
+
+	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote/timeSignatureDenominator*4){
+		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
+			let vmn0=m/ticksPerMeasure+1;
+			ctx.beginPath();
+			ctx.moveTo(0,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.strokeStyle=workingColor.line[3];
+			ctx.stroke();
+			if(vmn0 === highlightMeasure){
+				ctx.fillStyle = workingColor.text[5];
+				ctx.font = "bold 30px Arial";
+			}else{
+				ctx.fillStyle = workingColor.text[0];
+				ctx.font = "25px Arial";
+			}
+			ctx.textAlign = "left";
+			ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
+			ctx.beginPath();
+			ctx.moveTo(mx,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.strokeStyle=workingColor.line[4];
+			ctx.stroke();
+			}
+	}
+
+	for(let i=0;i<view.scoreViewData.length;i++){
+		let midi = view.scoreViewData[i].midi;
+		let start = view.scoreViewData[i].start;
+		let stop = view.scoreViewData[i].stop;
+		let track = view.scoreViewData[i].track;
+		let channel = view.scoreViewData[i].channel;
+		let n_id = view.scoreViewData[i].n_id;
+		const dt = (start-tick)/ticksPerMeasure;
+		const dp = (stop-tick)/ticksPerMeasure;
+		const gt = getVisibleLength(
+			start,
+			stop,
+			tick
+		);
+
+		let handColor =
+			workingColor.hand[
+				HAND_COLOR.SCORE_NOT_ASSIGNED
+			];
+
+		if(track == practiceSettings.handsTrackChannel.right.track
+		 && channel == practiceSettings.handsTrackChannel.right.channel){
+			handColor =
+				workingColor.hand[
+					HAND_COLOR.SCORE_RIGHT
+				];
+		}
+		else if(track == practiceSettings.handsTrackChannel.left.track
+		 && channel == practiceSettings.handsTrackChannel.left.channel){
+			handColor =
+				workingColor.hand[
+					HAND_COLOR.SCORE_LEFT
+				];
+		}
+		if (dp >=0 && dt < measuresPerScreen*3/4){
+			const x0 = (midi-view.midi_min)*view.kw+mx;
+			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
+			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
+			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+					continue;
+				}
+
+            notePosition.push({
+                note: view.scoreViewData[i],
+                x: x1,
+                y: y
+            });
+			ctx.beginPath();
+			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
+			ctx.fillStyle = handColor;
+			ctx.fill();
+
+	}
+}
+}
+
 function lineScore(tick){
     notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
