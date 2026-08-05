@@ -1086,7 +1086,6 @@ function showTab(tab){
 					type="button" 
 					id="performaceGraphButton"
 					value="📈 Performance Gragh">
-					<br><br>
 				<input 
 					type="button" 
 					id="practiceRankingButton"
@@ -1096,11 +1095,15 @@ function showTab(tab){
 					type="button" 
 					id="practiceHistoryButton"
 					value="🕘 Practice History">
-					<br><br>
 				<input type="button"
 					id="clearHistoryButton"
 					value="🗑 Clear History">
 					<br><br>
+				<input 
+					type="button" 
+					id="keyEstimationButton"
+					value="📊 Key Estimation">
+
             `;
 				$("performaceGraphButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -1117,6 +1120,9 @@ function showTab(tab){
 				};
 				$("clearHistoryButton").onclick = function(){
 					clearHistory();
+				};
+				$("keuEstimationButton").onclick = function(){
+					keyEstimation();
 				};
 
 			break;
