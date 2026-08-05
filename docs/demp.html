@@ -4071,11 +4071,11 @@ function musicPointCloud(tick){
 					continue;
 				}
 			pointCloudData[measure] = {
-				originPitch: midiBase,
 				points: [
 					{
 						time: start, 
-						pitch: midi
+						pitch: midi,
+						measurePitch: midi-midiBase
 					}
 				]
 			};
