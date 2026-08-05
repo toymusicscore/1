@@ -4087,13 +4087,12 @@ function musicPointCloud(tick){
 				pitch:midi,
 				measurePitch:midi - midiBase
 			});
+		
+			ctx.beginPath();
+			ctx.arc(x,y,view.kw/2,0,2*Math.PI,false);
+			ctx.fillStyle = handColor;
+			ctx.fill();
 		}
-
-		ctx.beginPath();
-		ctx.arc(x,y,view.kw/2,0,2*Math.PI,false);
-		ctx.fillStyle = handColor;
-		ctx.fill();
-
 	}
 }
 
