@@ -4077,13 +4077,15 @@ function musicPointCloud(tick){
 
 			const midiBase = measureBase[measure];
 			const measurePitch = midi - measureBase[measure];
-let minPitch = Infinity;
-let maxPitch = -Infinity;
 
-for(let p of musicPointCloudData[measure].points){
-    minPitch = Math.min(minPitch,p.measurePitch);
-    maxPitch = Math.max(maxPitch,p.measurePitch);
-}
+			let minPitch = Infinity;
+			let maxPitch = -Infinity;
+
+			for(let p of musicPointCloudData[measure].points){
+				minPitch = Math.min(minPitch,p.measurePitch);
+				maxPitch = Math.max(maxPitch,p.measurePitch);
+			}
+
 			view.kw = Math.min(
 				view.kw,
 				canvas.width / (maxPitch - minPitch + 2)
