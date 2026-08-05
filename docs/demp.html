@@ -7882,16 +7882,17 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillText("The First and Last Measures Count Double.",330,rowPointStart +210);
 	ctx.fillText("If Two Scales Are Estimated for a Measure, the Points Are Divided Equally Between Them.",330, rowPointStart+220);
 
-	ctx.fillText("Estimated Key",0,rowPointStart);
-	ctx.fillText("Point",110,rowPointStart);
-	ctx.fillText("Weight",200,rowPointStart);
-
 	ctx.textAlign = "right";		
+	ctx.fillText("Estimated Key",40,rowPointStart);
+	ctx.fillText("Point",130,rowPointStart);
+	ctx.fillText("Weight",230,rowPointStart);
+
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
 	ctx.fillText(measurePc.keyPoints[i][0],40,rowPointStart+10*(i+1));
 	ctx.fillText(measurePc.keyPoints[i][1].toFixed(2),130,rowPointStart+10*(i+1));
 	ctx.fillText((measurePc.keyPoints[i][1]/total*100).toFixed(2),230,rowPointStart+10*(i+1));
 	}
+
 	ctx.textAlign = "left";		
 
 	const cx = 420;      // 中心X
