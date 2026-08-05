@@ -1106,8 +1106,8 @@ function showTab(tab){
 					value="🔑 Key Estimation">
 				<input 
 					type="button" 
-					id="musicShapeButton"
-					value="🧩 Music Shape">
+					id="musicPointCloudButton"
+					value="🧩 Point Cloud">
 					<br><br>
             `;
 				$("performaceGraphButton").onclick = function(){
@@ -1131,9 +1131,9 @@ function showTab(tab){
 					showKeyEstimation();
 					closeMenuWindow();
 				};
-				$("musicShapeButton").onclick = function(){
+				$("musicPointCloudButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					showMusicShape();
+					showMusicPointCloud();
 					closeMenuWindow();
 				};
 
@@ -3962,13 +3962,13 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 }
 
-function showMusicShape() {
+function showMusicPointCloud() {
     practiceSettings.viewSelect = 4;
     showSelectedView();
 }
 
 
-function musicShape(tick){
+function musicPointCloud(tick){
     notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
@@ -7821,7 +7821,7 @@ function showSelectedView() {
             break;
 
         case 4:
-            musicShape(pauseTick);
+            musicPointCloud(pauseTick);
             break;
     }
 }
