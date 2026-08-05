@@ -4004,9 +4004,12 @@ function musicPointCloud(tick){
 		measurePitchMax = Math.max(measurePitchMax, mp);
 	}
 
-	const pitchRange = measurePitchMax - measurePitchMin;
+	const maxAbsPitch = Math.max(
+		Math.abs(measurePitchMin),
+		Math.abs(measurePitchMax)
+	);
 
-	view.kw = (canvas.width - 2 * mx) / (pitchRange + 2);
+	view.kw = (canvas.width - 2 * mx) / (2 * maxAbsPitch + 2);
 
 	if (tick<songLengthTicks){
 		ctx.beginPath();
