@@ -3979,7 +3979,6 @@ function musicPointCloud(tick){
 	
 	const view = getViewInfo();
 
-
 	if (tick<songLengthTicks){
 		ctx.beginPath();
 		ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
@@ -3995,6 +3994,7 @@ function musicPointCloud(tick){
 	ctx.lineTo(mx+szk,my+szy);
 	ctx.strokeStyle=workingColor.line[3];
 	ctx.stroke();
+	let midiBase;
 
 	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote/timeSignatureDenominator*4){
 		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
@@ -4056,21 +4056,25 @@ function musicPointCloud(tick){
 					HAND_COLOR.SCORE_LEFT
 				];
 		}
-		if (dt >=0 && dt < 1){
-			const x0 = (midi-view.midi_min)*view.kw+mx;
-			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
+
+		if (dt >=0 && dt < measuresPerScreen){
+			if(start%ticksPerMeasure===0 && start<start+ticksPerMeasure){
+			midiBase=midi;
+			}
+			const x = (midi-midiBase)*view.kw+mx;
 			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
-			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
+			}
+			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
 
             notePosition.push({
                 note: view.scoreViewData[i],
-                x: x1,
+                x: x,
                 y: y
             });
 			ctx.beginPath();
-			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
+			ctx.arc(x,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
 			ctx.fill();
 
