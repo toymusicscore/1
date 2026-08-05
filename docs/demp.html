@@ -4057,15 +4057,9 @@ function musicPointCloud(tick){
 					HAND_COLOR.SCORE_LEFT
 				];
 		}
-
 		let measureBase = {};
 
 		if (dt >=0 && dt < measuresPerScreen){
-			if(start%ticksPerMeasure===0 && start<start+ticksPerMeasure){
-				if(midiBase===null){
-					midiBase=midi;
-				}
-			}
 
 			const measure = Math.floor(start / ticksPerMeasure);
 
@@ -4074,13 +4068,14 @@ function musicPointCloud(tick){
 			}
 
 			const midiBase = measureBase[measure];
+
 			const x = (midi-midiBase)*view.kw+mx;
 			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
 
 			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
-					continue;
-				}
-				
+				continue;
+			}
+
 			if (!pointCloudData[measure]) {
 				pointCloudData[measure] = {
 					points:[]
@@ -4090,15 +4085,15 @@ function musicPointCloud(tick){
 			pointCloudData[measure].points.push({
 				time:start,
 				pitch:midi,
-				measurePitch:midi - measureBase[measure]
+				measurePitch:midi - midiBase
 			});
-			
-			ctx.beginPath();
-			ctx.arc(x,y,view.kw/2,0,2*Math.PI,false);
-			ctx.fillStyle = handColor;
-			ctx.fill();
-
 		}
+
+		ctx.beginPath();
+		ctx.arc(x,y,view.kw/2,0,2*Math.PI,false);
+		ctx.fillStyle = handColor;
+		ctx.fill();
+
 	}
 }
 
