@@ -3962,9 +3962,13 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 }
 
+function showMusicShape() {
+    practiceSettings.viewSelect = 4;
+    showSelectedView();
+}
 
 
-function shapeScore(tick){
+function musicShape(tick){
     notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
@@ -7814,6 +7818,10 @@ function showSelectedView() {
 
         case 3:
             trackChannelInfo();
+            break;
+
+        case 4:
+            musicShape();
             break;
     }
 }
