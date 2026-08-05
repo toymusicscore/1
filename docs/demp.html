@@ -4085,7 +4085,7 @@ function musicPointCloud(tick){
 
 		const pitchRange = measurePitchMax - measurePitchMin;
 
-		view.kw = canvas.width / (pitchRange + 2);
+		view.kw = (canvas.width - 2 * mx) / (pitchRange + 2);
 
 			if (dt >=0 && dt < measuresPerScreen){
 
@@ -4095,7 +4095,7 @@ function musicPointCloud(tick){
 
 			const measurePitch = midi - midiBase;
 						
-			const x = measurePitch * view.kw + canvas.width / 2;
+			const x = measurePitch * view.kw + canvas.width / 2 + mx;
 
 			if(x < 0 || x > canvas.width){
 				continue;
