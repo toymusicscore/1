@@ -4069,7 +4069,7 @@ function musicPointCloud(tick){
 
 			const midiBase = measureBase[measure];
 
-			const x = (midi - midiBase + Math.round((view.midi_min+view.midi_max)/2))*view.kw+mx;
+			const x = (midi - midiBase + view.midi_min)*view.kw+mx;
 			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
 
 			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
