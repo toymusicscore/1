@@ -4116,10 +4116,12 @@ function musicPointCloud(tick){
 			time:start,
 			pitch:midi,
 			measurePitch:measurePitch
-		});		
+		});	
+
+		const r = Math.max(2, view.kw / 2);
 
 		ctx.beginPath();
-		ctx.arc(x,y,view.kw/2,0,2*Math.PI,false);
+		ctx.arc(x, y, r, 0, 2 * Math.PI, false);
 		ctx.fillStyle = handColor;
 		ctx.fill();
 		}
