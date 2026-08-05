@@ -300,6 +300,7 @@ demp
 	<option value="1"> Key Estimation </option>
 	<option value="2"> Keyboard Label </option>
 	<option value="3"> Track/Channel </option>
+	<option value="4"> Music Shape </option>
 	</select>
 
 
@@ -1103,7 +1104,11 @@ function showTab(tab){
 					type="button" 
 					id="keyEstimationButton"
 					value="🔑 Key Estimation">
-
+				<input 
+					type="button" 
+					id="musicShapeButton"
+					value="🧩 Music Shape">
+					<br><br>
             `;
 				$("performaceGraphButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -1124,6 +1129,11 @@ function showTab(tab){
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showKeyEstimation();
+					closeMenuWindow();
+				};
+				$("musicShapeButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showMusicSpahe();
 					closeMenuWindow();
 				};
 
