@@ -3969,6 +3969,7 @@ function showMusicPointCloud() {
 
 
 let musicPointCloudData={};
+let measureBase = {};
 
 function musicPointCloud(tick){
     notePosition = [];
@@ -3978,7 +3979,6 @@ function musicPointCloud(tick){
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
 	let scoreViewData;
-	let measureBase = {};
 	
 	const view = getViewInfo();
 
@@ -4077,17 +4077,23 @@ function musicPointCloud(tick){
 
 			const midiBase = measureBase[measure];
 			const measurePitch = midi - measureBase[measure];
+let minPitch = Infinity;
+let maxPitch = -Infinity;
+
+for(let p of musicPointCloudData[measure].points){
+    minPitch = Math.min(minPitch,p.measurePitch);
+    maxPitch = Math.max(maxPitch,p.measurePitch);
+}
+			view.kw = Math.min(
+				view.kw,
+				canvas.width / (maxPitch - minPitch + 2)
+			);
 			
 			const x = measurePitch * view.kw + canvas.width / 2;
 
 			if(x < 0 || x > canvas.width){
 				continue;
 			}
-
-			view.kw = Math.min(
-				view.kw,
-				canvas.width / (view.midi_max - view.midi_min + 2)
-			);
 
 			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
 
