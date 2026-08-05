@@ -7888,14 +7888,34 @@ for (let i = 0; i < mscnt; i++) {
 	ctx.fillText("Weight",230,rowPointStart);
 
 	for (let i = 0; i < measurePc.keyPoints.length; i++) {
-		if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]){
-			ctx,fillStyle="yellow";
-			ctx.fillRect(0,rowPointStart+10*(i),230,10);
+
+		const y = rowPointStart + 10 * (i + 1);
+
+		if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]) {
+
+			ctx.fillStyle = "yellow";
+			ctx.fillRect(0, y - 8, 230, 10);
 		}
-	ctx.fillStyle="black";
-	ctx.fillText(measurePc.keyPoints[i][0],70,rowPointStart+10*(i+1));
-	ctx.fillText(measurePc.keyPoints[i][1].toFixed(2),130,rowPointStart+10*(i+1));
-	ctx.fillText((measurePc.keyPoints[i][1]/total*100).toFixed(2),230,rowPointStart+10*(i+1));
+
+		ctx.fillStyle = "black";
+
+		ctx.fillText(
+			measurePc.keyPoints[i][0],
+			70,
+			y
+		);
+
+		ctx.fillText(
+			measurePc.keyPoints[i][1].toFixed(2),
+			130,
+			y
+		);
+
+		ctx.fillText(
+			(measurePc.keyPoints[i][1] / total * 100).toFixed(2) + "%",
+			230,
+			y
+		);
 	}
 
 	ctx.textAlign = "left";		
