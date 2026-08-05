@@ -3968,6 +3968,8 @@ function showMusicPointCloud() {
 }
 
 
+let pointCloudData = [];
+
 function musicPointCloud(tick){
     notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -4059,20 +4061,19 @@ function musicPointCloud(tick){
 
 		if (dt >=0 && dt < measuresPerScreen){
 			if(start%ticksPerMeasure===0 && start<start+ticksPerMeasure){
-			midiBase=midi;
+				midiBase=midi;
 			}
 			const x = (midi-midiBase)*view.kw+mx;
 			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
-			
+			const measure = midi%ticksPerMeasure + 1;
+
 			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
-
-            notePosition.push({
-                note: view.scoreViewData[i],
-                x: x,
-                y: y
-            });
+			poinCloudData[measure].push({
+				time: start % ticksPerMeasure,
+				pitch: midi - midiBase
+			});
 			ctx.beginPath();
 			ctx.arc(x,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
