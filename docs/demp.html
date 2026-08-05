@@ -4058,14 +4058,7 @@ function musicPointCloud(tick){
 					HAND_COLOR.SCORE_LEFT
 				];
 		}
-measureShape[measure] = {
-    originPitch: midiBase,
-    points: [
-        {time:0, pitch:0},
-        {time:120, pitch:2},
-        ...
-    ]
-};
+
 		if (dt >=0 && dt < measuresPerScreen){
 			if(start%ticksPerMeasure===0 && start<start+ticksPerMeasure){
 				midiBase=midi;
@@ -4077,12 +4070,11 @@ measureShape[measure] = {
 			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
-			pointCloudData[measure]=({
+			pointCloudData[measure] = {
 				originPitch: midiBase,
 				points: [
 					{time:0, pitch:0},
 					{time:120, pitch:2},
-					...
 				]
 			};
 			ctx.beginPath();
