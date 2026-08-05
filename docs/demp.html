@@ -1122,7 +1122,7 @@ function showTab(tab){
 					clearHistory();
 				};
 				$("keuEstimationButton").onclick = function(){
-					keyEstimation();
+					showKeyEstimation();
 				};
 
 			break;
@@ -6964,6 +6964,10 @@ function trackChannelInfo(){
 	});
 }
 
+function showKeyEstimation(){
+	practiceSettings.viewSelect=true;
+	showSelectedView();
+}
 
 function keyEstimation(){
 canvas.width = 1300;
