@@ -4065,20 +4065,24 @@ function musicPointCloud(tick){
 			}
 			const x = (midi-midiBase)*view.kw+mx;
 			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
-			const measure = Math.floor(midi/ticksPerMeasure);
+			const measure = Math.floor(start/ticksPerMeasure);
 
 			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
-			pointCloudData[measure] = {
-				points: [
-					{
-						time: start, 
-						pitch: midi,
-						measurePitch: midi-midiBase
-					}
-				]
-			};
+				
+			if (!pointCloudData[measure]) {
+				pointCloudData[measure] = {
+					points:[]
+				};
+			}
+
+			pointCloudData[measure].points.push({
+				time:start,
+				pitch:midi,
+				measurePitch:midi-midiBase
+			});
+			
 			ctx.beginPath();
 			ctx.arc(x,y,view.kw/2,0,2*Math.PI,false);
 			ctx.fillStyle = handColor;
