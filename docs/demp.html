@@ -3996,7 +3996,6 @@ function musicPointCloud(tick){
 	ctx.lineTo(mx+szk,my+szy);
 	ctx.strokeStyle=workingColor.line[3];
 	ctx.stroke();
-	let midiBase;
 
 	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote/timeSignatureDenominator*4){
 		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
@@ -4059,13 +4058,24 @@ function musicPointCloud(tick){
 				];
 		}
 
+		let measureBase = {};
+
 		if (dt >=0 && dt < measuresPerScreen){
 			if(start%ticksPerMeasure===0 && start<start+ticksPerMeasure){
-				midiBase=midi;
+				if(midiBase===null){
+					midiBase=midi;
+				}
 			}
+
+			const measure = Math.floor(start / ticksPerMeasure);
+
+			if (measureBase[measure] === undefined) {
+				measureBase[measure] = midi;
+			}
+
+			const midiBase = measureBase[measure];
 			const x = (midi-midiBase)*view.kw+mx;
 			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
-			const measure = Math.floor(start/ticksPerMeasure);
 
 			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
 					continue;
@@ -4080,7 +4090,7 @@ function musicPointCloud(tick){
 			pointCloudData[measure].points.push({
 				time:start,
 				pitch:midi,
-				measurePitch:midi-midiBase
+				measurePitch:midi - measureBase[measure]
 			});
 			
 			ctx.beginPath();
