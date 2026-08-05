@@ -3987,6 +3987,7 @@ function musicPointCloud(tick){
 		ctx.lineTo(canvas.width / 2 ,my + szy);
 		ctx.strokeStyle=workingColor.line[5];
 		ctx.stroke();
+		ctx.fillStyle="black";
 		ctx.fillText("0", canvas.width / 2, my / 2);
 
 	if (tick<songLengthTicks){
@@ -4076,8 +4077,18 @@ function musicPointCloud(tick){
 
 			const midiBase = measureBase[measure];
 			const measurePitch = midi - measureBase[measure];
-
+			
 			const x = measurePitch * view.kw + canvas.width / 2;
+
+			if(x < 0 || x > canvas.width){
+				continue;
+			}
+
+			view.kw = Math.min(
+				view.kw,
+				canvas.width / (view.midi_max - view.midi_min + 2)
+			);
+
 			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
 
 			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
