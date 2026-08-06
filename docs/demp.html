@@ -4119,6 +4119,7 @@ function createSimilarityMatrix(){
 	let beatSimilarity = [];
 
 	const beats = Object.keys(shapeBeatData);
+	ctx.font = "10px Arial";
 
 	for(let i=0; i<beats.length; i++){
 
@@ -4131,8 +4132,10 @@ function createSimilarityMatrix(){
 					shapeBeatData[beats[i]],
 					shapeBeatData[beats[j]]
 				);
+			ctx.fillText(beatSililarity[i][j],15*i,15*j);
 		}
 	}
+
 }
 
 
