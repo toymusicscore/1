@@ -176,6 +176,8 @@ demp
 
 		<button onclick="showTab('play')">Play</button>
 
+		<button onclick="showTab('practice')">Practice</button>
+
 		<button onclick="showTab('analysis')">Analysis</button>
 
 		<button onclick="showTab('edit')">Edit</button>
@@ -1081,7 +1083,7 @@ function showTab(tab){
 
             break;
 
-        case "analysis":
+        case "practice":
 
 		menuBody.innerHTML = `
 				<input 
@@ -1101,20 +1103,6 @@ function showTab(tab){
 					id="clearHistoryButton"
 					value="🗑 Clear History">
 					<br><br>
-				<input 
-					type="button" 
-					id="keyEstimationButton"
-					value="🔑 Key Estimation">
-					<br><br>
-				<input 
-					type="button" 
-					id="shapeBeatButton"
-					value="🧩 Shape Beat">
-				<input 
-					type="button" 
-					id="shapeMeasureButton"
-					value="🗺️ Shape Measure">
-					<br><br>
             `;
 				$("performaceGraphButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -1132,6 +1120,27 @@ function showTab(tab){
 				$("clearHistoryButton").onclick = function(){
 					clearHistory();
 				};
+
+			break;
+
+        case "analysis":
+
+		menuBody.innerHTML = `
+				<input 
+					type="button" 
+					id="keyEstimationButton"
+					value="🔑 Key Estimation">
+					<br><br>
+				<input 
+					type="button" 
+					id="shapeBeatButton"
+					value="🧩 Shape Beat">
+				<input 
+					type="button" 
+					id="shapeMeasureButton"
+					value="🗺️ Shape Measure">
+					<br><br>
+            `;
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showKeyEstimation();
