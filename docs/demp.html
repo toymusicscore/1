@@ -4144,6 +4144,22 @@ function createSimilarityMatrix(){
 
     ctx.font = "10px Arial";
 
+    for(let j=0; j<beats.length; j++){
+        ctx.fillText(
+            beats[j],
+            30 + j*20,
+            10
+        );
+    }
+
+    for(let i=0; i<beats.length; i++){
+        ctx.fillText(
+            beats[i],
+            0,
+            30 + i*20
+        );
+    }
+
     for(let i=0; i<beats.length; i++){
 
         beatSimilarity[i] = [];
@@ -4155,21 +4171,28 @@ function createSimilarityMatrix(){
                     shapeBeatData[beats[i]],
                     shapeBeatData[beats[j]]
                 );
-			const size = 5;
+			const size = Math.min(
+				canvas.width - 100,
+				canvas.height - 100
+			);
 
-			let sim = beatSimilarity[i][j];
+			const cell = size / beats.length;
 
-			ctx.fillStyle =
-				sim > 0.75 ? "red" :
-				sim > 0.5  ? "green" :
-				sim > 0.25 ? "blue" :
-							"white";
+			if(score > 0.75){
+				ctx.fillStyle="red";
+			}else if(score > 0.5){
+				ctx.fillStyle="green";
+			}else if(score > 0.25){
+				ctx.fillStyle="blue";
+			}else{
+				ctx.fillStyle="white";
+			}
 
 			ctx.fillRect(
-				i*size,
-				j*size,
-				size,
-				size
+				50+j*cell,
+				50+i*cell,
+				cell,
+				cell
 			);
         }
     }
