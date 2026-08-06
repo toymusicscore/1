@@ -3967,6 +3967,7 @@ function showMusicPointCloud() {
     showSelectedView();
 }
 
+let musicPointCloudData={};
 
 function musicPointCloud(tick){
     notePosition = [];
@@ -3975,9 +3976,9 @@ function musicPointCloud(tick){
 	szy = canvas.height-2*my;
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
-	let musicPointCloudData={};
+	musicPointCloudData={};
 
-	view.scoreViewData.sort((a, b) => a.start - b.start);	
+//	view.scoreViewData.sort((a, b) => a.start - b.start);	
 
 	const centerX = mx + (canvas.width - 2 * mx) / 2;
 	ctx.beginPath();
@@ -4127,7 +4128,7 @@ function musicPointCloud(tick){
 		ctx.fill();
 		}
 	}
-//	console.log(musicPointCloudData);
+	console.log(musicPointCloudData);
 }
 
 function lineScore(tick){
