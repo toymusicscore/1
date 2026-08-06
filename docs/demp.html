@@ -4044,15 +4044,16 @@ function createShapeBeat(){
 			};
 		}
 
-		beatTick = note.start - beatBase[beatNumber].start;
-		beatPitch = note.midi - beatBase[beatNumber].midi;
+		const beatTick = note.start - beatBase[beatNumber].start;
+		const beatPitch = note.midi - beatBase[beatNumber].midi;
 
 		shapeBeatData[beatNumber].points.push({
+			beat: beatNumber,
 			hand: handName,
-			tick: note.start,
-			beatTick: beatTick,
-			pitch: note.midi,
-			beatPitch: beatPitch
+			start: note.start,
+			relativeStart: beatTick,
+			midi: note.midi,
+			relativeMidi: beatPitch
 		});	
 	}
 }
