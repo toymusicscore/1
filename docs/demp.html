@@ -3977,7 +3977,7 @@ function musicPointCloud(tick){
 	szy = canvas.height-2*my;
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
-	musicPointCloudData={};
+	musicPatternData={};
 
 //	view.scoreViewData.sort((a, b) => a.start - b.start);	
 
@@ -4108,18 +4108,6 @@ function musicPointCloud(tick){
 		if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
 			continue;
 		}
-
-		if (!musicPointCloudData[unit]) {
-			musicPointCloudData[unit] = {
-				points:[]
-			};
-		}
-
-		musicPointCloudData[unit].points.push({
-			time:start,
-			pitch:midi,
-			beatPitch:beatPitch
-		});	
 
 		musicPatternData.push([
 		{
