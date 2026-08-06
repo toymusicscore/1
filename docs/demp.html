@@ -4113,6 +4113,29 @@ function compareBeat(a,b){
     return bestMatch / Math.max(lenA,lenB);
 }
 
+
+function createSimilarityMatrix(){
+
+	let beatSimilarity = [];
+
+	const beats = Object.keys(shapeBeatData);
+
+	for(let i=0; i<beats.length; i++){
+
+		beatSimilarity[i] = [];
+
+		for(let j=0; j<beats.length; j++){
+
+			beatSimilarity[i][j] =
+				compareBeat(
+					shapeBeatData[beats[i]],
+					shapeBeatData[beats[j]]
+				);
+		}
+	}
+}
+
+
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
