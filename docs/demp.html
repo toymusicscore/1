@@ -1143,6 +1143,11 @@ function showTab(tab){
 					id="shapeMeasureButton"
 					value="📍 Shape Measure">
 					<br><br>
+				<input 
+					type="button" 
+					id="similarityMatrixButton"
+					value="🗺️ Similarity Matrix">
+
             `;
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -1157,6 +1162,11 @@ function showTab(tab){
 				$("shapeMeasureButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showShapeMeasure();
+					closeMenuWindow();
+				};
+				$("similarityMatrixButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showSimilarityMatrix();
 					closeMenuWindow();
 				};
 
@@ -4008,7 +4018,6 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 function showSimilarityMatrix() {
 	createShapeBeat();
-	compareBeat(a,b);
 	createSimilarityMatrix();
 }
 
