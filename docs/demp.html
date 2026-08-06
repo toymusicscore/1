@@ -300,7 +300,8 @@ demp
 	<option value="1"> Key Estimation </option>
 	<option value="2"> Keyboard Label </option>
 	<option value="3"> Track/Channel </option>
-	<option value="4"> Music Shape </option>
+	<option value="4"> Shape Beat </option>
+	<option value="5"> Shape Measure </option>
 	</select>
 
 
@@ -1106,8 +1107,12 @@ function showTab(tab){
 					value="🔑 Key Estimation">
 				<input 
 					type="button" 
-					id="musicPointCloudButton"
-					value="🧩 Point Cloud">
+					id="shapeBeatButton"
+					value="🧩 Shape Beat">
+				<input 
+					type="button" 
+					id="shapeMeasureButton"
+					value="🧩 Shape Measure">
 					<br><br>
             `;
 				$("performaceGraphButton").onclick = function(){
@@ -1131,9 +1136,14 @@ function showTab(tab){
 					showKeyEstimation();
 					closeMenuWindow();
 				};
-				$("musicPointCloudButton").onclick = function(){
+				$("shapeBeatButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					showMusicPointCloud();
+					showShapeBeat();
+					closeMenuWindow();
+				};
+				$("shapeMeasureButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showShapeMeasure();
 					closeMenuWindow();
 				};
 
@@ -3962,15 +3972,20 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 }
 
-function showMusicPointCloud() {
+function showShapeBeat() {
     practiceSettings.viewSelect = 4;
+    showSelectedView();
+}
+
+function showShapeMeasure() {
+    practiceSettings.viewSelect = 5;
     showSelectedView();
 }
 
 let musicPointCloudData={};
 let musicPatternData={};
 
-function musicPointCloud(tick){
+function shapeBeat(tick){
     notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
@@ -8027,7 +8042,11 @@ function showSelectedView() {
             break;
 
         case 4:
-            musicPointCloud(pauseTick);
+            shapeBeat(pauseTick);
+            break;
+
+		case 5:
+            shapeMeasure(pauseTick);
             break;
     }
 }
