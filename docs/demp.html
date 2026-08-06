@@ -2497,7 +2497,7 @@ function getMidiRange(notes) {
 
     return { min: min === Infinity ? 0 : min, max: max === -Infinity ? 0 : max };
 }
-
+/*
 function resolveMidiRange(scoreMain, scoreRight, scoreLeft){
     switch (practiceSettings.hands) {
         case HANDS.BOTH:
@@ -2508,7 +2508,23 @@ function resolveMidiRange(scoreMain, scoreRight, scoreLeft){
             return getMidiRange(scoreLeft);
     }
 }
+*/
+function resolveMidiRange(data){
 
+    switch (practiceSettings.hands) {
+
+        case HANDS.BOTH:
+            return getMidiRange(data.main);
+
+        case HANDS.RIGHT:
+            return getMidiRange(data.right);
+
+        case HANDS.LEFT:
+            return getMidiRange(data.left);
+    }
+
+    return {min:0,max:0};
+}
 
 function changeTrackChannel(){
 
