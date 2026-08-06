@@ -4133,12 +4133,20 @@ function createSimilarityMatrix(){
                     shapeBeatData[beats[i]],
                     shapeBeatData[beats[j]]
                 );
-
-            ctx.fillText(
-                beatSimilarity[i][j].toFixed(2),
-                15*i,
-                15*j
-            );
+				if (beatSimilarity[i][j].toFixed(2) > 0.75){
+					ctx.fillStyle="red";
+				}else if (beatSimilarity[i][j].toFixed(2) > 0.5){
+					ctx.fillStyle="green";
+				}else if (beatSimilarity[i][j].toFixed(2) > 0.25){
+					ctx.fillStyle="blue";
+				}else if (beatSimilarity[i][j].toFixed(2) > 0){
+					ctx.fillStyle="black";
+				} 
+				ctx.fillText(
+					beatSimilarity[i][j].toFixed(2),
+					15*i,
+					15*j
+				);
         }
     }
 
