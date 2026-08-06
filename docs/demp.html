@@ -4040,6 +4040,8 @@ function createShapeBeat(){
 
 		if (!shapeBeatData[beatNumber]) {
 			shapeBeatData[beatNumber] = {
+				beat: beatNumber,
+				hand: handName,
 				points:[]
 			};
 		}
@@ -4048,8 +4050,6 @@ function createShapeBeat(){
 		const beatPitch = note.midi - beatBase[beatNumber].midi;
 
 		shapeBeatData[beatNumber].points.push({
-			beat: beatNumber,
-			hand: handName,
 			start: note.start,
 			relativeStart: beatTick,
 			midi: note.midi,
