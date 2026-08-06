@@ -4131,14 +4131,13 @@ function shapeBeat(tick){
 			ctx.stroke();
 			if(vmn0 === highlightMeasure){
 				ctx.fillStyle = workingColor.text[5];
-				ctx.font = "bold 15px Arial";
+				ctx.font = "bold 25px Arial";
 			}else{
 				ctx.fillStyle = workingColor.text[0];
-				ctx.font = "15px Arial";
+				ctx.font = "25px Arial";
 			}
 			ctx.textAlign = "left";
-			ctx.fillText(vmn0,0,my+15+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-			ctx.fillText(vbn0,23,my+15+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.fillText(vbn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			ctx.beginPath();
 			ctx.moveTo(mx,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
@@ -4146,8 +4145,8 @@ function shapeBeat(tick){
 			ctx.strokeStyle=workingColor.line[4];
 			ctx.stroke();
 			ctx.fillStyle = workingColor.text[0];
-			ctx.font = "15px Arial";
-			ctx.fillText(vbn0,23,my+15+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.font = "25px Arial";
+			ctx.fillText(vbn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 			}
 	}
 
