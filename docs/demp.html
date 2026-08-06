@@ -4058,46 +4058,51 @@ function createShapeBeat(){
 	}
 }
 
-
 function compareBeat(a, b){
 
     const pointsA = a.points;
     const pointsB = b.points;
 
-    const n = Math.min(
-        pointsA.length,
-        pointsB.length
-    );
+    const lenA = pointsA.length;
+    const lenB = pointsB.length;
 
-	const m = Math.max(
-        pointsA.length,
-        pointsB.length
-    );
-
-    if(n === 0){
+    if(lenA === 0 || lenB === 0){
         return 0;
     }
 
-    let match = 0;
+    let bestMatch = 0;
 
-for (let j=0;j<m-n;j++){
-	for(let i=j+0;i<n;i++){
+    // Bをずらす範囲
+    for(let shift = -(lenB-1); shift <= lenA-1; shift++){
 
-        if(
-            pointsA[i].relativeStart === pointsB[i].relativeStart &&
-            pointsA[i].relativeMidi === pointsB[i].relativeMidi
-        ){
-            match++;
+        let match = 0;
+
+        for(let i=0; i<lenA; i++){
+
+            const j = i - shift;
+
+            if(j < 0 || j >= lenB){
+                continue;
+            }
+
+			let  diffStart =  pointsA[0].relativeStart - pointsB[0].relativeStart;
+            let  diffMidi = pointsA[0].relativeMidi - pointsB[0].relativeMidi;
+
+            if(
+                pointsA[i].relativeStart - pointsB[j].relativeStart === diffStar &&
+                pointsA[i].relativeMidi - pointsB[j].relativeMidi === diffMidi
+            ){
+                match++;
+            }
+        }
+
+        if(match > bestMatch){
+            bestMatch = match;
         }
     }
-}
 
-    return match / Math.max(
-        pointsA.length,
-        pointsB.length
-    );
+    return bestMatch / Math.max(lenA, lenB);
 }
-
 
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
