@@ -3989,9 +3989,176 @@ function musicPointCloud(tick){
 
 	const view = getViewInfo();
 
+	let beatBase = {};
+	let beatPitchMin = Infinity;
+	let beatPitchMax = -Infinity;
+
+	for(let note of view.scoreViewData){
+		const beat = Math.floor(note.start / ticksPerMeasure);
+
+		if(beatBase[measure] === undefined){
+			beatBase[measure] = note.midi;
+		}
+
+		const mp = note.midi - beatBase[beat];
+
+		beatPitchMin = Math.min(beatPitchMin, mp);
+		beatPitchMax = Math.max(beatPitchMax, mp);
+	}
+
+	const maxAbsPitch = Math.max(
+		Math.abs(beatPitchMin),
+		Math.abs(beatPitchMax)
+	);
+
+	view.kw = (canvas.width - 2 * mx) / (2 * maxAbsPitch + 2);
+
+	if (tick<songLengthTicks){
+		ctx.beginPath();
+		ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.lineTo(szx,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.strokeStyle=workingColor.line[5];
+		ctx.stroke();
+	} else {
+		isPlaying = false;
+	}
+
+	ctx.beginPath();
+	ctx.moveTo(0,my+szy);
+	ctx.lineTo(mx+szk,my+szy);
+	ctx.strokeStyle=workingColor.line[3];
+	ctx.stroke();
+
+	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote/timeSignatureDenominator*4){
+		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
+			let vmn0=m/ticksPerMeasure+1;
+			ctx.beginPath();
+			ctx.moveTo(0,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.strokeStyle=workingColor.line[3];
+			ctx.stroke();
+			if(vmn0 === highlightMeasure){
+				ctx.fillStyle = workingColor.text[5];
+				ctx.font = "bold 30px Arial";
+			}else{
+				ctx.fillStyle = workingColor.text[0];
+				ctx.font = "25px Arial";
+			}
+			ctx.textAlign = "left";
+			ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
+			ctx.beginPath();
+			ctx.moveTo(mx,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.strokeStyle=workingColor.line[4];
+			ctx.stroke();
+			}
+	}
+
+	for(let i=0;i<view.scoreViewData.length;i++){
+		let midi = view.scoreViewData[i].midi;
+		let start = view.scoreViewData[i].start;
+		let stop = view.scoreViewData[i].stop;
+		let track = view.scoreViewData[i].track;
+		let channel = view.scoreViewData[i].channel;
+		let n_id = view.scoreViewData[i].n_id;
+		const dt = (start-tick)/ticksPerMeasure;
+		const dp = (stop-tick)/ticksPerMeasure;
+		const gt = getVisibleLength(
+			start,
+			stop,
+			tick
+		);
+
+		let handColor =
+			workingColor.hand[
+				HAND_COLOR.SCORE_NOT_ASSIGNED
+			];
+
+		if(track == practiceSettings.handsTrackChannel.right.track
+		 && channel == practiceSettings.handsTrackChannel.right.channel){
+			handColor =
+				workingColor.hand[
+					HAND_COLOR.SCORE_RIGHT
+				];
+		}
+		else if(track == practiceSettings.handsTrackChannel.left.track
+		 && channel == practiceSettings.handsTrackChannel.left.channel){
+			handColor =
+				workingColor.hand[
+					HAND_COLOR.SCORE_LEFT
+				];
+		}
+
+		if (dt >=0 && dt < measuresPerScreen){
+
+		const beat = Math.floor(start / ticksPerMeasure);
+
+		const beatPitch = midi - beatBase[beat];
+
+		const x = beatPitch * view.kw + centerX;
+
+		if(x < mx || x > canvas.width - mx){
+			continue;
+		}
+
+		const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
+
+		if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
+			continue;
+		}
+
+		if (!musicPointCloudData[measure]) {
+			musicPointCloudData[measure] = {
+				points:[]
+			};
+		}
+
+		musicPointCloudData[measure].points.push({
+			time:start,
+			pitch:midi,
+			beatPitch:beatPitch
+		});	
+
+		const r = Math.max(2, view.kw / 2);
+
+		ctx.beginPath();
+		ctx.arc(x, y, r, 0, 2 * Math.PI, false);
+		ctx.fillStyle = handColor;
+		ctx.fill();
+		}
+	}
+	console.log(musicPointCloudData);
+}
+
+
+function measurePointCloud(tick){
+    notePosition = [];
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	szx = canvas.width;
+	szy = canvas.height-2*my;
+	szk = szx-2*mx;
+	ctx.lineWidth=1;
+	musicPointCloudData={};
+
+//	view.scoreViewData.sort((a, b) => a.start - b.start);	
+
+	const centerX = mx + (canvas.width - 2 * mx) / 2;
+	ctx.beginPath();
+	ctx.moveTo(centerX, my);
+	ctx.lineTo(centerX, my + szy);
+	ctx.strokeStyle = workingColor.line[5];
+	ctx.stroke();
+
+	const view = getViewInfo();
+
 	let measureBase = {};
 	let measurePitchMin = Infinity;
 	let measurePitchMax = -Infinity;
+
+	let beatBase = {};
+	let beatPitchMin = Infinity;
+	let beatPitchMax = -Infinity;
 
 	for(let note of view.scoreViewData){
 		const measure = Math.floor(note.start / ticksPerMeasure);
