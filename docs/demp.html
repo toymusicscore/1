@@ -3983,8 +3983,8 @@ function showShapeMeasure() {
     showSelectedView();
 }
 
-let musicPointCloudData={};
-let musicPatternData={};
+let shapeBeatData={};
+let shapeMeasureData={};
 
 function shapeBeat(tick){
     notePosition = [];
@@ -4124,18 +4124,20 @@ function shapeBeat(tick){
 			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
 				continue;
 			}
-/*
-			musicPatternData.push({
-				hand:"right",
-				startBeat:beatNumber,
-				points:[
-				{
-				t: start,
-				p: beatPitch
-				}
-				]
-			});
-*/
+
+			if (!shapeBeatData[beatNumber]) {
+				shapeBeatData[beatNumber] = {
+					points:[]
+				};
+			}
+
+			shapeBeatData[beatNumber].points.push({
+				hand: hand,
+				time: start,
+				pitch: midi,
+				beatPitch: beatPitch
+			});	
+
 			const r = Math.max(2, view.kw / 2);
 
 			ctx.beginPath();
@@ -4304,16 +4306,17 @@ function shapeMeasure(tick){
 			continue;
 		}
 
-		if (!musicPointCloudData[measure]) {
-			musicPointCloudData[measure] = {
+		if (!shapeMeasureData[measure]) {
+			shapeMeasureData[measure] = {
 				points:[]
 			};
 		}
 
-		musicPointCloudData[measure].points.push({
-			time:start,
-			pitch:midi,
-			measurePitch:measurePitch
+		shapeMeasureData[measure].points.push({
+			hand: hand,
+			time: start,
+			pitch: midi,
+			measurePitch: measurePitch
 		});	
 
 		const r = Math.max(2, view.kw / 2);
