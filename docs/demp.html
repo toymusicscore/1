@@ -4016,6 +4016,74 @@ function showShapeMeasure() {
 let shapeBeatData={};
 let shapeMeasureData={};
 
+function createShapeBeat(tick){
+    notePosition = [];
+	musicPatternData={};
+
+	const view = getViewInfo();
+
+	let beatBase = {};
+
+	for(let note of view.scoreViewData){
+		const beatNumber = Math.floor(note.start / ticksPerQuarterNote);
+
+		if(beatBase[beatNumber] === undefined){
+			beatBase[beatNumber] = {
+				start: note.start,
+				midi: note.midi
+			}
+		}
+	}
+
+	for(let i=0;i<view.scoreViewData.length;i++){
+		let midi = view.scoreViewData[i].midi;
+		let start = view.scoreViewData[i].start;
+		let stop = view.scoreViewData[i].stop;
+		let track = view.scoreViewData[i].track;
+		let channel = view.scoreViewData[i].channel;
+		let n_id = view.scoreViewData[i].n_id;
+		const dt = (start-tick)/ticksPerMeasure;
+		const dp = (stop-tick)/ticksPerMeasure;
+		const gt = getVisibleLength(
+			start,
+			stop,
+			tick
+		);
+
+
+		if(track == practiceSettings.handsTrackChannel.right.track
+		 && channel == practiceSettings.handsTrackChannel.right.channel){
+		}
+		else if(track == practiceSettings.handsTrackChannel.left.track
+		 && channel == practiceSettings.handsTrackChannel.left.channel){
+		}
+
+		if (dt >=0 && dt < measuresPerScreen){
+
+			const beatNumber = Math.floor(start / ticksPerQuarterNote);
+
+			const beatStart = start - beatBase[beatNumber].start;
+			const beatPitch = midi - beatBase[beatNumber].midi;
+
+			if (!shapeBeatData[beatNumber]) {
+				shapeBeatData[beatNumber] = {
+					points:[]
+				};
+			}
+
+			shapeBeatData[beatNumber].points.push({
+				hand: "",
+				tick: start,
+				beatTick: beatStart,
+				pitch: midi,
+				beatPitch: beatPitch
+			});	
+
+		}
+	}
+}
+
+
 function shapeBeat(tick){
     notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -4042,7 +4110,10 @@ function shapeBeat(tick){
 		const beatNumber = Math.floor(note.start / ticksPerQuarterNote);
 
 		if(beatBase[beatNumber] === undefined){
-			beatBase[beatNumber] = note.midi;
+			beatBase[beatNumber] = {
+				start: note.start,
+				midi: note.midi
+			}
 		}
 
 		const mp = note.midi - beatBase[beatNumber];
@@ -4139,7 +4210,9 @@ function shapeBeat(tick){
 
 			const beatNumber = Math.floor(start / ticksPerQuarterNote);
 
-			const beatPitch = midi - beatBase[beatNumber];
+			const beatStart = midi - beatBase[beatNumber].start;
+
+			const beatPitch = midi - beatBase[beatNumber].midi;
 
 			const x = beatPitch * view.kw + centerX;
 
@@ -4161,7 +4234,8 @@ function shapeBeat(tick){
 
 			shapeBeatData[beatNumber].points.push({
 				hand: "",
-				time: start,
+				tick: start,
+				beatTick: start,
 				pitch: midi,
 				beatPitch: beatPitch
 			});	
