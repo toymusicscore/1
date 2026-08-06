@@ -4034,7 +4034,7 @@ let shapeMeasureData={};
 
 function createShapeBeat(){
     notePosition = [];
-	musicPatternData={};
+	shapeBeatData = {};
 
 	const view = getViewInfo();
 
@@ -4062,7 +4062,7 @@ function createShapeBeat(){
 		shapeBeatData[beatNumber].points.push({
 			hand: practiceSettings.hands,
 			tick: note.start,
-			beatTick: beatBase.start,
+			beatTick: beatTick,
 			pitch: note.midi,
 			beatPitch: beatPitch
 		});	
