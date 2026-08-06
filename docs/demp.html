@@ -4116,27 +4116,34 @@ function compareBeat(a,b){
 
 function createSimilarityMatrix(){
 
-	let beatSimilarity = [];
+    let beatSimilarity = [];
 
-	const beats = Object.keys(shapeBeatData);
-	ctx.font = "10px Arial";
+    const beats = Object.keys(shapeBeatData);
 
-	for(let i=0; i<beats.length; i++){
+    ctx.font = "10px Arial";
 
-		beatSimilarity[i] = [];
+    for(let i=0; i<beats.length; i++){
 
-		for(let j=0; j<beats.length; j++){
+        beatSimilarity[i] = [];
 
-			beatSimilarity[i][j] =
-				compareBeat(
-					shapeBeatData[beats[i]],
-					shapeBeatData[beats[j]]
-				);
-			ctx.fillText(beatSililarity[i][j],15*i,15*j);
-		}
-	}
+        for(let j=0; j<beats.length; j++){
+
+            beatSimilarity[i][j] =
+                compareBeat(
+                    shapeBeatData[beats[i]],
+                    shapeBeatData[beats[j]]
+                );
+
+            ctx.fillText(
+                beatSimilarity[i][j].toFixed(2),
+                15*i,
+                15*j
+            );
+        }
+    }
+
+    console.log(beatSimilarity);
 }
-
 
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
