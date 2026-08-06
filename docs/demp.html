@@ -4017,8 +4017,13 @@ function drawPolygon(ctx, cx, cy, r, n){
 }
 
 function showSimilarityMatrix() {
-	createShapeBeat();
-	createSimilarityMatrix();
+
+    createShapeBeat();
+
+    console.log("shapeBeatData", shapeBeatData);
+
+    createSimilarityMatrix();
+
 }
 
 function showShapeBeat() {
@@ -4131,6 +4136,8 @@ function compareBeat(a,b){
 
 function createSimilarityMatrix(){
 
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+
     let beatSimilarity = [];
 
     const beats = Object.keys(shapeBeatData);
@@ -4148,26 +4155,21 @@ function createSimilarityMatrix(){
                     shapeBeatData[beats[i]],
                     shapeBeatData[beats[j]]
                 );
-			const sim = beatSimilarity[i][j];
+			const size = 5;
 
-			if (sim > 0.75){
-				ctx.fillStyle="red";
-			}
-			else if (sim > 0.5){
-				ctx.fillStyle="green";
-			}
-			else if (sim > 0.25){
-				ctx.fillStyle="blue";
-			}
-			else if (sim > 0){
-				ctx.fillStyle="black";
-			}				
-			const size = 20;
+			let sim = beatSimilarity[i][j];
 
-			ctx.fillText(
-				sim.toFixed(2),
+			ctx.fillStyle =
+				sim > 0.75 ? "red" :
+				sim > 0.5  ? "green" :
+				sim > 0.25 ? "blue" :
+							"white";
+
+			ctx.fillRect(
 				i*size,
-				j*size
+				j*size,
+				size,
+				size
 			);
         }
     }
