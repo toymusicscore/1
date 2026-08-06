@@ -4133,25 +4133,27 @@ function createSimilarityMatrix(){
                     shapeBeatData[beats[i]],
                     shapeBeatData[beats[j]]
                 );
-				const sim = beatSimilarity[i][j];
+			const sim = beatSimilarity[i][j];
 
-				if (sim > 0.75){
-					ctx.fillStyle="red";
-				}
-				else if (sim > 0.5){
-					ctx.fillStyle="green";
-				}
-				else if (sim > 0.25){
-					ctx.fillStyle="blue";
-				}
-				else if (sim > 0){
-					ctx.fillStyle="black";
-				}				
-				ctx.fillText(
-					beatSimilarity[i][j].toFixed(2),
-					15*i,
-					15*j
-				);
+			if (sim > 0.75){
+				ctx.fillStyle="red";
+			}
+			else if (sim > 0.5){
+				ctx.fillStyle="green";
+			}
+			else if (sim > 0.25){
+				ctx.fillStyle="blue";
+			}
+			else if (sim > 0){
+				ctx.fillStyle="black";
+			}				
+			const size = 20;
+
+			ctx.fillText(
+				sim.toFixed(2),
+				i*size,
+				j*size
+			);
         }
     }
 
