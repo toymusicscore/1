@@ -4093,41 +4093,39 @@ function musicPointCloud(tick){
 
 		if (dt >=0 && dt < measuresPerScreen){
 
-		const beatNumber = Math.floor(start / ticksPerQuarterNote);
+			const beatNumber = Math.floor(start / ticksPerQuarterNote);
 
-		const beatPitch = midi - beatBase[beatNumber];
+			const beatPitch = midi - beatBase[beatNumber];
 
-		const x = beatPitch * view.kw + centerX;
+			const x = beatPitch * view.kw + centerX;
 
-		if(x < mx || x > canvas.width - mx){
-			continue;
-		}
-
-		const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
-
-		if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
-			continue;
-		}
-
-		musicPatternData.push([
-		{
-		hand:"right",
-		startBeat:beatNumber,
-		points:[
-			{
-			t: start,
-			p: beatPitch
+			if(x < mx || x > canvas.width - mx){
+				continue;
 			}
-		]
-		}
-		]);
 
-		const r = Math.max(2, view.kw / 2);
+			const y = my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
 
-		ctx.beginPath();
-		ctx.arc(x, y, r, 0, 2 * Math.PI, false);
-		ctx.fillStyle = handColor;
-		ctx.fill();
+			if (!isFinite(x) || !isFinite(y) || !isFinite(gt)){
+				continue;
+			}
+
+			musicPatternData.push({
+				hand:"right",
+				startBeat:beatNumber,
+				points:[
+				{
+				t: start,
+				p: beatPitch
+				}
+				]
+			});
+
+			const r = Math.max(2, view.kw / 2);
+
+			ctx.beginPath();
+			ctx.arc(x, y, r, 0, 2 * Math.PI, false);
+			ctx.fillStyle = handColor;
+			ctx.fill();
 		}
 	}
 	console.log(musicPointCloudData);
