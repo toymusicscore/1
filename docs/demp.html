@@ -4039,6 +4039,7 @@ function createShapeBeat(){
 	const view = getViewInfo();
 
 	let beatBase = {};
+	let handName = HANDS_LABEL[practiceSettings.hands];
 
 	for(let note of view.scoreViewData){
 		const beatNumber = Math.floor(note.start / ticksPerQuarterNote);
@@ -4060,7 +4061,7 @@ function createShapeBeat(){
 		beatPitch = note.midi - beatBase[beatNumber].midi;
 
 		shapeBeatData[beatNumber].points.push({
-			hand: practiceSettings.hands,
+			hand: handName,
 			tick: note.start,
 			beatTick: beatTick,
 			pitch: note.midi,
