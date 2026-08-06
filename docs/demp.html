@@ -4058,7 +4058,8 @@ function createShapeBeat(){
 	}
 }
 
-function compareBeat(a, b){
+
+function compareBeat(a,b){
 
     const pointsA = a.points;
     const pointsB = b.points;
@@ -4066,42 +4067,50 @@ function compareBeat(a, b){
     const lenA = pointsA.length;
     const lenB = pointsB.length;
 
-    if(lenA === 0 || lenB === 0){
+    if(lenA===0 || lenB===0){
         return 0;
     }
 
     let bestMatch = 0;
 
-    // Bをずらす範囲
-    for(let shift = -(lenB-1); shift <= lenA-1; shift++){
+    for(let baseA=0; baseA<lenA; baseA++){
 
-        let match = 0;
+        for(let baseB=0; baseB<lenB; baseB++){
 
-        for(let i=0; i<lenA; i++){
+            const diffStart =
+                pointsA[baseA].relativeStart -
+                pointsB[baseB].relativeStart;
 
-            const j = i - shift;
+            const diffMidi =
+                pointsA[baseA].relativeMidi -
+                pointsB[baseB].relativeMidi;
 
-            if(j < 0 || j >= lenB){
-                continue;
+
+            let match = 0;
+
+            for(let i=0;i<lenA;i++){
+
+                for(let j=0;j<lenB;j++){
+
+                    if(
+                        pointsA[i].relativeStart -
+                        pointsB[j].relativeStart === diffStart
+                        &&
+                        pointsA[i].relativeMidi -
+                        pointsB[j].relativeMidi === diffMidi
+                    ){
+                        match++;
+                    }
+                }
             }
 
-			let  diffStart =  pointsA[0].relativeStart - pointsB[0].relativeStart;
-            let  diffMidi = pointsA[0].relativeMidi - pointsB[0].relativeMidi;
-
-            if(
-                pointsA[i].relativeStart - pointsB[j].relativeStart === diffStar &&
-                pointsA[i].relativeMidi - pointsB[j].relativeMidi === diffMidi
-            ){
-                match++;
+            if(match > bestMatch){
+                bestMatch = match;
             }
-        }
-
-        if(match > bestMatch){
-            bestMatch = match;
         }
     }
 
-    return bestMatch / Math.max(lenA, lenB);
+    return bestMatch / Math.max(lenA,lenB);
 }
 
 function shapeBeat(tick){
