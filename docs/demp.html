@@ -3994,13 +3994,13 @@ function musicPointCloud(tick){
 	let beatPitchMax = -Infinity;
 
 	for(let note of view.scoreViewData){
-		const unit = Math.floor(note.start / ticksPerQuarterNote);
+		const beatNumber = Math.floor(note.start / ticksPerQuarterNote);
 
-		if(beatBase[unit] === undefined){
-			beatBase[unit] = note.midi;
+		if(beatBase[beatNumber] === undefined){
+			beatBase[beatNumber] = note.midi;
 		}
 
-		const mp = note.midi - beatBase[unit];
+		const mp = note.midi - beatBase[beatNumber];
 
 		beatPitchMin = Math.min(beatPitchMin, mp);
 		beatPitchMax = Math.max(beatPitchMax, mp);
@@ -4092,9 +4092,9 @@ function musicPointCloud(tick){
 
 		if (dt >=0 && dt < measuresPerScreen){
 
-		const unit = Math.floor(start / ticksPerQuarterNote);
+		const beatNumber = Math.floor(start / ticksPerQuarterNote);
 
-		const beatPitch = midi - beatBase[unit];
+		const beatPitch = midi - beatBase[beatNumber];
 
 		const x = beatPitch * view.kw + centerX;
 
