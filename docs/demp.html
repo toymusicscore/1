@@ -4148,7 +4148,7 @@ function shapeBeat(tick){
 	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote/timeSignatureDenominator*4){
 		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			let vmn0=m/ticksPerMeasure+1;
-			let vbn0=m/ticksPerQuaterNote+1;
+			let vbn0=m/ticksPerQuarterNote+1;
 			ctx.beginPath();
 			ctx.moveTo(0,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
