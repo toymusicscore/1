@@ -4069,13 +4069,19 @@ function compareBeat(a, b){
         pointsB.length
     );
 
+	const m = Math.max(
+        pointsA.length,
+        pointsB.length
+    );
+
     if(n === 0){
         return 0;
     }
 
     let match = 0;
 
-    for(let i=0;i<n;i++){
+for (let j=0;j<m-n;j++){
+	for(let i=j+0;i<n;i++){
 
         if(
             pointsA[i].relativeStart === pointsB[i].relativeStart &&
@@ -4084,6 +4090,7 @@ function compareBeat(a, b){
             match++;
         }
     }
+}
 
     return match / Math.max(
         pointsA.length,
