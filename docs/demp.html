@@ -3968,6 +3968,7 @@ function showMusicPointCloud() {
 }
 
 let musicPointCloudData={};
+let musicPatternData={};
 
 function musicPointCloud(tick){
     notePosition = [];
@@ -4119,6 +4120,19 @@ function musicPointCloud(tick){
 			pitch:midi,
 			beatPitch:beatPitch
 		});	
+
+		musicPatternData.push([
+		{
+		hand:"right",
+		startBeat:beatNumber,
+		points:[
+			{
+			t: start,
+			p: beatPitch
+			}
+		]
+		}
+		]);
 
 		const r = Math.max(2, view.kw / 2);
 
