@@ -4153,6 +4153,18 @@ function createSimilarityMatrix(){
 
     // 横軸 小節番号
     for(let j=0; j<beats.length; j++){
+		if(Number(beats[j]) % beatsPerMeasure === 0){
+			ctx.beginPath();
+			ctx.moveTo(
+				50+j*cell,
+				50
+			);
+			ctx.lineTo(
+				50+j*cell,
+				50+size
+			);
+			ctx.stroke();
+		}
 		const beatNumber = Number(beats[j]);
 
 		const measure =
@@ -4171,6 +4183,18 @@ function createSimilarityMatrix(){
 
     // 縦軸 小節番号
     for(let i=0; i<beats.length; i++){
+		if(Number(beats[i]) % beatsPerMeasure === 0){
+			ctx.beginPath();
+			ctx.moveTo(
+				50,
+				50+i*cell
+			);
+			ctx.lineTo(
+				50+size,
+				50+i*cell
+			);
+			ctx.stroke();
+		}
 		const beatNumber = Number(beats[i]);
 
 		const measure =
