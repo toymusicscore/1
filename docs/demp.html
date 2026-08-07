@@ -4133,7 +4133,7 @@ function compareBeat(a,b){
     return bestMatch / Math.max(lenA,lenB);
 }
 */
-
+/*
 function compareBeat(a, b){
 
     const pointsA = a.points;
@@ -4167,12 +4167,6 @@ function compareBeat(a, b){
             }
         }
 
-        /*
-          完全一致条件
-          1. 全音一致
-          2. 短い方の端で一致している
-        */
-
         if(match === Math.min(lenA,lenB)){
 
             // AがBの先頭または末尾に一致
@@ -4190,7 +4184,38 @@ function compareBeat(a, b){
 
     return 0;
 }
+*/
 
+function compareBeat(a,b){
+
+    const pointsA = a.points;
+    const pointsB = b.points;
+
+    const lenA = pointsA.length;
+    const lenB = pointsB.length;
+
+    if(lenA === 0 || lenB === 0){
+        return 0;
+    }
+
+    if(lenA !== lenB){
+        return 0;
+    }
+
+    let match = 0;
+
+    for(let i=0;i<lenA;i++){
+
+        if(
+            pointsA[i].relativeStart === pointsB[i].relativeStart &&
+            pointsA[i].relativeMidi === pointsB[i].relativeMidi
+        ){
+            match++;
+        }
+    }
+
+    return match === lenA ? 1 : 0;
+}
 
 function createSimilarityMatrix(){
 
