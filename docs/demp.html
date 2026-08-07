@@ -4135,18 +4135,18 @@ function createSimilarityMatrix(){
                     shapeBeatData[beats[j]]
                 );
 
-            beatSimilarity.push=({
-				score: score,
-				beatA: Number(beats[i]),
-				beatB: Number(beats[j]),
-				measureA: Math.floor(beats[i] / beatsPerMeasure) + 1,
-				measureB: Math.floor(beats[j] / beatsPerMeasure) + 1,
-				shapeA: shapeBeatData[beats[i]],
-				shapeB: shapeBeatData[beats[j]]
-			});
-
             if(score == 1){
                 ctx.fillStyle="red";
+				beatSimilarity.push=({
+					score: score,
+					beatA: Number(beats[i]),
+					beatB: Number(beats[j]),
+					measureA: Math.floor(beats[i] / beatsPerMeasure) + 1,
+					measureB: Math.floor(beats[j] / beatsPerMeasure) + 1,
+					shapeA: shapeBeatData[beats[i]],
+					shapeB: shapeBeatData[beats[j]],
+					diagonal: beatB - beatA
+				});
             }else{
                 ctx.fillStyle="white";
             }
