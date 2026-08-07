@@ -4317,7 +4317,6 @@ function shapeBeat(tick){
 	ctx.stroke();
 
 	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote/timeSignatureDenominator*4){
-		let vbn0=m/ticksPerQuarterNote+1;
 		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			let vmn0=m/ticksPerMeasure+1;
 			ctx.beginPath();
@@ -4327,13 +4326,13 @@ function shapeBeat(tick){
 			ctx.stroke();
 			if(vmn0 === highlightMeasure){
 				ctx.fillStyle = workingColor.text[5];
-				ctx.font = "bold 25px Arial";
+				ctx.font = "bold 30px Arial";
 			}else{
 				ctx.fillStyle = workingColor.text[0];
 				ctx.font = "25px Arial";
 			}
 			ctx.textAlign = "left";
-			ctx.fillText(vbn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			ctx.beginPath();
 			ctx.moveTo(mx,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
@@ -4341,8 +4340,6 @@ function shapeBeat(tick){
 			ctx.strokeStyle=workingColor.line[4];
 			ctx.stroke();
 			ctx.fillStyle = workingColor.text[0];
-			ctx.font = "25px Arial";
-			ctx.fillText(vbn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 			}
 	}
 
