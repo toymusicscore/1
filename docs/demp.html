@@ -4125,7 +4125,7 @@ function createSimilarityMatrix(){
 
     for(let i=0; i<beats.length; i++){
 
-        beatSimilarity[i] = [];
+        beatSimilarity = {};
 
         for(let j=0; j<beats.length; j++){
 
@@ -4135,7 +4135,15 @@ function createSimilarityMatrix(){
                     shapeBeatData[beats[j]]
                 );
 
-            beatSimilarity[i][j] = score;
+            beatSimilarity.push=({
+				score: score,
+				beatA: Number(beats[i]),
+				beatB: Number(beats[j]),
+				measureA: Math.floor(beats[i] / beatsPerMeasure) + 1,
+				measureB: Math.floor(beats[j] / beatsPerMeasure) + 1,
+				shapeA: shapeBeatData[beats[i]],
+				shapeB: shapeBeatData[beats[j]]
+			});
 
             if(score == 1){
                 ctx.fillStyle="red";
