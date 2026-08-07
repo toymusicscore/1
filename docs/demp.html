@@ -4165,14 +4165,26 @@ function createSimilarityMatrix(){
 
             beatSimilarity[i][j] = score;
 
-            if(score > 0.75){
-                ctx.fillStyle="red";
+            if(score > 0.90){
+                ctx.fillStyle=defaultColor.oct[1];
+            }else if(score > 0.8){
+                ctx.fillStyle=defaultColor.oct[2];
+            }else if(score > 0.7){
+                ctx.fillStyle=defaultColor.oct[3];
+            }else if(score > 0.6){
+                ctx.fillStyle=defaultColor.oct[4];
             }else if(score > 0.5){
-                ctx.fillStyle="green";
-            }else if(score > 0.25){
-                ctx.fillStyle="blue";
+                ctx.fillStyle=defaultColor.oct[5];
+            }else if(score > 0.4){
+                ctx.fillStyle=defaultColor.oct[6];
+            }else if(score > 0.3){
+                ctx.fillStyle=defaultColor.oct[7];
+            }else if(score > 0.2){
+                ctx.fillStyle=defaultColor.oct[8];
+            }else if(score > 0.1){
+                ctx.fillStyle=defaultColor.oct[9];
             }else{
-                ctx.fillStyle="white";
+                ctx.fillStyle=defaultColor.oct[0];
             }
 
             ctx.fillRect(
