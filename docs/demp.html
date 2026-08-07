@@ -4178,6 +4178,23 @@ function createSimilarityMatrix(){
 
 			const cell = size / beats.length;
 			const score = beatSimilarity[i][j];
+			const colMesuNum = Math.floor(beats[j]/beatsPerMeasure)+1;
+			const rowMesuNum = Math.floor(beats[i]/beatsPerMeasure)+1;
+
+			if(!beats[j]){
+				ctx.fillText(
+					colMesuNum,
+					50 + j*cell,
+					10
+				);    
+			}
+			if(!beats[i]){
+			ctx.fillText(
+				rowMesuNum,
+				0,
+				50 + i*cell
+			);
+			}
 
 			if(score > 0.75){
 				ctx.fillStyle="red";
