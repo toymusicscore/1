@@ -4138,7 +4138,7 @@ function createSimilarityMatrix(){
 			const beatA = Number(beats[i]);
 			const beatB = Number(beats[j]);
 
-            if(score == 1){
+			if(score >= 0.999 && beatA !== beatB){
                 ctx.fillStyle="red";
 				beatSimilarity.push({
 					score: score,
@@ -4146,8 +4146,6 @@ function createSimilarityMatrix(){
 					beatB: beatB,
 					measureA: Math.floor(beatA / beatsPerMeasure) + 1,
 					measureB: Math.floor(beatB / beatsPerMeasure) + 1,
-					shapeA: shapeBeatData[beats[i]],
-					shapeB: shapeBeatData[beats[j]],
 					diagonal: beatB - beatA
 				});
             }else{
