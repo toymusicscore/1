@@ -4105,13 +4105,13 @@ function compareBeat(a, b){
     return 1;
 }
 
-beatSimilarity = {};
+let beatSimilarity = [];
 
 function createSimilarityMatrix(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    let beatSimilarity = {};
+    beatSimilarity = [];
 
     const beats = Object.keys(shapeBeatData);
 
@@ -4135,14 +4135,17 @@ function createSimilarityMatrix(){
                     shapeBeatData[beats[j]]
                 );
 
+			const beatA = Number(beats[i]);
+			const beatB = Number(beats[j]);
+
             if(score == 1){
                 ctx.fillStyle="red";
-				beatSimilarity.push=({
+				beatSimilarity.push({
 					score: score,
-					beatA: Number(beats[i]),
-					beatB: Number(beats[j]),
-					measureA: Math.floor(beats[i] / beatsPerMeasure) + 1,
-					measureB: Math.floor(beats[j] / beatsPerMeasure) + 1,
+					beatA: beatA,
+					beatB: beatB,
+					measureA: Math.floor(beatA / beatsPerMeasure) + 1,
+					measureB: Math.floor(beatB / beatsPerMeasure) + 1,
 					shapeA: shapeBeatData[beats[i]],
 					shapeB: shapeBeatData[beats[j]],
 					diagonal: beatB - beatA
