@@ -4153,9 +4153,10 @@ function createSimilarityMatrix(){
 
     // 横軸 小節番号
     for(let j=0; j<beats.length; j++){
+		const beatNumber = Number(beats[j]);
 
-        const measure =
-            Math.floor(beats[j] / beatsPerMeasure) + 1;
+		const measure =
+			Math.floor(beatNumber / beatsPerMeasure) + 1;
 
         // 小節の先頭だけ表示
         if(Number(beats[j]) % beatsPerMeasure === 0){
@@ -4170,9 +4171,10 @@ function createSimilarityMatrix(){
 
     // 縦軸 小節番号
     for(let i=0; i<beats.length; i++){
+		const beatNumber = Number(beats[i]);
 
-        const measure =
-            Math.floor(beats[i] / beatsPerMeasure) + 1;
+		const measure =
+			Math.floor(beatNumber / beatsPerMeasure) + 1;
 
         if(Number(beats[i]) % beatsPerMeasure === 0){
 
