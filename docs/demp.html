@@ -4351,6 +4351,25 @@ function findMotif(){
     console.log(motifGroups);
 
     return motifGroups;
+
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	for (let i=0; i<motifGroup.length; i++){
+		ctx.fillStyle="black";
+		if(i%4==0){
+			ctx.fillText(i%4+1, 600, i*10+50);
+		}	
+		ctx.fillText(i, 650, i*10+50);
+		ctx.fillText("Measure", 600, 30);
+		ctx.fillText("Beat", 650, 30);
+		ctx.fillText("beatA", 700, 30);
+		ctx.fillText("beatB", 800, 30);
+
+	}
+	for (let i=0; i<motifGroups.length; i++){
+		ctx.fillStyle="red";
+		ctx.fillText(motifGroups.diagonal, 700, motifGroups.beatA*10+50);
+		ctx.fillText(motifGroups.diagonal, 800, motifGroups.beatB*10+50);
+	}
 }
 
 
