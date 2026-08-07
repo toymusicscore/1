@@ -4239,6 +4239,7 @@ function createSimilarityMatrix(){
 function findMotif(){
 
     let diagonalGroups = {};
+    let mitifGroups = {};
 
     for(let item of beatSimilarity){
 
@@ -4251,7 +4252,6 @@ function findMotif(){
         diagonalGroups[d].push(item);
     }
 
-console.log(diagonalGroups);
 
     for(let d in diagonalGroups){
 
@@ -4269,18 +4269,8 @@ console.log(diagonalGroups);
                 count++;
 
                 if(count >= 3){
-                    console.log(
-                        "motif candidate",
-                        "length:",
-                        count,
-                        "beatA:",
-                        start.beatA,
-                        "beatB:",
-                        start.beatB,
-                        "shift:",
-                        d
-                    );
-                }
+			        	motifGroups.push(list[i]);
+				}
 
             }else{
                 count = 1;
@@ -4288,6 +4278,7 @@ console.log(diagonalGroups);
             }
         }
     }
+	console.log(motifGroup);
 }
 
 function shapeBeat(tick){
