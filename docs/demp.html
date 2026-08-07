@@ -4150,6 +4150,40 @@ function createSimilarityMatrix(){
 
     ctx.font = "10px Arial";
     ctx.fillStyle = "black";
+
+    for(let i=0; i<beats.length; i++){
+
+        beatSimilarity[i] = [];
+
+        for(let j=0; j<beats.length; j++){
+
+            const score =
+                compareBeat(
+                    shapeBeatData[beats[i]],
+                    shapeBeatData[beats[j]]
+                );
+
+            beatSimilarity[i][j] = score;
+
+            if(score > 0.75){
+                ctx.fillStyle="red";
+            }else if(score > 0.5){
+                ctx.fillStyle="green";
+            }else if(score > 0.25){
+                ctx.fillStyle="blue";
+            }else{
+                ctx.fillStyle="white";
+            }
+
+            ctx.fillRect(
+                50+j*cell,
+                50+i*cell,
+                cell,
+                cell
+            );
+        }
+    }
+
 	ctx.strokeStyle="grey";
 
     // 横軸 小節番号
@@ -4203,39 +4237,6 @@ function createSimilarityMatrix(){
                 measure,
                 10,
                 50 + i*cell
-            );
-        }
-    }
-
-    for(let i=0; i<beats.length; i++){
-
-        beatSimilarity[i] = [];
-
-        for(let j=0; j<beats.length; j++){
-
-            const score =
-                compareBeat(
-                    shapeBeatData[beats[i]],
-                    shapeBeatData[beats[j]]
-                );
-
-            beatSimilarity[i][j] = score;
-
-            if(score > 0.75){
-                ctx.fillStyle="red";
-            }else if(score > 0.5){
-                ctx.fillStyle="green";
-            }else if(score > 0.25){
-                ctx.fillStyle="blue";
-            }else{
-                ctx.fillStyle="white";
-            }
-
-            ctx.fillRect(
-                50+j*cell,
-                50+i*cell,
-                cell,
-                cell
             );
         }
     }
