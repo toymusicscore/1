@@ -4252,7 +4252,58 @@ function findMotifCandidates(){
 
     console.log(diagonalMap);
 }
+function findMotif(){
 
+    let diagonalGroups = {};
+
+    for(let item of beatSimilarity){
+
+        const d = item.beatB - item.beatA;
+
+        if(!diagonalGroups[d]){
+            diagonalGroups[d] = [];
+        }
+
+        diagonalGroups[d].push(item);
+    }
+
+
+    for(let d in diagonalGroups){
+
+        const list = diagonalGroups[d];
+
+        let count = 1;
+        let start = list[0];
+
+        for(let i=1;i<list.length;i++){
+
+            if(
+                list[i].beatA === list[i-1].beatA + 1 &&
+                list[i].beatB === list[i-1].beatB + 1
+            ){
+                count++;
+
+                if(count >= 3){
+                    console.log(
+                        "motif candidate",
+                        "length:",
+                        count,
+                        "beatA:",
+                        start.beatA,
+                        "beatB:",
+                        start.beatB,
+                        "shift:",
+                        d
+                    );
+                }
+
+            }else{
+                count = 1;
+                start = list[i];
+            }
+        }
+    }
+}
 
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
