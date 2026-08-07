@@ -4184,7 +4184,9 @@ function createSimilarityMatrix(){
         }
     }
 
-	ctx.strokeStyle="grey";
+	ctx.strokeStyle = "#666";
+	ctx.fillStyle = "black";
+	ctx.lineWidth = 1;
 
     // 横軸 小節番号
     for(let j=0; j<beats.length; j++){
@@ -4205,12 +4207,13 @@ function createSimilarityMatrix(){
 				75+size
 			);
 			ctx.stroke();
+			ctx.textAlign = "center";
 
-            ctx.fillText(
-                measure,
-                50 + j*cell,
-                10
-            );
+			ctx.fillText(
+				measure,
+				50 + j*cell + cell * beatsPerMeasure / 2,
+				15
+			);
         }
     }
 
@@ -4232,14 +4235,24 @@ function createSimilarityMatrix(){
 				50+i*cell
 			);
 			ctx.stroke();
+			ctx.textAlign = "right";
 
-            ctx.fillText(
-                measure,
-                10,
-                50 + i*cell
-            );
+			ctx.fillText(
+				measure,
+				40,
+				50 + i*cell + cell * beatsPerMeasure / 2
+			);
         }
     }
+	ctx.strokeStyle = "black";
+	ctx.lineWidth = 2;
+
+	ctx.strokeRect(
+		50,
+		50,
+		size,
+		size
+	);
 
     console.log(beatSimilarity);
 }
