@@ -4133,16 +4133,56 @@ function compareBeat(a,b){
     return bestMatch / Math.max(lenA,lenB);
 }
 
-
 function createSimilarityMatrix(){
 
-	ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
     let beatSimilarity = [];
 
     const beats = Object.keys(shapeBeatData);
 
+    const size = Math.min(
+        canvas.width - 100,
+        canvas.height - 100
+    );
+
+    const cell = size / beats.length;
+
     ctx.font = "10px Arial";
+    ctx.fillStyle = "black";
+
+    // 横軸 小節番号
+    for(let j=0; j<beats.length; j++){
+
+        const measure =
+            Math.floor(beats[j] / beatsPerMeasure) + 1;
+
+        // 小節の先頭だけ表示
+        if(Number(beats[j]) % beatsPerMeasure === 0){
+
+            ctx.fillText(
+                measure,
+                50 + j*cell,
+                10
+            );
+        }
+    }
+
+    // 縦軸 小節番号
+    for(let i=0; i<beats.length; i++){
+
+        const measure =
+            Math.floor(beats[i] / beatsPerMeasure) + 1;
+
+        if(Number(beats[i]) % beatsPerMeasure === 0){
+
+            ctx.fillText(
+                measure,
+                0,
+                50 + i*cell
+            );
+        }
+    }
 
     for(let i=0; i<beats.length; i++){
 
@@ -4150,52 +4190,30 @@ function createSimilarityMatrix(){
 
         for(let j=0; j<beats.length; j++){
 
-            beatSimilarity[i][j] =
+            const score =
                 compareBeat(
                     shapeBeatData[beats[i]],
                     shapeBeatData[beats[j]]
                 );
-			const size = Math.min(
-				canvas.width - 100,
-				canvas.height - 100
-			);
 
-			const cell = size / beats.length;
-			const score = beatSimilarity[i][j];
-			const colMesuNum = Math.floor(beats[j]/beatsPerMeasure)+1;
-			const rowMesuNum = Math.floor(beats[i]/beatsPerMeasure)+1;
+            beatSimilarity[i][j] = score;
 
-			if(!beats[j]){
-				ctx.fillText(
-					colMesuNum,
-					50 + j*cell,
-					10
-				);    
-			}
-			if(!beats[i]){
-			ctx.fillText(
-				rowMesuNum,
-				0,
-				50 + i*cell
-			);
-			}
+            if(score > 0.75){
+                ctx.fillStyle="red";
+            }else if(score > 0.5){
+                ctx.fillStyle="green";
+            }else if(score > 0.25){
+                ctx.fillStyle="blue";
+            }else{
+                ctx.fillStyle="white";
+            }
 
-			if(score > 0.75){
-				ctx.fillStyle="red";
-			}else if(score > 0.5){
-				ctx.fillStyle="green";
-			}else if(score > 0.25){
-				ctx.fillStyle="blue";
-			}else{
-				ctx.fillStyle="white";
-			}
-
-			ctx.fillRect(
-				50+j*cell,
-				50+i*cell,
-				cell,
-				cell
-			);
+            ctx.fillRect(
+                50+j*cell,
+                50+i*cell,
+                cell,
+                cell
+            );
         }
     }
 
