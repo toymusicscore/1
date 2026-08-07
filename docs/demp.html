@@ -4444,9 +4444,148 @@ function findMotif(){
         );
     }
 
-    return motifGroups;
+	drawMotifGraph(motifGroups);
+
+	return motifGroups;
+
 }
 
+function drawMotifGraph(motifGroups){
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const mx = 80;
+    const my = 50;
+
+    const cellW = 70;
+    const cellH = 20;
+
+    // 最大小節番号
+    let maxMeasure = 0;
+
+    for(let motif of motifGroups){
+
+        maxMeasure = Math.max(
+            maxMeasure,
+            motif.startA,
+            motif.endA,
+            motif.startB,
+            motif.endB
+        );
+    }
+
+    // ----------------------------
+    // 軸
+    // ----------------------------
+
+    ctx.fillStyle = "black";
+    ctx.font = "12px sans-serif";
+
+    // 縦軸：Measure
+    ctx.fillText("Measure", 20, 30);
+
+    // 横軸：Motif
+    ctx.fillText("Motif", mx, 25);
+
+
+    // ----------------------------
+    // 小節番号
+    // ----------------------------
+
+    for(let m = 1; m <= maxMeasure; m++){
+
+        const y = my + (m - 1) * cellH;
+
+        ctx.fillText(
+            m,
+            45,
+            y + 14
+        );
+    }
+
+
+    // ----------------------------
+    // motif
+    // ----------------------------
+
+    for(let i = 0; i < motifGroups.length; i++){
+
+        const motif = motifGroups[i];
+
+        const x = mx + i * cellW;
+
+        ctx.fillText(
+            i + 1,
+            x + 20,
+            45
+        );
+
+        // diagonal
+        ctx.fillText(
+            motif.shift,
+            x + 15,
+            60
+        );
+    }
+
+
+    // ----------------------------
+    // motif の存在する小節を表示
+    // ----------------------------
+
+    for(let i = 0; i < motifGroups.length; i++){
+
+        const motif = motifGroups[i];
+
+        const x = mx + i * cellW;
+
+        // A側
+        for(let m = motif.startA; m <= motif.endA; m++){
+
+            const y = my + (m - 1) * cellH;
+
+            ctx.fillStyle = "red";
+
+            ctx.fillRect(
+                x,
+                y,
+                cellW - 2,
+                cellH - 2
+            );
+
+            ctx.fillStyle = "white";
+
+            ctx.fillText(
+                motif.shift,
+                x + 15,
+                y + 14
+            );
+        }
+
+        // B側
+        for(let m = motif.startB; m <= motif.endB; m++){
+
+            const y = my + (m - 1) * cellH;
+
+            ctx.fillStyle = "blue";
+
+            ctx.fillRect(
+                x,
+                y,
+                cellW - 2,
+                cellH - 2
+            );
+
+            ctx.fillStyle = "white";
+
+            ctx.fillText(
+                motif.shift,
+                x + 15,
+                y + 14
+            );
+        }
+    }
+}
 
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
