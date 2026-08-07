@@ -4078,62 +4078,7 @@ function createShapeBeat(){
 	}
 }
 
-/*
-function compareBeat(a,b){
 
-    const pointsA = a.points;
-    const pointsB = b.points;
-
-    const lenA = pointsA.length;
-    const lenB = pointsB.length;
-
-    if(lenA===0 || lenB===0){
-        return 0;
-    }
-
-    let bestMatch = 0;
-
-    for(let baseA=0; baseA<lenA; baseA++){
-
-        for(let baseB=0; baseB<lenB; baseB++){
-
-            const diffStart =
-                pointsA[baseA].relativeStart -
-                pointsB[baseB].relativeStart;
-
-            const diffMidi =
-                pointsA[baseA].relativeMidi -
-                pointsB[baseB].relativeMidi;
-
-
-            let match = 0;
-
-            for(let i=0;i<lenA;i++){
-
-                for(let j=0;j<lenB;j++){
-
-                    if(
-                        pointsA[i].relativeStart -
-                        pointsB[j].relativeStart === diffStart
-                        &&
-                        pointsA[i].relativeMidi -
-                        pointsB[j].relativeMidi === diffMidi
-                    ){
-                        match++;
-                    }
-                }
-            }
-
-            if(match > bestMatch){
-                bestMatch = match;
-            }
-        }
-    }
-
-    return bestMatch / Math.max(lenA,lenB);
-}
-*/
-/*
 function compareBeat(a, b){
 
     const pointsA = a.points;
@@ -4142,79 +4087,22 @@ function compareBeat(a, b){
     const lenA = pointsA.length;
     const lenB = pointsB.length;
 
-    if(lenA === 0 || lenB === 0){
-        return 0;
-    }
-
-    // Bをずらして比較
-    for(let shift = -(lenB-1); shift <= lenA-1; shift++){
-
-        let match = 0;
-
-        for(let i=0; i<lenA; i++){
-
-            const j = i - shift;
-
-            if(j < 0 || j >= lenB){
-                continue;
-            }
-
-            if(
-                pointsA[i].relativeStart === pointsB[j].relativeStart &&
-                pointsA[i].relativeMidi === pointsB[j].relativeMidi
-            ){
-                match++;
-            }
-        }
-
-        if(match === Math.min(lenA,lenB)){
-
-            // AがBの先頭または末尾に一致
-            const startMatch =
-                shift === 0;
-
-            const endMatch =
-                shift === lenA - lenB;
-
-            if(startMatch || endMatch){
-                return 1;
-            }
-        }
-    }
-
-    return 0;
-}
-*/
-
-function compareBeat(a,b){
-
-    const pointsA = a.points;
-    const pointsB = b.points;
-
-    const lenA = pointsA.length;
-    const lenB = pointsB.length;
-
-    if(lenA === 0 || lenB === 0){
-        return 0;
-    }
-
+    // 音数が違えば一致しない
     if(lenA !== lenB){
         return 0;
     }
 
-    let match = 0;
-
-    for(let i=0;i<lenA;i++){
+    for(let i=0; i<lenA; i++){
 
         if(
-            pointsA[i].relativeStart === pointsB[i].relativeStart &&
-            pointsA[i].relativeMidi === pointsB[i].relativeMidi
+            pointsA[i].relativeStart !== pointsB[i].relativeStart ||
+            pointsA[i].relativeMidi  !== pointsB[i].relativeMidi
         ){
-            match++;
+            return 0;
         }
     }
 
-    return match === lenA ? 1 : 0;
+    return 1;
 }
 
 function createSimilarityMatrix(){
