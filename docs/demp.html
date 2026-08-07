@@ -4239,8 +4239,8 @@ function createSimilarityMatrix(){
 function findMotif(){
 
     let diagonalGroups = {};
-    let motifGroups = [];
 
+    // shift ごとにグループ化
     for(let item of beatSimilarity){
 
         const d = item.beatB - item.beatA;
@@ -4252,39 +4252,74 @@ function findMotif(){
         diagonalGroups[d].push(item);
     }
 
+    let motifGroups = [];
 
     for(let d in diagonalGroups){
 
         const list = diagonalGroups[d];
 
-        let count = 1;
-        let start = list[0];
+        // beatA順に並べる
+        list.sort((a,b) => a.beatA - b.beatA);
 
-        for(let i=1;i<list.length;i++){
+        let run = [];
 
-            if(
-                list[i].beatA === list[i-1].beatA + 1 &&
-                list[i].beatB === list[i-1].beatB + 1
-            ){
-                count++;
+        for(let i=0; i<list.length; i++){
 
-                if(count >= 3){
-					if (count==3){
-			        	motifGroups.push(list[1]);
-			        	motifGroups.push(list[2]);
-			        	motifGroups.push(list[3]);
-					}
-			        	motifGroups.push(list[i]);
-				}
+            if(run.length === 0){
+
+                run.push(list[i]);
 
             }else{
-                count = 1;
-                start = list[i];
+
+                const prev = run[run.length - 1];
+                const current = list[i];
+
+                if(
+                    current.beatA === prev.beatA + 1 &&
+                    current.beatB === prev.beatB + 1
+                ){
+
+                    run.push(current);
+
+                }else{
+
+                    // 連続区間を確定
+                    if(run.length >= 3){
+                        motifGroups.push({
+                            shift: Number(d),
+                            startA: run[0].beatA,
+                            endA: run[run.length-1].beatA,
+                            startB: run[0].beatB,
+                            endB: run[run.length-1].beatB,
+                            length: run.length,
+                            items: run
+                        });
+                    }
+
+                    run = [current];
+                }
             }
         }
+
+        // 最後のrun
+        if(run.length >= 3){
+            motifGroups.push({
+                shift: Number(d),
+                startA: run[0].beatA,
+                endA: run[run.length-1].beatA,
+                startB: run[0].beatB,
+                endB: run[run.length-1].beatB,
+                length: run.length,
+                items: run
+            });
+        }
     }
-	console.log(motifGroups);
+
+    console.log("motifGroups", motifGroups);
+
+    return motifGroups;
 }
+
 
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
