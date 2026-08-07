@@ -4105,6 +4105,8 @@ function compareBeat(a, b){
     return 1;
 }
 
+beatSimilarity = {};
+
 function createSimilarityMatrix(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -4124,8 +4126,6 @@ function createSimilarityMatrix(){
     ctx.fillStyle = "black";
 
     for(let i=0; i<beats.length; i++){
-
-        beatSimilarity = {};
 
         for(let j=0; j<beats.length; j++){
 
