@@ -4252,7 +4252,7 @@ function shapeBeat(tick){
 			}
 		}
 
-		const mp = note.midi - beatBase[beatNumber];
+		const mp = note.midi - beatBase[beatNumber].midi;
 
 		beatPitchMin = Math.min(beatPitchMin, mp);
 		beatPitchMax = Math.max(beatPitchMax, mp);
@@ -4350,7 +4350,7 @@ function shapeBeat(tick){
 
 			const beatNumber = Math.floor(start / ticksPerQuarterNote);
 
-			const beatStart = midi - beatBase[beatNumber].start;
+			const beatStart = start - beatBase[beatNumber].start;
 
 			const beatPitch = midi - beatBase[beatNumber].midi;
 
