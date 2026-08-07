@@ -4234,6 +4234,26 @@ function createSimilarityMatrix(){
     console.log(beatSimilarity);
 }
 
+
+function findMotifCandidates(){
+
+    let diagonalMap = {};
+
+    for(let item of beatSimilarity){
+
+        const d = item.diagonal;
+
+        if(!diagonalMap[d]){
+            diagonalMap[d] = [];
+        }
+
+        diagonalMap[d].push(item);
+    }
+
+    console.log(diagonalMap);
+}
+
+
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
