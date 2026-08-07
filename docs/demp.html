@@ -4153,7 +4153,13 @@ function createSimilarityMatrix(){
 
     // 横軸 小節番号
     for(let j=0; j<beats.length; j++){
-		if(Number(beats[j]) % beatsPerMeasure === 0){
+		const beatNumber = Number(beats[j]);
+
+		const measure =
+			Math.floor(beatNumber / beatsPerMeasure) + 1;
+
+        // 小節の先頭だけ表示
+        if(Number(beats[j]) % beatsPerMeasure === 0){
 			ctx.beginPath();
 			ctx.moveTo(
 				50+j*cell,
@@ -4164,14 +4170,6 @@ function createSimilarityMatrix(){
 				50+size
 			);
 			ctx.stroke();
-		}
-		const beatNumber = Number(beats[j]);
-
-		const measure =
-			Math.floor(beatNumber / beatsPerMeasure) + 1;
-
-        // 小節の先頭だけ表示
-        if(Number(beats[j]) % beatsPerMeasure === 0){
 
             ctx.fillText(
                 measure,
@@ -4183,7 +4181,12 @@ function createSimilarityMatrix(){
 
     // 縦軸 小節番号
     for(let i=0; i<beats.length; i++){
-		if(Number(beats[i]) % beatsPerMeasure === 0){
+		const beatNumber = Number(beats[i]);
+
+		const measure =
+			Math.floor(beatNumber / beatsPerMeasure) + 1;
+
+        if(Number(beats[i]) % beatsPerMeasure === 0){
 			ctx.beginPath();
 			ctx.moveTo(
 				50,
@@ -4194,13 +4197,6 @@ function createSimilarityMatrix(){
 				50+i*cell
 			);
 			ctx.stroke();
-		}
-		const beatNumber = Number(beats[i]);
-
-		const measure =
-			Math.floor(beatNumber / beatsPerMeasure) + 1;
-
-        if(Number(beats[i]) % beatsPerMeasure === 0){
 
             ctx.fillText(
                 measure,
