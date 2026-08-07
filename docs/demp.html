@@ -4232,27 +4232,10 @@ function createSimilarityMatrix(){
 	);
 
     console.log(beatSimilarity);
-	findMotifCandidates();
+	findMotif();
 }
 
 
-function findMotifCandidates(){
-
-    let diagonalMap = {};
-
-    for(let item of beatSimilarity){
-
-        const d = item.diagonal;
-
-        if(!diagonalMap[d]){
-            diagonalMap[d] = [];
-        }
-
-        diagonalMap[d].push(item);
-    }
-
-    console.log(diagonalMap);
-}
 function findMotif(){
 
     let diagonalGroups = {};
