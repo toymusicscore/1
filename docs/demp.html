@@ -4239,46 +4239,120 @@ function createSimilarityMatrix(){
 function findMotif(){
 
     let diagonalGroups = {};
-
-    // +shift と -shift を同じものとして扱う
-    for(let item of beatSimilarity){
-
-        const a = Math.min(item.beatA, item.beatB);
-        const b = Math.max(item.beatA, item.beatB);
-
-        const shift = b - a;
-
-        const key = `${a}_${b}_${shift}`;
-
-        if(!diagonalGroups[key]){
-            diagonalGroups[key] = [];
-        }
-
-        diagonalGroups[key].push(item);
-    }
-
-
     let motifGroups = [];
 
-    // 同じ区間関係を1回だけ処理
-    for(let key in diagonalGroups){
+    // shift ごとにグループ化
+    for(let item of beatSimilarity){
 
-        const list = diagonalGroups[key];
+        const d = item.beatB - item.beatA;
 
-        // 同じ関係なら代表を1つだけ使う
-        const item = list[0];
+        if(!diagonalGroups[d]){
+            diagonalGroups[d] = [];
+        }
 
-        motifGroups.push({
-            beatA: Math.min(item.beatA, item.beatB),
-            beatB: Math.max(item.beatA, item.beatB),
-            shift: Math.abs(item.beatB - item.beatA)
-        });
+        diagonalGroups[d].push(item);
     }
+
+
+    // 各 shift の中で連続するものを探す
+    for(let d in diagonalGroups){
+
+        const list = diagonalGroups[d];
+
+        // beatA順に並べる
+        list.sort((a,b) => a.beatA - b.beatA);
+
+        let run = [list[0]];
+
+        for(let i = 1; i < list.length; i++){
+
+            const prev = list[i-1];
+            const curr = list[i];
+
+            if(
+                curr.beatA === prev.beatA + 1 &&
+                curr.beatB === prev.beatB + 1
+            ){
+
+                run.push(curr);
+
+            }else{
+
+                if(run.length >= 3){
+
+                    motifGroups.push({
+                        shift: Number(d),
+                        startA: run[0].beatA,
+                        endA: run[run.length-1].beatA,
+                        startB: run[0].beatB,
+                        endB: run[run.length-1].beatB,
+                        length: run.length
+                    });
+                }
+
+                run = [curr];
+            }
+        }
+
+        // 最後のrun
+        if(run.length >= 3){
+
+            motifGroups.push({
+                shift: Number(d),
+                startA: run[0].beatA,
+                endA: run[run.length-1].beatA,
+                startB: run[0].beatB,
+                endB: run[run.length-1].beatB,
+                length: run.length
+            });
+        }
+    }
+
+
+    // ----------------------------
+    // +shift / -shift を統合
+    // ----------------------------
+
+    let merged = {};
+
+    for(let motif of motifGroups){
+
+        let startA = motif.startA;
+        let endA   = motif.endA;
+        let startB = motif.startB;
+        let endB   = motif.endB;
+
+        // 小さい方をA側にする
+        if(startA > startB){
+
+            [startA, startB] = [startB, startA];
+            [endA, endB] = [endB, endA];
+        }
+
+        const key =
+            `${startA}_${endA}_${startB}_${endB}`;
+
+        if(!merged[key]){
+
+            merged[key] = {
+                startA: startA,
+                endA: endA,
+                startB: startB,
+                endB: endB,
+                length: motif.length,
+                shift: startB - startA
+            };
+        }
+    }
+
+
+    motifGroups = Object.values(merged);
 
     console.log(motifGroups);
 
     return motifGroups;
 }
+
 
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
