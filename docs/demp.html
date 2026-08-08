@@ -4095,39 +4095,42 @@ let motifGroupsLeft = [];
 function createHandMotifs(){
 
     // ==============================
-    // 右手
+    // 右手・左手のshapeを作る
     // ==============================
 
     shapeBeatDataRight =
         createShapeBeat(scoreRight, 1);
 
-    beatSimilarityRight =
-        createSimilarityMatrices(
-            shapeBeatDataRight
-        );
-
-    motifGroupsRight =
-        findMotif(
-            beatSimilarityRight,
-            shapeBeatDataRight
-        );
-
-
-    // ==============================
-    // 左手
-    // ==============================
-
     shapeBeatDataLeft =
         createShapeBeat(scoreLeft, 2);
 
-    beatSimilarityLeft =
-        createSimilarityMatrices(
-            shapeBeatDataLeft
+
+    // ==============================
+    // 3種類のSimilarity Matrixを作る
+    // ==============================
+
+    const similarity =
+        createSimilarityMatrices();
+
+
+    // ==============================
+    // 右手 Motif
+    // ==============================
+
+    motifGroupsRight =
+        findMotif(
+            similarity.rightRight,
+            shapeBeatDataRight
         );
+
+
+    // ==============================
+    // 左手 Motif
+    // ==============================
 
     motifGroupsLeft =
         findMotif(
-            beatSimilarityLeft,
+            similarity.leftLeft,
             shapeBeatDataLeft
         );
 }
