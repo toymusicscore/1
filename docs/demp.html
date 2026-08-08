@@ -4759,11 +4759,15 @@ function findMotif(
         }
     }
 
-
     // =====================================================
     // 4. 同じMotifを occurrences に統合
     //
-    // 「同じA側の範囲」を同じMotifとする
+    // 同じA側の範囲・長さ・transposeを持つものを
+    // 同じMotifとして統合する
+    //
+    // B側の位置が違っていても、
+    // 同じMotifの別occurrenceとして扱う
+    //
     // 部分的な重複は統合しない
     // =====================================================
 
@@ -4781,7 +4785,9 @@ function findMotif(
                 existing.length === candidate.length &&
 
                 existing.startA === candidate.startA &&
-                existing.endA === candidate.endA
+                existing.endA === candidate.endA &&
+
+                existing.transpose === candidate.transpose
             ){
 
                 motif = existing;
@@ -4825,6 +4831,8 @@ function findMotif(
                 startA: candidate.startA,
                 endA: candidate.endA,
 
+                transpose: candidate.transpose,
+
                 occurrences: [
 
                     {
@@ -4843,7 +4851,6 @@ function findMotif(
             });
         }
     }
-
 
     // =====================================================
     // 5. occurrence の重複を削除
