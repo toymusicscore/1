@@ -4208,15 +4208,14 @@ function showMotifGroups(){
     // =====================================
     // LR
     // =====================================
-
+    
     drawMotifGraph(
         motifGroupsLeftRight,
         0,
         graphHeight + gapY,
         "Left × Right",
-        "A"
+        "AB"
     );
-
 
     // =====================================
     // RL
@@ -4227,8 +4226,9 @@ function showMotifGroups(){
         graphWidth,
         graphHeight + gapY,
         "Right × Left",
-        "A"
+        "AB"
     );
+
 }
 
 
@@ -5344,29 +5344,41 @@ function drawMotifGraph(
             let start;
             let end;
 
-            if(side === "A"){
+            if(side === "A" || side === "B"){
 
-                start = occurrence.startA;
-                end   = occurrence.endA;
+                const start =
+                    side === "A"
+                        ? occurrence.startA
+                        : occurrence.startB;
 
-            }else{
+                const end =
+                    side === "A"
+                        ? occurrence.endA
+                        : occurrence.endB;
 
-                start = occurrence.startB;
-                end   = occurrence.endB;
-            }
+                const drawX =
+                    side === "A"
+                        ? x + 2
+                        : x + cellW / 2;
+
+                const drawW =
+                    side === "A"
+                        ? cellW / 2 - 3
+                        : cellW / 2 - 3;
 
 
-            for(let beat = start; beat <= end; beat++){
+                for(let beat = start; beat <= end; beat++){
 
-                const y =
-                    my + beat * cellH;
+                    const y =
+                        my + beat * cellH;
 
-                ctx.fillRect(
-                    x + 2,
-                    y + 1,
-                    cellW - 4,
-                    cellH - 1
-                );
+                    ctx.fillRect(
+                        drawX,
+                        y + 1,
+                        drawW,
+                        cellH - 1
+                    );
+                }
             }
         }
 
