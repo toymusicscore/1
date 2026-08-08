@@ -1170,7 +1170,7 @@ function showTab(tab){
 				};
 				$("similarityMatrixButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					showSimilarityMatrix();
+					showSimilarityMatrices();
 					closeMenuWindow();
 				};
 				$("motifGroupsButton").onclick = function(){
@@ -4025,7 +4025,7 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 }
 
-function showSimilarityMatrix() {
+function showSimilarityMatrices() {
 
     createHandMotifs();
 
@@ -8955,12 +8955,22 @@ async function showDownloadPage(){
 
 }
 
+const VIEW = {
+    SCORE: 0,
+    KEY: 1,
+    KEYBOARD: 2,
+    TRACK: 3,
+    SHAPEBEAT:4,
+    SHAPEMEASURE:5,
+    SIMILARITY: 6,
+    MOTIF: 7
+};
 
 function showSelectedView() {
 
     switch (practiceSettings.viewSelect) {
 
-        case 0:
+        case VIEW.SCORE:
             if (recordVisible) {
                 lineRecord(pauseTick);
             } else {
@@ -8968,24 +8978,32 @@ function showSelectedView() {
             }
             break;
 
-        case 1:
+        case VIEW.KEY:
             keyEstimation();
             break;
 
-        case 2:
+        case VEIW.KEYBOARD:
             showKeyboardLabel();
             break;
 
-        case 3:
+        case VIEW.TRACK:
             trackChannelInfo();
             break;
 
-        case 4:
+        case VIEW.SHAPEBEAT:
             shapeBeat(pauseTick);
             break;
 
-		case 5:
+		case VIEW.SHAPEMEASURE:
             shapeMeasure(pauseTick);
+            break;
+
+        case VIEW.SIMILARITY:
+            showSimilarityMatrices(pauseTick);
+            break;
+
+        case VIEW.MOTIF:
+            showMotifGroups(pauseTick);
             break;
     }
 }
