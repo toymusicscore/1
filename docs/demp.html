@@ -4161,10 +4161,20 @@ function showMotifGroups(){
         matrixGapY;
 
 
-    const motifOffsetY =
-        40 +
-        matrixHeight +
-        120;
+        const maxBeat =
+            Math.ceil(
+                songLengthTicks /
+                ticksPerQuarterNote
+            );
+
+        const graphHeight =
+            40 +
+            (maxBeat + 1) * 5;
+
+        const motifOffsetY =
+            40 +
+            matrixHeight +
+            120;
 
 
     // =====================================
@@ -4197,7 +4207,7 @@ function showMotifGroups(){
         motifGroupsLeftRight,
         0,
         motifOffsetY +
-        1200,
+        motifOffsetY + graphHeight + 80,
         "Left × Right",
         "A"
     );
@@ -4207,7 +4217,7 @@ function showMotifGroups(){
         motifGroupsRightLeft,
         graphWidth,
         motifOffsetY +
-        1200,
+        motifOffsetY + graphHeight + 80,
         "Right × Left",
         "A"
     );
