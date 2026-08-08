@@ -4975,12 +4975,12 @@ return motifGroups;
 
 }
 
-
 function drawMotifGraph(
     motifGroups,
     offsetX = 0,
     offsetY = 0,
-    title = ""
+    title = "",
+    side = "A"
 ){
 
     const graphWidth = canvas.width / 2;
@@ -5129,35 +5129,22 @@ function drawMotifGraph(
 
         for(const occurrence of motif.occurrences){
 
-            // -------------------------
-            // A側
-            // -------------------------
-            for(
-                let beat = occurrence.startA;
-                beat <= occurrence.endA;
-                beat++
-            ){
+            let start;
+            let end;
 
-                const y =
-                    my + beat * cellH;
+            if(side === "A"){
 
-                ctx.fillRect(
-                    x + 2,
-                    y + 1,
-                    cellW - 4,
-                    cellH - 1
-                );
+                start = occurrence.startA;
+                end   = occurrence.endA;
+
+            }else{
+
+                start = occurrence.startB;
+                end   = occurrence.endB;
             }
 
 
-            // -------------------------
-            // B側
-            // -------------------------
-            for(
-                let beat = occurrence.startB;
-                beat <= occurrence.endB;
-                beat++
-            ){
+            for(let beat = start; beat <= end; beat++){
 
                 const y =
                     my + beat * cellH;
@@ -5170,6 +5157,7 @@ function drawMotifGraph(
                 );
             }
         }
+
     }
 
 
