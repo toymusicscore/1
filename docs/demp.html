@@ -4473,13 +4473,14 @@ function drawMotifGraph(motifGroups){
     const mx = 60;       // 左余白
     const my = 40;       // 上余白
     const cellW = 70;    // motif 1個分の横幅
-    const cellH = 5;     // 1小節の高さ
+    const cellH = 12;    // 1小節の高さ
 
-    ctx.textAlign = "left";
+    ctx.textAlign = "center";
+    ctx.font = "10px sans-serif";
 
 
     // =====================================================
-    // 最大小節番号
+    // 楽曲全体の最大小節番号
     // =====================================================
 
     let maxMeasure = 0;
@@ -4488,10 +4489,30 @@ function drawMotifGraph(motifGroups){
 
         for(const occurrence of motif.occurrences){
 
+            const startMeasureA =
+                Math.floor(
+                    occurrence.startA / beatsPerMeasure
+                ) + 1;
+
+            const endMeasureA =
+                Math.floor(
+                    occurrence.endA / beatsPerMeasure
+                ) + 1;
+
+            const startMeasureB =
+                Math.floor(
+                    occurrence.startB / beatsPerMeasure
+                ) + 1;
+
+            const endMeasureB =
+                Math.floor(
+                    occurrence.endB / beatsPerMeasure
+                ) + 1;
+
             maxMeasure = Math.max(
                 maxMeasure,
-                occurrence.endA,
-                occurrence.endB
+                endMeasureA,
+                endMeasureB
             );
         }
     }
@@ -4502,12 +4523,11 @@ function drawMotifGraph(motifGroups){
     // =====================================================
 
     ctx.fillStyle = "black";
-    ctx.font = "12px sans-serif";
 
     ctx.fillText(
         "Measure",
-        5,
-        my
+        30,
+        my - 15
     );
 
 
@@ -4520,38 +4540,40 @@ function drawMotifGraph(motifGroups){
         const x =
             mx + i * cellW + cellW / 2;
 
+        ctx.fillStyle = "black";
+
         ctx.fillText(
             "M" + (i + 1),
-            x - 10,
-            my
+            x,
+            my - 15
         );
     }
 
 
     // =====================================================
-    // 小節番号
+    // グリッド
     // =====================================================
 
-    for(
-        let measure = 1;
-        measure <= maxMeasure;
-        measure++
-    ){
+    for(let measure = 1; measure <= maxMeasure; measure++){
 
         const y =
-            my + measure * cellH;
+            my + (measure - 1) * cellH;
 
+        // 小節番号
         ctx.fillStyle = "black";
+
+        ctx.textAlign = "right";
 
         ctx.fillText(
             measure,
-            25,
-            y + 4
+            mx - 8,
+            y + cellH - 3
         );
 
 
         // 横線
         ctx.strokeStyle = "#dddddd";
+        ctx.lineWidth = 1;
 
         ctx.beginPath();
 
@@ -4570,7 +4592,7 @@ function drawMotifGraph(motifGroups){
 
 
     // =====================================================
-    // motif
+    // motif のセル
     // =====================================================
 
     for(let i = 0; i < motifGroups.length; i++){
@@ -4578,14 +4600,34 @@ function drawMotifGraph(motifGroups){
         const motif = motifGroups[i];
 
         const x =
-            mx + i * cellW + cellW / 2;
+            mx + i * cellW;
 
 
-        // =================================================
-        // この motif の全 occurrence
-        // =================================================
+        // -------------------------------------------------
+        // occurrence ごとに処理
+        // -------------------------------------------------
 
         for(const occurrence of motif.occurrences){
+
+            const startMeasureA =
+                Math.floor(
+                    occurrence.startA / beatsPerMeasure
+                ) + 1;
+
+            const endMeasureA =
+                Math.floor(
+                    occurrence.endA / beatsPerMeasure
+                ) + 1;
+
+            const startMeasureB =
+                Math.floor(
+                    occurrence.startB / beatsPerMeasure
+                ) + 1;
+
+            const endMeasureB =
+                Math.floor(
+                    occurrence.endB / beatsPerMeasure
+                ) + 1;
 
 
             // =============================================
@@ -4593,20 +4635,21 @@ function drawMotifGraph(motifGroups){
             // =============================================
 
             for(
-                let measure = occurrence.startA;
-                measure <= occurrence.endA;
+                let measure = startMeasureA;
+                measure <= endMeasureA;
                 measure++
             ){
 
                 const y =
-                    my + measure * cellH;
+                    my + (measure - 1) * cellH;
 
-                ctx.fillStyle = "red";
+                ctx.fillStyle = "rgba(255, 80, 80, 0.7)";
 
-                ctx.fillText(
-                    motif.shift,
-                    x - 15,
-                    y + 4
+                ctx.fillRect(
+                    x + 1,
+                    y + 1,
+                    cellW / 2 - 2,
+                    cellH - 2
                 );
             }
 
@@ -4616,24 +4659,40 @@ function drawMotifGraph(motifGroups){
             // =============================================
 
             for(
-                let measure = occurrence.startB;
-                measure <= occurrence.endB;
+                let measure = startMeasureB;
+                measure <= endMeasureB;
                 measure++
             ){
 
                 const y =
-                    my + measure * cellH;
+                    my + (measure - 1) * cellH;
 
-                ctx.fillStyle = "blue";
+                ctx.fillStyle = "rgba(80, 120, 255, 0.7)";
 
-                ctx.fillText(
-                    motif.shift,
-                    x - 15,
-                    y + 4
+                ctx.fillRect(
+                    x + cellW / 2,
+                    y + 1,
+                    cellW / 2 - 1,
+                    cellH - 2
                 );
             }
         }
     }
+
+
+    // =====================================================
+    // 外枠
+    // =====================================================
+
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
+
+    ctx.strokeRect(
+        mx,
+        my,
+        motifGroups.length * cellW,
+        maxMeasure * cellH
+    );
 }
 
 
