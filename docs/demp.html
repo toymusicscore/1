@@ -4602,72 +4602,26 @@ function drawSimilarityMatrix(
     return beatSimilarity;
 }
 
-function createSimilarityMatrices(){
+function createSimilarityMatrices(offsetY = 0){
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+    const marginX = 40;
+    const gapX = 40;
+    const gapY = 60;
 
-    const marginLeft   = 50;
-    const marginRight  = 50;
-    const marginTop    = 50;
-    const marginBottom = 50;
-
-    const gapX = 60;
-    const gapY = 80;
-
-
-    // =================================
-    // Matrix 1枚のサイズ
-    // =================================
+    const matrixAreaWidth =
+        canvas.width - marginX * 2;
 
     const size =
         Math.min(
-
-            // 横方向
-            (
-                canvas.width
-                - marginLeft
-                - marginRight
-                - gapX
-            ) / 2,
-
-            // 縦方向
-            (
-                canvas.height
-                - marginTop
-                - marginBottom
-                - gapY
-            ) / 2
+            (matrixAreaWidth - gapX) / 2,
+            700
         );
 
+    const x1 = marginX;
+    const x2 = x1 + size + gapX;
 
-    // =================================
-    // X位置
-    // =================================
-
-    const x1 =
-        marginLeft;
-
-    const x2 =
-        x1 + size + gapX;
-
-
-    // =================================
-    // Y位置
-    //
-    // drawSimilarityMatrix() の
-    // y は Matrix の下端
-    // =================================
-
-    const y1 =
-        marginTop + size;
-
-    const y2 =
-        y1 + size + gapY;
+    const y1 = offsetY + size;
+    const y2 = y1 + size + gapY;
 
 
     // =================================
@@ -4676,15 +4630,11 @@ function createSimilarityMatrices(){
 
     const beatSimilarityRightRight =
         drawSimilarityMatrix(
-
             shapeBeatDataRight,
             shapeBeatDataRight,
-
             x1,
             y1,
-
             size,
-
             "Right Hand × Right Hand"
         );
 
@@ -4695,15 +4645,11 @@ function createSimilarityMatrices(){
 
     const beatSimilarityLeftLeft =
         drawSimilarityMatrix(
-
             shapeBeatDataLeft,
             shapeBeatDataLeft,
-
             x2,
             y1,
-
             size,
-
             "Left Hand × Left Hand"
         );
 
@@ -4714,15 +4660,11 @@ function createSimilarityMatrices(){
 
     const beatSimilarityLeftRight =
         drawSimilarityMatrix(
-
             shapeBeatDataLeft,
             shapeBeatDataRight,
-
             x1,
             y2,
-
             size,
-
             "Left Hand × Right Hand"
         );
 
@@ -4733,22 +4675,14 @@ function createSimilarityMatrices(){
 
     const beatSimilarityRightLeft =
         drawSimilarityMatrix(
-
             shapeBeatDataRight,
             shapeBeatDataLeft,
-
             x2,
             y2,
-
             size,
-
             "Right Hand × Left Hand"
         );
 
-
-    // =================================
-    // 結果
-    // =================================
 
     return {
 
