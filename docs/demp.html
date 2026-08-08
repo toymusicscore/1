@@ -4449,8 +4449,8 @@ function findMotif(beatSimilarity, shapeBeatData){
         // motif の形を文字列化
         // -------------------------
 
-        const shapeKey = JSON.stringify(shape);
-
+        const shapeKey =
+            motif.shift + "_" + JSON.stringify(shape);
 
         // -------------------------
         // 同じ形なら統合
@@ -4511,14 +4511,72 @@ function findMotif(beatSimilarity, shapeBeatData){
 
     });
 
-    console.log("Merged motifGroups:", motifGroups);
-
-    drawMotifGraph(motifGroupsRight, 0);
-
-    drawMotifGraph(motifGroupsLeft, canvas.height / 2);
-
 	return motifGroups;
 
+}
+
+let shapeBeatDataRight = {};
+let shapeBeatDataLeft = {};
+
+let beatSimilarityRight = [];
+let beatSimilarityLeft = [];
+
+let motifGroupsRight = [];
+let motifGroupsLeft = [];
+
+function createHandMotifs(){
+
+    // ==============================
+    // 右手
+    // ==============================
+
+    shapeBeatDataRight =
+        createShapeBeat(scoreRight, 1);
+
+    beatSimilarityRight =
+        createBeatSimilarity(
+            shapeBeatDataRight
+        );
+
+    motifGroupsRight =
+        findMotif(
+            beatSimilarityRight,
+            shapeBeatDataRight
+        );
+
+
+    // ==============================
+    // 左手
+    // ==============================
+
+    shapeBeatDataLeft =
+        createShapeBeat(scoreLeft, 2);
+
+    beatSimilarityLeft =
+        createBeatSimilarity(
+            shapeBeatDataLeft
+        );
+
+    motifGroupsLeft =
+        findMotif(
+            beatSimilarityLeft,
+            shapeBeatDataLeft
+        );
+
+
+    // ==============================
+    // グラフ
+    // ==============================
+
+    drawMotifGraph(
+        motifGroupsRight,
+        0
+    );
+
+    drawMotifGraph(
+        motifGroupsLeft,
+        canvas.height / 2
+    );
 }
 
 
