@@ -4798,7 +4798,7 @@ for(const candidate of candidates){
 // 4. 同じMotifを occurrences に統合
 //
 // A/Bの位置ではなく、
-// length + transpose + shape
+// length + shape
 // が同じものを同じMotifとする
 // =====================================================
 
@@ -4817,15 +4817,6 @@ for(const candidate of validCandidates){
         ){
             continue;
         }
-
-
-        if(
-            existing.transpose !==
-            candidate.transpose
-        ){
-            continue;
-        }
-
 
         if(
             JSON.stringify(existing.shape) !==
