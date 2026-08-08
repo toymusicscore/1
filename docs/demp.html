@@ -4516,11 +4516,11 @@ function createSimilarityMatrices(){
 function findMotif(beatSimilarity){
 
     let diagonalGroups = {};
-    let motifGroups = [];
+    let motifCandidates = [];
 
-    // ----------------------------
-    // shift ごとにグループ化
-    // ----------------------------
+    // =====================================================
+    // 1. diagonal ごとにグループ化
+    // =====================================================
 
     for(let item of beatSimilarity){
 
@@ -4533,9 +4533,10 @@ function findMotif(beatSimilarity){
         diagonalGroups[d].push(item);
     }
 
-    // ----------------------------
-    // 各 shift の中で連続するものを探す
-    // ----------------------------
+
+    // =====================================================
+    // 2. diagonal ごとに連続する一致を探す
+    // =====================================================
 
     for(let d in diagonalGroups){
 
@@ -4560,13 +4561,19 @@ function findMotif(beatSimilarity){
             }else{
 
                 if(run.length >= 3){
-                    motifGroups.push({
-                        diagonal: Number(d),
+
+                    motifCandidates.push({
+
                         startA: run[0].beatA,
                         endA: run[run.length-1].beatA,
+
                         startB: run[0].beatB,
                         endB: run[run.length-1].beatB,
-                        length: run.length
+
+                        length: run.length,
+
+                        diagonal: Number(d)
+
                     });
                 }
 
@@ -4574,71 +4581,165 @@ function findMotif(beatSimilarity){
             }
         }
 
-        // 最後の run
+
+        // 最後のrun
         if(run.length >= 3){
-            motifGroups.push({
-                diagonal: Number(d),
+
+            motifCandidates.push({
+
                 startA: run[0].beatA,
                 endA: run[run.length-1].beatA,
+
                 startB: run[0].beatB,
                 endB: run[run.length-1].beatB,
-                length: run.length
+
+                length: run.length,
+
+                diagonal: Number(d)
+
             });
         }
     }
 
-    let merged = {};
 
-    for(let motif of motifGroups){
+    // =====================================================
+    // 3. 同じMotifを統合
+    //
+    // A側またはB側の範囲が完全一致するものを
+    // 同じMotifとしてまとめる
+    // =====================================================
 
-        let startA = motif.startA;
-        let endA   = motif.endA;
-        let startB = motif.startB;
-        let endB   = motif.endB;
+    let motifGroups = [];
 
-        if(startA > startB){
 
-            [startA, startB] = [startB, startA];
-            [endA, endB] = [endB, endA];
+    for(const candidate of motifCandidates){
+
+        let found = null;
+
+
+        for(const motif of motifGroups){
+
+            const sameLength =
+                motif.length === candidate.length;
+
+
+            const sameA =
+                motif.startA === candidate.startA &&
+                motif.endA === candidate.endA;
+
+
+            const sameB =
+                motif.occurrences.some(occurrence =>
+                    occurrence.startB === candidate.startB &&
+                    occurrence.endB === candidate.endB
+                );
+
+
+            if(
+                sameLength &&
+                sameA
+            ){
+
+                found = motif;
+                break;
+            }
         }
 
-        const key =
-            `${startA}_${endA}_${startB}_${endB}`;
 
-        if(!merged[key]){
+        // ---------------------------------------------
+        // 既存Motifに追加
+        // ---------------------------------------------
 
-            merged[key] = {
-                startA: startA,
-                endA: endA,
-                startB: startB,
-                endB: endB,
-                length: motif.length,
-                diagonal: motif.diagonal
-            };
+        if(found){
+
+            found.occurrences.push({
+
+                startA: candidate.startA,
+                endA: candidate.endA,
+
+                startB: candidate.startB,
+                endB: candidate.endB,
+
+                diagonal: candidate.diagonal
+
+            });
+
+        }
+
+
+        // ---------------------------------------------
+        // 新しいMotif
+        // ---------------------------------------------
+
+        else{
+
+            motifGroups.push({
+
+                length: candidate.length,
+
+                startA: candidate.startA,
+                endA: candidate.endA,
+
+                occurrences: [
+
+                    {
+                        startA: candidate.startA,
+                        endA: candidate.endA,
+
+                        startB: candidate.startB,
+                        endB: candidate.endB,
+
+                        diagonal: candidate.diagonal
+                    }
+
+                ]
+
+            });
         }
     }
 
-    motifGroups = Object.values(merged);
 
-    // ----------------------------
-    // 長いモチーフを先にする
-    // ----------------------------
+    // =====================================================
+    // 4. occurrences の重複を除去
+    // =====================================================
+
+    for(const motif of motifGroups){
+
+        const unique = {};
+
+        for(const occurrence of motif.occurrences){
+
+            const key =
+                `${occurrence.startA}_${occurrence.endA}_` +
+                `${occurrence.startB}_${occurrence.endB}`;
+
+            unique[key] = occurrence;
+        }
+
+        motif.occurrences =
+            Object.values(unique);
+    }
+
+
+    // =====================================================
+    // 5. 長いMotifを先にする
+    // =====================================================
 
     motifGroups.sort((a,b) => {
 
         if(b.length !== a.length){
 
             return b.length - a.length;
-
         }
 
-        return Math.abs(b.shift) - Math.abs(a.shift);
-
+        return b.occurrences.length -
+               a.occurrences.length;
     });
 
-	return motifGroups;
 
+    return motifGroups;
 }
+
 
 function drawMotifGraph(motifGroups, offsetX = 0){
     ctx.clearRect(
