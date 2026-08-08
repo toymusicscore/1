@@ -4483,20 +4483,9 @@ function drawMotifGraph(motifGroups){
     // 楽曲全体の最終 beat
     // =====================================================
 
-    let maxBeat = 0;
+    const maxBeat =
 
-    for(const motif of motifGroups){
-
-        for(const occurrence of motif.occurrences){
-
-            maxBeat = Math.max(
-                maxBeat,
-                occurrence.endA,
-                occurrence.endB
-            );
-        }
-    }
-
+        Math.ceil(songLengthTicks / ticksPerQuarterNote);
 
     // =====================================================
     // motif ごとの色
