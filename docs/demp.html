@@ -4094,39 +4094,41 @@ let motifGroupsLeft = [];
 
 function createHandMotifs(){
 
-    // Shapeを作る
+    // ==============================
+    // 右手
+    // ==============================
+
     shapeBeatDataRight =
         createShapeBeat(scoreRight, 1);
+
+    beatSimilarityRight =
+        createSimilarityMatrices(
+            shapeBeatDataRight
+        );
+
+    motifGroupsRight =
+        findMotif(
+            beatSimilarityRight,
+            shapeBeatDataRight
+        );
+
+
+    // ==============================
+    // 左手
+    // ==============================
 
     shapeBeatDataLeft =
         createShapeBeat(scoreLeft, 2);
 
-
-    // Similarity Matrixを作る
-    const similarity =
-        createSimilarityMatrices();
-
-
-    // 3種類を保存
-    beatSimilarityRightRight =
-        similarity.rightRight;
-
-    beatSimilarityLeftLeft =
-        similarity.leftLeft;
-
-    beatSimilarityLeftRight =
-        similarity.leftRight;
-
-
-    // Motifを抽出
-    motifGroupsRight =
-        findMotif(
-            beatSimilarityRightRight,
+    beatSimilarityLeft =
+        createSimilarityMatrices(
+            shapeBeatDataLeft
         );
 
     motifGroupsLeft =
         findMotif(
-            beatSimilarityLeftLeft,
+            beatSimilarityLeft,
+            shapeBeatDataLeft
         );
 }
 
@@ -4872,6 +4874,7 @@ function drawMotifGraph(motifGroups, offsetX = 0){
 
     // =====================================================
     // 楽曲全体の最終 beat
+
     // =====================================================
 
     const maxBeat =
