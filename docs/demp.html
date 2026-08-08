@@ -4106,13 +4106,11 @@ function createHandMotifs(){
     motifGroupsRight =
         findMotif(
             beatSimilarityRightRight,
-            shapeBeatDataRight
         );
 
     motifGroupsLeft =
         findMotif(
             beatSimilarityLeftLeft,
-            shapeBeatDataLeft
         );
 }
 
@@ -4515,7 +4513,7 @@ function createSimilarityMatrices(){
 }
 
 
-function findMotif(beatSimilarity, shapeBeatData){
+function findMotif(beatSimilarity){
 
     let diagonalGroups = {};
     let motifGroups = [];
@@ -4526,7 +4524,7 @@ function findMotif(beatSimilarity, shapeBeatData){
 
     for(let item of beatSimilarity){
 
-        const d = item.beatB - item.beatA;
+        const d = item.diagonal;
 
         if(!diagonalGroups[d]){
             diagonalGroups[d] = [];
@@ -4534,7 +4532,6 @@ function findMotif(beatSimilarity, shapeBeatData){
 
         diagonalGroups[d].push(item);
     }
-
 
     // ----------------------------
     // 各 shift の中で連続するものを探す
@@ -4563,9 +4560,8 @@ function findMotif(beatSimilarity, shapeBeatData){
             }else{
 
                 if(run.length >= 3){
-
                     motifGroups.push({
-                        shift: Number(d),
+                        diagonal: Number(d),
                         startA: run[0].beatA,
                         endA: run[run.length-1].beatA,
                         startB: run[0].beatB,
@@ -4580,9 +4576,8 @@ function findMotif(beatSimilarity, shapeBeatData){
 
         // 最後の run
         if(run.length >= 3){
-
             motifGroups.push({
-                shift: Number(d),
+                diagonal: Number(d),
                 startA: run[0].beatA,
                 endA: run[run.length-1].beatA,
                 startB: run[0].beatB,
@@ -4591,11 +4586,6 @@ function findMotif(beatSimilarity, shapeBeatData){
             });
         }
     }
-
-
-    // ----------------------------
-    // +shift / -shift を統合
-    // ----------------------------
 
     let merged = {};
 
@@ -4623,102 +4613,12 @@ function findMotif(beatSimilarity, shapeBeatData){
                 startB: startB,
                 endB: endB,
                 length: motif.length,
-                shift: startB - startA
+                diagonal: motif.diagonal
             };
         }
     }
 
     motifGroups = Object.values(merged);
-
-
-    // =====================================================
-    // 同じ motif の形を統合
-    // =====================================================
-
-    let motifTypes = {};
-
-    for(let motif of motifGroups){
-
-        // -------------------------
-        // motif の形を作る
-        // -------------------------
-
-        let shape = [];
-
-        for(let k = 0; k < motif.length; k++){
-
-            const beatA = motif.startA + k;
-            const beatB = motif.startB + k;
-
-            const shapeA = shapeBeatData[beatA];
-            const shapeB = shapeBeatData[beatB];
-
-            if(!shapeA || !shapeB){
-                continue;
-            }
-
-            shape.push({
-                A: shapeA.points.map(p => [
-                    p.relativeStart,
-                    p.relativeMidi
-                ]),
-                B: shapeB.points.map(p => [
-                    p.relativeStart,
-                    p.relativeMidi
-                ])
-            });
-        }
-
-
-        // -------------------------
-        // motif の形を文字列化
-        // -------------------------
-
-        const shapeKey =
-            motif.shift + "_" + JSON.stringify(shape);
-
-        // -------------------------
-        // 同じ形なら統合
-        // -------------------------
-
-        if(!motifTypes[shapeKey]){
-
-            motifTypes[shapeKey] = {
-
-                length: motif.length,
-
-                shift: motif.shift,
-
-                occurrences: []
-
-            };
-        }
-
-
-        // -------------------------
-        // 出現位置を追加
-        // -------------------------
-
-        motifTypes[shapeKey].occurrences.push({
-
-            startA: motif.startA,
-            endA: motif.endA,
-
-            startB: motif.startB,
-            endB: motif.endB,
-
-            shift: motif.shift
-
-        });
-    }
-
-
-    // ----------------------------
-    // motifGroups を再構築
-    // ----------------------------
-
-    motifGroups = Object.values(motifTypes);
-
 
     // ----------------------------
     // 長いモチーフを先にする
