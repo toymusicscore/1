@@ -4533,10 +4533,10 @@ function createSimilarityMatrices(){
     };
 }
 
-
 function findMotif(
     beatSimilarity,
-    shapeBeatData
+    shapeBeatDataA,
+    shapeBeatDataB
 ){
 
     // =====================================================
@@ -4544,6 +4544,11 @@ function findMotif(
     // =====================================================
 
     const diagonalGroups = {};
+
+    const shapeA =
+    shapeBeatDataA[beatA];
+    const shapeB =
+    shapeBeatDataB[beatB];
 
     for(const item of beatSimilarity){
 
