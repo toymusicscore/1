@@ -4914,9 +4914,13 @@ for(const motif of motifGroups){
 // 6. 1回しか出現しないものはMotifではない
 // =====================================================
 
-motifGroups = motifGroups.filter(
-    motif => motif.occurrences.length >= 2
-);
+for(let i = motifGroups.length - 1; i >= 0; i--){
+
+    if(motifGroups[i].occurrences.length < 2){
+
+        motifGroups.splice(i, 1);
+    }
+}
 
 // =====================================================
 // 7. 長いMotifを先にする
