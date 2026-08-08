@@ -4036,8 +4036,15 @@ function showShapeMeasure() {
     showSelectedView();
 }
 
-let shapeBeatData={};
-let shapeMeasureData={};
+
+let shapeBeatDataRight = {};
+let shapeBeatDataLeft = {};
+
+let beatSimilarityRight = [];
+let beatSimilarityLeft = [];
+
+let motifGroupsRight = [];
+let motifGroupsLeft = [];
 
 function createShapeBeat(scoreNotes, hand){
 
@@ -4515,14 +4522,6 @@ function findMotif(beatSimilarity, shapeBeatData){
 
 }
 
-let shapeBeatDataRight = {};
-let shapeBeatDataLeft = {};
-
-let beatSimilarityRight = [];
-let beatSimilarityLeft = [];
-
-let motifGroupsRight = [];
-let motifGroupsLeft = [];
 
 function createHandMotifs(){
 
