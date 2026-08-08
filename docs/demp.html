@@ -4479,12 +4479,12 @@ function drawMotifGraph(motifGroups){
     // 最大小節番号
     let maxMeasure = 0;
 
-    for(const motif of motifGroups.occurrences){
+    for(const motif of motifGroups){
 
         maxMeasure = Math.max(
             maxMeasure,
-            motif.endA,
-            motif.endB
+            motif.occurrences.endA,
+            motif.occurrences.endB
         );
     }
 
