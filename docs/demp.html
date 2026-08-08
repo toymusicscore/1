@@ -5076,58 +5076,48 @@ function drawMotifGraph(
         const x =
             mx + i * cellW;
 
-
-        // -------------------------------------------------
-        // この motif に属する beat をまとめる
-        // -------------------------------------------------
-
-        const beats = new Set();
-
-
         for(const occurrence of motif.occurrences){
 
+            // -------------------------
             // A側
+            // -------------------------
             for(
                 let beat = occurrence.startA;
                 beat <= occurrence.endA;
                 beat++
             ){
 
-                beats.add(beat);
+                const y =
+                    my + beat * cellH;
+
+                ctx.fillRect(
+                    x + 2,
+                    y + 1,
+                    cellW - 4,
+                    cellH - 1
+                );
             }
 
 
+            // -------------------------
             // B側
+            // -------------------------
             for(
                 let beat = occurrence.startB;
                 beat <= occurrence.endB;
                 beat++
             ){
 
-                beats.add(beat);
+                const y =
+                    my + beat * cellH;
+
+                ctx.fillRect(
+                    x + 2,
+                    y + 1,
+                    cellW - 4,
+                    cellH - 1
+                );
             }
-        }
-
-
-        // -------------------------------------------------
-        // beat ごとに1回だけ描画
-        // -------------------------------------------------
-
-        ctx.fillStyle =
-            motifColors[i % motifColors.length];
-
-
-        for(const beat of beats){
-
-            const y =
-                my + beat * cellH;
-
-            ctx.fillRect(
-                x + 2,
-                y + 1,
-                cellW - 4,
-                cellH - 1
-            );
         }
     }
 
