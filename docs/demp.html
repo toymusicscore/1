@@ -4349,101 +4349,116 @@ function findMotif(){
         }
     }
 
-
     motifGroups = Object.values(merged);
+
+
+    // =====================================================
+    // 同じ motif の形を統合
+    // =====================================================
+
+    let motifTypes = {};
+
+    for(let motif of motifGroups){
+
+        // -------------------------
+        // motif の形を作る
+        // -------------------------
+
+        let shape = [];
+
+        for(let k = 0; k < motif.length; k++){
+
+            const beatA = motif.startA + k;
+            const beatB = motif.startB + k;
+
+            const shapeA = shapeBeatData[beatA];
+            const shapeB = shapeBeatData[beatB];
+
+            if(!shapeA || !shapeB){
+                continue;
+            }
+
+            shape.push({
+                A: shapeA.points.map(p => [
+                    p.relativeStart,
+                    p.relativeMidi
+                ]),
+                B: shapeB.points.map(p => [
+                    p.relativeStart,
+                    p.relativeMidi
+                ])
+            });
+        }
+
+
+        // -------------------------
+        // motif の形を文字列化
+        // -------------------------
+
+        const shapeKey = JSON.stringify(shape);
+
+
+        // -------------------------
+        // 同じ形なら統合
+        // -------------------------
+
+        if(!motifTypes[shapeKey]){
+
+            motifTypes[shapeKey] = {
+
+                length: motif.length,
+
+                shift: motif.shift,
+
+                occurrences: []
+
+            };
+        }
+
+
+        // -------------------------
+        // 出現位置を追加
+        // -------------------------
+
+        motifTypes[shapeKey].occurrences.push({
+
+            startA: motif.startA,
+            endA: motif.endA,
+
+            startB: motif.startB,
+            endB: motif.endB,
+
+            shift: motif.shift
+
+        });
+    }
+
+
+    // ----------------------------
+    // motifGroups を再構築
+    // ----------------------------
+
+    motifGroups = Object.values(motifTypes);
 
 
     // ----------------------------
     // 長いモチーフを先にする
     // ----------------------------
 
-    motifGroups.sort((a,b) => b.length - a.length);
+    motifGroups.sort((a,b) => {
 
+        if(b.length !== a.length){
 
-    console.log(motifGroups);
+            return b.length - a.length;
 
+        }
 
-    // ----------------------------
-    // 表示
-    // ----------------------------
-/*
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+        return Math.abs(b.shift) - Math.abs(a.shift);
 
-    ctx.fillStyle = "black";
-    ctx.font = "12px Arial";
+    });
 
-    ctx.textAlign = "left";
+    console.log("Merged motifGroups:", motifGroups);
 
-    ctx.fillText("No.", 50, 30);
-    ctx.fillText("Length", 90, 30);
-    ctx.fillText("Shift", 150, 30);
-    ctx.fillText("A", 220, 30);
-    ctx.fillText("B", 320, 30);
-    ctx.fillText("Measure A", 420, 30);
-    ctx.fillText("Measure B", 520, 30);
-
-
-    for(let i = 0; i < motifGroups.length; i++){
-
-        const motif = motifGroups[i];
-
-        const y = 50 + i * 20;
-
-        const measureA =
-            Math.floor(motif.startA / beatsPerMeasure) + 1;
-
-        const measureB =
-            Math.floor(motif.startB / beatsPerMeasure) + 1;
-
-
-        ctx.fillText(
-            i + 1,
-            50,
-            y
-        );
-
-        ctx.fillText(
-            motif.length,
-            90,
-            y
-        );
-
-        ctx.fillText(
-            motif.shift,
-            150,
-            y
-        );
-
-        ctx.fillText(
-            `${motif.startA}–${motif.endA}`,
-            220,
-            y
-        );
-
-        ctx.fillText(
-            `${motif.startB}–${motif.endB}`,
-            320,
-            y
-        );
-
-        ctx.fillText(
-            measureA,
-            420,
-            y
-        );
-
-        ctx.fillText(
-            measureB,
-            520,
-            y
-        );
-    }
-*/
 	drawMotifGraph(motifGroups);
 
 	return motifGroups;
