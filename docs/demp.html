@@ -4091,7 +4091,6 @@ let beatSimilarityLeftRight = [];
 let motifGroupsRight = [];
 let motifGroupsLeft = [];
 
-
 function createHandMotifs(){
 
     // ==============================
@@ -4134,6 +4133,18 @@ function createHandMotifs(){
             similarity.leftLeft,
             shapeBeatDataLeft,
             shapeBeatDataLeft
+        );
+
+
+    // ==============================
+    // 左手 × 右手 Motif
+    // ==============================
+
+    motifGroupsLeftRight =
+        findMotif(
+            similarity.leftRight,
+            shapeBeatDataLeft,
+            shapeBeatDataRight
         );
 }
 
