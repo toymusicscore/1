@@ -4027,8 +4027,6 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 function showSimilarityMatrices() {
 
-    createHandMotifs();
-
     createSimilarityMatrices();
 
 }
@@ -4078,42 +4076,58 @@ let motifGroupsLeft = [];
 function createHandMotifs(){
 
     // ==============================
-    // 右手
+    // 右手・左手のShapeを作る
     // ==============================
 
     shapeBeatDataRight =
         createShapeBeat(scoreRight, 1);
 
-    beatSimilarityRight =
-        createSimilarityMatrices(
-            shapeBeatDataRight
-        );
-
-    motifGroupsRight =
-        findMotif(
-            beatSimilarityRight,
-            shapeBeatDataRight
-        );
-
-
-    // ==============================
-    // 左手
-    // ==============================
-
     shapeBeatDataLeft =
         createShapeBeat(scoreLeft, 2);
 
-    beatSimilarityLeft =
-        createSimilarityMatrices(
-            shapeBeatDataLeft
+
+    // ==============================
+    // Similarity Matrixを3種類作る
+    // ==============================
+
+    const similarity =
+        createSimilarityMatrices();
+
+
+    // ==============================
+    // 3種類を取り出す
+    // ==============================
+
+    beatSimilarityRightRight =
+        similarity.rightRight;
+
+    beatSimilarityLeftLeft =
+        similarity.leftLeft;
+
+    beatSimilarityLeftRight =
+        similarity.leftRight;
+
+
+    // ==============================
+    // 右手のMotif
+    // ==============================
+
+    motifGroupsRight =
+        findMotif(
+            beatSimilarityRightRight,
+            shapeBeatDataRight
         );
+
+
+    // ==============================
+    // 左手のMotif
+    // ==============================
 
     motifGroupsLeft =
         findMotif(
-            beatSimilarityLeft,
+            beatSimilarityLeftLeft,
             shapeBeatDataLeft
         );
-
 }
 
 
