@@ -4529,16 +4529,18 @@ function createSimilarityMatrices(){
 }
 
 
-function findMotif(beatSimilarity){
-
-    let diagonalGroups = {};
-    let motifCandidates = [];
+function findMotif(
+    beatSimilarity,
+    shapeBeatData
+){
 
     // =====================================================
     // 1. diagonal ごとにグループ化
     // =====================================================
 
-    for(let item of beatSimilarity){
+    const diagonalGroups = {};
+
+    for(const item of beatSimilarity){
 
         const d = item.diagonal;
 
@@ -4551,21 +4553,27 @@ function findMotif(beatSimilarity){
 
 
     // =====================================================
-    // 2. diagonal ごとに連続する一致を探す
+    // 2. diagonal ごとに連続するbeatを探す
     // =====================================================
 
-    for(let d in diagonalGroups){
+    const candidates = [];
+
+    for(const d in diagonalGroups){
 
         const list = diagonalGroups[d];
 
-        list.sort((a,b) => a.beatA - b.beatA);
+        list.sort(
+            (a,b) => a.beatA - b.beatA
+        );
 
         let run = [list[0]];
 
+
         for(let i = 1; i < list.length; i++){
 
-            const prev = list[i-1];
+            const prev = list[i - 1];
             const curr = list[i];
+
 
             if(
                 curr.beatA === prev.beatA + 1 &&
@@ -4578,18 +4586,19 @@ function findMotif(beatSimilarity){
 
                 if(run.length >= 3){
 
-                    motifCandidates.push({
+                    candidates.push({
 
                         startA: run[0].beatA,
-                        endA: run[run.length-1].beatA,
+                        endA:
+                            run[run.length - 1].beatA,
 
                         startB: run[0].beatB,
-                        endB: run[run.length-1].beatB,
+                        endB:
+                            run[run.length - 1].beatB,
 
                         length: run.length,
 
                         diagonal: Number(d)
-
                     });
                 }
 
@@ -4601,74 +4610,103 @@ function findMotif(beatSimilarity){
         // 最後のrun
         if(run.length >= 3){
 
-            motifCandidates.push({
+            candidates.push({
 
                 startA: run[0].beatA,
-                endA: run[run.length-1].beatA,
+                endA:
+                    run[run.length - 1].beatA,
 
                 startB: run[0].beatB,
-                endB: run[run.length-1].beatB,
+                endB:
+                    run[run.length - 1].beatB,
 
                 length: run.length,
 
                 diagonal: Number(d)
-
             });
         }
     }
 
 
     // =====================================================
-    // 3. 同じMotifを統合
-    //
-    // A側またはB側の範囲が完全一致するものを
-    // 同じMotifとしてまとめる
+    // 3. 各候補について
+    //    第1音の絶対音高差が一定か確認
     // =====================================================
 
-    let motifGroups = [];
+    const validCandidates = [];
 
 
-    for(const candidate of motifCandidates){
+    for(const candidate of candidates){
 
-        let found = null;
-
-
-        for(const motif of motifGroups){
-
-            const sameLength =
-                motif.length === candidate.length;
+        let transpose = null;
+        let valid = true;
 
 
-            const sameA =
-                motif.startA === candidate.startA &&
-                motif.endA === candidate.endA;
+        for(let k = 0; k < candidate.length; k++){
+
+            const beatA =
+                candidate.startA + k;
+
+            const beatB =
+                candidate.startB + k;
 
 
-            const sameB =
-                motif.occurrences.some(occurrence =>
-                    occurrence.startB === candidate.startB &&
-                    occurrence.endB === candidate.endB
-                );
+            const shapeA =
+                shapeBeatData[beatA];
+
+            const shapeB =
+                shapeBeatData[beatB];
 
 
             if(
-                sameLength &&
-                sameA
+                !shapeA ||
+                !shapeB ||
+                !shapeA.points.length ||
+                !shapeB.points.length
             ){
 
-                found = motif;
+                valid = false;
+                break;
+            }
+
+
+            // ---------------------------------------------
+            // 各beatの第1音
+            // ---------------------------------------------
+
+            const midiA =
+                shapeA.points[0].midi;
+
+            const midiB =
+                shapeB.points[0].midi;
+
+
+            // ---------------------------------------------
+            // 基準Motifとの差
+            // ---------------------------------------------
+
+            const diff =
+                midiB - midiA;
+
+
+            // 最初のbeatを基準値にする
+            if(transpose === null){
+
+                transpose = diff;
+
+            }else if(diff !== transpose){
+
+                // 全beatで同じ差でなければ
+                // Motifではない
+                valid = false;
                 break;
             }
         }
 
 
-        // ---------------------------------------------
-        // 既存Motifに追加
-        // ---------------------------------------------
+        if(valid){
 
-        if(found){
-
-            found.occurrences.push({
+            validCandidates.push({
 
                 startA: candidate.startA,
                 endA: candidate.endA,
@@ -4676,16 +4714,71 @@ function findMotif(beatSimilarity){
                 startB: candidate.startB,
                 endB: candidate.endB,
 
-                diagonal: candidate.diagonal
+                length: candidate.length,
 
+                diagonal: candidate.diagonal,
+
+                transpose: transpose
+            });
+        }
+    }
+
+
+    // =====================================================
+    // 4. 同じMotifを occurrences に統合
+    //
+    // 「同じA側の範囲」を同じMotifとする
+    // 部分的な重複は統合しない
+    // =====================================================
+
+    const motifGroups = [];
+
+
+    for(const candidate of validCandidates){
+
+        let motif = null;
+
+
+        for(const existing of motifGroups){
+
+            if(
+                existing.length === candidate.length &&
+
+                existing.startA === candidate.startA &&
+                existing.endA === candidate.endA
+            ){
+
+                motif = existing;
+                break;
+            }
+        }
+
+
+        // -------------------------------------------------
+        // 既存Motif
+        // -------------------------------------------------
+
+        if(motif){
+
+            motif.occurrences.push({
+
+                startA: candidate.startA,
+                endA: candidate.endA,
+
+                startB: candidate.startB,
+                endB: candidate.endB,
+
+                diagonal: candidate.diagonal,
+
+                transpose: candidate.transpose
             });
 
         }
 
 
-        // ---------------------------------------------
+        // -------------------------------------------------
         // 新しいMotif
-        // ---------------------------------------------
+        // -------------------------------------------------
 
         else{
 
@@ -4705,18 +4798,19 @@ function findMotif(beatSimilarity){
                         startB: candidate.startB,
                         endB: candidate.endB,
 
-                        diagonal: candidate.diagonal
+                        diagonal: candidate.diagonal,
+
+                        transpose: candidate.transpose
                     }
 
                 ]
-
             });
         }
     }
 
 
     // =====================================================
-    // 4. occurrences の重複を除去
+    // 5. occurrence の重複を削除
     // =====================================================
 
     for(const motif of motifGroups){
@@ -4726,8 +4820,10 @@ function findMotif(beatSimilarity){
         for(const occurrence of motif.occurrences){
 
             const key =
-                `${occurrence.startA}_${occurrence.endA}_` +
-                `${occurrence.startB}_${occurrence.endB}`;
+                `${occurrence.startA}_` +
+                `${occurrence.endA}_` +
+                `${occurrence.startB}_` +
+                `${occurrence.endB}`;
 
             unique[key] = occurrence;
         }
@@ -4738,23 +4834,22 @@ function findMotif(beatSimilarity){
 
 
     // =====================================================
-    // 5. 長いMotifを先にする
+    // 6. 長いMotifを先にする
     // =====================================================
 
     motifGroups.sort((a,b) => {
 
         if(b.length !== a.length){
+
             return b.length - a.length;
         }
 
         return b.occurrences.length -
-            a.occurrences.length;
+               a.occurrences.length;
     });
 
-    console.log("FINAL motifGroups =", motifGroups);
 
     return motifGroups;
-        return motifGroups;
 }
 
 
