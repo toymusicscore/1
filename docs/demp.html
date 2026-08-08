@@ -1147,7 +1147,11 @@ function showTab(tab){
 					type="button" 
 					id="similarityMatrixButton"
 					value="🗺️ Similarity Matrix">
-
+				<input 
+					type="button" 
+					id="motiGroupsButton"
+					value="📊 Motif Groups">
+					<br><br>
             `;
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -1167,6 +1171,11 @@ function showTab(tab){
 				$("similarityMatrixButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showSimilarityMatrix();
+					closeMenuWindow();
+				};
+				$("motifGroupsButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showMotifGroups();
 					closeMenuWindow();
 				};
 
@@ -4018,9 +4027,13 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 function showSimilarityMatrix() {
 
-    createHandMotifs();
+    createSimilarityMatrices();
 
-    createSimilarityMatrix();
+}
+
+function showMotifGroups() {
+
+    createHandMotifs();
 
 }
 
@@ -4055,7 +4068,7 @@ function createHandMotifs(){
         createShapeBeat(scoreRight, 1);
 
     beatSimilarityRight =
-        createBeatSimilarityMatrices(
+        createBeatSimilarityMatrix(
             shapeBeatDataRight
         );
 
@@ -4074,7 +4087,7 @@ function createHandMotifs(){
         createShapeBeat(scoreLeft, 2);
 
     beatSimilarityLeft =
-        createBeatSimilarityMatrices(
+        createBeatSimilarityMatrix(
             shapeBeatDataLeft
         );
 
