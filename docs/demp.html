@@ -4044,23 +4044,43 @@ function showMotifGroups(){
         canvas.height
     );
 
-    console.log(
-    "DRAW MOTIFS",
-        motifGroups.map((m, i) => ({
-            M: i + 1,
-            length: m.length,
-            occurrences: m.occurrences
-        }))
-    );
+    const graphWidth =
+        canvas.width / 3;
 
-    drawMotifGraph(
-        motifGroupsLeft,
-        0
-    );
+
+    // ==============================
+    // Right × Right
+    // ==============================
 
     drawMotifGraph(
         motifGroupsRight,
-        canvas.width / 2
+        0,
+        0,
+        "Right Hand × Right Hand"
+    );
+
+
+    // ==============================
+    // Left × Left
+    // ==============================
+
+    drawMotifGraph(
+        motifGroupsLeft,
+        graphWidth,
+        0,
+        "Left Hand × Left Hand"
+    );
+
+
+    // ==============================
+    // Left × Right
+    // ==============================
+
+    drawMotifGraph(
+        motifGroupsLeftRight,
+        graphWidth * 2,
+        0,
+        "Left Hand × Right Hand"
     );
 }
 
@@ -4868,8 +4888,12 @@ function findMotif(
     return motifGroups;
 }
 
-
-function drawMotifGraph(motifGroups, offsetX = 0){
+function drawMotifGraph(
+    motifGroups,
+    offsetX = 0,
+    offsetY = 0,
+    title = ""
+){
 
     const graphWidth = canvas.width / 2;
 
@@ -4881,10 +4905,24 @@ function drawMotifGraph(motifGroups, offsetX = 0){
 
     ctx.save();
 
-    ctx.translate(offsetX, 0);
+    ctx.translate(offsetX, offsetY);
 
     ctx.font = "10px sans-serif";
 
+
+    // =====================================================
+    // タイトル
+    // =====================================================
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = "black";
+    ctx.font = "12px sans-serif";
+
+    ctx.fillText(
+        title,
+        mx + motifGroups.length * cellW / 2,
+        my - 25
+    );
 
     // =====================================================
     // 楽曲全体の最終 beat
@@ -4914,7 +4952,6 @@ function drawMotifGraph(motifGroups, offsetX = 0){
         "#fd79a8"
     ];
 
-
     // =====================================================
     // motif番号
     // =====================================================
@@ -4932,7 +4969,7 @@ function drawMotifGraph(motifGroups, offsetX = 0){
         ctx.fillText(
             "M" + (i + 1),
             x,
-            my - 10
+            my - 8
         );
     }
 
