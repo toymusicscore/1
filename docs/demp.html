@@ -4028,14 +4028,6 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 function showSimilarityMatrices(){
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
     // ==============================
     // shapeを作る
     // ==============================
@@ -4062,11 +4054,11 @@ function showSimilarityMatrices(){
 
 
     // 必要なら保存
-    beatSimilarityRightRight =
-        similarity.rightRight;
-
     beatSimilarityLeftLeft =
         similarity.leftLeft;
+
+    beatSimilarityRightRight =
+        similarity.rightRight;
 
     beatSimilarityLeftRight =
         similarity.leftRight;
@@ -4623,21 +4615,6 @@ function createSimilarityMatrices(offsetY = 0){
 
 
     // =================================
-    // Right × Right
-    // =================================
-
-    const beatSimilarityRightRight =
-        drawSimilarityMatrix(
-            shapeBeatDataRight,
-            shapeBeatDataRight,
-            x1,
-            y1,
-            size,
-            "Right Hand × Right Hand"
-        );
-
-
-    // =================================
     // Left × Left
     // =================================
 
@@ -4645,10 +4622,25 @@ function createSimilarityMatrices(offsetY = 0){
         drawSimilarityMatrix(
             shapeBeatDataLeft,
             shapeBeatDataLeft,
-            x2,
+            x1,
             y1,
             size,
             "Left Hand × Left Hand"
+        );
+
+
+    // =================================
+    // Right × Right
+    // =================================
+
+    const beatSimilarityRightRight =
+        drawSimilarityMatrix(
+            shapeBeatDataRight,
+            shapeBeatDataRight,
+            x2,
+            y1,
+            size,
+            "Right Hand × Right Hand"
         );
 
 
