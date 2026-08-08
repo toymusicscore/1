@@ -4182,135 +4182,319 @@ function compareBeat(a, b){
 
     return 1;
 }
+function drawSimilarityMatrix(
+    shapeDataA,
+    shapeDataB,
+    x,
+    y,
+    size,
+    title
+){
 
-let beatSimilarity = [];
+    const beatSimilarity = [];
 
-function createSimilarityMatrix(){
+    const beatsA = Object.keys(shapeDataA)
+        .map(Number)
+        .sort((a,b) => a-b);
 
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const beatsB = Object.keys(shapeDataB)
+        .map(Number)
+        .sort((a,b) => a-b);
 
-    beatSimilarity = [];
+    const cellW = size / beatsB.length;
+    const cellH = size / beatsA.length;
 
-    const beats = Object.keys(shapeBeatData);
 
-    const size = Math.min(
-        canvas.width - 100,
-        canvas.height - 100
+    // --------------------------------
+    // title
+    // --------------------------------
+
+    ctx.fillStyle = "black";
+    ctx.font = "12px Arial";
+    ctx.textAlign = "center";
+
+    ctx.fillText(
+        title,
+        x + size / 2,
+        y - 15
     );
 
-    const cell = size / beats.length;
 
-    ctx.font = "10px Arial";
-    ctx.fillStyle = "black";
+    // --------------------------------
+    // matrix
+    // --------------------------------
 
-    for(let i=0; i<beats.length; i++){
+    for(let i = 0; i < beatsA.length; i++){
 
-        for(let j=0; j<beats.length; j++){
+        for(let j = 0; j < beatsB.length; j++){
+
+            const beatA = beatsA[i];
+            const beatB = beatsB[j];
 
             const score =
                 compareBeat(
-                    shapeBeatData[beats[i]],
-                    shapeBeatData[beats[j]]
+                    shapeDataA[beatA],
+                    shapeDataB[beatB]
                 );
 
-			const beatA = Number(beats[i]);
-			const beatB = Number(beats[j]);
+            if(
+                score >= 0.999 &&
+                !(
+                    shapeDataA === shapeDataB &&
+                    beatA === beatB
+                )
+            ){
 
-			if(score >= 0.999 && beatA !== beatB){
-                ctx.fillStyle="red";
-				beatSimilarity.push({
-					score: score,
-					beatA: beatA,
-					beatB: beatB,
-					measureA: Math.floor(beatA / beatsPerMeasure) + 1,
-					measureB: Math.floor(beatB / beatsPerMeasure) + 1,
-					diagonal: beatB - beatA
-				});
+                ctx.fillStyle = "red";
+
+                beatSimilarity.push({
+
+                    score: score,
+
+                    beatA: beatA,
+                    beatB: beatB,
+
+                    measureA:
+                        Math.floor(
+                            beatA / beatsPerMeasure
+                        ) + 1,
+
+                    measureB:
+                        Math.floor(
+                            beatB / beatsPerMeasure
+                        ) + 1,
+
+                    diagonal:
+                        beatB - beatA
+                });
+
             }else{
-                ctx.fillStyle="white";
+
+                ctx.fillStyle = "white";
             }
 
             ctx.fillRect(
-                50+j*cell,
-                50+i*cell,
-                cell,
-                cell
+                x + j * cellW,
+                y + i * cellH,
+                cellW,
+                cellH
             );
         }
     }
 
-	ctx.strokeStyle = "#666";
-	ctx.fillStyle = "black";
-	ctx.lineWidth = 1;
 
-    // 横軸 小節番号
-    for(let j=0; j<beats.length; j++){
-		const beatNumber = Number(beats[j]);
+    // --------------------------------
+    // 小節線
+    // --------------------------------
 
-		const measure =
-			Math.floor(beatNumber / beatsPerMeasure) + 1;
+    ctx.strokeStyle = "#666";
+    ctx.lineWidth = 1;
 
-        // 小節の先頭だけ表示
-        if(Number(beats[j]) % beatsPerMeasure === 0){
-			ctx.beginPath();
-			ctx.moveTo(
-				50+j*cell,
-				25
-			);
-			ctx.lineTo(
-				50+j*cell,
-				75+size
-			);
-			ctx.stroke();
-			ctx.textAlign = "center";
 
-			ctx.fillText(
-				measure,
-				50 + j*cell + cell * beatsPerMeasure / 2,
-				40
-			);
+    // 横軸
+    for(let j = 0; j < beatsB.length; j++){
+
+        const beat = beatsB[j];
+
+        if(beat % beatsPerMeasure === 0){
+
+            const xx =
+                x + j * cellW;
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                xx,
+                y
+            );
+
+            ctx.lineTo(
+                xx,
+                y + size
+            );
+
+            ctx.stroke();
+
+            const measure =
+                Math.floor(
+                    beat / beatsPerMeasure
+                ) + 1;
+
+            ctx.fillStyle = "black";
+            ctx.textAlign = "center";
+
+            ctx.fillText(
+                measure,
+                xx +
+                cellW * beatsPerMeasure / 2,
+                y - 3
+            );
         }
     }
 
-    // 縦軸 小節番号
-    for(let i=0; i<beats.length; i++){
-		const beatNumber = Number(beats[i]);
 
-		const measure =
-			Math.floor(beatNumber / beatsPerMeasure) + 1;
+    // 縦軸
+    for(let i = 0; i < beatsA.length; i++){
 
-        if(Number(beats[i]) % beatsPerMeasure === 0){
-			ctx.beginPath();
-			ctx.moveTo(
-				25,
-				50+i*cell
-			);
-			ctx.lineTo(
-				75+size,
-				50+i*cell
-			);
-			ctx.stroke();
-			ctx.textAlign = "right";
+        const beat = beatsA[i];
 
-			ctx.fillText(
-				measure,
-				40,
-				50 + i*cell + cell * beatsPerMeasure / 2
-			);
+        if(beat % beatsPerMeasure === 0){
+
+            const yy =
+                y + i * cellH;
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x,
+                yy
+            );
+
+            ctx.lineTo(
+                x + size,
+                yy
+            );
+
+            ctx.stroke();
+
+            const measure =
+                Math.floor(
+                    beat / beatsPerMeasure
+                ) + 1;
+
+            ctx.fillStyle = "black";
+            ctx.textAlign = "right";
+
+            ctx.fillText(
+                measure,
+                x - 5,
+                yy +
+                cellH * beatsPerMeasure / 2
+            );
         }
     }
-	ctx.strokeStyle = "black";
-	ctx.lineWidth = 2;
 
-	ctx.strokeRect(
-		50,
-		50,
-		size,
-		size
-	);
 
-    console.log(beatSimilarity);
-	findMotif();
+    // --------------------------------
+    // 外枠
+    // --------------------------------
+
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+
+    ctx.strokeRect(
+        x,
+        y,
+        size,
+        size
+    );
+
+
+    return beatSimilarity;
+}
+
+function createSimilarityMatrices(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    const marginTop = 40;
+    const marginBottom = 30;
+
+    const gap = 60;
+
+    const size =
+        Math.min(
+            canvas.width - 100,
+            (canvas.height
+             - marginTop
+             - marginBottom
+             - gap * 2) / 3
+        );
+
+
+    const x =
+        (canvas.width - size) / 2;
+
+
+    // =================================
+    // Right × Right
+    // =================================
+
+    const y1 = marginTop + size;
+
+    const beatSimilarityRightRight =
+        drawSimilarityMatrix(
+            shapeBeatDataRight,
+            shapeBeatDataRight,
+
+            x,
+            y1,
+
+            size,
+
+            "Right Hand × Right Hand"
+        );
+
+
+    // =================================
+    // Left × Left
+    // =================================
+
+    const y2 =
+        y1 + size + gap;
+
+    const beatSimilarityLeftLeft =
+        drawSimilarityMatrix(
+            shapeBeatDataLeft,
+            shapeBeatDataLeft,
+
+            x,
+            y2,
+
+            size,
+
+            "Left Hand × Left Hand"
+        );
+
+
+    // =================================
+    // Left × Right
+    // =================================
+
+    const y3 =
+        y2 + size + gap;
+
+    const beatSimilarityLeftRight =
+        drawSimilarityMatrix(
+            shapeBeatDataLeft,
+            shapeBeatDataRight,
+
+            x,
+            y3,
+
+            size,
+
+            "Left Hand × Right Hand"
+        );
+
+
+    return {
+
+        rightRight:
+            beatSimilarityRightRight,
+
+        leftLeft:
+            beatSimilarityLeftLeft,
+
+        leftRight:
+            beatSimilarityLeftRight
+    };
 }
 
 
