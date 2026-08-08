@@ -4044,6 +4044,15 @@ function showMotifGroups(){
         canvas.height
     );
 
+    console.log(
+    "DRAW MOTIFS",
+        motifGroups.map((m, i) => ({
+            M: i + 1,
+            length: m.length,
+            occurrences: m.occurrences
+        }))
+    );
+
     drawMotifGraph(
         motifGroupsLeft,
         0
