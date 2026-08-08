@@ -4018,9 +4018,7 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 function showSimilarityMatrix() {
 
-    createShapeBeat();
-
-    console.log("shapeBeatData", shapeBeatData);
+    createHandMotifs();
 
     createSimilarityMatrix();
 
@@ -4057,7 +4055,7 @@ function createHandMotifs(){
         createShapeBeat(scoreRight, 1);
 
     beatSimilarityRight =
-        createBeatSimilarity(
+        createBeatSimilarityMatrix(
             shapeBeatDataRight
         );
 
@@ -4076,7 +4074,7 @@ function createHandMotifs(){
         createShapeBeat(scoreLeft, 2);
 
     beatSimilarityLeft =
-        createBeatSimilarity(
+        createBeatSimilarityMatrix(
             shapeBeatDataLeft
         );
 
