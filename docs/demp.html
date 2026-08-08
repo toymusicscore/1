@@ -4075,12 +4075,39 @@ function showMotifGroups(){
     // ==============================
     // Left × Right
     // ==============================
+    drawMotifGraph(
+        motifGroupsLeftRight,
+        0,
+        0,
+        "Left → Right : Left",
+        "A"
+    );
 
     drawMotifGraph(
         motifGroupsLeftRight,
-        graphWidth * 2,
+        graphWidth,
         0,
-        "Left Hand × Right Hand"
+        "Left → Right : Right",
+        "B"
+    );
+
+    // ==============================
+    // Right × Left
+    // ==============================
+    drawMotifGraph(
+        motifGroupsRightLeft,
+        0,
+        0,
+        "Right → Left : Left",
+        "A"
+    );
+
+    drawMotifGraph(
+        motifGroupsLeftRight,
+        graphWidth,
+        0,
+        "Right → Left : Right",
+        "B"
     );
 }
 
@@ -4107,10 +4134,12 @@ let beatSimilarityLeft = [];
 let beatSimilarityRightRight = [];
 let beatSimilarityLeftLeft = [];
 let beatSimilarityLeftRight = [];
+let beatSimilarityRightLeft = [];
 
 let motifGroupsRight = [];
 let motifGroupsLeft = [];
 let motifGroupsLeftRight = [];
+let motifGroupsRightLeft = [];
 
 function createHandMotifs(){
 
@@ -4549,6 +4578,26 @@ function createSimilarityMatrices(){
             "Left Hand × Right Hand"
         );
 
+    // =================================
+    // Right × Left
+    // =================================
+
+    const y4 =
+        y3 + size + gap;
+
+    const beatSimilarityRightLeft =
+        drawSimilarityMatrix(
+            shapeBeatDataRight,
+            shapeBeatDataLeft,
+
+            x,
+            y4,
+
+            size,
+
+            "Right Hand × Left Hand"
+        );
+
 
     return {
 
@@ -4559,7 +4608,10 @@ function createSimilarityMatrices(){
             beatSimilarityLeftLeft,
 
         leftRight:
-            beatSimilarityLeftRight
+            beatSimilarityLeftRight,
+
+        rightLeft:
+            beatSimilarityRightLeft
     };
 }
 
