@@ -4728,16 +4728,17 @@ function findMotif(beatSimilarity){
     motifGroups.sort((a,b) => {
 
         if(b.length !== a.length){
-
             return b.length - a.length;
         }
 
         return b.occurrences.length -
-               a.occurrences.length;
+            a.occurrences.length;
     });
 
+    console.log("FINAL motifGroups =", motifGroups);
 
     return motifGroups;
+        return motifGroups;
 }
 
 
