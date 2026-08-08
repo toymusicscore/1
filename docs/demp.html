@@ -4291,7 +4291,7 @@ function createSimilarityMatrix(){
 
 
 function findMotif(beatSimilarity, shapeBeatData){
-    
+
     let diagonalGroups = {};
     let motifGroups = [];
 
@@ -4513,7 +4513,9 @@ function findMotif(beatSimilarity, shapeBeatData){
 
     console.log("Merged motifGroups:", motifGroups);
 
-	drawMotifGraph(motifGroups);
+    drawMotifGraph(motifGroupsRight, 0);
+
+    drawMotifGraph(motifGroupsLeft, canvas.height / 2);
 
 	return motifGroups;
 
