@@ -4035,8 +4035,6 @@ function showSimilarityMatrices() {
 
 function showMotifGroups(){
 
-    createHandMotifs();
-
     ctx.clearRect(
         0,
         0,
@@ -4044,70 +4042,65 @@ function showMotifGroups(){
         canvas.height
     );
 
+    const gapX = 40;
+    const gapY = 80;
+
     const graphWidth =
         canvas.width / 2;
 
+    const graphHeight =
+        canvas.height / 2;
 
-    // ==============================
+
+    // =====================================
     // Right × Right
-    // ==============================
+    // =====================================
 
     drawMotifGraph(
         motifGroupsRight,
         0,
         0,
-        "Right Hand × Right Hand"
+        "Right × Right",
+        "A"
     );
 
 
-    // ==============================
+    // =====================================
     // Left × Left
-    // ==============================
+    // =====================================
 
     drawMotifGraph(
         motifGroupsLeft,
         graphWidth,
         0,
-        "Left Hand × Left Hand"
+        "Left × Left",
+        "A"
     );
 
 
-    // ==============================
+    // =====================================
     // Left × Right
-    // ==============================
+    // =====================================
+
     drawMotifGraph(
         motifGroupsLeftRight,
         0,
-        0,
-        "Left → Right : Left",
+        graphHeight,
+        "Left × Right : Left",
         "A"
     );
 
-    drawMotifGraph(
-        motifGroupsLeftRight,
-        graphWidth,
-        0,
-        "Left → Right : Right",
-        "B"
-    );
 
-    // ==============================
+    // =====================================
     // Right × Left
-    // ==============================
-    drawMotifGraph(
-        motifGroupsRightLeft,
-        0,
-        0,
-        "Right → Left : Left",
-        "A"
-    );
+    // =====================================
 
     drawMotifGraph(
         motifGroupsRightLeft,
         graphWidth,
-        0,
-        "Right → Left : Right",
-        "B"
+        graphHeight,
+        "Right × Left : Right",
+        "A"
     );
 }
 
