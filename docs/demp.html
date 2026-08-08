@@ -4473,8 +4473,8 @@ function drawMotifGraph(motifGroups){
     const mx = 70;
     const my = 40;
 
-    const cellW = 70;   // motif 1個の幅
-    const cellH = 5;    // beat 1個の高さ
+    const cellW = 70;
+    const cellH = 5;
 
     ctx.font = "10px sans-serif";
 
@@ -4499,7 +4499,7 @@ function drawMotifGraph(motifGroups){
 
 
     // =====================================================
-    // motif の色
+    // motif ごとの色
     // =====================================================
 
     const motifColors = [
@@ -4519,17 +4519,18 @@ function drawMotifGraph(motifGroups){
 
 
     // =====================================================
-    // タイトル
+    // motif番号
     // =====================================================
 
     ctx.textAlign = "center";
-
-    ctx.fillStyle = "black";
 
     for(let i = 0; i < motifGroups.length; i++){
 
         const x =
             mx + i * cellW + cellW / 2;
+
+        ctx.fillStyle =
+            motifColors[i % motifColors.length];
 
         ctx.fillText(
             "M" + (i + 1),
@@ -4540,18 +4541,13 @@ function drawMotifGraph(motifGroups){
 
 
     // =====================================================
-    // beat / 小節番号
+    // 小節番号
     // =====================================================
 
     for(let beat = 0; beat <= maxBeat; beat++){
 
         const y =
             my + beat * cellH;
-
-
-        // -------------------------
-        // 小節番号
-        // -------------------------
 
         if(beat % beatsPerMeasure === 0){
 
@@ -4592,7 +4588,7 @@ function drawMotifGraph(motifGroups){
 
 
     // =====================================================
-    // motif の beat
+    // motif
     // =====================================================
 
     for(let i = 0; i < motifGroups.length; i++){
@@ -4603,62 +4599,57 @@ function drawMotifGraph(motifGroups){
             mx + i * cellW;
 
 
-        // motif 固有色
-        ctx.fillStyle =
-            motifColors[
-                i % motifColors.length
-            ];
-
-
         // -------------------------------------------------
-        // occurrence
+        // この motif に属する beat をまとめる
         // -------------------------------------------------
+
+        const beats = new Set();
+
 
         for(const occurrence of motif.occurrences){
 
-
-            // =============================================
-            // A側の beat
-            // =============================================
-
+            // A側
             for(
                 let beat = occurrence.startA;
                 beat <= occurrence.endA;
                 beat++
             ){
 
-                const y =
-                    my + beat * cellH;
-
-                ctx.fillRect(
-                    x + 2,
-                    y + 1,
-                    cellW - 4,
-                    cellH - 1
-                );
+                beats.add(beat);
             }
 
 
-            // =============================================
-            // B側の beat
-            // =============================================
-
+            // B側
             for(
                 let beat = occurrence.startB;
                 beat <= occurrence.endB;
                 beat++
             ){
 
-                const y =
-                    my + beat * cellH;
-
-                ctx.fillRect(
-                    x + 2,
-                    y + 1,
-                    cellW - 4,
-                    cellH - 1
-                );
+                beats.add(beat);
             }
+        }
+
+
+        // -------------------------------------------------
+        // beat ごとに1回だけ描画
+        // -------------------------------------------------
+
+        ctx.fillStyle =
+            motifColors[i % motifColors.length];
+
+
+        for(const beat of beats){
+
+            const y =
+                my + beat * cellH;
+
+            ctx.fillRect(
+                x + 2,
+                y + 1,
+                cellW - 4,
+                cellH - 1
+            );
         }
     }
 
