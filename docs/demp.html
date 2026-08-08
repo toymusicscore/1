@@ -4046,6 +4046,48 @@ let beatSimilarityLeft = [];
 let motifGroupsRight = [];
 let motifGroupsLeft = [];
 
+
+function createHandMotifs(){
+
+    // ============================
+    // 右手
+    // ============================
+
+    shapeBeatDataRight =
+        createShapeBeat(scoreRight, 1);
+
+    beatSimilarityRight =
+        createBeatSimilarity(
+            shapeBeatDataRight
+        );
+
+    motifGroupsRight =
+        findMotif(
+            beatSimilarityRight,
+            shapeBeatDataRight
+        );
+
+
+    // ============================
+    // 左手
+    // ============================
+
+    shapeBeatDataLeft =
+        createShapeBeat(scoreLeft, 2);
+
+    beatSimilarityLeft =
+        createBeatSimilarity(
+            shapeBeatDataLeft
+        );
+
+    motifGroupsLeft =
+        findMotif(
+            beatSimilarityLeft,
+            shapeBeatDataLeft
+        );
+}
+
+
 function createShapeBeat(scoreNotes, hand){
 
     const shapeBeatData = {};
@@ -4096,47 +4138,6 @@ function createShapeBeat(scoreNotes, hand){
     }
 
     return shapeBeatData;
-}
-
-
-function createHandMotifs(){
-
-    // ============================
-    // 右手
-    // ============================
-
-    shapeBeatDataRight =
-        createShapeBeat(scoreRight, 1);
-
-    beatSimilarityRight =
-        createBeatSimilarity(
-            shapeBeatDataRight
-        );
-
-    motifGroupsRight =
-        findMotif(
-            beatSimilarityRight,
-            shapeBeatDataRight
-        );
-
-
-    // ============================
-    // 左手
-    // ============================
-
-    shapeBeatDataLeft =
-        createShapeBeat(scoreLeft, 2);
-
-    beatSimilarityLeft =
-        createBeatSimilarity(
-            shapeBeatDataLeft
-        );
-
-    motifGroupsLeft =
-        findMotif(
-            beatSimilarityLeft,
-            shapeBeatDataLeft
-        );
 }
 
 
