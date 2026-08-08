@@ -4553,8 +4553,8 @@ function drawMotifGraph(motifGroups){
         // -------------------------
 
         for(
-            let measure = motif.startA;
-            measure <= motif.endA;
+            let measure = motif.occurrences.startA;
+            measure <= motif.occurrences.endA;
             measure++
         ){
 
@@ -4563,7 +4563,7 @@ function drawMotifGraph(motifGroups){
             ctx.fillStyle = "red";
 
             ctx.fillText(
-                motif.shift,
+                motif.occurrences.shift,
                 x - 15,
                 y + 4
             );
@@ -4575,8 +4575,8 @@ function drawMotifGraph(motifGroups){
         // -------------------------
 
         for(
-            let measure = motif.startB;
-            measure <= motif.endB;
+            let measure = motif.occurrences.startB;
+            measure <= motif.occurrences.endB;
             measure++
         ){
 
