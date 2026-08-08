@@ -4049,9 +4049,9 @@ let motifGroupsLeft = [];
 
 function createHandMotifs(){
 
-    // ============================
+    // ==============================
     // 右手
-    // ============================
+    // ==============================
 
     shapeBeatDataRight =
         createShapeBeat(scoreRight, 1);
@@ -4068,9 +4068,9 @@ function createHandMotifs(){
         );
 
 
-    // ============================
+    // ==============================
     // 左手
-    // ============================
+    // ==============================
 
     shapeBeatDataLeft =
         createShapeBeat(scoreLeft, 2);
@@ -4085,6 +4085,22 @@ function createHandMotifs(){
             beatSimilarityLeft,
             shapeBeatDataLeft
         );
+
+
+    // ==============================
+    // グラフ
+    // ==============================
+
+    drawMotifGraph(
+        motifGroupsLeft,
+        0
+    );
+
+    drawMotifGraph(
+        motifGroupsRight,
+        canvas.width / 2
+    );
+
 }
 
 
@@ -4524,71 +4540,19 @@ function findMotif(beatSimilarity, shapeBeatData){
 }
 
 
-function createHandMotifs(){
-
-    // ==============================
-    // 右手
-    // ==============================
-
-    shapeBeatDataRight =
-        createShapeBeat(scoreRight, 1);
-
-    beatSimilarityRight =
-        createBeatSimilarity(
-            shapeBeatDataRight
-        );
-
-    motifGroupsRight =
-        findMotif(
-            beatSimilarityRight,
-            shapeBeatDataRight
-        );
-
-
-    // ==============================
-    // 左手
-    // ==============================
-
-    shapeBeatDataLeft =
-        createShapeBeat(scoreLeft, 2);
-
-    beatSimilarityLeft =
-        createBeatSimilarity(
-            shapeBeatDataLeft
-        );
-
-    motifGroupsLeft =
-        findMotif(
-            beatSimilarityLeft,
-            shapeBeatDataLeft
-        );
-
-
-    // ==============================
-    // グラフ
-    // ==============================
-
-    drawMotifGraph(
-        motifGroupsRight,
-        0
-    );
-
-    drawMotifGraph(
-        motifGroupsLeft,
-        canvas.height / 2
-    );
-}
-
-
-function drawMotifGraph(motifGroups){
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+function drawMotifGraph(motifGroups, offsetX = 0){
 
     const mx = 70;
     const my = 40;
 
     const cellW = 70;
     const cellH = 5;
+
+    ctx.save();
+
+    ctx.translate(offsetX, 0);
+
+    // 以下は今までと同じ
 
     ctx.font = "10px sans-serif";
 
