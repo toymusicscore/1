@@ -4793,6 +4793,18 @@ for(const candidate of candidates){
     });
 }
 
+console.log(
+    "validCandidates",
+    validCandidates.map(c => ({
+        startA: c.startA,
+        endA: c.endA,
+        startB: c.startB,
+        endB: c.endB,
+        length: c.length,
+        diagonal: c.diagonal,
+        transpose: c.transpose
+    }))
+);
 
 // =====================================================
 // 4. 同じMotifを occurrences に統合
@@ -4886,6 +4898,20 @@ for(const candidate of validCandidates){
     }
 }
 
+console.log(
+    "motifGroups BEFORE filter",
+    motifGroups.map(m => ({
+        length: m.length,
+        occurrences: m.occurrences.map(o => ({
+            startA: o.startA,
+            endA: o.endA,
+            startB: o.startB,
+            endB: o.endB,
+            diagonal: o.diagonal,
+            transpose: o.transpose
+        }))
+    }))
+);
 
 // =====================================================
 // 5. 同一occurrenceの重複を削除
