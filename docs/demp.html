@@ -4962,7 +4962,14 @@ motifGroups.sort((a,b) => {
     return b.occurrences.length -
            a.occurrences.length;
 });
-
+console.log(
+    "motifGroups AFTER filter",
+    motifGroups.map(m => ({
+        length: m.length,
+        occurrenceCount: m.occurrences.length,
+        occurrences: m.occurrences
+    }))
+);
 
 return motifGroups;
 
