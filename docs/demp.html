@@ -4027,6 +4027,8 @@ function drawPolygon(ctx, cx, cy, r, n){
 
 function showSimilarityMatrix() {
 
+    createHandMotifs();
+
     createSimilarityMatrices();
 
 }
@@ -4034,6 +4036,16 @@ function showSimilarityMatrix() {
 function showMotifGroups() {
 
     createHandMotifs();
+
+    drawMotifGraph(
+        motifGroupsLeft,
+        0
+    );
+
+    drawMotifGraph(
+        motifGroupsRight,
+        canvas.width / 2
+    );
 
 }
 
@@ -4096,21 +4108,6 @@ function createHandMotifs(){
             beatSimilarityLeft,
             shapeBeatDataLeft
         );
-
-
-    // ==============================
-    // グラフ
-    // ==============================
-
-    drawMotifGraph(
-        motifGroupsLeft,
-        0
-    );
-
-    drawMotifGraph(
-        motifGroupsRight,
-        canvas.width / 2
-    );
 
 }
 
