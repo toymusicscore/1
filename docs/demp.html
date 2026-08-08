@@ -5083,6 +5083,13 @@ function drawMotifGraph(
         const x =
             mx + i * cellW;
 
+        // -----------------------------------------
+        // motifごとの色
+        // -----------------------------------------
+
+        ctx.fillStyle =
+            motifColors[i % motifColors.length];
+
         for(const occurrence of motif.occurrences){
 
             // -------------------------
