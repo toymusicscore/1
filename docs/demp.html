@@ -4039,43 +4039,97 @@ function showShapeMeasure() {
 let shapeBeatData={};
 let shapeMeasureData={};
 
-function createShapeBeat(){
+function createShapeBeat(scoreNotes, hand){
 
-	shapeBeatData = {};
+    const shapeBeatData = {};
+    const beatBase = {};
 
-	const view = getViewInfo();
+    for(const note of scoreNotes){
 
-	let beatBase = {};
-	let handName = HANDS_LABEL[practiceSettings.hands];
+        const beatNumber =
+            Math.floor(
+                note.start / ticksPerQuarterNote
+            );
 
-	for(let note of view.scoreViewData){
-		const beatNumber = Math.floor(note.start / ticksPerQuarterNote);
+        if(beatBase[beatNumber] === undefined){
 
-		if(beatBase[beatNumber] === undefined){
-			beatBase[beatNumber] = {
-				start: note.start,
-				midi: note.midi
-			}
-		}
+            beatBase[beatNumber] = {
+                start: note.start,
+                midi: note.midi
+            };
+        }
 
-		if (!shapeBeatData[beatNumber]) {
-			shapeBeatData[beatNumber] = {
-				beat: beatNumber,
-				hand: handName,
-				points:[]
-			};
-		}
+        if(!shapeBeatData[beatNumber]){
 
-		const beatTick = note.start - beatBase[beatNumber].start;
-		const beatPitch = note.midi - beatBase[beatNumber].midi;
+            shapeBeatData[beatNumber] = {
+                beat: beatNumber,
+                hand: hand,
+                points: []
+            };
+        }
 
-		shapeBeatData[beatNumber].points.push({
-			start: note.start,
-			relativeStart: beatTick,
-			midi: note.midi,
-			relativeMidi: beatPitch
-		});	
-	}
+        const beatTick =
+            note.start -
+            beatBase[beatNumber].start;
+
+        const beatPitch =
+            note.midi -
+            beatBase[beatNumber].midi;
+
+        shapeBeatData[beatNumber].points.push({
+
+            start: note.start,
+
+            relativeStart: beatTick,
+
+            midi: note.midi,
+
+            relativeMidi: beatPitch
+        });
+    }
+
+    return shapeBeatData;
+}
+
+
+function createHandMotifs(){
+
+    // ============================
+    // 右手
+    // ============================
+
+    shapeBeatDataRight =
+        createShapeBeat(scoreRight, 1);
+
+    beatSimilarityRight =
+        createBeatSimilarity(
+            shapeBeatDataRight
+        );
+
+    motifGroupsRight =
+        findMotif(
+            beatSimilarityRight,
+            shapeBeatDataRight
+        );
+
+
+    // ============================
+    // 左手
+    // ============================
+
+    shapeBeatDataLeft =
+        createShapeBeat(scoreLeft, 2);
+
+    beatSimilarityLeft =
+        createBeatSimilarity(
+            shapeBeatDataLeft
+        );
+
+    motifGroupsLeft =
+        findMotif(
+            beatSimilarityLeft,
+            shapeBeatDataLeft
+        );
 }
 
 
@@ -4236,8 +4290,8 @@ function createSimilarityMatrix(){
 }
 
 
-function findMotif(){
-
+function findMotif(beatSimilarity, shapeBeatData){
+    
     let diagonalGroups = {};
     let motifGroups = [];
 
