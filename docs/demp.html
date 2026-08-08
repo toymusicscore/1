@@ -4042,14 +4042,45 @@ function showMotifGroups(){
         canvas.height
     );
 
+
     const gapX = 40;
-    const gapY = 80;
+    const gapY = 100;
 
     const graphWidth =
         canvas.width / 2;
 
+
+    // =====================================
+    // 楽曲全体のbeat数
+    // =====================================
+
+    const maxBeat =
+        Math.ceil(
+            songLengthTicks /
+            ticksPerQuarterNote
+        );
+
+
+    const cellH = 5;
+    const my = 40;
+
+
+    // =====================================
+    // 1グラフの実際の高さ
+    // =====================================
+
     const graphHeight =
-        canvas.height / 2;
+        my +
+        (maxBeat + 1) * cellH;
+
+
+    // =====================================
+    // canvas高さを2段分確保
+    // =====================================
+
+    canvas.height =
+        graphHeight * 2 +
+        gapY;
 
 
     // =====================================
@@ -4085,7 +4116,7 @@ function showMotifGroups(){
     drawMotifGraph(
         motifGroupsLeftRight,
         0,
-        graphHeight,
+        graphHeight + gapY,
         "Left × Right : Left",
         "A"
     );
@@ -4098,97 +4129,10 @@ function showMotifGroups(){
     drawMotifGraph(
         motifGroupsRightLeft,
         graphWidth,
-        graphHeight,
+        graphHeight + gapY,
         "Right × Left : Right",
         "A"
     );
-}
-
-
-function showShapeBeat() {
-    practiceSettings.viewSelect = 4;
-    showSelectedView();
-}
-
-function showShapeMeasure() {
-    practiceSettings.viewSelect = 5;
-    showSelectedView();
-}
-
-let shapeBeatData = {};
-let shapeMeasureData = {};
-
-let shapeBeatDataRight = {};
-let shapeBeatDataLeft = {};
-
-let beatSimilarityRight = [];
-let beatSimilarityLeft = [];
-
-let beatSimilarityRightRight = [];
-let beatSimilarityLeftLeft = [];
-let beatSimilarityLeftRight = [];
-let beatSimilarityRightLeft = [];
-
-let motifGroupsRight = [];
-let motifGroupsLeft = [];
-let motifGroupsLeftRight = [];
-let motifGroupsRightLeft = [];
-
-function createHandMotifs(){
-
-    // ==============================
-    // 右手・左手のshapeを作る
-    // ==============================
-
-    shapeBeatDataRight =
-        createShapeBeat(scoreRight, 1);
-
-    shapeBeatDataLeft =
-        createShapeBeat(scoreLeft, 2);
-
-
-    // ==============================
-    // 3種類のSimilarity Matrixを作る
-    // ==============================
-
-    const similarity =
-        createSimilarityMatrices();
-
-
-    // ==============================
-    // 右手 Motif
-    // ==============================
-
-    motifGroupsRight =
-        findMotif(
-            similarity.rightRight,
-            shapeBeatDataRight,
-            shapeBeatDataRight
-        );
-
-
-    // ==============================
-    // 左手 Motif
-    // ==============================
-
-    motifGroupsLeft =
-        findMotif(
-            similarity.leftLeft,
-            shapeBeatDataLeft,
-            shapeBeatDataLeft
-        );
-
-
-    // ==============================
-    // 左手 × 右手 Motif
-    // ==============================
-
-    motifGroupsLeftRight =
-        findMotif(
-            similarity.leftRight,
-            shapeBeatDataLeft,
-            shapeBeatDataRight
-        );
 }
 
 
