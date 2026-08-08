@@ -4075,25 +4075,19 @@ function showMotifGroups(){
     // =====================================
 
     shapeBeatDataRight =
-        createShapeBeat(
-            scoreRight,
-            1
-        );
+        createShapeBeat(scoreRight, 1);
 
     shapeBeatDataLeft =
-        createShapeBeat(
-            scoreLeft,
-            2
-        );
+        createShapeBeat(scoreLeft, 2);
 
 
     // =====================================
-    // canvas サイズ
+    // Matrixのレイアウトを先に計算
     // =====================================
 
     const marginX = 40;
     const gapX = 40;
-    const gapY = 60;
+    const matrixGapY = 60;
 
     const matrixSize =
         (
@@ -4101,6 +4095,12 @@ function showMotifGroups(){
             - marginX * 2
             - gapX
         ) / 2;
+
+
+    // Matrix 2段分の高さ
+    const matrixHeight =
+        matrixSize * 2 +
+        matrixGapY;
 
 
     // =====================================
@@ -4113,7 +4113,6 @@ function showMotifGroups(){
             ticksPerQuarterNote
         );
 
-
     const cellH = 5;
     const graphMy = 40;
 
@@ -4123,29 +4122,24 @@ function showMotifGroups(){
 
 
     // =====================================
-    // Similarity Matrix 全体の高さ
+    // Matrix → Motif の間隔
     // =====================================
 
-    const matrixHeight =
-        matrixSize * 2 +
-        gapY;
+    const sectionGap = 120;
 
 
     // =====================================
-    // Matrix と Motif の間隔
-    // =====================================
-
-    const sectionGap = 100;
-
-
-    // =====================================
-    // canvas高さを最初に決める
+    // Motif開始位置
     // =====================================
 
     const motifStartY =
         matrixHeight +
         sectionGap;
 
+
+    // =====================================
+    // canvas高さ
+    // =====================================
 
     const totalHeight =
         motifStartY +
@@ -4158,7 +4152,7 @@ function showMotifGroups(){
 
 
     // =====================================
-    // canvasをクリア
+    // canvasクリア
     // =====================================
 
     ctx.clearRect(
@@ -4188,7 +4182,6 @@ function showMotifGroups(){
             shapeBeatDataRight
         );
 
-
     motifGroupsLeft =
         findMotif(
             similarity.leftLeft,
@@ -4196,14 +4189,12 @@ function showMotifGroups(){
             shapeBeatDataLeft
         );
 
-
     motifGroupsLeftRight =
         findMotif(
             similarity.leftRight,
             shapeBeatDataLeft,
             shapeBeatDataRight
         );
-
 
     motifGroupsRightLeft =
         findMotif(
