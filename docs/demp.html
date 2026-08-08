@@ -4026,10 +4026,53 @@ function drawPolygon(ctx, cx, cy, r, n){
 }
 
 
-function showSimilarityMatrices() {
+function showSimilarityMatrices(){
 
-    createSimilarityMatrices();
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
+
+    // ==============================
+    // shapeを作る
+    // ==============================
+
+    shapeBeatDataRight =
+        createShapeBeat(
+            scoreRight,
+            1
+        );
+
+    shapeBeatDataLeft =
+        createShapeBeat(
+            scoreLeft,
+            2
+        );
+
+
+    // ==============================
+    // Similarity Matrix
+    // ==============================
+
+    const similarity =
+        createSimilarityMatrices();
+
+
+    // 必要なら保存
+    beatSimilarityRightRight =
+        similarity.rightRight;
+
+    beatSimilarityLeftLeft =
+        similarity.leftLeft;
+
+    beatSimilarityLeftRight =
+        similarity.leftRight;
+
+    beatSimilarityRightLeft =
+        similarity.rightLeft;
 }
 
 
@@ -4042,18 +4085,102 @@ function showMotifGroups(){
         canvas.height
     );
 
+
+    // =====================================
+    // shape
+    // =====================================
+
+    shapeBeatDataRight =
+        createShapeBeat(
+            scoreRight,
+            1
+        );
+
+    shapeBeatDataLeft =
+        createShapeBeat(
+            scoreLeft,
+            2
+        );
+
+
+    // =====================================
+    // Similarity Matrix
+    // =====================================
+
+    const similarity =
+        createSimilarityMatrices();
+
+
+    // =====================================
+    // Motif
+    // =====================================
+
+    motifGroupsRight =
+        findMotif(
+            similarity.rightRight,
+            shapeBeatDataRight,
+            shapeBeatDataRight
+        );
+
+
+    motifGroupsLeft =
+        findMotif(
+            similarity.leftLeft,
+            shapeBeatDataLeft,
+            shapeBeatDataLeft
+        );
+
+
+    motifGroupsLeftRight =
+        findMotif(
+            similarity.leftRight,
+            shapeBeatDataLeft,
+            shapeBeatDataRight
+        );
+
+
+    motifGroupsRightLeft =
+        findMotif(
+            similarity.rightLeft,
+            shapeBeatDataRight,
+            shapeBeatDataLeft
+        );
+
+
+    // =====================================
+    // Graph
+    // =====================================
+
     const gapX = 40;
-    const gapY = 80;
+    const gapY = 100;
 
     const graphWidth =
         canvas.width / 2;
 
+
+    const maxBeat =
+        Math.ceil(
+            songLengthTicks /
+            ticksPerQuarterNote
+        );
+
+
+    const cellH = 5;
+    const my = 40;
+
+
     const graphHeight =
-        canvas.height / 2;
+        my +
+        (maxBeat + 1) * cellH;
+
+
+    canvas.height =
+        graphHeight * 2 +
+        gapY;
 
 
     // =====================================
-    // Right × Right
+    // RR
     // =====================================
 
     drawMotifGraph(
@@ -4066,7 +4193,7 @@ function showMotifGroups(){
 
 
     // =====================================
-    // Left × Left
+    // LL
     // =====================================
 
     drawMotifGraph(
@@ -4079,30 +4206,31 @@ function showMotifGroups(){
 
 
     // =====================================
-    // Left × Right
+    // LR
     // =====================================
 
     drawMotifGraph(
         motifGroupsLeftRight,
         0,
-        graphHeight,
-        "Left × Right : Left",
+        graphHeight + gapY,
+        "Left × Right",
         "A"
     );
 
 
     // =====================================
-    // Right × Left
+    // RL
     // =====================================
 
     drawMotifGraph(
         motifGroupsRightLeft,
         graphWidth,
-        graphHeight,
-        "Right × Left : Right",
+        graphHeight + gapY,
+        "Right × Left",
         "A"
     );
 }
+
 
 function showShapeBeat() {
     practiceSettings.viewSelect = 4;
