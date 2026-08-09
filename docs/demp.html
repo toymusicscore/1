@@ -5397,20 +5397,21 @@ function drawMotifGraph(
 
     ctx.font = "10px sans-serif";
 
+// =====================================
+// タイトル
+// =====================================
 
-    // =====================================
-    // タイトル
-    // =====================================
+ctx.textAlign = "center";
+ctx.fillStyle = "black";
+ctx.font = "12px sans-serif";
 
-    ctx.textAlign = "center";
-    ctx.fillStyle = "black";
-    ctx.font = "12px sans-serif";
+ctx.fillText(
+    title,
+    mx + motifGroups.length * cellW,
+    my - 42
+);
 
-    ctx.fillText(
-        title,
-        mx + motifGroups.length * cellW,
-        my - 25
-    );
+
 
 
     // =====================================
@@ -5443,10 +5444,11 @@ function drawMotifGraph(
         "#fd79a8"
     ];
 
-
     // =====================================
     // Motif番号
     // =====================================
+
+    ctx.font = "10px sans-serif";
 
     for(let i = 0; i < motifGroups.length; i++){
 
@@ -5454,32 +5456,34 @@ function drawMotifGraph(
             mx + i * cellW * 2;
 
         ctx.fillStyle =
-            motifColors[i % motifColors.length];
+            motifColors[
+                i % motifColors.length
+            ];
 
-        // Motif番号
-        ctx.textAlign = "center";
-
+        // M1, M2, M3 ...
         ctx.fillText(
             motifGroups[i].motif ||
             "M" + (i + 1),
 
             x + cellW,
 
-            my - 18
+            my - 22
         );
+
 
         // A
         ctx.fillText(
             "A",
             x + cellW / 2,
-            my - 5
+            my - 7
         );
+
 
         // B
         ctx.fillText(
             "B",
             x + cellW * 1.5,
-            my - 5
+            my - 7
         );
     }
 
