@@ -5194,6 +5194,15 @@ for(const candidate of candidates){
         shape: shape
     });
 }
+console.log(
+    "validCandidates",
+    validCandidates.map((x, i) => ({
+        i: i,
+        length: x.length,
+        transpose: x.transpose,
+        shape: x.shape
+    }))
+);
 
 // =====================================================
 // 4. 同じMotifを occurrences に統合
@@ -5211,7 +5220,11 @@ for(const candidate of validCandidates){
     let motif = null;
 
     for(const existing of motifGroups){
-
+if(
+    existing.length === candidate.length &&
+    existing.transpose === candidate.transpose
+){
+    /*
         if(
             existing.length === candidate.length &&
             existing.transpose === candidate.transpose &&
@@ -5220,7 +5233,7 @@ for(const candidate of validCandidates){
                 candidate.shape
             )
         ){
-
+*/
             motif = existing;
             break;
         }
