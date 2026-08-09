@@ -1157,12 +1157,17 @@ function showTab(tab){
 					<br><br>
 				<input 
 					type="button" 
-					id="similarityMatricesButton"
-					value="🗺️ Similarity Matrices">
-				<input 
-					type="button" 
 					id="motifGroupsButton"
 					value="📊 Motif Groups">
+					<br><br>
+				<input 
+					type="button" 
+					id="copyScoreRLButton"
+					value="🎼 Copy Score RL">
+				<input 
+					type="button" 
+					id="motifTwoSongsButton"
+					value="📊 Motif Two Songs">
 					<br><br>
             `;
 				$("keyEstimationButton").onclick = function(){
@@ -1180,14 +1185,19 @@ function showTab(tab){
 					showShapeMeasure();
 					closeMenuWindow();
 				};
-				$("similarityMatricesButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					showSimilarityMatrices();
-					closeMenuWindow();
-				};
 				$("motifGroupsButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showMotifGroups();
+					closeMenuWindow();
+				};
+				$("copyScoreRLButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					copyScoreRL();
+					closeMenuWindow();
+				};
+				$("motifTwoSongsButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					motifTwoSongs();
 					closeMenuWindow();
 				};
 
