@@ -5208,7 +5208,7 @@ console.log(
 // 4. 同じMotifを occurrences に統合
 //
 // A/Bの位置ではなく、
-// length + trabspose + shape
+// length + shape
 // が同じものを同じMotifとする
 // =====================================================
 
@@ -5234,7 +5234,6 @@ for(const candidate of validCandidates){
         );
 */              if(
                     existing.length === candidate.length &&
-                    existing.transpose === candidate.transpose &&
                     sameMotifShape(
                         existing.shape,
                         candidate.shape
