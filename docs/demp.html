@@ -2280,7 +2280,6 @@ async function onLocalFilesChanged(event) {
 
 }
 
-
 function updateLocalFileOption(files){
 
     const select =
@@ -2292,6 +2291,9 @@ function updateLocalFileOption(files){
     for(const file of files){
         debugLog(file.name);
     }
+
+    // ★ local fileを保存
+    localFiles = Array.from(files);
 
     const old =
         select.querySelector('option[value="local"]');
