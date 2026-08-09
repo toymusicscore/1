@@ -5163,7 +5163,11 @@ beatSimilarity,
 shapeBeatDataA,
 shapeBeatDataB
 ){
-
+console.log(
+    "beatSimilarity",
+    beatSimilarity.length,
+    beatSimilarity.slice(0, 20)
+);
 // =====================================================
 // 1. diagonal ごとにグループ化
 // =====================================================
@@ -5256,6 +5260,11 @@ for(const d in diagonalGroups){
     }
 }
 
+console.log(
+    "candidates",
+    candidates.length,
+    candidates
+);
 
 // =====================================================
 // 3. 候補Motifの形を作る
