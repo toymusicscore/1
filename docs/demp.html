@@ -4026,264 +4026,63 @@ function drawPolygon(ctx, cx, cy, r, n){
 }
 
 
-function showMotifGroups(){
+// =====================================
+// LL
+// =====================================
 
-    menuWindow.style.display="none";
-
-    // =====================================
-    // shape
-    // =====================================
-
-    shapeBeatDataRight =
-        createShapeBeat(scoreRight, 1);
-
-    shapeBeatDataLeft =
-        createShapeBeat(scoreLeft, 2);
+drawMotifGraph(
+    motifGroupsLeft,
+    0,
+    motifStartY,
+    "Left × Left"
+);
 
 
-    // =====================================
-    // Matrixのレイアウトを先に計算
-    // =====================================
+// =====================================
+// RR
+// =====================================
 
-    const marginX = 40;
-    const gapX = 40;
-    const matrixGapY = 60;
-    const matrixTop = 40;
-
-    const matrixSize =
-        (
-            canvas.width
-            - marginX * 2
-            - gapX
-        ) / 2;
+drawMotifGraph(
+    motifGroupsRight,
+    graphWidth,
+    motifStartY,
+    "Right × Right"
+);
 
 
-    // Matrix 2段分の高さ
-    const matrixHeight =
-        matrixTop +
-        matrixSize * 2 +
-        matrixGapY;
+// =====================================
+// LR
+// =====================================
+
+const yLR =
+    motifStartY +
+    motifGraphHeight +
+    sectionGap;
+
+drawMotifGraph(
+    motifGroupsLeftRight,
+    0,
+    yLR,
+    "Left × Right"
+);
 
 
-    // =====================================
-    // 楽曲のbeat数
-    // =====================================
+// =====================================
+// RL
+// =====================================
 
-    const maxBeat =
-        Math.ceil(
-            songLengthTicks /
-            ticksPerQuarterNote
-        );
+const yRL =
+    yLR +
+    motifGraphHeight +
+    sectionGap;
 
-    const cellH = 5;
-    const graphMy = 40;
+drawMotifGraph(
+    motifGroupsRightLeft,
+    graphWidth,
+    yRL,
+    "Right × Left"
+);
 
-    const motifGraphHeight =
-        graphMy +
-        (maxBeat + 1) * cellH;
-
-
-    // =====================================
-    // Matrix → Motif の間隔
-    // =====================================
-
-    const sectionGap = 120;
-
-
-    // =====================================
-    // Motif開始位置
-    // =====================================
-
-    const motifStartY =
-        matrixHeight +
-        sectionGap;
-
-
-    // =====================================
-    // canvas高さ
-    // =====================================
-
-    const totalHeight =
-        motifStartY +
-        motifGraphHeight * 4 +
-        sectionGap * 3;
-
-
-    canvas.height =
-        totalHeight;
-
-
-    // =====================================
-    // canvasクリア
-    // =====================================
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    // =====================================
-    // Similarity Matrix
-    // =====================================
-
-    const similarity =
-        createSimilarityMatrices(0);
-
-
-    // =====================================
-    // Motif
-    // =====================================
-
-    motifGroupsRight =
-        findMotif(
-            similarity.rightRight,
-            shapeBeatDataRight,
-            shapeBeatDataRight
-        );
-
-    motifGroupsLeft =
-        findMotif(
-            similarity.leftLeft,
-            shapeBeatDataLeft,
-            shapeBeatDataLeft
-        );
-
-    motifGroupsLeftRight =
-        findMotif(
-            similarity.leftRight,
-            shapeBeatDataLeft,
-            shapeBeatDataRight
-        );
-
-    motifGroupsRightLeft =
-        findMotif(
-            similarity.rightLeft,
-            shapeBeatDataRight,
-            shapeBeatDataLeft
-        );
-
-
-    // =====================================
-    // X位置
-    // =====================================
-
-    const graphWidth =
-        canvas.width / 2;
-
-
-    // =====================================
-    // LL
-    // A = Left
-    // B = Left
-    // =====================================
-
-    const yLL =
-        motifStartY;
-
-    drawMotifGraph(
-        motifGroupsLeft,
-        0,
-        yLL,
-        "Left × Left : A",
-        "A"
-    );
-
-    drawMotifGraph(
-        motifGroupsLeft,
-        graphWidth,
-        yLL,
-        "Left × Left : B",
-        "B"
-    );
-
-
-    // =====================================
-    // RR
-    // A = Right
-    // B = Right
-    // =====================================
-
-    const yRR =
-        yLL +
-        motifGraphHeight +
-        sectionGap;
-
-    drawMotifGraph(
-        motifGroupsRight,
-        0,
-        yRR,
-        "Right × Right : A",
-        "A"
-    );
-
-    drawMotifGraph(
-        motifGroupsRight,
-        graphWidth,
-        yRR,
-        "Right × Right : B",
-        "B"
-    );
-
-
-    // =====================================
-    // LR
-    // A = Left
-    // B = Right
-    // =====================================
-
-    const yLR =
-        yRR +
-        motifGraphHeight +
-        sectionGap;
-
-    drawMotifGraph(
-        motifGroupsLeftRight,
-        0,
-        yLR,
-        "Left × Right : A (Left)",
-        "A"
-    );
-
-    drawMotifGraph(
-        motifGroupsLeftRight,
-        graphWidth,
-        yLR,
-        "Left × Right : B (Right)",
-        "B"
-    );
-
-
-    // =====================================
-    // RL
-    // A = Right
-    // B = Left
-    // =====================================
-
-    const yRL =
-        yLR +
-        motifGraphHeight +
-        sectionGap;
-
-    drawMotifGraph(
-        motifGroupsRightLeft,
-        0,
-        yRL,
-        "Right × Left : A (Right)",
-        "A"
-    );
-
-    drawMotifGraph(
-        motifGroupsRightLeft,
-        graphWidth,
-        yRL,
-        "Right × Left : B (Left)",
-        "B"
-    );
-
-}
 
 /*
 function showSimilarityMatrices(){
@@ -5434,16 +5233,14 @@ function drawMotifGraph(
     motifGroups,
     offsetX = 0,
     offsetY = 0,
-    title = "",
-    side = "A"
+    title = ""
 ){
-
-    const graphWidth = canvas.width / 2;
 
     const mx = 50;
     const my = 40;
 
-    const cellW = 50;
+    // 1 motifにつき A/B の2列
+    const cellW = 25;
     const cellH = 5;
 
     ctx.save();
@@ -5453,9 +5250,9 @@ function drawMotifGraph(
     ctx.font = "10px sans-serif";
 
 
-    // =====================================================
+    // =====================================
     // タイトル
-    // =====================================================
+    // =====================================
 
     ctx.textAlign = "center";
     ctx.fillStyle = "black";
@@ -5463,22 +5260,25 @@ function drawMotifGraph(
 
     ctx.fillText(
         title,
-        mx + motifGroups.length * cellW / 2,
+        mx + motifGroups.length * cellW,
         my - 25
     );
 
-    // =====================================================
-    // 楽曲全体の最終 beat
 
-    // =====================================================
+    // =====================================
+    // 楽曲全体の最終 beat
+    // =====================================
 
     const maxBeat =
+        Math.ceil(
+            songLengthTicks /
+            ticksPerQuarterNote
+        );
 
-        Math.ceil(songLengthTicks / ticksPerQuarterNote);
 
-    // =====================================================
-    // motif ごとの色
-    // =====================================================
+    // =====================================
+    // motifごとの色
+    // =====================================
 
     const motifColors = [
         "#e74c3c",
@@ -5495,38 +5295,63 @@ function drawMotifGraph(
         "#fd79a8"
     ];
 
-    // =====================================================
-    // motif番号
-    // =====================================================
 
-    ctx.textAlign = "center";
+    // =====================================
+    // Motif番号
+    // =====================================
 
     for(let i = 0; i < motifGroups.length; i++){
 
         const x =
-            mx + i * cellW + cellW / 2;
+            mx + i * cellW * 2;
 
         ctx.fillStyle =
             motifColors[i % motifColors.length];
 
+        // Motif番号
+        ctx.textAlign = "center";
+
         ctx.fillText(
+            motifGroups[i].motif ||
             "M" + (i + 1),
-            x,
-            my - 8
+
+            x + cellW,
+
+            my - 18
+        );
+
+        // A
+        ctx.fillText(
+            "A",
+            x + cellW / 2,
+            my - 5
+        );
+
+        // B
+        ctx.fillText(
+            "B",
+            x + cellW * 1.5,
+            my - 5
         );
     }
 
 
-    // =====================================================
+    // =====================================
     // 小節番号
-    // =====================================================
+    // =====================================
 
-    for(let beat = 0; beat <= maxBeat; beat++){
+    for(
+        let beat = 0;
+        beat <= maxBeat;
+        beat++
+    ){
 
         const y =
             my + beat * cellH;
 
-        if(beat % beatsPerMeasure === 0){
+        if(
+            beat % beatsPerMeasure === 0
+        ){
 
             const measure =
                 Math.floor(
@@ -5555,7 +5380,9 @@ function drawMotifGraph(
             );
 
             ctx.lineTo(
-                mx + motifGroups.length * cellW,
+                mx +
+                motifGroups.length *
+                cellW * 2,
                 y
             );
 
@@ -5564,73 +5391,83 @@ function drawMotifGraph(
     }
 
 
-    // =====================================================
+    // =====================================
     // motif
-    // =====================================================
+    // =====================================
 
-    for(let i = 0; i < motifGroups.length; i++){
+    for(
+        let i = 0;
+        i < motifGroups.length;
+        i++
+    ){
 
-        const motif = motifGroups[i];
+        const motif =
+            motifGroups[i];
 
         const x =
-            mx + i * cellW;
+            mx + i * cellW * 2;
 
-        // -----------------------------------------
-        // motifごとの色
-        // -----------------------------------------
 
         ctx.fillStyle =
-            motifColors[i % motifColors.length];
-
-        for(const occurrence of motif.occurrences){
-
-            let start;
-            let end;
-
-            if(side === "A" || side === "B"){
-
-                const start =
-                    side === "A"
-                        ? occurrence.startA
-                        : occurrence.startB;
-
-                const end =
-                    side === "A"
-                        ? occurrence.endA
-                        : occurrence.endB;
-
-                const drawX =
-                    side === "A"
-                        ? x + 2
-                        : x + cellW / 2;
-
-                const drawW =
-                    side === "A"
-                        ? cellW / 2 - 3
-                        : cellW / 2 - 3;
+            motifColors[
+                i % motifColors.length
+            ];
 
 
-                for(let beat = start; beat <= end; beat++){
+        for(
+            const occurrence
+            of motif.occurrences
+        ){
 
-                    const y =
-                        my + beat * cellH;
+            // =================================
+            // A
+            // =================================
 
-                    ctx.fillRect(
-                        drawX,
-                        y + 1,
-                        drawW,
-                        cellH - 1
-                    );
-                }
+            for(
+                let beat = occurrence.startA;
+                beat <= occurrence.endA;
+                beat++
+            ){
+
+                const y =
+                    my + beat * cellH;
+
+                ctx.fillRect(
+                    x + 1,
+                    y + 1,
+                    cellW - 2,
+                    cellH - 1
+                );
+            }
+
+
+            // =================================
+            // B
+            // =================================
+
+            for(
+                let beat = occurrence.startB;
+                beat <= occurrence.endB;
+                beat++
+            ){
+
+                const y =
+                    my + beat * cellH;
+
+                ctx.fillRect(
+                    x + cellW + 1,
+                    y + 1,
+                    cellW - 2,
+                    cellH - 1
+                );
             }
         }
-
     }
 
 
-    // =====================================================
+    // =====================================
     // 外枠
-    // =====================================================
+    // =====================================
 
     ctx.strokeStyle = "black";
     ctx.lineWidth = 1;
@@ -5638,9 +5475,12 @@ function drawMotifGraph(
     ctx.strokeRect(
         mx,
         my,
-        motifGroups.length * cellW,
+        motifGroups.length *
+        cellW * 2,
         (maxBeat + 1) * cellH
     );
+
+
     ctx.restore();
 }
 
