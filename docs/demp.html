@@ -5220,22 +5220,35 @@ for(const candidate of validCandidates){
     let motif = null;
 
     for(const existing of motifGroups){
-if(
-    existing.length === candidate.length &&
-    existing.transpose === candidate.transpose
-){
-    /*
-        if(
-            existing.length === candidate.length &&
-            existing.transpose === candidate.transpose &&
+
+        console.log(
+            "COMPARE",
+            existing.length,
+            existing.transpose,
+            candidate.length,
+            candidate.transpose,
             sameMotifShape(
                 existing.shape,
                 candidate.shape
             )
+        );
+            
+        if(
+            existing.length === candidate.length &&
+            existing.transpose === candidate.transpose
         ){
-*/
-            motif = existing;
-            break;
+            /*
+                if(
+                    existing.length === candidate.length &&
+                    existing.transpose === candidate.transpose &&
+                    sameMotifShape(
+                        existing.shape,
+                        candidate.shape
+                    )
+                ){
+        */
+                    motif = existing;
+                    break;
         }
     }
 
@@ -5293,6 +5306,7 @@ if(
         });
     }
 }
+
 
 // =====================================================
 // 5. 同一occurrenceの重複を削除
