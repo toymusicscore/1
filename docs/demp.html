@@ -4026,6 +4026,266 @@ function drawPolygon(ctx, cx, cy, r, n){
 }
 
 
+function showMotifGroups(){
+
+    menuWindow.style.display="none";
+
+    // =====================================
+    // shape
+    // =====================================
+
+    shapeBeatDataRight =
+        createShapeBeat(scoreRight, 1);
+
+    shapeBeatDataLeft =
+        createShapeBeat(scoreLeft, 2);
+
+
+    // =====================================
+    // Matrixのレイアウトを先に計算
+    // =====================================
+
+    const marginX = 40;
+    const gapX = 40;
+    const matrixGapY = 60;
+    const matrixTop = 40;
+
+    const matrixSize =
+        (
+            canvas.width
+            - marginX * 2
+            - gapX
+        ) / 2;
+
+
+    // Matrix 2段分の高さ
+    const matrixHeight =
+        matrixTop +
+        matrixSize * 2 +
+        matrixGapY;
+
+
+    // =====================================
+    // 楽曲のbeat数
+    // =====================================
+
+    const maxBeat =
+        Math.ceil(
+            songLengthTicks /
+            ticksPerQuarterNote
+        );
+
+    const cellH = 5;
+    const graphMy = 40;
+
+    const motifGraphHeight =
+        graphMy +
+        (maxBeat + 1) * cellH;
+
+
+    // =====================================
+    // Matrix → Motif の間隔
+    // =====================================
+
+    const sectionGap = 120;
+
+
+    // =====================================
+    // Motif開始位置
+    // =====================================
+
+    const motifStartY =
+        matrixHeight +
+        sectionGap;
+
+
+    // =====================================
+    // canvas高さ
+    // =====================================
+
+    const totalHeight =
+        motifStartY +
+        motifGraphHeight * 4 +
+        sectionGap * 3;
+
+
+    canvas.height =
+        totalHeight;
+
+
+    // =====================================
+    // canvasクリア
+    // =====================================
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    // =====================================
+    // Similarity Matrix
+    // =====================================
+
+    const similarity =
+        createSimilarityMatrices(0);
+
+
+    // =====================================
+    // Motif
+    // =====================================
+
+    motifGroupsRight =
+        findMotif(
+            similarity.rightRight,
+            shapeBeatDataRight,
+            shapeBeatDataRight
+        );
+
+    motifGroupsLeft =
+        findMotif(
+            similarity.leftLeft,
+            shapeBeatDataLeft,
+            shapeBeatDataLeft
+        );
+
+    motifGroupsLeftRight =
+        findMotif(
+            similarity.leftRight,
+            shapeBeatDataLeft,
+            shapeBeatDataRight
+        );
+
+    motifGroupsRightLeft =
+        findMotif(
+            similarity.rightLeft,
+            shapeBeatDataRight,
+            shapeBeatDataLeft
+        );
+
+
+    // =====================================
+    // X位置
+    // =====================================
+
+    const graphWidth =
+        canvas.width / 2;
+
+
+    // =====================================
+    // LL
+    // A = Left
+    // B = Left
+    // =====================================
+
+    const yLL =
+        motifStartY;
+
+    drawMotifGraph(
+        motifGroupsLeft,
+        0,
+        yLL,
+        "Left × Left : A",
+        "A"
+    );
+
+    drawMotifGraph(
+        motifGroupsLeft,
+        graphWidth,
+        yLL,
+        "Left × Left : B",
+        "B"
+    );
+
+
+    // =====================================
+    // RR
+    // A = Right
+    // B = Right
+    // =====================================
+
+    const yRR =
+        yLL +
+        motifGraphHeight +
+        sectionGap;
+
+    drawMotifGraph(
+        motifGroupsRight,
+        0,
+        yRR,
+        "Right × Right : A",
+        "A"
+    );
+
+    drawMotifGraph(
+        motifGroupsRight,
+        graphWidth,
+        yRR,
+        "Right × Right : B",
+        "B"
+    );
+
+
+    // =====================================
+    // LR
+    // A = Left
+    // B = Right
+    // =====================================
+
+    const yLR =
+        yRR +
+        motifGraphHeight +
+        sectionGap;
+
+    drawMotifGraph(
+        motifGroupsLeftRight,
+        0,
+        yLR,
+        "Left × Right : A (Left)",
+        "A"
+    );
+
+    drawMotifGraph(
+        motifGroupsLeftRight,
+        graphWidth,
+        yLR,
+        "Left × Right : B (Right)",
+        "B"
+    );
+
+
+    // =====================================
+    // RL
+    // A = Right
+    // B = Left
+    // =====================================
+
+    const yRL =
+        yLR +
+        motifGraphHeight +
+        sectionGap;
+
+    drawMotifGraph(
+        motifGroupsRightLeft,
+        0,
+        yRL,
+        "Right × Left : A (Right)",
+        "A"
+    );
+
+    drawMotifGraph(
+        motifGroupsRightLeft,
+        graphWidth,
+        yRL,
+        "Right × Left : B (Left)",
+        "B"
+    );
+
+}
+
+/*
 function showSimilarityMatrices(){
 
     menuWindow.style.display="none";
@@ -4273,6 +4533,7 @@ function showMotifGroups(){
         "A"
     );
 }
+*/
 
 
 function showShapeBeat() {
