@@ -5208,7 +5208,7 @@ console.log(
 // 4. 同じMotifを occurrences に統合
 //
 // A/Bの位置ではなく、
-// length + shape
+// length + trabspose + shape
 // が同じものを同じMotifとする
 // =====================================================
 
@@ -5300,6 +5300,14 @@ for(const candidate of validCandidates){
     }
 }
 
+console.log(
+    "motifGroups BEFORE filter",
+    motifGroups.map(m => ({
+        length: m.length,
+        occurrenceCount: m.occurrences.length,
+        occurrences: m.occurrences
+    }))
+);
 
 // =====================================================
 // 5. 同一occurrenceの重複を削除
