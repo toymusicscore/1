@@ -5455,7 +5455,7 @@ function shapeBeat(tick){
 	);
 
 	view.kw = (canvas.width - 2 * mx) / (2 * maxAbsPitch + 2);
-
+/*
 	if (tick<songLengthTicks){
 		ctx.beginPath();
 		ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
@@ -5465,7 +5465,7 @@ function shapeBeat(tick){
 	} else {
 		isPlaying = false;
 	}
-
+*/
 	ctx.beginPath();
 	ctx.moveTo(0,my+szy);
 	ctx.lineTo(mx+szk,my+szy);
@@ -5495,7 +5495,6 @@ function shapeBeat(tick){
 			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 			ctx.strokeStyle=workingColor.line[4];
 			ctx.stroke();
-			ctx.fillStyle = workingColor.text[0];
 			}
 	}
 
