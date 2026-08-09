@@ -1162,8 +1162,12 @@ function showTab(tab){
 					<br><br>
 				<input 
 					type="button" 
-					id="copyScoreRLButton"
-					value="🎼 Copy Score RL">
+					id="copyScoreAButton"
+					value="🎼 Copy Score A">
+				<input 
+					type="button" 
+					id="copyScoreBButton"
+					value="🎼 Copy Score B">
 				<input 
 					type="button" 
 					id="motifTwoSongsButton"
@@ -1190,9 +1194,14 @@ function showTab(tab){
 					showMotifGroups();
 					closeMenuWindow();
 				};
-				$("copyScoreRLButton").onclick = function(){
+				$("copyScoreAButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					copyScoreRL();
+					copyScoreA();
+					closeMenuWindow();
+				};
+				$("copyScoreBButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					copyScoreB();
 					closeMenuWindow();
 				};
 				$("motifTwoSongsButton").onclick = function(){
@@ -4046,14 +4055,23 @@ function drawPolygon(ctx, cx, cy, r, n){
 //  ctx.fill();
 
 }
-
 let scoreRightA;
 let scoreLeftA;
 
-function copyScoreRL(){
+let scoreRightB;
+let scoreLeftB;
 
-    scoreRightA = scoreRight;
-    scoreLeftA = scoreLeft;
+function copyScoreA(){
+
+    scoreRightA = structuredClone(scoreRight);
+    scoreLeftA  = structuredClone(scoreLeft);
+
+}
+
+function copyScoreB(){
+
+    scoreRightB = structuredClone(scoreRight);
+    scoreLeftB  = structuredClone(scoreLeft);
 
 }
 
