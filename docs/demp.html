@@ -4134,9 +4134,15 @@ function showMotifTwoSongs(){
     // =====================================
 
     const maxBeat =
-        Math.ceil(
-            songLengthTicks /
-            ticksPerQuarterNote
+        Math.max(
+            Math.ceil(
+                songLengthTicksA /
+                ticksPerQuarterNoteA
+            ),
+            Math.ceil(
+                songLengthTicksB /
+                ticksPerQuarterNoteB
+            ),
         );
 
     const cellH = 5;
