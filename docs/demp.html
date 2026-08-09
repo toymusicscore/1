@@ -5195,19 +5195,6 @@ for(const candidate of candidates){
     });
 }
 
-console.log(
-    "validCandidates",
-    validCandidates.map(c => ({
-        startA: c.startA,
-        endA: c.endA,
-        startB: c.startB,
-        endB: c.endB,
-        length: c.length,
-        diagonal: c.diagonal,
-        transpose: c.transpose
-    }))
-);
-
 // =====================================================
 // 4. 同じMotifを occurrences に統合
 //
@@ -5223,27 +5210,21 @@ for(const candidate of validCandidates){
 
     let motif = null;
 
-
     for(const existing of motifGroups){
 
         if(
-            existing.length !== candidate.length
+            existing.length === candidate.length &&
+            existing.transpose === candidate.transpose &&
+            sameMotifShape(
+                existing.shape,
+                candidate.shape
+            )
         ){
-            continue;
+
+            motif = existing;
+            break;
         }
-
-        if(
-            JSON.stringify(existing.shape) !==
-            JSON.stringify(candidate.shape)
-        ){
-            continue;
-        }
-
-
-        motif = existing;
-        break;
     }
-
 
     // -------------------------------------------------
     // 既存Motif
@@ -5299,21 +5280,6 @@ for(const candidate of validCandidates){
         });
     }
 }
-
-console.log(
-    "motifGroups BEFORE filter",
-    motifGroups.map(m => ({
-        length: m.length,
-        occurrences: m.occurrences.map(o => ({
-            startA: o.startA,
-            endA: o.endA,
-            startB: o.startB,
-            endB: o.endB,
-            diagonal: o.diagonal,
-            transpose: o.transpose
-        }))
-    }))
-);
 
 // =====================================================
 // 5. 同一occurrenceの重複を削除
@@ -5376,6 +5342,32 @@ console.log(
 return motifGroups;
 
 }
+
+
+function sameMotifShape(shapeA, shapeB){
+
+    if(!shapeA || !shapeB){
+        return false;
+    }
+
+    if(shapeA.length !== shapeB.length){
+        return false;
+    }
+
+    for(let i = 0; i < shapeA.length; i++){
+
+        if(
+            JSON.stringify(shapeA[i]) !==
+            JSON.stringify(shapeB[i])
+        ){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 
 function drawMotifGraph(
     motifGroups,
