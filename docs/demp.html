@@ -2437,10 +2437,17 @@ async function fetchData(){
     };
 }
 
-
 function loadMidi(arrayBuffer){
 
+    console.log("arrayBuffer =", arrayBuffer);
+    console.log("byteLength =", arrayBuffer ? arrayBuffer.byteLength : null);
+
     midiData = new Uint8Array(arrayBuffer);
+
+    console.log(
+        "MIDI header =",
+        Array.from(midiData.slice(0, 4))
+    );
 
     initializeScoreSystem();
 }
