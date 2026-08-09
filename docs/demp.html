@@ -5619,12 +5619,18 @@ function drawMotifGraph(
     // 楽曲全体の最終 beat
     // =====================================
 
-    const maxBeat =
-        Math.ceil(
-            songLengthTicks /
-            ticksPerQuarterNote
-        );
+    let maxBeat=0;
 
+        maxBeat = Math.max(
+            Math.ceil(
+                songLengthTicksA /
+                ticksPerQuarterNoteA
+            ),
+            Math.ceil(
+                songLengthTicksB /
+                ticksPerQuarterNoteB
+            )
+        );
 
     // =====================================
     // motifごとの色
