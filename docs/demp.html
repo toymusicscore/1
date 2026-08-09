@@ -4592,6 +4592,67 @@ function createHandMotifs(){
 }
 
 
+function createShapeBeatTwoSongs(scoreNotes, hand, AB){
+
+    const shapeBeatData = {};
+    const beatBase = {};
+    let beatNumber=0;
+
+    for(const note of scoreNotes){
+
+        if (AB=="A"){
+            Math.floor(
+                beatNumber =
+                note.start / ticksPerQuarterNoteA
+            );
+        }else if(AB=="B"){
+            Math.floor(
+                beatNumber =
+                note.start / ticksPerQuarterNoteB
+            );
+        }
+
+        if(beatBase[beatNumber] === undefined){
+
+            beatBase[beatNumber] = {
+                start: note.start,
+                midi: note.midi
+            };
+        }
+
+        if(!shapeBeatData[beatNumber]){
+
+            shapeBeatData[beatNumber] = {
+                beat: beatNumber,
+                hand: hand,
+                points: []
+            };
+        }
+
+        const beatTick =
+            note.start -
+            beatBase[beatNumber].start;
+
+        const beatPitch =
+            note.midi -
+            beatBase[beatNumber].midi;
+
+        shapeBeatData[beatNumber].points.push({
+
+            start: note.start,
+
+            relativeStart: beatTick,
+
+            midi: note.midi,
+
+            relativeMidi: beatPitch
+        });
+    }
+
+    return shapeBeatData;
+}
+
+
 function createShapeBeat(scoreNotes, hand){
 
     const shapeBeatData = {};
