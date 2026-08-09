@@ -5330,16 +5330,23 @@ for(const motif of motifGroups){
     motif.occurrences =
         Object.values(unique);
 }
-
 // =====================================================
-// 6. 1回しか出現しないものはMotifではない
+// 6. 片手で1回しか出現しないものはMotifではない
+//
+// RR / LL : 2回以上必要
+// LR / RL : 1回でも残す
 // =====================================================
 
-for(let i = motifGroups.length - 1; i >= 0; i--){
+if(shapeBeatDataA === shapeBeatDataB){
 
-    if(motifGroups[i].occurrences.length < 2){
+    // RR / LL
 
-        motifGroups.splice(i, 1);
+    for(let i = motifGroups.length - 1; i >= 0; i--){
+
+        if(motifGroups[i].occurrences.length < 2){
+
+            motifGroups.splice(i, 1);
+        }
     }
 }
 
