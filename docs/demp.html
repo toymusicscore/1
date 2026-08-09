@@ -2320,26 +2320,56 @@ function updateLocalFileOption(files){
 
 async function loadLocalFiles(files){
 
-        const midi = files.find(file => file.name.endsWith(".mid"));
-        const tsv  = files.find(file => file.name.endsWith(".tsv"));
+    console.log("=== loadLocalFiles START ===");
+    console.log("files =", files);
+    console.log("files.length =", files.length);
 
-        if(!midi){
-            console.error("MIDI missing");
-            return;
-        }
+    const midi = files.find(
+        file =>
+            file.name.toLowerCase().endsWith(".mid") ||
+            file.name.toLowerCase().endsWith(".midi")
+    );
 
-	const data1 = await midi.arrayBuffer();
-	const data2 = tsv ? await tsv.text() : null;
+    const tsv = files.find(
+        file =>
+            file.name.toLowerCase().endsWith(".tsv")
+    );
 
-	console.log("MIDI bytes =", data1.byteLength);
-	console.log("TSV chars =", data2?.length);
-	console.log("before loadMidi");
+    console.log("midi =", midi);
+    console.log("tsv =", tsv);
 
-	loadMidi(data1);
-	setTsv(data2);
+    if(!midi){
+        console.error("MIDI missing");
+        return;
+    }
 
-	showSelectedView();
+    const data1 =
+        await midi.arrayBuffer();
 
+    console.log(
+        "MIDI bytes =",
+        data1.byteLength
+    );
+
+    const data2 =
+        tsv ? await tsv.text() : null;
+
+    console.log(
+        "TSV chars =",
+        data2?.length
+    );
+
+    console.log("before loadMidi");
+
+    loadMidi(data1);
+
+    console.log("after loadMidi");
+
+    setTsv(data2);
+
+    showSelectedView();
+
+    console.log("=== loadLocalFiles END ===");
 }
 
 
