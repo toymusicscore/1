@@ -5580,7 +5580,7 @@ function sameMotifShape(shapeA, shapeB){
 }
 
 
-function drawMotifGraph(
+function drawMotifTwoSongs(
     motifGroups,
     offsetX = 0,
     offsetY = 0,
@@ -5629,6 +5629,263 @@ function drawMotifGraph(
                 ticksPerQuarterNoteB
             )
         );
+
+    // =====================================
+    // motifごとの色
+    // =====================================
+
+    const motifColors = [
+        "#e74c3c",
+        "#3498db",
+        "#2ecc71",
+        "#9b59b6",
+        "#f39c12",
+        "#1abc9c",
+        "#e67e22",
+        "#34495e",
+        "#e84393",
+        "#00b894",
+        "#6c5ce7",
+        "#fd79a8"
+    ];
+
+    // =====================================
+    // Motif番号
+    // =====================================
+
+    ctx.font = "10px sans-serif";
+
+    for(let i = 0; i < motifGroups.length; i++){
+
+        const x =
+            mx + i * cellW * 2;
+
+        ctx.fillStyle =
+            motifColors[
+                i % motifColors.length
+            ];
+
+        // M1, M2, M3 ...
+        ctx.fillText(
+            motifGroups[i].motif ||
+            "M" + (i + 1),
+
+            x + cellW,
+
+            my - 22
+        );
+
+
+        // A
+        ctx.fillText(
+            "A",
+            x + cellW / 2,
+            my - 7
+        );
+
+
+        // B
+        ctx.fillText(
+            "B",
+            x + cellW * 1.5,
+            my - 7
+        );
+    }
+
+
+    // =====================================
+    // 小節番号
+    // =====================================
+
+    for(
+        let beat = 0;
+        beat <= maxBeat;
+        beat++
+    ){
+
+        const y =
+            my + beat * cellH;
+
+        if(
+            beat % beatsPerMeasureA === 0
+        ){
+
+            const measure =
+                Math.floor(
+                    beat / beatsPerMeasureA
+                ) + 1;
+
+            ctx.textAlign = "right";
+            ctx.fillStyle = "black";
+
+            ctx.fillText(
+                measure,
+                mx - 10,
+                y + 4
+            );
+
+
+            // 小節線
+            ctx.strokeStyle = "#aaaaaa";
+            ctx.lineWidth = 1;
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                mx,
+                y
+            );
+
+            ctx.lineTo(
+                mx +
+                motifGroups.length *
+                cellW * 2,
+                y
+            );
+
+            ctx.stroke();
+        }
+    }
+
+
+    // =====================================
+    // motif
+    // =====================================
+
+    for(
+        let i = 0;
+        i < motifGroups.length;
+        i++
+    ){
+
+        const motif =
+            motifGroups[i];
+
+        const x =
+            mx + i * cellW * 2;
+
+
+        ctx.fillStyle =
+            motifColors[
+                i % motifColors.length
+            ];
+
+
+        for(
+            const occurrence
+            of motif.occurrences
+        ){
+
+            // =================================
+            // A
+            // =================================
+
+            for(
+                let beat = occurrence.startA;
+                beat <= occurrence.endA;
+                beat++
+            ){
+
+                const y =
+                    my + beat * cellH;
+
+                ctx.fillRect(
+                    x + 1,
+                    y + 1,
+                    cellW - 2,
+                    cellH - 1
+                );
+            }
+
+
+            // =================================
+            // B
+            // =================================
+
+            for(
+                let beat = occurrence.startB;
+                beat <= occurrence.endB;
+                beat++
+            ){
+
+                const y =
+                    my + beat * cellH;
+
+                ctx.fillRect(
+                    x + cellW + 1,
+                    y + 1,
+                    cellW - 2,
+                    cellH - 1
+                );
+            }
+        }
+    }
+
+
+    // =====================================
+    // 外枠
+    // =====================================
+
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
+
+    ctx.strokeRect(
+        mx,
+        my,
+        motifGroups.length *
+        cellW * 2,
+        (maxBeat + 1) * cellH
+    );
+
+
+    ctx.restore();
+}
+
+
+function drawMotifGraph(
+    motifGroups,
+    offsetX = 0,
+    offsetY = 0,
+    title = ""
+){
+
+    const mx = 50;
+    const my = 40;
+
+    // 1 motifにつき A/B の2列
+    const cellW = 25;
+    const cellH = 5;
+
+    ctx.save();
+
+    ctx.translate(offsetX, offsetY);
+
+    ctx.font = "10px sans-serif";
+
+    // =====================================
+    // タイトル
+    // =====================================
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = "black";
+    ctx.font = "12px sans-serif";
+
+    ctx.fillText(
+        title,
+        mx + motifGroups.length * cellW,
+        my - 42
+    );
+
+
+    // =====================================
+    // 楽曲全体の最終 beat
+    // =====================================
+
+        const maxBeat = 
+            Math.ceil(
+                songLengthTicks /
+                ticksPerQuarterNote
+            );
 
     // =====================================
     // motifごとの色
