@@ -2176,9 +2176,13 @@ async function main(){
     const { data1, data2 } =
         await fetchData();
 
+    console.log("data1 =", data1);
+    console.log("data2 =", data2);
+
     loadMidi(data1);
     setTsv(data2);
     showSelectedView();
+
 }
 
 function initializeAudio() {
