@@ -5492,18 +5492,8 @@ function shapeBeat(tick){
 	);
 
 	view.kw = (canvas.width - 2 * mx) / (2 * maxAbsPitch + 2);
-/*
-	if (tick<songLengthTicks){
-		ctx.beginPath();
-		ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.lineTo(szx,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.strokeStyle=workingColor.line[5];
-		ctx.stroke();
-	} else {
-		isPlaying = false;
-	}
-*/
-	ctx.beginPath();
+
+    ctx.beginPath();
 	ctx.moveTo(0,my+szy);
 	ctx.lineTo(mx+szk,my+szy);
 	ctx.strokeStyle=workingColor.line[3];
