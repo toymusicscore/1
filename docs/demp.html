@@ -4873,6 +4873,110 @@ function drawSimilarityMatrix(
     return beatSimilarity;
 }
 
+function createSimilarityMatricesTwoSongs(offsetY = 0){
+
+    const marginX = 40;
+    const gapX = 40;
+    const gapY = 60;
+
+    const matrixAreaWidth =
+        canvas.width - marginX * 2;
+
+    const size =
+        Math.min(
+            (matrixAreaWidth - gapX) / 2,
+            700
+        );
+
+    const x1 = marginX;
+    const x2 = x1 + size + gapX;
+
+    const matrixTop = 40;
+
+    const y1 =
+        offsetY + matrixTop;
+
+    const y2 =
+        y1 + size + gapY;
+
+
+    // =================================
+    // Left × Left
+    // =================================
+
+    const beatSimilarityLeftLeft =
+        drawSimilarityMatrix(
+            shapeBeatDataLeftA,
+            shapeBeatDataLeftB,
+            x1,
+            y1,
+            size,
+            "Left Hand × Left Hand"
+        );
+
+
+    // =================================
+    // Right × Right
+    // =================================
+
+    const beatSimilarityRightRight =
+        drawSimilarityMatrix(
+            shapeBeatDataRightA,
+            shapeBeatDataRightB,
+            x2,
+            y1,
+            size,
+            "Right Hand × Right Hand"
+        );
+
+
+    // =================================
+    // Left × Right
+    // =================================
+
+    const beatSimilarityLeftRight =
+        drawSimilarityMatrix(
+            shapeBeatDataLeftA,
+            shapeBeatDataRightB,
+            x1,
+            y2,
+            size,
+            "Left Hand × Right Hand"
+        );
+
+
+    // =================================
+    // Right × Left
+    // =================================
+
+    const beatSimilarityRightLeft =
+        drawSimilarityMatrix(
+            shapeBeatDataRightA,
+            shapeBeatDataLeftB,
+            x2,
+            y2,
+            size,
+            "Right Hand × Left Hand"
+        );
+
+
+    return {
+
+        rightRight:
+            beatSimilarityRightRight,
+
+        leftLeft:
+            beatSimilarityLeftLeft,
+
+        leftRight:
+            beatSimilarityLeftRight,
+
+        rightLeft:
+            beatSimilarityRightLeft
+    };
+}
+
+
 function createSimilarityMatrices(offsetY = 0){
 
     const marginX = 40;
