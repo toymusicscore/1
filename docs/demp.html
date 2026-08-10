@@ -4763,8 +4763,8 @@ function createShapeEventTwoSongs(scoreNotes, hand, AB){
                     midi: note.midi,
 
                     // 楽曲冒頭の基準音からの相対音高
-                    relativeMidi:
-                        note.midi - baseMidi
+                    pitchClass:
+                        note.midi%12
                 }))
         };
     }
