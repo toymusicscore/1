@@ -1162,12 +1162,12 @@ function showTab(tab){
 					<br><br>
 				<input 
 					type="button" 
-					id="copyScoreAButton"
-					value="🎼 Copy Score A">
+					id="saveScoreAButton"
+					value="🎼 Save as Score A">
 				<input 
 					type="button" 
-					id="copyScoreBButton"
-					value="🎼 Copy Score B">
+					id="saveScoreBButton"
+					value="🎼 Save as Score B">
 				<input 
 					type="button" 
 					id="motifTwoSongsButton"
@@ -1194,14 +1194,14 @@ function showTab(tab){
 					showMotifGroups();
 					closeMenuWindow();
 				};
-				$("copyScoreAButton").onclick = function(){
+				$("saveScoreAButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					copyScoreA();
+					saveScoreA();
 					closeMenuWindow();
 				};
-				$("copyScoreBButton").onclick = function(){
+				$("saveScoreBButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					copyScoreB();
+					saveScoreB();
 					closeMenuWindow();
 				};
 				$("motifTwoSongsButton").onclick = function(){
@@ -4092,7 +4092,7 @@ let ticksPerQuarterNoteB;
 let beatsPerMeasureA;
 let beatsPerMeasureB;
 
-function copyScoreA(){
+function saveScoreA(){
 
     scoreRightA = structuredClone(scoreRight);
     scoreLeftA  = structuredClone(scoreLeft);
@@ -4102,7 +4102,7 @@ function copyScoreA(){
 
 }
 
-function copyScoreB(){
+function saveScoreB(){
 
     scoreRightB = structuredClone(scoreRight);
     scoreLeftB  = structuredClone(scoreLeft);
