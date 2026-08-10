@@ -4685,7 +4685,6 @@ function createShapeBeatTwoSongs(scoreNotes, hand, AB){
 
     return shapeBeatData;
 }
-
 function createShapeEvent(scoreNotes, hand){
 
     const shapeEventData = {};
@@ -4701,6 +4700,7 @@ function createShapeEvent(scoreNotes, hand){
     if(notes.length === 0){
         return shapeEventData;
     }
+
 
     // -----------------------------------------
     // 同じstartの音を音イベントとしてまとめる
@@ -4729,6 +4729,7 @@ function createShapeEvent(scoreNotes, hand){
         event.notes.push(note);
     }
 
+
     // -----------------------------------------
     // 音イベントごとにshapeを作る
     // -----------------------------------------
@@ -4751,11 +4752,13 @@ function createShapeEvent(scoreNotes, hand){
 
                     midi: note.midi,
 
+                    // オクターブを除いた pitch class
                     pitchClass:
-                        note.midi%12
+                        ((note.midi % 12) + 12) % 12
                 }))
         };
     }
+
 
     return shapeEventData;
 }
