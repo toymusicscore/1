@@ -5244,6 +5244,8 @@ function findMotifEvent(
 
     const candidates = [];
 
+    const MIN_MOTIF_EVENTS = 8;
+
     const eventsA =
         Object.keys(shapeEventDataA)
         .map(Number)
@@ -5305,10 +5307,10 @@ function findMotifEvent(
 
 
                 // ---------------------------------
-                // 3イベント以上連続
+                // MIN_MOTIF_EVENTS イベント以上連続
                 // ---------------------------------
 
-                if(length >= 3){
+                if(length >= MIN_MOTIF_EVENTS){
 
                     candidates.push({
 
