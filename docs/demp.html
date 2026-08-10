@@ -5262,86 +5262,138 @@ function createSimilarityMatrices(offsetY = 0){
     };
 }
 
-
 function findMotifEvent(
-            shapeEventDataA,
-            shapeEventDataB
+    shapeEventDataA,
+    shapeEventDataB
 ){
-    
-    const eventSimilarity = [];
 
-    const eventsA = Object.keys(shapeEventDataA)
-        .map(Number)
-        .sort((a,b) => a-b);
+    const candidates = [];
 
-    const eventsB = Object.keys(shapeEventDataB)
+    const eventsA =
+        Object.keys(shapeEventDataA)
         .map(Number)
-        .sort((a,b) => a-b);
+        .sort((a, b) => a - b);
+
+    const eventsB =
+        Object.keys(shapeEventDataB)
+        .map(Number)
+        .sort((a, b) => a - b);
+
+
+    // -----------------------------------------
+    // Aのevent
+    // ×
+    // Bのevent
+    // ×
+    // 12種類の移調
+    // -----------------------------------------
 
     for(let i = 0; i < eventsA.length; i++){
 
         for(let j = 0; j < eventsB.length; j++){
 
             for(let t = 0; t < 12; t++){
-                const eventA = eventsA[i];
-                const eventB = eventsB[j];
-                const pcDiff = eventA.pitchClass - eventB.pitchClass;
-                eventSimilarity.push([
-                    i, j, t, pcDiff, eventA, eventB
-                ]);
-            }
-        }
-    }
 
-    const candidates = [];
+                let length = 0;
 
-    for(const item in eventSimilarity){
+                while(
+                    i + length < eventsA.length &&
+                    j + length < eventsB.length
+                ){
 
-        const list = eventSimilarity[item];
+                    const eventA =
+                        shapeEventDataA[
+                            eventsA[i + length]
+                        ];
 
-        let run = [list[0]];
+                    const eventB =
+                        shapeEventDataB[
+                            eventsB[j + length]
+                        ];
 
-        for(let i = 1; i < list.length; i++){
 
-            const prev = list[i - 1];
-            const curr = list[i];
+                    // ---------------------------------
+                    // event内のshapeを比較
+                    // ---------------------------------
 
-            if(
-                curr[0] === prev[0] + 1 &&
-                curr[1] === prev[1] + 1 &&
-                curr[2] === prev[2] &&
-                curr[3] === 0 &&
-                prev[3] === 0
-            ){
+                    if(!isSameEventShape(
+                        eventA,
+                        eventB,
+                        t
+                    )){
+                        break;
+                    }
 
-                run.push(curr);
 
-            }else{
-
-                if(run.length >= 8){
-
-                    candidates.push([
-                        run[0].eventA,
-                        run[0].eventB
-                    ]);
+                    length++;
                 }
 
-                run = [curr];
+
+                // ---------------------------------
+                // 3イベント以上連続
+                // ---------------------------------
+
+                if(length >= 3){
+
+                    candidates.push({
+
+                        startA:
+                            eventsA[i],
+
+                        startB:
+                            eventsB[j],
+
+                        length: length,
+
+                        transpose: t
+                    });
+                }
             }
-        }
-
-
-        // 最後のrun
-        if(run.length >= 8){
-                    candidates.push([
-                        run[0].eventA,
-                        run[0].eventB
-                    ]);
         }
     }
 
-    return candidates;
 
+    return candidates;
+}
+
+
+function isSameEventShape(
+    eventA,
+    eventB,
+    transpose
+){
+
+    if(
+        eventA.points.length !==
+        eventB.points.length
+    ){
+        return false;
+    }
+
+
+    const pcsA =
+        eventA.points
+        .map(p => p.pitchClass)
+        .sort((a,b) => a-b);
+
+
+    const pcsB =
+        eventB.points
+        .map(p =>
+            (p.pitchClass + transpose) % 12
+        )
+        .sort((a,b) => a-b);
+
+
+    for(let i = 0; i < pcsA.length; i++){
+
+        if(pcsA[i] !== pcsB[i]){
+            return false;
+        }
+    }
+
+
+    return true;
 }
 
 
