@@ -4877,7 +4877,7 @@ function createShapeBeatTwoSongs(scoreNotes, hand, AB){
 
 
 function createShapeEvent(scoreNotes, hand){
-    
+
     console.log(
         "createShapeEvent:",
         hand,
@@ -4886,6 +4886,14 @@ function createShapeEvent(scoreNotes, hand){
     );
 
     const shapeEventData = {};
+    
+    if(!Array.isArray(scoreNotes)){
+        console.warn(
+            "createShapeEvent: scoreNotes is not an array",
+            scoreNotes
+        );
+        return shapeEventData;
+    }
 
     // -----------------------------------------
     // start位置で並べる
