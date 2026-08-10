@@ -4275,6 +4275,18 @@ const motifsDetailLR =
 console.log("motifsDetailsRR", motifsDetailsRR);
 console.log("motifsDetailsLR", motifsDetailsLR);
 
+const motifGroupsRR =
+    groupMotifs(
+        motifsRR,
+        shapeEventDataRightA,
+        shapeEventDataRightB
+    );
+
+console.log(
+    "motifGroupsRR =",
+    motifGroupsRR
+);
+
 /*
     // =====================================
     // X位置
@@ -4436,6 +4448,78 @@ function showMotifDetails(
         );
     }
 }
+
+
+function groupMotifs(
+    merged,
+    shapeEventDataA,
+    shapeEventDataB
+){
+
+    const groups = [];
+
+    for(const motif of merged){
+
+        let found = null;
+
+        for(const group of groups){
+
+            if(
+                group.length !== motif.length ||
+                group.transpose !== motif.transpose
+            ){
+                continue;
+            }
+
+            if(
+                isSameMotifSequence(
+                    group.occurrences[0],
+                    motif,
+                    shapeEventDataA,
+                    shapeEventDataB
+                )
+            ){
+                found = group;
+                break;
+            }
+        }
+
+
+        if(!found){
+
+            found = {
+
+                length:
+                    motif.length,
+
+                transpose:
+                    motif.transpose,
+
+                occurrences: []
+            };
+
+            groups.push(found);
+        }
+
+
+        found.occurrences.push({
+
+            startA:
+                motif.startA,
+
+            startB:
+                motif.startB
+        });
+    }
+
+
+    groups.sort(
+        (a, b) => b.length - a.length
+    );
+
+    return groups;
+}
+
 
 function showMotifGroups(){
 
