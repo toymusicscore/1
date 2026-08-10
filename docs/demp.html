@@ -5264,13 +5264,10 @@ function createSimilarityMatrices(offsetY = 0){
 
 
 function findMotifEvent(
-shapeEventDataA,
-shapeEventDataB
+            shapeEventDataA,
+            shapeEventDataB
 ){
-
-// =====================================================
-// 1. diagonal ごとにグループ化
-// =====================================================
+    
     const eventSimilarity = [];
 
     const eventsA = Object.keys(shapeEventDataA)
@@ -5281,442 +5278,69 @@ shapeEventDataB
         .map(Number)
         .sort((a,b) => a-b);
 
-    // --------------------------------
-    // matrix
-    // --------------------------------
-
     for(let i = 0; i < eventsA.length; i++){
 
         for(let j = 0; j < eventsB.length; j++){
 
             for(let t = 0; t < 12; t++){
+                const eventA = eventsA[i];
+                const eventB = eventsB[j];
+                const pcDiff = eventA.pitchClass - eventB.pitchClass;
+                eventSimilarity.push([
+                    i, j, t, pcDiff, eventA, eventB
+                ]);
+            }
+        }
+    }
 
-            const eventA = eventsA[i];
-            const eventB = eventsB[j];
+    const candidates = [];
 
-            const score =
-                compareEvent(
-                    shapeEventDataA[eventA],
-                    shapeEventDataB[eventB]
-                );
+    for(const item in eventSimilarity){
+
+        const list = eventSimilarity[item];
+
+        let run = [list[0]];
+
+        for(let i = 1; i < list.length; i++){
+
+            const prev = list[i - 1];
+            const curr = list[i];
 
             if(
-                score >= 0.999 &&
-                !(
-                    shapeDataA === shapeDataB &&
-                    beatA === beatB
-                )
+                curr[0] === prev[0] + 1 &&
+                curr[1] === prev[1] + 1 &&
+                curr[2] === prev[2] &&
+                curr[3] === 0 &&
+                prev[3] === 0
             ){
 
-            }
-        }
-    }
-}
+                run.push(curr);
 
-const diagonalGroups = {};
+            }else{
 
-for(const item of beatSimilarity){
+                if(run.length >= 3){
 
-    const d = item.diagonal;
-
-    if(!diagonalGroups[d]){
-        diagonalGroups[d] = [];
-    }
-
-    diagonalGroups[d].push(item);
-}
-
-
-// =====================================================
-// 2. diagonal ごとに連続するbeatを探す
-// =====================================================
-
-const candidates = [];
-
-for(const d in diagonalGroups){
-
-    const list = diagonalGroups[d];
-
-    list.sort(
-        (a,b) => a.beatA - b.beatA
-    );
-
-    let run = [list[0]];
-
-
-    for(let i = 1; i < list.length; i++){
-
-        const prev = list[i - 1];
-        const curr = list[i];
-
-        if(
-            curr.beatA === prev.beatA + 1 &&
-            curr.beatB === prev.beatB + 1
-        ){
-
-            run.push(curr);
-
-        }else{
-
-            if(run.length >= 3){
-
-                candidates.push({
-
-                    startA: run[0].beatA,
-                    endA:
-                        run[run.length - 1].beatA,
-
-                    startB: run[0].beatB,
-                    endB:
-                        run[run.length - 1].beatB,
-
-                    length: run.length,
-
-                    diagonal: Number(d)
-                });
-            }
-
-            run = [curr];
-        }
-    }
-
-
-    // 最後のrun
-    if(run.length >= 3){
-
-        candidates.push({
-
-            startA: run[0].beatA,
-            endA:
-                run[run.length - 1].beatA,
-
-            startB: run[0].beatB,
-            endB:
-                run[run.length - 1].beatB,
-
-            length: run.length,
-
-            diagonal: Number(d)
-        });
-    }
-}
-
-console.log(
-    "candidates",
-    candidates.length,
-    candidates
-);
-
-// =====================================================
-// 3. 候補Motifの形を作る
-//
-// 各beatについて
-// AとBの第1音の差が同じか確認する
-//
-// さらに各beat内部の形も保存する
-// =====================================================
-
-const validCandidates = [];
-
-
-for(const candidate of candidates){
-
-    let transpose = null;
-    let valid = true;
-
-    const shape = [];
-
-
-    for(let k = 0; k < candidate.length; k++){
-
-        const beatA =
-            candidate.startA + k;
-
-        const beatB =
-            candidate.startB + k;
-
-
-        const shapeA =
-            shapeBeatDataA[beatA];
-
-        const shapeB =
-            shapeBeatDataB[beatB];
-
-
-        if(
-            !shapeA ||
-            !shapeB ||
-            !shapeA.points.length ||
-            !shapeB.points.length
-        ){
-
-            valid = false;
-            break;
-        }
-
-
-        // ---------------------------------------------
-        // 各beatの第1音
-        // ---------------------------------------------
-
-        const midiA =
-            shapeA.points[0].midi;
-
-        const midiB =
-            shapeB.points[0].midi;
-
-
-        const diff =
-            midiB - midiA;
-
-
-        // ---------------------------------------------
-        // 第1音のtransposeを確認
-        // ---------------------------------------------
-
-        if(transpose === null){
-
-            transpose = diff;
-
-        }else if(diff !== transpose){
-
-            valid = false;
-            break;
-        }
-
-
-        // ---------------------------------------------
-        // beat内部の形
-        //
-        // relativeMidi と relativeStart を保存
-        // 第1音そのものの絶対音高は保存しない
-        // ---------------------------------------------
-
-        shape.push({
-
-            A: shapeA.points.map(p => [
-
-                p.relativeStart,
-                p.relativeMidi
-
-            ]),
-
-            B: shapeB.points.map(p => [
-
-                p.relativeStart,
-                p.relativeMidi
-
-            ])
-        });
-    }
-
-
-    if(!valid){
-        continue;
-    }
-
-
-    // =================================================
-    // 候補Motif
-    // =================================================
-
-    validCandidates.push({
-
-        startA: candidate.startA,
-        endA: candidate.endA,
-
-        startB: candidate.startB,
-        endB: candidate.endB,
-
-        length: candidate.length,
-
-        diagonal: candidate.diagonal,
-
-        transpose: transpose,
-
-        shape: shape
-    });
-}
-console.log(
-    "validCandidates",
-    validCandidates.map((x, i) => ({
-        i: i,
-        length: x.length,
-        transpose: x.transpose,
-        shape: x.shape
-    }))
-);
-
-// =====================================================
-// 4. 同じMotifを occurrences に統合
-//
-// A/Bの位置ではなく、
-// length + shape
-// が同じものを同じMotifとする
-// =====================================================
-
-const motifGroups = [];
-
-
-for(const candidate of validCandidates){
-
-    let motif = null;
-
-    for(const existing of motifGroups){
-/*
-        console.log(
-            "COMPARE",
-            existing.length,
-            existing.transpose,
-            candidate.length,
-            candidate.transpose,
-            sameMotifShape(
-                existing.shape,
-                candidate.shape
-            )
-        );
-*/              if(
-                    existing.length === candidate.length &&
-                    sameMotifShape(
-                        existing.shape,
-                        candidate.shape
-                    )
-                ){
-                    motif = existing;
-                    break;
-        }
-    }
-
-    // -------------------------------------------------
-    // 既存Motif
-    // -------------------------------------------------
-
-    if(motif){
-
-        motif.occurrences.push({
-
-            startA: candidate.startA,
-            endA: candidate.endA,
-
-            startB: candidate.startB,
-            endB: candidate.endB,
-
-            diagonal: candidate.diagonal,
-
-            transpose: candidate.transpose
-        });
-
-    }
-
-
-    // -------------------------------------------------
-    // 新しいMotif
-    // -------------------------------------------------
-
-    else{
-
-        motifGroups.push({
-
-            length: candidate.length,
-
-            transpose: candidate.transpose,
-
-            shape: candidate.shape,
-
-            occurrences: [
-
-                {
-                    startA: candidate.startA,
-                    endA: candidate.endA,
-
-                    startB: candidate.startB,
-                    endB: candidate.endB,
-
-                    diagonal: candidate.diagonal,
-
-                    transpose: candidate.transpose
+                    candidates.push([
+                        run[0].eventA,
+                        run[0].eventB
+                    ]);
                 }
 
-            ]
-        });
-    }
-}
+                run = [curr];
+            }
+        }
 
-console.log(
-    "motifGroups BEFORE filter",
-    motifGroups.map(m => ({
-        length: m.length,
-        occurrenceCount: m.occurrences.length,
-        occurrences: m.occurrences
-    }))
-);
 
-// =====================================================
-// 5. 同一occurrenceの重複を削除
-// =====================================================
-
-for(const motif of motifGroups){
-
-    const unique = {};
-
-    for(const occurrence of motif.occurrences){
-
-        const key =
-            `${occurrence.startA}_` +
-            `${occurrence.endA}_` +
-            `${occurrence.startB}_` +
-            `${occurrence.endB}`;
-
-        unique[key] = occurrence;
-    }
-
-    motif.occurrences =
-        Object.values(unique);
-}
-// =====================================================
-// 6. 片手で1回しか出現しないものはMotifではない
-//
-// RR / LL : 2回以上必要
-// LR / RL : 1回でも残す
-// =====================================================
-
-if(shapeBeatDataA === shapeBeatDataB){
-
-    // RR / LL
-
-    for(let i = motifGroups.length - 1; i >= 0; i--){
-
-        if(motifGroups[i].occurrences.length < 2){
-
-            motifGroups.splice(i, 1);
+        // 最後のrun
+        if(run.length >= 3){
+                    candidates.push([
+                        run[0].eventA,
+                        run[0].eventB
+                    ]);
         }
     }
-}
 
-// =====================================================
-// 7. 長いMotifを先にする
-// =====================================================
-
-motifGroups.sort((a,b) => {
-
-    if(b.length !== a.length){
-
-        return b.length - a.length;
-    }
-
-    return b.occurrences.length -
-           a.occurrences.length;
-});
-console.log(
-    "motifGroups AFTER filter",
-    motifGroups.map(m => ({
-        length: m.length,
-        occurrenceCount: m.occurrences.length,
-        occurrences: m.occurrences
-    }))
-);
-
-return motifGroups;
+    return candidates;
 
 }
 
