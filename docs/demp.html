@@ -5533,7 +5533,6 @@ function getEventPitchClasses(event){
     );
 }
 
-
 function findMotifEvent(
     shapeEventDataA,
     shapeEventDataB
@@ -5542,134 +5541,124 @@ function findMotifEvent(
     const eventsA =
         Object.keys(shapeEventDataA)
             .map(Number)
-            .sort((a,b) => a-b);
+            .sort((a, b) => a - b);
 
     const eventsB =
         Object.keys(shapeEventDataB)
             .map(Number)
-            .sort((a,b) => a-b);
+            .sort((a, b) => a - b);
 
     const candidates = [];
 
     const MIN_LENGTH = 8;
 
 
+    // =====================================
+    // A の開始位置
+    // =====================================
+
     for(let i = 0; i < eventsA.length; i++){
+
+        // =====================================
+        // B の開始位置
+        // =====================================
 
         for(let j = 0; j < eventsB.length; j++){
 
-            const eventA =
-                shapeEventDataA[eventsA[i]];
 
-            const eventB =
-                shapeEventDataB[eventsB[j]];
+            // =====================================
+            // 12種類の移調を総当たり
+            // =====================================
 
-            const pcA =
-                eventA.points.map(
-                    p => p.pitchClass
-                );
+            for(let transpose = 0; transpose < 12; transpose++){
 
-            const pcB =
-                eventB.points.map(
-                    p => p.pitchClass
-                );
+                let length = 0;
 
 
-            // 基本的に1 event = 1音
-            // 和音の場合はここでは別処理
-            if(
-                pcA.length !== 1 ||
-                pcB.length !== 1
-            ){
-                continue;
-            }
+                // =====================================
+                // 順序だけを比較
+                // timing / start は使用しない
+                // =====================================
 
-
-            // B → A の移調量
-            const transpose =
-                (pcA[0] - pcB[0] + 12) % 12;
-
-
-            let length = 0;
-
-
-            while(
-                i + length < eventsA.length &&
-                j + length < eventsB.length
-            ){
-                const ea =
-                    shapeEventDataA[
-                        eventsA[i + length]
-                    ];
-
-                const eb =
-                    shapeEventDataB[
-                        eventsB[j + length]
-                    ];
-
-
-                const pa =
-                    ea.points.map(
-                        p => p.pitchClass
-                    );
-
-                const pb =
-                    eb.points.map(
-                        p => p.pitchClass
-                    );
-
-
-                if(
-                    pa.length !== 1 ||
-                    pb.length !== 1
+                while(
+                    i + length < eventsA.length &&
+                    j + length < eventsB.length
                 ){
-                    break;
+
+                    const eventA =
+                        shapeEventDataA[
+                            eventsA[i + length]
+                        ];
+
+                    const eventB =
+                        shapeEventDataB[
+                            eventsB[j + length]
+                        ];
+
+
+                    const pcA =
+                        eventA.points.map(
+                            p => p.pitchClass
+                        );
+
+                    const pcB =
+                        eventB.points.map(
+                            p => p.pitchClass
+                        );
+
+
+                    // 基本的に1 event = 1音
+                    // 和音はここでは除外
+                    if(
+                        pcA.length !== 1 ||
+                        pcB.length !== 1
+                    ){
+                        break;
+                    }
+
+
+                    // =====================================
+                    // Bをtransposeしたpitch class
+                    // =====================================
+
+                    const expected =
+                        (pcB[0] + transpose) % 12;
+
+
+                    // =====================================
+                    // pitch class が一致しなければ終了
+                    // =====================================
+
+                    if(pcA[0] !== expected){
+                        break;
+                    }
+
+
+                    length++;
                 }
 
 
-                const expected =
-                    (pb[0] + transpose) % 12;
+                // =====================================
+                // MIN_LENGTH以上なら候補
+                // =====================================
 
-if(
-    eventsA[i] === 216 &&
-    eventsB[j] === 25
-){
-    console.log(
-        "COMPARE",
-        eventsA[i + length],
-        pa[0],
-        eventsB[j + length],
-        pb[0],
-        "transpose",
-        transpose,
-        "expected",
-        expected
-    );
-}
+                if(length >= MIN_LENGTH){
 
-                if(pa[0] !== expected){
-                    break;
+                    candidates.push({
+
+                        startA:
+                            eventsA[i],
+
+                        startB:
+                            eventsB[j],
+
+                        length,
+
+                        transpose
+                    });
+
                 }
 
-
-                length++;
-            }
-
-
-            if(length >= MIN_LENGTH){
-
-                candidates.push({
-
-                    startA:
-                        eventsA[i],
-
-                    startB:
-                        eventsB[j],
-
-                    length,
-
-                    transpose
-                });
             }
         }
     }
@@ -5677,7 +5666,6 @@ if(
 
     return candidates;
 }
-
 
 function isSameEventShape(
     eventA,
