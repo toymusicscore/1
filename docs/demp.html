@@ -4450,69 +4450,36 @@ function showMotifDetails(
 }
 
 
-function groupMotifs(
-    merged,
-    shapeEventDataA,
-    shapeEventDataB
-){
+function groupMotifs(merged){
 
     const groups = [];
 
     for(const motif of merged){
 
-        let found = null;
+        // 同じ length と transpose を探す
+        let group = groups.find(g =>
+            g.length === motif.length &&
+            g.transpose === motif.transpose
+        );
 
-        for(const group of groups){
+        if(!group){
 
-            if(
-                group.length !== motif.length ||
-                group.transpose !== motif.transpose
-            ){
-                continue;
-            }
-
-            if(
-                isSameMotifSequence(
-                    group.occurrences[0],
-                    motif,
-                    shapeEventDataA,
-                    shapeEventDataB
-                )
-            ){
-                found = group;
-                break;
-            }
-        }
-
-
-        if(!found){
-
-            found = {
-
-                length:
-                    motif.length,
-
-                transpose:
-                    motif.transpose,
-
+            group = {
+                length: motif.length,
+                transpose: motif.transpose,
                 occurrences: []
             };
 
-            groups.push(found);
+            groups.push(group);
         }
 
-
-        found.occurrences.push({
-
-            startA:
-                motif.startA,
-
-            startB:
-                motif.startB
+        group.occurrences.push({
+            startA: motif.startA,
+            startB: motif.startB
         });
     }
 
-
+    // 長いMotifを先にする
     groups.sort(
         (a, b) => b.length - a.length
     );
