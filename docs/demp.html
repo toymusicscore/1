@@ -5541,95 +5541,91 @@ function findMotifEvent(
     const eventsA =
         Object.keys(shapeEventDataA)
             .map(Number)
-            .sort((a, b) => a - b);
+            .sort((a,b) => a-b);
 
     const eventsB =
         Object.keys(shapeEventDataB)
             .map(Number)
-            .sort((a, b) => a - b);
+            .sort((a,b) => a-b);
 
     const candidates = [];
 
     const MIN_LENGTH = 8;
 
 
-    // =====================================
     // A の開始位置
-    // =====================================
-
     for(let i = 0; i < eventsA.length; i++){
 
-        // =====================================
         // B の開始位置
-        // =====================================
-
         for(let j = 0; j < eventsB.length; j++){
 
 
-            // =====================================
-            // 12種類の移調を総当たり
-            // =====================================
-
+            /*
+             * 移調量を 0～11 の12通り
+             * すべて試す
+             */
             for(let transpose = 0; transpose < 12; transpose++){
 
                 let length = 0;
 
 
-                // =====================================
-                // 順序だけを比較
-                // timing / start は使用しない
-                // =====================================
-
+                /*
+                 * 音の順序だけを比較する
+                 *
+                 * timing:
+                 * start / stop / tick
+                 * は一切使用しない
+                 */
                 while(
                     i + length < eventsA.length &&
                     j + length < eventsB.length
                 ){
 
-                    const eventA =
+                    const ea =
                         shapeEventDataA[
                             eventsA[i + length]
                         ];
 
-                    const eventB =
+                    const eb =
                         shapeEventDataB[
                             eventsB[j + length]
                         ];
 
 
-                    const pcA =
-                        eventA.points.map(
+                    const pa =
+                        ea.points.map(
                             p => p.pitchClass
                         );
 
-                    const pcB =
-                        eventB.points.map(
+                    const pb =
+                        eb.points.map(
                             p => p.pitchClass
                         );
 
 
-                    // 基本的に1 event = 1音
-                    // 和音はここでは除外
+                    /*
+                     * 現時点では
+                     * 1 event = 1音
+                     *
+                     * 和音は除外
+                     */
                     if(
-                        pcA.length !== 1 ||
-                        pcB.length !== 1
+                        pa.length !== 1 ||
+                        pb.length !== 1
                     ){
                         break;
                     }
 
 
-                    // =====================================
-                    // Bをtransposeしたpitch class
-                    // =====================================
-
+                    /*
+                     * B の pitchClass を
+                     * transpose して A と比較
+                     */
                     const expected =
-                        (pcB[0] + transpose) % 12;
+                        (pb[0] + transpose) % 12;
 
 
-                    // =====================================
-                    // pitch class が一致しなければ終了
-                    // =====================================
-
-                    if(pcA[0] !== expected){
+                    if(pa[0] !== expected){
                         break;
                     }
 
@@ -5638,10 +5634,9 @@ function findMotifEvent(
                 }
 
 
-                // =====================================
-                // MIN_LENGTH以上なら候補
-                // =====================================
-
+                /*
+                 * 8音以上一致したら候補
+                 */
                 if(length >= MIN_LENGTH){
 
                     candidates.push({
@@ -5656,9 +5651,7 @@ function findMotifEvent(
 
                         transpose
                     });
-
                 }
-
             }
         }
     }
@@ -5666,6 +5659,7 @@ function findMotifEvent(
 
     return candidates;
 }
+
 
 function isSameEventShape(
     eventA,
