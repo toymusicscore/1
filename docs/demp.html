@@ -4259,6 +4259,21 @@ console.log("motifsRR =", motifsRR);
 console.log("motifsLR =", motifsLR);
 //console.log("motifsRL =", motifsRL);
 
+const motifsDetailRR =
+    showMotifDetails(
+        motifsRR,
+        shapeEventDataRightA,
+        shapeEventDataRightB
+    );
+const motifsDetailLR =
+    showMotifDetails(
+        motifsLR,
+        shapeEventDataLeftA,
+        shapeEventDataRightB
+    );
+
+
+
 /*
     // =====================================
     // X位置
@@ -4328,6 +4343,98 @@ console.log("motifsLR =", motifsLR);
 
 }
 
+function showMotifDetails(
+    motifs,
+    shapeEventDataA,
+    shapeEventDataB
+){
+
+    for(let i = 0; i < motifs.length; i++){
+
+        const motif = motifs[i];
+
+        console.log(
+            "================================"
+        );
+
+        console.log(
+            "Motif",
+            i + 1,
+            "length =", motif.length,
+            "transpose =", motif.transpose
+        );
+
+        console.log(
+            "A:",
+            motif.startA,
+            "→",
+            motif.startA + motif.length - 1
+        );
+
+        console.log(
+            "B:",
+            motif.startB,
+            "→",
+            motif.startB + motif.length - 1
+        );
+
+
+        const pcsA = [];
+
+        const pcsB = [];
+
+        for(let k = 0; k < motif.length; k++){
+
+            const eventA =
+                shapeEventDataA[
+                    motif.startA + k
+                ];
+
+            const eventB =
+                shapeEventDataB[
+                    motif.startB + k
+                ];
+
+
+            pcsA.push(
+                eventA.points.map(
+                    p => p.pitchClass
+                )
+            );
+
+            pcsB.push(
+                eventB.points.map(
+                    p => p.pitchClass
+                )
+            );
+        }
+
+
+        console.log(
+            "A pitchClass =",
+            pcsA
+        );
+
+        console.log(
+            "B pitchClass =",
+            pcsB
+        );
+
+
+        // Bをtransposeして表示
+        const pcsBTransposed =
+            pcsB.map(event =>
+                event.map(pc =>
+                    (pc + motif.transpose) % 12
+                )
+            );
+
+        console.log(
+            "B transposed =",
+            pcsBTransposed
+        );
+    }
+}
 
 function showMotifGroups(){
 
