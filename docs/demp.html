@@ -2893,30 +2893,6 @@ function readFileAsText(file){
     });
 }
 
-async function loadLocalFiles(files){
-
-    let midiFile = null;
-    let tsvFile = null;
-
-    for(const f of files){
-        if(f.name.endsWith(".mid") || f.name.endsWith(".midi")){
-            midiFile = f;
-        }
-        if(f.name.endsWith(".tsv")){
-            tsvFile = f;
-        }
-    }
-
-    const data1 = midiFile
-        ? await readFileAsArrayBuffer(midiFile)
-        : null;
-
-    const data2 = tsvFile
-        ? await readFileAsText(tsvFile)
-        : null;
-
-    return { data1, data2 };
-}
 
 async function changeSong(){
 
