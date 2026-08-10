@@ -5376,6 +5376,69 @@ function isSameEventShape(
     return true;
 }
 
+function mergeMotifCandidates(candidates){
+
+    const merged = [];
+
+    // -----------------------------------------
+    // 同じ斜め線をグループ化
+    //
+    // startA - startB が同じ
+    // かつ transpose が同じ
+    // -----------------------------------------
+
+    const groups = {};
+
+    for(const c of candidates){
+
+        const diagonal =
+            c.startA - c.startB;
+
+        const key =
+            diagonal + "_" + c.transpose;
+
+        if(!groups[key]){
+            groups[key] = [];
+        }
+
+        groups[key].push(c);
+    }
+
+
+    // -----------------------------------------
+    // 各グループから最長の候補を取得
+    // -----------------------------------------
+
+    for(const key in groups){
+
+        const group = groups[key];
+
+        group.sort(
+            (a, b) => b.length - a.length
+        );
+
+        const longest = group[0];
+
+        merged.push({
+            startA: longest.startA,
+            startB: longest.startB,
+            length: longest.length,
+            transpose: longest.transpose
+        });
+    }
+
+
+    // -----------------------------------------
+    // 長いMotifから順番に並べる
+    // -----------------------------------------
+
+    merged.sort(
+        (a, b) => b.length - a.length
+    );
+
+
+    return merged;
+}
 
 function findMotif(
 beatSimilarity,
