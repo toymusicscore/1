@@ -4217,21 +4217,18 @@ function showMotifTwoSongs(){
             shapeEventDataRightA,
             shapeEventDataRightB
         );
-    mergeMotifCandidates(candidates);
 
     motifGroupsLeft =
         findMotifEvent(
             shapeEventDataLeftA,
             shapeEventDataLeftB
         );
-    mergeMotifCandidates(candidates);
 
     motifGroupsLeftRight =
         findMotifEvent(
             shapeEventDataLeftA,
             shapeEventDataRightB
         );
-    mergeMotifCandidates(candidates);
 
     motifGroupsRightLeft =
         findMotifEvent(
@@ -4239,7 +4236,24 @@ function showMotifTwoSongs(){
             shapeEventDataLeftB
         );
 
-    mergeMotifCandidates(candidates);
+
+const motifsLL =
+    mergeMotifCandidates(motifGroupsLeftLeft);
+
+const motifsRR =
+    mergeMotifCandidates(motifGroupsRightRight);
+
+const motifsLR =
+    mergeMotifCandidates(motifGroupsLeftRight);
+
+const motifsRL =
+    mergeMotifCandidates(motifGroupsRightLight);
+
+console.log("motifsLL =", motifsLL);
+console.log("motifsRR =", motifsRR);
+console.log("motifsLR =", motifsLR);
+console.log("motifsRL =", motifsRL);
+
 /*
     // =====================================
     // X位置
