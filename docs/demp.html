@@ -4520,6 +4520,59 @@ function groupMotifs(
     return groups;
 }
 
+function isSameMotifSequence(
+    occurrence1,
+    occurrence2,
+    shapeEventDataA,
+    shapeEventDataB
+){
+
+    for(let k = 0; k < occurrence1.length; k++){
+
+        const eventA1 =
+            shapeEventDataA[
+                occurrence1.startA + k
+            ];
+
+        const eventB1 =
+            shapeEventDataB[
+                occurrence1.startB + k
+            ];
+
+        const eventA2 =
+            shapeEventDataA[
+                occurrence2.startA + k
+            ];
+
+        const eventB2 =
+            shapeEventDataB[
+                occurrence2.startB + k
+            ];
+
+
+        if(
+            !isSameEventShape(
+                eventA1,
+                eventB1,
+                occurrence1.transpose
+            )
+        ){
+            return false;
+        }
+
+        if(
+            !isSameEventShape(
+                eventA2,
+                eventB2,
+                occurrence2.transpose
+            )
+        ){
+            return false;
+        }
+    }
+
+    return true;
+}
 
 function showMotifGroups(){
 
