@@ -2266,19 +2266,24 @@ function initializeLocalFiles() {
 
 }
 
-async function onLocalFilesChanged(event) {
+async function onLocalFilesChanged(event){
 
-    const files = Array.from(event.target.files);
+    const files =
+        Array.from(event.target.files);
 
-    if (files.length === 0) return;
+    if(files.length === 0) return;
 
     localFiles = files;
 
     updateLocalFileOption(files);
 
+    console.log("BEFORE loadLocalFiles");
+
     await loadLocalFiles(files);
 
+    console.log("AFTER loadLocalFiles");
 }
+
 
 function updateLocalFileOption(files){
 
