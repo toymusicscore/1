@@ -4120,43 +4120,19 @@ function showMotifTwoSongs(){
     // shape
     // =====================================
 
-    shapeBeatDataRightA =
-        createShapeBeat(scoreRightA, 1, "A");
+    shapeEventDataRightA =
+        createShapeEvent(scoreRightA, 1, "A");
 
-    shapeBeatDataLeftA =
-        createShapeBeat(scoreLeftA, 2, "A");
+    shapeEventDataLeftA =
+        createShapeEvent(scoreLeftA, 2, "A");
 
-    shapeBeatDataRightB =
-        createShapeBeat(scoreRightB, 1, "B");
+    shapeEventDataRightB =
+        createShapeEvent(scoreRightB, 1, "B");
 
-    shapeBeatDataLeftB =
-        createShapeBeat(scoreLeftB, 2, "B");
+    shapeEventDataLeftB =
+        createShapeEvent(scoreLeftB, 2, "B");
 
-
-    // =====================================
-    // Matrixのレイアウトを先に計算
-    // =====================================
-
-    const marginX = 40;
-    const gapX = 40;
-    const matrixGapY = 60;
-    const matrixTop = 40;
-
-    const matrixSize =
-        (
-            canvas.width
-            - marginX * 2
-            - gapX
-        ) / 2;
-
-
-    // Matrix 2段分の高さ
-    const matrixHeight =
-        matrixTop +
-        matrixSize * 2 +
-        matrixGapY;
-
-
+/*
     // =====================================
     // 楽曲のbeat数
     // =====================================
@@ -4234,36 +4210,33 @@ function showMotifTwoSongs(){
     // =====================================
     // Motif
     // =====================================
+*/
 
     motifGroupsRight =
-        findMotif(
-            similarity.rightRight,
-            shapeBeatDataRightA,
-            shapeBeatDataRightB
+        findMotifEvent(
+            shapeEventDataRightA,
+            shapeEventDataRightB
         );
 
     motifGroupsLeft =
-        findMotif(
-            similarity.leftLeft,
-            shapeBeatDataLeftA,
-            shapeBeatDataLeftB
+        findMotifEvent(
+            shapeEventDataLeftA,
+            shapeEventDataLeftB
         );
 
     motifGroupsLeftRight =
-        findMotif(
-            similarity.leftRight,
-            shapeBeatDataLeftA,
-            shapeBeatDataRightB
+        findMotifEvent(
+            shapeEventDataLeftA,
+            shapeEventDataRightB
         );
 
     motifGroupsRightLeft =
         findMotif(
-            similarity.rightLeft,
-            shapeBeatDataRightA,
-            shapeBeatDataLeftB
+            shapeEventDataRightA,
+            shapeEventDataLeftB
         );
 
-
+/*
     // =====================================
     // X位置
     // =====================================
@@ -4328,6 +4301,7 @@ function showMotifTwoSongs(){
         yRL,
         "A Right × B Left"
     );
+*/
     
 }
 
