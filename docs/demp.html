@@ -5526,118 +5526,140 @@ function createSimilarityMatrices(offsetY = 0){
 }
 
 
+function getEventPitchClasses(event){
+
+    return event.points.map(
+        p => p.pitchClass
+    );
+}
+
+
 function findMotifEvent(
     shapeEventDataA,
     shapeEventDataB
 ){
 
-    console.log(
-    "findMotifEvent:",
-    Object.keys(shapeEventDataA).length,
-    Object.keys(shapeEventDataB).length
-);
-
-console.log(
-    "A event 216 =",
-    shapeEventDataA[216]
-);
-
-console.log(
-    "B event 25 =",
-    shapeEventDataB[25]
-);
-
-    const candidates = [];
-
-    const MIN_MOTIF_EVENTS = 8;
-
     const eventsA =
         Object.keys(shapeEventDataA)
-        .map(Number)
-        .sort((a, b) => a - b);
+            .map(Number)
+            .sort((a,b) => a-b);
 
     const eventsB =
         Object.keys(shapeEventDataB)
-        .map(Number)
-        .sort((a, b) => a - b);
+            .map(Number)
+            .sort((a,b) => a-b);
 
+    const candidates = [];
 
-    // -----------------------------------------
-    // Aのevent
-    // ×
-    // Bのevent
-    // ×
-    // 12種類の移調
-    // -----------------------------------------
+    const MIN_LENGTH = 8;
+
 
     for(let i = 0; i < eventsA.length; i++){
 
         for(let j = 0; j < eventsB.length; j++){
 
-            for(let t = 0; t < 12; t++){
+            const eventA =
+                shapeEventDataA[eventsA[i]];
 
-                let length = 0;
+            const eventB =
+                shapeEventDataB[eventsB[j]];
 
-                while(
-                    i + length < eventsA.length &&
-                    j + length < eventsB.length
+            const pcA =
+                eventA.points.map(
+                    p => p.pitchClass
+                );
+
+            const pcB =
+                eventB.points.map(
+                    p => p.pitchClass
+                );
+
+
+            // 基本的に1 event = 1音
+            // 和音の場合はここでは別処理
+            if(
+                pcA.length !== 1 ||
+                pcB.length !== 1
+            ){
+                continue;
+            }
+
+
+            // B → A の移調量
+            const transpose =
+                (pcA[0] - pcB[0] + 12) % 12;
+
+
+            let length = 0;
+
+
+            while(
+                i + length < eventsA.length &&
+                j + length < eventsB.length
+            ){
+
+                const ea =
+                    shapeEventDataA[
+                        eventsA[i + length]
+                    ];
+
+                const eb =
+                    shapeEventDataB[
+                        eventsB[j + length]
+                    ];
+
+
+                const pa =
+                    ea.points.map(
+                        p => p.pitchClass
+                    );
+
+                const pb =
+                    eb.points.map(
+                        p => p.pitchClass
+                    );
+
+
+                if(
+                    pa.length !== 1 ||
+                    pb.length !== 1
                 ){
-
-                    const eventA =
-                        shapeEventDataA[
-                            eventsA[i + length]
-                        ];
-
-                    const eventB =
-                        shapeEventDataB[
-                            eventsB[j + length]
-                        ];
-
-
-                    // ---------------------------------
-                    // event内のshapeを比較
-                    // ---------------------------------
-
-                    if(!isSameEventShape(
-                        eventA,
-                        eventB,
-                        t
-                    )){
-                        break;
-                    }
-
-
-                    length++;
+                    break;
                 }
 
 
-                // ---------------------------------
-                // MIN_MOTIF_EVENTS イベント以上連続
-                // ---------------------------------
+                const expected =
+                    (pb[0] + transpose) % 12;
 
-                if(length >= MIN_MOTIF_EVENTS){
 
-                    candidates.push({
-
-                        startA:
-                            eventsA[i],
-
-                        startB:
-                            eventsB[j],
-
-                        length: length,
-
-                        transpose: t
-                    });
+                if(pa[0] !== expected){
+                    break;
                 }
+
+
+                length++;
+            }
+
+
+            if(length >= MIN_LENGTH){
+
+                candidates.push({
+
+                    startA:
+                        eventsA[i],
+
+                    startB:
+                        eventsB[j],
+
+                    length,
+
+                    transpose
+                });
             }
         }
     }
 
-console.log(
-    "candidates =",
-    candidates
-);
+
     return candidates;
 }
 
