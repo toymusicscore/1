@@ -5597,7 +5597,22 @@ function findMotifEvent(
                 i + length < eventsA.length &&
                 j + length < eventsB.length
             ){
-
+if(
+    eventsA[i] === 216 &&
+    eventsB[j] === 25
+){
+    console.log(
+        "COMPARE",
+        eventsA[i + length],
+        pa[0],
+        eventsB[j + length],
+        pb[0],
+        "transpose",
+        transpose,
+        "expected",
+        expected
+    );
+}
                 const ea =
                     shapeEventDataA[
                         eventsA[i + length]
