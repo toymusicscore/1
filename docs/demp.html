@@ -4686,6 +4686,88 @@ function createShapeBeatTwoSongs(scoreNotes, hand, AB){
     return shapeBeatData;
 }
 
+function createShapeEventTwoSongs(scoreNotes, hand, AB){
+
+    const shapeEventData = {};
+
+    // -----------------------------------------
+    // start位置で並べる
+    // -----------------------------------------
+
+    const notes = [...scoreNotes].sort(
+        (a, b) => a.start - b.start
+    );
+
+    // -----------------------------------------
+    // 同じstartの音を音イベントとしてまとめる
+    // -----------------------------------------
+
+    const events = [];
+
+    for(const note of notes){
+
+        let event =
+            events[events.length - 1];
+
+        if(
+            !event ||
+            event.start !== note.start
+        ){
+
+            event = {
+                start: note.start,
+                notes: []
+            };
+
+            events.push(event);
+        }
+
+        event.notes.push(note);
+    }
+
+
+    // -----------------------------------------
+    // 音イベントごとにshapeを作る
+    // -----------------------------------------
+
+    for(let i = 0; i < events.length; i++){
+
+        const event = events[i];
+
+        // 最初の音を基準音にする
+        const baseMidi =
+            event.notes[0].midi;
+
+
+        shapeEventData[i] = {
+
+            // beatではなく順序番号
+            event: i,
+
+            hand: hand,
+
+            points:
+                event.notes.map(note => ({
+
+                    start: note.start,
+
+                    // 時間は保存するが
+                    // 比較条件には使わない
+                    relativeStart:
+                        note.start - event.start,
+
+                    midi: note.midi,
+
+                    relativeMidi:
+                        note.midi - baseMidi
+                }))
+        };
+    }
+
+
+    return shapeEventData;
+}
+
 
 function createShapeBeat(scoreNotes, hand){
 
