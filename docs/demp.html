@@ -4686,7 +4686,7 @@ function createShapeBeatTwoSongs(scoreNotes, hand, AB){
     return shapeBeatData;
 }
 
-function createShapeEventTwoSongs(scoreNotes, hand, AB){
+function createShapeEvent(scoreNotes, hand){
 
     const shapeEventData = {};
 
@@ -4698,16 +4698,9 @@ function createShapeEventTwoSongs(scoreNotes, hand, AB){
         (a, b) => a.start - b.start
     );
 
-    // -----------------------------------------
-    // 楽曲冒頭の最初の音を基準音にする
-    // -----------------------------------------
-
     if(notes.length === 0){
         return shapeEventData;
     }
-
-    const baseMidi =
-        notes[0].midi;
 
     // -----------------------------------------
     // 同じstartの音を音イベントとしてまとめる
@@ -4756,13 +4749,8 @@ function createShapeEventTwoSongs(scoreNotes, hand, AB){
 
                     start: note.start,
 
-                    // event内での時間位置
-                    relativeStart:
-                        note.start - event.start,
-
                     midi: note.midi,
 
-                    // 楽曲冒頭の基準音からの相対音高
                     pitchClass:
                         note.midi%12
                 }))
