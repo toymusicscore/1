@@ -5689,17 +5689,14 @@ function findMotifEvent(
 
 function getMotifPattern(data, start, length){
 
-    const eventKeys =
-        Object.keys(data)
-            .map(Number)
-            .sort((a,b) => a-b);
+    const events =
+        Object.values(data);
 
     const pattern = [];
 
     for(let i = 0; i < length; i++){
 
-        const event =
-            data[eventKeys[start + i]];
+        const event = events[start + i];
 
         if(
             !event ||
