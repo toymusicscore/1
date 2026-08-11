@@ -5669,7 +5669,6 @@ function getMotifPattern(data, start, length){
         pattern.push(event.midi);
     }
 
-    // 移調を除去
     const base = pattern[0];
 
     return pattern.map(midi => midi - base);
@@ -5753,22 +5752,31 @@ function groupSameMotifs(motifGroups, dataA, dataB){
 
         console.log(
             "CHECK MOTIF",
-            "startA =", motif.startA,
-            "startB =", motif.startB,
+            "A =", motif.startA,
+            "B =", motif.startB,
             "length =", motif.length,
             "transpose =", motif.transpose,
             "patternA =", patternA,
             "patternB =", patternB
         );
 
-        if(!patternA || !patternB) continue;
-
-        if(JSON.stringify(patternA) !== JSON.stringify(patternB)){
-            console.log("  NG: pattern different");
+        if(!patternA || !patternB){
+            console.log("  → pattern missing");
             continue;
         }
 
-        console.log("  MATCH");
+        if(JSON.stringify(patternA) !== JSON.stringify(patternB)){
+
+            console.log(
+                "  → NOT SAME",
+                patternA,
+                patternB
+            );
+
+            continue;
+        }
+
+        console.log("  → SAME!");
 
         let group = groups.find(g =>
             g.length === motif.length &&
@@ -5789,15 +5797,18 @@ function groupSameMotifs(motifGroups, dataA, dataB){
         }
 
         group.occurrences.push({
+
             startA: motif.startA,
             startB: motif.startB,
             length: motif.length,
             transpose: motif.transpose
+
         });
     }
 
     return groups;
 }
+
 
 function isSameEventShape(
     eventA,
