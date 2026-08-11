@@ -5695,6 +5695,64 @@ function getMotifPattern(data, start, length){
     return pattern.map(midi => midi - base);
 }
 
+
+function findSameMotifOccurrences(motifGroups, dataA, dataB){
+
+    const motifMap = {};
+
+    for(const motif of motifGroups){
+
+        const patternA = getMotifPattern(
+            dataA,
+            motif.startA,
+            motif.length
+        );
+
+        const patternB = getMotifPattern(
+            dataB,
+            motif.startB,
+            motif.length
+        );
+
+        if(!patternA || !patternB) continue;
+
+        // AとBが同じ形であることを確認
+        if(JSON.stringify(patternA) !== JSON.stringify(patternB)){
+            continue;
+        }
+
+        const key =
+            motif.length + ":" +
+            JSON.stringify(patternA);
+
+        if(!motifMap[key]){
+
+            motifMap[key] = {
+                motifId: Object.keys(motifMap).length + 1,
+                length: motif.length,
+                pattern: patternA,
+                occurrencesA: [],
+                occurrencesB: []
+            };
+        }
+
+        const group = motifMap[key];
+
+        // A側の出現位置
+        if(!group.occurrencesA.includes(motif.startA)){
+            group.occurrencesA.push(motif.startA);
+        }
+
+        // B側の出現位置
+        if(!group.occurrencesB.includes(motif.startB)){
+            group.occurrencesB.push(motif.startB);
+        }
+    }
+
+    return Object.values(motifMap);
+}
+
+
 function groupSameMotifs(motifGroups, dataA, dataB){
 
     const groups = [];
