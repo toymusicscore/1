@@ -4306,6 +4306,15 @@ console.log(
     "motifGroupsLR =",
     motifGroupsLR
 );
+
+const sameMotifsRR = groupSameMotifs(
+    motifGroupsRR,
+    shapeEventDataRightA,
+    shapeEventDataRightB
+);
+
+console.log("sameMotifsRR =", sameMotifsRR);
+
 /*
 const motifsDetailsRR =
     showMotifDetails(
@@ -5640,6 +5649,93 @@ function findMotifEvent(
 
 
     return candidates;
+}
+
+function getMotifPattern(data, start, length){
+
+    const events = Object.values(data);
+
+    const pattern = [];
+
+    for(let i = 0; i < length; i++){
+
+        const event = events[start + i];
+
+        if(!event || event.midi === undefined){
+            return null;
+        }
+
+        pattern.push(event.midi);
+    }
+
+    // 移調を除去
+    const base = pattern[0];
+
+    return pattern.map(midi => midi - base);
+}
+
+function groupSameMotifs(motifGroups, dataA, dataB){
+
+    const groups = [];
+
+    for(const motif of motifGroups){
+
+        const patternA = getMotifPattern(
+            dataA,
+            motif.startA,
+            motif.length
+        );
+
+        const patternB = getMotifPattern(
+            dataB,
+            motif.startB,
+            motif.length
+        );
+
+        if(!patternA || !patternB) continue;
+
+        // AとBの形が同じか
+        if(JSON.stringify(patternA) !== JSON.stringify(patternB)){
+            continue;
+        }
+
+        // 既存の同じモチーフを探す
+        let group = groups.find(g =>
+            g.length === motif.length &&
+            JSON.stringify(g.pattern) ===
+            JSON.stringify(patternA)
+        );
+
+        // 新しいモチーフ
+        if(!group){
+
+            group = {
+                motifId: groups.length + 1,
+
+                length: motif.length,
+
+                pattern: patternA,
+
+                occurrences: []
+            };
+
+            groups.push(group);
+        }
+
+        // このモチーフの出現位置を追加
+        group.occurrences.push({
+
+            startA: motif.startA,
+
+            startB: motif.startB,
+
+            length: motif.length,
+
+            transpose: motif.transpose
+        });
+    }
+
+    return groups;
 }
 
 
