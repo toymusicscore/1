@@ -321,6 +321,14 @@ demp
 	<option value="5"> Shape Measure </option>
 	</select>
 
+<select id="motifMinLength"
+        onchange="MIN_LENGTH = Number(this.value)">
+    <option value="4" selected>4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+</select>
 
 <input type="button"
        value="Reset Settings"
@@ -1781,6 +1789,7 @@ const HANDS_LABEL = {
 
 const NOTE_MATCH_THRESHOLD = 120;
 const TICKS_PER_BEAT = 480;
+const MIN_LENGTH = 4;
 
 const canvas = $('canvas');
 canvas.style.touchAction = 'none';
@@ -2131,6 +2140,12 @@ let pairs = [];
 let localFiles = null;
 let rawMidi;
 let showRecord = true;
+
+let motifGroupsRight = [];
+let motifGroupsLeft = [];
+let motifGroupsLeftRight = [];
+let motifGroupsRightLeft = [];
+
 
 //========================================
 // Initialize
@@ -5424,10 +5439,6 @@ let beatSimilarityLeftLeft = [];
 let beatSimilarityLeftRight = [];
 let beatSimilarityRightLeft = [];
 
-let motifGroupsRight = [];
-let motifGroupsLeft = [];
-let motifGroupsLeftRight = [];
-let motifGroupsRightLeft = [];
 
 
 function createHandMotifs(){
@@ -6165,9 +6176,6 @@ function findMotifEvent(
             .sort((a,b) => a-b);
 
     const candidates = [];
-
-    const MIN_LENGTH = 4;
-
 
     // A の開始位置
     for(let i = 0; i < eventsA.length; i++){
