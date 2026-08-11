@@ -4315,6 +4315,24 @@ const sameMotifsRR = findSameMotifOccurrences(
 
 console.log("sameMotifsRR =", sameMotifsRR);
 
+
+const motif = motifGroupsRR[0];
+
+console.log("motif =", motif);
+
+console.log(
+    "A events 0-6 =",
+    Object.values(shapeEventDataRightA)
+        .slice(motif.startA, motif.startA + motif.length)
+);
+
+console.log(
+    "B events 47-53 =",
+    Object.values(shapeEventDataRightB)
+        .slice(motif.startB, motif.startB + motif.length)
+);
+
+
 /*
 const motifsDetailsRR =
     showMotifDetails(
