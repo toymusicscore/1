@@ -1181,6 +1181,10 @@ function showTab(tab){
 					id="motifTwoSongsButton"
 					value="📊 Motif Two Songs">
 					<br><br>
+                <button onclick="showMotifComparison('RR')">RR</button>
+                <button onclick="showMotifComparison('LL')">LL</button>
+                <button onclick="showMotifComparison('LR')">LR</button>
+                <button onclick="showMotifComparison('RL')">RL</button>
             `;
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -4129,6 +4133,52 @@ function saveScoreB(){
 
 }
 
+function showMotifComparison(type){
+
+    let dataA;
+    let dataB;
+
+    switch(type){
+
+        case "RR":
+            dataA = shapeEventDataRightA;
+            dataB = shapeEventDataRightB;
+            break;
+
+        case "LL":
+            dataA = shapeEventDataLeftA;
+            dataB = shapeEventDataLeftB;
+            break;
+
+        case "LR":
+            dataA = shapeEventDataLeftA;
+            dataB = shapeEventDataRightB;
+            break;
+
+        case "RL":
+            dataA = shapeEventDataRightA;
+            dataB = shapeEventDataLeftB;
+            break;
+    }
+
+    const motifGroups =
+        findMotifEvent(dataA, dataB);
+
+    const sameMotifs =
+        groupSameMotifs(
+            motifGroups,
+            dataA,
+            dataB
+        );
+
+    drawMotifGraph(
+        sameMotifs,
+        dataA,
+        dataB
+    );
+}
+
+
 function showMotifTwoSongs(){
 
     menuWindow.style.display="none";
@@ -4179,7 +4229,7 @@ const motifGroupsLR =
         candidatesLR
     );
 
-    
+
 const sameMotifsRR = findSameMotifOccurrences(
     motifGroupsRR,
     shapeEventDataRightA,
