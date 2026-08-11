@@ -5689,30 +5689,53 @@ function findMotifEvent(
 
 function getMotifPattern(data, start, length){
 
-    const events = Object.values(data);
-
-    console.log(
-        "EVENT SAMPLE",
-        "start =", start,
-        events[start]
-    );
+    const eventKeys =
+        Object.keys(data)
+            .map(Number)
+            .sort((a,b) => a-b);
 
     const pattern = [];
 
     for(let i = 0; i < length; i++){
 
-        const event = events[start + i];
+        const event =
+            data[eventKeys[start + i]];
 
-        if(!event || event.midi === undefined){
+        if(
+            !event ||
+            !event.points ||
+            event.points.length !== 1 ||
+            event.points[0].pitchClass === undefined
+        ){
             return null;
         }
 
-        pattern.push(event.midi);
+        pattern.push(
+            event.points[0].pitchClass
+        );
     }
 
-    const base = pattern[0];
+    return pattern;
+}
 
-    return pattern.map(midi => midi - base);
+
+function isSameMotifPattern(patternA, patternB, transpose){
+
+    if(patternA.length !== patternB.length){
+        return false;
+    }
+
+    for(let i = 0; i < patternA.length; i++){
+
+        const expected =
+            (patternB[i] + transpose) % 12;
+
+        if(patternA[i] !== expected){
+            return false;
+        }
+    }
+
+    return true;
 }
 
 
@@ -5806,7 +5829,11 @@ function groupSameMotifs(motifGroups, dataA, dataB){
             continue;
         }
 
-        if(JSON.stringify(patternA) !== JSON.stringify(patternB)){
+        if(!isSameMotifPattern(
+            patternA,
+            patternB,
+            motif.transpose
+        )){
 
             console.log(
                 "  → NOT SAME",
@@ -5819,10 +5846,16 @@ function groupSameMotifs(motifGroups, dataA, dataB){
 
         console.log("  → SAME!");
 
+        // Aを基準に正規化したパターン
+        const normalizedPattern =
+            patternA.map(
+                pc => (pc - patternA[0] + 12) % 12
+            );
+
         let group = groups.find(g =>
             g.length === motif.length &&
             JSON.stringify(g.pattern) ===
-            JSON.stringify(patternA)
+            JSON.stringify(normalizedPattern)
         );
 
         if(!group){
@@ -5830,7 +5863,7 @@ function groupSameMotifs(motifGroups, dataA, dataB){
             group = {
                 motifId: groups.length + 1,
                 length: motif.length,
-                pattern: patternA,
+                pattern: normalizedPattern,
                 occurrences: []
             };
 
