@@ -4149,85 +4149,6 @@ function showMotifTwoSongs(){
     shapeEventDataLeftB =
         createShapeEvent(scoreLeftB, "left");
 
-/*
-    // =====================================
-    // 楽曲のbeat数
-    // =====================================
-
-    const maxBeat =
-        Math.max(
-            Math.ceil(
-                songLengthTicksA /
-                ticksPerQuarterNoteA
-            ),
-            Math.ceil(
-                songLengthTicksB /
-                ticksPerQuarterNoteB
-            )
-        );
-
-    const cellH = 5;
-    const graphMy = 40;
-
-    const motifGraphHeight =
-        graphMy +
-        (maxBeat + 1) * cellH;
-
-
-    // =====================================
-    // Matrix → Motif の間隔
-    // =====================================
-
-    const sectionGap = 120;
-
-
-    // =====================================
-    // Motif開始位置
-    // =====================================
-
-    const motifStartY =
-        matrixHeight +
-        sectionGap;
-
-
-    // =====================================
-    // canvas高さ
-    // =====================================
-
-    const totalHeight =
-        motifStartY +
-        motifGraphHeight * 2 +
-        sectionGap * 2;
-
-
-    canvas.height =
-        totalHeight;
-
-
-    // =====================================
-    // canvasクリア
-    // =====================================
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    // =====================================
-    // Similarity Matrix
-    // =====================================
-
-    const similarity =
-        createSimilarityMatricesTwoSongs(0);
-
-
-    // =====================================
-    // Motif
-    // =====================================
-*/
 
 /*    motifGroupsLeftLeft =
         findMotifEvent(
@@ -4253,23 +4174,6 @@ function showMotifTwoSongs(){
             shapeEventDataLeftB
         );
 */
-/*
-const motifsLL =
-    mergeMotifCandidates(motifGroupsLeftLeft);
-
-const motifsRR =
-    mergeMotifCandidates(motifGroupsRightRight);
-
-const motifsLR =
-    mergeMotifCandidates(motifGroupsLeftRight);
-
-const motifsRL =
-    mergeMotifCandidates(motifGroupsRightLight);
-*/
-
-console.log("shapeEventDataRightA",shapeEventDataRightA);
-console.log("shapeEventDataLeftA",shapeEventDataLeftA);
-console.log("shapeEventDataRightB",shapeEventDataRightB);
 
 
 // -----------------------------------------
@@ -4304,68 +4208,15 @@ const motifGroupsLR =
     );
 
 
-console.log(
-    "candidatesRR =",
-    candidatesRR
-);
-
-console.log(
-    "motifGroupsRR =",
-    motifGroupsRR
-);
-
-console.log(
-    "candidatesLR =",
-    candidatesLR
-);
-
-console.log(
-    "motifGroupsLR =",
-    motifGroupsLR
-);
-
 const sameMotifsRR = findSameMotifOccurrences(
     motifGroupsRR,
     shapeEventDataRightA,
     shapeEventDataRightB
 );
 
-console.log("sameMotifsRR =", sameMotifsRR);
-
 
 const motif = motifGroupsRR[0];
 
-console.log("motif =", motif);
-
-console.log(
-    "A events 0-6 =",
-    Object.values(shapeEventDataRightA)
-        .slice(motif.startA, motif.startA + motif.length)
-);
-
-console.log(
-    "B events 47-53 =",
-    Object.values(shapeEventDataRightB)
-        .slice(motif.startB, motif.startB + motif.length)
-);
-
-console.log(
-    "patternA =",
-    getMotifPattern(
-        shapeEventDataRightA,
-        motif.startA,
-        motif.length
-    )
-);
-
-console.log(
-    "patternB =",
-    getMotifPattern(
-        shapeEventDataRightB,
-        motif.startB,
-        motif.length
-    )
-);
 
 drawMotifGraph(
     sameMotifsRR,
@@ -4376,90 +4227,6 @@ drawMotifGraph(
 
 );
 
-/*
-const motifsDetailsRR =
-    showMotifDetails(
-        motifsRR,
-        shapeEventDataRightA,
-        shapeEventDataRightB
-    );
-const motifsDetailsLR =
-    showMotifDetails(
-        motifsLR,
-        shapeEventDataLeftA,
-        shapeEventDataRightB
-    );
-*/
-
-//console.log("motifsDetailsRR", motifsDetailsRR);
-//console.log("motifsDetailsLR", motifsDetailsLR);
-
-/*
-    // =====================================
-    // X位置
-    // =====================================
-
-    const graphWidth =
-        canvas.width / 2;
-
-
-    // =====================================
-    // LL
-    // =====================================
-
-    drawMotifTwoSongs(
-        motifGroupsLeft,
-        0,
-        motifStartY,
-        "A Left × B Left"
-    );
-
-
-    // =====================================
-    // RR
-    // =====================================
-
-    drawMotifTwoSongs(
-        motifGroupsRight,
-        graphWidth,
-        motifStartY,
-        "A Right × B Right"
-    );
-
-
-    // =====================================
-    // LR
-    // =====================================
-
-    const yLR =
-        motifStartY +
-        motifGraphHeight +
-        sectionGap;
-
-    drawMotifTwoSongs(
-        motifGroupsLeftRight,
-        0,
-        yLR,
-        "A Left × B Right"
-    );
-
-
-    // =====================================
-    // RL
-    // =====================================
-
-    const yRL =
-        motifStartY +
-        motifGraphHeight +
-        sectionGap;
-
-    drawMotifTwoSongs(
-        motifGroupsRightLeft,
-        graphWidth,
-        yRL,
-        "A Right × B Left"
-    );
-*/
 
 }
 
