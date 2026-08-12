@@ -4200,44 +4200,56 @@ function showMotifTwoSongs(){
         createShapeEvent(scoreLeftB, "left");
 
 // -----------------------------------------
-// Right A × Right B
+// findMotifEvent to make candidates
 // -----------------------------------------
+
+const candidatesLL =
+    findMotifEvent(
+        shapeEventDataLeftA,
+        shapeEventDataLeftB
+    );
 
 const candidatesRR =
     findMotifEvent(
         shapeEventDataRightA,
         shapeEventDataRightB
     );
-
-const motifGroupsRR =
-    mergeMotifCandidates(
-        candidatesRR
-    );
-
-// -----------------------------------------
-// Left A × Right B
-// -----------------------------------------
-
+    
 const candidatesLR =
     findMotifEvent(
         shapeEventDataLeftA,
         shapeEventDataRightB
     );
 
-const motifGroupsLR =
-    mergeMotifCandidates(
-        candidatesLR
+const candidatesRL =
+    findMotifEvent(
+        shapeEventDataRightA,
+        shapeEventDataLeftB
     );
 
 
-const sameMotifsRR = findSameMotifOccurrences(
-    motifGroupsRR,
+// -----------------------------------------
+// Left A × Right B
+// -----------------------------------------
+
+
+const motifGroups =
+    mergeMotifCandidates(
+        candidatesLL,
+        candidatesRR,
+        candidatesLR,
+        candidatesRL
+    );
+
+
+const sameMotifs = findSameMotifOccurrences(
+    motifGroups,
     shapeEventDataRightA,
     shapeEventDataRightB
 );
 
 drawMotifGraph(
-    sameMotifsRR,
+    sameMotifs,
     shapeEventDataRightA,
     shapeEventDataRightB,
     ticksPerMeasureA,
