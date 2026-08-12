@@ -4303,7 +4303,7 @@ function showMotifTwoSongs(){
     );
 
     const validMotifs =
-        filterRepeatedMotifs(sameMotifs);
+        filterRepeatedMotifs(filteredMotifs);
 
     console.log(
         "validMotifs =",
@@ -5524,7 +5524,129 @@ function findSameMotifOccurrences(
     });
 
 
-    return sameMotifs;
+    // =====================================
+    // 入れ子になっているMotifを整理
+    // 大きいMotifに完全に含まれる
+    // 小さいMotifは削除する
+    // =====================================
+
+    const filteredMotifs = [];
+
+
+    // 長いMotifから順番に処理
+    const sortedMotifs = [...sameMotifs].sort(
+        (a, b) => b.length - a.length
+    );
+
+
+    for(const motif of sortedMotifs){
+
+        let nested = false;
+
+
+        // すでに採用した大きなMotifと比較
+        for(const parent of filteredMotifs){
+
+            if(parent.length <= motif.length){
+                continue;
+            }
+
+
+            // ---------------------------------
+            // motif の各出現が
+            // parent の出現範囲内にあるか確認
+            // ---------------------------------
+
+            let allNested = true;
+
+
+            for(const occurrence of motif.occurrences){
+
+                const contained = parent.occurrences.some(
+                    parentOccurrence => {
+
+                        // A側
+                        const aInside =
+                            occurrence.startA >=
+                                parentOccurrence.startA
+                            &&
+                            occurrence.startA +
+                                occurrence.length
+                            <=
+                            parentOccurrence.startA +
+                                parentOccurrence.length;
+
+
+                        // B側
+                        const bInside =
+                            occurrence.startB >=
+                                parentOccurrence.startB
+                            &&
+                            occurrence.startB +
+                                occurrence.length
+                            <=
+                            parentOccurrence.startB +
+                                parentOccurrence.length;
+
+
+                        // 比較タイプも一致
+                        const sameType =
+                            occurrence.type ===
+                            parentOccurrence.type;
+
+
+                        return (
+                            sameType &&
+                            aInside &&
+                            bInside
+                        );
+
+                    }
+                );
+
+
+                if(!contained){
+
+                    allNested = false;
+                    break;
+
+                }
+
+            }
+
+
+            if(allNested){
+
+                nested = true;
+                break;
+
+            }
+
+        }
+
+
+        // 入れ子でなければ採用
+        if(!nested){
+
+            filteredMotifs.push(motif);
+
+        }
+
+    }
+
+
+    // =====================================
+    // motifIdを振り直す
+    // =====================================
+
+    filteredMotifs.forEach((motif, index) => {
+
+        motif.motifId = index + 1;
+
+    });
+
+
+    return filteredMotifs;
 
 }
 
