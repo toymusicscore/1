@@ -4310,10 +4310,36 @@ function showMotifTwoSongs(){
         validMotifs
     );
 
+    console.log("===== VALID MOTIFS =====");
+
+for(const motif of validMotifs){
+
+    console.log(
+        "Motif",
+        motif.motifId,
+        "length =", motif.length,
+        "occurrences =", motif.occurrences.length
+    );
+
+    for(const occurrence of motif.occurrences){
+
+        console.log(
+            "   ",
+            occurrence.type,
+            "A =", occurrence.startA,
+            "B =", occurrence.startB,
+            "transpose =", occurrence.transpose
+        );
+
+    }
+
+}
+/*
     const motifHierarchy =
         buildMotifHierarchy(sameMotifs);
 
     printMotifHierarchy(motifHierarchy);
+*/
 
 }
 
@@ -5499,8 +5525,6 @@ function findSameMotifOccurrences(
 
 
     return sameMotifs;
-
-//    return Object.values(motifMap);
 
 }
 
