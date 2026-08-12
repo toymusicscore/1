@@ -6332,10 +6332,7 @@ function mergeMotifCandidates(candidates){
     const merged = [];
 
     // -----------------------------------------
-    // 同じ斜め線をグループ化
-    //
-    // startA - startB が同じ
-    // かつ transpose が同じ
+    // 同じ斜め線 + 同じtranspose をグループ化
     // -----------------------------------------
 
     const groups = {};
@@ -6357,7 +6354,7 @@ function mergeMotifCandidates(candidates){
 
 
     // -----------------------------------------
-    // 各グループから最長の候補を取得
+    // 各グループから最長候補を取得
     // -----------------------------------------
 
     for(const key in groups){
@@ -6370,11 +6367,30 @@ function mergeMotifCandidates(candidates){
 
         const longest = group[0];
 
+
+        // -------------------------------------
+        // Motif group
+        // -------------------------------------
+
         merged.push({
-            startA: longest.startA,
-            startB: longest.startB,
-            length: longest.length,
-            transpose: longest.transpose
+
+            startA:
+                longest.startA,
+
+            startB:
+                longest.startB,
+
+            length:
+                longest.length,
+
+            transpose:
+                longest.transpose,
+
+            // このMotifに含まれる
+            // LL / RR / LR / RL
+            candidates:
+                group
+
         });
     }
 
@@ -6388,13 +6404,15 @@ function mergeMotifCandidates(candidates){
     );
 
 
-console.log(
-    "merged =",
-    merged
-);
+    console.log(
+        "merged =",
+        merged
+    );
+
 
     return merged;
 }
+
 
 function findMotif(
 beatSimilarity,
