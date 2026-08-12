@@ -6536,6 +6536,44 @@ function buildMotifHierarchy(sameMotifs){
     return hierarchy;
 }
 
+function printMotifHierarchy(hierarchy){
+
+    console.log("========== Motif Hierarchy ==========");
+
+
+    for(const motif of hierarchy){
+
+        console.log(
+            "Motif",
+            motif.motifId,
+            "length =",
+            motif.length,
+            "occurrences =",
+            motif.occurrences.length
+        );
+
+
+        for(const child of motif.children){
+
+            console.log(
+                "  └─ Motif",
+                child.motifId,
+                "length =",
+                child.length,
+                "count =",
+                child.occurrenceCount,
+                child.repeated
+                    ? "★ repeated"
+                    : "single"
+            );
+
+        }
+
+    }
+
+    console.log("=====================================");
+
+}
 
 /*
 function groupSameMotifs(motifGroups, dataA, dataB){
