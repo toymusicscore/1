@@ -5518,9 +5518,17 @@ function findSameMotifOccurrences(
         }
 
     }
+// =====================================
+// 同一楽曲かどうかで
+// 必要な出現数を変更
+// =====================================
+
+const minOccurrences =
+    sameSong ? 2 : 1;
+
 
 // =====================================
-// 別位置に2回以上出現したMotifだけ残す
+// Motifを選別
 // =====================================
 
     const sameMotifs = [];
@@ -5532,8 +5540,6 @@ function findSameMotifOccurrences(
         for(const occurrence of motif.occurrences){
 
             const key =
-                occurrence.type +
-                ":" +
                 occurrence.startA +
                 ":" +
                 occurrence.startB;
@@ -5542,7 +5548,8 @@ function findSameMotifOccurrences(
 
         }
 
-        if(positions.size >= 2){
+
+        if(positions.size >= minOccurrences){
 
             sameMotifs.push(motif);
 
