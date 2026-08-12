@@ -4858,7 +4858,7 @@ function drawMotifGraph(
     ctx.stroke();
 }
 
-
+/*
 function showMotifDetails(
     motifs,
     shapeEventDataA,
@@ -5260,6 +5260,7 @@ function showShapeMeasure() {
     practiceSettings.viewSelect = 5;
     showSelectedView();
 }
+*/
 
 let shapeBeatData = {};
 let shapeMeasureData = {};
@@ -5276,7 +5277,7 @@ let beatSimilarityLeftRight = [];
 let beatSimilarityRightLeft = [];
 
 
-
+/*
 function createHandMotifs(){
 
     // ==============================
@@ -5394,7 +5395,7 @@ function createShapeBeatTwoSongs(scoreNotes, hand, AB){
 
     return shapeBeatData;
 }
-
+*/
 
 function createShapeEvent(scoreNotes, hand){
 
@@ -5489,7 +5490,7 @@ function createShapeEvent(scoreNotes, hand){
     return shapeEventData;
 }
 
-
+/*
 function createShapeBeat(scoreNotes, hand){
 
     const shapeBeatData = {};
@@ -5987,7 +5988,7 @@ function createSimilarityMatrices(offsetY = 0){
             beatSimilarityRightLeft
     };
 }
-
+*/
 
 function getEventPitchClasses(event){
 
@@ -6368,7 +6369,7 @@ function findSameMotifOccurrences(
     return Object.values(motifMap);
 }
 
-
+/*
 function groupSameMotifs(motifGroups, dataA, dataB){
 
     const groups = [];
@@ -6495,6 +6496,7 @@ function isSameEventShape(
 
     return true;
 }
+*/
 
 function mergeMotifCandidates(candidates){
 
@@ -6582,7 +6584,7 @@ function mergeMotifCandidates(candidates){
     return merged;
 }
 
-
+/*
 function findMotif(
 beatSimilarity,
 shapeBeatDataA,
@@ -6847,7 +6849,7 @@ for(const candidate of validCandidates){
     let motif = null;
 
     for(const existing of motifGroups){
-/*
+
         console.log(
             "COMPARE",
             existing.length,
@@ -6859,7 +6861,7 @@ for(const candidate of validCandidates){
                 candidate.shape
             )
         );
-*/              if(
+              if(
                     existing.length === candidate.length &&
                     sameMotifShape(
                         existing.shape,
@@ -7282,7 +7284,7 @@ function drawMotifTwoSongs(
     ctx.restore();
 }
 
-/*
+
 function drawMotifGraph(
     motifGroups,
     offsetX = 0,
@@ -7538,7 +7540,7 @@ function drawMotifGraph(
 
     ctx.restore();
 }
-*/
+
 
 function shapeBeat(tick){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -7837,6 +7839,8 @@ function shapeMeasure(tick){
 		}
 	}
 }
+*/
+
 
 function lineScore(tick){
     notePosition = [];
