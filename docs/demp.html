@@ -4181,7 +4181,14 @@ function showMotifComparison(type){
 
 function showMotifTwoSongs(){
 
-    menuWindow.style.display="none";
+    menuWindow.style.display = "none";
+
+    // =====================================
+    // Motif candidates を初期化
+    // =====================================
+
+    motifCandidates = [];
+
 
     // =====================================
     // shape
@@ -4199,74 +4206,83 @@ function showMotifTwoSongs(){
     shapeEventDataLeftB =
         createShapeEvent(scoreLeftB, "left");
 
-// -----------------------------------------
-// findMotifEvent to make candidates
-// -----------------------------------------
 
-const candidatesLL =
-    findMotifEvent(
-        shapeEventDataLeftA,
-        shapeEventDataLeftB
+    // =====================================
+    // findMotifEvent
+    // =====================================
+
+    const candidatesLL =
+        findMotifEvent(
+            shapeEventDataLeftA,
+            shapeEventDataLeftB
+        );
+
+    const candidatesRR =
+        findMotifEvent(
+            shapeEventDataRightA,
+            shapeEventDataRightB
+        );
+
+    const candidatesLR =
+        findMotifEvent(
+            shapeEventDataLeftA,
+            shapeEventDataRightB
+        );
+
+    const candidatesRL =
+        findMotifEvent(
+            shapeEventDataRightA,
+            shapeEventDataLeftB
+        );
+
+
+    // =====================================
+    // Global candidates
+    // =====================================
+
+    motifCandidates.push(
+        ...candidatesLL.map(
+            candidate => ({
+                ...candidate,
+                type: "LL"
+            })
+        )
     );
 
-const candidatesRR =
-    findMotifEvent(
-        shapeEventDataRightA,
-        shapeEventDataRightB
-    );
-    
-const candidatesLR =
-    findMotifEvent(
-        shapeEventDataLeftA,
-        shapeEventDataRightB
+    motifCandidates.push(
+        ...candidatesRR.map(
+            candidate => ({
+                ...candidate,
+                type: "RR"
+            })
+        )
     );
 
-const candidatesRL =
-    findMotifEvent(
-        shapeEventDataRightA,
-        shapeEventDataLeftB
+    motifCandidates.push(
+        ...candidatesLR.map(
+            candidate => ({
+                ...candidate,
+                type: "LR"
+            })
+        )
+    );
+
+    motifCandidates.push(
+        ...candidatesRL.map(
+            candidate => ({
+                ...candidate,
+                type: "RL"
+            })
+        )
     );
 
 
-// -----------------------------------------
-// mergeMotifCandidates - motifGroups
-// -----------------------------------------
-
-
-const motifGroups =
-    mergeMotifCandidates(
-        candidatesLL,
-        candidatesRR,
-        candidatesLR,
-        candidatesRL
+    console.log(
+        "motifCandidates =",
+        motifCandidates
     );
-
-// -----------------------------------------
-// findSameMotifOccurrences - sameMotifs 
-// -----------------------------------------
-
-const sameMotifs = findSameMotifOccurrences(
-    motifGroups,
-    shapeEventDataRightA,
-    shapeEventDataRightB
-);
-
-// -----------------------------------------
-// drawMotifGraph
-// -----------------------------------------
-
-
-drawMotifGraph(
-    sameMotifs,
-    shapeEventDataRightA,
-    shapeEventDataRightB,
-    ticksPerMeasureA,
-    ticksPerMeasureB
-
-);
 
 }
-
 
 function drawMotifGraph(
     sameMotifs,
