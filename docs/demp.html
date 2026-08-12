@@ -5523,28 +5523,26 @@ function findSameMotifOccurrences(
 
     });
 
+// =====================================
+// 入れ子Motifの除去
+// 長いMotifを優先する
+// =====================================
 
-    // =====================================
-    // 入れ子になっているMotifを整理
-    // 大きいMotifに完全に含まれる
-    // 小さいMotifは削除する
-    // =====================================
+    const sortedMotifs =
+        [...sameMotifs].sort(
+            (a, b) => b.length - a.length
+        );
+
 
     const filteredMotifs = [];
 
 
-    // 長いMotifから順番に処理
-    const sortedMotifs = [...sameMotifs].sort(
-        (a, b) => b.length - a.length
-    );
-
-
     for(const motif of sortedMotifs){
 
-        let nested = false;
+        let isNested = false;
 
 
-        // すでに採用した大きなMotifと比較
+        // すでに採用した「より長いMotif」と比較
         for(const parent of filteredMotifs){
 
             if(parent.length <= motif.length){
@@ -5552,72 +5550,55 @@ function findSameMotifOccurrences(
             }
 
 
-            // ---------------------------------
-            // motif の各出現が
-            // parent の出現範囲内にあるか確認
-            // ---------------------------------
+            // motif の全出現が
+            // parent のどれかの出現に含まれているか
+            const allNested =
+                motif.occurrences.every(child => {
 
-            let allNested = true;
+                    return parent.occurrences.some(parentOcc => {
+
+                        // 比較タイプが同じであること
+                        if(
+                            child.type !== parentOcc.type
+                        ){
+                            return false;
+                        }
 
 
-            for(const occurrence of motif.occurrences){
-
-                const contained = parent.occurrences.some(
-                    parentOccurrence => {
-
-                        // A側
+                        // A側が完全に内部
                         const aInside =
-                            occurrence.startA >=
-                                parentOccurrence.startA
+                            child.startA >=
+                                parentOcc.startA
                             &&
-                            occurrence.startA +
-                                occurrence.length
+                            child.startA +
+                                child.length
                             <=
-                            parentOccurrence.startA +
-                                parentOccurrence.length;
+                            parentOcc.startA +
+                                parentOcc.length;
 
 
-                        // B側
+                        // B側が完全に内部
                         const bInside =
-                            occurrence.startB >=
-                                parentOccurrence.startB
+                            child.startB >=
+                                parentOcc.startB
                             &&
-                            occurrence.startB +
-                                occurrence.length
+                            child.startB +
+                                child.length
                             <=
-                            parentOccurrence.startB +
-                                parentOccurrence.length;
+                            parentOcc.startB +
+                                parentOcc.length;
 
 
-                        // 比較タイプも一致
-                        const sameType =
-                            occurrence.type ===
-                            parentOccurrence.type;
+                        return aInside && bInside;
 
+                    });
 
-                        return (
-                            sameType &&
-                            aInside &&
-                            bInside
-                        );
-
-                    }
-                );
-
-
-                if(!contained){
-
-                    allNested = false;
-                    break;
-
-                }
-
-            }
+                });
 
 
             if(allNested){
 
-                nested = true;
+                isNested = true;
                 break;
 
             }
@@ -5625,8 +5606,8 @@ function findSameMotifOccurrences(
         }
 
 
-        // 入れ子でなければ採用
-        if(!nested){
+        // 入れ子でなければ残す
+        if(!isNested){
 
             filteredMotifs.push(motif);
 
@@ -5636,7 +5617,7 @@ function findSameMotifOccurrences(
 
 
     // =====================================
-    // motifIdを振り直す
+    // Motif IDを振り直す
     // =====================================
 
     filteredMotifs.forEach((motif, index) => {
