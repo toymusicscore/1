@@ -5710,6 +5710,114 @@ const minOccurrences =
 
     });
 
+// =====================================
+// Motif候補を抽出
+// =====================================
+
+let validMotifs;
+
+if(sameSong){
+
+    // 同じ楽曲なら1回でもMotifとして有効
+    validMotifs = Object.values(motifMap);
+
+}
+else{
+
+    // 異なる楽曲なら2回以上必要
+    validMotifs =
+        Object.values(motifMap).filter(
+            motif => motif.occurrences.length >= 2
+        );
+
+}
+
+
+// =====================================
+// 入れ子Motifを除去
+// 最大のMotifだけ残す
+// =====================================
+
+    for(const motif of validMotifs){
+
+        let isNested = false;
+
+        for(const larger of validMotifs){
+
+            // 自分自身は除外
+            if(larger === motif){
+                continue;
+            }
+
+            // より長いMotifだけ調べる
+            if(larger.length <= motif.length){
+                continue;
+            }
+
+
+            // ---------------------------------
+            // motif の各 occurrence が
+            // larger の中に完全に含まれているか
+            // ---------------------------------
+
+            const allNested =
+                motif.occurrences.every(o => {
+
+                    return larger.occurrences.some(lo => {
+
+                        // 比較タイプが同じ
+                        if(lo.type !== o.type){
+                            return false;
+                        }
+
+                        // A側で包含
+                        const aInside =
+                            o.startA >= lo.startA &&
+                            o.startA + o.length <=
+                            lo.startA + lo.length;
+
+                        // B側で包含
+                        const bInside =
+                            o.startB >= lo.startB &&
+                            o.startB + o.length <=
+                            lo.startB + lo.length;
+
+                        return aInside && bInside;
+
+                    });
+
+                });
+
+
+            if(allNested){
+
+                isNested = true;
+                break;
+
+            }
+
+        }
+
+
+        if(!isNested){
+
+            filteredMotifs.push(motif);
+
+        }
+
+    }
+
+
+    // =====================================
+    // motifIdを振り直す
+    // =====================================
+
+    filteredMotifs.forEach((motif, index) => {
+
+        motif.motifId = index + 1;
+
+    });
+
 
     return filteredMotifs;
 
