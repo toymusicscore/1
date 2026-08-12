@@ -6204,7 +6204,6 @@ function isSameMotifPattern(patternA, patternB, transpose){
 }
 */
 
-
 function findSameMotifOccurrences(
     motifGroups,
     shapeEventDataRightA,
@@ -6304,10 +6303,7 @@ function findSameMotifOccurrences(
                 );
 
 
-            if(
-                !normalizedA ||
-                !normalizedB
-            ){
+            if(!normalizedA || !normalizedB){
 
                 continue;
 
@@ -6367,33 +6363,50 @@ function findSameMotifOccurrences(
 
 
             // =====================================
+            // 重複チェック
+            // =====================================
+
+            const exists =
+                group.occurrences.some(o =>
+                    o.type === candidate.type &&
+                    o.startA === candidate.startA &&
+                    o.startB === candidate.startB &&
+                    o.length === candidate.length
+                );
+
+
+            // =====================================
             // 出現情報を保存
             // =====================================
 
-            group.occurrences.push({
+            if(!exists){
 
-                type:
-                    candidate.type,
+                group.occurrences.push({
 
-                startA:
-                    candidate.startA,
+                    type:
+                        candidate.type,
 
-                startB:
-                    candidate.startB,
+                    startA:
+                        candidate.startA,
 
-                length:
-                    candidate.length,
+                    startB:
+                        candidate.startB,
 
-                transpose:
-                    candidate.transpose,
+                    length:
+                        candidate.length,
 
-                patternA:
-                    patternA,
+                    transpose:
+                        candidate.transpose,
 
-                patternB:
-                    patternB
+                    patternA:
+                        patternA,
 
-            });
+                    patternB:
+                        patternB
+
+                });
+
+            }
 
         }
 
@@ -6401,7 +6414,9 @@ function findSameMotifOccurrences(
 
 
     return Object.values(motifMap);
+
 }
+
 
 /*
 function groupSameMotifs(motifGroups, dataA, dataB){
