@@ -5255,6 +5255,28 @@ function normalizeMotifPattern(pattern){
     );
 }
 
+function filterRepeatedMotifs(sameMotifs){
+
+    return sameMotifs.filter(motif => {
+
+        const positions = new Set();
+
+        for(const occurrence of motif.occurrences){
+
+            const key =
+                occurrence.type +
+                ":" +
+                occurrence.startA +
+                ":" +
+                occurrence.startB;
+
+            positions.add(key);
+        }
+
+        return positions.size >= 2;
+    });
+}
+
 
 function findSameMotifOccurrences(
     motifGroups,
@@ -5263,7 +5285,13 @@ function findSameMotifOccurrences(
     shapeEventDataRightB,
     shapeEventDataLeftB
 ){
+const validMotifs =
+    filterRepeatedMotifs(sameMotifs);
 
+console.log(
+    "validMotifs =",
+    validMotifs
+);
     const motifMap = {};
 
 
@@ -5615,7 +5643,7 @@ function printMotifHierarchy(hierarchy){
                 "count =",
                 child.occurrences.length
             );
-            
+
         }
 
     }
