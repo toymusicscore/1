@@ -4241,6 +4241,14 @@ function showMotifTwoSongs(){
     // Global candidates
     // =====================================
 
+    motifCandidates = [
+        ...candidatesLL.map(c => ({...c, type:"LL"})),
+        ...candidatesRR.map(c => ({...c, type:"RR"})),
+        ...candidatesLR.map(c => ({...c, type:"LR"})),
+        ...candidatesRL.map(c => ({...c, type:"RL"}))
+    ];
+
+    /*
     motifCandidates.push(
         ...candidatesLL.map(
             candidate => ({
@@ -4276,7 +4284,7 @@ function showMotifTwoSongs(){
             })
         )
     );
-
+*/
 
     console.log(
         "motifCandidates =",
