@@ -5122,6 +5122,94 @@ function findMotifEvent(
     return candidates;
 }
 
+
+function mergeMotifCandidates(candidates){
+
+    const merged = [];
+
+    // -----------------------------------------
+    // 同じ斜め線 + 同じtranspose をグループ化
+    // -----------------------------------------
+
+    const groups = {};
+
+    for(const c of candidates){
+
+        const diagonal =
+            c.startA - c.startB;
+
+        const key =
+            diagonal + "_" + c.transpose;
+
+        if(!groups[key]){
+            groups[key] = [];
+        }
+
+        groups[key].push(c);
+    }
+
+
+    // -----------------------------------------
+    // 各グループから最長候補を取得
+    // -----------------------------------------
+
+    for(const key in groups){
+
+        const group = groups[key];
+
+        group.sort(
+            (a, b) => b.length - a.length
+        );
+
+        const longest = group[0];
+
+
+        // -------------------------------------
+        // Motif group
+        // -------------------------------------
+
+        merged.push({
+
+            startA:
+                longest.startA,
+
+            startB:
+                longest.startB,
+
+            length:
+                longest.length,
+
+            transpose:
+                longest.transpose,
+
+            // このMotifに含まれる
+            // LL / RR / LR / RL
+            candidates:
+                group
+
+        });
+    }
+
+
+    // -----------------------------------------
+    // 長いMotifから順番に並べる
+    // -----------------------------------------
+
+    merged.sort(
+        (a, b) => b.length - a.length
+    );
+
+
+    console.log(
+        "merged =",
+        merged
+    );
+
+
+    return merged;
+}
+
+
 function getMotifPattern(data, start, length){
 
     const events =
@@ -5539,92 +5627,6 @@ function printMotifHierarchy(hierarchy){
 
 }
 
-
-function mergeMotifCandidates(candidates){
-
-    const merged = [];
-
-    // -----------------------------------------
-    // 同じ斜め線 + 同じtranspose をグループ化
-    // -----------------------------------------
-
-    const groups = {};
-
-    for(const c of candidates){
-
-        const diagonal =
-            c.startA - c.startB;
-
-        const key =
-            diagonal + "_" + c.transpose;
-
-        if(!groups[key]){
-            groups[key] = [];
-        }
-
-        groups[key].push(c);
-    }
-
-
-    // -----------------------------------------
-    // 各グループから最長候補を取得
-    // -----------------------------------------
-
-    for(const key in groups){
-
-        const group = groups[key];
-
-        group.sort(
-            (a, b) => b.length - a.length
-        );
-
-        const longest = group[0];
-
-
-        // -------------------------------------
-        // Motif group
-        // -------------------------------------
-
-        merged.push({
-
-            startA:
-                longest.startA,
-
-            startB:
-                longest.startB,
-
-            length:
-                longest.length,
-
-            transpose:
-                longest.transpose,
-
-            // このMotifに含まれる
-            // LL / RR / LR / RL
-            candidates:
-                group
-
-        });
-    }
-
-
-    // -----------------------------------------
-    // 長いMotifから順番に並べる
-    // -----------------------------------------
-
-    merged.sort(
-        (a, b) => b.length - a.length
-    );
-
-
-    console.log(
-        "merged =",
-        merged
-    );
-
-
-    return merged;
-}
 
 
 function lineScore(tick){
