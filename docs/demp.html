@@ -5455,9 +5455,51 @@ function findSameMotifOccurrences(
         }
 
     }
+    
+    // =====================================
+    // 別位置に2回以上出現したMotifだけ残す
+    // =====================================
+
+    const sameMotifs = [];
+
+    for(const motif of Object.values(motifMap)){
+
+        const positions = new Set();
+
+        for(const occurrence of motif.occurrences){
+
+            const key =
+                occurrence.startA +
+                ":" +
+                occurrence.startB;
+
+            positions.add(key);
+
+        }
+
+        if(positions.size >= 2){
+
+            sameMotifs.push(motif);
+
+        }
+
+    }
 
 
-    return Object.values(motifMap);
+    // =====================================
+    // motifIdを振り直す
+    // =====================================
+
+    sameMotifs.forEach((motif, index) => {
+
+        motif.motifId = index + 1;
+
+    });
+
+
+    return sameMotifs;
+
+//    return Object.values(motifMap);
 
 }
 
