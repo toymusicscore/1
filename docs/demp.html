@@ -5003,15 +5003,6 @@ function createShapeEvent(scoreNotes, hand){
     return shapeEventData;
 }
 
-/*
-function getEventPitchClasses(event){
-
-    return event.points.map(
-        p => p.pitchClass
-    );
-}
-*/
-
 function findMotifEvent(
     shapeEventDataA,
     shapeEventDataB
@@ -5273,6 +5264,31 @@ function filterRepeatedMotifs(sameMotifs){
     });
 }
 
+function isSameEventData(dataA, dataB){
+
+    const keysA = Object.keys(dataA);
+    const keysB = Object.keys(dataB);
+
+    if(keysA.length !== keysB.length){
+        return false;
+    }
+
+    for(const key of keysA){
+
+        if(!dataB.hasOwnProperty(key)){
+            return false;
+        }
+
+        const a = dataA[key];
+        const b = dataB[key];
+
+        if(JSON.stringify(a) !== JSON.stringify(b)){
+            return false;
+        }
+    }
+
+    return true;
+}
 
 function findSameMotifOccurrences(
     motifGroups,
@@ -5281,6 +5297,27 @@ function findSameMotifOccurrences(
     shapeEventDataRightB,
     shapeEventDataLeftB
 ){
+
+    const sameLL =
+        isSameEventData(
+            shapeEventDataLeftA,
+            shapeEventDataLeftB
+    );
+
+    const sameRR =
+        isSameEventData(
+            shapeEventDataRightA,
+            shapeEventDataRightB
+        );
+
+    const sameSong =
+        sameLL && sameRR;
+
+    console.log(
+        "sameLL =", sameLL,
+        "sameRR =", sameRR,
+        "sameSong =", sameSong
+    );
 
     const motifMap = {};
 
