@@ -6417,6 +6417,125 @@ function findSameMotifOccurrences(
 
 }
 
+function buildMotifHierarchy(sameMotifs){
+
+    const hierarchy = [];
+
+    // 長いMotifから順番に処理
+    const motifs =
+        [...sameMotifs].sort(
+            (a, b) => b.length - a.length
+        );
+
+
+    for(const motif of motifs){
+
+        const node = {
+            motifId: motif.motifId,
+            length: motif.length,
+            pattern: motif.pattern,
+            occurrences: motif.occurrences,
+            children: []
+        };
+
+
+        // -------------------------------------
+        // このMotifの中に入る短いMotifを探す
+        // -------------------------------------
+
+        for(const child of sameMotifs){
+
+            if(child === motif){
+                continue;
+            }
+
+            if(child.length >= motif.length){
+                continue;
+            }
+
+
+            // ---------------------------------
+            // 子Motifの出現を調べる
+            // ---------------------------------
+
+            const containedOccurrences = [];
+
+
+            for(const parentOcc of motif.occurrences){
+
+                for(const childOcc of child.occurrences){
+
+                    // A側
+                    const aContained =
+                        childOcc.startA >= parentOcc.startA &&
+                        childOcc.startA + childOcc.length <=
+                        parentOcc.startA + parentOcc.length;
+
+
+                    // B側
+                    const bContained =
+                        childOcc.startB >= parentOcc.startB &&
+                        childOcc.startB + childOcc.length <=
+                        parentOcc.startB + parentOcc.length;
+
+
+                    if(aContained && bContained){
+
+                        containedOccurrences.push({
+
+                            parentStartA:
+                                parentOcc.startA,
+
+                            parentStartB:
+                                parentOcc.startB,
+
+                            childStartA:
+                                childOcc.startA,
+
+                            childStartB:
+                                childOcc.startB
+
+                        });
+
+                    }
+
+                }
+
+            }
+
+
+            // ---------------------------------
+            // 1回でも内部にあれば子候補
+            // ---------------------------------
+
+            if(containedOccurrences.length > 0){
+
+                node.children.push({
+
+                    motifId:
+                        child.motifId,
+
+                    length:
+                        child.length,
+
+                    occurrences:
+                        containedOccurrences
+
+                });
+
+            }
+
+        }
+
+
+        hierarchy.push(node);
+
+    }
+
+
+    return hierarchy;
+}
+
 
 /*
 function groupSameMotifs(motifGroups, dataA, dataB){
