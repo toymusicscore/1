@@ -6123,6 +6123,21 @@ function getMotifPattern(data, start, length){
     return pattern;
 }
 
+function normalizeMotifPattern(pattern){
+
+    if(
+        !pattern ||
+        !pattern.length
+    ){
+        return null;
+    }
+
+    const base = pattern[0];
+
+    return pattern.map(
+        pc => (pc - base + 12) % 12
+    );
+}
 
 function isSameMotifPattern(patternA, patternB, transpose){
 
