@@ -6139,6 +6139,8 @@ function normalizeMotifPattern(pattern){
     );
 }
 
+
+/*
 function isSameMotifPattern(patternA, patternB, transpose){
 
     if(patternA.length !== patternB.length){
@@ -6157,6 +6159,8 @@ function isSameMotifPattern(patternA, patternB, transpose){
 
     return true;
 }
+*/
+
 
 function findSameMotifOccurrences(
     motifGroups,
@@ -6171,9 +6175,9 @@ function findSameMotifOccurrences(
 
     for(const motif of motifGroups){
 
-        // -------------------------------------
+        // =====================================
         // このMotifに含まれる候補
-        // -------------------------------------
+        // =====================================
 
         for(const candidate of motif.candidates){
 
@@ -6181,9 +6185,9 @@ function findSameMotifOccurrences(
             let dataB;
 
 
-            // ---------------------------------
-            // 比較タイプによってdataを選択
-            // ---------------------------------
+            // =====================================
+            // 比較タイプ
+            // =====================================
 
             if(candidate.type === "LL"){
 
@@ -6216,9 +6220,9 @@ function findSameMotifOccurrences(
             }
 
 
-            // ---------------------------------
-            // Motif pattern
-            // ---------------------------------
+            // =====================================
+            // 元のPattern
+            // =====================================
 
             const patternA =
                 getMotifPattern(
@@ -6242,13 +6246,24 @@ function findSameMotifOccurrences(
             }
 
 
-            // ---------------------------------
-            // 同じ形か確認
-            // ---------------------------------
+            // =====================================
+            // 移調を正規化
+            // =====================================
+
+            const normalizedA =
+                normalizeMotifPattern(
+                    patternA
+                );
+
+            const normalizedB =
+                normalizeMotifPattern(
+                    patternB
+                );
+
 
             if(
-                JSON.stringify(patternA) !==
-                JSON.stringify(patternB)
+                !normalizedA ||
+                !normalizedB
             ){
 
                 continue;
@@ -6256,15 +6271,33 @@ function findSameMotifOccurrences(
             }
 
 
-            // ---------------------------------
+            // =====================================
+            // 同じMotifか確認
+            // =====================================
+
+            if(
+                JSON.stringify(normalizedA) !==
+                JSON.stringify(normalizedB)
+            ){
+
+                continue;
+
+            }
+
+
+            // =====================================
             // Motif key
-            // ---------------------------------
+            // =====================================
 
             const key =
                 candidate.length +
                 ":" +
-                JSON.stringify(patternA);
+                JSON.stringify(normalizedA);
 
+
+            // =====================================
+            // 新しいMotif
+            // =====================================
 
             if(!motifMap[key]){
 
@@ -6277,7 +6310,7 @@ function findSameMotifOccurrences(
                         candidate.length,
 
                     pattern:
-                        patternA,
+                        normalizedA,
 
                     occurrences: []
 
@@ -6290,9 +6323,9 @@ function findSameMotifOccurrences(
                 motifMap[key];
 
 
-            // ---------------------------------
-            // 出現情報
-            // ---------------------------------
+            // =====================================
+            // 出現情報を保存
+            // =====================================
 
             group.occurrences.push({
 
@@ -6309,7 +6342,13 @@ function findSameMotifOccurrences(
                     candidate.length,
 
                 transpose:
-                    candidate.transpose
+                    candidate.transpose,
+
+                patternA:
+                    patternA,
+
+                patternB:
+                    patternB
 
             });
 
