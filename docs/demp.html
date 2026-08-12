@@ -5455,10 +5455,10 @@ function findSameMotifOccurrences(
         }
 
     }
-    
-    // =====================================
-    // 別位置に2回以上出現したMotifだけ残す
-    // =====================================
+
+// =====================================
+// 別位置に2回以上出現したMotifだけ残す
+// =====================================
 
     const sameMotifs = [];
 
@@ -5469,6 +5469,8 @@ function findSameMotifOccurrences(
         for(const occurrence of motif.occurrences){
 
             const key =
+                occurrence.type +
+                ":" +
                 occurrence.startA +
                 ":" +
                 occurrence.startB;
@@ -5484,7 +5486,6 @@ function findSameMotifOccurrences(
         }
 
     }
-
 
     // =====================================
     // motifIdを振り直す
