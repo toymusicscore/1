@@ -4305,61 +4305,82 @@ function showMotifTwoSongs(){
     );
 
 }
-
-function drawMotifGraph(
-    sameMotifs,
-    shapeEventDataA,
-    shapeEventDataB,
+function drawInternalMotifGraph(
+    internalMotifGroups,
+    shapeEventDataRightA,
+    shapeEventDataRightB,
+    shapeEventDataLeftA,
+    shapeEventDataLeftB,
     ticksPerMeasureA,
     ticksPerMeasureB
 ){
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
 
     // =========================================================
     // event 配列
     // =========================================================
 
-    const eventsA =
-        Object.keys(shapeEventDataA)
-            .map(Number)
-            .sort((a,b) => a-b);
+    function createEventMap(data){
 
-    const eventsB =
-        Object.keys(shapeEventDataB)
-            .map(Number)
-            .sort((a,b) => a-b);
+        const events =
+            Object.keys(data)
+                .map(Number)
+                .sort((a,b) => a-b);
+
+        const map = {};
+
+        events.forEach(
+            (eventNo, index) => {
+
+                map[index] =
+                    data[eventNo];
+
+            }
+        );
+
+        return {
+            events,
+            map
+        };
+    }
 
 
-    // =========================================================
-    // event番号 → event
-    // =========================================================
+    const RA =
+        createEventMap(
+            shapeEventDataRightA
+        );
 
-    const eventMapA = {};
-    const eventMapB = {};
+    const RB =
+        createEventMap(
+            shapeEventDataRightB
+        );
 
-    eventsA.forEach((eventNo, index) => {
+    const LA =
+        createEventMap(
+            shapeEventDataLeftA
+        );
 
-        eventMapA[index] =
-            shapeEventDataA[eventNo];
-
-    });
-
-    eventsB.forEach((eventNo, index) => {
-
-        eventMapB[index] =
-            shapeEventDataB[eventNo];
-
-    });
+    const LB =
+        createEventMap(
+            shapeEventDataLeftB
+        );
 
 
     // =========================================================
     // event → measure
-    //
-    // eventのpoints[0].startからmeasureを求める
     // =========================================================
 
-    function getMeasure(event, ticksPerMeasure){
+    function getMeasure(
+        event,
+        ticksPerMeasure
+    ){
 
         if(
             !event ||
@@ -4387,13 +4408,15 @@ function drawMotifGraph(
 
 
     // =========================================================
-    // 最大event数
+    // 最大 event 数
     // =========================================================
 
     const maxEvents =
         Math.max(
-            eventsA.length,
-            eventsB.length
+            RA.events.length,
+            RB.events.length,
+            LA.events.length,
+            LB.events.length
         );
 
 
@@ -4402,15 +4425,13 @@ function drawMotifGraph(
     // =========================================================
 
     const marginLeft = 100;
+
     const marginTop = 70;
+
     const marginBottom = 30;
 
-    const measureWidth = 45;
-    const eventWidth = 55;
-
-    // 1 motif あたり
-    // A と B の2列
-    const motifColumnWidth = 90;
+    // 1 motif = RA RB LA LB
+    const motifColumnWidth = 160;
 
     const eventHeight = 18;
 
@@ -4418,7 +4439,8 @@ function drawMotifGraph(
 
     const graphWidth =
         marginLeft +
-        sameMotifs.length * motifColumnWidth +
+        internalMotifGroups.length *
+        motifColumnWidth +
         30;
 
     const graphHeight =
@@ -4428,27 +4450,38 @@ function drawMotifGraph(
         marginBottom;
 
 
-    // Canvasを必要な高さにする
+    // =========================================================
+    // Canvas
+    // =========================================================
+
     canvas.width =
-        Math.max(canvas.width, graphWidth);
+        Math.max(
+            canvas.width,
+            graphWidth
+        );
 
     canvas.height =
-        Math.max(canvas.height, graphHeight);
+        Math.max(
+            canvas.height,
+            graphHeight
+        );
 
 
     // =========================================================
-    // event領域の開始位置
+    // event領域
     // =========================================================
 
     const eventY =
-        marginTop + headerHeight;
+        marginTop +
+        headerHeight;
 
 
     // =========================================================
     // 背景
     // =========================================================
 
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle =
+        "#ffffff";
 
     ctx.fillRect(
         0,
@@ -4459,15 +4492,24 @@ function drawMotifGraph(
 
 
     // =========================================================
-    // event / measure の縦軸
+    // 縦軸
     // =========================================================
 
-    ctx.font = "11px sans-serif";
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
+    ctx.font =
+        "11px sans-serif";
+
+    ctx.textAlign =
+        "right";
+
+    ctx.textBaseline =
+        "middle";
 
 
-    for(let i = 0; i < maxEvents; i++){
+    for(
+        let i = 0;
+        i < maxEvents;
+        i++
+    ){
 
         const y =
             eventY +
@@ -4475,41 +4517,13 @@ function drawMotifGraph(
             eventHeight / 2;
 
 
-        const eventA =
-            eventMapA[i];
-
-        const eventB =
-            eventMapB[i];
-
-
-        // -----------------------------
-        // A measure
-        // -----------------------------
-
-        const measureA =
-            getMeasure(
-                eventA,
-                ticksPerMeasureA
-            );
-
-
-        // -----------------------------
-        // B measure
-        // -----------------------------
-
-        const measureB =
-            getMeasure(
-                eventB,
-                ticksPerMeasureB
-            );
-
-
         // event番号
 
-        ctx.fillStyle = "#666666";
+        ctx.fillStyle =
+            "#666666";
 
         ctx.fillText(
-            i +1,
+            i + 1,
             marginLeft - 62,
             y
         );
@@ -4517,19 +4531,60 @@ function drawMotifGraph(
 
         // A measure
 
-        ctx.fillStyle = "#333333";
+        const eventRA =
+            RA.map[i];
 
-        ctx.fillText(
-            measureA,
-            marginLeft - 32,
-            y
-        );
+        const eventLA =
+            LA.map[i];
+
+        const measureRA =
+            getMeasure(
+                eventRA,
+                ticksPerMeasureA
+            );
+
+        const measureLA =
+            getMeasure(
+                eventLA,
+                ticksPerMeasureA
+            );
 
 
         // B measure
 
+        const eventRB =
+            RB.map[i];
+
+        const eventLB =
+            LB.map[i];
+
+        const measureRB =
+            getMeasure(
+                eventRB,
+                ticksPerMeasureB
+            );
+
+        const measureLB =
+            getMeasure(
+                eventLB,
+                ticksPerMeasureB
+            );
+
+
+        // Measure は
+        // A / B の2つだけ表示
+
+        ctx.fillStyle =
+            "#333333";
+
         ctx.fillText(
-            measureB,
+            measureRA,
+            marginLeft - 32,
+            y
+        );
+
+        ctx.fillText(
+            measureRB,
             marginLeft - 8,
             y
         );
@@ -4540,10 +4595,14 @@ function drawMotifGraph(
     // 縦軸ラベル
     // =========================================================
 
-    ctx.textAlign = "right";
-    ctx.font = "12px sans-serif";
+    ctx.textAlign =
+        "right";
 
-    ctx.fillStyle = "#333333";
+    ctx.font =
+        "12px sans-serif";
+
+    ctx.fillStyle =
+        "#333333";
 
     ctx.fillText(
         "Event",
@@ -4571,237 +4630,284 @@ function drawMotifGraph(
 
 
     // =========================================================
-    // motif を描画
+    // motif
     // =========================================================
 
-    sameMotifs.forEach((motif, motifIndex) => {
+    internalMotifGroups.forEach(
+        (motif, motifIndex) => {
 
-        const motifX =
-            marginLeft +
-            motifIndex * motifColumnWidth;
-
-
-        // =====================================================
-        // motif ID
-        // =====================================================
-
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.font = "bold 12px sans-serif";
-
-        ctx.fillStyle = "#333333";
-
-        ctx.fillText(
-            "Motif " + motif.motifId,
-            motifX + motifColumnWidth / 2,
-            marginTop + 10
-        );
+            const motifX =
+                marginLeft +
+                motifIndex *
+                motifColumnWidth;
 
 
-        // =====================================================
-        // A / B
-        // =====================================================
+            // =====================================================
+            // Motif ID
+            // =====================================================
 
-        const xA =
-            motifX + motifColumnWidth * 0.30;
+            ctx.textAlign =
+                "center";
 
-        const xB =
-            motifX + motifColumnWidth * 0.70;
+            ctx.textBaseline =
+                "middle";
 
+            ctx.font =
+                "bold 12px sans-serif";
 
-        ctx.font = "11px sans-serif";
+            ctx.fillStyle =
+                "#333333";
 
-        ctx.fillText(
-            "A",
-            xA,
-            marginTop + 32
-        );
-
-        ctx.fillText(
-            "B",
-            xB,
-            marginTop + 32
-        );
-
-
-        // =====================================================
-        // motif pattern の pitchClass
-        // 横方向の基準
-        // =====================================================
-
-        const pitchWidth = 2;
+            ctx.fillText(
+                "Motif " +
+                (motifIndex + 1),
+                motifX +
+                motifColumnWidth / 2,
+                marginTop + 10
+            );
 
 
-        // =====================================================
-        // A occurrences
-        // =====================================================
+            // =====================================================
+            // 4列
+            // =====================================================
 
-        for(
-            const start of motif.occurrencesA
-        ){
+            const xRA =
+                motifX +
+                motifColumnWidth * 0.125;
 
-            for(
-                let k = 0;
-                k < motif.length;
-                k++
+            const xRB =
+                motifX +
+                motifColumnWidth * 0.375;
+
+            const xLA =
+                motifX +
+                motifColumnWidth * 0.625;
+
+            const xLB =
+                motifX +
+                motifColumnWidth * 0.875;
+
+
+            ctx.font =
+                "11px sans-serif";
+
+
+            ctx.fillText(
+                "RA",
+                xRA,
+                marginTop + 32
+            );
+
+            ctx.fillText(
+                "RB",
+                xRB,
+                marginTop + 32
+            );
+
+            ctx.fillText(
+                "LA",
+                xLA,
+                marginTop + 32
+            );
+
+            ctx.fillText(
+                "LB",
+                xLB,
+                marginTop + 32
+            );
+
+
+            // =====================================================
+            // motif pattern
+            // =====================================================
+
+            const pitchWidth = 2;
+
+
+            // =====================================================
+            // 1方向を描画する関数
+            // =====================================================
+
+            function drawOccurrences(
+                occurrences,
+                eventMap,
+                xCenter,
+                transpose
             ){
 
-                const eventIndex =
-                    start + k;
-
-                const event =
-                    eventMapA[eventIndex];
-
-                if(!event) continue;
-
                 if(
-                    !event.points ||
-                    !event.points.length
+                    !occurrences ||
+                    !occurrences.length
                 ){
-                    continue;
+                    return;
                 }
 
 
-                // 現在は1 event = 1音
-                const point =
-                    event.points[0];
-
-                const pc =
-                    point.pitchClass;
-
-                if(
-                    pc === undefined ||
-                    pc < 0 ||
-                    pc > 11
+                for(
+                    const start of occurrences
                 ){
-                    continue;
+
+                    for(
+                        let k = 0;
+                        k < motif.length;
+                        k++
+                    ){
+
+                        const eventIndex =
+                            start + k;
+
+                        const event =
+                            eventMap[eventIndex];
+
+                        if(!event){
+                            continue;
+                        }
+
+                        if(
+                            !event.points ||
+                            !event.points.length
+                        ){
+                            continue;
+                        }
+
+
+                        const point =
+                            event.points[0];
+
+                        let pc =
+                            point.pitchClass;
+
+
+                        if(
+                            pc === undefined ||
+                            pc < 0 ||
+                            pc > 11
+                        ){
+                            continue;
+                        }
+
+
+                        // transpose がある場合
+                        // motif pattern に合わせる
+
+                        if(
+                            transpose !== undefined &&
+                            transpose !== null
+                        ){
+
+                            pc =
+                                (pc - transpose + 12)
+                                % 12;
+                        }
+
+
+                        const x =
+                            xCenter +
+                            (pc - 5.5) *
+                            pitchWidth;
+
+
+                        const y =
+                            eventY +
+                            eventIndex *
+                            eventHeight +
+                            eventHeight / 2;
+
+
+                        ctx.fillStyle =
+                            workingColor.pc[
+                                point.pitchClass
+                            ];
+
+
+                        ctx.beginPath();
+
+                        ctx.arc(
+                            x,
+                            y,
+                            4,
+                            0,
+                            Math.PI * 2
+                        );
+
+                        ctx.fill();
+                    }
                 }
-
-
-                // pitchClassを横位置にする
-                const x =
-                    xA +
-                    (pc - 5.5) * pitchWidth;
-
-
-                const y =
-                    eventY +
-                    eventIndex * eventHeight +
-                    eventHeight / 2;
-
-
-                // pitchClassの色
-                ctx.fillStyle =
-                    workingColor.pc[pc];
-
-
-                // 円
-                ctx.beginPath();
-
-                ctx.arc(
-                    x,
-                    y,
-                    4,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
             }
+
+
+            // =====================================================
+            // RA
+            // =====================================================
+
+            drawOccurrences(
+                motif.RA,
+                RA.map,
+                xRA,
+                motif.transposeRA
+            );
+
+
+            // =====================================================
+            // RB
+            // =====================================================
+
+            drawOccurrences(
+                motif.RB,
+                RB.map,
+                xRB,
+                motif.transposeRB
+            );
+
+
+            // =====================================================
+            // LA
+            // =====================================================
+
+            drawOccurrences(
+                motif.LA,
+                LA.map,
+                xLA,
+                motif.transposeLA
+            );
+
+
+            // =====================================================
+            // LB
+            // =====================================================
+
+            drawOccurrences(
+                motif.LB,
+                LB.map,
+                xLB,
+                motif.transposeLB
+            );
+
         }
-
-
-        // =====================================================
-        // B occurrences
-        // =====================================================
-
-        for(
-            const start of motif.occurrencesB
-        ){
-
-            for(
-                let k = 0;
-                k < motif.length;
-                k++
-            ){
-
-                const eventIndex =
-                    start + k;
-
-                const event =
-                    eventMapB[eventIndex];
-
-                if(!event) continue;
-
-                if(
-                    !event.points ||
-                    !event.points.length
-                ){
-                    continue;
-                }
-
-
-                const point =
-                    event.points[0];
-
-                const pc =
-                    point.pitchClass;
-
-                if(
-                    pc === undefined ||
-                    pc < 0 ||
-                    pc > 11
-                ){
-                    continue;
-                }
-
-
-                const x =
-                    xB +
-                    (pc - 5.5) * pitchWidth;
-
-
-                const y =
-                    eventY +
-                    eventIndex * eventHeight +
-                    eventHeight / 2;
-
-
-                ctx.fillStyle =
-                    workingColor.pc[pc];
-
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    x,
-                    y,
-                    4,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-            }
-        }
-
-    });
+    );
 
 
     // =========================================================
     // 横線
     // =========================================================
 
-    ctx.lineWidth = 1;
+    ctx.lineWidth =
+        1;
 
-    for(let i = 0; i <= maxEvents; i++){
+    ctx.strokeStyle =
+        "#eeeeee";
+
+
+    for(
+        let i = 0;
+        i <= maxEvents;
+        i++
+    ){
 
         const y =
             eventY +
             i * eventHeight;
 
-        ctx.strokeStyle =
-            "#eeeeee";
 
         ctx.beginPath();
 
@@ -4823,15 +4929,18 @@ function drawMotifGraph(
     // motif境界線
     // =========================================================
 
-    sameMotifs.forEach(
+    internalMotifGroups.forEach(
         (motif, motifIndex) => {
 
             const x =
                 marginLeft +
-                motifIndex * motifColumnWidth;
+                motifIndex *
+                motifColumnWidth;
+
 
             ctx.strokeStyle =
                 "#dddddd";
+
 
             ctx.beginPath();
 
@@ -4842,7 +4951,8 @@ function drawMotifGraph(
 
             ctx.lineTo(
                 x,
-                canvas.height - marginBottom
+                canvas.height -
+                marginBottom
             );
 
             ctx.stroke();
@@ -4850,12 +4960,15 @@ function drawMotifGraph(
     );
 
 
+    // =========================================================
     // 最後の境界線
+    // =========================================================
 
     const lastX =
         marginLeft +
-        sameMotifs.length *
+        internalMotifGroups.length *
         motifColumnWidth;
+
 
     ctx.beginPath();
 
@@ -4866,7 +4979,8 @@ function drawMotifGraph(
 
     ctx.lineTo(
         lastX,
-        canvas.height - marginBottom
+        canvas.height -
+        marginBottom
     );
 
     ctx.stroke();
