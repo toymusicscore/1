@@ -4431,7 +4431,7 @@ function drawInternalMotifGraph(
     // レイアウト
     // =====================================================
 
-    const marginLeft = 100;
+    const marginLeft = 170;
     const marginTop = 70;
     const marginBottom = 30;
 
@@ -4488,136 +4488,116 @@ function drawInternalMotifGraph(
         headerHeight;
 
 
-    // =====================================================
-    // 左側のEvent / Measure
-    // =====================================================
+    // =========================================================
+    // event / measure の縦軸
+    // =========================================================
 
-    ctx.font =
-        "11px sans-serif";
+    ctx.font = "11px sans-serif";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
 
-    ctx.textAlign =
-        "right";
-
-    ctx.textBaseline =
-        "middle";
-
-
-    for(
-        let i = 0;
-        i < maxEvents;
-        i++
-    ){
+    for(let i = 0; i < maxEvents; i++){
 
         const y =
             eventY +
             i * eventHeight +
             eventHeight / 2;
 
+        const eventA =
+            eventMapA[i];
 
-        const eventRA =
-            eventMapRA[i];
+        const eventB =
+            eventMapB[i];
 
-        const eventRB =
-            eventMapRB[i];
+        // -----------------------------
+        // A measure
+        // -----------------------------
 
-        const eventLA =
-            eventMapLA[i];
-
-        const eventLB =
-            eventMapLB[i];
-
-
-        // =================================================
-        // Event番号
-        // =================================================
-
-        ctx.fillStyle =
-            "#666666";
-
-        ctx.fillText(
-            i + 1,
-            marginLeft - 75,
-            y
-        );
-
-
-        // =================================================
-        // Measure
-        // =================================================
-
-        const measureRA =
+        const measureA =
             getMeasure(
-                eventRA,
+                eventA,
                 ticksPerMeasureA
             );
 
-        const measureRB =
+        // -----------------------------
+        // B measure
+        // -----------------------------
+
+        const measureB =
             getMeasure(
-                eventRB,
+                eventB,
                 ticksPerMeasureB
             );
 
-
-        // A
-
-        ctx.fillStyle =
-            "#333333";
+        // Event番号
+        ctx.fillStyle = "#666666";
 
         ctx.fillText(
-            measureRA,
-            marginLeft - 30,
+            i + 1,
+            marginLeft - 110,
             y
         );
 
-
-        // B
+        // A Measure
+        ctx.fillStyle = "#333333";
 
         ctx.fillText(
-            measureRB,
-            marginLeft + 15,
+            measureA,
+            marginLeft - 65,
             y
         );
 
+        // B Measure
+        ctx.fillText(
+            measureB,
+            marginLeft - 20,
+            y
+        );
     }
 
+    // =========================================================
+    // 縦軸ラベル
+    // =========================================================
 
-    // =====================================================
-    // 左上ラベル
-    // =====================================================
+    ctx.textAlign = "center";
+    ctx.font = "12px sans-serif";
 
-    ctx.textAlign =
-        "right";
+    ctx.fillStyle = "#333333";
 
-    ctx.font =
-        "12px sans-serif";
-
-    ctx.fillStyle =
-        "#333333";
-
+    // Event
     ctx.fillText(
         "Event",
-        marginLeft - 75,
+        marginLeft - 110,
         marginTop + 10
+    );
+
+    // A
+    ctx.fillText(
+        "A",
+        marginLeft - 65,
+        marginTop + 30
+    );
+
+    // B
+    ctx.fillText(
+        "B",
+        marginLeft - 20,
+        marginTop + 30
+    );
+
+    ctx.font = "10px sans-serif";
+
+    ctx.fillText(
+        "Measure",
+        marginLeft - 65,
+        marginTop + 48
     );
 
     ctx.fillText(
         "Measure",
-        marginLeft - 5,
-        marginTop + 10
+        marginLeft - 20,
+        marginTop + 48
     );
-
-    ctx.fillText(
-        "A",
-        marginLeft - 30,
-        marginTop + 32
-    );
-
-    ctx.fillText(
-        "B",
-        marginLeft + 15,
-        marginTop + 32
-    );
-
 
     // =====================================================
     // Motif
