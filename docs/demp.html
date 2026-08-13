@@ -5283,15 +5283,10 @@ function groupInternalMotifs(data, candidates){
 
 function filterInternalMotifs(motifs){
 
-    // =====================================
-    // 長いMotifから処理
-    // =====================================
-
     const sorted =
         [...motifs].sort(
-            (a, b) => b.length - a.length
+            (a,b) => b.length - a.length
         );
-
 
     const result = [];
 
@@ -5301,10 +5296,6 @@ function filterInternalMotifs(motifs){
         let contained = false;
 
 
-        // =================================
-        // 既に採用された長いMotifを調べる
-        // =================================
-
         for(const longer of result){
 
             if(longer.length <= motif.length){
@@ -5312,32 +5303,38 @@ function filterInternalMotifs(motifs){
             }
 
 
-            // -----------------------------
-            // motif の全出現位置が
-            // longer の出現位置に含まれるか
-            // -----------------------------
+            // =================================
+            // 出現数が同じか確認
+            // =================================
+
+            if(
+                motif.positions.length !==
+                longer.positions.length
+            ){
+                continue;
+            }
+
+
+            // =================================
+            // 各出現位置について
+            // 長いMotifの中に含まれるか
+            // =================================
 
             const allContained =
                 motif.positions.every(
-                    position => {
+                    (position, index) => {
 
-                        return longer.positions.some(
-                            longPosition => {
+                        const longPosition =
+                            longer.positions[index];
 
-                                const offset =
-                                    position -
-                                    motif.positions[0];
 
-                                const longOffset =
-                                    longPosition -
-                                    longer.positions[0];
+                        return (
+                            position >=
+                                longPosition &&
 
-                                return (
-                                    offset ===
-                                    longOffset
-                                );
-
-                            }
+                            position + motif.length <=
+                                longPosition +
+                                longer.length
                         );
 
                     }
@@ -5353,10 +5350,6 @@ function filterInternalMotifs(motifs){
 
         }
 
-
-        // =================================
-        // 独立したMotifだけ残す
-        // =================================
 
         if(!contained){
 
