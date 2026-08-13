@@ -5119,6 +5119,124 @@ function findInternalMotifs(data){
     return filtered;
 }
 
+function groupInternalMotifsFourWays(
+    internalRightA,
+    internalRightB,
+    internalLeftA,
+    internalLeftB
+){
+
+    const groups = new Map();
+
+    // =====================================
+    // 4方向を登録
+    // =====================================
+
+    const sources = [
+        {
+            type: "RA",
+            motifs: internalRightA
+        },
+        {
+            type: "RB",
+            motifs: internalRightB
+        },
+        {
+            type: "LA",
+            motifs: internalLeftA
+        },
+        {
+            type: "LB",
+            motifs: internalLeftB
+        }
+    ];
+
+
+    // =====================================
+    // pattern + length でグループ化
+    // =====================================
+
+    for(const source of sources){
+
+        for(const motif of source.motifs){
+
+            if(
+                !motif.pattern ||
+                !motif.pattern.length
+            ){
+                continue;
+            }
+
+            const key =
+                motif.length +
+                ":" +
+                motif.pattern.join(",");
+
+
+            if(!groups.has(key)){
+
+                groups.set(key, {
+
+                    length: motif.length,
+
+                    pattern: [
+                        ...motif.pattern
+                    ],
+
+                    RA: [],
+                    RB: [],
+                    LA: [],
+                    LB: []
+
+                });
+
+            }
+
+
+            groups
+                .get(key)[source.type]
+                .push(motif);
+
+        }
+
+    }
+
+
+    // =====================================
+    // 配列化
+    // =====================================
+
+    const result =
+        Array.from(groups.values());
+
+
+    // =====================================
+    // 長いMotifを先にする
+    // =====================================
+
+    result.sort(
+        (a,b) =>
+            b.length - a.length
+    );
+
+
+    // =====================================
+    // Motif ID
+    // =====================================
+
+    result.forEach(
+        (motif, index) => {
+
+            motif.motifId =
+                index + 1;
+
+        }
+    );
+
+
+    return result;
+}
+
 
 function groupInternalMotifs(data, candidates){
 
