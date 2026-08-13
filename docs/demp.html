@@ -5280,6 +5280,98 @@ function groupInternalMotifs(data, candidates){
     return result;
 }
 
+
+function filterInternalMotifs(motifs){
+
+    // =====================================
+    // 長いMotifから処理
+    // =====================================
+
+    const sorted =
+        [...motifs].sort(
+            (a, b) => b.length - a.length
+        );
+
+
+    const result = [];
+
+
+    for(const motif of sorted){
+
+        let contained = false;
+
+
+        // =================================
+        // 既に採用された長いMotifを調べる
+        // =================================
+
+        for(const longer of result){
+
+            if(longer.length <= motif.length){
+                continue;
+            }
+
+
+            // -----------------------------
+            // motif の全出現位置が
+            // longer の出現位置に含まれるか
+            // -----------------------------
+
+            const allContained =
+                motif.positions.every(
+                    position => {
+
+                        return longer.positions.some(
+                            longPosition => {
+
+                                const offset =
+                                    position -
+                                    motif.positions[0];
+
+                                const longOffset =
+                                    longPosition -
+                                    longer.positions[0];
+
+                                return (
+                                    offset ===
+                                    longOffset
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            if(allContained){
+
+                contained = true;
+                break;
+
+            }
+
+        }
+
+
+        // =================================
+        // 独立したMotifだけ残す
+        // =================================
+
+        if(!contained){
+
+            result.push(motif);
+
+        }
+
+    }
+
+
+    return result;
+
+}
+
+
 function mergeMotifCandidates(candidates){
 
     const merged = [];
