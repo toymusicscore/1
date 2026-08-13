@@ -4343,6 +4343,83 @@ function drawInternalMotifGraph(
         canvas.height
     );
 
+    // =========================================
+    // event番号を配列にする
+    // =========================================
+
+    const eventsRightA =
+        Object.keys(shapeEventDataRightA)
+            .map(Number)
+            .sort((a,b) => a-b);
+
+    const eventsRightB =
+        Object.keys(shapeEventDataRightB)
+            .map(Number)
+            .sort((a,b) => a-b);
+
+    const eventsLeftA =
+        Object.keys(shapeEventDataLeftA)
+            .map(Number)
+            .sort((a,b) => a-b);
+
+    const eventsLeftB =
+        Object.keys(shapeEventDataLeftB)
+            .map(Number)
+            .sort((a,b) => a-b);
+
+
+    // =========================================
+    // event index → event
+    // =========================================
+
+    const eventMapRightA = {};
+    const eventMapRightB = {};
+    const eventMapLeftA = {};
+    const eventMapLeftB = {};
+
+    eventsRightA.forEach((eventNo, index) => {
+        eventMapRightA[index] =
+            shapeEventDataRightA[eventNo];
+    });
+
+    eventsRightB.forEach((eventNo, index) => {
+        eventMapRightB[index] =
+            shapeEventDataRightB[eventNo];
+    });
+
+    eventsLeftA.forEach((eventNo, index) => {
+        eventMapLeftA[index] =
+            shapeEventDataLeftA[eventNo];
+    });
+
+    eventsLeftB.forEach((eventNo, index) => {
+        eventMapLeftB[index] =
+            shapeEventDataLeftB[eventNo];
+    });
+
+
+    // =========================================
+    // 以下、グラフ描画
+    // =========================================
+
+    /*
+function drawInternalMotifGraph(
+    internalMotifGroups,
+    shapeEventDataRightA,
+    shapeEventDataRightB,
+    shapeEventDataLeftA,
+    shapeEventDataLeftB,
+    ticksPerMeasureA,
+    ticksPerMeasureB
+){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
     // =====================================================
     // event番号 → event
     // =====================================================
@@ -4379,7 +4456,7 @@ function drawInternalMotifGraph(
     const eventMapLB =
         makeEventMap(shapeEventDataLeftB);
 
-
+*/
     // =====================================================
     // event → measure
     // =====================================================
