@@ -4224,19 +4224,41 @@ function showMotifTwoSongs(){
         createShapeEvent(scoreLeftB, "left");
 
 
-    // =====================================
-    // findMotifEvent
-    // =====================================
+// =====================================
+// A 右手：内部Motif
+// =====================================
 
-    const filteredInternalMotifs =
-        filterInternalMotifs(
-            internalMotifsA
-        );
-
-    console.log(
-        "filteredInternalMotifsA RR =",
-        filteredInternalMotifs
+const candidatesInternalA =
+    findMotifEvent(
+        shapeEventDataRightA,
+        shapeEventDataRightA
     );
+
+const internalMotifsA =
+    groupInternalMotifs(
+        shapeEventDataRightA,
+        candidatesInternalA
+    );
+
+console.log(
+    "internalMotifsA RR =",
+    internalMotifsA
+);
+
+
+// =====================================
+// 長いMotifを優先して整理
+// =====================================
+
+const filteredInternalMotifsA =
+    filterInternalMotifs(
+        internalMotifsA
+    );
+
+console.log(
+    "filteredInternalMotifsA RR =",
+    filteredInternalMotifsA
+);
 
     /*
     const candidatesInternalA =
@@ -4269,6 +4291,9 @@ function showMotifTwoSongs(){
         internalMotifsA
     );
 */
+    // =====================================
+    // findMotifEvent
+    // =====================================
 
 /*    const candidatesLL =
         findMotifEvent(
