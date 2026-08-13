@@ -5167,6 +5167,98 @@ function findInternalMotifs(data){
 
 }
 
+function groupInternalMotifs(data, candidates){
+
+    const motifMap = {};
+
+    for(const candidate of candidates){
+
+        const pattern =
+            getMotifPattern(
+                data,
+                candidate.startA,
+                candidate.length
+            );
+
+        if(!pattern){
+            continue;
+        }
+
+        const normalized =
+            normalizeMotifPattern(pattern);
+
+        if(!normalized){
+            continue;
+        }
+
+        const key =
+            candidate.length +
+            ":" +
+            JSON.stringify(normalized);
+
+
+        if(!motifMap[key]){
+
+            motifMap[key] = {
+
+                length:
+                    candidate.length,
+
+                pattern:
+                    normalized,
+
+                positions:
+                    new Set()
+
+            };
+
+        }
+
+
+        const motif =
+            motifMap[key];
+
+
+        motif.positions.add(
+            candidate.startA
+        );
+
+        motif.positions.add(
+            candidate.startB
+        );
+
+    }
+
+
+    const result = [];
+
+    for(const motif of Object.values(motifMap)){
+
+        if(motif.positions.size >= 2){
+
+            result.push({
+
+                length:
+                    motif.length,
+
+                pattern:
+                    motif.pattern,
+
+                positions:
+                    [...motif.positions].sort(
+                        (a,b) => a-b
+                    )
+
+            });
+
+        }
+
+    }
+
+
+    return result;
+}
+
 function mergeMotifCandidates(candidates){
 
     const merged = [];
