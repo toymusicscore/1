@@ -4223,227 +4223,69 @@ function showMotifTwoSongs(){
     shapeEventDataLeftB =
         createShapeEvent(scoreLeftB, "left");
 
+    // =====================================
+    // Internal Motifs
+    // A / B × Right / Left
+    // =====================================
+
+    // -------------------------------------
+    // A Right
+    // -------------------------------------
 
     const internalRightA =
-        findInternalMotifs(shapeEventDataRightA);
-
-    const internalLeftA =
-        findInternalMotifs(shapeEventDataLeftA);
-
-    const internalRightB =
-        findInternalMotifs(shapeEventDataRightB);
-
-    const internalLeftB =
-        findInternalMotifs(shapeEventDataLeftB);
+        findInternalMotifs(
+            shapeEventDataRightA
+        );
 
     console.log(
-        "internalRightA=",
+        "internalRightA =",
         internalRightA
     );
+
+
+    // -------------------------------------
+    // A Left
+    // -------------------------------------
+
+    const internalLeftA =
+        findInternalMotifs(
+            shapeEventDataLeftA
+        );
 
     console.log(
         "internalLeftA =",
         internalLeftA
     );
 
+
+    // -------------------------------------
+    // B Right
+    // -------------------------------------
+
+    const internalRightB =
+        findInternalMotifs(
+            shapeEventDataRightB
+        );
+
     console.log(
         "internalRightB =",
         internalRightB
     );
 
+
+    // -------------------------------------
+    // B Left
+    // -------------------------------------
+
+    const internalLeftB =
+        findInternalMotifs(
+            shapeEventDataLeftB
+        );
+
     console.log(
         "internalLeftB =",
         internalLeftB
     );
-
-
-/*        
-// =====================================
-// A 右手：内部Motif
-// =====================================
-
-const candidatesInternalA =
-    findMotifEvent(
-        shapeEventDataRightA,
-        shapeEventDataRightA
-    );
-
-const internalMotifsA =
-    groupInternalMotifs(
-        shapeEventDataRightA,
-        candidatesInternalA
-    );
-
-console.log(
-    "internalMotifsA RR =",
-    internalMotifsA
-);
-
-
-// =====================================
-// 長いMotifを優先して整理
-// =====================================
-
-const filteredInternalMotifsA =
-    filterInternalMotifs(
-        internalMotifsA
-    );
-
-console.log(
-    "filteredInternalMotifsA RR =",
-    filteredInternalMotifsA
-);
-*/
-
-    /*
-    const candidatesInternalA =
-        findMotifEvent(
-            shapeEventDataRightA,
-            shapeEventDataRightA
-        );
-
-
-    const internalMotifsA =
-        groupInternalMotifs(
-            shapeEventDataRightA,
-            candidatesInternalA
-        );
-
-
-    console.log(
-        "internalMotifsA RR =",
-        internalMotifsA
-    );
-*/
-/*
-    const internalMotifsA =
-        findInternalMotifs(
-            shapeEventDataRightA
-        );
-
-    console.log(
-        "internalMotifsA RR =",
-        internalMotifsA
-    );
-*/
-    // =====================================
-    // findMotifEvent
-    // =====================================
-
-/*    const candidatesLL =
-        findMotifEvent(
-            shapeEventDataLeftA,
-            shapeEventDataLeftB
-        );
-
-    const candidatesRR =
-        findMotifEvent(
-            shapeEventDataRightA,
-            shapeEventDataRightB
-        );
-
-    const candidatesLR =
-        findMotifEvent(
-            shapeEventDataLeftA,
-            shapeEventDataRightB
-        );
-
-    const candidatesRL =
-        findMotifEvent(
-            shapeEventDataRightA,
-            shapeEventDataLeftB
-        );
-
-
-    // =====================================
-    // Global candidates
-    // =====================================
-
-    motifCandidates = [
-        ...candidatesLL.map(c => ({...c, type:"LL"})),
-        ...candidatesRR.map(c => ({...c, type:"RR"})),
-        ...candidatesLR.map(c => ({...c, type:"LR"})),
-        ...candidatesRL.map(c => ({...c, type:"RL"}))
-    ];
-
-    console.log(
-        "motifCandidates =",
-        motifCandidates
-    );
-
-// =====================================
-// mergeMotifCandidates
-// =====================================
-
-    motifGroups =
-        mergeMotifCandidates(
-            motifCandidates
-        );
-
-    console.log(
-        "motifGroups =",
-        motifGroups
-    );
-
-
-// =====================================
-// findSameMotifOccurrences
-// =====================================
-
-    const sameMotifs =
-        findSameMotifOccurrences(
-            motifGroups,
-            shapeEventDataRightA,
-            shapeEventDataLeftA,
-            shapeEventDataRightB,
-            shapeEventDataLeftB
-        );
-
-    console.log(
-        "sameMotifs =",
-        sameMotifs
-    );
-
-    const validMotifs =
-        filterRepeatedMotifs(sameMotifs);
-
-    console.log(
-        "validMotifs =",
-        validMotifs
-    );
-
-    console.log("===== VALID MOTIFS =====");
-
-for(const motif of validMotifs){
-
-    console.log(
-        "Motif",
-        motif.motifId,
-        "length =", motif.length,
-        "occurrences =", motif.occurrences.length
-    );
-
-    for(const occurrence of motif.occurrences){
-
-        console.log(
-            "   ",
-            occurrence.type,
-            "A =", occurrence.startA,
-            "B =", occurrence.startB,
-            "transpose =", occurrence.transpose
-        );
-
-    }
-
-}
-*/
-
-/*
-    const motifHierarchy =
-        buildMotifHierarchy(sameMotifs);
-
-    printMotifHierarchy(motifHierarchy);
-*/
 
 }
 
