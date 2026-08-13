@@ -5298,29 +5298,12 @@ function findSameMotifOccurrences(
     shapeEventDataLeftB
 ){
 
-    const sameLL =
-        isSameEventData(
-            shapeEventDataLeftA,
-            shapeEventDataLeftB
-    );
-
-    const sameRR =
-        isSameEventData(
-            shapeEventDataRightA,
-            shapeEventDataRightB
-        );
-
-    const sameSong =
-        sameLL && sameRR;
-
-    console.log(
-        "sameLL =", sameLL,
-        "sameRR =", sameRR,
-        "sameSong =", sameSong
-    );
-
     const motifMap = {};
 
+
+    // =====================================
+    // Motif Group
+    // =====================================
 
     for(const motif of motifGroups){
 
@@ -5475,10 +5458,12 @@ function findSameMotifOccurrences(
 
             const exists =
                 group.occurrences.some(o =>
+
                     o.type === candidate.type &&
                     o.startA === candidate.startA &&
                     o.startB === candidate.startB &&
                     o.length === candidate.length
+
                 );
 
 
@@ -5518,310 +5503,16 @@ function findSameMotifOccurrences(
         }
 
     }
-// =====================================
-// 同一楽曲かどうかで
-// 必要な出現数を変更
-// =====================================
-
-const minOccurrences =
-    sameSong ? 2 : 1;
-
-
-// =====================================
-// Motifを選別
-// =====================================
-
-    const sameMotifs = [];
-
-    for(const motif of Object.values(motifMap)){
-
-        const positions = new Set();
-
-        for(const occurrence of motif.occurrences){
-
-            const key =
-                occurrence.startA +
-                ":" +
-                occurrence.startB;
-
-            positions.add(key);
-
-        }
-
-
-        if(positions.size >= minOccurrences){
-
-            sameMotifs.push(motif);
-
-        }
-
-    }
-
-    // =====================================
-    // motifIdを振り直す
-    // =====================================
-
-    sameMotifs.forEach((motif, index) => {
-
-        motif.motifId = index + 1;
-
-    });
-    
-    // =====================================
-    // 入れ子になっているMotifを整理
-    // 長いMotifを優先する
-    // =====================================
-
-    const filteredMotifs = [];
-
-
-    // 長いMotifから処理
-    const sortedMotifs = [...sameMotifs].sort(
-        (a, b) => b.length - a.length
-    );
-
-
-    for(const motif of sortedMotifs){
-
-        // ---------------------------------
-        // このMotifの各occurrenceについて
-        // より長いMotifに含まれているか確認
-        // ---------------------------------
-
-        const remainingOccurrences = [];
-
-
-        for(const occurrence of motif.occurrences){
-
-            let contained = false;
-
-
-            for(const longer of filteredMotifs){
-
-                // 長いMotifでなければ無視
-                if(longer.length <= motif.length){
-                    continue;
-                }
-
-
-                for(const longOcc of longer.occurrences){
-
-                    // -----------------------------
-                    // A側で包含されているか
-                    // -----------------------------
-
-                    const aContained =
-                        occurrence.startA >= longOcc.startA &&
-                        occurrence.startA + occurrence.length
-                            <=
-                        longOcc.startA + longOcc.length;
-
-
-                    // -----------------------------
-                    // B側で包含されているか
-                    // -----------------------------
-
-                    const bContained =
-                        occurrence.startB >= longOcc.startB &&
-                        occurrence.startB + occurrence.length
-                            <=
-                        longOcc.startB + longOcc.length;
-
-
-                    if(!aContained || !bContained){
-                        continue;
-                    }
-
-
-                    // -----------------------------
-                    // A/Bで同じ相対位置にあるか
-                    // -----------------------------
-
-                    const offsetA =
-                        occurrence.startA - longOcc.startA;
-
-                    const offsetB =
-                        occurrence.startB - longOcc.startB;
-
-
-                    if(offsetA !== offsetB){
-                        continue;
-                    }
-
-
-                    // -----------------------------
-                    // 入れ子と判定
-                    // -----------------------------
-
-                    contained = true;
-
-                    break;
-
-                }
-
-
-                if(contained){
-                    break;
-                }
-
-            }
-
-
-            // 独立したoccurrenceだけ残す
-            if(!contained){
-
-                remainingOccurrences.push(
-                    occurrence
-                );
-
-            }
-
-        }
-
-
-        // ---------------------------------
-        // 独立したoccurrenceが残っている場合
-        // Motifとして残す
-        // ---------------------------------
-
-        if(remainingOccurrences.length >= 2){
-
-            filteredMotifs.push({
-
-                ...motif,
-
-                occurrences:
-                    remainingOccurrences
-
-            });
-
-        }
-
-    }
 
 
     // =====================================
-    // motifIdを振り直す
+    // Motifを返す
     // =====================================
 
-    filteredMotifs.forEach((motif, index) => {
-
-        motif.motifId = index + 1;
-
-    });
-
-// =====================================
-// Motif候補を抽出
-// =====================================
-
-let validMotifs;
-
-if(sameSong){
-
-    // 同じ楽曲なら1回でもMotifとして有効
-    validMotifs = Object.values(motifMap);
-
-}
-else{
-
-    // 異なる楽曲なら2回以上必要
-    validMotifs =
-        Object.values(motifMap).filter(
-            motif => motif.occurrences.length >= 2
-        );
+    return Object.values(motifMap);
 
 }
 
-
-// =====================================
-// 入れ子Motifを除去
-// 最大のMotifだけ残す
-// =====================================
-
-    for(const motif of validMotifs){
-
-        let isNested = false;
-
-        for(const larger of validMotifs){
-
-            // 自分自身は除外
-            if(larger === motif){
-                continue;
-            }
-
-            // より長いMotifだけ調べる
-            if(larger.length <= motif.length){
-                continue;
-            }
-
-
-            // ---------------------------------
-            // motif の各 occurrence が
-            // larger の中に完全に含まれているか
-            // ---------------------------------
-
-            const allNested =
-                motif.occurrences.every(o => {
-
-                    return larger.occurrences.some(lo => {
-
-                        // 比較タイプが同じ
-                        if(lo.type !== o.type){
-                            return false;
-                        }
-
-                        // A側で包含
-                        const aInside =
-                            o.startA >= lo.startA &&
-                            o.startA + o.length <=
-                            lo.startA + lo.length;
-
-                        // B側で包含
-                        const bInside =
-                            o.startB >= lo.startB &&
-                            o.startB + o.length <=
-                            lo.startB + lo.length;
-
-                        return aInside && bInside;
-
-                    });
-
-                });
-
-
-            if(allNested){
-
-                isNested = true;
-                break;
-
-            }
-
-        }
-
-
-        if(!isNested){
-
-            filteredMotifs.push(motif);
-
-        }
-
-    }
-
-
-    // =====================================
-    // motifIdを振り直す
-    // =====================================
-
-    filteredMotifs.forEach((motif, index) => {
-
-        motif.motifId = index + 1;
-
-    });
-
-
-    return filteredMotifs;
-
-}
 
 function buildMotifHierarchy(sameMotifs){
 
