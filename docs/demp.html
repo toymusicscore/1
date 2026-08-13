@@ -5109,6 +5109,51 @@ function findMotifEvent(
     return candidates;
 }
 
+function findInternalMotifs(data){
+
+    const candidates =
+        findMotifEvent(data, data);
+
+    // =====================================
+    // 自分自身との一致を除外
+    // また逆方向の重複も除外
+    // =====================================
+
+    const filteredCandidates =
+        candidates.filter(candidate => {
+
+            if(
+                candidate.startA ===
+                candidate.startB
+            ){
+                return false;
+            }
+
+            // A→B と B→A の重複を除く
+            if(
+                candidate.startA >
+                candidate.startB
+            ){
+                return false;
+            }
+
+            return true;
+
+        });
+
+
+    // =====================================
+    // 既存の mergeMotifCandidates を利用
+    // =====================================
+
+    return mergeMotifCandidates(
+        filteredCandidates.map(c => ({
+            ...c,
+            type: "INTERNAL"
+        }))
+    );
+
+}
 
 function mergeMotifCandidates(candidates){
 
