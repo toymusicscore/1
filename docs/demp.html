@@ -4527,22 +4527,23 @@ function drawInternalMotifGraph(
             eventMapLB[i];
 
 
+        // =================================================
         // Event番号
+        // =================================================
 
         ctx.fillStyle =
             "#666666";
 
         ctx.fillText(
             i + 1,
-            marginLeft - 60,
+            marginLeft - 75,
             y
         );
 
 
+        // =================================================
         // Measure
-
-        ctx.fillStyle =
-            "#333333";
+        // =================================================
 
         const measureRA =
             getMeasure(
@@ -4556,27 +4557,27 @@ function drawInternalMotifGraph(
                 ticksPerMeasureB
             );
 
-        const measureLA =
-            getMeasure(
-                eventLA,
-                ticksPerMeasureA
-            );
 
-        const measureLB =
-            getMeasure(
-                eventLB,
-                ticksPerMeasureB
-            );
+        // A
 
-
-        // 代表としてA/Bを表示
-        // 同じevent番号なら基本的に同じmeasure
+        ctx.fillStyle =
+            "#333333";
 
         ctx.fillText(
-            measureRA || measureLA,
-            marginLeft - 10,
+            measureRA,
+            marginLeft - 30,
             y
         );
+
+
+        // B
+
+        ctx.fillText(
+            measureRB,
+            marginLeft + 15,
+            y
+        );
+
     }
 
 
@@ -4595,14 +4596,26 @@ function drawInternalMotifGraph(
 
     ctx.fillText(
         "Event",
-        marginLeft - 60,
+        marginLeft - 75,
         marginTop + 10
     );
 
     ctx.fillText(
         "Measure",
-        marginLeft - 10,
+        marginLeft - 5,
         marginTop + 10
+    );
+
+    ctx.fillText(
+        "A",
+        marginLeft - 30,
+        marginTop + 32
+    );
+
+    ctx.fillText(
+        "B",
+        marginLeft + 15,
+        marginTop + 32
     );
 
 
