@@ -4471,7 +4471,25 @@ const visibleMotifs =
 
     const motifWidth = 120;
 
-    const eventHeight = 18;
+// =====================================================
+// Event表示サイズ
+// =====================================================
+
+const maxGraphHeight = 1400;
+
+const minEventHeight = 1;
+
+const availableEventHeight =
+    maxGraphHeight -
+    marginTop -
+    headerHeight -
+    marginBottom;
+
+const eventHeight =
+    Math.max(
+        minEventHeight,
+        availableEventHeight / maxEvents
+    );
 
     const headerHeight = 55;
 
@@ -4575,14 +4593,27 @@ canvas.height = 8000;
             );
 
             // Event番号
+
         ctx.fillStyle = "#666666";
 
-        ctx.fillText(
-            i + 1,
-            marginLeft - 160,
-            y
-        );
+        const eventLabelInterval =
+            maxEvents <= 500 ? 10 :
+            maxEvents <= 1000 ? 25 :
+            maxEvents <= 2000 ? 50 :
+            maxEvents <= 5000 ? 100 :
+            250;
 
+        if(
+            (i + 1) % eventLabelInterval === 0 ||
+            i === 0
+        ){
+            ctx.fillText(
+                i + 1,
+                marginLeft - 160,
+                y
+            );
+        }    
+        
         // RA Measure
         ctx.fillStyle = "#333333";
 
