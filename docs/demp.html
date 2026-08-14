@@ -4716,23 +4716,6 @@ console.log(
         const motif =
             internalMotifGroups[motifIndex];
 
-console.log(
-    "MOTIF",
-    motifIndex,
-    motif
-);
-
-console.log(
-    "LA positions =",
-    motif.LA
-);
-
-if(motif.LA && motif.LA.length){
-    console.log(
-        "LA first =",
-        motif.LA[0]
-    );
-}
         const displayIndex =
             motifIndex - startMotif;
 
@@ -4825,27 +4808,41 @@ if(motif.LA && motif.LA.length){
     // 各RA/RB/LA/LBを描画
     // =====================================================
 
-        arrays.forEach(
-            (positions, typeIndex) => {
+    arrays.forEach(
+        (occurrences, typeIndex) => {
 
-                const eventMap =
-                    maps[typeIndex];
+            const eventMap =
+                maps[typeIndex];
 
-                const x =
-                    xPositions[typeIndex];
+            const x =
+                xPositions[typeIndex];
 
+            // -----------------------------------------
+            // occurrence
+            // -----------------------------------------
+
+            for(
+                const occurrence of occurrences
+            ){
+
+                if(
+                    !occurrence ||
+                    !Array.isArray(occurrence.positions)
+                ){
+                    continue;
+                }
 
                 // -----------------------------------------
-                // positions
+                // motif occurrence positions
                 // -----------------------------------------
 
                 for(
-                    const start of positions
+                    const start of occurrence.positions
                 ){
 
                     for(
                         let k = 0;
-                        k < motif.length;
+                        k < occurrence.length;
                         k++
                     ){
 
@@ -4916,9 +4913,10 @@ if(motif.LA && motif.LA.length){
 
                 } // for start
 
-            } // arrays.forEach callback
-        ); // arrays.forEach
+            } // for occurrence
 
+        } // arrays.forEach callback
+);
 
     } // motifIndex for
 
