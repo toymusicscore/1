@@ -4460,16 +4460,18 @@ const endMotif =
 
 const visibleMotifs =
     endMotif - startMotif;
+// =====================================================
+// レイアウト
+// =====================================================
 
-    // =====================================================
-    // レイアウト
-    // =====================================================
+const marginLeft = 170;
+const marginTop = 70;
+const marginBottom = 30;
 
-    const marginLeft = 200;
-    const marginTop = 70;
-    const marginBottom = 30;
+const motifWidth = 120;
 
-    const motifWidth = 120;
+const headerHeight = 55;
+
 
 // =====================================================
 // Event表示サイズ
@@ -4491,32 +4493,26 @@ const eventHeight =
         availableEventHeight / maxEvents
     );
 
-    const headerHeight = 55;
 
-    const graphWidth =
-        marginLeft +
-        visibleMotifs *
-        motifWidth +
-        30;
+// =====================================================
+// Canvasサイズ
+// =====================================================
 
-    const graphHeight =
-        marginTop +
-        headerHeight +
-        maxEvents * eventHeight +
-        marginBottom;
+const graphWidth =
+    marginLeft +
+    visibleMotifs *
+    motifWidth +
+    30;
+
+const graphHeight =
+    marginTop +
+    headerHeight +
+    maxEvents * eventHeight +
+    marginBottom;
 
 
-//    canvas.width = graphWidth;
-//    canvas.height = graphHeight;
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-canvas.width = 300;
-canvas.height = 8000;
+canvas.width = graphWidth;
+canvas.height = graphHeight;
 
     // =====================================================
     // 背景
