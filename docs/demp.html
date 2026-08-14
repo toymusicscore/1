@@ -4848,16 +4848,21 @@ console.log(
 
                         const eventIndex =
                             start + k;
-console.log(
-    "DRAW",
-    typeIndex,
-    "start =",
-    start,
-    "eventIndex =",
-    eventIndex,
-    "event =",
-    event
-);
+if(
+    motifIndex === 0 &&
+    typeIndex === 2 &&
+    occurrence.positions.length > 0
+){
+    console.log(
+        "FIRST DRAW",
+        "start =",
+        occurrence.positions[0],
+        "event =",
+        eventMap[
+            occurrence.positions[0]
+        ]
+    );
+}
                         const event =
                             eventMap[eventIndex];
 
