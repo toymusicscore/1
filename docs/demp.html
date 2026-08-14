@@ -4444,6 +4444,29 @@ function drawInternalMotifGraph(
             Object.keys(eventMapLeftB).length
         );
 
+// =====================================================
+// Motif page
+// =====================================================
+
+const motifsPerPage = 10;
+
+// 現在表示するページ
+// 0 = Motif 1～10
+// 1 = Motif 11～20
+// ...
+const motifPage = 0;
+
+const startMotif =
+    motifPage * motifsPerPage;
+
+const endMotif =
+    Math.min(
+        startMotif + motifsPerPage,
+        internalMotifGroups.length
+    );
+
+const visibleMotifs =
+    endMotif - startMotif;
 
     // =====================================================
     // レイアウト
@@ -4459,13 +4482,11 @@ function drawInternalMotifGraph(
 
     const headerHeight = 55;
 
-
     const graphWidth =
         marginLeft +
-        internalMotifGroups.length *
+        visibleMotifs *
         motifWidth +
         30;
-
 
     const graphHeight =
         marginTop +
@@ -4686,14 +4707,17 @@ console.log(
     // Motif
     // =====================================================
 
-    internalMotifGroups.forEach(
-        (motif, motifIndex) => {
+    for(
+        let motifIndex = startMotif;
+        motifIndex < endMotif;
+        motifIndex++
+    ){
 
-            const motifX =
-                marginLeft +
-                motifIndex *
-                motifWidth;
+        const motif =
+            internalMotifGroups[motifIndex];
 
+        const displayIndex =
+            motifIndex - startMotif;
 
             // =================================================
             // Motifタイトル
@@ -4886,7 +4910,7 @@ console.log(
             );
 
         }
-    );
+    
 
 
     // =====================================================
@@ -5315,15 +5339,35 @@ function drawInternalMotifGraph0(
     // motif
     // =========================================================
 
-    internalMotifGroups.forEach(
-        (motif, motifIndex) => {
+for(
+    let motifIndex = startMotif;
+    motifIndex < endMotif;
+    motifIndex++
+){
 
-            const motifX =
-                marginLeft +
-                motifIndex *
-                motifColumnWidth;
+    const displayIndex =
+        motifIndex - startMotif;
 
+    const x =
+        marginLeft +
+        displayIndex *
+        motifWidth;
 
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x,
+        marginTop
+    );
+
+    ctx.lineTo(
+        x,
+        canvas.height -
+        marginBottom
+    );
+
+    ctx.stroke();
+}
             // =====================================================
             // Motif ID
             // =====================================================
@@ -5566,7 +5610,7 @@ function drawInternalMotifGraph0(
             );
 
         }
-    );
+    
 
 
     // =========================================================
