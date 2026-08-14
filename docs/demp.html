@@ -4521,11 +4521,17 @@ function drawInternalMotifGraph(
             i * eventHeight +
             eventHeight / 2;
 
-        const eventA =
-            eventMapA[i];
+        const eventRA =
+            eventMapRightA[i];
 
-        const eventB =
-            eventMapB[i];
+        const eventRB =
+            eventMapRightB[i];
+
+        const eventLA =
+            eventMapLeftA[i];
+
+        const eventLB =
+            eventMapLeftB[i];
 
         // -----------------------------
         // A measure
@@ -4674,12 +4680,11 @@ function drawInternalMotifGraph(
 
             const maps =
                 [
-                    eventMapRA,
-                    eventMapRB,
-                    eventMapLA,
-                    eventMapLB
+                    eventMapRightA,
+                    eventMapRightB,
+                    eventMapLeftA,
+                    eventMapLeftB
                 ];
-
 
             const xPositions =
                 [
