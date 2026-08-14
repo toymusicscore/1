@@ -4398,65 +4398,6 @@ function drawInternalMotifGraph(
     });
 
 
-    // =========================================
-    // 以下、グラフ描画
-    // =========================================
-
-    /*
-function drawInternalMotifGraph(
-    internalMotifGroups,
-    shapeEventDataRightA,
-    shapeEventDataRightB,
-    shapeEventDataLeftA,
-    shapeEventDataLeftB,
-    ticksPerMeasureA,
-    ticksPerMeasureB
-){
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    // =====================================================
-    // event番号 → event
-    // =====================================================
-
-    function makeEventMap(data){
-
-        const events =
-            Object.keys(data)
-                .map(Number)
-                .sort((a,b) => a-b);
-
-        const map = {};
-
-        events.forEach((eventNo, index) => {
-
-            map[index] =
-                data[eventNo];
-
-        });
-
-        return map;
-    }
-
-
-    const eventMapRA =
-        makeEventMap(shapeEventDataRightA);
-
-    const eventMapRB =
-        makeEventMap(shapeEventDataRightB);
-
-    const eventMapLA =
-        makeEventMap(shapeEventDataLeftA);
-
-    const eventMapLB =
-        makeEventMap(shapeEventDataLeftB);
-
-*/
     // =====================================================
     // event → measure
     // =====================================================
@@ -4497,10 +4438,10 @@ function drawInternalMotifGraph(
 
     const maxEvents =
         Math.max(
-            Object.keys(eventMapRA).length,
-            Object.keys(eventMapRB).length,
-            Object.keys(eventMapLA).length,
-            Object.keys(eventMapLB).length
+            Object.keys(eventMapRightA).length,
+            Object.keys(eventMapRightB).length,
+            Object.keys(eventMapLeftA).length,
+            Object.keys(eventMapLeftB).length
         );
 
 
