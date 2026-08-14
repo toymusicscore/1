@@ -4492,7 +4492,16 @@ const eventHeight =
         minEventHeight,
         availableEventHeight / maxEvents
     );
+// =====================================================
+// Event番号の表示間隔
+// =====================================================
 
+const eventLabelInterval =
+    maxEvents <= 500 ? 10 :
+    maxEvents <= 1000 ? 20 :
+    maxEvents <= 2000 ? 50 :
+    maxEvents <= 5000 ? 100 :
+    250;
 
 // =====================================================
 // Canvasサイズ
@@ -4571,9 +4580,28 @@ console.log(
         const eventLB =
             eventMapLeftB[i];
 
-        // -----------------------------
-        // measure
-        // -----------------------------
+        // =================================================
+        // Event番号
+        // =================================================
+
+        if(
+            i === 0 ||
+            (i + 1) % eventLabelInterval === 0
+        ){
+
+            ctx.fillStyle = "#666666";
+
+            ctx.fillText(
+                i + 1,
+                marginLeft - 160,
+                y
+            );
+
+        }
+
+        // =================================================
+        // Measure
+        // =================================================
 
         const measureRA =
             getMeasure(
@@ -4599,57 +4627,106 @@ console.log(
                 ticksPerMeasureB
             );
 
-            // Event番号
 
-        ctx.fillStyle = "#666666";
+        // =================================================
+        // Measureは変化したEventだけ表示
+        // =================================================
 
-        const eventLabelInterval =
-            maxEvents <= 500 ? 10 :
-            maxEvents <= 1000 ? 25 :
-            maxEvents <= 2000 ? 50 :
-            maxEvents <= 5000 ? 100 :
-            250;
+        const prevRA =
+            getMeasure(
+                eventMapRightA[i - 1],
+                ticksPerMeasureA
+            );
+
+        const prevRB =
+            getMeasure(
+                eventMapRightB[i - 1],
+                ticksPerMeasureB
+            );
+
+        const prevLA =
+            getMeasure(
+                eventMapLeftA[i - 1],
+                ticksPerMeasureA
+            );
+
+        const prevLB =
+            getMeasure(
+                eventMapLeftB[i - 1],
+                ticksPerMeasureB
+            );
+
+
+        // RA
 
         if(
-            (i + 1) % eventLabelInterval === 0 ||
-            i === 0
+            measureRA !== "" &&
+            measureRA !== prevRA
         ){
+
+            ctx.fillStyle = "#333333";
+
             ctx.fillText(
-                i + 1,
-                marginLeft - 160,
+                measureRA,
+                marginLeft - 125,
                 y
             );
-        }    
 
-        // RA Measure
-        ctx.fillStyle = "#333333";
+        }
 
-        ctx.fillText(
-            measureRA,
-            marginLeft - 125,
-            y
-        );
 
-        // RB Measure
-        ctx.fillText(
-            measureRB,
-            marginLeft - 85,
-            y
-        );
+        // RB
 
-        // LA Measure
-        ctx.fillText(
-            measureLA,
-            marginLeft - 45,
-            y
-        );
+        if(
+            measureRB !== "" &&
+            measureRB !== prevRB
+        ){
 
-        // LB Measure
-        ctx.fillText(
-            measureLB,
-            marginLeft - 5,
-            y
-        );
+            ctx.fillStyle = "#333333";
+
+            ctx.fillText(
+                measureRB,
+                marginLeft - 85,
+                y
+            );
+
+        }
+
+
+        // LA
+
+        if(
+            measureLA !== "" &&
+            measureLA !== prevLA
+        ){
+
+            ctx.fillStyle = "#333333";
+
+            ctx.fillText(
+                measureLA,
+                marginLeft - 45,
+                y
+            );
+
+        }
+
+
+        // LB
+
+        if(
+            measureLB !== "" &&
+            measureLB !== prevLB
+        ){
+
+            ctx.fillStyle = "#333333";
+
+            ctx.fillText(
+                measureLB,
+                marginLeft - 5,
+                y
+            );
+
+        }
 
     }
 
