@@ -4498,7 +4498,7 @@ const visibleMotifs =
     );
 
 canvas.width = 400;
-//canvas.height = 1000;
+canvas.height = 1000;
 
 ctx.fillStyle = "red";
 
@@ -4507,20 +4507,6 @@ ctx.fillRect(
     0,
     200,
     200
-);
-
-console.log(
-    "maxEvents =",
-    maxEvents,
-    "graphHeight =",
-    graphHeight,
-    "graphWidth =",
-    graphWidth
-);
-
-console.log(
-    "internalMotifGroups.length =",
-    internalMotifGroups.length
 );
 
     // =====================================================
@@ -4937,25 +4923,7 @@ console.log(
                             // pitchClass color
                             // ---------------------------------
 
-                            // ---------------------------------
-// pitchClass color
-// ---------------------------------
-
-ctx.fillStyle = "red";
-
-ctx.beginPath();
-
-ctx.arc(
-    px,
-    y,
-    4,
-    0,
-    Math.PI * 2
-);
-
-ctx.fill();
-
-/*ctx.fillStyle =
+                            ctx.fillStyle =
                                 workingColor.pc[pc];
 
 
@@ -4972,7 +4940,7 @@ ctx.fill();
 
 
                             ctx.fill();
-*/
+
                         }
 
                     }
@@ -5082,76 +5050,6 @@ ctx.fill();
 
     ctx.stroke();
 
-
-// =====================================================
-// TEST
-// =====================================================
-
-ctx.fillStyle = "red";
-
-ctx.beginPath();
-
-ctx.arc(
-    238,
-    710,
-    10,
-    0,
-    Math.PI * 2
-);
-
-ctx.fill();
-
-console.log(
-    "RED TEST DONE"
-);
-
-console.log(
-    "CANVAS FINAL",
-    canvas.width,
-    canvas.height
-);
-
-console.log(
-    "canvas element =",
-    canvas,
-    "parent =",
-    canvas.parentElement,
-    "display =",
-    getComputedStyle(canvas).display,
-    "visibility =",
-    getComputedStyle(canvas).visibility,
-    "rect =",
-    canvas.getBoundingClientRect()
-);
-
-console.log(
-    "canvas rect =",
-    canvas.getBoundingClientRect()
-);
-console.log(
-    "canvas count =",
-    document.querySelectorAll("canvas").length
-);
-
-console.log(
-    "canvas elements =",
-    Array.from(
-        document.querySelectorAll("canvas")
-    ).map((c, i) => ({
-        index: i,
-        id: c.id,
-        width: c.width,
-        height: c.height,
-        rect: c.getBoundingClientRect().toJSON()
-    }))
-);
-console.log(
-    "element at red point =",
-    document.elementFromPoint(
-        246,
-        718
-    )
-);
 } // drawInternalMotifGraph
 
 
