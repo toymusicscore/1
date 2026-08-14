@@ -4336,13 +4336,6 @@ function drawInternalMotifGraph(
     ticksPerMeasureB
 ){
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
     // =========================================
     // event番号を配列にする
     // =========================================
@@ -4497,6 +4490,13 @@ const visibleMotifs =
 
     canvas.width = graphWidth;
     canvas.height = graphHeight;
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
 
 console.log(
     "maxEvents =",
@@ -5100,6 +5100,23 @@ console.log(
     canvas.height
 );
 
+console.log(
+    "canvas element =",
+    canvas,
+    "parent =",
+    canvas.parentElement,
+    "display =",
+    getComputedStyle(canvas).display,
+    "visibility =",
+    getComputedStyle(canvas).visibility,
+    "rect =",
+    canvas.getBoundingClientRect()
+);
+
+console.log(
+    "canvas rect =",
+    canvas.getBoundingClientRect()
+);
 
 } // drawInternalMotifGraph
 
