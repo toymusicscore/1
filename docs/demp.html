@@ -4808,159 +4808,150 @@ console.log(
     // 各RA/RB/LA/LBを描画
     // =====================================================
 
-    arrays.forEach(
-        (occurrences, typeIndex) => {
+        arrays.forEach(
+            (occurrences, typeIndex) => {
 
-            const eventMap =
-                maps[typeIndex];
+                const eventMap =
+                    maps[typeIndex];
 
-            const x =
-                xPositions[typeIndex];
+                const x =
+                    xPositions[typeIndex];
 
-            // -----------------------------------------
-            // occurrence
-            // -----------------------------------------
-
-            for(
-                const occurrence of occurrences
-            ){
-
-                if(
-                    !occurrence ||
-                    !Array.isArray(occurrence.positions)
-                ){
-                    continue;
-                }
 
                 // -----------------------------------------
-                // motif occurrence positions
+                // occurrence
                 // -----------------------------------------
 
                 for(
-                    const start of occurrence.positions
+                    const occurrence of occurrences
                 ){
 
+                    if(
+                        !occurrence ||
+                        !Array.isArray(occurrence.positions)
+                    ){
+                        continue;
+                    }
+
+
+                    // -----------------------------------------
+                    // positions
+                    // -----------------------------------------
+
                     for(
-                        let k = 0;
-                        k < occurrence.length;
-                        k++
+                        const start of occurrence.positions
                     ){
 
-                        const eventIndex =
-                            start + k;
-if(
-    motifIndex === 0 &&
-    typeIndex === 2 &&
-    occurrence.positions.length > 0
-){
-    console.log(
-        "FIRST DRAW",
-        "start =",
-        occurrence.positions[0],
-        "event =",
-        eventMap[
-            occurrence.positions[0]
-        ]
-    );
-}
-console.log(
-    "FIRST POINT",
-    point
-);
-
-console.log(
-    "pitchClass =",
-    point.pitchClass
-);
-
-                        const event =
-                            eventMap[eventIndex];
-
-                        if(!event)
-                            continue;
-
-                        if(
-                            !event.points ||
-                            !event.points.length
+                        for(
+                            let k = 0;
+                            k < occurrence.length;
+                            k++
                         ){
-                            continue;
+
+                            const eventIndex =
+                                start + k;
+
+
+                            const event =
+                                eventMap[eventIndex];
+
+
+                            if(!event)
+                                continue;
+
+
+                            if(
+                                !event.points ||
+                                !event.points.length
+                            ){
+                                continue;
+                            }
+
+
+                            const point =
+                                event.points[0];
+
+
+                            const pc =
+                                point.pitchClass;
+
+
+                            if(
+                                pc === undefined ||
+                                pc < 0 ||
+                                pc > 11
+                            ){
+                                continue;
+                            }
+
+
+                            // ---------------------------------
+                            // X / Y
+                            // ---------------------------------
+
+                            const px =
+                                x +
+                                (pc - 5.5) * 2;
+
+
+                            const y =
+                                eventY +
+                                eventIndex *
+                                eventHeight +
+                                eventHeight / 2;
+
+
+                            // ---------------------------------
+                            // 描画確認
+                            // ---------------------------------
+
+                            if(
+                                motifIndex === 0 &&
+                                typeIndex === 2 &&
+                                start === occurrence.positions[0] &&
+                                k === 0
+                            ){
+
+                                console.log(
+                                    "DRAW POINT",
+                                    "px =", px,
+                                    "y =", y,
+                                    "pc =", pc
+                                );
+
+                            }
+
+
+                            // ---------------------------------
+                            // pitchClass color
+                            // ---------------------------------
+
+                            ctx.fillStyle =
+                                workingColor.pc[pc];
+
+
+                            ctx.beginPath();
+
+
+                            ctx.arc(
+                                px,
+                                y,
+                                4,
+                                0,
+                                Math.PI * 2
+                            );
+
+
+                            ctx.fill();
+
                         }
 
-                        const point =
-                            event.points[0];
+                    }
 
-                        const pc =
-                            point.pitchClass;
+                }
 
-                        if(
-                            pc === undefined ||
-                            pc < 0 ||
-                            pc > 11
-                        ){
-                            continue;
-                        }
-
-                        // ---------------------------------
-                        // pitchClass
-                        // ---------------------------------
-
-                        const px =
-                            x +
-                            (pc - 5.5) * 2;
-
-                        const y =
-                            eventY +
-                            eventIndex *
-                            eventHeight +
-                            eventHeight / 2;
-
-                        // ---------------------------------
-                        // pitchClass color
-                        // ---------------------------------
-console.log(
-    "DRAW POINT",
-    "px =", px,
-    "py =", y,
-    "pc =", pc,
-    "color =", workingColor.pc[pc]
-);
-ctx.fillStyle = "red";
-
-ctx.beginPath();
-
-ctx.arc(
-    px,
-    y,
-    4,
-    0,
-    Math.PI * 2
-);
-
-ctx.fill();
-
-                        ctx.fillStyle =
-                            workingColor.pc[pc];
-
-                        ctx.beginPath();
-
-                        ctx.arc(
-                            px,
-                            y,
-                            4,
-                            0,
-                            Math.PI * 2
-                        );
-
-                        ctx.fill();
-
-                    } // for k
-
-                } // for start
-
-            } // for occurrence
-
-        } // arrays.forEach callback
-);
+            }
+        );
 
     } // motifIndex for
 
