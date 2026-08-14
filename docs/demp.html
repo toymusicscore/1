@@ -4534,26 +4534,34 @@ function drawInternalMotifGraph(
             eventMapLeftB[i];
 
         // -----------------------------
-        // A measure
+        // measure
         // -----------------------------
 
-        const measureA =
+        const measureRA =
             getMeasure(
-                eventA,
+                eventRA,
                 ticksPerMeasureA
             );
 
-        // -----------------------------
-        // B measure
-        // -----------------------------
-
-        const measureB =
+        const measureRB =
             getMeasure(
-                eventB,
+                eventRB,
                 ticksPerMeasureB
             );
 
-        // Event番号
+        const measureLA =
+            getMeasure(
+                eventLA,
+                ticksPerMeasureA
+            );
+
+        const measureLB =
+            getMeasure(
+                eventLB,
+                ticksPerMeasureB
+            );
+            
+            // Event番号
         ctx.fillStyle = "#666666";
 
         ctx.fillText(
