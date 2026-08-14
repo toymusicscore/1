@@ -5117,7 +5117,30 @@ console.log(
     "canvas rect =",
     canvas.getBoundingClientRect()
 );
+console.log(
+    "canvas count =",
+    document.querySelectorAll("canvas").length
+);
 
+console.log(
+    "canvas elements =",
+    Array.from(
+        document.querySelectorAll("canvas")
+    ).map((c, i) => ({
+        index: i,
+        id: c.id,
+        width: c.width,
+        height: c.height,
+        rect: c.getBoundingClientRect().toJSON()
+    }))
+);
+console.log(
+    "element at red point =",
+    document.elementFromPoint(
+        246,
+        718
+    )
+);
 } // drawInternalMotifGraph
 
 
