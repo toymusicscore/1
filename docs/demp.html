@@ -4719,6 +4719,10 @@ console.log(
         const displayIndex =
             motifIndex - startMotif;
 
+        const motifX =
+            marginLeft +
+            displayIndex * motifWidth;
+            
             // =================================================
             // Motifタイトル
             // =================================================
@@ -4958,40 +4962,44 @@ console.log(
         "#dddddd";
 
 
-    internalMotifGroups.forEach(
-        (motif, motifIndex) => {
+    for(
+        let motifIndex = startMotif;
+        motifIndex < endMotif;
+        motifIndex++
+    ){
 
-            const x =
-                marginLeft +
-                motifIndex *
-                motifWidth;
+        const displayIndex =
+            motifIndex - startMotif;
 
-
-            ctx.beginPath();
-
-            ctx.moveTo(
-                x,
-                marginTop
-            );
-
-            ctx.lineTo(
-                x,
-                canvas.height -
-                marginBottom
-            );
-
-            ctx.stroke();
-
-        }
-    );
+        const x =
+            marginLeft +
+            displayIndex * motifWidth;
 
 
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            marginTop
+        );
+
+        ctx.lineTo(
+            x,
+            canvas.height -
+            marginBottom
+        );
+
+        ctx.stroke();
+    }
+
+
+    // =====================================================
     // 最後の境界線
+    // =====================================================
 
     const lastX =
         marginLeft +
-        internalMotifGroups.length *
-        motifWidth;
+        visibleMotifs * motifWidth;
 
 
     ctx.beginPath();
@@ -5010,6 +5018,7 @@ console.log(
     ctx.stroke();
 
 }
+
 
 function drawInternalMotifGraph0(
     internalMotifGroups,
