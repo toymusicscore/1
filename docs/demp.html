@@ -4291,16 +4291,16 @@ function showMotifTwoSongs(){
     // Motif 1
     // =====================================
     
-    const commonMotifGroups =
-        groupCommonMotifsFourWays(
+    const internalMotifGroups =
+        groupInternalMotifsFourWays(
             internalRightA,
             internalRightB,
             internalLeftA,
             internalLeftB
         );
 
-    drawCommonMotifGraph(
-        commonMotifGroups,
+    drawInternalMotifGraph(
+        internalMotifGroups,
         shapeEventDataRightA,
         shapeEventDataRightB,
         shapeEventDataLeftA,
@@ -4311,7 +4311,7 @@ function showMotifTwoSongs(){
 
 }
 
-function drawCommonMotifGraph(
+function drawInternalMotifGraph(
     internalMotifGroups,
     shapeEventDataRightA,
     shapeEventDataRightB,
@@ -5324,7 +5324,7 @@ function findInternalMotifs(data){
     return filtered;
 }
 
-function groupCommonMotifsFourWays(
+function groupInternalMotifsFourWays(
     internalRightA,
     internalRightB,
     internalLeftA,
