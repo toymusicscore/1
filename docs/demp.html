@@ -6018,10 +6018,84 @@ function groupCommonMotifs(
 
 
     // -------------------------------------
+    // 出現位置の重複を削除
+    // transpose違いは同じ位置なら1つにする
+    // -------------------------------------
+
+    for(const motif of result){
+
+        for(const hand of ["RA", "RB", "LA", "LB"]){
+
+            const occurrences =
+                motif[hand];
+
+            const unique =
+                new Map();
+
+            for(const occurrence of occurrences){
+
+                const start =
+                    occurrence.start;
+
+                if(!unique.has(start)){
+
+                    unique.set(
+                        start,
+                        {
+                            start: start
+                        }
+                    );
+
+                }
+
+            }
+
+            motif[hand] =
+                Array.from(
+                    unique.values()
+                );
+
+        }
+
+    }
+
+
+    // -------------------------------------
+    // Motifの長さ順
+    // -------------------------------------
+
+    result.sort(
+        (a, b) => {
+
+            if(b.length !== a.length){
+
+                return b.length - a.length;
+
+            }
+
+            return (
+                a.type.localeCompare(
+                    b.type
+                )
+            );
+
+        }
+    );
+
+
+    // -------------------------------------
+    // 上位10件
+    // -------------------------------------
+
+    const topMotifs =
+        result.slice(0, 10);
+
+
+    // -------------------------------------
     // Motif ID
     // -------------------------------------
 
-    result.forEach(
+    topMotifs.forEach(
         (motif, index) => {
 
             motif.motifId =
@@ -6030,7 +6104,9 @@ function groupCommonMotifs(
         }
     );
 
-    return result;
+
+    return topMotifs;
+
 }
 
 
