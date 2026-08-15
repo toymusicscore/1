@@ -4309,6 +4309,24 @@ function showMotifTwoSongs(){
         ticksPerMeasureB
     );
 
+    // =====================================
+    // Common Motifs
+    // A/Bを直接比較
+    // =====================================
+
+    const commonMotifs =
+        findCommonMotifsFourWays(
+            shapeEventDataRightA,
+            shapeEventDataRightB,
+            shapeEventDataLeftA,
+            shapeEventDataLeftB
+        );
+
+    console.log(
+        "commonMotifs =",
+        commonMotifs
+    );
+
 }
 
 function drawInternalMotifGraph(
@@ -5565,6 +5583,99 @@ function groupInternalMotifs(data, candidates){
 
 
     return result;
+}
+
+
+function findCommonMotifsFourWays(
+    shapeEventDataRightA,
+    shapeEventDataRightB,
+    shapeEventDataLeftA,
+    shapeEventDataLeftB
+){
+
+    const results = [];
+
+    // =====================================
+    // 4方向
+    // =====================================
+
+    const comparisons = [
+
+        {
+            type: "RA_RB",
+            A: shapeEventDataRightA,
+            B: shapeEventDataRightB
+        },
+
+        {
+            type: "RA_LB",
+            A: shapeEventDataRightA,
+            B: shapeEventDataLeftB
+        },
+
+        {
+            type: "LA_RB",
+            A: shapeEventDataLeftA,
+            B: shapeEventDataRightB
+        },
+
+        {
+            type: "LA_LB",
+            A: shapeEventDataLeftA,
+            B: shapeEventDataLeftB
+        }
+
+    ];
+
+
+    // =====================================
+    // 4方向を直接比較
+    // =====================================
+
+    for(const comparison of comparisons){
+
+        const motifs =
+            findMotifEvent(
+                comparison.A,
+                comparison.B
+            );
+
+        for(const motif of motifs){
+
+            if(
+                !motif ||
+                !motif.pattern ||
+                !motif.pattern.length
+            ){
+                continue;
+            }
+
+
+            results.push({
+
+                type:
+                    comparison.type,
+
+                length:
+                    motif.length,
+
+                pattern:
+                    [...motif.pattern],
+
+                occurrencesA:
+                    motif.occurrencesA || [],
+
+                occurrencesB:
+                    motif.occurrencesB || []
+
+            });
+
+        }
+
+    }
+
+
+    return results;
 }
 
 
