@@ -4200,8 +4200,9 @@ function showInternalMotif(){
 
     menuWindow.style.display = "none";
 
+
     // =====================================
-    // 現在の1曲からshapeを作成
+    // 現在選択中の曲
     // =====================================
 
     const shapeEventDataRight =
@@ -4247,16 +4248,16 @@ function showInternalMotif(){
     // Right / Left を統合
     // =====================================
 
-    const internalMotifGroups =
-        groupInternalMotifs(
+    const internalMotifs =
+        mergeInternalMotifs(
             internalRight,
             internalLeft
         );
 
 
     console.log(
-        "internalMotifGroups =",
-        internalMotifGroups
+        "internalMotifs =",
+        internalMotifs
     );
 
 
@@ -4265,7 +4266,7 @@ function showInternalMotif(){
     // =====================================
 
     drawInternalMotifGraph(
-        internalMotifGroups,
+        internalMotifs,
         shapeEventDataRight,
         shapeEventDataLeft
     );
