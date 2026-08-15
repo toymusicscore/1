@@ -4291,31 +4291,16 @@ function showMotifTwoSongs(){
     // Motif 1
     // =====================================
     
-    const internalMotifGroups =
-        groupInternalMotifsFourWays(
+    const commonMotifGroups =
+        groupCommonMotifsFourWays(
             internalRightA,
             internalRightB,
             internalLeftA,
             internalLeftB
         );
 
-    console.log(
-        "internalMotifGroups =",
-        internalMotifGroups
-    );
-/*
-    drawInternalMotifGraph0(
-        internalMotifGroups,
-        shapeEventDataRightA,
-        shapeEventDataRightB,
-        shapeEventDataLeftA,
-        shapeEventDataLeftB,
-        ticksPerMeasureA,
-        ticksPerMeasureB
-    );
-*/
-    drawInternalMotifGraph(
-        internalMotifGroups,
+    drawCommonMotifGraph(
+        commonMotifGroups,
         shapeEventDataRightA,
         shapeEventDataRightB,
         shapeEventDataLeftA,
@@ -4326,7 +4311,7 @@ function showMotifTwoSongs(){
 
 }
 
-function drawInternalMotifGraph(
+function drawCommonMotifGraph(
     internalMotifGroups,
     shapeEventDataRightA,
     shapeEventDataRightB,
@@ -4817,14 +4802,16 @@ console.log(
             ctx.fillStyle =
                 "#333333";
 
-            ctx.fillText(
-                "Motif " +
-                (motifIndex + 1),
-                motifX +
-                motifWidth / 2,
-                marginTop + 10
-            );
-
+        ctx.fillText(
+            "Motif " +
+            (motifIndex + 1) +
+            " (" +
+            motif.length +
+            ")",
+            motifX +
+            motifWidth / 2,
+            marginTop + 10
+        );
 
             // =================================================
             // RA RB LA LB
@@ -5337,7 +5324,7 @@ function findInternalMotifs(data){
     return filtered;
 }
 
-function groupInternalMotifsFourWays(
+function groupCommonMotifsFourWays(
     internalRightA,
     internalRightB,
     internalLeftA,
