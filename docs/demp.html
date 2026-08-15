@@ -4500,6 +4500,28 @@ function drawInternalMotifGraph(
 
     ctx.stroke();
 
+    const lastX =
+        marginLeft +
+        motifs.length *
+        motifWidth -
+        10;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        lastX,
+        graphTop - 45
+    );
+
+    ctx.lineTo(
+        lastX,
+        graphTop +
+        totalEvents *
+        eventHeight
+    );
+
+    ctx.stroke();
+
     motifs.forEach(
         (motif, motifIndex) => {
 
