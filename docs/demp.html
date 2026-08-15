@@ -4341,7 +4341,21 @@ function showMotifTwoSongs(){
         "commonMotifs =",
         commonMotifs
     );
-    
+
+    const commonMotifGroups =
+        groupCommonMotifs(
+            commonMotifs,
+            shapeEventDataRightA,
+            shapeEventDataRightB,
+            shapeEventDataLeftA,
+            shapeEventDataLeftB
+        );
+
+    console.log(
+        "commonMotifGroups =",
+        commonMotifGroups
+    );
+
 }
 
 function drawInternalMotifGraph(
@@ -5756,6 +5770,241 @@ function selectLongestCommonMotifs(candidates){
     }
 
     return selected;
+}
+
+
+function getNormalizedPattern(
+    shapeEventData,
+    start,
+    length
+){
+
+    const events =
+        Object.keys(shapeEventData)
+            .map(Number)
+            .sort((a,b) => a-b);
+
+    const pattern = [];
+
+    for(let i = 0; i < length; i++){
+
+        const event =
+            shapeEventData[
+                events[start + i]
+            ];
+
+        if(
+            !event ||
+            !event.points ||
+            !event.points.length
+        ){
+            return null;
+        }
+
+        const pc =
+            event.points[0].pitchClass;
+
+        if(
+            pc === undefined ||
+            pc < 0 ||
+            pc > 11
+        ){
+            return null;
+        }
+
+        pattern.push(pc);
+    }
+
+    if(!pattern.length){
+        return null;
+    }
+
+    // 最初の音を0として正規化
+    const base = pattern[0];
+
+    return pattern.map(
+        pc => (pc - base + 12) % 12
+    );
+}
+
+function groupCommonMotifs(
+    commonMotifs,
+    shapeEventDataRightA,
+    shapeEventDataRightB,
+    shapeEventDataLeftA,
+    shapeEventDataLeftB
+){
+
+    const groups = new Map();
+
+    const dataMap = {
+        RA: shapeEventDataRightA,
+        RB: shapeEventDataRightB,
+        LA: shapeEventDataLeftA,
+        LB: shapeEventDataLeftB
+    };
+
+    for(const candidate of commonMotifs){
+
+        const [typeA, typeB] =
+            candidate.type.split("_");
+
+        const dataA =
+            dataMap[typeA];
+
+        const dataB =
+            dataMap[typeB];
+
+        const patternA =
+            getNormalizedPattern(
+                dataA,
+                candidate.startA,
+                candidate.length
+            );
+
+        const patternB =
+            getNormalizedPattern(
+                dataB,
+                candidate.startB,
+                candidate.length
+            );
+
+        if(
+            !patternA ||
+            !patternB
+        ){
+            continue;
+        }
+
+        // A/Bで正規化patternが一致しなければ除外
+        if(
+            patternA.length !==
+            patternB.length
+        ){
+            continue;
+        }
+
+        let same = true;
+
+        for(let i = 0; i < patternA.length; i++){
+
+            if(
+                patternA[i] !==
+                patternB[i]
+            ){
+                same = false;
+                break;
+            }
+        }
+
+        if(!same){
+            continue;
+        }
+
+        // ---------------------------------
+        // patternをキーにする
+        // transposeはキーに含めない
+        // ---------------------------------
+
+        const key =
+            candidate.type +
+            ":" +
+            candidate.length +
+            ":" +
+            patternA.join(",");
+
+
+        if(!groups.has(key)){
+
+            groups.set(key, {
+
+                type:
+                    candidate.type,
+
+                length:
+                    candidate.length,
+
+                pattern:
+                    [...patternA],
+
+                RA: [],
+                RB: [],
+                LA: [],
+                LB: []
+
+            });
+
+        }
+
+        const group =
+            groups.get(key);
+
+
+        // ---------------------------------
+        // A側
+        // ---------------------------------
+
+        group[typeA].push({
+
+            start:
+                candidate.startA,
+
+            transpose:
+                candidate.transpose
+
+        });
+
+
+        // ---------------------------------
+        // B側
+        // ---------------------------------
+
+        group[typeB].push({
+
+            start:
+                candidate.startB,
+
+            transpose:
+                candidate.transpose
+
+        });
+
+    }
+
+    // -------------------------------------
+    // 配列化
+    // -------------------------------------
+
+    const result =
+        Array.from(
+            groups.values()
+        );
+
+
+    // -------------------------------------
+    // 長いMotifを先にする
+    // -------------------------------------
+
+    result.sort(
+        (a,b) =>
+            b.length - a.length
+    );
+
+
+    // -------------------------------------
+    // Motif ID
+    // -------------------------------------
+
+    result.forEach(
+        (motif, index) => {
+
+            motif.motifId =
+                index + 1;
+
+        }
+    );
+
+    return result;
 }
 
 
