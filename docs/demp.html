@@ -4314,7 +4314,7 @@ function showMotifTwoSongs(){
     // A/Bを直接比較
     // =====================================
 
-    const commonMotifs =
+    const commonMotifCandidates =
         findCommonMotifsFourWays(
             shapeEventDataRightA,
             shapeEventDataRightB,
@@ -4322,11 +4322,27 @@ function showMotifTwoSongs(){
             shapeEventDataLeftB
         );
 
+
+    const commonMotifs =
+        selectLongestCommonMotifs(
+            commonMotifCandidates
+        );
+
+    console.log(
+        "Common Motif candidates =",
+        commonMotifCandidates.length
+    );
+
+    console.log(
+        "Common Motifs =",
+        commonMotifs.length
+    );
+
     console.log(
         "commonMotifs =",
         commonMotifs
     );
-
+    
 }
 
 function drawInternalMotifGraph(
@@ -5668,6 +5684,79 @@ function findCommonMotifsFourWays(
 
 
     return results;
+}
+
+
+function selectLongestCommonMotifs(candidates){
+
+    // 長い順に並べる
+    const sorted = [...candidates].sort(
+        (a, b) => b.length - a.length
+    );
+
+    const selected = [];
+
+    for(const candidate of sorted){
+
+        let contained = false;
+
+        for(const motif of selected){
+
+            // ---------------------------------
+            // 別の方向なら別Motif
+            // ---------------------------------
+
+            if(candidate.type !== motif.type){
+                continue;
+            }
+
+            // ---------------------------------
+            // A側の範囲
+            // ---------------------------------
+
+            const candidateEndA =
+                candidate.startA +
+                candidate.length;
+
+            const motifEndA =
+                motif.startA +
+                motif.length;
+
+            // ---------------------------------
+            // B側の範囲
+            // ---------------------------------
+
+            const candidateEndB =
+                candidate.startB +
+                candidate.length;
+
+            const motifEndB =
+                motif.startB +
+                motif.length;
+
+            // ---------------------------------
+            // 長いMotifの内部に
+            // 完全に含まれているか
+            // ---------------------------------
+
+            if(
+                candidate.startA >= motif.startA &&
+                candidateEndA <= motifEndA &&
+                candidate.startB >= motif.startB &&
+                candidateEndB <= motifEndB
+            ){
+
+                contained = true;
+                break;
+            }
+        }
+
+        if(!contained){
+            selected.push(candidate);
+        }
+    }
+
+    return selected;
 }
 
 
