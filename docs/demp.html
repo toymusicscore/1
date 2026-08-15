@@ -5629,44 +5629,36 @@ function findCommonMotifsFourWays(
 
 
     // =====================================
-    // 4方向を直接比較
+    // A/B直接比較
     // =====================================
 
     for(const comparison of comparisons){
 
-        const motifs =
+        const candidates =
             findMotifEvent(
                 comparison.A,
                 comparison.B
             );
 
-        for(const motif of motifs){
 
-            if(
-                !motif ||
-                !motif.pattern ||
-                !motif.pattern.length
-            ){
-                continue;
-            }
-
+        for(const candidate of candidates){
 
             results.push({
 
                 type:
                     comparison.type,
 
+                startA:
+                    candidate.startA,
+
+                startB:
+                    candidate.startB,
+
                 length:
-                    motif.length,
+                    candidate.length,
 
-                pattern:
-                    [...motif.pattern],
-
-                occurrencesA:
-                    motif.occurrencesA || [],
-
-                occurrencesB:
-                    motif.occurrencesB || []
+                transpose:
+                    candidate.transpose
 
             });
 
