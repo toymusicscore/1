@@ -4382,29 +4382,63 @@ function drawCommonMotifGraph(motifs){
     // =====================================
 
     const marginLeft = 80;
-    const marginTop = 40;
+    const marginTop = 50;
 
-    const rowHeight = 55;
+    const columnWidth = 100;
+
+    const timeHeight = 16;
 
     const motifTitleHeight = 30;
-    const motifGap = 35;
 
-    const pointWidth = 14;
+    const motifGap = 40;
 
-    const motifHeight =
-        motifTitleHeight +
-        rowHeight * 4 +
-        motifGap;
+    const hands = [
+        "RA",
+        "RB",
+        "LA",
+        "LB"
+    ];
+
+
+    const graphWidth =
+        hands.length * columnWidth;
 
 
     // =====================================
-    // Canvas height
+    // Motifごとの高さを計算
     // =====================================
+
+    let totalHeight =
+        marginTop;
+
+
+    for(const motif of motifs){
+
+        totalHeight +=
+            motifTitleHeight +
+            motif.length * timeHeight +
+            motifGap;
+
+    }
+
+
+    totalHeight += 50;
+
+
+    // =====================================
+    // Canvasサイズ
+    // =====================================
+
+    canvas.width =
+        Math.max(
+            canvas.width,
+            marginLeft +
+            graphWidth +
+            50
+        );
 
     canvas.height =
-        marginTop +
-        motifs.length * motifHeight +
-        80;
+        totalHeight;
 
 
     // =====================================
@@ -4415,12 +4449,38 @@ function drawCommonMotifGraph(motifs){
         (motif, motifIndex) => {
 
             const motifTop =
-                marginTop +
-                motifIndex * motifHeight;
+                marginTop;
+
+
+            // ---------------------------------
+            // これまでのMotif高さ
+            // ---------------------------------
+
+            let previousHeight =
+                0;
+
+            for(
+                let j = 0;
+                j < motifIndex;
+                j++
+            ){
+
+                previousHeight +=
+                    motifTitleHeight +
+                    motifs[j].length *
+                    timeHeight +
+                    motifGap;
+
+            }
+
+
+            const top =
+                motifTop +
+                previousHeight;
 
 
             // =================================
-            // Motif title
+            // Title
             // =================================
 
             ctx.font =
@@ -4433,67 +4493,66 @@ function drawCommonMotifGraph(motifs){
                 motif.length +
                 ")",
                 marginLeft,
-                motifTop
+                top
             );
 
 
             // =================================
-            // 4 directions
+            // Column positions
             // =================================
 
-            const hands = [
-                "RA",
-                "RB",
-                "LA",
-                "LB"
-            ];
+            const graphTop =
+                top +
+                motifTitleHeight;
 
 
             hands.forEach(
                 (hand, handIndex) => {
 
-                    const y =
-                        motifTop +
-                        motifTitleHeight +
-                        handIndex * rowHeight;
+                    const x =
+                        marginLeft +
+                        handIndex *
+                        columnWidth;
 
 
-                    // =============================
-                    // Label
-                    // =============================
+                    // -----------------------------
+                    // Hand label
+                    // -----------------------------
 
                     ctx.font =
                         "14px sans-serif";
 
                     ctx.fillText(
                         hand,
-                        25,
-                        y + 5
+                        x + 35,
+                        graphTop - 8
                     );
 
 
-                    // =============================
-                    // baseline
-                    // =============================
+                    // -----------------------------
+                    // 縦線
+                    // -----------------------------
 
                     ctx.beginPath();
 
                     ctx.moveTo(
-                        marginLeft,
-                        y
+                        x,
+                        graphTop
                     );
 
                     ctx.lineTo(
-                        canvas.width - 20,
-                        y
+                        x,
+                        graphTop +
+                        motif.length *
+                        timeHeight
                     );
 
                     ctx.stroke();
 
 
-                    // =============================
+                    // -----------------------------
                     // occurrences
-                    // =============================
+                    // -----------------------------
 
                     const occurrences =
                         motif[hand] || [];
@@ -4508,9 +4567,9 @@ function drawCommonMotifGraph(motifs){
                             occurrence.transpose;
 
 
-                        // =============================
-                        // Motif pattern
-                        // =============================
+                        // -------------------------
+                        // 時間
+                        // -------------------------
 
                         for(
                             let i = 0;
@@ -4518,52 +4577,47 @@ function drawCommonMotifGraph(motifs){
                             i++
                         ){
 
-                            const normalizedPC =
-                                motif.pattern[i];
-
-
-                            // -------------------------
+                            // =====================
                             // 元の pitch class
-                            // -------------------------
+                            // =====================
 
                             const pitchClass =
                                 (
-                                    normalizedPC +
+                                    motif.pattern[i] +
                                     transpose
                                 ) % 12;
 
 
-                            // -------------------------
-                            // X
-                            // -------------------------
+                            // =====================
+                            // Y = 時間
+                            // =====================
 
-                            const x =
-                                marginLeft +
-                                (
-                                    occurrence.start +
-                                    i
-                                ) * pointWidth;
+                            const y =
+                                graphTop +
+                                i *
+                                timeHeight;
 
 
-                            // -------------------------
-                            // Y
-                            // pitch class 0～11
-                            // -------------------------
+                            // =====================
+                            // X = pitch class
+                            // =====================
 
-                            const py =
-                                y -
-                                pitchClass * 3;
+                            const px =
+                                x +
+                                15 +
+                                pitchClass *
+                                5;
 
 
-                            // -------------------------
-                            // point
-                            // -------------------------
+                            // =====================
+                            // 点
+                            // =====================
 
                             ctx.beginPath();
 
                             ctx.arc(
-                                x,
-                                py,
+                                px,
+                                y,
                                 3,
                                 0,
                                 Math.PI * 2
@@ -4578,11 +4632,39 @@ function drawCommonMotifGraph(motifs){
                 }
             );
 
+
+            // =================================
+            // 時間番号
+            // =================================
+
+            ctx.font =
+                "10px sans-serif";
+
+
+            for(
+                let i = 0;
+                i < motif.length;
+                i++
+            ){
+
+                const y =
+                    graphTop +
+                    i *
+                    timeHeight;
+
+
+                ctx.fillText(
+                    String(i),
+                    35,
+                    y + 4
+                );
+
+            }
+
         }
     );
 
 }
-
 
 function drawInternalMotifGraph(
     internalMotifGroups,
