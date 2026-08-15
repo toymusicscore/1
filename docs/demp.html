@@ -6349,6 +6349,175 @@ function filterInternalMotifs(motifs){
 
 }
 
+function mergeInternalMotifs(
+    internalRight,
+    internalLeft
+){
+
+    const motifMap = new Map();
+
+
+    // =====================================
+    // Right / Left をまとめる
+    // =====================================
+
+    const sources = [
+
+        {
+            hand: "RA",
+            motifs: internalRight
+        },
+
+        {
+            hand: "LA",
+            motifs: internalLeft
+        }
+
+    ];
+
+
+    for(const source of sources){
+
+        for(const motif of source.motifs){
+
+            const key =
+                motif.length +
+                ":" +
+                JSON.stringify(
+                    motif.pattern
+                );
+
+
+            if(!motifMap.has(key)){
+
+                motifMap.set(
+                    key,
+                    {
+
+                        length:
+                            motif.length,
+
+                        pattern:
+                            [...motif.pattern],
+
+                        RA: [],
+
+                        LA: []
+
+                    }
+                );
+
+            }
+
+
+            const group =
+                motifMap.get(key);
+
+
+            // =================================
+            // 出現位置を追加
+            // =================================
+
+            group[source.hand].push(
+                ...motif.occurrences
+            );
+
+        }
+
+    }
+
+
+    // =====================================
+    // 配列化
+    // =====================================
+
+    const result =
+        Array.from(
+            motifMap.values()
+        );
+
+
+    // =====================================
+    // startの重複を削除
+    // =====================================
+
+    for(const motif of result){
+
+        for(
+            const hand of ["RA", "LA"]
+        ){
+
+            const unique =
+                new Map();
+
+
+            for(
+                const occurrence
+                of motif[hand]
+            ){
+
+                if(
+                    !unique.has(
+                        occurrence.start
+                    )
+                ){
+
+                    unique.set(
+                        occurrence.start,
+                        occurrence
+                    );
+
+                }
+
+            }
+
+
+            motif[hand] =
+                [...unique.values()].sort(
+                    (a,b) =>
+                        a.start - b.start
+                );
+
+        }
+
+    }
+
+
+    // =====================================
+    // 長いMotifを先に
+    // =====================================
+
+    result.sort(
+        (a,b) =>
+            b.length - a.length
+    );
+
+
+    // =====================================
+    // 上位10件
+    // =====================================
+
+    const top =
+        result.slice(0, 10);
+
+
+    // =====================================
+    // Motif ID
+    // =====================================
+
+    top.forEach(
+        (motif, index) => {
+
+            motif.motifId =
+                index + 1;
+
+        }
+    );
+
+
+    return top;
+
+}
 
 function mergeMotifCandidates(candidates){
 
