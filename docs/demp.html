@@ -4270,177 +4270,8 @@ function showInternalMotif(){
 }
 
 
-function showMotifTwoSongs(){
-
-    menuWindow.style.display = "none";
-
-    // =====================================
-    // Motif candidates を初期化
-    // =====================================
-
-    motifCandidates = [];
-    motifGroups = [];
-
-    // =====================================
-    // shape
-    // =====================================
-
-    shapeEventDataRightA =
-        createShapeEvent(scoreRightA, "right");
-
-    shapeEventDataLeftA =
-        createShapeEvent(scoreLeftA, "left");
-
-    shapeEventDataRightB =
-        createShapeEvent(scoreRightB, "right");
-
-    shapeEventDataLeftB =
-        createShapeEvent(scoreLeftB, "left");
-
-    // =====================================
-    // Internal Motifs
-    // A / B × Right / Left
-    // =====================================
-
-    // -------------------------------------
-    // A Right
-    // -------------------------------------
-
-    const internalRightA =
-        findInternalMotifs(
-            shapeEventDataRightA
-        );
-
-    console.log(
-        "internalRightA =",
-        internalRightA
-    );
-
-
-    // -------------------------------------
-    // A Left
-    // -------------------------------------
-
-    const internalLeftA =
-        findInternalMotifs(
-            shapeEventDataLeftA
-        );
-
-    console.log(
-        "internalLeftA =",
-        internalLeftA
-    );
-
-
-    // -------------------------------------
-    // B Right
-    // -------------------------------------
-
-    const internalRightB =
-        findInternalMotifs(
-            shapeEventDataRightB
-        );
-
-    console.log(
-        "internalRightB =",
-        internalRightB
-    );
-
-
-    // -------------------------------------
-    // B Left
-    // -------------------------------------
-
-    const internalLeftB =
-        findInternalMotifs(
-            shapeEventDataLeftB
-        );
-
-    console.log(
-        "internalLeftB =",
-        internalLeftB
-    );
-
-    // =====================================
-    // Motif 1
-    // =====================================
-    
-    const internalMotifGroups =
-        groupInternalMotifsFourWays(
-            internalRightA,
-            internalRightB,
-            internalLeftA,
-            internalLeftB
-        );
-
-    drawInternalMotifGraph(
-        internalMotifGroups,
-        shapeEventDataRightA,
-        shapeEventDataRightB,
-        shapeEventDataLeftA,
-        shapeEventDataLeftB,
-        ticksPerMeasureA,
-        ticksPerMeasureB
-    );
-
-    // =====================================
-    // Common Motifs
-    // A/Bを直接比較
-    // =====================================
-
-    const commonMotifCandidates =
-        findCommonMotifsFourWays(
-            shapeEventDataRightA,
-            shapeEventDataRightB,
-            shapeEventDataLeftA,
-            shapeEventDataLeftB
-        );
-
-    const commonMotifs =
-        selectLongestCommonMotifs(
-            commonMotifCandidates
-        );
-
-    console.log(
-        "Common Motif candidates =",
-        commonMotifCandidates.length
-    );
-
-    console.log(
-        "Common Motifs =",
-        commonMotifs.length
-    );
-
-    console.log(
-        "commonMotifs =",
-        commonMotifs
-    );
-
-    const commonMotifGroups =
-        groupCommonMotifs(
-            commonMotifs,
-            shapeEventDataRightA,
-            shapeEventDataRightB,
-            shapeEventDataLeftA,
-            shapeEventDataLeftB
-        );
-
-    console.log(
-        "commonMotifGroups =",
-        commonMotifGroups
-    );
-
-    drawCommonMotifGraph(
-        commonMotifGroups
-    );
-
-}
-
-
 function drawInternalMotifGraph(
-    internalMotifs,
-    shapeEventDataRight,
-    shapeEventDataLeft
+    internalMotifs
 ){
 
     ctx.clearRect(
@@ -4452,11 +4283,12 @@ function drawInternalMotifGraph(
 
 
     // =====================================
-    // 表示するMotif
+    // 上位10件
     // =====================================
 
     const motifs =
         internalMotifs.slice(0, 10);
+
 
     if(!motifs.length){
 
@@ -4641,11 +4473,13 @@ function drawInternalMotifGraph(
             ctx.font =
                 "10px sans-serif";
 
+
             const rightStarts =
                 motif.RA.map(
                     occurrence =>
                         occurrence.start
                 );
+
 
             const leftStarts =
                 motif.LA.map(
@@ -4677,12 +4511,12 @@ function drawInternalMotifGraph(
 
 
             // =================================
-            // Event
+            // Pattern
             // =================================
 
             for(
                 let i = 0;
-                i < motif.length;
+                i < motif.pattern.length;
                 i++
             ){
 
@@ -4691,21 +4525,23 @@ function drawInternalMotifGraph(
                     i * eventHeight;
 
 
-                // ---------------------------------
-                // Right
-                // ---------------------------------
-
-                const rightEvent =
-                    getEventAt(
-                        shapeEventDataRight,
-                        i
-                    );
+                const pc =
+                    motif.pattern[i];
 
 
                 if(
-                    rightEvent &&
-                    rightEvent.points &&
-                    rightEvent.points.length
+                    pc === undefined
+                ){
+                    continue;
+                }
+
+
+                // =================================
+                // RA
+                // =================================
+
+                if(
+                    motif.RA.length > 0
                 ){
 
                     ctx.fillStyle =
@@ -4726,21 +4562,12 @@ function drawInternalMotifGraph(
                 }
 
 
-                // ---------------------------------
-                // Left
-                // ---------------------------------
-
-                const leftEvent =
-                    getEventAt(
-                        shapeEventDataLeft,
-                        i
-                    );
-
+                // =================================
+                // LA
+                // =================================
 
                 if(
-                    leftEvent &&
-                    leftEvent.points &&
-                    leftEvent.points.length
+                    motif.LA.length > 0
                 ){
 
                     ctx.fillStyle =
@@ -4763,6 +4590,173 @@ function drawInternalMotifGraph(
             }
 
         }
+    );
+
+}
+
+
+function showMotifTwoSongs(){
+
+    menuWindow.style.display = "none";
+
+    // =====================================
+    // Motif candidates を初期化
+    // =====================================
+
+    motifCandidates = [];
+    motifGroups = [];
+
+    // =====================================
+    // shape
+    // =====================================
+
+    shapeEventDataRightA =
+        createShapeEvent(scoreRightA, "right");
+
+    shapeEventDataLeftA =
+        createShapeEvent(scoreLeftA, "left");
+
+    shapeEventDataRightB =
+        createShapeEvent(scoreRightB, "right");
+
+    shapeEventDataLeftB =
+        createShapeEvent(scoreLeftB, "left");
+
+    // =====================================
+    // Internal Motifs
+    // A / B × Right / Left
+    // =====================================
+
+    // -------------------------------------
+    // A Right
+    // -------------------------------------
+
+    const internalRightA =
+        findInternalMotifs(
+            shapeEventDataRightA
+        );
+
+    console.log(
+        "internalRightA =",
+        internalRightA
+    );
+
+
+    // -------------------------------------
+    // A Left
+    // -------------------------------------
+
+    const internalLeftA =
+        findInternalMotifs(
+            shapeEventDataLeftA
+        );
+
+    console.log(
+        "internalLeftA =",
+        internalLeftA
+    );
+
+
+    // -------------------------------------
+    // B Right
+    // -------------------------------------
+
+    const internalRightB =
+        findInternalMotifs(
+            shapeEventDataRightB
+        );
+
+    console.log(
+        "internalRightB =",
+        internalRightB
+    );
+
+
+    // -------------------------------------
+    // B Left
+    // -------------------------------------
+
+    const internalLeftB =
+        findInternalMotifs(
+            shapeEventDataLeftB
+        );
+
+    console.log(
+        "internalLeftB =",
+        internalLeftB
+    );
+
+    // =====================================
+    // Motif 1
+    // =====================================
+    
+    const internalMotifGroups =
+        groupInternalMotifsFourWays(
+            internalRightA,
+            internalRightB,
+            internalLeftA,
+            internalLeftB
+        );
+
+    drawInternalMotifGraph(
+        internalMotifGroups,
+        shapeEventDataRightA,
+        shapeEventDataRightB,
+        shapeEventDataLeftA,
+        shapeEventDataLeftB,
+        ticksPerMeasureA,
+        ticksPerMeasureB
+    );
+
+    // =====================================
+    // Common Motifs
+    // A/Bを直接比較
+    // =====================================
+
+    const commonMotifCandidates =
+        findCommonMotifsFourWays(
+            shapeEventDataRightA,
+            shapeEventDataRightB,
+            shapeEventDataLeftA,
+            shapeEventDataLeftB
+        );
+
+    const commonMotifs =
+        selectLongestCommonMotifs(
+            commonMotifCandidates
+        );
+
+    console.log(
+        "Common Motif candidates =",
+        commonMotifCandidates.length
+    );
+
+    console.log(
+        "Common Motifs =",
+        commonMotifs.length
+    );
+
+    console.log(
+        "commonMotifs =",
+        commonMotifs
+    );
+
+    const commonMotifGroups =
+        groupCommonMotifs(
+            commonMotifs,
+            shapeEventDataRightA,
+            shapeEventDataRightB,
+            shapeEventDataLeftA,
+            shapeEventDataLeftB
+        );
+
+    console.log(
+        "commonMotifGroups =",
+        commonMotifGroups
+    );
+
+    drawCommonMotifGraph(
+        commonMotifGroups
     );
 
 }
