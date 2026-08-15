@@ -1165,8 +1165,8 @@ function showTab(tab){
 					<br><br>
 				<input 
 					type="button" 
-					id="motifGroupsButton"
-					value="📊 Motif Groups">
+					id="internalMotifButton"
+					value="📊 Internal Motif">
 					<br><br>
 				<input 
 					type="button" 
@@ -1181,10 +1181,6 @@ function showTab(tab){
 					id="motifTwoSongsButton"
 					value="📊 Motif Two Songs">
 					<br><br>
-                <button onclick="showMotifComparison('RR')">RR</button>
-                <button onclick="showMotifComparison('LL')">LL</button>
-                <button onclick="showMotifComparison('LR')">LR</button>
-                <button onclick="showMotifComparison('RL')">RL</button>
             `;
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -1201,9 +1197,9 @@ function showTab(tab){
 					showShapeMeasure();
 					closeMenuWindow();
 				};
-				$("motifGroupsButton").onclick = function(){
+				$("internalMotifButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					showMotifGroups();
+					showInternalMotif();
 					closeMenuWindow();
 				};
 				$("saveScoreAButton").onclick = function(){
