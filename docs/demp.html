@@ -4502,8 +4502,7 @@ function drawCommonMotifGraph(motifs){
             const graphTop =
                 top +
                 motifTitleHeight +
-                headerHeight;
-
+                30;
 
             // =================================
             // 4 directions
@@ -4562,20 +4561,49 @@ function drawCommonMotifGraph(motifs){
                     const uniqueStarts =
                         [...new Set(starts)];
 
+                    // =================================
+                    // start positions
+                    // =================================
 
-                    // -----------------------------
-                    // 表示
-                    // -----------------------------
+                    ctx.font =
+                        "10px sans-serif";
+
+                    const startTexts =
+                        hands.map(
+                            hand => {
+
+                                const occurrences =
+                                    motif[hand] || [];
+
+                                const starts =
+                                    occurrences.map(
+                                        occurrence =>
+                                            occurrence.start
+                                    );
+
+                                const uniqueStarts =
+                                    [...new Set(starts)];
+
+                                return (
+                                    hand +
+                                    ": " +
+                                    (
+                                        uniqueStarts.length
+                                            ? uniqueStarts.join(", ")
+                                            : "-"
+                                    )
+                                );
+
+                            }
+                        );
 
                     ctx.fillText(
-                        "start: " +
-                        uniqueStarts.join(", "),
-                        x + 5,
+                        startTexts.join("    "),
+                        marginLeft,
                         top +
                         motifTitleHeight +
-                        28
+                        12
                     );
-
 
                     // =============================
                     // 縦線
@@ -4656,9 +4684,16 @@ function drawCommonMotifGraph(motifs){
                             // ---------------------
                             // point
                             // ---------------------
-                            
+                            // ---------------------------------
+                            // pitchClass color
+                            // ---------------------------------
+
                             ctx.fillStyle = "black";
-                            
+                            /*
+                            ctx.fillStyle =
+                                workingColor.pc[pitchClass];
+                            */
+
                             ctx.beginPath();
 
                             ctx.arc(
@@ -4680,13 +4715,24 @@ function drawCommonMotifGraph(motifs){
 
 
             // =================================
-            // 時間番号
+            // Event label
             // =================================
 
             ctx.font =
                 "10px sans-serif";
 
-            ctx.fillStyle = "black"
+            ctx.textAlign = "right";
+
+            ctx.fillText(
+                "Event",
+                65,
+                graphTop - 8
+            );
+
+
+            // =================================
+            // Event number
+            // =================================
 
             for(
                 let i = 0;
@@ -4696,18 +4742,22 @@ function drawCommonMotifGraph(motifs){
 
                 const y =
                     graphTop +
-                    i *
-                    timeHeight;
-
+                    i * timeHeight;
 
                 ctx.fillText(
                     String(i),
-                    35,
+                    65,
                     y + 4
                 );
 
             }
 
+
+            // =================================
+            // textAlignを元に戻す
+            // =================================
+
+            ctx.textAlign = "left";
         }
     );
 
