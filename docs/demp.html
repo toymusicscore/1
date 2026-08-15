@@ -5702,21 +5702,28 @@ function findCommonMotifsFourWays(
 
 function selectLongestCommonMotifs(candidates){
 
-    // 長い順に並べる
+    // =====================================
+    // 長い順
+    // =====================================
+
     const sorted = [...candidates].sort(
         (a, b) => b.length - a.length
     );
 
     const selected = [];
 
+    // =====================================
+    // 候補を順番に確認
+    // =====================================
+
     for(const candidate of sorted){
 
-        let contained = false;
+        let overlap = false;
 
         for(const motif of selected){
 
             // ---------------------------------
-            // 別の方向なら別Motif
+            // 方向が違えば別Motif
             // ---------------------------------
 
             if(candidate.type !== motif.type){
@@ -5724,7 +5731,7 @@ function selectLongestCommonMotifs(candidates){
             }
 
             // ---------------------------------
-            // A側の範囲
+            // A側範囲
             // ---------------------------------
 
             const candidateEndA =
@@ -5736,7 +5743,7 @@ function selectLongestCommonMotifs(candidates){
                 motif.length;
 
             // ---------------------------------
-            // B側の範囲
+            // B側範囲
             // ---------------------------------
 
             const candidateEndB =
@@ -5748,23 +5755,42 @@ function selectLongestCommonMotifs(candidates){
                 motif.length;
 
             // ---------------------------------
-            // 長いMotifの内部に
-            // 完全に含まれているか
+            // A側の重なり
+            // ---------------------------------
+
+            const overlapA =
+                candidate.startA < motifEndA &&
+                candidateEndA > motif.startA;
+
+            // ---------------------------------
+            // B側の重なり
+            // ---------------------------------
+
+            const overlapB =
+                candidate.startB < motifEndB &&
+                candidateEndB > motif.startB;
+
+            // ---------------------------------
+            // A/B両方で重なっていれば
+            // 同じ領域のMotifとみなす
             // ---------------------------------
 
             if(
-                candidate.startA >= motif.startA &&
-                candidateEndA <= motifEndA &&
-                candidate.startB >= motif.startB &&
-                candidateEndB <= motifEndB
+                overlapA &&
+                overlapB
             ){
 
-                contained = true;
+                overlap = true;
                 break;
             }
         }
 
-        if(!contained){
+        // ---------------------------------
+        // 重複しなければ採用
+        // ---------------------------------
+
+        if(!overlap){
+
             selected.push(candidate);
         }
     }
