@@ -5346,32 +5346,41 @@ function groupInternalMotifsFourWays(
 
     const groups = new Map();
 
+
     // =====================================
-    // 4方向を登録
+    // 4方向
     // =====================================
 
     const sources = [
         {
             type: "RA",
+            song: "A",
+            hand: "right",
             motifs: internalRightA
         },
         {
             type: "RB",
+            song: "B",
+            hand: "right",
             motifs: internalRightB
         },
         {
             type: "LA",
+            song: "A",
+            hand: "left",
             motifs: internalLeftA
         },
         {
             type: "LB",
+            song: "B",
+            hand: "left",
             motifs: internalLeftB
         }
     ];
 
 
     // =====================================
-    // pattern + length でグループ化
+    // pattern + length
     // =====================================
 
     for(const source of sources){
@@ -5385,6 +5394,7 @@ function groupInternalMotifsFourWays(
                 continue;
             }
 
+
             const key =
                 motif.length +
                 ":" +
@@ -5395,11 +5405,11 @@ function groupInternalMotifsFourWays(
 
                 groups.set(key, {
 
-                    length: motif.length,
+                    length:
+                        motif.length,
 
-                    pattern: [
-                        ...motif.pattern
-                    ],
+                    pattern:
+                        [...motif.pattern],
 
                     RA: [],
                     RB: [],
@@ -5421,11 +5431,33 @@ function groupInternalMotifsFourWays(
 
 
     // =====================================
-    // 配列化
+    // A/B両方に存在するMotifだけ残す
     // =====================================
 
-    const result =
-        Array.from(groups.values());
+    const result = [];
+
+
+    for(const group of groups.values()){
+
+        const hasA =
+            group.RA.length > 0 ||
+            group.LA.length > 0;
+
+        const hasB =
+            group.RB.length > 0 ||
+            group.LB.length > 0;
+
+
+        if(
+            hasA &&
+            hasB
+        ){
+
+            result.push(group);
+
+        }
+
+    }
 
 
     // =====================================
