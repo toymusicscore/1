@@ -4408,7 +4408,7 @@ function drawInternalMotifGraph(
     );
 
     // =====================================
-    // 小節番号
+    // 小節番号 + 小節区切り線
     // =====================================
 
     ctx.textAlign =
@@ -4417,9 +4417,7 @@ function drawInternalMotifGraph(
     ctx.font =
         "10px sans-serif";
 
-
     let lastMeasure = -1;
-
 
     for(
         let eventIndex = 0;
@@ -4437,17 +4435,15 @@ function drawInternalMotifGraph(
         }
 
         if(!event){
-
             continue;
         }
 
-        ctx.fillText(
-            String(eventIndex),
-            measureWidth +
-            eventWidth -
-            5,
-            y + 4
-        );
+
+        const y =
+            graphTop +
+            eventIndex *
+            eventHeight;
+
 
         const measure =
             Math.floor(
@@ -4455,11 +4451,32 @@ function drawInternalMotifGraph(
                 ticksPerMeasure
             ) + 1;
 
+
+        // ---------------------------------
+        // 小節が変わった
+        // ---------------------------------
+
         if(
             measure !== lastMeasure
         ){
-            ctx.strokeStyle = "#cccccc";
-            ctx.lineWidth = 1;
+
+            // 小節番号
+            ctx.fillStyle =
+                "black";
+
+            ctx.fillText(
+                String(measure),
+                measureWidth - 5,
+                y + 4
+            );
+
+
+            // 小節区切り線
+            ctx.strokeStyle =
+                "#cccccc";
+
+            ctx.lineWidth =
+                1;
 
             ctx.beginPath();
 
@@ -4478,24 +4495,12 @@ function drawInternalMotifGraph(
 
             ctx.stroke();
 
-            const y =
-                graphTop +
-                eventIndex *
-                eventHeight;
-
-            ctx.fillText(
-                String(measure),
-                measureWidth - 5,
-                y + 4
-            );
 
             lastMeasure =
                 measure;
-
         }
 
     }
-
 
     // =====================================
     // Motif
