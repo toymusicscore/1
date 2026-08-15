@@ -4356,7 +4356,233 @@ function showMotifTwoSongs(){
         commonMotifGroups
     );
 
+    drawCommonMotifGraph(
+        commonMotifGroups
+    );
+
 }
+
+
+function drawCommonMotifGraph(motifs){
+
+    // =====================================
+    // Canvas
+    // =====================================
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    // =====================================
+    // 表示設定
+    // =====================================
+
+    const marginLeft = 80;
+    const marginTop = 40;
+
+    const rowHeight = 55;
+
+    const motifTitleHeight = 30;
+    const motifGap = 35;
+
+    const pointWidth = 14;
+
+    const motifHeight =
+        motifTitleHeight +
+        rowHeight * 4 +
+        motifGap;
+
+
+    // =====================================
+    // Canvas height
+    // =====================================
+
+    canvas.height =
+        marginTop +
+        motifs.length * motifHeight +
+        80;
+
+
+    // =====================================
+    // Motif
+    // =====================================
+
+    motifs.forEach(
+        (motif, motifIndex) => {
+
+            const motifTop =
+                marginTop +
+                motifIndex * motifHeight;
+
+
+            // =================================
+            // Motif title
+            // =================================
+
+            ctx.font =
+                "bold 18px sans-serif";
+
+            ctx.fillText(
+                "Motif " +
+                motif.motifId +
+                " (" +
+                motif.length +
+                ")",
+                marginLeft,
+                motifTop
+            );
+
+
+            // =================================
+            // 4 directions
+            // =================================
+
+            const hands = [
+                "RA",
+                "RB",
+                "LA",
+                "LB"
+            ];
+
+
+            hands.forEach(
+                (hand, handIndex) => {
+
+                    const y =
+                        motifTop +
+                        motifTitleHeight +
+                        handIndex * rowHeight;
+
+
+                    // =============================
+                    // Label
+                    // =============================
+
+                    ctx.font =
+                        "14px sans-serif";
+
+                    ctx.fillText(
+                        hand,
+                        25,
+                        y + 5
+                    );
+
+
+                    // =============================
+                    // baseline
+                    // =============================
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        marginLeft,
+                        y
+                    );
+
+                    ctx.lineTo(
+                        canvas.width - 20,
+                        y
+                    );
+
+                    ctx.stroke();
+
+
+                    // =============================
+                    // occurrences
+                    // =============================
+
+                    const occurrences =
+                        motif[hand] || [];
+
+
+                    for(
+                        const occurrence
+                        of occurrences
+                    ){
+
+                        const transpose =
+                            occurrence.transpose;
+
+
+                        // =============================
+                        // Motif pattern
+                        // =============================
+
+                        for(
+                            let i = 0;
+                            i < motif.length;
+                            i++
+                        ){
+
+                            const normalizedPC =
+                                motif.pattern[i];
+
+
+                            // -------------------------
+                            // 元の pitch class
+                            // -------------------------
+
+                            const pitchClass =
+                                (
+                                    normalizedPC +
+                                    transpose
+                                ) % 12;
+
+
+                            // -------------------------
+                            // X
+                            // -------------------------
+
+                            const x =
+                                marginLeft +
+                                (
+                                    occurrence.start +
+                                    i
+                                ) * pointWidth;
+
+
+                            // -------------------------
+                            // Y
+                            // pitch class 0～11
+                            // -------------------------
+
+                            const py =
+                                y -
+                                pitchClass * 3;
+
+
+                            // -------------------------
+                            // point
+                            // -------------------------
+
+                            ctx.beginPath();
+
+                            ctx.arc(
+                                x,
+                                py,
+                                3,
+                                0,
+                                Math.PI * 2
+                            );
+
+                            ctx.fill();
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
 
 function drawInternalMotifGraph(
     internalMotifGroups,
@@ -6042,8 +6268,9 @@ function groupCommonMotifs(
                     unique.set(
                         start,
                         {
-                            start: start
-                        }
+                            start: start,
+                            transpose: occurrence.transpose
+                       }
                     );
 
                 }
