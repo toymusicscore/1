@@ -5415,11 +5415,7 @@ function findMotifEvent(
 }
 
 
-function findInternalMotifs(data){
-
-    // =====================================
-    // 自分自身の中でMotif候補を探索
-    // =====================================
+function findInternalMotifs(data, hand){
 
     const candidates =
         findMotifEvent(
@@ -5427,31 +5423,21 @@ function findInternalMotifs(data){
             data
         );
 
-
-    // =====================================
-    // 同じMotifをまとめる
-    // =====================================
-
     const motifs =
         groupInternalMotifs(
             data,
-            candidates
+            candidates,
+            hand
         );
-
-
-    // =====================================
-    // 入れ子になった短いMotifを除去
-    // 長いMotifを優先
-    // =====================================
 
     const filtered =
         filterInternalMotifs(
             motifs
         );
 
-
     return filtered;
 }
+
 
 function groupInternalMotifsFourWays(
     internalRightA,
@@ -5660,7 +5646,7 @@ function groupInternalMotifs(data, candidates){
 
 
         // =================================
-        // A側の出現位置
+        // 1回目の出現
         // =================================
 
         motif.positions.add(
@@ -5679,7 +5665,7 @@ function groupInternalMotifs(data, candidates){
 
 
         // =================================
-        // B側の出現位置
+        // 2回目の出現
         // =================================
 
         motif.positions.add(
@@ -5708,7 +5694,7 @@ function groupInternalMotifs(data, candidates){
     ){
 
         // =================================
-        // start重複を削除
+        // 同じstartを重複削除
         // =================================
 
         const unique =
@@ -5750,11 +5736,11 @@ function groupInternalMotifs(data, candidates){
 
 
         // =================================
-        // 2箇所以上ならInternal Motif
+        // 2回以上出現するものだけ
         // =================================
 
         if(
-            motif.positions.size >= 2
+            occurrences.length >= 2
         ){
 
             result.push({
