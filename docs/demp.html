@@ -4196,6 +4196,83 @@ function showMotifComparison(type){
 }
 
 
+function showInternalMotif(){
+
+    menuWindow.style.display = "none";
+
+    // =====================================
+    // 現在の1曲からshapeを作成
+    // =====================================
+
+    const shapeEventDataRight =
+        createShapeEvent(
+            scoreRight,
+            "right"
+        );
+
+    const shapeEventDataLeft =
+        createShapeEvent(
+            scoreLeft,
+            "left"
+        );
+
+
+    // =====================================
+    // Internal Motif
+    // =====================================
+
+    const internalRight =
+        findInternalMotifs(
+            shapeEventDataRight
+        );
+
+    const internalLeft =
+        findInternalMotifs(
+            shapeEventDataLeft
+        );
+
+
+    console.log(
+        "internalRight =",
+        internalRight
+    );
+
+    console.log(
+        "internalLeft =",
+        internalLeft
+    );
+
+
+    // =====================================
+    // Right / Left を統合
+    // =====================================
+
+    const internalMotifGroups =
+        groupInternalMotifs(
+            internalRight,
+            internalLeft
+        );
+
+
+    console.log(
+        "internalMotifGroups =",
+        internalMotifGroups
+    );
+
+
+    // =====================================
+    // Graph
+    // =====================================
+
+    drawInternalMotifGraph(
+        internalMotifGroups,
+        shapeEventDataRight,
+        shapeEventDataLeft
+    );
+
+}
+
+
 function showMotifTwoSongs(){
 
     menuWindow.style.display = "none";
@@ -4765,220 +4842,12 @@ function drawCommonMotifGraph(motifs){
 
 
 function drawInternalMotifGraph(
-    internalMotifGroups,
-    shapeEventDataRightA,
-    shapeEventDataRightB,
-    shapeEventDataLeftA,
-    shapeEventDataLeftB,
-    ticksPerMeasureA,
-    ticksPerMeasureB
+    motifs,
+    shapeEventDataRight,
+    shapeEventDataLeft
 ){
 
-    // =========================================
-    // event番号を配列にする
-    // =========================================
-
-    const eventsRightA =
-        Object.keys(shapeEventDataRightA)
-            .map(Number)
-            .sort((a,b) => a-b);
-
-    const eventsRightB =
-        Object.keys(shapeEventDataRightB)
-            .map(Number)
-            .sort((a,b) => a-b);
-
-    const eventsLeftA =
-        Object.keys(shapeEventDataLeftA)
-            .map(Number)
-            .sort((a,b) => a-b);
-
-    const eventsLeftB =
-        Object.keys(shapeEventDataLeftB)
-            .map(Number)
-            .sort((a,b) => a-b);
-
-
-    // =========================================
-    // event index → event
-    // =========================================
-
-    const eventMapRightA = {};
-    const eventMapRightB = {};
-    const eventMapLeftA = {};
-    const eventMapLeftB = {};
-
-    eventsRightA.forEach((eventNo, index) => {
-        eventMapRightA[index] =
-            shapeEventDataRightA[eventNo];
-    });
-
-    eventsRightB.forEach((eventNo, index) => {
-        eventMapRightB[index] =
-            shapeEventDataRightB[eventNo];
-    });
-
-    eventsLeftA.forEach((eventNo, index) => {
-        eventMapLeftA[index] =
-            shapeEventDataLeftA[eventNo];
-    });
-
-    eventsLeftB.forEach((eventNo, index) => {
-        eventMapLeftB[index] =
-            shapeEventDataLeftB[eventNo];
-    });
-
-
-    // =====================================================
-    // event → measure
-    // =====================================================
-
-    function getMeasure(
-        event,
-        ticksPerMeasure
-    ){
-
-        if(
-            !event ||
-            !event.points ||
-            !event.points.length
-        ){
-            return "";
-        }
-
-        const tick =
-            event.points[0].start;
-
-        if(
-            tick === undefined ||
-            !isFinite(tick) ||
-            !ticksPerMeasure
-        ){
-            return "";
-        }
-
-        return Math.floor(
-            tick / ticksPerMeasure
-        ) + 1;
-    }
-
-
-    // =====================================================
-    // 最大event数
-    // =====================================================
-
-    const maxEvents =
-        Math.max(
-            Object.keys(eventMapRightA).length,
-            Object.keys(eventMapRightB).length,
-            Object.keys(eventMapLeftA).length,
-            Object.keys(eventMapLeftB).length
-        );
-
-// =====================================================
-// Motif page
-// =====================================================
-
-const motifsPerPage = 10;
-
-// 現在表示するページ
-// 0 = Motif 1～10
-// 1 = Motif 11～20
-// ...
-const motifPage = 0;
-
-const startMotif =
-    motifPage * motifsPerPage;
-
-const endMotif =
-    Math.min(
-        startMotif + motifsPerPage,
-        internalMotifGroups.length
-    );
-
-const visibleMotifs =
-    endMotif - startMotif;
-// =====================================================
-// レイアウト
-// =====================================================
-
-const marginLeft = 170;
-const marginTop = 70;
-const marginBottom = 30;
-
-const motifWidth = 120;
-
-const headerHeight = 55;
-
-
-// =====================================================
-// Event表示サイズ
-// =====================================================
-
-const maxGraphHeight = 1400;
-
-const minEventHeight = 1;
-
-const availableEventHeight =
-    maxGraphHeight -
-    marginTop -
-    headerHeight -
-    marginBottom;
-
-const eventHeight =
-    Math.max(
-        minEventHeight,
-        availableEventHeight / maxEvents
-    );
-// =====================================================
-// Event番号の表示間隔
-// =====================================================
-
-const eventLabelInterval =
-    maxEvents <= 500 ? 10 :
-    maxEvents <= 1000 ? 20 :
-    maxEvents <= 2000 ? 50 :
-    maxEvents <= 5000 ? 100 :
-    250;
-
-// =====================================================
-// Canvasサイズ
-// =====================================================
-
-const graphWidth =
-    marginLeft +
-    visibleMotifs *
-    motifWidth +
-    30;
-
-const graphHeight =
-    marginTop +
-    headerHeight +
-    maxEvents * eventHeight +
-    marginBottom;
-
-
-canvas.width = graphWidth;
-canvas.height = graphHeight;
-
-console.log(
-    "FINAL CANVAS SIZE =",
-    canvas.width,
-    canvas.height
-);
-
-console.log(
-    "EVENT HEIGHT =",
-    eventHeight
-);
-
-    // =====================================================
-    // 背景
-    // =====================================================
-
-    ctx.fillStyle = "#ffffff";
-
-    ctx.fillRect(
+    ctx.clearRect(
         0,
         0,
         canvas.width,
@@ -4986,557 +4855,364 @@ console.log(
     );
 
 
-    const eventY =
+    // =====================================
+    // 表示するMotif
+    // =====================================
+
+    const displayMotifs =
+        motifs.slice(0, 10);
+
+    if(!displayMotifs.length){
+
+        ctx.font =
+            "14px sans-serif";
+
+        ctx.fillStyle =
+            "black";
+
+        ctx.fillText(
+            "No Internal Motifs",
+            30,
+            40
+        );
+
+        return;
+    }
+
+
+    // =====================================
+    // サイズ
+    // =====================================
+
+    const marginLeft = 70;
+    const marginTop = 30;
+
+    const motifWidth = 180;
+
+    const motifTitleHeight = 24;
+
+    const startHeight = 28;
+
+    const graphTop =
         marginTop +
-        headerHeight;
+        motifTitleHeight +
+        startHeight +
+        25;
+
+    const eventHeight = 16;
 
 
-    // =========================================================
-    // event / measure の縦軸
-    // =========================================================
+    // =====================================
+    // 横幅
+    // =====================================
 
-    ctx.font = "11px sans-serif";
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
+    canvas.width =
+        marginLeft +
+        displayMotifs.length *
+        motifWidth +
+        30;
 
-    for(let i = 0; i < maxEvents; i++){
 
-        const y =
-            eventY +
-            i * eventHeight +
-            eventHeight / 2;
+    // =====================================
+    // 最大Event数
+    // =====================================
 
-        const eventRA =
-            eventMapRightA[i];
+    let maxLength = 0;
 
-        const eventRB =
-            eventMapRightB[i];
-
-        const eventLA =
-            eventMapLeftA[i];
-
-        const eventLB =
-            eventMapLeftB[i];
-
-        // =================================================
-        // Event番号
-        // =================================================
+    for(
+        const motif
+        of displayMotifs
+    ){
 
         if(
-            i === 0 ||
-            (i + 1) % eventLabelInterval === 0
+            motif.length >
+            maxLength
         ){
 
-            ctx.fillStyle = "#666666";
-
-            ctx.fillText(
-                i + 1,
-                marginLeft - 140,
-                y
-            );
-
-        }
-
-        // =================================================
-        // Measure
-        // =================================================
-
-        const measureRA =
-            getMeasure(
-                eventRA,
-                ticksPerMeasureA
-            );
-
-        const measureRB =
-            getMeasure(
-                eventRB,
-                ticksPerMeasureB
-            );
-
-        const measureLA =
-            getMeasure(
-                eventLA,
-                ticksPerMeasureA
-            );
-
-        const measureLB =
-            getMeasure(
-                eventLB,
-                ticksPerMeasureB
-            );
-
-
-        // =================================================
-        // Measureは変化したEventだけ表示
-        // =================================================
-
-        const prevRA =
-            getMeasure(
-                eventMapRightA[i - 1],
-                ticksPerMeasureA
-            );
-
-        const prevRB =
-            getMeasure(
-                eventMapRightB[i - 1],
-                ticksPerMeasureB
-            );
-
-        const prevLA =
-            getMeasure(
-                eventMapLeftA[i - 1],
-                ticksPerMeasureA
-            );
-
-        const prevLB =
-            getMeasure(
-                eventMapLeftB[i - 1],
-                ticksPerMeasureB
-            );
-
-
-        // RA
-
-        if(
-            measureRA !== "" &&
-            measureRA !== prevRA
-        ){
-
-            ctx.fillStyle = "#333333";
-
-            ctx.fillText(
-                measureRA,
-                marginLeft - 125,
-                y
-            );
-
-        }
-
-
-        // RB
-
-        if(
-            measureRB !== "" &&
-            measureRB !== prevRB
-        ){
-
-            ctx.fillStyle = "#333333";
-
-            ctx.fillText(
-                measureRB,
-                marginLeft - 85,
-                y
-            );
-
-        }
-
-
-        // LA
-
-        if(
-            measureLA !== "" &&
-            measureLA !== prevLA
-        ){
-
-            ctx.fillStyle = "#333333";
-
-            ctx.fillText(
-                measureLA,
-                marginLeft - 45,
-                y
-            );
-
-        }
-
-
-        // LB
-
-        if(
-            measureLB !== "" &&
-            measureLB !== prevLB
-        ){
-
-            ctx.fillStyle = "#333333";
-
-            ctx.fillText(
-                measureLB,
-                marginLeft - 5,
-                y
-            );
+            maxLength =
+                motif.length;
 
         }
 
     }
 
-    // =========================================================
-    // 縦軸ラベル
-    // =========================================================
 
-    ctx.textAlign = "center";
-    ctx.font = "12px sans-serif";
+    // =====================================
+    // 高さ
+    // =====================================
 
-    ctx.fillStyle = "#333333";
+    canvas.height =
+        graphTop +
+        maxLength *
+        eventHeight +
+        40;
 
+
+    // =====================================
     // Event
+    // =====================================
+
+    ctx.font =
+        "10px sans-serif";
+
+    ctx.fillStyle =
+        "black";
+
+    ctx.textAlign =
+        "right";
+
     ctx.fillText(
         "Event",
-        marginLeft - 145,
-        marginTop + 10
-    );
-
-    ctx.fillText(
-        "Measure",
-        marginLeft - 85,
-        marginTop + 10
+        marginLeft - 10,
+        graphTop - 8
     );
 
 
-    // RA
-    ctx.fillText(
-        "RA",
-        marginLeft - 125,
-        marginTop + 30
-    );
-
-    // RB
-    ctx.fillText(
-        "RB",
-        marginLeft - 85,
-        marginTop + 30
-    );
-
-    // LA
-    ctx.fillText(
-        "LA",
-        marginLeft - 45,
-        marginTop + 30
-    );
-
-    // LB
-    ctx.fillText(
-        "LB",
-        marginLeft - 5,
-        marginTop + 30
-    );
-
-    // =====================================================
-    // Motif
-    // =====================================================
+    // =====================================
+    // Event番号
+    // =====================================
 
     for(
-        let motifIndex = startMotif;
-        motifIndex < endMotif;
-        motifIndex++
+        let i = 0;
+        i < maxLength;
+        i++
     ){
 
-        const motif =
-            internalMotifGroups[motifIndex];
-
-        const displayIndex =
-            motifIndex - startMotif;
-
-        const motifX =
-            marginLeft +
-            displayIndex * motifWidth;
-            
-            // =================================================
-            // Motifタイトル
-            // =================================================
-
-            ctx.textAlign =
-                "center";
-
-            ctx.textBaseline =
-                "middle";
-
-            ctx.font =
-                "bold 12px sans-serif";
-
-            ctx.fillStyle =
-                "#333333";
+        const y =
+            graphTop +
+            i * eventHeight;
 
         ctx.fillText(
-            "Motif " +
-            (motifIndex + 1) +
-            " (" +
-            motif.length +
-            ")",
-            motifX +
-            motifWidth / 2,
-            marginTop + 10
+            String(i),
+            marginLeft - 10,
+            y + 4
         );
 
-            // =================================================
-            // RA RB LA LB
-            // =================================================
-
-            const labels =
-                ["RA", "RB", "LA", "LB"];
+    }
 
 
-            const arrays =
-                [
-                    motif.RA || [],
-                    motif.RB || [],
-                    motif.LA || [],
-                    motif.LB || []
-                ];
+    ctx.textAlign =
+        "left";
 
 
-            const maps =
-                [
-                    eventMapRightA,
-                    eventMapRightB,
-                    eventMapLeftA,
-                    eventMapLeftB
-                ];
+    // =====================================
+    // Motif
+    // =====================================
 
-            const xPositions =
-                [
-                    motifX + 15,
-                    motifX + 45,
-                    motifX + 75,
-                    motifX + 105
-                ];
+    displayMotifs.forEach(
+        (motif, motifIndex) => {
+
+            const x =
+                marginLeft +
+                motifIndex *
+                motifWidth;
 
 
-            // -------------------------------------------------
-            // ラベル
-            // -------------------------------------------------
+            // =================================
+            // Title
+            // =================================
+
+            ctx.font =
+                "bold 13px sans-serif";
+
+            ctx.fillStyle =
+                "black";
+
+            ctx.fillText(
+                "Internal Motif " +
+                (motifIndex + 1) +
+                " (" +
+                motif.length +
+                ")",
+                x,
+                marginTop
+            );
+
+
+            // =================================
+            // RA / LA
+            // =================================
+
+            ctx.font =
+                "bold 11px sans-serif";
+
+
+            ctx.fillText(
+                "RA",
+                x + 15,
+                marginTop +
+                motifTitleHeight
+            );
+
+
+            ctx.fillText(
+                "LA",
+                x + 95,
+                marginTop +
+                motifTitleHeight
+            );
+
+
+            // =================================
+            // start
+            // =================================
 
             ctx.font =
                 "10px sans-serif";
 
-            labels.forEach(
-                (label, i) => {
 
-                    ctx.fillStyle =
-                        "#333333";
-
-                    ctx.fillText(
-                        label,
-                        xPositions[i],
-                        marginTop + 32
+            const rightStarts =
+                motif.occurrences
+                    .filter(
+                        occurrence =>
+                            occurrence.hand === "RA"
+                    )
+                    .map(
+                        occurrence =>
+                            occurrence.start
                     );
 
-                }
+
+            const leftStarts =
+                motif.occurrences
+                    .filter(
+                        occurrence =>
+                            occurrence.hand === "LA"
+                    )
+                    .map(
+                        occurrence =>
+                            occurrence.start
+                    );
+
+
+            ctx.fillText(
+                rightStarts.length
+                    ? rightStarts.join(", ")
+                    : "-",
+                x + 5,
+                marginTop +
+                motifTitleHeight +
+                16
             );
 
-    // =====================================================
-    // 各RA/RB/LA/LBを描画
-    // =====================================================
 
-        arrays.forEach(
-            (occurrences, typeIndex) => {
-
-                const eventMap =
-                    maps[typeIndex];
-
-                const x =
-                    xPositions[typeIndex];
+            ctx.fillText(
+                leftStarts.length
+                    ? leftStarts.join(", ")
+                    : "-",
+                x + 85,
+                marginTop +
+                motifTitleHeight +
+                16
+            );
 
 
-                // -----------------------------------------
-                // occurrence
-                // -----------------------------------------
+            // =================================
+            // Pattern
+            // =================================
 
-                for(
-                    const occurrence of occurrences
-                ){
+            for(
+                let i = 0;
+                i < motif.length;
+                i++
+            ){
+
+                const y =
+                    graphTop +
+                    i * eventHeight;
+
+
+                // ---------------------------------
+                // Right
+                // ---------------------------------
+
+                const rightEvent =
+                    getEventAt(
+                        shapeEventDataRight,
+                        i
+                    );
+
+
+                if(rightEvent){
+
+                    const pc =
+                        rightEvent
+                            .points[0]
+                            .pitchClass;
+
 
                     if(
-                        !occurrence ||
-                        !Array.isArray(occurrence.positions)
+                        pc !== undefined
                     ){
-                        continue;
+
+                        ctx.fillStyle =
+                            "black";
+
+                        ctx.beginPath();
+
+                        ctx.arc(
+                            x + 25,
+                            y,
+                            3,
+                            0,
+                            Math.PI * 2
+                        );
+
+                        ctx.fill();
+
                     }
 
+                }
 
-                    // -----------------------------------------
-                    // positions
-                    // -----------------------------------------
 
-                    for(
-                        const start of occurrence.positions
+                // ---------------------------------
+                // Left
+                // ---------------------------------
+
+                const leftEvent =
+                    getEventAt(
+                        shapeEventDataLeft,
+                        i
+                    );
+
+
+                if(leftEvent){
+
+                    const pc =
+                        leftEvent
+                            .points[0]
+                            .pitchClass;
+
+
+                    if(
+                        pc !== undefined
                     ){
 
-                        for(
-                            let k = 0;
-                            k < occurrence.length;
-                            k++
-                        ){
+                        ctx.fillStyle =
+                            "black";
 
-                            const eventIndex =
-                                start + k;
+                        ctx.beginPath();
 
+                        ctx.arc(
+                            x + 105,
+                            y,
+                            3,
+                            0,
+                            Math.PI * 2
+                        );
 
-                            const event =
-                                eventMap[eventIndex];
-
-
-                            if(!event)
-                                continue;
-
-
-                            if(
-                                !event.points ||
-                                !event.points.length
-                            ){
-                                continue;
-                            }
-
-
-                            const point =
-                                event.points[0];
-
-
-                            const pc =
-                                point.pitchClass;
-
-
-                            if(
-                                pc === undefined ||
-                                pc < 0 ||
-                                pc > 11
-                            ){
-                                continue;
-                            }
-
-
-                            // ---------------------------------
-                            // X / Y
-                            // ---------------------------------
-
-                            const px =
-                                x +
-                                (pc - 5.5) * 2;
-
-
-                            const y =
-                                eventY +
-                                eventIndex *
-                                eventHeight +
-                                eventHeight / 2;
-
-
-                            // ---------------------------------
-                            // 描画確認
-                            // ---------------------------------
-
-                            if(
-                                motifIndex === 0 &&
-                                typeIndex === 2 &&
-                                start === occurrence.positions[0] &&
-                                k === 0
-                            ){
-
-                                console.log(
-                                    "DRAW POINT",
-                                    "px =", px,
-                                    "y =", y,
-                                    "pc =", pc
-                                );
-
-                            }
-
-
-                            // ---------------------------------
-                            // pitchClass color
-                            // ---------------------------------
-
-                            ctx.fillStyle =
-                                workingColor.pc[pc];
-
-
-                            ctx.beginPath();
-
-
-                            ctx.arc(
-                                px,
-                                y,
-                                4,
-                                0,
-                                Math.PI * 2
-                            );
-
-
-                            ctx.fill();
-
-                        }
+                        ctx.fill();
 
                     }
 
                 }
 
             }
-        );
 
-    } // motifIndex for
-
-    // =====================================================
-    // Motif境界線
-    // =====================================================
-
-    ctx.strokeStyle =
-        "#dddddd";
-
-    for(
-        let motifIndex = startMotif;
-        motifIndex < endMotif;
-        motifIndex++
-    ){
-
-        const displayIndex =
-            motifIndex - startMotif;
-
-        const x =
-            marginLeft +
-            displayIndex * motifWidth;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            x,
-            marginTop
-        );
-
-        ctx.lineTo(
-            x,
-            canvas.height -
-            marginBottom
-        );
-
-        ctx.stroke();
-
-    }
-
-
-    // =====================================================
-    // 最後の境界線
-    // =====================================================
-
-    const lastX =
-        marginLeft +
-        visibleMotifs * motifWidth;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        lastX,
-        marginTop
+        }
     );
 
-    ctx.lineTo(
-        lastX,
-        canvas.height -
-        marginBottom
-    );
-
-    ctx.stroke();
-
-} // drawInternalMotifGraph
-
-
+}
 
 
 function createShapeEvent(scoreNotes, hand){
@@ -5969,7 +5645,10 @@ function groupInternalMotifs(data, candidates){
                     normalized,
 
                 positions:
-                    new Set()
+                    new Set(),
+
+                occurrences:
+                    []
 
             };
 
@@ -5980,22 +5659,103 @@ function groupInternalMotifs(data, candidates){
             motifMap[key];
 
 
+        // =================================
+        // A側の出現位置
+        // =================================
+
         motif.positions.add(
             candidate.startA
         );
 
+        motif.occurrences.push({
+
+            start:
+                candidate.startA,
+
+            transpose:
+                candidate.transpose
+
+        });
+
+
+        // =================================
+        // B側の出現位置
+        // =================================
+
         motif.positions.add(
             candidate.startB
         );
+
+        motif.occurrences.push({
+
+            start:
+                candidate.startB,
+
+            transpose:
+                candidate.transpose
+
+        });
 
     }
 
 
     const result = [];
 
-    for(const motif of Object.values(motifMap)){
 
-        if(motif.positions.size >= 2){
+    for(
+        const motif
+        of Object.values(motifMap)
+    ){
+
+        // =================================
+        // start重複を削除
+        // =================================
+
+        const unique =
+            new Map();
+
+
+        for(
+            const occurrence
+            of motif.occurrences
+        ){
+
+            if(
+                !unique.has(
+                    occurrence.start
+                )
+            ){
+
+                unique.set(
+                    occurrence.start,
+                    {
+                        start:
+                            occurrence.start,
+
+                        transpose:
+                            occurrence.transpose
+                    }
+                );
+
+            }
+
+        }
+
+
+        const occurrences =
+            [...unique.values()].sort(
+                (a,b) =>
+                    a.start - b.start
+            );
+
+
+        // =================================
+        // 2箇所以上ならInternal Motif
+        // =================================
+
+        if(
+            motif.positions.size >= 2
+        ){
 
             result.push({
 
@@ -6008,7 +5768,10 @@ function groupInternalMotifs(data, candidates){
                 positions:
                     [...motif.positions].sort(
                         (a,b) => a-b
-                    )
+                    ),
+
+                occurrences:
+                    occurrences
 
             });
 
