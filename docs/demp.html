@@ -4316,12 +4316,19 @@ function drawInternalMotifGraph(
     // サイズ
     // =====================================
 
-    const marginLeft = 75;
-    const marginTop = 45;
+    const measureWidth = 55;
+    const eventWidth = 55;
 
-    const motifWidth = 170;
+    const marginLeft =
+        measureWidth +
+        eventWidth +
+        20;
 
-    const graphTop = 75;
+    const marginTop = 65;
+
+    const motifWidth = 180;
+
+    const graphTop = 105;
 
     const eventHeight = 14;
 
@@ -4378,21 +4385,27 @@ function drawInternalMotifGraph(
 
 
     // =====================================
-    // Event
+    // Measure Event
     // =====================================
 
-    ctx.textAlign =
-        "right";
+    ctx.textAlign = "right";
 
     ctx.font =
         "bold 10px sans-serif";
 
     ctx.fillText(
-        "Event",
-        marginLeft - 8,
-        graphTop - 12
+        "Measure",
+        measureWidth - 5,
+        graphTop - 30
     );
 
+    ctx.fillText(
+        "Event",
+        measureWidth +
+        eventWidth -
+        5,
+        graphTop - 30
+    );
 
     // =====================================
     // 小節番号
@@ -4428,12 +4441,19 @@ function drawInternalMotifGraph(
             continue;
         }
 
+        ctx.fillText(
+            String(eventIndex),
+            measureWidth +
+            eventWidth -
+            5,
+            y + 4
+        );
+
         const measure =
             Math.floor(
                 event.start /
                 ticksPerMeasure
             ) + 1;
-
 
         if(
             measure !== lastMeasure
@@ -4446,7 +4466,7 @@ function drawInternalMotifGraph(
 
             ctx.fillText(
                 String(measure),
-                45,
+                measureWidth - 5,
                 y + 4
             );
 
@@ -4459,22 +4479,26 @@ function drawInternalMotifGraph(
 
 
     // =====================================
-    // 小節番号ラベル
-    // =====================================
-
-    ctx.font =
-        "bold 10px sans-serif";
-
-    ctx.fillText(
-        "Measure",
-        45,
-        graphTop - 12
-    );
-
-
-    // =====================================
     // Motif
     // =====================================
+    ctx.strokeStyle = "#888";
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x - 10,
+        graphTop - 45
+    );
+
+    ctx.lineTo(
+        x - 10,
+        graphTop +
+        totalEvents *
+        eventHeight
+    );
+
+    ctx.stroke();
 
     motifs.forEach(
         (motif, motifIndex) => {
