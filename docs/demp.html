@@ -4500,39 +4500,27 @@ function drawInternalMotifGraph(
     ctx.textAlign =
         "right";
 
-
     ctx.fillText(
-        "L Measure",
+        "Measure",
         measureWidth - 5,
         graphTop - 30
     );
 
-
     ctx.fillText(
         "L Event",
-        measureWidth * 2 -
-        5,
-        graphTop - 30
-    );
-
-
-    ctx.fillText(
-        "R Measure",
-        measureWidth * 2 +
+        measureWidth +
         eventWidth -
         5,
         graphTop - 30
     );
 
-
     ctx.fillText(
         "R Event",
-        measureWidth * 2 +
+        measureWidth +
         eventWidth * 2 -
         5,
         graphTop - 30
-    );
-
+        );
 
     // =====================================
     // L / R Measure
@@ -4544,80 +4532,6 @@ function drawInternalMotifGraph(
 
     ctx.fillStyle =
         "black";
-
-
-    // -------------------------------------
-    // Left Measure
-    // -------------------------------------
-
-    for(
-        const event
-        of leftEvents
-    ){
-
-        if(
-            typeof event.start !== "number"
-        ){
-            continue;
-        }
-
-
-        const measure =
-            Math.floor(
-                event.start /
-                ticksPerMeasure
-            ) + 1;
-
-
-        const y =
-            getY(event.start);
-
-
-        ctx.fillText(
-            String(measure),
-            measureWidth - 5,
-            y + 4
-        );
-
-    }
-
-
-    // -------------------------------------
-    // Right Measure
-    // -------------------------------------
-
-    for(
-        const event
-        of rightEvents
-    ){
-
-        if(
-            typeof event.start !== "number"
-        ){
-            continue;
-        }
-
-
-        const measure =
-            Math.floor(
-                event.start /
-                ticksPerMeasure
-            ) + 1;
-
-
-        const y =
-            getY(event.start);
-
-
-        ctx.fillText(
-            String(measure),
-            measureWidth * 2 +
-            eventWidth -
-            5,
-            y + 4
-        );
-
-    }
 
 
     // =====================================
@@ -4664,6 +4578,13 @@ function drawInternalMotifGraph(
         );
 
         ctx.stroke();
+
+        ctx.fillText(
+            String(measure),
+            measureWidth - 5,
+            y + 10
+        );
+
 
     }
 
