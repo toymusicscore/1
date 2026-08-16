@@ -6275,7 +6275,6 @@ function getNormalizedPattern(
         pc => (pc - base + 12) % 12
     );
 }
-
 function groupCommonMotifs(
     commonMotifs,
     shapeEventDataRightA,
@@ -6286,23 +6285,50 @@ function groupCommonMotifs(
 
     const groups = new Map();
 
+
     const dataMap = {
-        RA: shapeEventDataRightA,
-        RB: shapeEventDataRightB,
-        LA: shapeEventDataLeftA,
-        LB: shapeEventDataLeftB
+
+        RA:
+            shapeEventDataRightA,
+
+        RB:
+            shapeEventDataRightB,
+
+        LA:
+            shapeEventDataLeftA,
+
+        LB:
+            shapeEventDataLeftB
+
     };
 
-    for(const candidate of commonMotifs){
 
-        const [typeA, typeB] =
+    // =====================================
+    // Common Motifをグループ化
+    // =====================================
+
+    for(
+        const candidate
+        of commonMotifs
+    ){
+
+        const [
+            typeA,
+            typeB
+        ] =
             candidate.type.split("_");
+
 
         const dataA =
             dataMap[typeA];
 
         const dataB =
             dataMap[typeB];
+
+
+        // =================================
+        // A
+        // =================================
 
         const patternA =
             getNormalizedPattern(
@@ -6311,12 +6337,18 @@ function groupCommonMotifs(
                 candidate.length
             );
 
+
+        // =================================
+        // B
+        // =================================
+
         const patternB =
             getNormalizedPattern(
                 dataB,
                 candidate.startB,
                 candidate.length
             );
+
 
         if(
             !patternA ||
@@ -6325,7 +6357,11 @@ function groupCommonMotifs(
             continue;
         }
 
-        // A/Bで正規化patternが一致しなければ除外
+
+        // =================================
+        // A/Bのpattern確認
+        // =================================
+
         if(
             patternA.length !==
             patternB.length
@@ -6333,31 +6369,49 @@ function groupCommonMotifs(
             continue;
         }
 
+
         let same = true;
 
-        for(let i = 0; i < patternA.length; i++){
+
+        for(
+            let i = 0;
+            i < patternA.length;
+            i++
+        ){
 
             if(
                 patternA[i] !==
                 patternB[i]
             ){
+
                 same = false;
                 break;
+
             }
+
         }
+
 
         if(!same){
             continue;
         }
 
-        // ---------------------------------
-        // patternをキーにする
-        // transposeはキーに含めない
-        // ---------------------------------
+
+        // =================================
+        // 重要
+        //
+        // typeはキーに含めない
+        //
+        // RA_RB
+        // RA_LB
+        // LA_RB
+        // LA_LB
+        //
+        // でも同じpatternなら
+        // 同じCommon Motif
+        // =================================
 
         const key =
-            candidate.type +
-            ":" +
             candidate.length +
             ":" +
             patternA.join(",");
@@ -6365,33 +6419,34 @@ function groupCommonMotifs(
 
         if(!groups.has(key)){
 
-            groups.set(key, {
+            groups.set(
+                key,
+                {
 
-                type:
-                    candidate.type,
+                    length:
+                        candidate.length,
 
-                length:
-                    candidate.length,
+                    pattern:
+                        [...patternA],
 
-                pattern:
-                    [...patternA],
+                    RA: [],
+                    RB: [],
+                    LA: [],
+                    LB: []
 
-                RA: [],
-                RB: [],
-                LA: [],
-                LB: []
-
-            });
+                }
+            );
 
         }
+
 
         const group =
             groups.get(key);
 
 
-        // ---------------------------------
+        // =================================
         // A側
-        // ---------------------------------
+        // =================================
 
         group[typeA].push({
 
@@ -6404,9 +6459,9 @@ function groupCommonMotifs(
         });
 
 
-        // ---------------------------------
+        // =================================
         // B側
-        // ---------------------------------
+        // =================================
 
         group[typeB].push({
 
@@ -6420,9 +6475,10 @@ function groupCommonMotifs(
 
     }
 
-    // -------------------------------------
+
+    // =====================================
     // 配列化
-    // -------------------------------------
+    // =====================================
 
     const result =
         Array.from(
@@ -6430,53 +6486,66 @@ function groupCommonMotifs(
         );
 
 
-    // -------------------------------------
-    // 長いMotifを先にする
-    // -------------------------------------
+    // =====================================
+    // 出現位置の重複削除
+    // =====================================
 
-    result.sort(
-        (a,b) =>
-            b.length - a.length
-    );
+    for(
+        const motif
+        of result
+    ){
 
-
-    // -------------------------------------
-    // 出現位置の重複を削除
-    // transpose違いは同じ位置なら1つにする
-    // -------------------------------------
-
-    for(const motif of result){
-
-        for(const hand of ["RA", "RB", "LA", "LB"]){
-
-            const occurrences =
-                motif[hand];
+        for(
+            const hand
+            of [
+                "RA",
+                "RB",
+                "LA",
+                "LB"
+            ]
+        ){
 
             const unique =
                 new Map();
 
-            for(const occurrence of occurrences){
+
+            for(
+                const occurrence
+                of motif[hand]
+            ){
 
                 const start =
                     occurrence.start;
 
-                if(!unique.has(start)){
+
+                if(
+                    !unique.has(start)
+                ){
 
                     unique.set(
                         start,
                         {
-                            start: start,
-                            transpose: occurrence.transpose
-                       }
+
+                            start:
+                                start,
+
+                            transpose:
+                                occurrence.transpose
+
+                        }
                     );
 
                 }
 
             }
 
+
             motif[hand] =
                 Array.from(
                     unique.values()
+                ).sort(
+                    (a,b) =>
+                        a.start - b.start
                 );
 
         }
@@ -6484,40 +6553,27 @@ function groupCommonMotifs(
     }
 
 
-    // -------------------------------------
-    // Motifの長さ順
-    // -------------------------------------
+    // =====================================
+    // 長いMotifを優先
+    // =====================================
 
     result.sort(
-        (a, b) => {
-
-            if(b.length !== a.length){
-
-                return b.length - a.length;
-
-            }
-
-            return (
-                a.type.localeCompare(
-                    b.type
-                )
-            );
-
-        }
+        (a,b) =>
+            b.length - a.length
     );
 
 
-    // -------------------------------------
+    // =====================================
     // 上位10件
-    // -------------------------------------
+    // =====================================
 
     const topMotifs =
         result.slice(0, 10);
 
 
-    // -------------------------------------
+    // =====================================
     // Motif ID
-    // -------------------------------------
+    // =====================================
 
     topMotifs.forEach(
         (motif, index) => {
