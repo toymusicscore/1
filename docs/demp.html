@@ -8547,15 +8547,15 @@ function searchPitchClass(){
 
     console.log("=== searchPitchClass ===");
 
-    const queryPattern0 =
+    const queryPattern =
         getPitchClassQuery();
 
     console.log(
         "queryPattern =",
-        queryPattern0
+        queryPattern
     );
 
-    if(queryPattern0.length === 0){
+    if(queryPattern.length === 0){
         return;
     }
 
@@ -8605,13 +8605,7 @@ function searchPitchClass(){
         shapeEventDataLeftB
     );
 
-    const queryPattern =
-        getPitchClassQuery();
-
-    const resultDiv =
-        document.getElementById(
-            "pitchClassResult"
-        );
+    const resultDiv = $("htmlArea");
 
     resultDiv.innerHTML = "";
 
@@ -8711,12 +8705,9 @@ function displayPitchClassResults(
     queryPattern,
     results
 ){
-/*
-    const div =
-        document.getElementById(
-            "pitchClassResult"
-        );
-*/
+
+    const div = $("htmlArea");
+
     let html = "";
 
     html +=
@@ -8763,9 +8754,7 @@ function displayPitchClassResults(
             "</div>";
     }
 
-//    div.innerHTML = html;
-
-    $("htmlArea").innerHTML = html;
+    div.innerHTML = html;
 	
 	showPage(PAGE.HTML);
 
@@ -8774,13 +8763,10 @@ function displayPitchClassResults(
 
 function clearPitchClassSearch(){
 
-    document.getElementById(
-        "pitchClassInput"
-    ).value = "";
+    $("pitchClassInput").value = "";
 
-    document.getElementById(
-        "pitchClassResult"
-    ).innerHTML = "";
+    $("htmlArea").innerHTML = "";
+
 }
 
 /*
