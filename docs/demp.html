@@ -6866,9 +6866,13 @@ function mergeInternalMotifs(
     // 上位10件
     // =====================================
 
-    const top =
-        result.slice(0, 10);
+    const filtered =
+        filterMergedInternalMotifs(
+            result
+        );
 
+    const top =
+        filtered.slice(0, 10);
 
     // =====================================
     // Motif ID
