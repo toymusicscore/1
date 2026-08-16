@@ -4804,35 +4804,95 @@ function drawInternalMotifGraph(
 
             }
 
+            // =================================
+            // Motif内のpitch class位置
+            // =================================
+
+            const handWidth =
+                motifWidth / 2;
+
+            const pitchWidth =
+                handWidth / 12;
+
 
             // =================================
             // Left Plot
             // =================================
 
             for(
-                const start
-                of leftPositions
+                const occurrence
+                of motif.L
             ){
 
-                const y =
-                    getY(start);
+                for(
+                    let i = 0;
+                    i < motif.length;
+                    i++
+                ){
+
+                    const eventIndex =
+                        occurrence.start + i;
 
 
-                ctx.fillStyle =
-                    "black";
+                    const event =
+                        shapeEventDataLeft[eventIndex];
 
 
-                ctx.beginPath();
+                    if(!event){
+                        continue;
+                    }
 
-                ctx.arc(
-                    x + 25,
-                    y,
-                    3,
-                    0,
-                    Math.PI * 2
-                );
 
-                ctx.fill();
+                    // -----------------------------
+                    // Event内の各note
+                    // -----------------------------
+
+                    for(
+                        const point
+                        of event.points
+                    ){
+
+                        const start =
+                            point.start;
+
+
+                        const pitchClass =
+                            point.pitchClass;
+
+
+                        const y =
+                            getY(start);
+
+
+                        const px =
+                            x +
+                            (pitchClass + 0.5) *
+                            pitchWidth;
+
+
+                        // -------------------------
+                        // 元のpitch classの色
+                        // -------------------------
+
+                        ctx.fillStyle =
+                            workingColor.pc[pitchClass];
+
+
+                        ctx.beginPath();
+
+                        ctx.arc(
+                            px,
+                            y,
+                            3,
+                            0,
+                            Math.PI * 2
+                        );
+
+                        ctx.fill();
+
+                    }
+
+                }
 
             }
 
@@ -4842,32 +4902,82 @@ function drawInternalMotifGraph(
             // =================================
 
             for(
-                const start
-                of rightPositions
+                const occurrence
+                of motif.R
             ){
 
-                const y =
-                    getY(start);
+                for(
+                    let i = 0;
+                    i < motif.length;
+                    i++
+                ){
+
+                    const eventIndex =
+                        occurrence.start + i;
 
 
-                ctx.fillStyle =
-                    "black";
+                    const event =
+                        shapeEventDataRight[eventIndex];
 
 
-                ctx.beginPath();
+                    if(!event){
+                        continue;
+                    }
 
-                ctx.arc(
-                    x + 105,
-                    y,
-                    3,
-                    0,
-                    Math.PI * 2
-                );
 
-                ctx.fill();
+                    // -----------------------------
+                    // Event内の各note
+                    // -----------------------------
+
+                    for(
+                        const point
+                        of event.points
+                    ){
+
+                        const start =
+                            point.start;
+
+
+                        const pitchClass =
+                            point.pitchClass;
+
+
+                        const y =
+                            getY(start);
+
+
+                        const px =
+                            x +
+                            handWidth +
+                            (pitchClass + 0.5) *
+                            pitchWidth;
+
+
+                        // -------------------------
+                        // 元のpitch classの色
+                        // -------------------------
+
+                        ctx.fillStyle =
+                            workingColor.pc[pitchClass];
+
+
+                        ctx.beginPath();
+
+                        ctx.arc(
+                            px,
+                            y,
+                            3,
+                            0,
+                            Math.PI * 2
+                        );
+
+                        ctx.fill();
+
+                    }
+
+                }
 
             }
-
         }
     );
 
