@@ -4333,7 +4333,7 @@ function drawInternalMotifGraph(
 
     const marginLeft =
         measureWidth +
-        eventWidth +
+        eventWidth * 2 +
         20;
 
     const marginTop = 65;
@@ -4414,10 +4414,9 @@ function drawInternalMotifGraph(
 
     }
 
-
     // =====================================
     // Event番号
-    // 右手・左手を独立して表示
+    // 左手・右手を別々に表示
     // =====================================
 
     ctx.fillStyle =
@@ -4431,29 +4430,7 @@ function drawInternalMotifGraph(
 
 
     // -------------------------------------
-    // 右手Event
-    // -------------------------------------
-
-    for(
-        const event
-        of rightEvents
-    ){
-
-        const y =
-            getY(event.start);
-
-
-        ctx.fillText(
-            String(event.event),
-            marginLeft - 8,
-            y + 3
-        );
-
-    }
-
-
-    // -------------------------------------
-    // 左手Event
+    // Left Event
     // -------------------------------------
 
     for(
@@ -4467,7 +4444,33 @@ function drawInternalMotifGraph(
 
         ctx.fillText(
             String(event.event),
-            marginLeft - 8,
+            measureWidth +
+            eventWidth -
+            5,
+            y + 3
+        );
+
+    }
+
+
+    // -------------------------------------
+    // Right Event
+    // -------------------------------------
+
+    for(
+        const event
+        of rightEvents
+    ){
+
+        const y =
+            getY(event.start);
+
+
+        ctx.fillText(
+            String(event.event),
+            measureWidth +
+            eventWidth * 2 -
+            5,
             y + 3
         );
 
@@ -4484,22 +4487,27 @@ function drawInternalMotifGraph(
     ctx.font =
         "bold 10px sans-serif";
 
-
     ctx.fillText(
         "Measure",
         measureWidth - 5,
         graphTop - 30
     );
 
-
     ctx.fillText(
-        "Event",
+        "L Event",
         measureWidth +
         eventWidth -
         5,
         graphTop - 30
     );
 
+    ctx.fillText(
+        "R Event",
+        measureWidth +
+        eventWidth * 2 -
+        5,
+        graphTop - 30
+    );
 
     // =====================================
     // 小節番号 + 小節区切り線
