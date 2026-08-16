@@ -4429,32 +4429,29 @@ function drawInternalMotifGraph(
     // -------------------------------------
     // Left Event
     // -------------------------------------
-
     for(
         const event
         of leftEvents
     ){
 
         if(
-            typeof event.start !== "number"
+            event.event % 10 !== 0
         ){
             continue;
         }
 
-
         const y =
             getY(event.start);
 
-
         ctx.fillText(
             String(event.event),
-            measureWidth * 2 -
+            measureWidth +
+            eventWidth -
             5,
             y + 4
         );
 
     }
-
 
     // -------------------------------------
     // Right Event
@@ -4466,27 +4463,23 @@ function drawInternalMotifGraph(
     ){
 
         if(
-            typeof event.start !== "number"
+            event.event % 10 !== 0
         ){
             continue;
         }
 
-
         const y =
             getY(event.start);
 
-
         ctx.fillText(
             String(event.event),
-            measureWidth * 2 +
+            measureWidth +
             eventWidth * 2 -
             5,
             y + 4
         );
 
     }
-
-
     // =====================================
     // 見出し
     // =====================================
