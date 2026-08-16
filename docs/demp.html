@@ -6915,321 +6915,821 @@ function drawCommonMotifGraph(motifs){
 
 
     // =====================================
-    // 表示設定
+    // 上位10件
     // =====================================
 
-    const marginLeft = 80;
-    const marginTop = 50;
+    const commonMotifs =
+        motifs.slice(0, 10);
 
-    const columnWidth = 100;
 
-    const timeHeight = 16;
+    if(!commonMotifs.length){
 
-    const motifTitleHeight = 30;
+        ctx.font =
+            "14px sans-serif";
 
-    const headerHeight = 45;
+        ctx.fillStyle =
+            "black";
 
-    const motifGap = 40;
+        ctx.fillText(
+            "No Common Motifs",
+            30,
+            40
+        );
 
-    const hands = [
-        "RA",
-        "RB",
-        "LA",
-        "LB"
+        return;
+    }
+
+
+    // =====================================
+    // Event
+    // =====================================
+
+    const rightEventsA =
+        Object.values(
+            shapeEventDataRightA
+        );
+
+    const leftEventsA =
+        Object.values(
+            shapeEventDataLeftA
+        );
+
+    const rightEventsB =
+        Object.values(
+            shapeEventDataRightB
+        );
+
+    const leftEventsB =
+        Object.values(
+            shapeEventDataLeftB
+        );
+
+
+    // =====================================
+    // 全Event
+    // =====================================
+
+    const allEventsA = [
+        ...rightEventsA,
+        ...leftEventsA
+    ];
+
+    const allEventsB = [
+        ...rightEventsB,
+        ...leftEventsB
     ];
 
 
-    const graphWidth =
-        hands.length * columnWidth;
+    if(
+        !allEventsA.length ||
+        !allEventsB.length
+    ){
+
+        return;
+    }
 
 
     // =====================================
-    // Motifごとの高さ
+    // 最大start
+    // A
     // =====================================
 
-    let totalHeight =
-        marginTop;
+    let maxStartA = 0;
 
+    for(
+        const event
+        of allEventsA
+    ){
 
-    for(const motif of motifs){
+        if(
+            typeof event.start === "number" &&
+            event.start > maxStartA
+        ){
 
-        totalHeight +=
-            motifTitleHeight +
-            headerHeight +
-            motif.length *
-            timeHeight +
-            motifGap;
+            maxStartA =
+                event.start;
+        }
 
     }
 
 
-    totalHeight += 50;
+    // =====================================
+    // 最大start
+    // B
+    // =====================================
+
+    let maxStartB = 0;
+
+    for(
+        const event
+        of allEventsB
+    ){
+
+        if(
+            typeof event.start === "number" &&
+            event.start > maxStartB
+        ){
+
+            maxStartB =
+                event.start;
+        }
+
+    }
 
 
     // =====================================
-    // Canvasサイズ
+    // 最後の小節
+    // A / B 独立
+    // =====================================
+
+    const maxMeasureA =
+        Math.floor(
+            maxStartA /
+            ticksPerMeasureA
+        ) + 1;
+
+
+    const maxMeasureB =
+        Math.floor(
+            maxStartB /
+            ticksPerMeasureB
+        ) + 1;
+
+
+    // =====================================
+    // 楽曲全体のtick範囲
+    // =====================================
+
+    const totalTicksA =
+        maxMeasureA *
+        ticksPerMeasureA;
+
+
+    const totalTicksB =
+        maxMeasureB *
+        ticksPerMeasureB;
+
+
+    // =====================================
+    // サイズ
+    // =====================================
+
+    const measureWidth = 55;
+    const eventWidth = 55;
+
+    const axisWidth =
+        measureWidth +
+        eventWidth * 2;
+
+    const handWidth = 65;
+
+    const songWidth =
+        handWidth * 2;
+
+    const songGap = 45;
+
+    const motifWidth =
+        axisWidth * 2 +
+        songWidth * 2 +
+        songGap +
+        20;
+
+    const marginLeft = 10;
+
+    const marginTop = 65;
+
+    const graphTop = 105;
+
+
+    // =====================================
+    // 縦方向
+    // A / B 独立
+    // =====================================
+
+    const maxGraphHeight =
+        Math.min(
+            700,
+            window.innerHeight -
+            graphTop -
+            30
+        );
+
+
+    const timeScaleA =
+        maxGraphHeight /
+        totalTicksA;
+
+
+    const timeScaleB =
+        maxGraphHeight /
+        totalTicksB;
+
+
+    // =====================================
+    // Canvas
     // =====================================
 
     canvas.width =
-        Math.max(
-            canvas.width,
-            marginLeft +
-            graphWidth +
-            50
-        );
+        marginLeft +
+        commonMotifs.length *
+        motifWidth +
+        30;
 
     canvas.height =
-        totalHeight;
+        graphTop +
+        maxGraphHeight +
+        40;
+
+
+    // =====================================
+    // start → Y
+    // A
+    // =====================================
+
+    function getYA(start){
+
+        return (
+            graphTop +
+            start *
+            timeScaleA
+        );
+
+    }
+
+
+    // =====================================
+    // start → Y
+    // B
+    // =====================================
+
+    function getYB(start){
+
+        return (
+            graphTop +
+            start *
+            timeScaleB
+        );
+
+    }
+
+
+    // =====================================
+    // 全体の文字設定
+    // =====================================
+
+    ctx.fillStyle =
+        "black";
+
+    ctx.font =
+        "11px sans-serif";
+
+    ctx.textAlign =
+        "right";
 
 
     // =====================================
     // Motif
     // =====================================
 
-    motifs.forEach(
+    commonMotifs.forEach(
         (motif, motifIndex) => {
 
-            let previousHeight = 0;
-
-            for(
-                let j = 0;
-                j < motifIndex;
-                j++
-            ){
-
-                previousHeight +=
-                    motifTitleHeight +
-                    headerHeight +
-                    motifs[j].length *
-                    timeHeight +
-                    motifGap;
-
-            }
-
-
-            const top =
-                marginTop +
-                previousHeight;
+            const x =
+                marginLeft +
+                motifIndex *
+                motifWidth;
 
 
             // =================================
-            // Motif title
+            // A / B の位置
             // =================================
+
+            const aX =
+                x;
+
+            const bX =
+                x +
+                axisWidth +
+                songWidth +
+                songGap;
+
+
+            // =================================
+            // Motif区切り線
+            // =================================
+
+            ctx.strokeStyle =
+                "#888";
+
+            ctx.lineWidth =
+                1;
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x,
+                graphTop - 45
+            );
+
+            ctx.lineTo(
+                x,
+                graphTop +
+                maxGraphHeight
+            );
+
+            ctx.stroke();
+
+
+            // =================================
+            // Title
+            // =================================
+
+            ctx.textAlign =
+                "left";
 
             ctx.font =
-                "bold 18px sans-serif";
+                "bold 12px sans-serif";
 
-            ctx.fillStyle = "black"
+            ctx.fillStyle =
+                "black";
+
 
             ctx.fillText(
                 "Common Motif " +
-                motif.motifId +
+                (motifIndex + 1) +
                 " (" +
                 motif.length +
                 ")",
-                marginLeft,
-                top
+                x + 5,
+                marginTop
             );
 
 
             // =================================
-            // Graph top
+            // Song A / Song B
             // =================================
 
-            const graphTop =
-                top +
-                motifTitleHeight +
-                headerHeight;
+            ctx.font =
+                "bold 11px sans-serif";
+
+
+            ctx.fillText(
+                "Song A",
+                aX +
+                axisWidth +
+                5,
+                marginTop + 18
+            );
+
+
+            ctx.fillText(
+                "Song B",
+                bX +
+                axisWidth +
+                5,
+                marginTop + 18
+            );
+
 
             // =================================
-            // 4 directions
+            // A 軸ラベル
             // =================================
 
-            hands.forEach(
-                (hand, handIndex) => {
+            ctx.font =
+                "bold 9px sans-serif";
 
-                    const x =
-                        marginLeft +
-                        handIndex *
-                        columnWidth;
+            ctx.textAlign =
+                "right";
 
 
-                    const occurrences =
-                        motif[hand] || [];
+            ctx.fillText(
+                "Measure A",
+                aX +
+                measureWidth -
+                5,
+                graphTop - 30
+            );
 
 
-                    // =============================
-                    // hand label
-                    // =============================
+            ctx.fillText(
+                "L Event A",
+                aX +
+                measureWidth +
+                eventWidth -
+                5,
+                graphTop - 30
+            );
 
-                    ctx.font =
-                        "bold 13px sans-serif";
 
-                    ctx.fillStyle = "black"
+            ctx.fillText(
+                "R Event A",
+                aX +
+                measureWidth +
+                eventWidth * 2 -
+                5,
+                graphTop - 30
+            );
 
-                    ctx.fillText(
-                        hand,
-                        x + 35,
-                        top +
-                        motifTitleHeight +
-                        12
+
+            // =================================
+            // B 軸ラベル
+            // =================================
+
+            ctx.fillText(
+                "Measure B",
+                bX +
+                measureWidth -
+                5,
+                graphTop - 30
+            );
+
+
+            ctx.fillText(
+                "L Event B",
+                bX +
+                measureWidth +
+                eventWidth -
+                5,
+                graphTop - 30
+            );
+
+
+            ctx.fillText(
+                "R Event B",
+                bX +
+                measureWidth +
+                eventWidth * 2 -
+                5,
+                graphTop - 30
+            );
+
+
+            // =================================
+            // Measure A
+            // =================================
+
+            ctx.font =
+                "11px sans-serif";
+
+            ctx.fillStyle =
+                "black";
+
+
+            for(
+                let measure = 1;
+                measure <= maxMeasureA;
+                measure++
+            ){
+
+                const measureStart =
+                    (measure - 1) *
+                    ticksPerMeasureA;
+
+
+                const y =
+                    getYA(
+                        measureStart
                     );
 
 
-                    // =============================
-                    // start positions
-                    // =============================
+                ctx.fillText(
+                    String(measure),
+                    aX +
+                    measureWidth -
+                    5,
+                    y + 14
+                );
 
-                    ctx.font =
-                        "10px sans-serif";
-
-
-                    const starts =
-                        occurrences.map(
-                            occurrence =>
-                                occurrence.start
-                        );
+            }
 
 
-                    // -----------------------------
-                    // 重複を除去
-                    // -----------------------------
+            // =================================
+            // Measure B
+            // =================================
 
-                    const uniqueStarts =
-                        [...new Set(starts)];
+            for(
+                let measure = 1;
+                measure <= maxMeasureB;
+                measure++
+            ){
 
-                    // =================================
-                    // start positions
-                    // =================================
+                const measureStart =
+                    (measure - 1) *
+                    ticksPerMeasureB;
 
-                    ctx.font =
-                        "10px sans-serif";
 
-                    const startTexts =
-                        hands.map(
-                            hand => {
-
-                                const occurrences =
-                                    motif[hand] || [];
-
-                                const starts =
-                                    occurrences.map(
-                                        occurrence =>
-                                            occurrence.start
-                                    );
-
-                                const uniqueStarts =
-                                    [...new Set(starts)];
-
-                                return (
-                                    hand +
-                                    ": " +
-                                    (
-                                        uniqueStarts.length
-                                            ? uniqueStarts.join(", ")
-                                            : "-"
-                                    )
-                                );
-
-                            }
-                        );
-
-                    ctx.fillText(
-                        startTexts.join("    "),
-                        marginLeft,
-                        top +
-                        motifTitleHeight +
-                        28
+                const y =
+                    getYB(
+                        measureStart
                     );
 
-                    // =============================
-                    // 縦線
-                    // =============================
 
-                    ctx.beginPath();
+                ctx.fillText(
+                    String(measure),
+                    bX +
+                    measureWidth -
+                    5,
+                    y + 14
+                );
 
-                    ctx.moveTo(
-                        x,
-                        graphTop
+            }
+
+
+            // =================================
+            // A Event番号
+            // =================================
+
+            for(
+                const event
+                of leftEventsA
+            ){
+
+                if(
+                    event.event % 10 !== 0
+                ){
+                    continue;
+                }
+
+
+                const y =
+                    getYA(
+                        event.start
                     );
 
-                    ctx.lineTo(
-                        x,
-                        graphTop +
-                        motif.length *
-                        timeHeight
+
+                ctx.fillText(
+                    String(event.event),
+                    aX +
+                    measureWidth +
+                    eventWidth -
+                    5,
+                    y + 4
+                );
+
+            }
+
+
+            for(
+                const event
+                of rightEventsA
+            ){
+
+                if(
+                    event.event % 10 !== 0
+                ){
+                    continue;
+                }
+
+
+                const y =
+                    getYA(
+                        event.start
                     );
 
-                    ctx.stroke();
+
+                ctx.fillText(
+                    String(event.event),
+                    aX +
+                    measureWidth +
+                    eventWidth * 2 -
+                    5,
+                    y + 4
+                );
+
+            }
 
 
-                    // =============================
-                    // occurrences
-                    // =============================
+            // =================================
+            // B Event番号
+            // =================================
+
+            for(
+                const event
+                of leftEventsB
+            ){
+
+                if(
+                    event.event % 10 !== 0
+                ){
+                    continue;
+                }
+
+
+                const y =
+                    getYB(
+                        event.start
+                    );
+
+
+                ctx.fillText(
+                    String(event.event),
+                    bX +
+                    measureWidth +
+                    eventWidth -
+                    5,
+                    y + 4
+                );
+
+            }
+
+
+            for(
+                const event
+                of rightEventsB
+            ){
+
+                if(
+                    event.event % 10 !== 0
+                ){
+                    continue;
+                }
+
+
+                const y =
+                    getYB(
+                        event.start
+                    );
+
+
+                ctx.fillText(
+                    String(event.event),
+                    bX +
+                    measureWidth +
+                    eventWidth * 2 -
+                    5,
+                    y + 4
+                );
+
+            }
+
+
+            // =================================
+            // 小節線 A
+            // =================================
+
+            for(
+                let measure = 1;
+                measure <= maxMeasureA;
+                measure++
+            ){
+
+                const measureStart =
+                    (measure - 1) *
+                    ticksPerMeasureA;
+
+
+                const y =
+                    getYA(
+                        measureStart
+                    );
+
+
+                ctx.strokeStyle =
+                    "#cccccc";
+
+                ctx.lineWidth =
+                    1;
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    aX,
+                    y
+                );
+
+                ctx.lineTo(
+                    aX +
+                    axisWidth +
+                    songWidth,
+                    y
+                );
+
+                ctx.stroke();
+
+            }
+
+
+            // =================================
+            // 小節線 B
+            // =================================
+
+            for(
+                let measure = 1;
+                measure <= maxMeasureB;
+                measure++
+            ){
+
+                const measureStart =
+                    (measure - 1) *
+                    ticksPerMeasureB;
+
+
+                const y =
+                    getYB(
+                        measureStart
+                    );
+
+
+                ctx.strokeStyle =
+                    "#cccccc";
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    bX,
+                    y
+                );
+
+                ctx.lineTo(
+                    bX +
+                    axisWidth +
+                    songWidth,
+                    y
+                );
+
+                ctx.stroke();
+
+            }
+
+
+            // =================================
+            // 手の描画関数
+            // =================================
+
+            function drawHandOccurrences(
+                occurrences,
+                shapeData,
+                plotX,
+                getY
+            ){
+
+                for(
+                    const occurrence
+                    of occurrences
+                ){
 
                     for(
-                        const occurrence
-                        of occurrences
+                        let i = 0;
+                        i < motif.length;
+                        i++
                     ){
 
-                        const transpose =
-                            occurrence.transpose;
+                        const eventIndex =
+                            occurrence.start +
+                            i;
 
 
-                        // =========================
-                        // Motif内部時間
-                        // =========================
+                        const event =
+                            shapeData[
+                                eventIndex
+                            ];
+
+
+                        if(!event){
+                            continue;
+                        }
+
+
+                        // =================================
+                        // Event内の各note
+                        // =================================
 
                         for(
-                            let i = 0;
-                            i < motif.length;
-                            i++
+                            const point
+                            of event.points
                         ){
 
-                            // ---------------------
-                            // 元の pitch class
-                            // ---------------------
+                            const start =
+                                point.start;
+
 
                             const pitchClass =
-                                (
-                                    motif.pattern[i] +
-                                    transpose
-                                ) % 12;
+                                point.pitchClass;
 
-
-                            // ---------------------
-                            // Y = 時間
-                            // ---------------------
 
                             const y =
-                                graphTop +
-                                i *
-                                timeHeight;
+                                getY(start);
 
-
-                            // ---------------------
-                            // X = pitch class
-                            // ---------------------
 
                             const px =
-                                x +
-                                15 +
-                                pitchClass *
-                                5;
+                                plotX +
+                                (
+                                    pitchClass +
+                                    0.5
+                                ) *
+                                (
+                                    handWidth /
+                                    12
+                                );
 
 
-                            // ---------------------
-                            // point
-                            // ---------------------
-                            // ---------------------------------
-                            // pitchClass color
-                            // ---------------------------------
-
-                            ctx.fillStyle = "black";
-                            /*
                             ctx.fillStyle =
-                                workingColor.pc[pitchClass];
-                            */
+                                workingColor.pc[
+                                    pitchClass
+                                ];
+
 
                             ctx.beginPath();
 
@@ -7248,55 +7748,379 @@ function drawCommonMotifGraph(motifs){
                     }
 
                 }
+
+            }
+
+
+            // =================================
+            // A Left
+            // =================================
+
+            drawHandOccurrences(
+                motif.LA || [],
+                shapeEventDataLeftA,
+                aX +
+                axisWidth,
+                getYA
             );
 
 
             // =================================
-            // Event label
+            // A Right
             // =================================
+
+            drawHandOccurrences(
+                motif.RA || [],
+                shapeEventDataRightA,
+                aX +
+                axisWidth +
+                handWidth,
+                getYA
+            );
+
+
+            // =================================
+            // B Left
+            // =================================
+
+            drawHandOccurrences(
+                motif.LB || [],
+                shapeEventDataLeftB,
+                bX +
+                axisWidth,
+                getYB
+            );
+
+
+            // =================================
+            // B Right
+            // =================================
+
+            drawHandOccurrences(
+                motif.RB || [],
+                shapeEventDataRightB,
+                bX +
+                axisWidth +
+                handWidth,
+                getYB
+            );
+
+
+            // =================================
+            // A 手ラベル
+            // =================================
+
+            ctx.textAlign =
+                "center";
 
             ctx.font =
-                "10px sans-serif";
+                "bold 10px sans-serif";
 
-            ctx.textAlign = "right";
+            ctx.fillStyle =
+                "black";
+
 
             ctx.fillText(
-                "Event",
-                65,
-                graphTop - 8
+                "LA",
+                aX +
+                axisWidth +
+                handWidth / 2,
+                marginTop + 35
+            );
+
+
+            ctx.fillText(
+                "RA",
+                aX +
+                axisWidth +
+                handWidth +
+                handWidth / 2,
+                marginTop + 35
             );
 
 
             // =================================
-            // Event number
+            // B 手ラベル
+            // =================================
+
+            ctx.fillText(
+                "LB",
+                bX +
+                axisWidth +
+                handWidth / 2,
+                marginTop + 35
+            );
+
+
+            ctx.fillText(
+                "RB",
+                bX +
+                axisWidth +
+                handWidth +
+                handWidth / 2,
+                marginTop + 35
+            );
+
+
+            // =================================
+            // Motifの範囲を四角で囲む
+            // =================================
+
+            ctx.strokeStyle =
+                "#555";
+
+            ctx.lineWidth =
+                1.5;
+
+
+            // =================================
+            // A Left
             // =================================
 
             for(
-                let i = 0;
-                i < motif.length;
-                i++
+                const occurrence
+                of motif.LA || []
             ){
 
-                const y =
-                    graphTop +
-                    i * timeHeight;
+                const firstEvent =
+                    shapeEventDataLeftA[
+                        occurrence.start
+                    ];
 
-                ctx.fillText(
-                    String(i),
-                    65,
-                    y + 4
+                const lastEvent =
+                    shapeEventDataLeftA[
+                        occurrence.start +
+                        motif.length -
+                        1
+                    ];
+
+
+                if(
+                    !firstEvent ||
+                    !lastEvent
+                ){
+                    continue;
+                }
+
+
+                const y1 =
+                    getYA(
+                        firstEvent.start
+                    );
+
+                const y2 =
+                    getYA(
+                        lastEvent.start
+                    );
+
+
+                ctx.strokeRect(
+                    aX +
+                    axisWidth,
+                    y1 - 4,
+                    handWidth,
+                    (y2 - y1) + 8
                 );
 
             }
 
 
             // =================================
-            // textAlignを元に戻す
+            // A Right
             // =================================
 
-            ctx.textAlign = "left";
+            for(
+                const occurrence
+                of motif.RA || []
+            ){
+
+                const firstEvent =
+                    shapeEventDataRightA[
+                        occurrence.start
+                    ];
+
+                const lastEvent =
+                    shapeEventDataRightA[
+                        occurrence.start +
+                        motif.length -
+                        1
+                    ];
+
+
+                if(
+                    !firstEvent ||
+                    !lastEvent
+                ){
+                    continue;
+                }
+
+
+                const y1 =
+                    getYA(
+                        firstEvent.start
+                    );
+
+                const y2 =
+                    getYA(
+                        lastEvent.start
+                    );
+
+
+                ctx.strokeRect(
+                    aX +
+                    axisWidth +
+                    handWidth,
+                    y1 - 4,
+                    handWidth,
+                    (y2 - y1) + 8
+                );
+
+            }
+
+
+            // =================================
+            // B Left
+            // =================================
+
+            for(
+                const occurrence
+                of motif.LB || []
+            ){
+
+                const firstEvent =
+                    shapeEventDataLeftB[
+                        occurrence.start
+                    ];
+
+                const lastEvent =
+                    shapeEventDataLeftB[
+                        occurrence.start +
+                        motif.length -
+                        1
+                    ];
+
+
+                if(
+                    !firstEvent ||
+                    !lastEvent
+                ){
+                    continue;
+                }
+
+
+                const y1 =
+                    getYB(
+                        firstEvent.start
+                    );
+
+                const y2 =
+                    getYB(
+                        lastEvent.start
+                    );
+
+
+                ctx.strokeRect(
+                    bX +
+                    axisWidth,
+                    y1 - 4,
+                    handWidth,
+                    (y2 - y1) + 8
+                );
+
+            }
+
+
+            // =================================
+            // B Right
+            // =================================
+
+            for(
+                const occurrence
+                of motif.RB || []
+            ){
+
+                const firstEvent =
+                    shapeEventDataRightB[
+                        occurrence.start
+                    ];
+
+                const lastEvent =
+                    shapeEventDataRightB[
+                        occurrence.start +
+                        motif.length -
+                        1
+                    ];
+
+
+                if(
+                    !firstEvent ||
+                    !lastEvent
+                ){
+                    continue;
+                }
+
+
+                const y1 =
+                    getYB(
+                        firstEvent.start
+                    );
+
+                const y2 =
+                    getYB(
+                        lastEvent.start
+                    );
+
+
+                ctx.strokeRect(
+                    bX +
+                    axisWidth +
+                    handWidth,
+                    y1 - 4,
+                    handWidth,
+                    (y2 - y1) + 8
+                );
+
+            }
+
         }
     );
+
+
+    // =====================================
+    // 右端のMotif区切り線
+    // =====================================
+
+    const lastX =
+        marginLeft +
+        commonMotifs.length *
+        motifWidth;
+
+
+    ctx.strokeStyle =
+        "#888";
+
+    ctx.lineWidth =
+        1;
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        lastX,
+        graphTop - 45
+    );
+
+    ctx.lineTo(
+        lastX,
+        graphTop +
+        maxGraphHeight
+    );
+
+    ctx.stroke();
+
+
+    ctx.textAlign =
+        "left";
 
 }
 
