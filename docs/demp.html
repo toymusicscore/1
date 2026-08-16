@@ -6041,6 +6041,191 @@ function showMotifTwoSongs(){
 }
 
 
+
+function findCommonMotifsFourWays(
+    shapeEventDataRightA,
+    shapeEventDataRightB,
+    shapeEventDataLeftA,
+    shapeEventDataLeftB
+){
+
+    const results = [];
+
+    // =====================================
+    // 4方向
+    // =====================================
+
+    const comparisons = [
+
+        {
+            type: "RA_RB",
+            A: shapeEventDataRightA,
+            B: shapeEventDataRightB
+        },
+
+        {
+            type: "RA_LB",
+            A: shapeEventDataRightA,
+            B: shapeEventDataLeftB
+        },
+
+        {
+            type: "LA_RB",
+            A: shapeEventDataLeftA,
+            B: shapeEventDataRightB
+        },
+
+        {
+            type: "LA_LB",
+            A: shapeEventDataLeftA,
+            B: shapeEventDataLeftB
+        }
+
+    ];
+
+
+    // =====================================
+    // A/B直接比較
+    // =====================================
+
+    for(const comparison of comparisons){
+
+        const candidates =
+            findMotifEvent(
+                comparison.A,
+                comparison.B
+            );
+
+
+        for(const candidate of candidates){
+
+            results.push({
+
+                type:
+                    comparison.type,
+
+                startA:
+                    candidate.startA,
+
+                startB:
+                    candidate.startB,
+
+                length:
+                    candidate.length,
+
+                transpose:
+                    candidate.transpose
+
+            });
+
+        }
+
+    }
+
+
+    return results;
+}
+
+
+function selectLongestCommonMotifs(candidates){
+
+    // =====================================
+    // 長い順
+    // =====================================
+
+    const sorted = [...candidates].sort(
+        (a, b) => b.length - a.length
+    );
+
+    const selected = [];
+
+    // =====================================
+    // 候補を順番に確認
+    // =====================================
+
+    for(const candidate of sorted){
+
+        let overlap = false;
+
+        for(const motif of selected){
+
+            // ---------------------------------
+            // 方向が違えば別Motif
+            // ---------------------------------
+
+            if(candidate.type !== motif.type){
+                continue;
+            }
+
+            // ---------------------------------
+            // A側範囲
+            // ---------------------------------
+
+            const candidateEndA =
+                candidate.startA +
+                candidate.length;
+
+            const motifEndA =
+                motif.startA +
+                motif.length;
+
+            // ---------------------------------
+            // B側範囲
+            // ---------------------------------
+
+            const candidateEndB =
+                candidate.startB +
+                candidate.length;
+
+            const motifEndB =
+                motif.startB +
+                motif.length;
+
+            // ---------------------------------
+            // A側の重なり
+            // ---------------------------------
+
+            const overlapA =
+                candidate.startA < motifEndA &&
+                candidateEndA > motif.startA;
+
+            // ---------------------------------
+            // B側の重なり
+            // ---------------------------------
+
+            const overlapB =
+                candidate.startB < motifEndB &&
+                candidateEndB > motif.startB;
+
+            // ---------------------------------
+            // A/B両方で重なっていれば
+            // 同じ領域のMotifとみなす
+            // ---------------------------------
+
+            if(
+                overlapA &&
+                overlapB
+            ){
+
+                overlap = true;
+                break;
+            }
+        }
+
+        // ---------------------------------
+        // 重複しなければ採用
+        // ---------------------------------
+
+        if(!overlap){
+
+            selected.push(candidate);
+        }
+    }
+
+    return selected;
+}
+
+
 function groupCommonMotifs(
     commonMotifs,
     shapeEventDataRightA,
@@ -7022,190 +7207,6 @@ function groupInternalMotifsFourWays(
     return result;
 }
 
-
-
-function findCommonMotifsFourWays(
-    shapeEventDataRightA,
-    shapeEventDataRightB,
-    shapeEventDataLeftA,
-    shapeEventDataLeftB
-){
-
-    const results = [];
-
-    // =====================================
-    // 4方向
-    // =====================================
-
-    const comparisons = [
-
-        {
-            type: "RA_RB",
-            A: shapeEventDataRightA,
-            B: shapeEventDataRightB
-        },
-
-        {
-            type: "RA_LB",
-            A: shapeEventDataRightA,
-            B: shapeEventDataLeftB
-        },
-
-        {
-            type: "LA_RB",
-            A: shapeEventDataLeftA,
-            B: shapeEventDataRightB
-        },
-
-        {
-            type: "LA_LB",
-            A: shapeEventDataLeftA,
-            B: shapeEventDataLeftB
-        }
-
-    ];
-
-
-    // =====================================
-    // A/B直接比較
-    // =====================================
-
-    for(const comparison of comparisons){
-
-        const candidates =
-            findMotifEvent(
-                comparison.A,
-                comparison.B
-            );
-
-
-        for(const candidate of candidates){
-
-            results.push({
-
-                type:
-                    comparison.type,
-
-                startA:
-                    candidate.startA,
-
-                startB:
-                    candidate.startB,
-
-                length:
-                    candidate.length,
-
-                transpose:
-                    candidate.transpose
-
-            });
-
-        }
-
-    }
-
-
-    return results;
-}
-
-
-function selectLongestCommonMotifs(candidates){
-
-    // =====================================
-    // 長い順
-    // =====================================
-
-    const sorted = [...candidates].sort(
-        (a, b) => b.length - a.length
-    );
-
-    const selected = [];
-
-    // =====================================
-    // 候補を順番に確認
-    // =====================================
-
-    for(const candidate of sorted){
-
-        let overlap = false;
-
-        for(const motif of selected){
-
-            // ---------------------------------
-            // 方向が違えば別Motif
-            // ---------------------------------
-
-            if(candidate.type !== motif.type){
-                continue;
-            }
-
-            // ---------------------------------
-            // A側範囲
-            // ---------------------------------
-
-            const candidateEndA =
-                candidate.startA +
-                candidate.length;
-
-            const motifEndA =
-                motif.startA +
-                motif.length;
-
-            // ---------------------------------
-            // B側範囲
-            // ---------------------------------
-
-            const candidateEndB =
-                candidate.startB +
-                candidate.length;
-
-            const motifEndB =
-                motif.startB +
-                motif.length;
-
-            // ---------------------------------
-            // A側の重なり
-            // ---------------------------------
-
-            const overlapA =
-                candidate.startA < motifEndA &&
-                candidateEndA > motif.startA;
-
-            // ---------------------------------
-            // B側の重なり
-            // ---------------------------------
-
-            const overlapB =
-                candidate.startB < motifEndB &&
-                candidateEndB > motif.startB;
-
-            // ---------------------------------
-            // A/B両方で重なっていれば
-            // 同じ領域のMotifとみなす
-            // ---------------------------------
-
-            if(
-                overlapA &&
-                overlapB
-            ){
-
-                overlap = true;
-                break;
-            }
-        }
-
-        // ---------------------------------
-        // 重複しなければ採用
-        // ---------------------------------
-
-        if(!overlap){
-
-            selected.push(candidate);
-        }
-    }
-
-    return selected;
-}
 
 
 function getNormalizedPattern(
