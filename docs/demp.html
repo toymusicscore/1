@@ -197,6 +197,31 @@ demp
 
 </div>
 
+<div id="pitchClassSearch" style="margin:10px;">
+
+    <div>
+        Pitch Class Search
+    </div>
+
+    <input
+        id="pitchClassInput"
+        type="text"
+        placeholder="例: 0 2 4 5 7"
+        style="width:300px;"
+    >
+
+    <button onclick="searchPitchClass()">
+        Search
+    </button>
+
+    <button onclick="clearPitchClassSearch()">
+        Clear
+    </button>
+
+    <div id="pitchClassResult"></div>
+
+</div>
+
 <div id="settingsPage" style="display:none">
 	 
 <select id="song1" onchange="onSettingsChange()">
@@ -8124,6 +8149,268 @@ function drawCommonMotifGraph(motifs){
 
 }
 
+
+function getPitchClassQuery(){
+
+    const input =
+        document.getElementById("pitchClassInput").value.trim();
+
+    if(!input){
+        return [];
+    }
+
+    const pattern =
+        input
+        .split(/[\s,]+/)
+        .map(Number)
+        .filter(x => Number.isInteger(x) && x >= 0 && x <= 11);
+
+    return pattern;
+}
+
+
+function comparePitchClassPattern(patternA, patternB){
+
+    if(patternA.length !== patternB.length){
+        return null;
+    }
+
+    if(patternA.length === 0){
+        return null;
+    }
+
+    const transpose =
+        (patternB[0] - patternA[0] + 12) % 12;
+
+    for(let i = 0; i < patternA.length; i++){
+
+        const pc =
+            (patternA[i] + transpose) % 12;
+
+        if(pc !== patternB[i]){
+            return null;
+        }
+    }
+
+    return transpose;
+}
+
+
+function searchPitchClassInEventData(
+    eventData,
+    queryPattern,
+    hand,
+    song
+){
+
+    const events = Object.values(eventData);
+
+    const results = [];
+
+    for(let i = 0;
+        i <= events.length - queryPattern.length;
+        i++){
+
+        const pattern = [];
+
+        for(let j = 0;
+            j < queryPattern.length;
+            j++){
+
+            pattern.push(
+                events[i + j].pitchClass
+            );
+        }
+
+        const transpose =
+            comparePitchClassPattern(
+                queryPattern,
+                pattern
+            );
+
+        if(transpose !== null){
+
+            results.push({
+
+                song: song,
+
+                hand: hand,
+
+                startEvent: i,
+
+                endEvent:
+                    i + queryPattern.length - 1,
+
+                transpose: transpose,
+
+                pattern: pattern,
+
+                start:
+                    events[i].start,
+
+                stop:
+                    events[
+                        i + queryPattern.length - 1
+                    ].stop
+            });
+        }
+    }
+
+    return results;
+}
+
+
+function searchPitchClass(){
+
+    const queryPattern =
+        getPitchClassQuery();
+
+    const resultDiv =
+        document.getElementById(
+            "pitchClassResult"
+        );
+
+    resultDiv.innerHTML = "";
+
+    if(queryPattern.length === 0){
+
+        resultDiv.textContent =
+            "Pitch class を入力してください";
+
+        return;
+    }
+
+    let results = [];
+
+    // A Right
+    if(typeof shapeEventDataRightA !== "undefined"){
+
+        results.push(
+            ...searchPitchClassInEventData(
+                shapeEventDataRightA,
+                queryPattern,
+                "Right A",
+                "A"
+            )
+        );
+    }
+
+    // A Left
+    if(typeof shapeEventDataLeftA !== "undefined"){
+
+        results.push(
+            ...searchPitchClassInEventData(
+                shapeEventDataLeftA,
+                queryPattern,
+                "Left A",
+                "A"
+            )
+        );
+    }
+
+    // B Right
+    if(typeof shapeEventDataRightB !== "undefined"){
+
+        results.push(
+            ...searchPitchClassInEventData(
+                shapeEventDataRightB,
+                queryPattern,
+                "Right B",
+                "B"
+            )
+        );
+    }
+
+    // B Left
+    if(typeof shapeEventDataLeftB !== "undefined"){
+
+        results.push(
+            ...searchPitchClassInEventData(
+                shapeEventDataLeftB,
+                queryPattern,
+                "Left B",
+                "B"
+            )
+        );
+    }
+
+    displayPitchClassResults(
+        queryPattern,
+        results
+    );
+}
+
+
+function displayPitchClassResults(
+    queryPattern,
+    results
+){
+
+    const div =
+        document.getElementById(
+            "pitchClassResult"
+        );
+
+    let html = "";
+
+    html +=
+        "<div>Query: [" +
+        queryPattern.join(", ") +
+        "]</div>";
+
+    html +=
+        "<div>Results: " +
+        results.length +
+        "</div>";
+
+    for(const r of results){
+
+        html +=
+            "<div style='margin:8px 0;'>" +
+
+            r.song +
+            " / " +
+
+            r.hand +
+
+            " / event " +
+
+            r.startEvent +
+
+            " - " +
+
+            r.endEvent +
+
+            " / transpose " +
+
+            (r.transpose >= 0 ? "+" : "") +
+            r.transpose +
+
+            " / start " +
+
+            r.start +
+
+            " / stop " +
+
+            r.stop +
+
+            "</div>";
+    }
+
+    div.innerHTML = html;
+}
+
+
+function clearPitchClassSearch(){
+
+    document.getElementById(
+        "pitchClassInput"
+    ).value = "";
+
+    document.getElementById(
+        "pitchClassResult"
+    ).innerHTML = "";
+}
 
 /*
 function groupInternalMotifsFourWays(
