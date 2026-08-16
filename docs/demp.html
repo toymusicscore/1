@@ -4183,6 +4183,11 @@ function showInternalMotif(){
             shapeEventDataLeft
         );
 
+    const internalCommon =
+        findCommonInternalMotifs(
+            shapeEventDataRight,
+            shapeEventDataLeft
+        );
 
     console.log(
         "internalRight =",
@@ -4202,9 +4207,9 @@ function showInternalMotif(){
     const internalMotifs =
         mergeInternalMotifs(
             internalRight,
-            internalLeft
+            internalLeft,
+            internalCommon
         );
-
 
     console.log(
         "internalMotifs =",
@@ -5574,6 +5579,118 @@ function findInternalMotifs(data, hand){
 }
 
 
+function findCommonInternalMotifs(
+    dataRight,
+    dataLeft
+){
+
+    const candidates =
+        findMotifEvent(
+            dataRight,
+            dataLeft
+        );
+
+
+    const result = [];
+
+
+    for(const candidate of candidates){
+
+        const patternRight =
+            getNormalizedPattern(
+                dataRight,
+                candidate.startA,
+                candidate.length
+            );
+
+        const patternLeft =
+            getNormalizedPattern(
+                dataLeft,
+                candidate.startB,
+                candidate.length
+            );
+
+
+        if(
+            !patternRight ||
+            !patternLeft
+        ){
+            continue;
+        }
+
+
+        if(
+            patternRight.length !==
+            patternLeft.length
+        ){
+            continue;
+        }
+
+
+        let same = true;
+
+
+        for(
+            let i = 0;
+            i < patternRight.length;
+            i++
+        ){
+
+            if(
+                patternRight[i] !==
+                patternLeft[i]
+            ){
+
+                same = false;
+                break;
+
+            }
+
+        }
+
+
+        if(!same){
+            continue;
+        }
+
+
+        result.push({
+
+            length:
+                candidate.length,
+
+            pattern:
+                [...patternRight],
+
+            right: {
+
+                start:
+                    candidate.startA,
+
+                transpose:
+                    candidate.transpose
+
+            },
+
+            left: {
+
+                start:
+                    candidate.startB,
+
+                transpose:
+                    candidate.transpose
+
+            }
+
+        });
+
+    }
+
+
+    return result;
+}
+
+
 function groupInternalMotifsFourWays(
     internalRightA,
     internalRightB,
@@ -5724,160 +5841,6 @@ function groupInternalMotifsFourWays(
     return result;
 }
 
-/*
-function groupInternalMotifsRL(
-    internalRight,
-    internalLeft
-){
-
-    const groups = new Map();
-
-
-    // =====================================
-    // Right / Left
-    // =====================================
-
-    const sources = [
-
-        {
-            type: "R",
-            motifs: internalRight
-        },
-
-        {
-            type: "L",
-            motifs: internalLeft
-        }
-
-    ];
-
-
-    // =====================================
-    // pattern + length でまとめる
-    // transpose違いは同じMotif
-    // =====================================
-
-    for(const source of sources){
-
-        for(const motif of source.motifs){
-
-            if(
-                !motif.pattern ||
-                !motif.pattern.length
-            ){
-                continue;
-            }
-
-
-            const key =
-                motif.length +
-                ":" +
-                motif.pattern.join(",");
-
-
-            if(!groups.has(key)){
-
-                groups.set(
-                    key,
-                    {
-
-                        length:
-                            motif.length,
-
-                        pattern:
-                            [...motif.pattern],
-
-                        R: [],
-
-                        L: []
-
-                    }
-                );
-
-            }
-
-
-            const group =
-                groups.get(key);
-
-
-            // ---------------------------------
-            // 出現位置を追加
-            // ---------------------------------
-
-            for(
-                const position
-                of motif.positions
-            ){
-
-                group[source.type].push({
-
-                    start:
-                        position
-
-                });
-
-            }
-
-        }
-
-    }
-
-
-    // =====================================
-    // 配列化
-    // =====================================
-
-    const result = [];
-
-
-    for(const group of groups.values()){
-
-        // ---------------------------------
-        // 同じMotifが2回以上出現するもの
-        // ---------------------------------
-
-        const count =
-            group.R.length +
-            group.L.length;
-
-
-        if(count >= 2){
-
-            result.push(group);
-
-        }
-
-    }
-
-
-    // =====================================
-    // 長いMotifを先に
-    // =====================================
-
-    result.sort(
-        (a,b) =>
-            b.length - a.length
-    );
-
-
-    // =====================================
-    // Motif ID
-    // =====================================
-
-    result.forEach(
-        (motif, index) => {
-
-            motif.motifId =
-                index + 1;
-
-        }
-    );
-
-
-    return result;
-}
-*/
 
 function groupInternalMotifs(data, candidates){
 
@@ -6697,14 +6660,15 @@ function filterInternalMotifs(motifs){
 
 function mergeInternalMotifs(
     internalRight,
-    internalLeft
+    internalLeft,
+    internalCommon
 ){
 
     const motifMap = new Map();
 
 
     // =====================================
-    // Right / Left
+    // 右手・左手それぞれのInternal Motif
     // =====================================
 
     const sources = [
@@ -6722,22 +6686,9 @@ function mergeInternalMotifs(
     ];
 
 
-    // =====================================
-    // 同じLength + Patternを統合
-    // transpose違いは同じMotif
-    // =====================================
-
     for(const source of sources){
 
         for(const motif of source.motifs){
-
-            if(
-                !motif.pattern ||
-                !motif.pattern.length
-            ){
-                continue;
-            }
-
 
             const key =
                 motif.length +
@@ -6760,7 +6711,6 @@ function mergeInternalMotifs(
                             [...motif.pattern],
 
                         R: [],
-
                         L: []
 
                     }
@@ -6773,19 +6723,75 @@ function mergeInternalMotifs(
                 motifMap.get(key);
 
 
-            // =================================
-            // 出現位置を追加
-            // =================================
+            for(
+                const start
+                of motif.positions
+            ){
 
-            group[source.hand].push(
-                ...motif.positions.map(
-                    start => ({
-                        start: start
-                    })
-                )
+                group[source.hand].push({
+
+                    start:
+                        start
+
+                });
+
+            }
+
+        }
+
+    }
+
+
+    // =====================================
+    // 右手 × 左手の共通Motif
+    // =====================================
+
+    for(
+        const motif
+        of internalCommon
+    ){
+
+        const key =
+            motif.length +
+            ":" +
+            JSON.stringify(
+                motif.pattern
+            );
+
+
+        if(!motifMap.has(key)){
+
+            motifMap.set(
+                key,
+                {
+
+                    length:
+                        motif.length,
+
+                    pattern:
+                        [...motif.pattern],
+
+                    R: [],
+                    L: []
+
+                }
             );
 
         }
+
+
+        const group =
+            motifMap.get(key);
+
+
+        group.R.push(
+            motif.right
+        );
+
+
+        group.L.push(
+            motif.left
+        );
 
     }
 
@@ -6801,7 +6807,7 @@ function mergeInternalMotifs(
 
 
     // =====================================
-    // startの重複を削除
+    // 出現位置の重複削除
     // =====================================
 
     for(const motif of result){
@@ -6847,7 +6853,7 @@ function mergeInternalMotifs(
 
 
     // =====================================
-    // 長いMotifを先にする
+    // 長いMotifを先に
     // =====================================
 
     result.sort(
@@ -6879,8 +6885,8 @@ function mergeInternalMotifs(
 
 
     return top;
-
 }
+
 
 function mergeMotifCandidates(candidates){
 
