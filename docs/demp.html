@@ -4230,6 +4230,735 @@ function showInternalMotif(){
 
 }
 
+
+function createShapeEvent(scoreNotes, hand){
+
+    console.log(
+        "createShapeEvent:",
+        hand,
+        "scoreNotes =",
+        scoreNotes
+    );
+
+    const shapeEventData = {};
+    
+    if(!Array.isArray(scoreNotes)){
+        console.warn(
+            "createShapeEvent: scoreNotes is not an array",
+            scoreNotes
+        );
+        return shapeEventData;
+    }
+
+    // -----------------------------------------
+    // start位置で並べる
+    // -----------------------------------------
+
+    const notes = [...scoreNotes].sort(
+        (a, b) => a.start - b.start
+    );
+
+    if(notes.length === 0){
+        return shapeEventData;
+    }
+
+
+    // -----------------------------------------
+    // 同じstartの音を音イベントとしてまとめる
+    // -----------------------------------------
+
+    const events = [];
+
+    for(const note of notes){
+
+        let event =
+            events[events.length - 1];
+
+        if(
+            !event ||
+            event.start !== note.start
+        ){
+
+            event = {
+                start: note.start,
+                notes: []
+            };
+
+            events.push(event);
+        }
+
+        event.notes.push(note);
+    }
+
+
+    // -----------------------------------------
+    // 音イベントごとにshapeを作る
+    // -----------------------------------------
+
+    for(let i = 0; i < events.length; i++){
+
+        const event = events[i];
+
+        shapeEventData[i] = {
+
+            // 音イベントの順序
+            event: i,
+
+            start: event.start,
+
+            hand: hand,
+
+            points:
+                event.notes.map(note => ({
+
+                    start: note.start,
+
+                    midi: note.midi,
+
+                    // オクターブを除いた pitch class
+                    pitchClass:
+                        ((note.midi % 12) + 12) % 12
+                }))
+        };
+    }
+
+
+    return shapeEventData;
+}
+
+
+
+function findInternalMotifs(data, hand){
+
+    const candidates =
+        findMotifEvent(
+            data,
+            data
+        );
+
+    const motifs =
+        groupInternalMotifs(
+            data,
+            candidates,
+            hand
+        );
+
+    const filtered =
+        filterInternalMotifs(
+            motifs
+        );
+
+    return filtered;
+}
+
+
+function findMotifEvent(
+    shapeEventDataA,
+    shapeEventDataB
+){
+
+    const eventsA =
+        Object.keys(shapeEventDataA)
+            .map(Number)
+            .sort((a,b) => a-b);
+
+    const eventsB =
+        Object.keys(shapeEventDataB)
+            .map(Number)
+            .sort((a,b) => a-b);
+
+    const candidates = [];
+
+    // A の開始位置
+    for(let i = 0; i < eventsA.length; i++){
+
+        // B の開始位置
+        for(let j = 0; j < eventsB.length; j++){
+
+
+            // 12種類の移調をすべて試す
+            for(let transpose = 0; transpose < 12; transpose++){
+
+                let length = 0;
+
+
+                while(
+                    i + length < eventsA.length &&
+                    j + length < eventsB.length
+                ){
+
+                    const ea =
+                        shapeEventDataA[
+                            eventsA[i + length]
+                        ];
+
+                    const eb =
+                        shapeEventDataB[
+                            eventsB[j + length]
+                        ];
+
+
+                    const pa =
+                        ea.points.map(
+                            p => p.pitchClass
+                        );
+
+                    const pb =
+                        eb.points.map(
+                            p => p.pitchClass
+                        );
+
+
+                    // 現時点では1 event = 1音だけ
+                    if(
+                        pa.length !== 1 ||
+                        pb.length !== 1
+                    ){
+                        break;
+                    }
+
+
+                    const expected =
+                        (pb[0] + transpose) % 12;
+
+
+                    if(pa[0] !== expected){
+                        break;
+                    }
+
+
+                    length++;
+                }
+
+
+                if(length >= MIN_LENGTH){
+
+                    candidates.push({
+
+                        startA:
+                            eventsA[i],
+
+                        startB:
+                            eventsB[j],
+
+                        length,
+
+                        transpose
+                    });
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    return candidates;
+}
+
+
+
+function groupInternalMotifs(data, candidates){
+
+    const motifMap = {};
+
+    for(const candidate of candidates){
+
+        const pattern =
+            getMotifPattern(
+                data,
+                candidate.startA,
+                candidate.length
+            );
+
+        if(!pattern){
+            continue;
+        }
+
+        const normalized =
+            normalizeMotifPattern(pattern);
+
+        if(!normalized){
+            continue;
+        }
+
+        const key =
+            candidate.length +
+            ":" +
+            JSON.stringify(normalized);
+
+
+        if(!motifMap[key]){
+
+            motifMap[key] = {
+
+                length:
+                    candidate.length,
+
+                pattern:
+                    normalized,
+
+                positions:
+                    new Set(),
+
+                occurrences:
+                    []
+
+            };
+
+        }
+
+
+        const motif =
+            motifMap[key];
+
+
+        // =================================
+        // 1回目の出現
+        // =================================
+
+        motif.positions.add(
+            candidate.startA
+        );
+
+        motif.occurrences.push({
+
+            start:
+                candidate.startA,
+
+            transpose:
+                candidate.transpose
+
+        });
+
+
+        // =================================
+        // 2回目の出現
+        // =================================
+
+        motif.positions.add(
+            candidate.startB
+        );
+
+        motif.occurrences.push({
+
+            start:
+                candidate.startB,
+
+            transpose:
+                candidate.transpose
+
+        });
+
+    }
+
+
+    const result = [];
+
+
+    for(
+        const motif
+        of Object.values(motifMap)
+    ){
+
+        // =================================
+        // 同じstartを重複削除
+        // =================================
+
+        const unique =
+            new Map();
+
+
+        for(
+            const occurrence
+            of motif.occurrences
+        ){
+
+            if(
+                !unique.has(
+                    occurrence.start
+                )
+            ){
+
+                unique.set(
+                    occurrence.start,
+                    {
+                        start:
+                            occurrence.start,
+
+                        transpose:
+                            occurrence.transpose
+                    }
+                );
+
+            }
+
+        }
+
+
+        const occurrences =
+            [...unique.values()].sort(
+                (a,b) =>
+                    a.start - b.start
+            );
+
+
+        // =================================
+        // 2回以上出現するものだけ
+        // =================================
+
+        if(
+            occurrences.length >= 2
+        ){
+
+            result.push({
+
+                length:
+                    motif.length,
+
+                pattern:
+                    motif.pattern,
+
+                positions:
+                    [...motif.positions].sort(
+                        (a,b) => a-b
+                    ),
+
+                occurrences:
+                    occurrences
+
+            });
+
+        }
+
+    }
+
+
+    return result;
+}
+
+
+
+function filterInternalMotifs(motifs){
+
+    const sorted =
+        [...motifs].sort(
+            (a,b) => b.length - a.length
+        );
+
+    const result = [];
+
+
+    for(const motif of sorted){
+
+        let contained = false;
+
+
+        for(const longer of result){
+
+            if(longer.length <= motif.length){
+                continue;
+            }
+
+
+            // =================================
+            // 出現数が同じか確認
+            // =================================
+
+            if(
+                motif.positions.length !==
+                longer.positions.length
+            ){
+                continue;
+            }
+
+
+            // =================================
+            // 各出現位置について
+            // 長いMotifの中に含まれるか
+            // =================================
+
+            const allContained =
+                motif.positions.every(
+                    (position, index) => {
+
+                        const longPosition =
+                            longer.positions[index];
+
+
+                        return (
+                            position >=
+                                longPosition &&
+
+                            position + motif.length <=
+                                longPosition +
+                                longer.length
+                        );
+
+                    }
+                );
+
+
+            if(allContained){
+
+                contained = true;
+                break;
+
+            }
+
+        }
+
+
+        if(!contained){
+
+            result.push(motif);
+
+        }
+
+    }
+
+
+    return result;
+
+}
+
+
+function mergeInternalMotifs(
+    internalRight,
+    internalLeft,
+    internalCommon
+){
+
+    const motifMap = new Map();
+
+
+    // =====================================
+    // 右手・左手それぞれのInternal Motif
+    // =====================================
+
+    const sources = [
+
+        {
+            hand: "R",
+            motifs: internalRight
+        },
+
+        {
+            hand: "L",
+            motifs: internalLeft
+        }
+
+    ];
+
+
+    for(const source of sources){
+
+        for(const motif of source.motifs){
+
+            const key =
+                motif.length +
+                ":" +
+                JSON.stringify(
+                    motif.pattern
+                );
+
+
+            if(!motifMap.has(key)){
+
+                motifMap.set(
+                    key,
+                    {
+
+                        length:
+                            motif.length,
+
+                        pattern:
+                            [...motif.pattern],
+
+                        R: [],
+                        L: []
+
+                    }
+                );
+
+            }
+
+
+            const group =
+                motifMap.get(key);
+
+
+            for(
+                const start
+                of motif.positions
+            ){
+
+                group[source.hand].push({
+
+                    start:
+                        start
+
+                });
+
+            }
+
+        }
+
+    }
+
+
+    // =====================================
+    // 右手 × 左手の共通Motif
+    // =====================================
+
+    for(
+        const motif
+        of internalCommon
+    ){
+
+        const key =
+            motif.length +
+            ":" +
+            JSON.stringify(
+                motif.pattern
+            );
+
+
+        if(!motifMap.has(key)){
+
+            motifMap.set(
+                key,
+                {
+
+                    length:
+                        motif.length,
+
+                    pattern:
+                        [...motif.pattern],
+
+                    R: [],
+                    L: []
+
+                }
+            );
+
+        }
+
+
+        const group =
+            motifMap.get(key);
+
+
+        group.R.push(
+            motif.right
+        );
+
+
+        group.L.push(
+            motif.left
+        );
+
+    }
+
+
+    // =====================================
+    // 配列化
+    // =====================================
+
+    const result =
+        Array.from(
+            motifMap.values()
+        );
+
+
+    // =====================================
+    // 出現位置の重複削除
+    // =====================================
+
+    for(const motif of result){
+
+        for(
+            const hand of ["R", "L"]
+        ){
+
+            const unique =
+                new Map();
+
+
+            for(
+                const occurrence
+                of motif[hand]
+            ){
+
+                if(
+                    !unique.has(
+                        occurrence.start
+                    )
+                ){
+
+                    unique.set(
+                        occurrence.start,
+                        occurrence
+                    );
+
+                }
+
+            }
+
+
+            motif[hand] =
+                [...unique.values()].sort(
+                    (a,b) =>
+                        a.start - b.start
+                );
+
+        }
+
+    }
+
+
+    // =====================================
+    // 長いMotifを先に
+    // =====================================
+
+    result.sort(
+        (a,b) =>
+            b.length - a.length
+    );
+
+
+    // =====================================
+    // 上位10件
+    // =====================================
+
+    const filtered =
+        filterMergedInternalMotifs(
+            result
+        );
+
+    const top =
+        filtered.slice(0, 10);
+
+    // =====================================
+    // Motif ID
+    // =====================================
+
+    top.forEach(
+        (motif, index) => {
+
+            motif.motifId =
+                index + 1;
+
+        }
+    );
+
+
+    return top;
+}
+
+
 function drawInternalMotifGraph(
     internalMotifs,
     shapeEventDataRight,
@@ -5691,230 +6420,7 @@ function drawCommonMotifGraph(motifs){
 }
 
 
-function createShapeEvent(scoreNotes, hand){
 
-    console.log(
-        "createShapeEvent:",
-        hand,
-        "scoreNotes =",
-        scoreNotes
-    );
-
-    const shapeEventData = {};
-    
-    if(!Array.isArray(scoreNotes)){
-        console.warn(
-            "createShapeEvent: scoreNotes is not an array",
-            scoreNotes
-        );
-        return shapeEventData;
-    }
-
-    // -----------------------------------------
-    // start位置で並べる
-    // -----------------------------------------
-
-    const notes = [...scoreNotes].sort(
-        (a, b) => a.start - b.start
-    );
-
-    if(notes.length === 0){
-        return shapeEventData;
-    }
-
-
-    // -----------------------------------------
-    // 同じstartの音を音イベントとしてまとめる
-    // -----------------------------------------
-
-    const events = [];
-
-    for(const note of notes){
-
-        let event =
-            events[events.length - 1];
-
-        if(
-            !event ||
-            event.start !== note.start
-        ){
-
-            event = {
-                start: note.start,
-                notes: []
-            };
-
-            events.push(event);
-        }
-
-        event.notes.push(note);
-    }
-
-
-    // -----------------------------------------
-    // 音イベントごとにshapeを作る
-    // -----------------------------------------
-
-    for(let i = 0; i < events.length; i++){
-
-        const event = events[i];
-
-        shapeEventData[i] = {
-
-            // 音イベントの順序
-            event: i,
-
-            start: event.start,
-
-            hand: hand,
-
-            points:
-                event.notes.map(note => ({
-
-                    start: note.start,
-
-                    midi: note.midi,
-
-                    // オクターブを除いた pitch class
-                    pitchClass:
-                        ((note.midi % 12) + 12) % 12
-                }))
-        };
-    }
-
-
-    return shapeEventData;
-}
-
-function findMotifEvent(
-    shapeEventDataA,
-    shapeEventDataB
-){
-
-    const eventsA =
-        Object.keys(shapeEventDataA)
-            .map(Number)
-            .sort((a,b) => a-b);
-
-    const eventsB =
-        Object.keys(shapeEventDataB)
-            .map(Number)
-            .sort((a,b) => a-b);
-
-    const candidates = [];
-
-    // A の開始位置
-    for(let i = 0; i < eventsA.length; i++){
-
-        // B の開始位置
-        for(let j = 0; j < eventsB.length; j++){
-
-
-            // 12種類の移調をすべて試す
-            for(let transpose = 0; transpose < 12; transpose++){
-
-                let length = 0;
-
-
-                while(
-                    i + length < eventsA.length &&
-                    j + length < eventsB.length
-                ){
-
-                    const ea =
-                        shapeEventDataA[
-                            eventsA[i + length]
-                        ];
-
-                    const eb =
-                        shapeEventDataB[
-                            eventsB[j + length]
-                        ];
-
-
-                    const pa =
-                        ea.points.map(
-                            p => p.pitchClass
-                        );
-
-                    const pb =
-                        eb.points.map(
-                            p => p.pitchClass
-                        );
-
-
-                    // 現時点では1 event = 1音だけ
-                    if(
-                        pa.length !== 1 ||
-                        pb.length !== 1
-                    ){
-                        break;
-                    }
-
-
-                    const expected =
-                        (pb[0] + transpose) % 12;
-
-
-                    if(pa[0] !== expected){
-                        break;
-                    }
-
-
-                    length++;
-                }
-
-
-                if(length >= MIN_LENGTH){
-
-                    candidates.push({
-
-                        startA:
-                            eventsA[i],
-
-                        startB:
-                            eventsB[j],
-
-                        length,
-
-                        transpose
-                    });
-
-                }
-
-            }
-
-        }
-
-    }
-
-
-    return candidates;
-}
-
-
-function findInternalMotifs(data, hand){
-
-    const candidates =
-        findMotifEvent(
-            data,
-            data
-        );
-
-    const motifs =
-        groupInternalMotifs(
-            data,
-            candidates,
-            hand
-        );
-
-    const filtered =
-        filterInternalMotifs(
-            motifs
-        );
-
-    return filtered;
-}
 
 
 function findCommonInternalMotifs(
@@ -6179,185 +6685,6 @@ function groupInternalMotifsFourWays(
     return result;
 }
 
-
-function groupInternalMotifs(data, candidates){
-
-    const motifMap = {};
-
-    for(const candidate of candidates){
-
-        const pattern =
-            getMotifPattern(
-                data,
-                candidate.startA,
-                candidate.length
-            );
-
-        if(!pattern){
-            continue;
-        }
-
-        const normalized =
-            normalizeMotifPattern(pattern);
-
-        if(!normalized){
-            continue;
-        }
-
-        const key =
-            candidate.length +
-            ":" +
-            JSON.stringify(normalized);
-
-
-        if(!motifMap[key]){
-
-            motifMap[key] = {
-
-                length:
-                    candidate.length,
-
-                pattern:
-                    normalized,
-
-                positions:
-                    new Set(),
-
-                occurrences:
-                    []
-
-            };
-
-        }
-
-
-        const motif =
-            motifMap[key];
-
-
-        // =================================
-        // 1回目の出現
-        // =================================
-
-        motif.positions.add(
-            candidate.startA
-        );
-
-        motif.occurrences.push({
-
-            start:
-                candidate.startA,
-
-            transpose:
-                candidate.transpose
-
-        });
-
-
-        // =================================
-        // 2回目の出現
-        // =================================
-
-        motif.positions.add(
-            candidate.startB
-        );
-
-        motif.occurrences.push({
-
-            start:
-                candidate.startB,
-
-            transpose:
-                candidate.transpose
-
-        });
-
-    }
-
-
-    const result = [];
-
-
-    for(
-        const motif
-        of Object.values(motifMap)
-    ){
-
-        // =================================
-        // 同じstartを重複削除
-        // =================================
-
-        const unique =
-            new Map();
-
-
-        for(
-            const occurrence
-            of motif.occurrences
-        ){
-
-            if(
-                !unique.has(
-                    occurrence.start
-                )
-            ){
-
-                unique.set(
-                    occurrence.start,
-                    {
-                        start:
-                            occurrence.start,
-
-                        transpose:
-                            occurrence.transpose
-                    }
-                );
-
-            }
-
-        }
-
-
-        const occurrences =
-            [...unique.values()].sort(
-                (a,b) =>
-                    a.start - b.start
-            );
-
-
-        // =================================
-        // 2回以上出現するものだけ
-        // =================================
-
-        if(
-            occurrences.length >= 2
-        ){
-
-            result.push({
-
-                length:
-                    motif.length,
-
-                pattern:
-                    motif.pattern,
-
-                positions:
-                    [...motif.positions].sort(
-                        (a,b) => a-b
-                    ),
-
-                occurrences:
-                    occurrences
-
-            });
-
-        }
-
-    }
-
-
-    return result;
-}
 
 
 function findCommonMotifsFourWays(
@@ -6912,322 +7239,7 @@ function groupCommonMotifs(
 }
 
 
-function filterInternalMotifs(motifs){
 
-    const sorted =
-        [...motifs].sort(
-            (a,b) => b.length - a.length
-        );
-
-    const result = [];
-
-
-    for(const motif of sorted){
-
-        let contained = false;
-
-
-        for(const longer of result){
-
-            if(longer.length <= motif.length){
-                continue;
-            }
-
-
-            // =================================
-            // 出現数が同じか確認
-            // =================================
-
-            if(
-                motif.positions.length !==
-                longer.positions.length
-            ){
-                continue;
-            }
-
-
-            // =================================
-            // 各出現位置について
-            // 長いMotifの中に含まれるか
-            // =================================
-
-            const allContained =
-                motif.positions.every(
-                    (position, index) => {
-
-                        const longPosition =
-                            longer.positions[index];
-
-
-                        return (
-                            position >=
-                                longPosition &&
-
-                            position + motif.length <=
-                                longPosition +
-                                longer.length
-                        );
-
-                    }
-                );
-
-
-            if(allContained){
-
-                contained = true;
-                break;
-
-            }
-
-        }
-
-
-        if(!contained){
-
-            result.push(motif);
-
-        }
-
-    }
-
-
-    return result;
-
-}
-
-
-function mergeInternalMotifs(
-    internalRight,
-    internalLeft,
-    internalCommon
-){
-
-    const motifMap = new Map();
-
-
-    // =====================================
-    // 右手・左手それぞれのInternal Motif
-    // =====================================
-
-    const sources = [
-
-        {
-            hand: "R",
-            motifs: internalRight
-        },
-
-        {
-            hand: "L",
-            motifs: internalLeft
-        }
-
-    ];
-
-
-    for(const source of sources){
-
-        for(const motif of source.motifs){
-
-            const key =
-                motif.length +
-                ":" +
-                JSON.stringify(
-                    motif.pattern
-                );
-
-
-            if(!motifMap.has(key)){
-
-                motifMap.set(
-                    key,
-                    {
-
-                        length:
-                            motif.length,
-
-                        pattern:
-                            [...motif.pattern],
-
-                        R: [],
-                        L: []
-
-                    }
-                );
-
-            }
-
-
-            const group =
-                motifMap.get(key);
-
-
-            for(
-                const start
-                of motif.positions
-            ){
-
-                group[source.hand].push({
-
-                    start:
-                        start
-
-                });
-
-            }
-
-        }
-
-    }
-
-
-    // =====================================
-    // 右手 × 左手の共通Motif
-    // =====================================
-
-    for(
-        const motif
-        of internalCommon
-    ){
-
-        const key =
-            motif.length +
-            ":" +
-            JSON.stringify(
-                motif.pattern
-            );
-
-
-        if(!motifMap.has(key)){
-
-            motifMap.set(
-                key,
-                {
-
-                    length:
-                        motif.length,
-
-                    pattern:
-                        [...motif.pattern],
-
-                    R: [],
-                    L: []
-
-                }
-            );
-
-        }
-
-
-        const group =
-            motifMap.get(key);
-
-
-        group.R.push(
-            motif.right
-        );
-
-
-        group.L.push(
-            motif.left
-        );
-
-    }
-
-
-    // =====================================
-    // 配列化
-    // =====================================
-
-    const result =
-        Array.from(
-            motifMap.values()
-        );
-
-
-    // =====================================
-    // 出現位置の重複削除
-    // =====================================
-
-    for(const motif of result){
-
-        for(
-            const hand of ["R", "L"]
-        ){
-
-            const unique =
-                new Map();
-
-
-            for(
-                const occurrence
-                of motif[hand]
-            ){
-
-                if(
-                    !unique.has(
-                        occurrence.start
-                    )
-                ){
-
-                    unique.set(
-                        occurrence.start,
-                        occurrence
-                    );
-
-                }
-
-            }
-
-
-            motif[hand] =
-                [...unique.values()].sort(
-                    (a,b) =>
-                        a.start - b.start
-                );
-
-        }
-
-    }
-
-
-    // =====================================
-    // 長いMotifを先に
-    // =====================================
-
-    result.sort(
-        (a,b) =>
-            b.length - a.length
-    );
-
-
-    // =====================================
-    // 上位10件
-    // =====================================
-
-    const filtered =
-        filterMergedInternalMotifs(
-            result
-        );
-
-    const top =
-        filtered.slice(0, 10);
-
-    // =====================================
-    // Motif ID
-    // =====================================
-
-    top.forEach(
-        (motif, index) => {
-
-            motif.motifId =
-                index + 1;
-
-        }
-    );
-
-
-    return top;
-}
 
 function filterMergedInternalMotifs(motifs){
 
