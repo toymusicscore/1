@@ -6887,6 +6887,148 @@ function mergeInternalMotifs(
     return top;
 }
 
+function filterMergedInternalMotifs(motifs){
+
+    const sorted =
+        [...motifs].sort(
+            (a,b) =>
+                b.length - a.length
+        );
+
+
+    const result = [];
+
+
+    for(const motif of sorted){
+
+        let contained = false;
+
+
+        for(const longer of result){
+
+            if(
+                longer.length <=
+                motif.length
+            ){
+                continue;
+            }
+
+
+            // =================================
+            // R / L それぞれについて確認
+            // =================================
+
+            const hands = ["R", "L"];
+
+            let allContained = true;
+
+
+            for(const hand of hands){
+
+                const shortOccurrences =
+                    motif[hand] || [];
+
+                const longOccurrences =
+                    longer[hand] || [];
+
+
+                // ---------------------------------
+                // 短いMotifがこの手に存在する場合
+                // ---------------------------------
+
+                if(
+                    shortOccurrences.length === 0
+                ){
+                    continue;
+                }
+
+
+                // 長いMotifの同じ手に
+                // 対応する出現が必要
+                if(
+                    longOccurrences.length === 0
+                ){
+
+                    allContained = false;
+                    break;
+
+                }
+
+
+                // ---------------------------------
+                // 各短いMotifの出現位置を確認
+                // ---------------------------------
+
+                for(
+                    const shortOccurrence
+                    of shortOccurrences
+                ){
+
+                    const shortStart =
+                        shortOccurrence.start;
+
+
+                    const isContained =
+                        longOccurrences.some(
+                            longOccurrence => {
+
+                                const longStart =
+                                    longOccurrence.start;
+
+
+                                return (
+                                    shortStart >=
+                                        longStart
+                                    &&
+                                    shortStart +
+                                    motif.length <=
+                                        longStart +
+                                        longer.length
+                                );
+
+                            }
+                        );
+
+
+                    if(!isContained){
+
+                        allContained = false;
+                        break;
+
+                    }
+
+                }
+
+
+                if(!allContained){
+                    break;
+                }
+
+            }
+
+
+            if(allContained){
+
+                contained = true;
+                break;
+
+            }
+
+        }
+
+
+        if(!contained){
+
+            result.push(motif);
+
+        }
+
+    }
+
+
+    return result;
+}
+
 
 function mergeMotifCandidates(candidates){
 
