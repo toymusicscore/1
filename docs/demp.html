@@ -4146,6 +4146,26 @@ function saveScoreB(){
 
 }
 
+/*
+[Internal Motif]
+showInternalMotif
+ ├─ createShapeEvent
+ ├─ findInternalMotifs
+ │   ├─ findMotifEvent
+ │   ├─ groupInternalMotifs
+ │   └─ filterInternalMotifs
+ ├─ mergeInternalMotifs
+ └─ drawInternalMotifGraph
+
+
+[Common Motif]
+showMotifTwoSongs
+ ├─ createShapeEvent × 4
+ ├─ findMotifEvent
+ ├─ groupCommonMotifs
+ └─ drawCommonMotifGraph
+*/
+
 
 function showInternalMotif(){
 
@@ -6019,6 +6039,321 @@ function showMotifTwoSongs(){
 }
 
 
+function groupCommonMotifs(
+    commonMotifs,
+    shapeEventDataRightA,
+    shapeEventDataRightB,
+    shapeEventDataLeftA,
+    shapeEventDataLeftB
+){
+
+    const groups = new Map();
+
+
+    const dataMap = {
+
+        RA:
+            shapeEventDataRightA,
+
+        RB:
+            shapeEventDataRightB,
+
+        LA:
+            shapeEventDataLeftA,
+
+        LB:
+            shapeEventDataLeftB
+
+    };
+
+
+    // =====================================
+    // Common Motifをグループ化
+    // =====================================
+
+    for(
+        const candidate
+        of commonMotifs
+    ){
+
+        const [
+            typeA,
+            typeB
+        ] =
+            candidate.type.split("_");
+
+
+        const dataA =
+            dataMap[typeA];
+
+        const dataB =
+            dataMap[typeB];
+
+
+        // =================================
+        // A
+        // =================================
+
+        const patternA =
+            getNormalizedPattern(
+                dataA,
+                candidate.startA,
+                candidate.length
+            );
+
+
+        // =================================
+        // B
+        // =================================
+
+        const patternB =
+            getNormalizedPattern(
+                dataB,
+                candidate.startB,
+                candidate.length
+            );
+
+
+        if(
+            !patternA ||
+            !patternB
+        ){
+            continue;
+        }
+
+
+        // =================================
+        // A/Bのpattern確認
+        // =================================
+
+        if(
+            patternA.length !==
+            patternB.length
+        ){
+            continue;
+        }
+
+
+        let same = true;
+
+
+        for(
+            let i = 0;
+            i < patternA.length;
+            i++
+        ){
+
+            if(
+                patternA[i] !==
+                patternB[i]
+            ){
+
+                same = false;
+                break;
+
+            }
+
+        }
+
+
+        if(!same){
+            continue;
+        }
+
+
+        // =================================
+        // 重要
+        //
+        // typeはキーに含めない
+        //
+        // RA_RB
+        // RA_LB
+        // LA_RB
+        // LA_LB
+        //
+        // でも同じpatternなら
+        // 同じCommon Motif
+        // =================================
+
+        const key =
+            candidate.length +
+            ":" +
+            patternA.join(",");
+
+
+        if(!groups.has(key)){
+
+            groups.set(
+                key,
+                {
+
+                    length:
+                        candidate.length,
+
+                    pattern:
+                        [...patternA],
+
+                    RA: [],
+                    RB: [],
+                    LA: [],
+                    LB: []
+
+                }
+            );
+
+        }
+
+
+        const group =
+            groups.get(key);
+
+
+        // =================================
+        // A側
+        // =================================
+
+        group[typeA].push({
+
+            start:
+                candidate.startA,
+
+            transpose:
+                candidate.transpose
+
+        });
+
+
+        // =================================
+        // B側
+        // =================================
+
+        group[typeB].push({
+
+            start:
+                candidate.startB,
+
+            transpose:
+                candidate.transpose
+
+        });
+
+    }
+
+
+    // =====================================
+    // 配列化
+    // =====================================
+
+    const result =
+        Array.from(
+            groups.values()
+        );
+
+
+    // =====================================
+    // 出現位置の重複削除
+    // =====================================
+
+    for(
+        const motif
+        of result
+    ){
+
+        for(
+            const hand
+            of [
+                "RA",
+                "RB",
+                "LA",
+                "LB"
+            ]
+        ){
+
+            const unique =
+                new Map();
+
+
+            for(
+                const occurrence
+                of motif[hand]
+            ){
+
+                const start =
+                    occurrence.start;
+
+
+                if(
+                    !unique.has(start)
+                ){
+
+                    unique.set(
+                        start,
+                        {
+
+                            start:
+                                start,
+
+                            transpose:
+                                occurrence.transpose
+
+                        }
+                    );
+
+                }
+
+            }
+
+
+            motif[hand] =
+                Array.from(
+                    unique.values()
+                ).sort(
+                    (a,b) =>
+                        a.start - b.start
+                );
+
+        }
+
+    }
+
+
+    // =====================================
+    // 長いMotifを優先
+    // =====================================
+
+    result.sort(
+        (a,b) =>
+            b.length - a.length
+    );
+
+
+    // =====================================
+    // 上位10件
+    // =====================================
+
+    const topMotifs =
+        result.slice(0, 10);
+
+
+    // =====================================
+    // Motif ID
+    // =====================================
+
+    topMotifs.forEach(
+        (motif, index) => {
+
+            motif.motifId =
+                index + 1;
+
+        }
+    );
+
+
+    return topMotifs;
+
+}
+
+
 function drawCommonMotifGraph(motifs){
 
     // =====================================
@@ -6924,320 +7259,6 @@ function getNormalizedPattern(
         pc => (pc - base + 12) % 12
     );
 }
-function groupCommonMotifs(
-    commonMotifs,
-    shapeEventDataRightA,
-    shapeEventDataRightB,
-    shapeEventDataLeftA,
-    shapeEventDataLeftB
-){
-
-    const groups = new Map();
-
-
-    const dataMap = {
-
-        RA:
-            shapeEventDataRightA,
-
-        RB:
-            shapeEventDataRightB,
-
-        LA:
-            shapeEventDataLeftA,
-
-        LB:
-            shapeEventDataLeftB
-
-    };
-
-
-    // =====================================
-    // Common Motifをグループ化
-    // =====================================
-
-    for(
-        const candidate
-        of commonMotifs
-    ){
-
-        const [
-            typeA,
-            typeB
-        ] =
-            candidate.type.split("_");
-
-
-        const dataA =
-            dataMap[typeA];
-
-        const dataB =
-            dataMap[typeB];
-
-
-        // =================================
-        // A
-        // =================================
-
-        const patternA =
-            getNormalizedPattern(
-                dataA,
-                candidate.startA,
-                candidate.length
-            );
-
-
-        // =================================
-        // B
-        // =================================
-
-        const patternB =
-            getNormalizedPattern(
-                dataB,
-                candidate.startB,
-                candidate.length
-            );
-
-
-        if(
-            !patternA ||
-            !patternB
-        ){
-            continue;
-        }
-
-
-        // =================================
-        // A/Bのpattern確認
-        // =================================
-
-        if(
-            patternA.length !==
-            patternB.length
-        ){
-            continue;
-        }
-
-
-        let same = true;
-
-
-        for(
-            let i = 0;
-            i < patternA.length;
-            i++
-        ){
-
-            if(
-                patternA[i] !==
-                patternB[i]
-            ){
-
-                same = false;
-                break;
-
-            }
-
-        }
-
-
-        if(!same){
-            continue;
-        }
-
-
-        // =================================
-        // 重要
-        //
-        // typeはキーに含めない
-        //
-        // RA_RB
-        // RA_LB
-        // LA_RB
-        // LA_LB
-        //
-        // でも同じpatternなら
-        // 同じCommon Motif
-        // =================================
-
-        const key =
-            candidate.length +
-            ":" +
-            patternA.join(",");
-
-
-        if(!groups.has(key)){
-
-            groups.set(
-                key,
-                {
-
-                    length:
-                        candidate.length,
-
-                    pattern:
-                        [...patternA],
-
-                    RA: [],
-                    RB: [],
-                    LA: [],
-                    LB: []
-
-                }
-            );
-
-        }
-
-
-        const group =
-            groups.get(key);
-
-
-        // =================================
-        // A側
-        // =================================
-
-        group[typeA].push({
-
-            start:
-                candidate.startA,
-
-            transpose:
-                candidate.transpose
-
-        });
-
-
-        // =================================
-        // B側
-        // =================================
-
-        group[typeB].push({
-
-            start:
-                candidate.startB,
-
-            transpose:
-                candidate.transpose
-
-        });
-
-    }
-
-
-    // =====================================
-    // 配列化
-    // =====================================
-
-    const result =
-        Array.from(
-            groups.values()
-        );
-
-
-    // =====================================
-    // 出現位置の重複削除
-    // =====================================
-
-    for(
-        const motif
-        of result
-    ){
-
-        for(
-            const hand
-            of [
-                "RA",
-                "RB",
-                "LA",
-                "LB"
-            ]
-        ){
-
-            const unique =
-                new Map();
-
-
-            for(
-                const occurrence
-                of motif[hand]
-            ){
-
-                const start =
-                    occurrence.start;
-
-
-                if(
-                    !unique.has(start)
-                ){
-
-                    unique.set(
-                        start,
-                        {
-
-                            start:
-                                start,
-
-                            transpose:
-                                occurrence.transpose
-
-                        }
-                    );
-
-                }
-
-            }
-
-
-            motif[hand] =
-                Array.from(
-                    unique.values()
-                ).sort(
-                    (a,b) =>
-                        a.start - b.start
-                );
-
-        }
-
-    }
-
-
-    // =====================================
-    // 長いMotifを優先
-    // =====================================
-
-    result.sort(
-        (a,b) =>
-            b.length - a.length
-    );
-
-
-    // =====================================
-    // 上位10件
-    // =====================================
-
-    const topMotifs =
-        result.slice(0, 10);
-
-
-    // =====================================
-    // Motif ID
-    // =====================================
-
-    topMotifs.forEach(
-        (motif, index) => {
-
-            motif.motifId =
-                index + 1;
-
-        }
-    );
-
-
-    return topMotifs;
-
-}
-
 
 
 
