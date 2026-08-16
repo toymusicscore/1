@@ -8208,57 +8208,81 @@ function searchPitchClassInEventData(
     eventData,
     queryPattern,
     hand,
-    song
+    scoreName
 ){
 
-    const events = Object.values(eventData);
+    const events =
+        Object.values(eventData);
 
     const results = [];
 
+    const queryLength =
+        queryPattern.length;
+
+    if(queryLength === 0){
+        return results;
+    }
+
     for(let i = 0;
-        i <= events.length - queryPattern.length;
+        i <= events.length - queryLength;
         i++){
 
-        const pattern = [];
+        const firstPC =
+            events[i].pitchClass;
 
-        for(let j = 0;
-            j < queryPattern.length;
-            j++){
-
-            pattern.push(
-                events[i + j].pitchClass
-            );
+        if(firstPC === undefined){
+            continue;
         }
 
+        // 入力の最初のPCから移調量を決める
         const transpose =
-            comparePitchClassPattern(
-                queryPattern,
-                pattern
-            );
+            (firstPC - queryPattern[0] + 12) % 12;
 
-        if(transpose !== null){
+        let match = true;
+
+        for(let j = 0;
+            j < queryLength;
+            j++){
+
+            const queryPC =
+                (queryPattern[j] + transpose) % 12;
+
+            const eventPC =
+                events[i + j].pitchClass;
+
+            if(queryPC !== eventPC){
+
+                match = false;
+                break;
+            }
+        }
+
+        if(match){
 
             results.push({
 
-                song: song,
+                score: scoreName,
 
                 hand: hand,
 
                 startEvent: i,
 
                 endEvent:
-                    i + queryPattern.length - 1,
+                    i + queryLength - 1,
 
                 transpose: transpose,
 
-                pattern: pattern,
+                pattern:
+                    events
+                    .slice(i, i + queryLength)
+                    .map(e => e.pitchClass),
 
                 start:
                     events[i].start,
 
                 stop:
                     events[
-                        i + queryPattern.length - 1
+                        i + queryLength - 1
                     ].stop
             });
         }
