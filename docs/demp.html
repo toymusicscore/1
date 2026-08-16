@@ -8129,17 +8129,49 @@ function drawCommonMotifGraph(motifs){
 function getPitchClassQuery(){
 
     const input =
-        document.getElementById("pitchClassInput").value.trim();
+        $("pitchClassInput").value.trim();
+
+    console.log(
+        "pitchClass raw input =",
+        input
+    );
 
     if(!input){
         return [];
     }
 
-    const pattern =
-        input
-        .split(/[\s,]+/)
-        .map(Number)
-        .filter(x => Number.isInteger(x) && x >= 0 && x <= 11);
+    let pattern;
+
+    // 空白またはカンマがある場合
+    if(/[\s,]/.test(input)){
+
+        pattern =
+            input
+            .split(/[\s,]+/)
+            .map(Number);
+
+    }else{
+
+        // 連続した数字の場合
+        pattern =
+            input
+            .split("")
+            .map(Number);
+
+    }
+
+    pattern =
+        pattern.filter(
+            x =>
+                Number.isInteger(x) &&
+                x >= 0 &&
+                x <= 11
+        );
+
+    console.log(
+        "pitchClass pattern =",
+        pattern
+    );
 
     return pattern;
 }
@@ -8245,53 +8277,86 @@ function searchPitchClass(){
 
     console.log("queryPattern =", queryPattern0);
 
-    const input =
-        $("pitchClassInput").value.trim();
+    // 以下は一旦そのまま
 
-    console.log(
-        "pitchClass raw input =",
-        input
-    );
+    const queryPattern =
+        getPitchClassQuery();
 
-    if(!input){
-        return [];
-    }
-
-    let pattern;
-
-    // 空白またはカンマがある場合
-    if(/[\s,]/.test(input)){
-
-        pattern =
-            input
-            .split(/[\s,]+/)
-            .map(Number);
-
-    }else{
-
-        // 連続した数字の場合
-        pattern =
-            input
-            .split("")
-            .map(Number);
-
-    }
-
-    pattern =
-        pattern.filter(
-            x =>
-                Number.isInteger(x) &&
-                x >= 0 &&
-                x <= 11
+    const resultDiv =
+        document.getElementById(
+            "pitchClassResult"
         );
 
-    console.log(
-        "pitchClass pattern =",
-        pattern
-    );
+    resultDiv.innerHTML = "";
 
-    return pattern;
+    if(queryPattern.length === 0){
+
+        resultDiv.textContent =
+            "Pitch class を入力してください";
+
+        return;
+    }
+
+    let results = [];
+
+    // A Right
+    if(typeof shapeEventDataRightA !== "undefined"){
+
+        results.push(
+            ...searchPitchClassInEventData(
+                shapeEventDataRightA,
+                queryPattern,
+                "Right A",
+                "A"
+            )
+        );
+    }
+
+    // A Left
+    if(typeof shapeEventDataLeftA !== "undefined"){
+
+        results.push(
+            ...searchPitchClassInEventData(
+                shapeEventDataLeftA,
+                queryPattern,
+                "Left A",
+                "A"
+            )
+        );
+    }
+
+    // B Right
+    if(typeof shapeEventDataRightB !== "undefined"){
+
+        results.push(
+            ...searchPitchClassInEventData(
+                shapeEventDataRightB,
+                queryPattern,
+                "Right B",
+                "B"
+            )
+        );
+    }
+
+    // B Left
+    if(typeof shapeEventDataLeftB !== "undefined"){
+
+        results.push(
+            ...searchPitchClassInEventData(
+                shapeEventDataLeftB,
+                queryPattern,
+                "Left B",
+                "B"
+            )
+        );
+    }
+
+    displayPitchClassResults(
+        queryPattern,
+        results
+    );
 }
+
 
 function displayPitchClassResults(
     queryPattern,
