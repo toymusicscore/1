@@ -4371,12 +4371,25 @@ function drawInternalMotifGraph(
     ctx.textAlign =
         "right";
 
+    const eventLabelStep =
+        Math.max(
+            1,
+            Math.ceil(
+                totalEvents / 100
+            )
+        );
 
     for(
         let eventIndex = 0;
         eventIndex < totalEvents;
         eventIndex++
     ){
+
+        if(
+            eventIndex % eventLabelStep !== 0
+        ){
+            continue;
+        }
 
         const y =
             graphTop +
@@ -4390,7 +4403,6 @@ function drawInternalMotifGraph(
         );
 
     }
-
 
     // =====================================
     // Measure Event
