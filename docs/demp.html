@@ -4876,21 +4876,16 @@ function showMotifTwoSongs(){
     // =====================================
     
     const internalMotifGroups =
-        groupInternalMotifsFourWays(
-            internalRightA,
-            internalRightB,
-            internalLeftA,
-            internalLeftB
+        groupInternalMotifsRL(
+            internalRight,
+            internalLeft
         );
 
     drawInternalMotifGraph(
         internalMotifGroups,
-        shapeEventDataRightA,
-        shapeEventDataRightB,
-        shapeEventDataLeftA,
-        shapeEventDataLeftB,
-        ticksPerMeasureA,
-        ticksPerMeasureB
+        shapeEventDataRight,
+        shapeEventDataLeft,
+        ticksPerMeasure
     );
 
     // =====================================
@@ -5573,7 +5568,7 @@ function findInternalMotifs(data, hand){
     return filtered;
 }
 
-
+/*
 function groupInternalMotifsFourWays(
     internalRightA,
     internalRightB,
@@ -5699,6 +5694,160 @@ function groupInternalMotifsFourWays(
 
     // =====================================
     // 長いMotifを先にする
+    // =====================================
+
+    result.sort(
+        (a,b) =>
+            b.length - a.length
+    );
+
+
+    // =====================================
+    // Motif ID
+    // =====================================
+
+    result.forEach(
+        (motif, index) => {
+
+            motif.motifId =
+                index + 1;
+
+        }
+    );
+
+
+    return result;
+}
+*/
+
+function groupInternalMotifsRL(
+    internalRight,
+    internalLeft
+){
+
+    const groups = new Map();
+
+
+    // =====================================
+    // Right / Left
+    // =====================================
+
+    const sources = [
+
+        {
+            type: "R",
+            motifs: internalRight
+        },
+
+        {
+            type: "L",
+            motifs: internalLeft
+        }
+
+    ];
+
+
+    // =====================================
+    // pattern + length でまとめる
+    // transpose違いは同じMotif
+    // =====================================
+
+    for(const source of sources){
+
+        for(const motif of source.motifs){
+
+            if(
+                !motif.pattern ||
+                !motif.pattern.length
+            ){
+                continue;
+            }
+
+
+            const key =
+                motif.length +
+                ":" +
+                motif.pattern.join(",");
+
+
+            if(!groups.has(key)){
+
+                groups.set(
+                    key,
+                    {
+
+                        length:
+                            motif.length,
+
+                        pattern:
+                            [...motif.pattern],
+
+                        R: [],
+
+                        L: []
+
+                    }
+                );
+
+            }
+
+
+            const group =
+                groups.get(key);
+
+
+            // ---------------------------------
+            // 出現位置を追加
+            // ---------------------------------
+
+            for(
+                const position
+                of motif.positions
+            ){
+
+                group[source.type].push({
+
+                    start:
+                        position
+
+                });
+
+            }
+
+        }
+
+    }
+
+
+    // =====================================
+    // 配列化
+    // =====================================
+
+    const result = [];
+
+
+    for(const group of groups.values()){
+
+        // ---------------------------------
+        // 同じMotifが2回以上出現するもの
+        // ---------------------------------
+
+        const count =
+            group.R.length +
+            group.L.length;
+
+
+        if(count >= 2){
+
+            result.push(group);
+
+        }
+
+    }
+
+
+    // =====================================
+    // 長いMotifを先に
     // =====================================
 
     result.sort(
