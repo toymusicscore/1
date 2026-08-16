@@ -4327,11 +4327,19 @@ function drawInternalMotifGraph(
     const marginTop = 65;
 
     const motifWidth = 180;
-
+        
     const graphTop = 105;
 
-    const eventHeight = 6;
+    const maxGraphHeight = 1200;
 
+    const eventHeight =
+        Math.max(
+            3,
+            Math.min(
+                14,
+                maxGraphHeight / totalEvents
+            )
+        );
 
     // =====================================
     // Canvasサイズ
