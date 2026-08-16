@@ -4876,16 +4876,21 @@ function showMotifTwoSongs(){
     // =====================================
     
     const internalMotifGroups =
-        groupInternalMotifsRL(
-            internalRight,
-            internalLeft
+        groupInternalMotifsFourWays(
+            internalRightA,
+            internalRightB,
+            internalLeftA,
+            internalLeftB
         );
 
     drawInternalMotifGraph(
         internalMotifGroups,
-        shapeEventDataRight,
-        shapeEventDataLeft,
-        ticksPerMeasure
+        shapeEventDataRightA,
+        shapeEventDataRightB,
+        shapeEventDataLeftA,
+        shapeEventDataLeftB,
+        ticksPerMeasureA,
+        ticksPerMeasureB
     );
 
     // =====================================
@@ -5568,7 +5573,7 @@ function findInternalMotifs(data, hand){
     return filtered;
 }
 
-/*
+
 function groupInternalMotifsFourWays(
     internalRightA,
     internalRightB,
@@ -5718,7 +5723,7 @@ function groupInternalMotifsFourWays(
 
     return result;
 }
-*/
+
 
 function groupInternalMotifsRL(
     internalRight,
