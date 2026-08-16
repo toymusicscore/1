@@ -4978,6 +4978,108 @@ function drawInternalMotifGraph(
                 }
 
             }
+            // =================================
+            // Motifの範囲を四角で囲む
+            // =================================
+
+            ctx.strokeStyle =
+                "#555";
+
+            ctx.lineWidth =
+                1.5;
+
+
+            // ---------------------------------
+            // Left Motif
+            // ---------------------------------
+
+            for(
+                const occurrence
+                of motif.L
+            ){
+
+                const firstEvent =
+                    shapeEventDataLeft[
+                        occurrence.start
+                    ];
+
+                const lastEvent =
+                    shapeEventDataLeft[
+                        occurrence.start +
+                        motif.length -
+                        1
+                    ];
+
+                if(
+                    !firstEvent ||
+                    !lastEvent
+                ){
+                    continue;
+                }
+
+
+                const y1 =
+                    getY(firstEvent.start);
+
+                const y2 =
+                    getY(lastEvent.start);
+
+
+                ctx.strokeRect(
+                    x,
+                    y1 - 4,
+                    handWidth,
+                    (y2 - y1) + 8
+                );
+
+            }
+
+
+            // ---------------------------------
+            // Right Motif
+            // ---------------------------------
+
+            for(
+                const occurrence
+                of motif.R
+            ){
+
+                const firstEvent =
+                    shapeEventDataRight[
+                        occurrence.start
+                    ];
+
+                const lastEvent =
+                    shapeEventDataRight[
+                        occurrence.start +
+                        motif.length -
+                        1
+                    ];
+
+                if(
+                    !firstEvent ||
+                    !lastEvent
+                ){
+                    continue;
+                }
+
+
+                const y1 =
+                    getY(firstEvent.start);
+
+                const y2 =
+                    getY(lastEvent.start);
+
+
+                ctx.strokeRect(
+                    x + handWidth,
+                    y1 - 4,
+                    handWidth,
+                    (y2 - y1) + 8
+                );
+
+            }
+
         }
     );
 
