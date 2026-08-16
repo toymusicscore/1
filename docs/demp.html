@@ -4152,8 +4152,13 @@ showInternalMotif
  ├─ createShapeEvent
  ├─ findInternalMotifs
  │   ├─ findMotifEvent
+ │   ├─ findCommonInternalMotifs
  │   ├─ groupInternalMotifs
+ │   ├─ getMotifPattern
+ │   ├─ getNormalizedPattern
+ │   ├─ normalizeMotifPattern
  │   └─ filterInternalMotifs
+ │   └─ filterMergedInternalMotifs
  ├─ mergeInternalMotifs
  └─ drawInternalMotifGraph
 
@@ -4165,6 +4170,7 @@ showMotifTwoSongs
  ├─ findCommonMotifsFourWays
  ├─ selectLongestCommonMotifs
  ├─ groupCommonMotifs
+ ├─  └─ getNormalizedPattern
  └─ drawCommonMotifGraph
 */
 
@@ -4481,6 +4487,117 @@ function findMotifEvent(
 }
 
 
+function findCommonInternalMotifs(
+    dataRight,
+    dataLeft
+){
+
+    const candidates =
+        findMotifEvent(
+            dataRight,
+            dataLeft
+        );
+
+
+    const result = [];
+
+
+    for(const candidate of candidates){
+
+        const patternRight =
+            getNormalizedPattern(
+                dataRight,
+                candidate.startA,
+                candidate.length
+            );
+
+        const patternLeft =
+            getNormalizedPattern(
+                dataLeft,
+                candidate.startB,
+                candidate.length
+            );
+
+
+        if(
+            !patternRight ||
+            !patternLeft
+        ){
+            continue;
+        }
+
+
+        if(
+            patternRight.length !==
+            patternLeft.length
+        ){
+            continue;
+        }
+
+
+        let same = true;
+
+
+        for(
+            let i = 0;
+            i < patternRight.length;
+            i++
+        ){
+
+            if(
+                patternRight[i] !==
+                patternLeft[i]
+            ){
+
+                same = false;
+                break;
+
+            }
+
+        }
+
+
+        if(!same){
+            continue;
+        }
+
+
+        result.push({
+
+            length:
+                candidate.length,
+
+            pattern:
+                [...patternRight],
+
+            right: {
+
+                start:
+                    candidate.startA,
+
+                transpose:
+                    candidate.transpose
+
+            },
+
+            left: {
+
+                start:
+                    candidate.startB,
+
+                transpose:
+                    candidate.transpose
+
+            }
+
+        });
+
+    }
+
+
+    return result;
+}
+
 
 function groupInternalMotifs(data, candidates){
 
@@ -4662,6 +4779,106 @@ function groupInternalMotifs(data, candidates){
 }
 
 
+function getMotifPattern(data, start, length){
+
+    const events =
+        Object.values(data);
+
+    const pattern = [];
+
+    for(let i = 0; i < length; i++){
+
+        const event =
+            events[start + i];
+
+        if(
+            !event ||
+            !event.points ||
+            event.points.length !== 1 ||
+            event.points[0].pitchClass === undefined
+        ){
+            return null;
+        }
+
+        pattern.push(
+            event.points[0].pitchClass
+        );
+    }
+
+    return pattern;
+}
+
+
+function getNormalizedPattern(
+    shapeEventData,
+    start,
+    length
+){
+
+    const events =
+        Object.keys(shapeEventData)
+            .map(Number)
+            .sort((a,b) => a-b);
+
+    const pattern = [];
+
+    for(let i = 0; i < length; i++){
+
+        const event =
+            shapeEventData[
+                events[start + i]
+            ];
+
+        if(
+            !event ||
+            !event.points ||
+            !event.points.length
+        ){
+            return null;
+        }
+
+        const pc =
+            event.points[0].pitchClass;
+
+        if(
+            pc === undefined ||
+            pc < 0 ||
+            pc > 11
+        ){
+            return null;
+        }
+
+        pattern.push(pc);
+    }
+
+    if(!pattern.length){
+        return null;
+    }
+
+    // 最初の音を0として正規化
+    const base = pattern[0];
+
+    return pattern.map(
+        pc => (pc - base + 12) % 12
+    );
+}
+
+
+function normalizeMotifPattern(pattern){
+
+    if(
+        !pattern ||
+        !pattern.length
+    ){
+        return null;
+    }
+
+    const base = pattern[0];
+
+    return pattern.map(
+        pc => (pc - base + 12) % 12
+    );
+}
 
 function filterInternalMotifs(motifs){
 
@@ -4980,6 +5197,148 @@ function mergeInternalMotifs(
     return top;
 }
 
+
+function filterMergedInternalMotifs(motifs){
+
+    const sorted =
+        [...motifs].sort(
+            (a,b) =>
+                b.length - a.length
+        );
+
+
+    const result = [];
+
+
+    for(const motif of sorted){
+
+        let contained = false;
+
+
+        for(const longer of result){
+
+            if(
+                longer.length <=
+                motif.length
+            ){
+                continue;
+            }
+
+
+            // =================================
+            // R / L それぞれについて確認
+            // =================================
+
+            const hands = ["R", "L"];
+
+            let allContained = true;
+
+
+            for(const hand of hands){
+
+                const shortOccurrences =
+                    motif[hand] || [];
+
+                const longOccurrences =
+                    longer[hand] || [];
+
+
+                // ---------------------------------
+                // 短いMotifがこの手に存在する場合
+                // ---------------------------------
+
+                if(
+                    shortOccurrences.length === 0
+                ){
+                    continue;
+                }
+
+
+                // 長いMotifの同じ手に
+                // 対応する出現が必要
+                if(
+                    longOccurrences.length === 0
+                ){
+
+                    allContained = false;
+                    break;
+
+                }
+
+
+                // ---------------------------------
+                // 各短いMotifの出現位置を確認
+                // ---------------------------------
+
+                for(
+                    const shortOccurrence
+                    of shortOccurrences
+                ){
+
+                    const shortStart =
+                        shortOccurrence.start;
+
+
+                    const isContained =
+                        longOccurrences.some(
+                            longOccurrence => {
+
+                                const longStart =
+                                    longOccurrence.start;
+
+
+                                return (
+                                    shortStart >=
+                                        longStart
+                                    &&
+                                    shortStart +
+                                    motif.length <=
+                                        longStart +
+                                        longer.length
+                                );
+
+                            }
+                        );
+
+
+                    if(!isContained){
+
+                        allContained = false;
+                        break;
+
+                    }
+
+                }
+
+
+                if(!allContained){
+                    break;
+                }
+
+            }
+
+
+            if(allContained){
+
+                contained = true;
+                break;
+
+            }
+
+        }
+
+
+        if(!contained){
+
+            result.push(motif);
+
+        }
+
+    }
+
+
+    return result;
+}
 
 function drawInternalMotifGraph(
     internalMotifs,
@@ -6944,119 +7303,6 @@ function drawCommonMotifGraph(motifs){
 
 
 
-
-function findCommonInternalMotifs(
-    dataRight,
-    dataLeft
-){
-
-    const candidates =
-        findMotifEvent(
-            dataRight,
-            dataLeft
-        );
-
-
-    const result = [];
-
-
-    for(const candidate of candidates){
-
-        const patternRight =
-            getNormalizedPattern(
-                dataRight,
-                candidate.startA,
-                candidate.length
-            );
-
-        const patternLeft =
-            getNormalizedPattern(
-                dataLeft,
-                candidate.startB,
-                candidate.length
-            );
-
-
-        if(
-            !patternRight ||
-            !patternLeft
-        ){
-            continue;
-        }
-
-
-        if(
-            patternRight.length !==
-            patternLeft.length
-        ){
-            continue;
-        }
-
-
-        let same = true;
-
-
-        for(
-            let i = 0;
-            i < patternRight.length;
-            i++
-        ){
-
-            if(
-                patternRight[i] !==
-                patternLeft[i]
-            ){
-
-                same = false;
-                break;
-
-            }
-
-        }
-
-
-        if(!same){
-            continue;
-        }
-
-
-        result.push({
-
-            length:
-                candidate.length,
-
-            pattern:
-                [...patternRight],
-
-            right: {
-
-                start:
-                    candidate.startA,
-
-                transpose:
-                    candidate.transpose
-
-            },
-
-            left: {
-
-                start:
-                    candidate.startB,
-
-                transpose:
-                    candidate.transpose
-
-            }
-
-        });
-
-    }
-
-
-    return result;
-}
-
-
 function groupInternalMotifsFourWays(
     internalRightA,
     internalRightB,
@@ -7208,206 +7454,6 @@ function groupInternalMotifsFourWays(
 }
 
 
-
-function getNormalizedPattern(
-    shapeEventData,
-    start,
-    length
-){
-
-    const events =
-        Object.keys(shapeEventData)
-            .map(Number)
-            .sort((a,b) => a-b);
-
-    const pattern = [];
-
-    for(let i = 0; i < length; i++){
-
-        const event =
-            shapeEventData[
-                events[start + i]
-            ];
-
-        if(
-            !event ||
-            !event.points ||
-            !event.points.length
-        ){
-            return null;
-        }
-
-        const pc =
-            event.points[0].pitchClass;
-
-        if(
-            pc === undefined ||
-            pc < 0 ||
-            pc > 11
-        ){
-            return null;
-        }
-
-        pattern.push(pc);
-    }
-
-    if(!pattern.length){
-        return null;
-    }
-
-    // 最初の音を0として正規化
-    const base = pattern[0];
-
-    return pattern.map(
-        pc => (pc - base + 12) % 12
-    );
-}
-
-
-
-function filterMergedInternalMotifs(motifs){
-
-    const sorted =
-        [...motifs].sort(
-            (a,b) =>
-                b.length - a.length
-        );
-
-
-    const result = [];
-
-
-    for(const motif of sorted){
-
-        let contained = false;
-
-
-        for(const longer of result){
-
-            if(
-                longer.length <=
-                motif.length
-            ){
-                continue;
-            }
-
-
-            // =================================
-            // R / L それぞれについて確認
-            // =================================
-
-            const hands = ["R", "L"];
-
-            let allContained = true;
-
-
-            for(const hand of hands){
-
-                const shortOccurrences =
-                    motif[hand] || [];
-
-                const longOccurrences =
-                    longer[hand] || [];
-
-
-                // ---------------------------------
-                // 短いMotifがこの手に存在する場合
-                // ---------------------------------
-
-                if(
-                    shortOccurrences.length === 0
-                ){
-                    continue;
-                }
-
-
-                // 長いMotifの同じ手に
-                // 対応する出現が必要
-                if(
-                    longOccurrences.length === 0
-                ){
-
-                    allContained = false;
-                    break;
-
-                }
-
-
-                // ---------------------------------
-                // 各短いMotifの出現位置を確認
-                // ---------------------------------
-
-                for(
-                    const shortOccurrence
-                    of shortOccurrences
-                ){
-
-                    const shortStart =
-                        shortOccurrence.start;
-
-
-                    const isContained =
-                        longOccurrences.some(
-                            longOccurrence => {
-
-                                const longStart =
-                                    longOccurrence.start;
-
-
-                                return (
-                                    shortStart >=
-                                        longStart
-                                    &&
-                                    shortStart +
-                                    motif.length <=
-                                        longStart +
-                                        longer.length
-                                );
-
-                            }
-                        );
-
-
-                    if(!isContained){
-
-                        allContained = false;
-                        break;
-
-                    }
-
-                }
-
-
-                if(!allContained){
-                    break;
-                }
-
-            }
-
-
-            if(allContained){
-
-                contained = true;
-                break;
-
-            }
-
-        }
-
-
-        if(!contained){
-
-            result.push(motif);
-
-        }
-
-    }
-
-
-    return result;
-}
-
-
 function mergeMotifCandidates(candidates){
 
     const merged = [];
@@ -7494,51 +7540,6 @@ function mergeMotifCandidates(candidates){
     return merged;
 }
 
-
-function getMotifPattern(data, start, length){
-
-    const events =
-        Object.values(data);
-
-    const pattern = [];
-
-    for(let i = 0; i < length; i++){
-
-        const event =
-            events[start + i];
-
-        if(
-            !event ||
-            !event.points ||
-            event.points.length !== 1 ||
-            event.points[0].pitchClass === undefined
-        ){
-            return null;
-        }
-
-        pattern.push(
-            event.points[0].pitchClass
-        );
-    }
-
-    return pattern;
-}
-
-function normalizeMotifPattern(pattern){
-
-    if(
-        !pattern ||
-        !pattern.length
-    ){
-        return null;
-    }
-
-    const base = pattern[0];
-
-    return pattern.map(
-        pc => (pc - base + 12) % 12
-    );
-}
 
 function filterRepeatedMotifs(sameMotifs){
 
