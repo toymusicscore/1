@@ -8270,15 +8270,6 @@ function searchPitchClassInEventData(
 
 function searchPitchClass(){
 
-    console.log("=== searchPitchClass ===");
-
-    const queryPattern0 =
-        getPitchClassQuery();
-
-    console.log("queryPattern =", queryPattern0);
-
-    // 以下は一旦そのまま
-
     const queryPattern =
         getPitchClassQuery();
 
@@ -8298,6 +8289,18 @@ function searchPitchClass(){
     }
 
     let results = [];
+
+    shapeEventDataRightA =
+        createShapeEvent(scoreRightA, "right");
+
+    shapeEventDataLeftA =
+        createShapeEvent(scoreLeftA, "left");
+
+    shapeEventDataRightB =
+        createShapeEvent(scoreRightB, "right");
+
+    shapeEventDataLeftB =
+        createShapeEvent(scoreLeftB, "left");
 
     // A Right
     if(typeof shapeEventDataRightA !== "undefined"){
