@@ -199,25 +199,6 @@ demp
 
 <div id="pitchClassSearch" style="margin:10px;">
 
-    <div>
-        Pitch Class Search
-    </div>
-
-    <input
-        id="pitchClassInput"
-        type="text"
-        placeholder="例: 0 2 4 5 7"
-        style="width:300px;"
-    >
-
-    <button onclick="searchPitchClass()">
-        Search
-    </button>
-
-    <button onclick="clearPitchClassSearch()">
-        Clear
-    </button>
-
     <div id="pitchClassResult"></div>
 
 </div>
@@ -1181,15 +1162,6 @@ function showTab(tab){
 					<br><br>
 				<input 
 					type="button" 
-					id="shapeBeatButton"
-					value="📍 Shape Beat">
-				<input 
-					type="button" 
-					id="shapeMeasureButton"
-					value="📍 Shape Measure">
-					<br><br>
-				<input 
-					type="button" 
 					id="internalMotifButton"
 					value="📊 Internal Motif">
 					<br><br>
@@ -1206,20 +1178,35 @@ function showTab(tab){
 					id="motifTwoSongsButton"
 					value="📊 Motif Two Songs">
 					<br><br>
+                <input
+                    id="pitchClassInput"
+                    type="text"
+                    placeholder="例: 0 2 4 5 7"
+                    style="width:300px;"
+                    >
+				<input 
+					type="button" 
+					id="searchPitchClassButton"
+					value="📍 Search Pitch Class">
+				<input 
+					type="button" 
+					id="clearPitchClassButton"
+					value="🗑 Clear Pitch Class Search">
+					<br><br>
             `;
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showKeyEstimation();
 					closeMenuWindow();
 				};
-				$("shapeBeatButton").onclick = function(){
+				$("searchPitchClassButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					showShapeBeat();
+					searchPitchClass();
 					closeMenuWindow();
 				};
-				$("shapeMeasureButton").onclick = function(){
+				$("clearPitchClassSearchButton").onclick = function(){
 					showPage(PAGE.MAIN);
-					showShapeMeasure();
+					clearPitchClassSearch();
 					closeMenuWindow();
 				};
 				$("internalMotifButton").onclick = function(){
