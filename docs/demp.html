@@ -4230,7 +4230,6 @@ function showInternalMotif(){
 
 }
 
-
 function drawInternalMotifGraph(
     internalMotifs,
     shapeEventDataRight,
@@ -4273,7 +4272,7 @@ function drawInternalMotifGraph(
 
 
     // =====================================
-    // 全Event
+    // Event
     // =====================================
 
     const rightEvents =
@@ -4293,12 +4292,17 @@ function drawInternalMotifGraph(
     ];
 
 
+    if(!allEvents.length){
+
+        return;
+    }
+
+
     // =====================================
     // 最大start
     // =====================================
 
     let maxStart = 0;
-
 
     for(
         const event
@@ -4318,10 +4322,25 @@ function drawInternalMotifGraph(
     }
 
 
-    if(maxStart <= 0){
+    // =====================================
+    // 最後の小節
+    // =====================================
 
-        return;
-    }
+    const maxMeasure =
+        Math.floor(
+            maxStart /
+            ticksPerMeasure
+        ) + 1;
+
+
+    // =====================================
+    // 楽曲全体のtick範囲
+    // 最後の小節の終わりまで
+    // =====================================
+
+    const totalTicks =
+        maxMeasure *
+        ticksPerMeasure;
 
 
     // =====================================
@@ -4332,9 +4351,9 @@ function drawInternalMotifGraph(
     const eventWidth = 55;
 
     const marginLeft =
-        measureWidth +
+        measureWidth * 2 +
         eventWidth * 2 +
-        20;
+        25;
 
     const marginTop = 65;
 
@@ -4358,11 +4377,11 @@ function drawInternalMotifGraph(
 
     const timeScale =
         maxGraphHeight /
-        maxStart;
+        totalTicks;
 
 
     // =====================================
-    // Canvasサイズ
+    // Canvas
     // =====================================
 
     canvas.width =
@@ -4378,30 +4397,7 @@ function drawInternalMotifGraph(
 
 
     // =====================================
-    // Event → start
-    // =====================================
-
-    function getEventStart(
-        eventIndex,
-        data
-    ){
-
-        const event =
-            data[eventIndex];
-
-        if(!event){
-
-            return null;
-
-        }
-
-        return event.start;
-
-    }
-
-
-    // =====================================
-    // 縦位置
+    // start → Y
     // =====================================
 
     function getY(start){
@@ -4414,16 +4410,17 @@ function drawInternalMotifGraph(
 
     }
 
+
     // =====================================
     // Event番号
-    // 左手・右手を別々に表示
+    // 左右独立
     // =====================================
 
     ctx.fillStyle =
         "black";
 
     ctx.font =
-        "9px sans-serif";
+        "11px sans-serif";
 
     ctx.textAlign =
         "right";
@@ -4438,16 +4435,22 @@ function drawInternalMotifGraph(
         of leftEvents
     ){
 
+        if(
+            typeof event.start !== "number"
+        ){
+            continue;
+        }
+
+
         const y =
             getY(event.start);
 
 
         ctx.fillText(
             String(event.event),
-            measureWidth +
-            eventWidth -
+            measureWidth * 2 -
             5,
-            y + 3
+            y + 4
         );
 
     }
@@ -4462,74 +4465,8 @@ function drawInternalMotifGraph(
         of rightEvents
     ){
 
-        const y =
-            getY(event.start);
-
-
-        ctx.fillText(
-            String(event.event),
-            measureWidth +
-            eventWidth * 2 -
-            5,
-            y + 3
-        );
-
-    }
-
-
-    // =====================================
-    // Measure / Event
-    // =====================================
-
-    ctx.textAlign =
-        "right";
-
-    ctx.font =
-        "bold 10px sans-serif";
-
-    ctx.fillText(
-        "Measure",
-        measureWidth - 5,
-        graphTop - 30
-    );
-
-    ctx.fillText(
-        "L Event",
-        measureWidth +
-        eventWidth -
-        5,
-        graphTop - 30
-    );
-
-    ctx.fillText(
-        "R Event",
-        measureWidth +
-        eventWidth * 2 -
-        5,
-        graphTop - 30
-    );
-
-    // =====================================
-    // 小節番号 + 小節区切り線
-    // =====================================
-
-    let lastMeasure = -1;
-
-
-    for(
-        const event
-        of allEvents
-    ){
-
-        const measure =
-            Math.floor(
-                event.start /
-                ticksPerMeasure
-            ) + 1;
-
-
         if(
-            measure === lastMeasure
+            typeof event.start !== "number"
         ){
             continue;
         }
@@ -4539,30 +4476,177 @@ function drawInternalMotifGraph(
             getY(event.start);
 
 
-        // ---------------------------------
-        // 小節番号
-        // ---------------------------------
+        ctx.fillText(
+            String(event.event),
+            measureWidth * 2 +
+            eventWidth * 2 -
+            5,
+            y + 4
+        );
 
-        ctx.fillStyle =
-            "black";
+    }
+
+
+    // =====================================
+    // 見出し
+    // =====================================
+
+    ctx.fillStyle =
+        "black";
+
+    ctx.font =
+        "bold 10px sans-serif";
+
+    ctx.textAlign =
+        "right";
+
+
+    ctx.fillText(
+        "L Measure",
+        measureWidth - 5,
+        graphTop - 30
+    );
+
+
+    ctx.fillText(
+        "L Event",
+        measureWidth * 2 -
+        5,
+        graphTop - 30
+    );
+
+
+    ctx.fillText(
+        "R Measure",
+        measureWidth * 2 +
+        eventWidth -
+        5,
+        graphTop - 30
+    );
+
+
+    ctx.fillText(
+        "R Event",
+        measureWidth * 2 +
+        eventWidth * 2 -
+        5,
+        graphTop - 30
+    );
+
+
+    // =====================================
+    // L / R Measure
+    // 各Eventのstartから独立して計算
+    // =====================================
+
+    ctx.font =
+        "11px sans-serif";
+
+    ctx.fillStyle =
+        "black";
+
+
+    // -------------------------------------
+    // Left Measure
+    // -------------------------------------
+
+    for(
+        const event
+        of leftEvents
+    ){
+
+        if(
+            typeof event.start !== "number"
+        ){
+            continue;
+        }
+
+
+        const measure =
+            Math.floor(
+                event.start /
+                ticksPerMeasure
+            ) + 1;
+
+
+        const y =
+            getY(event.start);
+
 
         ctx.fillText(
             String(measure),
             measureWidth - 5,
-            y +
-            4
+            y + 4
         );
 
+    }
 
-        // ---------------------------------
-        // 小節線
-        // ---------------------------------
+
+    // -------------------------------------
+    // Right Measure
+    // -------------------------------------
+
+    for(
+        const event
+        of rightEvents
+    ){
+
+        if(
+            typeof event.start !== "number"
+        ){
+            continue;
+        }
+
+
+        const measure =
+            Math.floor(
+                event.start /
+                ticksPerMeasure
+            ) + 1;
+
+
+        const y =
+            getY(event.start);
+
+
+        ctx.fillText(
+            String(measure),
+            measureWidth * 2 +
+            eventWidth -
+            5,
+            y + 4
+        );
+
+    }
+
+
+    // =====================================
+    // 小節線
+    // 右手・左手とは独立
+    // 1小節につき1本だけ
+    // =====================================
+
+    for(
+        let measure = 1;
+        measure <= maxMeasure;
+        measure++
+    ){
+
+        const measureStart =
+            (measure - 1) *
+            ticksPerMeasure;
+
+
+        const y =
+            getY(measureStart);
+
 
         ctx.strokeStyle =
             "#cccccc";
 
         ctx.lineWidth =
             1;
+
 
         ctx.beginPath();
 
@@ -4580,10 +4664,6 @@ function drawInternalMotifGraph(
         );
 
         ctx.stroke();
-
-
-        lastMeasure =
-            measure;
 
     }
 
@@ -4639,6 +4719,7 @@ function drawInternalMotifGraph(
 
             ctx.fillStyle =
                 "black";
+
 
             ctx.fillText(
                 "Internal Motif " +
@@ -4744,17 +4825,20 @@ function drawInternalMotifGraph(
                         i;
 
 
-                    const start =
-                        getEventStart(
-                            eventIndex,
-                            shapeEventDataLeft
-                        );
+                    const event =
+                        shapeEventDataLeft[
+                            eventIndex
+                        ];
 
 
-                    if(start !== null){
+                    if(
+                        event &&
+                        typeof event.start ===
+                        "number"
+                    ){
 
                         leftPositions.add(
-                            start
+                            event.start
                         );
 
                     }
@@ -4784,17 +4868,20 @@ function drawInternalMotifGraph(
                         i;
 
 
-                    const start =
-                        getEventStart(
-                            eventIndex,
-                            shapeEventDataRight
-                        );
+                    const event =
+                        shapeEventDataRight[
+                            eventIndex
+                        ];
 
 
-                    if(start !== null){
+                    if(
+                        event &&
+                        typeof event.start ===
+                        "number"
+                    ){
 
                         rightPositions.add(
-                            start
+                            event.start
                         );
 
                     }
@@ -4886,6 +4973,7 @@ function drawInternalMotifGraph(
 
     ctx.lineWidth =
         1;
+
 
     ctx.beginPath();
 
