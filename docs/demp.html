@@ -6627,27 +6627,40 @@ function mergeInternalMotifs(
 
 
     // =====================================
-    // Right / Left をまとめる
+    // Right / Left
     // =====================================
 
     const sources = [
 
         {
-            hand: "RA",
+            hand: "R",
             motifs: internalRight
         },
 
         {
-            hand: "LA",
+            hand: "L",
             motifs: internalLeft
         }
 
     ];
 
 
+    // =====================================
+    // 同じLength + Patternを統合
+    // transpose違いは同じMotif
+    // =====================================
+
     for(const source of sources){
 
         for(const motif of source.motifs){
+
+            if(
+                !motif.pattern ||
+                !motif.pattern.length
+            ){
+                continue;
+            }
+
 
             const key =
                 motif.length +
@@ -6669,9 +6682,9 @@ function mergeInternalMotifs(
                         pattern:
                             [...motif.pattern],
 
-                        RA: [],
+                        R: [],
 
-                        LA: []
+                        L: []
 
                     }
                 );
@@ -6688,7 +6701,11 @@ function mergeInternalMotifs(
             // =================================
 
             group[source.hand].push(
-                ...motif.occurrences
+                ...motif.positions.map(
+                    start => ({
+                        start: start
+                    })
+                )
             );
 
         }
@@ -6713,7 +6730,7 @@ function mergeInternalMotifs(
     for(const motif of result){
 
         for(
-            const hand of ["RA", "LA"]
+            const hand of ["R", "L"]
         ){
 
             const unique =
@@ -6753,7 +6770,7 @@ function mergeInternalMotifs(
 
 
     // =====================================
-    // 長いMotifを先に
+    // 長いMotifを先にする
     // =====================================
 
     result.sort(
