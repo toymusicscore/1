@@ -4270,7 +4270,7 @@ function createShapeEvent(scoreNotes, hand){
     );
 
     const shapeEventData = {};
-    
+
     if(!Array.isArray(scoreNotes)){
         console.warn(
             "createShapeEvent: scoreNotes is not an array",
@@ -4279,10 +4279,6 @@ function createShapeEvent(scoreNotes, hand){
         return shapeEventData;
     }
 
-    // -----------------------------------------
-    // start位置で並べる
-    // -----------------------------------------
-
     const notes = [...scoreNotes].sort(
         (a, b) => a.start - b.start
     );
@@ -4290,7 +4286,6 @@ function createShapeEvent(scoreNotes, hand){
     if(notes.length === 0){
         return shapeEventData;
     }
-
 
     // -----------------------------------------
     // 同じstartの音を音イベントとしてまとめる
@@ -4319,7 +4314,6 @@ function createShapeEvent(scoreNotes, hand){
         event.notes.push(note);
     }
 
-
     // -----------------------------------------
     // 音イベントごとにshapeを作る
     // -----------------------------------------
@@ -4328,14 +4322,28 @@ function createShapeEvent(scoreNotes, hand){
 
         const event = events[i];
 
+        // このeventに含まれるPitch Class
+        const pitchClasses =
+            event.notes
+            .map(note =>
+                ((note.midi % 12) + 12) % 12
+            )
+            .sort((a, b) => a - b);
+
         shapeEventData[i] = {
 
-            // 音イベントの順序
             event: i,
 
             start: event.start,
 
             hand: hand,
+
+            // 単音なら数値
+            // 和音なら配列
+            pitchClass:
+                pitchClasses.length === 1
+                    ? pitchClasses[0]
+                    : pitchClasses,
 
             points:
                 event.notes.map(note => ({
@@ -4344,17 +4352,14 @@ function createShapeEvent(scoreNotes, hand){
 
                     midi: note.midi,
 
-                    // オクターブを除いた pitch class
                     pitchClass:
                         ((note.midi % 12) + 12) % 12
                 }))
         };
     }
 
-
     return shapeEventData;
 }
-
 
 
 function findInternalMotifs(data, hand){
@@ -8140,33 +8145,61 @@ function getPitchClassQuery(){
         return [];
     }
 
-    let pattern;
+    const pattern = [];
 
-    // 空白またはカンマがある場合
-    if(/[\s,]/.test(input)){
+    let token = "";
+    let depth = 0;
 
-        pattern =
-            input
-            .split(/[\s,]+/)
-            .map(Number);
+    for(const char of input){
 
-    }else{
+        if(char === "["){
 
-        // 連続した数字の場合
-        pattern =
-            input
-            .split("")
-            .map(Number);
+            depth++;
+            token += char;
+            continue;
+        }
 
+        if(char === "]"){
+
+            depth--;
+            token += char;
+            continue;
+        }
+
+        if(char === "," && depth === 0){
+
+            if(token.trim() !== ""){
+
+                const value =
+                    parsePitchClassToken(
+                        token.trim()
+                    );
+
+                if(value !== undefined){
+                    pattern.push(value);
+                }
+            }
+
+            token = "";
+
+        }else{
+
+            token += char;
+        }
     }
 
-    pattern =
-        pattern.filter(
-            x =>
-                Number.isInteger(x) &&
-                x >= 0 &&
-                x <= 11
-        );
+    // 最後のtoken
+    if(token.trim() !== ""){
+
+        const value =
+            parsePitchClassToken(
+                token.trim()
+            );
+
+        if(value !== undefined){
+            pattern.push(value);
+        }
+    }
 
     console.log(
         "pitchClass pattern =",
@@ -8204,6 +8237,62 @@ function comparePitchClassPattern(patternA, patternB){
 }
 
 
+function parsePitchClassToken(token){
+
+    // -----------------------------------------
+    // 和音
+    // -----------------------------------------
+
+    if(
+        token.startsWith("[") &&
+        token.endsWith("]")
+    ){
+
+        const inside =
+            token.slice(1, -1).trim();
+
+        if(!inside){
+            return undefined;
+        }
+
+        const values =
+            inside
+            .split(",")
+            .map(Number)
+            .filter(
+                x =>
+                    Number.isInteger(x) &&
+                    x >= 0 &&
+                    x <= 11
+            )
+            .sort((a, b) => a - b);
+
+        if(values.length === 0){
+            return undefined;
+        }
+
+        return values;
+    }
+
+    // -----------------------------------------
+    // 単音
+    // -----------------------------------------
+
+    const value =
+        Number(token);
+
+    if(
+        Number.isInteger(value) &&
+        value >= 0 &&
+        value <= 11
+    ){
+        return value;
+    }
+
+    return undefined;
+}
+
+
 function searchPitchClassInEventData(
     eventData,
     queryPattern,
@@ -8223,34 +8312,241 @@ function searchPitchClassInEventData(
         return results;
     }
 
-    for(let i = 0;
+    // -----------------------------------------
+    // Pitch Class を移調
+    // -----------------------------------------
+
+    function transposePitchClass(
+        pitchClass,
+        transpose
+    ){
+
+        if(Array.isArray(pitchClass)){
+
+            return pitchClass
+                .map(
+                    pc =>
+                        (pc + transpose) % 12
+                )
+                .sort(
+                    (a, b) => a - b
+                );
+        }
+
+        return (
+            pitchClass + transpose
+        ) % 12;
+    }
+
+
+    // -----------------------------------------
+    // Pitch Class を比較
+    // -----------------------------------------
+
+    function samePitchClass(a, b){
+
+        // 両方とも和音
+        if(
+            Array.isArray(a) &&
+            Array.isArray(b)
+        ){
+
+            if(a.length !== b.length){
+                return false;
+            }
+
+            for(let i = 0; i < a.length; i++){
+
+                if(a[i] !== b[i]){
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // 両方とも単音
+        if(
+            !Array.isArray(a) &&
+            !Array.isArray(b)
+        ){
+
+            return a === b;
+        }
+
+        // 単音と和音は一致しない
+        return false;
+    }
+
+
+    // -----------------------------------------
+    // 検索
+    // -----------------------------------------
+
+    for(
+        let i = 0;
         i <= events.length - queryLength;
-        i++){
+        i++
+    ){
 
         const firstPC =
             events[i].pitchClass;
 
-        if(firstPC === undefined){
+        const queryFirstPC =
+            queryPattern[0];
+
+        if(
+            firstPC === undefined ||
+            queryFirstPC === undefined
+        ){
             continue;
         }
 
-        // 入力の最初のPCから移調量を決める
+        // -------------------------------------
+        // 最初のeventが和音の場合
+        // -------------------------------------
+
+        if(
+            Array.isArray(firstPC) ||
+            Array.isArray(queryFirstPC)
+        ){
+
+            // 最初のeventが和音なら、
+            // queryも和音でなければならない
+            if(
+                !Array.isArray(firstPC) ||
+                !Array.isArray(queryFirstPC)
+            ){
+                continue;
+            }
+
+            // 和音の各構成音から
+            // 移調量を試す
+            for(
+                let transpose = 0;
+                transpose < 12;
+                transpose++
+            ){
+
+                const transposedFirst =
+                    transposePitchClass(
+                        queryFirstPC,
+                        transpose
+                    );
+
+                if(
+                    !samePitchClass(
+                        transposedFirst,
+                        firstPC
+                    )
+                ){
+                    continue;
+                }
+
+                let match = true;
+
+                for(
+                    let j = 1;
+                    j < queryLength;
+                    j++
+                ){
+
+                    const queryPC =
+                        transposePitchClass(
+                            queryPattern[j],
+                            transpose
+                        );
+
+                    const eventPC =
+                        events[i + j].pitchClass;
+
+                    if(
+                        !samePitchClass(
+                            queryPC,
+                            eventPC
+                        )
+                    ){
+
+                        match = false;
+                        break;
+                    }
+                }
+
+                if(match){
+
+                    results.push({
+
+                        score: scoreName,
+
+                        hand: hand,
+
+                        startEvent: i,
+
+                        endEvent:
+                            i + queryLength - 1,
+
+                        transpose: transpose,
+
+                        pattern:
+                            events
+                            .slice(
+                                i,
+                                i + queryLength
+                            )
+                            .map(
+                                e =>
+                                    e.pitchClass
+                            ),
+
+                        start:
+                            events[i].start,
+
+                        stop:
+                            events[
+                                i + queryLength - 1
+                            ].start
+                    });
+                }
+            }
+
+            continue;
+        }
+
+
+        // -------------------------------------
+        // 最初のeventが単音の場合
+        // -------------------------------------
+
         const transpose =
-            (firstPC - queryPattern[0] + 12) % 12;
+            (
+                firstPC -
+                queryFirstPC +
+                12
+            ) % 12;
 
         let match = true;
 
-        for(let j = 0;
+        for(
+            let j = 0;
             j < queryLength;
-            j++){
+            j++
+        ){
 
             const queryPC =
-                (queryPattern[j] + transpose) % 12;
+                transposePitchClass(
+                    queryPattern[j],
+                    transpose
+                );
 
             const eventPC =
                 events[i + j].pitchClass;
 
-            if(queryPC !== eventPC){
+            if(
+                !samePitchClass(
+                    queryPC,
+                    eventPC
+                )
+            ){
 
                 match = false;
                 break;
@@ -8274,8 +8570,14 @@ function searchPitchClassInEventData(
 
                 pattern:
                     events
-                    .slice(i, i + queryLength)
-                    .map(e => e.pitchClass),
+                    .slice(
+                        i,
+                        i + queryLength
+                    )
+                    .map(
+                        e =>
+                            e.pitchClass
+                    ),
 
                 start:
                     events[i].start,
@@ -8283,7 +8585,7 @@ function searchPitchClassInEventData(
                 stop:
                     events[
                         i + queryLength - 1
-                    ].stop
+                    ].start
             });
         }
     }
