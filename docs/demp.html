@@ -4128,10 +4128,14 @@ function saveScoreA(){
 
     scoreRightA = structuredClone(scoreRight);
     scoreLeftA  = structuredClone(scoreLeft);
-    songFileNameA = file.name;
     songLengthTicksA = songLengthTicks; 
     ticksPerQuarterNoteA = ticksPerQuarterNote;
     ticksPerMeasureA = ticksPerMeasure;
+    if($("midiFile").files[0]){
+        songFileNameA = $("midiFile").files[0];
+    }else{
+        songFileNameA = val("song1");
+    };
 
 }
 
@@ -4139,10 +4143,14 @@ function saveScoreB(){
 
     scoreRightB = structuredClone(scoreRight);
     scoreLeftB  = structuredClone(scoreLeft);
-    songFileNameB = file.name;
     songLengthTicksB = songLengthTicks; 
     ticksPerQuarterNoteB = ticksPerQuarterNote;
     ticksPerMeasureB = ticksPerMeasure;
+    if($("midiFile").files[0]){
+        songFileNameB = $("midiFile").files[0];
+    }else{
+        songFileNameB = val("song1");
+    };
 
 }
 
