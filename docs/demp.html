@@ -14282,25 +14282,28 @@ const mstd = (p) => {
 let test0 = [];
 let song = [];
 
-const tstd = (q) => {
+const tstd = (N) => {
     let s0 = 0;
-    let r = Number(q);
 
-    // Compute the moving window sum
-    const numWindows = song.length - r;
-    
-    // Safety check if array is smaller than window size
+    const numWindows = song.length - N + 1;
+
     if (numWindows <= 0) return;
 
     for (let p = 0; p < numWindows; p++) {
-        // Slice returns flat primitive numbers now
-        const window = song.slice(p, p + r);
+
+        const window = song.slice(p, p + N);
+
         s0 += standardDeviation(window);
     }
 
-    // Use numWindows directly for the average
-    let s1 = Math.round(s0 * 100 / numWindows) / 100;
-    test0.push([val("song1"), r, s1]);
+    const s1 =
+        Math.round(s0 * 100 / numWindows) / 100;
+
+    test0.push([
+        val("song1"),
+        N,
+        s1
+    ]);
 };
 
 function testTstd(data = scoreRight) {
