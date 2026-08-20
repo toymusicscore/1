@@ -14279,30 +14279,43 @@ const mstd = (p) => {
 	f101.push([f100[p][0],f100[p][1],f100[p][2],s0]);
 }
 
-let test0=[];
-let song=[];
+let test0 = [];
+let song = [];
 
 const tstd = (q) => {
-    let s0=0;
-    let s1=0;
-    let r=Number(q);
-	for (let i=0;i<scoreRight.length;i++){
-		song.push([scoreRight[i].midi]);
-    }
-	for (let p=0;p<song.length-r;p++){
-		s0=s0+standardDeviation(song.slice(p,p+r));
-    }
-    s1=Math.round(s0/(p+1));
-	test0.push([r+1,s1]);
-}
+    let s0 = 0;
+    let r = Number(q);
 
-function testTstd(){
-    for (let i=1;i<8;i++){
+    // Compute the moving window sum
+    const numWindows = song.length - r;
+    
+    // Safety check if array is smaller than window size
+    if (numWindows <= 0) return;
+
+    for (let p = 0; p < numWindows; p++) {
+        // Slice returns flat primitive numbers now
+        const window = song.slice(p, p + r);
+        s0 += standardDeviation(window);
+    }
+
+    // Use numWindows directly for the average
+    let s1 = Math.round(s0 / numWindows);
+    test0.push([r + 1, s1]);
+};
+
+function testTstd(scoreRight) {
+    // Reset arrays prior to running
+    song = scoreRight.map(note => note.midi); // Flatten to 1D array of numbers
+    test0 = [];
+
+    for (let i = 1; i < 8; i++) {
         tstd(i);
     }
-    console.log(song);
-    console.log(test0);
+
+    console.log("Extracted MIDI sequence:", song);
+    console.log("Moving Standard Deviations [windowSize + 1, avgStd]:", test0);
 }
+
 
 function finger1(){
 
