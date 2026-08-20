@@ -1183,6 +1183,11 @@ function showTab(tab){
 					id="searchPitchClassButton"
 					value="📍 Search Pitch Class">
 					<br><br>
+				<input 
+					type="button" 
+					id="testTstdButton"
+					value="📍 Test Tstd">
+					<br><br>
             `;
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -1213,6 +1218,11 @@ function showTab(tab){
 					searchPitchClass();
                 	showPage(PAGE.HTML);
 				};
+				$("testTstdButton").onclick = function(){
+					testTstd();
+                	showPage(PAGE.HTML);
+				};
+
 
 			break;
 
@@ -14260,7 +14270,7 @@ const tstd = (q) => {
 	test0.push([q,s1]);
 }
 
-function test_tstd(){
+function testTstd(){
     let test0=[];
     for (let i=1;i<9;i++){
     tstd(i);
