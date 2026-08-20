@@ -14303,19 +14303,24 @@ const tstd = (q) => {
     test0.push([r + 1, s1]);
 };
 
-function testTstd(scoreRight) {
-    // Reset arrays prior to running
-    song = scoreRight.map(note => note.midi); // Flatten to 1D array of numbers
+function testTstd(data = scoreRight) {
+    if (!data || !Array.isArray(data)) {
+        console.error("testTstd: scoreRight is missing or not an array:", data);
+        return;
+    }
+
+    // Safely extract MIDI numbers
+    song = data.map(note => note.midi);
     test0 = [];
 
     for (let i = 1; i < 8; i++) {
         tstd(i);
     }
-
+    
+    console.log("scoreRight:", scoreRight);
     console.log("Extracted MIDI sequence:", song);
-    console.log("Moving Standard Deviations [windowSize + 1, avgStd]:", test0);
+    console.log("Results:", test0);
 }
-
 
 function finger1(){
 
