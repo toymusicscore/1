@@ -14266,7 +14266,7 @@ const tstd = (q) => {
     let s0=0;
     let s1=0;
 	for (let p=0;p<scoreRight.length-q;p++){
-		s0=s0+standardDeviation(scoreRight.slice(p,p+q));
+		s0=s0+standardDeviation(scoreRight.slice(p,p+Number(q)));
     }
     s1=Math.round(s0/(p+1)*10000);
 	test0.push([q+1,s1]);
