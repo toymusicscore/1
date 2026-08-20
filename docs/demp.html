@@ -14250,6 +14250,23 @@ const mstd = (p) => {
 	f101.push([f100[p][0],f100[p][1],f100[p][2],s0]);
 }
 
+const tstd = (q) => {
+    const s0=0;
+    const s1=0;
+	for (let p=0;p<scoreRight.length-q;p++){
+		s0=s0+standardDeviation(scoreRight.slice(p,p+q));
+    }
+    s1=Math.round(s0/(p+1));
+	test0.push([q,s1]);
+}
+
+function test_tstd(){
+    let test0=[];
+    for (let i=1;i<9;i++){
+    tstd(i);
+    }
+console.log(s1);
+}
 
 function finger1(){
 
