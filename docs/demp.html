@@ -13837,13 +13837,13 @@ function testTstd(data = scoreRight) {
     console.log("Results:", test0);
 }
 
-function finger1(){
 
+function finger1(n_idf){
 
-fc=[];
-fp=[];
+    fc=[];
+    fp=[];
 
-let fg5vp=n_idf+fg5v-1;//last position of N
+    let fg5vp = n_idf + fg5v - 1;//last position of N
 let fg1v=val(hand);
 let fg2v=val(fg2);
 let fg4v=val(fg4);
@@ -15009,14 +15009,14 @@ const showFingeringAssistant = async () => {
         }
     }
 
+    let n_idf;
+
     for (let p = 0; p < rf1.length; p++) {
 
         if (j == rf1[p][1]) {
-
             n_idf = rf1[p][4];
 
         } else if (j == 0) {
-
             n_idf = rf1[0][4];
 
         } else if (
@@ -15024,13 +15024,11 @@ const showFingeringAssistant = async () => {
             j > rf1[p][1] &&
             j < rf1[p + 1][1]
         ) {
-
             n_idf = rf1[p][4];
-
         }
     }
 
-    finger1();
+    finger1(n_idf);
 
 };
 
