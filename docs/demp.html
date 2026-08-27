@@ -14941,6 +14941,15 @@ downloadFile(file1name+'_Ch'+(Number(x_ch3)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg
 }
 
 
+function downloadFile(fileName, urlData) {
+var aLink = document.createElement('a');
+var evt = document.createEvent("HTMLEvents");
+evt.initEvent("click");
+aLink.download = fileName;
+aLink.href = urlData;
+aLink.dispatchEvent(evt);
+}
+
 
 const showFingeringAssistant= async () =>{
 //document.fg4.options[0].selected=true;
