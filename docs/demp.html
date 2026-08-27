@@ -1425,6 +1425,11 @@ function showTab(tab){
 					<br><br>
 				<input 
 					type="button"
+					id="iconButton" 
+					value="ℹ️ Icon">
+					<br><br>
+				<input 
+					type="button"
 					id="helpButton" 
 					value="❓ Help">
 					<br><br>
@@ -1440,6 +1445,11 @@ function showTab(tab){
 				};
 				$("aboutButton").onclick = function(){
 					showAboutPage();
+					closeMenuWindow();
+				};
+				$("iconButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showIcon();
 					closeMenuWindow();
 				};
 				$("helpButton").onclick = function(){
