@@ -13837,30 +13837,31 @@ function testTstd(data = scoreRight) {
     console.log("Results:", test0);
 }
 
-function finger1(n_idf, fg5v, hand){
+function finger1(n_idf, fg2, fg4, fg5v){
 
     fc = [];
     fp = [];
 
     let fg5vp = n_idf + fg5v - 1;
-    let fg1v=val(hand);
 let fg2v=val(fg2);
 let fg4v=val(fg4);
 let rst7=ticksPerMeasure/16;
 let rst8=ticksPerMeasure/4;
 let ftr;
 let fch;
+let s0;
 
-if (num(hand)==1){
+if (val(hands)==="1"){
     ftr=num("x_rightTrack");
     fch=num("x_rightChannel");
-}else if (num(hand)==2){
+    s0=scoreRight;
+}else if (val(hands)==="2"){
     ftr=num("x_leftTrack");
     fch=num("x_leftChannel");
+    s0=scoreLeft;
 }
 
-for(i=0;i<scoreData.length;i++){
-	const s0 = scoreData[i];
+for(i=0;i<s0.length;i++){
     let n_idf=i;
 	if (i==0 && s0.track==ftr && s0.channel==fch && s0.n_id>=n_idf && s0.n_id<=fg5vp){
 			fp.push([s0.midi, s0.start, s0.stop, s0.track, s0.channel, s0.n_id, 1]);
@@ -13875,8 +13876,7 @@ for(i=0;i<scoreData.length;i++){
 }
 
 
-for(i=0;i<songData.length;i++){
-	const s0=scoreData[i];
+for(i=0;i<s0.length;i++){
 	if (s0.track==ftr && s0.channel==fch && s0.n_id==i){
 		fc.push([s0.midi, s0.n_id]);
 	}
@@ -13891,7 +13891,7 @@ for (p=1;p<fp.length;p++){
     const fp0=fp[p];
 	const fp1=fp[p-1];
 	for(q=0;q<tsvsd.length;q++){
-		if(num(hand)==2 && 
+		if(val(hands)==="2" && 
 		fp0.start-fp1.stop<rst7 &&
 		tsvsd[q]==fp1.midi-fp0.midi && 
 		fp1.n_id==fp0.n_id-1 && 
@@ -13900,7 +13900,7 @@ for (p=1;p<fp.length;p++){
 			cp0=Number(fp1.midi)+Number(tsvsc[tsvff[q]]);
 			cp1=Number(fp0.midi)+Number(tsvsc[tsvft[q]]);
 			f0.push([[fp1.n_id,fp0.n_id],[tsvff[q],tsvft[q]],[cp0,cp1],[fp1.midi, fp1.midi],[fp1.start, fp0.stop]]);
-		}else if(num(hand)==1 && 
+		}else if(val(hands)==="1" && 
 		fp0.start-fp1.stop<rst7 &&
 		tsvsd[q]==fp0.midi-fp1.midi && 
 		fp1.n_id==fp0.n_id-1 && 
@@ -13915,11 +13915,11 @@ for (p=1;p<fp.length;p++){
 	if (fp0.start-fp1.stop>=rst7 && fp1.n_id==fp0.n_id-1){
 		for(q=1;q<=5;q++){
 			for (r=1;r<=5;r++){
-				if(num(hand)==1){
+				if(num(hands)==1){
 					cp0=Number(fp1.midi)-Number(tsvsc[q]);
 					cp1=Number(fp0.midi)-Number(tsvsc[r]);
 					f0.push([[fp1.n_id,fp0.n_id],[q,r],[cp0,cp1],[fp1.midi, fp0.midi],[fp1.start, fp0.stop]]);
-				}else if(num(hand)==2){
+				}else if(num(hands)==2){
 					cp0=Number(fp1.midi)+Number(tsvsc[q]);
 					cp1=Number(fp0.midi)+Number(tsvsc[r]);
 					f0.push([[fp1.n_id,fp0.n_id],[q,r],[cp0,cp1],[fp1.midi, fp0.midi],[fp1.start, fp0.stop]]);
@@ -14969,37 +14969,36 @@ const showFingeringAssistant = async () => {
     let fg7v = 2 ** Number(fg7.value);
     let fg8v = 2 ** Number(fg8.value);
 
-    let hand;
-
-    if (fg1.value == "1") {
-
-        hand = "left";
+    if (val(hands) == "2") {
 
         x_ch3 = Number(
             document.getElementById("x_leftChannel").value
         );
 
-    } else if (fg1.value == "0") {
-
-        hand = "right";
+    } else if (val(hands) == "1") {
 
         x_ch3 = Number(
             document.getElementById("x_rightChannel").value
         );
     }
-    // 現在の手のデータを使用
-    const handData =
-        fg1.value == "1"
-            ? scoreLeft
-            : scoreRight;
 
     let rf1 = [];
 
-    for (let i = 0; i < handData.length; i++) {
+        if (val(hands)==="1") {
 
-        const s = handData[i];
+            const s=scoreRight;
 
-        if (s.channel == x_ch3) {
+            rf1.push([
+                s.midi,
+                s.start,
+                s.stop,
+                s.channel,
+                s.n_id
+            ]);
+
+        }else if(val(hands)==="2"){
+
+            const s=scoreLeft;
 
             rf1.push([
                 s.midi,
@@ -15010,7 +15009,6 @@ const showFingeringAssistant = async () => {
             ]);
 
         }
-    }
 
     let n_idf;
 
@@ -15031,8 +15029,7 @@ const showFingeringAssistant = async () => {
         }
     }
 
-
-    finger1(n_idf, fg5v, hand);
+finger1(n_idf, fg2, fg4, fg5v);
 
 };
 
