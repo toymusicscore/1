@@ -14885,19 +14885,28 @@ for (p=0;p<f101.length;p++){
 const showFingeringRecorder= async () =>{
 time0=Date.now();
 f110.push([['NoteID','Fingering','Minutes']]);
-let fg1v=document.fg1.options[document.fg1.options.selectedIndex].value;//H
-let fg2v=document.fg2.options[document.fg2.options.selectedIndex].value;//L
-let fg3v=document.fg3.options[document.fg3.options.selectedIndex].value;//X
-let fg4v=document.fg4.options[document.fg4.options.selectedIndex].value;//C
-let fg5v=Number(document.fg5.options[document.fg5.options.selectedIndex].value);//N
-let fg6v=Number(document.fg6.options[document.fg6.options.selectedIndex].value);//n
-let fg7v=2**document.fg7.options[document.fg7.options.selectedIndex].value;//r
-let fg8v=2**document.fg8.options[document.fg8.options.selectedIndex].value;//R
+let fg1 = document.querySelector('[name="fg1"]');
+let fg2 = document.querySelector('[name="fg2"]');
+let fg3 = document.querySelector('[name="fg3"]');
+let fg4 = document.querySelector('[name="fg4"]');
+let fg5 = document.querySelector('[name="fg5"]');
+let fg6 = document.querySelector('[name="fg6"]');
+let fg7 = document.querySelector('[name="fg7"]');
+let fg8 = document.querySelector('[name="fg8"]');
 
-if (document.fg1.options[1].selected==true){
-x_ch3=document.chn1.options[document.chn1.options.selectedIndex].value;
-}else if (document.fg1.options[0].selected==true){
-x_ch3=document.chn2.options[document.chn2.options.selectedIndex].value;
+let fg1v = fg1.value;
+let fg2v = fg2.value;
+let fg3v = fg3.value;
+let fg4v = fg4.value;
+let fg5v = Number(fg5.value);
+let fg6v = Number(fg6.value);
+let fg7v = 2 ** Number(fg7.value);
+let fg8v = 2 ** Number(fg8.value);
+
+if (fg1.value == "1"){
+    x_ch3 = document.querySelector('[name="chn1"]').value;
+}else if (fg1.value == "0"){
+    x_ch3 = document.querySelector('[name="chn2"]').value;
 }
 
 let rf1=[];
@@ -14935,19 +14944,28 @@ downloadFile(file1name+'_Ch'+(Number(x_ch3)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg
 
 const showFingeringAssistant= async () =>{
 //document.fg4.options[0].selected=true;
-let fg1v=document.fg1.options[document.fg1.options.selectedIndex].value;//H
-let fg2v=document.fg2.options[document.fg2.options.selectedIndex].value;//L
-let fg3v=document.fg3.options[document.fg3.options.selectedIndex].value;//X
-let fg4v=document.fg4.options[document.fg4.options.selectedIndex].value;//C
-let fg5v=Number(document.fg5.options[document.fg5.options.selectedIndex].value);//N
-let fg6v=Number(document.fg6.options[document.fg6.options.selectedIndex].value);//n
-let fg7v=2**document.fg7.options[document.fg7.options.selectedIndex].value;//r
-let fg8v=2**document.fg8.options[document.fg8.options.selectedIndex].value;//R
+let fg1 = document.querySelector('[name="fg1"]');
+let fg2 = document.querySelector('[name="fg2"]');
+let fg3 = document.querySelector('[name="fg3"]');
+let fg4 = document.querySelector('[name="fg4"]');
+let fg5 = document.querySelector('[name="fg5"]');
+let fg6 = document.querySelector('[name="fg6"]');
+let fg7 = document.querySelector('[name="fg7"]');
+let fg8 = document.querySelector('[name="fg8"]');
 
-if (document.fg1.options[1].selected==true){
-x_ch3=document.chn1.options[document.chn1.options.selectedIndex].value;
-}else if (document.fg1.options[0].selected==true){
-x_ch3=document.chn2.options[document.chn2.options.selectedIndex].value;
+let fg1v = fg1.value;
+let fg2v = fg2.value;
+let fg3v = fg3.value;
+let fg4v = fg4.value;
+let fg5v = Number(fg5.value);
+let fg6v = Number(fg6.value);
+let fg7v = 2 ** Number(fg7.value);
+let fg8v = 2 ** Number(fg8.value);
+
+if (fg1.value == "1"){
+    x_ch3 = document.querySelector('[name="chn1"]').value;
+}else if (fg1.value == "0"){
+    x_ch3 = document.querySelector('[name="chn2"]').value;
 }
 
 let rf1=[];
