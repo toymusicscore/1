@@ -13837,8 +13837,8 @@ function testTstd(data = scoreRight) {
     console.log("Results:", test0);
 }
 
-function finger1(n_idf, fg5v){
-
+finger1(n_idf, fg5v, hand){
+        
     fc = [];
     fp = [];
 
@@ -14969,7 +14969,11 @@ const showFingeringAssistant = async () => {
     let fg7v = 2 ** Number(fg7.value);
     let fg8v = 2 ** Number(fg8.value);
 
+    let hand;
+
     if (fg1.value == "1") {
+
+        hand = "left";
 
         x_ch3 = Number(
             document.getElementById("x_leftChannel").value
@@ -14977,12 +14981,12 @@ const showFingeringAssistant = async () => {
 
     } else if (fg1.value == "0") {
 
+        hand = "right";
+
         x_ch3 = Number(
             document.getElementById("x_rightChannel").value
         );
-
     }
-
     // 現在の手のデータを使用
     const handData =
         fg1.value == "1"
@@ -15027,7 +15031,8 @@ const showFingeringAssistant = async () => {
         }
     }
 
-    finger1(n_idf, fg5v);
+
+    finger1(n_idf, fg5v, hand);
 
 };
 
