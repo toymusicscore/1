@@ -1146,7 +1146,41 @@ function showTab(tab){
 
 			break;
 
-        case "analysis":
+        case "fingering":
+
+		menuBody.innerHTML = `
+				<input 
+					type="button" 
+					id="fingeringSettingsButton"
+					value="📈 Fingering Settings">
+				<input 
+					type="button" 
+					id="finferingAssistantButton"
+					value="🏆 Fingering Assistant">
+					<br><br>
+				<input 
+					type="button" 
+					id="fingeringRecorderButton"
+					value="🕘 Fingering Recorder">
+					<br><br>
+            `;
+				$("performaceGraphButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					shoeFingeringSettings();
+					closeMenuWindow();
+				};
+				$("practiceRankingButton").onclick = function(){
+					showFingeringAssistant();
+					closeMenuWindow();
+				};
+				$("practiceHistoryButton").onclick = function(){
+					showFingeringRecorder();
+					closeMenuWindow();
+				};
+
+			break;
+
+            case "analysis":
 
 		menuBody.innerHTML = `
 				<input 
@@ -15369,7 +15403,7 @@ for (p=0;p<f101.length;p++){
 }
 
 
-const finger2= async () =>{
+const showFingeringAssistant= async () =>{
 time0=Date.now();
 f110.push([['NoteID','Fingering','Minutes']]);
 let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
@@ -15420,7 +15454,7 @@ downloadFile(file1name+'_Ch'+(Number(x_ch3)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg
 
 
 
-const finger3= async () =>{
+const showFingeringRecorder= async () =>{
 document.form1.fg4.options[0].selected=true;
 let fg1v=document.form1.fg1.options[document.form1.fg1.options.selectedIndex].value;//H
 
