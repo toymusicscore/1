@@ -14984,26 +14984,32 @@ const showFingeringAssistant = async () => {
 
     }
 
+    // 現在の手のデータを使用
+    const handData =
+        fg1.value == "1"
+            ? scoreLeft
+            : scoreRight;
+
     let rf1 = [];
 
-    for (i = 0; i < r1.length; i++) {
+    for (let i = 0; i < handData.length; i++) {
 
-        let [midi, start, stop, channel, n_id] = r1[i];
+        const s = handData[i];
 
-        if (channel == x_ch3) {
+        if (s.channel == x_ch3) {
 
             rf1.push([
-                midi,
-                start,
-                stop,
-                channel,
-                n_id
+                s.midi,
+                s.start,
+                s.stop,
+                s.channel,
+                s.n_id
             ]);
 
         }
     }
 
-    for (p = 0; p < rf1.length; p++) {
+    for (let p = 0; p < rf1.length; p++) {
 
         if (j == rf1[p][1]) {
 
@@ -15014,6 +15020,7 @@ const showFingeringAssistant = async () => {
             n_idf = rf1[0][4];
 
         } else if (
+            rf1[p + 1] &&
             j > rf1[p][1] &&
             j < rf1[p + 1][1]
         ) {
@@ -15025,7 +15032,7 @@ const showFingeringAssistant = async () => {
 
     finger1();
 
-}
+};
 
 
 </script>
