@@ -11698,7 +11698,7 @@ function showIcon(){
 			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,8*kw20);
 		}else if(k%12===0){
 			ctx.beginPath();
-			ctx.moveTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,y2-30);
+			ctx.moveTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,y2);
 			ctx.lineTo(2*kw23+Math.floor(k/12-2)*12*kw20+x2,14*kw20+y2);
 			ctx.strokeStyle="black";
 			ctx.stroke();
@@ -11706,10 +11706,6 @@ function showIcon(){
 	}
 
 	ctx.strokeStyle="black";
-	ctx.beginPath();
-	ctx.moveTo(x2,y2-30);
-	ctx.lineTo(52*kw23+x2,y2-30);
-	ctx.stroke();
 	ctx.beginPath();
 	ctx.moveTo(x2,y2);
 	ctx.lineTo(52*kw23+x2,y2);
@@ -11723,16 +11719,12 @@ function showIcon(){
 	ctx.lineTo(52*kw23+x2,14*kw20+y2);
 	ctx.stroke();
 	ctx.beginPath();
-	ctx.moveTo(x2,15*kw20+y2);
-	ctx.lineTo(52*kw23+x2,15*kw20+y2);
+	ctx.moveTo(x2,y2);
+	ctx.lineTo(x2,14*kw20+y2);
 	ctx.stroke();
 	ctx.beginPath();
-	ctx.moveTo(x2,y2-30);
-	ctx.lineTo(x2,15*kw20+y2);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.moveTo(52*kw23+x2,y2-30);
-	ctx.lineTo(52*kw23+x2,15*kw20+y2);
+	ctx.moveTo(52*kw23+x2,y2);
+	ctx.lineTo(52*kw23+x2,14*kw20+y2);
 	ctx.stroke();
 }
 
