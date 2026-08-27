@@ -11663,35 +11663,22 @@ function showIcon(){
 
 	ctx.lineWidth=1;
 
-	let x2=0;
-	let y2=100;
+	let x=100;
+	let y=100;
 
-	let kw20=10;
-	let kw21=kw20*12/7*3/5;
-	let kw22=kw20*12/7*4/7;
-	let kw23=kw20*12/7;
-//	let kl0=10*kw20;
-//	let kl1=14*kw20;
+	let kw=10;
 
-	for(let k=60;k<=71;k++){
+	for(let k=0;k<12;k++){
         ctx.fillStyle=workingColor.oct[Math.floor(k/12)-1];
-        ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,y2,kw20,kw20);
+        ctx.fillRect(x,y,kw,kw);
         ctx.fillStyle="black";
-        ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,12*kw20+y2,kw20,1);
-		if(k%12>=0 && k%12<=4){
-			ctx.fillStyle=workingColor.pc[k%12];
-			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw20+x2,kw20+y2,kw20,kw20);
-		}else{
-			ctx.fillStyle=workingColor.pc[k%12];
-			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw22+x2,kw20+y2,kw21,kw20);
-		}
+        ctx.fillRect(x,12*kw+y,kw,1);
+		ctx.fillStyle=workingColor.pc[k%12];
+		ctx.fillRect(k%12*kw+x,kw+y,kw,kw);
 
-		if(k%12===1||k%12===3){
+		if(k%12===1||k%12===3||k%12===6||k%12===8||k%12===10){
 			ctx.fillStyle="black";
-			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+k%12*kw21+x2,2*kw20+y2,kw21,6*kw20);
-		}else if(k%12===6||k%12===8||k%12===10){
-			ctx.fillStyle="black";
-			ctx.fillRect(2*kw23+Math.floor(k/12-2)*12*kw20+5*kw21+(k%12-5)*kw20+x2,2*kw20+y2,kw20,6*kw20);
+			ctx.fillRect(k%12*kw+x,2*kw+y,kw,6*kw);
 		}
 	}
 }
