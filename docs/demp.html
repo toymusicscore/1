@@ -14926,7 +14926,7 @@ if (fg1.value == "1"){
 
 let rf1=[];
 
-for(i=0;i<r1.length;i++){
+for(let i=0;i<r1.length;i++){
 	let [midi, start, stop, channel, n_id]=r1[i];
 	if (channel==x_ch3 ){
 		rf1.push([midi, start, stop, channel, n_id]);
@@ -14935,8 +14935,8 @@ for(i=0;i<r1.length;i++){
 
 n_idf=rf1[0][4];
 
-for (s=0; s<rf1.length; s++){
-	for (t=0;t<rf1.length;t++){
+for (let s=0; s<rf1.length; s++){
+	for (let t=0;t<rf1.length;t++){
 		let [midi, start, stop, channel, n_id]=rf1[t];
 		if (n_id==n_idf){
 			pauseTick=start;
@@ -15030,16 +15030,16 @@ const showFingeringAssistant = async () => {
 
     for (let p = 0; p < rf1.length; p++) {
 
-        if (j == rf1[p][1]) {
+        if (pauseTick == rf1[p][1]) {
             n_idf = rf1[p][4];
 
-        } else if (j == 0) {
+        } else if (pauseTick == 0) {
             n_idf = rf1[0][4];
 
         } else if (
             rf1[p + 1] &&
-            j > rf1[p][1] &&
-            j < rf1[p + 1][1]
+            pauseTick > rf1[p][1] &&
+            pauseTick < rf1[p + 1][1]
         ) {
             n_idf = rf1[p][4];
         }
