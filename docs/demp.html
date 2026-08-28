@@ -15118,23 +15118,30 @@ if (fg1v === "0") {
 
 let n_idf;
 
-for (let p = 0; p < notes.length; p++) {
+if (pauseTick === 0) {
 
-    if (pauseTick === notes[p].start) {
+    if (notes.length > 0) {
+        n_idf = notes[0].n_id;
+    }
 
-        n_idf = notes[p].n_id;
-        break;
+} else {
 
-    } else if (
-        pauseTick > notes[p].start &&
-        (
-            !notes[p + 1] ||
+    for (let p = 0; p < notes.length; p++) {
+
+        if (pauseTick === notes[p].start) {
+
+            n_idf = notes[p].n_id;
+            break;
+
+        } else if (
+            notes[p + 1] &&
+            pauseTick > notes[p].start &&
             pauseTick < notes[p + 1].start
-        )
-    ) {
+        ) {
 
-        n_idf = notes[p].n_id;
-        break;
+            n_idf = notes[p].n_id;
+            break;
+        }
     }
 }
 
