@@ -15107,53 +15107,38 @@ const showFingeringAssistant = async () => {
             document.getElementById("x_rightChannel").value
         );
     }
+let notes;
 
-    let rf1 = [];
+if (fg1v === "0") {
+    notes = scoreRight;
+} else {
+    notes = scoreLeft;
+}
 
-        if (fg1v==="0") {
+let n_idf;
 
-            const s=scoreRight;
+for (let p = 0; p < notes.length; p++) {
 
-            rf1.push([
-                s.midi,
-                s.start,
-                s.stop,
-                s.channel,
-                s.n_id
-            ]);
+    if (pauseTick === notes[p].start) {
 
-        }else if(fg1v==="1"){
+        n_idf = notes[p].n_id;
+        break;
 
-            const s=scoreLeft;
+    } else if (pauseTick === 0) {
 
-            rf1.push([
-                s.midi,
-                s.start,
-                s.stop,
-                s.channel,
-                s.n_id
-            ]);
+        n_idf = notes[0].n_id;
+        break;
 
-        }
+    } else if (
+        notes[p + 1] &&
+        pauseTick > notes[p].start &&
+        pauseTick < notes[p + 1].start
+    ) {
 
-    let n_idf;
-
-    for (let p = 0; p < rf1.length; p++) {
-
-        if (pauseTick == rf1[p][1]) {
-            n_idf = rf1[p][4];
-
-        } else if (pauseTick == 0) {
-            n_idf = rf1[0][4];
-
-        } else if (
-            rf1[p + 1] &&
-            pauseTick > rf1[p][1] &&
-            pauseTick < rf1[p + 1][1]
-        ) {
-            n_idf = rf1[p][4];
-        }
+        n_idf = notes[p].n_id;
+        break;
     }
+}
 
 finger1(n_idf);
 
