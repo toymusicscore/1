@@ -15124,23 +15124,24 @@ for (let p = 0; p < notes.length; p++) {
         n_idf = notes[p].n_id;
         break;
 
-    } else if (pauseTick === 0) {
-
-        if (notes.length > 0) {
-            n_idf = notes[0].n_id;
-        }
-        break;
-
     } else if (
-        notes[p + 1] &&
         pauseTick > notes[p].start &&
-        pauseTick < notes[p + 1].start
+        (
+            !notes[p + 1] ||
+            pauseTick < notes[p + 1].start
+        )
     ) {
 
         n_idf = notes[p].n_id;
         break;
     }
 }
+
+console.log(
+    "pauseTick =", pauseTick,
+    "n_idf =", n_idf,
+    "notes.length =", notes.length
+);
 
 finger1(n_idf);
 
