@@ -13893,7 +13893,27 @@ if (fg1v==="0"){
 for(let i=0; i<s0.length; i++){
 
 //    let n_idf = i;
-
+if (i == 0) {
+    console.log(
+        "i =", i,
+        "n_id =", s0[i].n_id,
+        "n_idf =", n_idf,
+        "fg5vp =", fg5vp,
+        "track =", s0[i].track,
+        "ftr =", ftr,
+        "channel =", s0[i].channel,
+        "fch =", fch
+    );
+}
+if (i == 0) {
+    console.log(
+        "cond1 =", i == 0,
+        "cond2 =", s0[i].track == ftr,
+        "cond3 =", s0[i].channel == fch,
+        "cond4 =", s0[i].n_id >= n_idf,
+        "cond5 =", s0[i].n_id <= fg5vp
+    );
+}
     if (
         i==0 &&
         s0[i].track==ftr &&
