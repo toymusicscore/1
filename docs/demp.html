@@ -15126,7 +15126,9 @@ for (let p = 0; p < notes.length; p++) {
 
     } else if (pauseTick === 0) {
 
-        n_idf = notes[0].n_id;
+        if (notes.length > 0) {
+            n_idf = notes[0].n_id;
+        }
         break;
 
     } else if (
