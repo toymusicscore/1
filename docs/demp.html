@@ -13916,10 +13916,10 @@ f0=[];
 let cp0=0;
 let cp1=0;
 
-for (p=1;p<fp.length;p++){
+for (let p=1;p<fp.length;p++){
     const fp0=fp[p];
 	const fp1=fp[p-1];
-	for(q=0;q<tsvsd.length;q++){
+	for(let q=0;q<tsvsd.length;q++){
 		if(fg1v==="1" && 
 		fp0.start-fp1.stop<rst7 &&
 		tsvsd[q]==fp1.midi-fp0.midi && 
@@ -13962,18 +13962,18 @@ f1=[];
 
 
 if(f0.length>0 && fp.length>1){
-	for (p=0;p<f0.length;p++){
+	for (let p=0;p<f0.length;p++){
 		let [[nf0, nt0], 
 			 [ff0, ft0], 
 			 [cf0, ct0],
 			 [midif0, midit0],
 			 [tf0, tt0]]=f0[p];
-		if (num(fg3)==0){
+		if (fg3v==="0"){
 			f1.push([[nf0, nt0], 
 			[ff0, ft0], 
 			[cf0, ct0],
 			[tf0, tt0]]);
-		}else if(num(fg3)==1 &&
+		}else if(fg3v==="1" &&
 			(
 				(
 					(midif0%12==0||midif0%12==2||midif0%12==4||midif0%12==5||
