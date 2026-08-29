@@ -1701,6 +1701,28 @@ function onResetFinger(){
     showSelectedView();
 }
 
+let fingerBase = [];
+
+function createFingerBase() {
+
+    fingerBase = [];
+
+    fingerBase.push([1, 0]);
+
+    for (let i = 2; i <= 5; i++) {
+
+        const key = `1_${i}`;
+
+        const base =
+            Number(workingFinger.defaultDistance[key]);
+
+        fingerBase.push([
+            i,
+            base
+        ]);
+    }
+}
+
 let fingerRnge = [];
 
 function createFingerRange() {
