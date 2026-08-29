@@ -15030,7 +15030,7 @@ ctx.stroke();
 
 for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote){
 if(m%(ticksPerQuarterNote*beatsPerMeasure)===0 && m>=pauseTick && m<(pauseTick+ticksPerQuarterNote*beatsPerMeasure)){
-let vmn0=m/ticksPerQuarterNote+stm;
+let vmn0=m/ticksPerQuarterNote;
 ctx.beginPath();
 ctx.moveTo(0,my+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
 ctx.lineTo(mx+szk,my+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
