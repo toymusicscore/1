@@ -15285,31 +15285,13 @@ aLink.dispatchEvent(evt);
 
 const showFingeringAssistant = async () => {
 
-    let fg1 = document.querySelector('[name="fg1"]');
-    let fg2 = document.querySelector('[name="fg2"]');
-    let fg3 = document.querySelector('[name="fg3"]');
-    let fg4 = document.querySelector('[name="fg4"]');
-    let fg5 = document.querySelector('[name="fg5"]');
-    let fg6 = document.querySelector('[name="fg6"]');
-    let fg7 = document.querySelector('[name="fg7"]');
-    let fg8 = document.querySelector('[name="fg8"]');
-
-    let fg1v = fg1.value;
-    let fg2v = fg2.value;
-    let fg3v = fg3.value;
-    let fg4v = fg4.value;
-    let fg5v = Number(fg5.value);
-    let fg6v = Number(fg6.value);
-    let fg7v = 2 ** Number(fg7.value);
-    let fg8v = 2 ** Number(fg8.value);
-
-    if (fg1v == "1") {
+    if (fg1n == 1) {
 
         x_ch3 = Number(
             document.getElementById("x_leftChannel").value
         );
 
-    } else if (fg1v == "0") {
+    } else if (fg1n == 0) {
 
         x_ch3 = Number(
             document.getElementById("x_rightChannel").value
@@ -15318,7 +15300,7 @@ const showFingeringAssistant = async () => {
 
 let notes;
 
-if (fg1v === "0") {
+if (fg1n === 0) {
     notes = scoreRight;
 } else {
     notes = scoreLeft;
