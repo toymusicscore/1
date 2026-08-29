@@ -1650,27 +1650,23 @@ function createFingerRange() {
     for (let i = 1; i <= 5; i++) {
         for (let j = i + 1; j <= 5; j++) {
 
-            if (i != j) {
+            const key = `${i}_${j}`;
 
-                const key = `${i}_${j}`;
+            const min =
+                Number(workingFinger.lowerLimit[key]);
 
-                const min =
-                    Number(workingFinger.lowerLimit[key]);
+            const max =
+                Number(workingFinger.upperLimit[key]);
 
-                const max =
-                    Number(workingFinger.upperLimit[key]);
-
-                fingerRnge.push([
-                    i,
-                    j,
-                    min,
-                    max
-                ]);
-            }
+            fingerRnge.push([
+                i,
+                j,
+                min,
+                max
+            ]);
         }
     }
 }
-
 
 function createFingerBase() {
 
