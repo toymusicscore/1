@@ -1641,22 +1641,6 @@ const defaultFinger = {
 
 let workingFinger = structuredClone(defaultFinger);
 
-let fingerRnge = [];
-
-function getFingerRange() {
-
-    for (let i=1;i<=5;i++){
-        for (let j=1; j<=5; j++){
-            if(i!=j){
-                const key = `${i}_${j}`;
-                let min = Number(workingFinger.lowerLimit[key]);
-                let max = Number(workingFinger.upperLimit[key]);
-                fingerRnge.push([i, j, min, max]);
-            }
-        }
-    }
-}
-
 function readFingerUi(){
 
 	readObjUi(workingFinger.defaultDistance, "x_defaultDistance_");
@@ -1715,6 +1699,36 @@ function onResetFinger(){
     updateFingerUi();
 
     showSelectedView();
+}
+
+let fingerRnge = [];
+
+function createFingerRange() {
+
+    fingerRnge = [];
+
+    for (let i = 1; i <= 5; i++) {
+        for (let j = 1; j <= 5; j++) {
+
+            if (i != j) {
+
+                const key = `${i}_${j}`;
+
+                const min =
+                    Number(workingFinger.lowerLimit[key]);
+
+                const max =
+                    Number(workingFinger.upperLimit[key]);
+
+                fingerRnge.push([
+                    i,
+                    j,
+                    min,
+                    max
+                ]);
+            }
+        }
+    }
 }
 
 //========================================
