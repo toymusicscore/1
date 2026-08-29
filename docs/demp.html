@@ -1648,43 +1648,43 @@ const defaultFinger = {
         "4_5": 4,
     },
     selectHand:{
-        fg1v:0
+        fg1n:0
     },
     fingerReach:{
-        fg2v:1
+        fg2n:1
     },
     blackKey:{
-        fg3v:0
+        fg3n:0
     },
     linkRange:{
-        fg4v:1
+        fg4n:1
     },
     restrict1:{
-        fg41v:0
+        fg41n:0
     },
     restrict2:{
-        fg42v:0
+        fg42n:0
     },
     restrict3:{
-        fg43v:0
+        fg43n:0
     },
     restrict4:{
-        fg44v:0
+        fg44n:0
     },
     restrict5:{
-        fg45v:0
+        fg45n:0
     },
     evaluationRange:{
-        fg5v:10
+        fg5n:10
     },
     variabilityRange:{
-        fg6v:2
+        fg6n:2
     },
     evaluationRangeRest:{
-        fg7v:4
+        fg7n:16
     },
     fingerReachRest:{
-        fg8v:2
+        fg8n:4
     },
 
 };
@@ -1751,6 +1751,31 @@ function readFingerUi(){
 	readObjUi(workingFinger.defaultDistance, "x_defaultDistance_");
 	readObjUi(workingFinger.lowerLimit, "x_lowerLimit_");
 	readObjUi(workingFinger.upperLimit, "x_upperLimit_");
+
+
+    let fg1 = document.querySelector('[name="fg1"]');
+    let fg2 = document.querySelector('[name="fg2"]');
+    let fg3 = document.querySelector('[name="fg3"]');
+    let fg4 = document.querySelector('[name="fg4"]');
+    let fg41 = document.querySelector('[name="fg41"]');
+    let fg42 = document.querySelector('[name="fg42"]');
+    let fg43 = document.querySelector('[name="fg43"]');
+    let fg44 = document.querySelector('[name="fg44"]');
+    let fg45 = document.querySelector('[name="fg45"]');
+    let fg5 = document.querySelector('[name="fg5"]');
+    let fg6 = document.querySelector('[name="fg6"]');
+    let fg7 = document.querySelector('[name="fg7"]');
+    let fg8 = document.querySelector('[name="fg8"]');
+
+    workingFinger.selectHand.fg1n = Number(fg1.value);
+    workingFinger.fingerReach.fg2n = Number(fg2.value);
+    workingFinger.blackKey.fg3n = Number(fg3.value);
+    workingFinger.linkRange.fg4n = Number(fg4.value);
+    workingFinger.restrict1.fg41n = Number(fg41.value);
+    workingFinger.evaluationRange.fg5n = Number(fg5.value);
+    workingFinger.variabilityRange.fg6n = Number(fg6.value);
+    workingFinger.evaluationRangeRest.fg7n = Number(fg7.value);
+    workingFinger.fingerReachRest.fg8n = Number(fg8.value);
 
 }
 
