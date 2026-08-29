@@ -1746,11 +1746,23 @@ function updateFingerData() {
 
 }
 
+
 function readFingerUi(){
 
-	readObjUi(workingFinger.defaultDistance, "x_defaultDistance_");
-	readObjUi(workingFinger.lowerLimit, "x_lowerLimit_");
-	readObjUi(workingFinger.upperLimit, "x_upperLimit_");
+    readObjUi(
+        workingFinger.defaultDistance,
+        "x_defaultDistance_"
+    );
+
+    readObjUi(
+        workingFinger.lowerLimit,
+        "x_lowerLimit_"
+    );
+
+    readObjUi(
+        workingFinger.upperLimit,
+        "x_upperLimit_"
+    );
 
 
     let fg1 = document.querySelector('[name="fg1"]');
@@ -1767,15 +1779,47 @@ function readFingerUi(){
     let fg7 = document.querySelector('[name="fg7"]');
     let fg8 = document.querySelector('[name="fg8"]');
 
-    workingFinger.selectHand.fg1n = Number(fg1.value);
-    workingFinger.fingerReach.fg2n = Number(fg2.value);
-    workingFinger.blackKey.fg3n = Number(fg3.value);
-    workingFinger.linkRange.fg4n = Number(fg4.value);
-    workingFinger.restrict1.fg41n = Number(fg41.value);
-    workingFinger.evaluationRange.fg5n = Number(fg5.value);
-    workingFinger.variabilityRange.fg6n = Number(fg6.value);
-    workingFinger.evaluationRangeRest.fg7n = Number(fg7.value);
-    workingFinger.fingerReachRest.fg8n = Number(fg8.value);
+
+    workingFinger.selectHand.fg1n =
+        Number(fg1.value);
+
+    workingFinger.fingerReach.fg2n =
+        Number(fg2.value);
+
+    workingFinger.blackKey.fg3n =
+        Number(fg3.value);
+
+    workingFinger.linkRange.fg4n =
+        Number(fg4.value);
+
+
+    workingFinger.restrict1.fg41n =
+        Number(fg41.value);
+
+    workingFinger.restrict2.fg42n =
+        Number(fg42.value);
+
+    workingFinger.restrict3.fg43n =
+        Number(fg43.value);
+
+    workingFinger.restrict4.fg44n =
+        Number(fg44.value);
+
+    workingFinger.restrict5.fg45n =
+        Number(fg45.value);
+
+
+    workingFinger.evaluationRange.fg5n =
+        Number(fg5.value);
+
+    workingFinger.variabilityRange.fg6n =
+        Number(fg6.value);
+
+    workingFinger.evaluationRangeRest.fg7n =
+        Number(fg7.value);
+
+    workingFinger.fingerReachRest.fg8n =
+        Number(fg8.value);
 
 }
 
