@@ -14109,8 +14109,8 @@ if (fg1n===0){
 for(let i=0; i<s0.length; i++){
     if (
         i==0 &&
-        s0[i].n_id>=n_idf &&
-        s0[i].n_id<=fg5np
+        s0[i].n_id>=i + 1 &&
+        s0[i].n_id<=i + fg5n
     ){
 
         fp.push([
@@ -14127,8 +14127,8 @@ for(let i=0; i<s0.length; i++){
 
         if (
             s1.n_id+1==s0[i].n_id &&
-            s0[i].n_id>=n_idf &&
-            s0[i].n_id<=fg5np &&
+            s0[i].n_id>=i + 1 &&
+            s0[i].n_id<=i + fg5n &&
             s0[i].start-s1.stop<rst8
         ){
 
@@ -14142,8 +14142,8 @@ for(let i=0; i<s0.length; i++){
 
         }else if (
             s1.n_id+1==s0[i].n_id &&
-            s0[i].n_id>=n_idf &&
-            s0[i].n_id<=fg5np &&
+            s0[i].n_id>=i + 1 &&
+            s0[i].n_id<=i + fg5n &&
             s0[i].start-s1.stop>=rst8
         ){
 
@@ -14159,17 +14159,10 @@ for(let i=0; i<s0.length; i++){
 
     }
 
-    if (
-        s0[i].track==ftr &&
-        s0[i].channel==fch 
-        ){
-
-        fc.push([
-            s0[i].midi,
-            s0[i].n_id
-        ]);
-
-    }
+    fc.push([
+        s0[i].midi,
+        s0[i].n_id
+    ]);
 
 }
 
