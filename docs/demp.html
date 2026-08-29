@@ -1837,26 +1837,55 @@ function onFingerChange(){
 
 function updateFingerUi(){
 
-    writeObjUi(workingFinger.defaultDistance,  "x_defaultDistance_");
-    writeObjUi(workingFinger.lowerLimit, "x_lowerLimit_");
-    writeObjUi(workingFinger.upperLimit, "x_upperLimit_");
+    writeObjUi(
+        workingFinger.defaultDistance,
+        "x_defaultDistance_"
+    );
 
-    fg1.value = workingFinger.selectHand.fg1v;
-    fg2.value = workingFinger.fingerReach.fg2v;
-    fg3.value = workingFinger.blackKey.fg3v;
-    fg4.value = workingFinger.linkRange.fg4v;
+    writeObjUi(
+        workingFinger.lowerLimit,
+        "x_lowerLimit_"
+    );
 
-    fg41.value = workingFinger.restrict1.fg41v;
-    fg42.value = workingFinger.restrict2.fg42v;
-    fg43.value = workingFinger.restrict3.fg43v;
-    fg44.value = workingFinger.restrict4.fg44v;
-    fg45.value = workingFinger.restrict5.fg45v;
+    writeObjUi(
+        workingFinger.upperLimit,
+        "x_upperLimit_"
+    );
 
-    fg5.value = workingFinger.evaluationRange.fg5v;
-    fg6.value = workingFinger.variabilityRange.fg6v;
 
-    fg7.value = workingFinger.evaluationRangeRest.fg7v;
-    fg8.value = workingFinger.fingerReachRest.fg8v;
+    const fg1 = document.querySelector('[name="fg1"]');
+    const fg2 = document.querySelector('[name="fg2"]');
+    const fg3 = document.querySelector('[name="fg3"]');
+    const fg4 = document.querySelector('[name="fg4"]');
+
+    const fg41 = document.querySelector('[name="fg41"]');
+    const fg42 = document.querySelector('[name="fg42"]');
+    const fg43 = document.querySelector('[name="fg43"]');
+    const fg44 = document.querySelector('[name="fg44"]');
+    const fg45 = document.querySelector('[name="fg45"]');
+
+    const fg5 = document.querySelector('[name="fg5"]');
+    const fg6 = document.querySelector('[name="fg6"]');
+    const fg7 = document.querySelector('[name="fg7"]');
+    const fg8 = document.querySelector('[name="fg8"]');
+
+
+    fg1.value = workingFinger.selectHand.fg1n;
+    fg2.value = workingFinger.fingerReach.fg2n;
+    fg3.value = workingFinger.blackKey.fg3n;
+    fg4.value = workingFinger.linkRange.fg4n;
+
+    fg41.value = workingFinger.restrict1.fg41n;
+    fg42.value = workingFinger.restrict2.fg42n;
+    fg43.value = workingFinger.restrict3.fg43n;
+    fg44.value = workingFinger.restrict4.fg44n;
+    fg45.value = workingFinger.restrict5.fg45n;
+
+    fg5.value = workingFinger.evaluationRange.fg5n;
+    fg6.value = workingFinger.variabilityRange.fg6n;
+
+    fg7.value = workingFinger.evaluationRangeRest.fg7n;
+    fg8.value = workingFinger.fingerReachRest.fg8n;
 
 }
 
