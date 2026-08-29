@@ -15075,7 +15075,7 @@ for (p=0;p<f101.length;p++){
 		ctx.fillText(fp[i][4],180+50*i,Number(szy)+30);
 		let [midi, start, stop, channel, n_id]=fp[i];
 		gt=stop-start;
-			if(start>=j && stop<j+ht1*ticksPerQuarterNote*beatsPerMeasure){
+			if(start>=pauseTick && stop<pauseTick+ht1*ticksPerQuarterNote*beatsPerMeasure){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure),kw,gt*(szy-2*my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				ctx.beginPath();
