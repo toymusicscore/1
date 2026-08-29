@@ -15269,26 +15269,41 @@ aLink.dispatchEvent(evt);
 
 const showFingeringAssistant = async () => {
 
-    if (fg1n == 1) {
+    let fg1n = workingFinger.selectHand.fg1n;
+    let fg2n = workingFinger.fingerReach.fg2n;
+    let fg3n = workingFinger.blackKey.fg3n;
+    let fg4n = workingFinger.linkRange.fg4n;
 
-        x_ch3 = Number(
-            document.getElementById("x_leftChannel").value
-        );
+    let fg41n = workingFinger.restrict1.fg41n;
+    let fg42n = workingFinger.restrict2.fg42n;
+    let fg43n = workingFinger.restrict3.fg43n;
+    let fg44n = workingFinger.restrict4.fg44n;
+    let fg45n = workingFinger.restrict5.fg45n;
 
-    } else if (fg1n == 0) {
+    let fg5n = workingFinger.evaluationRange.fg5n;
+    let fg6n = workingFinger.variabilityRange.fg6n;
+
+    let fg7n = workingFinger.evaluationRangeRest.fg7n;
+    let fg8n = workingFinger.fingerReachRest.fg8n;
+
+    let notes;
+
+
+    if (fg1n == 0) {
 
         x_ch3 = Number(
             document.getElementById("x_rightChannel").value
         );
+
+        notes = scoreRight;
+    } else if (fg1n == 1) {
+
+        x_ch3 = Number(
+            document.getElementById("x_leftChannel").value
+        );
+    
+        notes = scoreLeft;
     }
-
-let notes;
-
-if (fg1n === 0) {
-    notes = scoreRight;
-} else {
-    notes = scoreLeft;
-}
 
 let n_idf;
 
