@@ -14145,15 +14145,19 @@ for (let p=1;p<fp.length;p++){
             if (fg2n==1 && q!=r && fp0[1]-fp1[2]<rst8 && fp1[3]==fp0[3]-1){
                 for (let s=0;s<fingerRange.length;s++){
                     if(fg1n===0 && 
-                        fingerRange[s][0]==q && fingerRange[s][1]==r &&
-                        fingerRange[s][2]<=fp0[0]-fp1[0] && fingerRange[s][3]>=fp0[0]-fp1[0]
+                        fingerRange[s][0]==q && 
+                        fingerRange[s][1]==r &&
+                        fingerRange[s][2]<=fp0[0]-fp1[0] && 
+                        fingerRange[s][3]>=fp0[0]-fp1[0]
                         ){
                         cp1=Number(fp1[0])-fingerBase[q-1][1];
                         cp0=Number(fp0[0])-fingerBase[r-1][1];
                         f0.push([[fp1[3],fp0[3]],[q,r],[cp1,cp0],[fp1[0], fp0[0]],[fp1[1], fp0[2]]]);
                     }else if(fg1n===1 && 
-                        fingerRange[s][0]==q && fingerRange[s][1]==r &&
-                        fingerRange[s][2]<=fp1[0]-fp0[0] && fingerRange[s][3]>=fp1[0]-fp0[0]
+                        fingerRange[s][0]==q && 
+                        fingerRange[s][1]==r &&
+                        fingerRange[s][2]<=fp1[0]-fp0[0] && 
+                        fingerRange[s][3]>=fp1[0]-fp0[0]
                         ){
                         cp1=Number(fp1[0])+fingerBase[q-1][1];
                         cp0=Number(fp0[0])+fingerBase[r-1][1];
