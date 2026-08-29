@@ -323,116 +323,6 @@ demp
 	<option value="5"> Shape Measure </option>
 	</select>
 
-<select name="fg1">
-	<option value="0" selected="selected"> RH </option>
-	<option value="1"> LH </option>
-	</select>
-
-<select name="fg2">
-	<option value="0" selected="selected"> L0 </option>
-	<option value="1"> L1 </option>
-	<option value="2"> L2 </option>
-	</select>
-
-<select name="fg3">
-	<option value="0" selected="selected"> X0 </option>
-	<option value="1"> X1 </option>
-	</select>
-
-<select name="fg4" style="font-size:100%">
-	<option value="0"> C0 </option>
-	<option value="1" selected="selected"> C1 </option>
-	<option value="2"> C2 </option>
-	<option value="3"> C3 </option>
-	<option value="4"> C4 </option>
-	<option value="5"> C5 </option>
-	</select>
-
-<select name="fg41">
-	<option value="0" selected="selected"> 10 </option>
-	<option value="1"> 11 </option>
-	<option value="2"> 12 </option>
-	<option value="3"> 13 </option>
-	<option value="4"> 14 </option>
-	<option value="5"> 15 </option>
-	</select>
-
-<select name="fg42">
-	<option value="0" selected="selected"> 20 </option>
-	<option value="1"> 21 </option>
-	<option value="2"> 22 </option>
-	<option value="3"> 23 </option>
-	<option value="4"> 24 </option>
-	<option value="5"> 25 </option>
-	</select>
-
-<select name="fg43">
-	<option value="0" selected="selected"> 30 </option>
-	<option value="1"> 31 </option>
-	<option value="2"> 32 </option>
-	<option value="3"> 33 </option>
-	<option value="4"> 34 </option>
-	<option value="5"> 35 </option>
-	</select>
-
-<select name="fg44">
-	<option value="0" selected="selected"> 40 </option>
-	<option value="1"> 41 </option>
-	<option value="2"> 42 </option>
-	<option value="3"> 43 </option>
-	<option value="4"> 44 </option>
-	<option value="5"> 45 </option>
-	</select>
-
-<select name="fg45">
-	<option value="0" selected="selected"> 50 </option>
-	<option value="1"> 51 </option>
-	<option value="2"> 52 </option>
-	<option value="3"> 53 </option>
-	<option value="4"> 54 </option>
-	<option value="5"> 55 </option>
-	</select>
-
-<select name="fg5">
-	<option value="10" selected="selected"> N10 </option>
-	<option value="11"> N11 </option>
-	<option value="12"> N12 </option>
-	<option value="13"> N13 </option>
-	<option value="14"> N14 </option>
-	<option value="15"> N15 </option>
-	<option value="16"> N16 </option>
-	<option value="17"> N17 </option>
-	<option value="18"> N18 </option>
-	</select>
-
-<select name="fg6">
-	<option value="2" selected="selected"> n2 </option>
-	<option value="3"> n3 </option>
-	<option value="4"> n4 </option>
-	<option value="5"> n5 </option>
-	<option value="6"> n6 </option>
-	</select>
-
-<select name="fg7">
-	<option value="0"> r1 </option>
-	<option value="1"> r2 </option>
-	<option value="2"> r4 </option>
-	<option value="3"> r8 </option>
-	<option value="4" selected="selected"> r16 </option>
-	<option value="5"> r32 </option>
-	<option value="6"> r64 </option>
-	</select>
-
-<select name="fg8">
-	<option value="0"> R1 </option>
-	<option value="1"> R2 </option>
-	<option value="2" selected="selected"> R4 </option>
-	<option value="3"> R8 </option>
-	<option value="4"> R16 </option>
-	<option value="5"> R32 </option>
-	<option value="6"> R64 </option>
-	</select>
-	
 <select id="motifMinLength"
         onchange="MIN_LENGTH = Number(this.value)">
     <option value="4" selected>4</option>
@@ -837,6 +727,12 @@ Upper Limit: Largest allowable distance between the two fingers.
 </tr>
 </table>
 
+<label>Hand Selection</label>
+<select name="fg1">
+	<option value="0" selected="selected"> Right Hand </option>
+	<option value="1"> Left Hand </option>
+</select>
+
 <label>Finger Reach Rule</label>
 <select name="fg2">
     <option value="0" selected>Strict </option>
@@ -847,9 +743,113 @@ Upper Limit: Largest allowable distance between the two fingers.
 
 <label>Black Key Rule</label>
 <select name="fg3">
-    <option value="0" selected>No Thumb or Little Finger</option>
-    <option value="1">No Limit</option>
+    <option value="0" selected>No Limit</option>
+    <option value="1">No Thumb or Little Finger</option>
 </select>
+
+<label>Evaluation Index Calculation Range Connection Rule</label>
+<select name="fg4">
+	<option value="0"> Connect No Notes</option>
+	<option value="1" selected="selected"> Connect 1 Note</option>
+	<option value="2"> Connect 2 Notes</option>
+	<option value="3"> Connect 3 Notes</option>
+	<option value="4"> Connect 4 Notes</option>
+	<option value="5"> Connect 5 Notes</option>
+	</select>
+
+<label>Finger Limitation For 1st Note</label>
+<select name="fg41">
+	<option value="0" selected="selected"> No Limit for 1st Note </option>
+	<option value="1"> Limit 1 for 1st Note </option>
+	<option value="2"> Limit 2 for 1st Note </option>
+	<option value="3"> Limit 3 for 1st Note </option>
+	<option value="4"> Limit 4 for 1st Note </option>
+	<option value="5"> Limit 5 for 1st Note </option>
+	</select>
+
+<label>Finger Limitation For 2nd Note</label>
+<select name="fg42">
+	<option value="0" selected="selected"> No Limit for 2nd Note </option>
+	<option value="1"> Limit 1 for 2nd Note </option>
+	<option value="2"> Limit 2 for 2nd Note </option>
+	<option value="3"> Limit 3 for 2nd Note </option>
+	<option value="4"> Limit 4 for 2nd Note </option>
+	<option value="5"> Limit 5 for 2nd Note </option>
+	</select>
+
+<label>Finger Limitation For 3rd Note</label>
+<select name="fg43">
+	<option value="0" selected="selected"> No Limit for 3rd Note </option>
+	<option value="1"> Limit 1 for 3rd Note </option>
+	<option value="2"> Limit 2 for 3rd Note </option>
+	<option value="3"> Limit 3 for 3rd Note </option>
+	<option value="4"> Limit 4 for 3rd Note </option>
+	<option value="5"> Limit 5 for 3rd Note </option>
+	</select>
+
+<label>Finger Limitation For 4th Note</label>
+<select name="fg44">
+	<option value="0" selected="selected"> No Limit for 4th Note </option>
+	<option value="1"> Limit 1 for 4th Note </option>
+	<option value="2"> Limit 2 for 4th Note </option>
+	<option value="3"> Limit 3 for 4th Note </option>
+	<option value="4"> Limit 4 for 4th Note </option>
+	<option value="5"> Limit 5 for 4th Note </option>
+	</select>
+
+<label>Finger Limitation For 5th Note</label>
+<select name="fg45">
+	<option value="0" selected="selected"> No Limit for 5th Note </option>
+	<option value="1"> Limit 1 for 5th Note </option>
+	<option value="2"> Limit 2 for 5th Note </option>
+	<option value="3"> Limit 3 for 5th Note </option>
+	<option value="4"> Limit 4 for 5th Note </option>
+	<option value="5"> Limit 5 for 5th Note </option>
+	</select>
+
+<label>Size of Evaluation Index Calculation Range</label>
+<select name="fg5">
+	<option value="10" selected="selected"> N10 </option>
+	<option value="11"> N11 </option>
+	<option value="12"> N12 </option>
+	<option value="13"> N13 </option>
+	<option value="14"> N14 </option>
+	<option value="15"> N15 </option>
+	<option value="16"> N16 </option>
+	<option value="17"> N17 </option>
+	<option value="18"> N18 </option>
+	</select>
+
+<label>Size of Variability Index Calculation Range</label>
+<select name="fg6">
+	<option value="2" selected="selected"> n2 </option>
+	<option value="3"> n3 </option>
+	<option value="4"> n4 </option>
+	<option value="5"> n5 </option>
+	<option value="6"> n6 </option>
+	</select>
+
+<label>Size of Rest to Unlimit Evaluation Range Connection Rule</label>
+<select name="fg7">
+	<option value="0"> r1 </option>
+	<option value="1"> r2 </option>
+	<option value="2"> r4 </option>
+	<option value="3"> r8 </option>
+	<option value="4" selected="selected"> r16 </option>
+	<option value="5"> r32 </option>
+	<option value="6"> r64 </option>
+	</select>
+
+<label>Size of Rest to Unlimit Evaluation Range Connection Rule and Finger Reach Rule</label>
+<select name="fg8">
+	<option value="0"> R1 </option>
+	<option value="1"> R2 </option>
+	<option value="2" selected="selected"> R4 </option>
+	<option value="3"> R8 </option>
+	<option value="4"> R16 </option>
+	<option value="5"> R32 </option>
+	<option value="6"> R64 </option>
+	</select>
 	
 <input type="button"
        value="Save Finger Settings"
