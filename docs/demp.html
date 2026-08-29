@@ -1271,6 +1271,11 @@ function showTab(tab){
         case "fingering":
 
 		menuBody.innerHTML = `
+				<input
+					type="button"
+					id="fingerButton"
+					value="✋ Finger">
+					<br><br>
 				<input 
 					type="button" 
 					id="fingeringAssistantButton"
@@ -1282,6 +1287,10 @@ function showTab(tab){
 					value="✋ Fingering Recorder">
 					<br><br>
             `;
+				$("fingerButton").onclick = function(){
+					showPage(PAGE.FINGER);
+					closeMenuWindow();
+				};
 				$("fingeringAssistantButton").onclick = function(){
 					showFingeringAssistant();
 					closeMenuWindow();
@@ -1383,11 +1392,6 @@ function showTab(tab){
 					<br><br>
 				<input
 					type="button"
-					id="fingerButton"
-					value="✋ Finger">
-					<br><br>
-				<input
-					type="button"
 					id="commentButton"
 					value="📝 Comment">
 					<br><br>
@@ -1399,10 +1403,6 @@ function showTab(tab){
             `;
 				$("colorButton").onclick = function(){
 					showPage(PAGE.COLOR);
-					closeMenuWindow();
-				};
-				$("fingerButton").onclick = function(){
-					showPage(PAGE.FINGER);
 					closeMenuWindow();
 				};
 				$("commentButton").onclick = function(){
