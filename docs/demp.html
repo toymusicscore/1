@@ -14074,6 +14074,34 @@ function testTstd(data = scoreRight) {
     console.log("Results:", test0);
 }
 
+function getFingerRange(q, r) {
+
+    if (q === r) {
+        return null;
+    }
+
+    let a = Math.min(q, r);
+    let b = Math.max(q, r);
+
+    const range = fingerRange.find(
+        x => x[0] === a && x[1] === b
+    );
+
+    if (!range) {
+        return null;
+    }
+
+    let min = range[2];
+    let max = range[3];
+
+    // q → r の方向が設定値と逆の場合
+    if (q > r) {
+        return [-max, -min];
+    }
+
+    return [min, max];
+}
+
 function finger1(n_idf){
 
     fc = [];
@@ -14142,29 +14170,32 @@ for (let p = 1; p < fp.length; p++) {
     const fp0 = fp[p];
     const fp1 = fp[p - 1];
 
+    // 前後の音符が連続していること
+    if (fp1[3] !== fp0[3] - 1) {
+        continue;
+    }
+
+    //========================================
+    // q → r
+    //========================================
+
     for (let q = 1; q <= 5; q++) {
 
         for (let r = 1; r <= 5; r++) {
 
-            if (q === r) continue;
+            if (q === r) {
+                continue;
+            }
 
-            // 指の組み合わせに対応する range を取得
-            const range = fingerRange.find(
-                x => x[0] === Math.min(q, r) &&
-                     x[1] === Math.max(q, r)
-            );
+            // 指 q → r の許容範囲
+            const range = getFingerRange(q, r);
 
-            if (!range) continue;
+            if (!range) {
+                continue;
+            }
 
-            const min = range[2];
-            const max = range[3];
-
-            const pitchDiffRight =
-                fp0[0] - fp1[0];
-
-            const pitchDiffLeft =
-                fp1[0] - fp0[0];
-
+            const min = range[0];
+            const max = range[1];
 
             //========================================
             // Strict
@@ -14172,93 +14203,48 @@ for (let p = 1; p < fp.length; p++) {
 
             if (
                 fg2n === 1 &&
-                fp1[3] === fp0[3] - 1 &&
                 fp0[1] - fp1[2] < rst8
             ) {
 
-                if (fg1n === 0 &&
-                    pitchDiffRight >= min &&
-                    pitchDiffRight <= max
-                ) {
-
-                    cp1 =
-                        Number(fp1[0]) -
-                        fingerBase[q - 1][1];
-
-                    cp0 =
-                        Number(fp0[0]) -
-                        fingerBase[r - 1][1];
-
-                    f0.push([
-                        [fp1[3], fp0[3]],
-                        [q, r],
-                        [cp1, cp0],
-                        [fp1[0], fp0[0]],
-                        [fp1[1], fp0[2]]
-                    ]);
-
-                } else if (
-                    fg1n === 1 &&
-                    pitchDiffLeft >= min &&
-                    pitchDiffLeft <= max
-                ) {
-
-                    cp1 =
-                        Number(fp1[0]) +
-                        fingerBase[q - 1][1];
-
-                    cp0 =
-                        Number(fp0[0]) +
-                        fingerBase[r - 1][1];
-
-                    f0.push([
-                        [fp1[3], fp0[3]],
-                        [q, r],
-                        [cp1, cp0],
-                        [fp1[0], fp0[0]],
-                        [fp1[1], fp0[2]]
-                    ]);
-                }
-            }
-
-
-            //========================================
-            // Rest >= threshold
-            //========================================
-
-            else if (
-                fg2n === 1 &&
-                fp1[3] === fp0[3] - 1 &&
-                fp0[1] - fp1[2] >= rst8
-            ) {
+                let pitchDiff;
 
                 if (fg1n === 0) {
-
-                    cp1 =
-                        Number(fp1[0]) -
-                        fingerBase[q - 1][1];
-
-                    cp0 =
+                    // Right Hand
+                    pitchDiff =
                         Number(fp0[0]) -
-                        fingerBase[r - 1][1];
+                        Number(fp1[0]);
+                } else {
+                    // Left Hand
+                    pitchDiff =
+                        Number(fp1[0]) -
+                        Number(fp0[0]);
+                }
 
-                    f0.push([
-                        [fp1[3], fp0[3]],
-                        [q, r],
-                        [cp1, cp0],
-                        [fp1[0], fp0[0]],
-                        [fp1[1], fp0[2]]
-                    ]);
+                if (
+                    pitchDiff >= min &&
+                    pitchDiff <= max
+                ) {
 
-                } else if (fg1n === 1) {
+                    if (fg1n === 0) {
 
-                    cp1 =
-                        Number(fp1[0]) +
-                        fingerBase[q - 1][1];
+                        cp1 =
+                            Number(fp1[0]) -
+                            fingerBase[q - 1][1];
 
-                    cp0 =
-                        Number(fp0[0]) +
-                        fingerBase[r - 1][1];
+                        cp0 =
+                            Number(fp0[0]) -
+                            fingerBase[r - 1][1];
+
+                    } else {
+
+                        cp1 =
+                            Number(fp1[0]) +
+                            fingerBase[q - 1][1];
+
+                        cp0 =
+                            Number(fp0[0]) +
+                            fingerBase[r - 1][1];
+                    }
 
                     f0.push([
                         [fp1[3], fp0[3]],
@@ -14268,16 +14254,13 @@ for (let p = 1; p < fp.length; p++) {
                         [fp1[1], fp0[2]]
                     ]);
                 }
-            }
-
 
             //========================================
             // No Limit
             //========================================
 
-            else if (
-                fg2n === 0 &&
-                fp1[3] === fp0[3] - 1
+            } else if (
+                fg2n === 0
             ) {
 
                 if (fg1n === 0) {
@@ -14290,15 +14273,7 @@ for (let p = 1; p < fp.length; p++) {
                         Number(fp0[0]) -
                         fingerBase[r - 1][1];
 
-                    f0.push([
-                        [fp1[3], fp0[3]],
-                        [q, r],
-                        [cp1, cp0],
-                        [fp1[0], fp0[0]],
-                        [fp1[1], fp0[2]]
-                    ]);
-
-                } else if (fg1n === 1) {
+                } else {
 
                     cp1 =
                         Number(fp1[0]) +
@@ -14307,15 +14282,15 @@ for (let p = 1; p < fp.length; p++) {
                     cp0 =
                         Number(fp0[0]) +
                         fingerBase[r - 1][1];
-
-                    f0.push([
-                        [fp1[3], fp0[3]],
-                        [q, r],
-                        [cp1, cp0],
-                        [fp1[0], fp0[0]],
-                        [fp1[1], fp0[2]]
-                    ]);
                 }
+
+                f0.push([
+                    [fp1[3], fp0[3]],
+                    [q, r],
+                    [cp1, cp0],
+                    [fp1[0], fp0[0]],
+                    [fp1[1], fp0[2]]
+                ]);
             }
         }
     }
