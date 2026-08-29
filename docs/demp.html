@@ -14101,20 +14101,14 @@ let fch;
 let s0;
 
 if (fg1n===0){ 
-    ftr=num("x_rightTrack"); 
-    fch=num("x_rightChannel"); 
     s0=scoreRight; 
 }else if (fg1n===1){ 
-    ftr=num("x_leftTrack"); 
-    fch=num("x_leftChannel"); 
     s0=scoreLeft; 
 }
 
 for(let i=0; i<s0.length; i++){
     if (
         i==0 &&
-        s0[i].track==ftr &&
-        s0[i].channel==fch &&
         s0[i].n_id>=n_idf &&
         s0[i].n_id<=fg5np
     ){
@@ -14123,8 +14117,6 @@ for(let i=0; i<s0.length; i++){
             s0[i].midi,
             s0[i].start,
             s0[i].stop,
-            s0[i].track,
-            s0[i].channel,
             s0[i].n_id,
             1
         ]);
@@ -14134,10 +14126,6 @@ for(let i=0; i<s0.length; i++){
         const s1=s0[i-1];
 
         if (
-            s1.track==ftr &&
-            s1.channel==fch &&
-            s0[i].track==ftr &&
-            s0[i].channel==fch &&
             s1.n_id+1==s0[i].n_id &&
             s0[i].n_id>=n_idf &&
             s0[i].n_id<=fg5np &&
@@ -14148,17 +14136,11 @@ for(let i=0; i<s0.length; i++){
                 s0[i].midi,
                 s0[i].start,
                 s0[i].stop,
-                s0[i].track,
-                s0[i].channel,
                 s0[i].n_id,
                 0
             ]);
 
         }else if (
-            s1.track==ftr &&
-            s1.channel==fch &&
-            s0[i].track==ftr &&
-            s0[i].channel==fch &&
             s1.n_id+1==s0[i].n_id &&
             s0[i].n_id>=n_idf &&
             s0[i].n_id<=fg5np &&
@@ -14169,8 +14151,6 @@ for(let i=0; i<s0.length; i++){
                 s0[i].midi,
                 s0[i].start,
                 s0[i].stop,
-                s0[i].track,
-                s0[i].channel,
                 s0[i].n_id,
                 1
             ]);
