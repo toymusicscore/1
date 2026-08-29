@@ -15029,21 +15029,21 @@ ctx.stroke();
 }
 
 for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote){
-if(m%(ticksPerQuarterNote*beatsPerMeasure)===0 && m>=pauseTick && m<(j+ht1*ticksPerQuarterNote*beatsPerMeasure)){
+if(m%(ticksPerQuarterNote*beatsPerMeasure)===0 && m>=pauseTick && m<(pauseTick+ht1*ticksPerQuarterNote*beatsPerMeasure)){
 let vmn0=m/ticksPerQuarterNote+stm;
 ctx.beginPath();
 ctx.moveTo(0,my+(m-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
-ctx.lineTo(mx+szk,my+(m-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+ctx.lineTo(mx+szk,my+(m-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 ctx.strokeStyle="red";
 ctx.stroke();
 ctx.fillStyle="black";
 ctx.font="20px Arial";
-ctx.fillText(vmn0,0,my*1.6+(m-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+ctx.fillText(vmn0,0,my*1.6+(m-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 
-}else if(m%(ticksPerQuarterNote)===0 && m>=j && m<=(j+ht1*ticksPerQuarterNote*beatsPerMeasure)){
+}else if(m%(ticksPerQuarterNote)===0 && m>=pauseTick && m<=(pauseTick+ht1*ticksPerQuarterNote*beatsPerMeasure)){
 ctx.beginPath();
-ctx.moveTo(mx,my+(m-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
-ctx.lineTo(mx+szk,my+(m-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+ctx.moveTo(mx,my+(m-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+ctx.lineTo(mx+szk,my+(m-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 ctx.strokeStyle="blue";
 ctx.stroke();
 }
@@ -15077,74 +15077,74 @@ for (p=0;p<f101.length;p++){
 		gt=stop-start;
 			if(start>=pauseTick && stop<pauseTick+ht1*ticksPerQuarterNote*beatsPerMeasure){
 				ctx.fillStyle=col[midi%12];
-				ctx.fillRect((midi-midi_min)*kw+mx,my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure),kw,gt*(szy-2*my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+				ctx.fillRect((midi-midi_min)*kw+mx,my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure),kw,gt*(szy-2*my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				ctx.beginPath();
-				ctx.arc((midi-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure),kw/2,0,2*Math.PI,false);
+				ctx.arc((midi-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure),kw/2,0,2*Math.PI,false);
 				ctx.fillStyle=col3[channel];
 				ctx.fill();
 				ctx.beginPath();
-				ctx.arc((f101[0][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure),kw/4,0,2*Math.PI,false);
+				ctx.arc((f101[0][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure),kw/4,0,2*Math.PI,false);
 				ctx.fillStyle="red";
 				ctx.fill();
 				ctx.fillStyle="black";
 				if (document.nl1.options[0].selected==true){
-					ctx.fillText("",(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText("",(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[1].selected==true){
-					ctx.fillText(drms1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(drms1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[2].selected==true){
-					ctx.fillText(drmf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(drmf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[3].selected==true){
-					ctx.fillText(engs1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(engs1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[4].selected==true){
-					ctx.fillText(engf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(engf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[5].selected==true){
-					ctx.fillText(gers1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(gers1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[6].selected==true){
-					ctx.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[7].selected==true){
-					ctx.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[8].selected==true){
-					ctx.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[9].selected==true){
-					ctx.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[10].selected==true){
-					ctx.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[18].selected==true){
-					ctx.fillText(f101[0][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[0][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[19].selected==true){
-					ctx.fillText(f101[1][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[1][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[20].selected==true){
-					ctx.fillText(f101[2][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[2][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[21].selected==true){
-					ctx.fillText(f101[3][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[3][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[22].selected==true){
-					ctx.fillText(f101[4][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[4][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[23].selected==true){
-					ctx.fillText(f101[5][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[5][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[24].selected==true){
-					ctx.fillText(f101[6][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[6][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[25].selected==true){
-					ctx.fillText(f101[7][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[7][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[26].selected==true){
-					ctx.fillText(f101[8][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[8][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}else if (document.nl1.options[27].selected==true){
-					ctx.fillText(f101[9][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-j)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
+					ctx.fillText(f101[9][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ht1*ticksPerQuarterNote*beatsPerMeasure));
 				}
-			}//if(start>=j && start<j+1*ppq*bttl)
+			}//if(start>=pauseTick && start<pauseTick+1*ppq*bttl)
 	}//for(i=0;)
 }
 
