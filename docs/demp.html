@@ -14137,56 +14137,188 @@ f0=[];
 let cp0=0;
 let cp1=0;
 
-for (let p=1;p<fp.length;p++){
-    const fp0=fp[p];
-	const fp1=fp[p-1];
-    for(let q=1;q<=5;q++){
-        for (let r=1;r<=5;r++){
-            if (fg2n==1 && q!=r && fp0[1]-fp1[2]<rst8 && fp1[3]==fp0[3]-1){
-                for (let s=0;s<fingerRange.length;s++){
-                    if(fg1n===0 && 
-                        fingerRange[s][0]==q && 
-                        fingerRange[s][1]==r &&
-                        fingerRange[s][2]<=fp0[0]-fp1[0] && 
-                        fingerRange[s][3]>=fp0[0]-fp1[0]
-                        ){
-                        cp1=Number(fp1[0])-fingerBase[q-1][1];
-                        cp0=Number(fp0[0])-fingerBase[r-1][1];
-                        f0.push([[fp1[3],fp0[3]],[q,r],[cp1,cp0],[fp1[0], fp0[0]],[fp1[1], fp0[2]]]);
-                    }else if(fg1n===1 && 
-                        fingerRange[s][0]==q && 
-                        fingerRange[s][1]==r &&
-                        fingerRange[s][2]<=fp1[0]-fp0[0] && 
-                        fingerRange[s][3]>=fp1[0]-fp0[0]
-                        ){
-                        cp1=Number(fp1[0])+fingerBase[q-1][1];
-                        cp0=Number(fp0[0])+fingerBase[r-1][1];
-                        f0.push([[fp1[3],fp0[3]],[q,r],[cp1,cp0],[fp1[0], fp0[0]],[fp1[1], fp0[2]]]);
-                    }
+for (let p = 1; p < fp.length; p++) {
+
+    const fp0 = fp[p];
+    const fp1 = fp[p - 1];
+
+    for (let q = 1; q <= 5; q++) {
+
+        for (let r = 1; r <= 5; r++) {
+
+            if (q === r) continue;
+
+            // 指の組み合わせに対応する range を取得
+            const range = fingerRange.find(
+                x => x[0] === Math.min(q, r) &&
+                     x[1] === Math.max(q, r)
+            );
+
+            if (!range) continue;
+
+            const min = range[2];
+            const max = range[3];
+
+            const pitchDiffRight =
+                fp0[0] - fp1[0];
+
+            const pitchDiffLeft =
+                fp1[0] - fp0[0];
+
+
+            //========================================
+            // Strict
+            //========================================
+
+            if (
+                fg2n === 1 &&
+                fp1[3] === fp0[3] - 1 &&
+                fp0[1] - fp1[2] < rst8
+            ) {
+
+                if (fg1n === 0 &&
+                    pitchDiffRight >= min &&
+                    pitchDiffRight <= max
+                ) {
+
+                    cp1 =
+                        Number(fp1[0]) -
+                        fingerBase[q - 1][1];
+
+                    cp0 =
+                        Number(fp0[0]) -
+                        fingerBase[r - 1][1];
+
+                    f0.push([
+                        [fp1[3], fp0[3]],
+                        [q, r],
+                        [cp1, cp0],
+                        [fp1[0], fp0[0]],
+                        [fp1[1], fp0[2]]
+                    ]);
+
+                } else if (
+                    fg1n === 1 &&
+                    pitchDiffLeft >= min &&
+                    pitchDiffLeft <= max
+                ) {
+
+                    cp1 =
+                        Number(fp1[0]) +
+                        fingerBase[q - 1][1];
+
+                    cp0 =
+                        Number(fp0[0]) +
+                        fingerBase[r - 1][1];
+
+                    f0.push([
+                        [fp1[3], fp0[3]],
+                        [q, r],
+                        [cp1, cp0],
+                        [fp1[0], fp0[0]],
+                        [fp1[1], fp0[2]]
+                    ]);
                 }
-            }else if (fg2n==1 && fp0[1]-fp1[2]>=rst8 && fp1[3]==fp0[3]-1){
-                if(fg1n===0){
-                    cp1=Number(fp1[0])-fingerBase[q-1][1];
-                    cp0=Number(fp0[0])-fingerBase[r-1][1];
-                    f0.push([[fp1[3],fp0[3]],[q,r],[cp1,cp0],[fp1[0], fp0[0]],[fp1[1], fp0[2]]]);
-                }else if(fg1n===1){
-                    cp1=Number(fp1[0])+fingerBase[q-1][1];
-                    cp0=Number(fp0[0])+fingerBase[r-1][1];
-                    f0.push([[fp1[3],fp0[3]],[q,r],[cp1,cp0],[fp1[0], fp0[0]],[fp1[1], fp0[2]]]);
+            }
+
+
+            //========================================
+            // Rest >= threshold
+            //========================================
+
+            else if (
+                fg2n === 1 &&
+                fp1[3] === fp0[3] - 1 &&
+                fp0[1] - fp1[2] >= rst8
+            ) {
+
+                if (fg1n === 0) {
+
+                    cp1 =
+                        Number(fp1[0]) -
+                        fingerBase[q - 1][1];
+
+                    cp0 =
+                        Number(fp0[0]) -
+                        fingerBase[r - 1][1];
+
+                    f0.push([
+                        [fp1[3], fp0[3]],
+                        [q, r],
+                        [cp1, cp0],
+                        [fp1[0], fp0[0]],
+                        [fp1[1], fp0[2]]
+                    ]);
+
+                } else if (fg1n === 1) {
+
+                    cp1 =
+                        Number(fp1[0]) +
+                        fingerBase[q - 1][1];
+
+                    cp0 =
+                        Number(fp0[0]) +
+                        fingerBase[r - 1][1];
+
+                    f0.push([
+                        [fp1[3], fp0[3]],
+                        [q, r],
+                        [cp1, cp0],
+                        [fp1[0], fp0[0]],
+                        [fp1[1], fp0[2]]
+                    ]);
                 }
-            }else if (fg2n==0 && fp1[3]==fp0[3]-1){
-                if(fg1n===0){
-                    cp1=Number(fp1[0])-fingerBase[q-1][1];
-                    cp0=Number(fp0[0])-fingerBase[r-1][1];
-                    f0.push([[fp1[3],fp0[3]],[q,r],[cp1,cp0],[fp1[0], fp0[0]],[fp1[1], fp0[2]]]);
-                }else if(fg1n===1){
-                    cp1=Number(fp1[0])+fingerBase[q-1][1];
-                    cp0=Number(fp0[0])+fingerBase[r-1][1];
-                    f0.push([[fp1[3],fp0[3]],[q,r],[cp1,cp0],[fp1[0], fp0[0]],[fp1[1], fp0[2]]]);
-                }                
+            }
+
+
+            //========================================
+            // No Limit
+            //========================================
+
+            else if (
+                fg2n === 0 &&
+                fp1[3] === fp0[3] - 1
+            ) {
+
+                if (fg1n === 0) {
+
+                    cp1 =
+                        Number(fp1[0]) -
+                        fingerBase[q - 1][1];
+
+                    cp0 =
+                        Number(fp0[0]) -
+                        fingerBase[r - 1][1];
+
+                    f0.push([
+                        [fp1[3], fp0[3]],
+                        [q, r],
+                        [cp1, cp0],
+                        [fp1[0], fp0[0]],
+                        [fp1[1], fp0[2]]
+                    ]);
+
+                } else if (fg1n === 1) {
+
+                    cp1 =
+                        Number(fp1[0]) +
+                        fingerBase[q - 1][1];
+
+                    cp0 =
+                        Number(fp0[0]) +
+                        fingerBase[r - 1][1];
+
+                    f0.push([
+                        [fp1[3], fp0[3]],
+                        [q, r],
+                        [cp1, cp0],
+                        [fp1[0], fp0[0]],
+                        [fp1[1], fp0[2]]
+                    ]);
+                }
             }
         }
-	}
+    }
 }
 
 f1=[];
