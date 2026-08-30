@@ -15100,19 +15100,30 @@ if (fg4n === 0 && f111.length > 0) {
     }
 }
 
-f101=[];
+f101 = [];
 
-if (
-    rfg41n === 0 &&
-    rfg42n === 0 &&
-    rfg43n === 0 &&
-    rfg44n === 0 &&
-    rfg45n === 0
-) {
-    mstd(p);
-}
+const firstNoteUnrestricted =
+    fp.length > 0 && fp[0][4] === 1;
 
-else if (
+for (p = 0; p < f100.length; p++) {
+
+    if (firstNoteUnrestricted) {
+
+        // 最初の音の前に16分休符以上がある場合、
+        // fg41～fg45 のrestrictionをすべて解除
+        mstd(p);
+
+    } else if (
+        fg41.options[0].selected == true &&
+        fg42.options[0].selected == true &&
+        fg43.options[0].selected == true &&
+        fg44.options[0].selected == true &&
+        fg45.options[0].selected == true
+    ) {
+
+        mstd(p);
+
+    }else if (
     rfg41n !== 0 &&
     rfg42n === 0 &&
     rfg43n === 0 &&
@@ -15121,6 +15132,53 @@ else if (
     f100[p][1][0] === rfg41n
 ) {
     mstd(p);
+    }else if (
+    rfg41n !== 0 &&
+    rfg42n !== 0 &&
+    rfg43n === 0 &&
+    rfg44n === 0 &&
+    rfg45n === 0 &&
+    f100[p][1][0] === rfg41n &&
+    f100[p][2][0] === rfg42n
+) {
+    mstd(p);
+    }else if (
+    rfg41n !== 0 &&
+    rfg42n !== 0 &&
+    rfg43n !== 0 &&
+    rfg44n === 0 &&
+    rfg45n === 0 &&
+    f100[p][1][0] === rfg41n &&
+    f100[p][2][0] === rfg42n &&
+    f100[p][3][0] === rfg43n
+) {
+    mstd(p);
+    }else if (
+    rfg41n !== 0 &&
+    rfg42n !== 0 &&
+    rfg43n !== 0 &&
+    rfg44n !== 0 &&
+    rfg45n === 0 &&
+    f100[p][1][0] === rfg41n &&
+    f100[p][2][0] === rfg42n &&
+    f100[p][3][0] === rfg43n &&
+    f100[p][4][0] === rfg44n
+) {
+    mstd(p);
+    }else if (
+    rfg41n !== 0 &&
+    rfg42n !== 0 &&
+    rfg43n !== 0 &&
+    rfg44n !== 0 &&
+    rfg45n !== 0 &&
+    f100[p][1][0] === rfg41n &&
+    f100[p][2][0] === rfg42n &&
+    f100[p][3][0] === rfg43n &&
+    f100[p][4][0] === rfg44n &&
+    f100[p][5][0] === rfg45n
+) {
+    mstd(p);
+}
 }
 
 if (f101.length === 0) {
