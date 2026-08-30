@@ -15088,154 +15088,66 @@ console.log(
     "f101 =", f101.length,
     "f111 =", f100.length,
 );
+let rfg41n = fg41n;
+let rfg42n = fg42n;
+let rfg43n = fg43n;
+let rfg44n = fg44n;
+let rfg45n = fg45n;
 
-if (fg4n==0 && 
-	f111.length>0
-	){
-		if(f111[0][1]=="1"){
-			fg41.options[1].selected=true;
-		}else if(f111[0][1]=="2"){
-			fg41.options[2].selected=true;
-		}else if(f111[0][1]=="3"){
-			fg41.options[3].selected=true;
-		}else if(f111[0][1]=="4"){
-			fg41.options[4].selected=true;
-		}else if(f111[0][1]=="5"){
-			fg41.options[5].selected=true;
-		}
-		if(f111.length<2){
-			fg42.options[0].selected=true;
-		}else if(f111[1][1]=="1"){
-			fg42.options[1].selected=true;
-		}else if(f111[1][1]=="2"){
-			fg42.options[2].selected=true;
-		}else if(f111[1][1]=="3"){
-			fg42.options[3].selected=true;
-		}else if(f111[1][1]=="4"){
-			fg42.options[4].selected=true;
-		}else if(f111[1][1]=="5"){
-			fg42.options[5].selected=true;
-		}
-		if(f111.length<3){
-			fg43.options[0].selected=true;
-		}else if(f111[2][1]=="1"){
-			fg43.options[1].selected=true;
-		}else if(f111[2][1]=="2"){
-			fg43.options[2].selected=true;
-		}else if(f111[2][1]=="3"){
-			fg43.options[3].selected=true;
-		}else if(f111[2][1]=="4"){
-			fg43.options[4].selected=true;
-		}else if(f111[2][1]=="5"){
-			fg43.options[5].selected=true;
-		}
-		if(f111.length<4){
-			fg44.options[0].selected=true;
-		}else if(f111[3][1]=="1"){
-			fg44.options[1].selected=true;
-		}else if(f111[3][1]=="2"){
-			fg44.options[2].selected=true;
-		}else if(f111[3][1]=="3"){
-			fg44.options[3].selected=true;
-		}else if(f111[3][1]=="4"){
-			fg44.options[4].selected=true;
-		}else if(f111[3][1]=="5"){
-			fg44.options[5].selected=true;
-		}
-		if(f111.length<5){
-			fg45.options[0].selected=true;
-		}else if(f111[4][1]=="1"){
-			fg45.options[1].selected=true;
-		}else if(f111[4][1]=="2"){
-			fg45.options[2].selected=true;
-		}else if(f111[4][1]=="3"){
-			fg45.options[3].selected=true;
-		}else if(f111[4][1]=="4"){
-			fg45.options[4].selected=true;
-		}else if(f111[4][1]=="5"){
-			fg45.options[5].selected=true;
-		}	
+if (fg4n === 0 && f111.length > 0) {
+
+    rfg41n = Number(f111[0][1]);
+
+    if (f111.length >= 2) {
+        rfg42n = Number(f111[1][1]);
+    } else {
+        rfg42n = 0;
+    }
+
+    if (f111.length >= 3) {
+        rfg43n = Number(f111[2][1]);
+    } else {
+        rfg43n = 0;
+    }
+
+    if (f111.length >= 4) {
+        rfg44n = Number(f111[3][1]);
+    } else {
+        rfg44n = 0;
+    }
+
+    if (f111.length >= 5) {
+        rfg45n = Number(f111[4][1]);
+    } else {
+        rfg45n = 0;
+    }
 }
+
+
+if (
+    rfg41n === 0 &&
+    rfg42n === 0 &&
+    rfg43n === 0 &&
+    rfg44n === 0 &&
+    rfg45n === 0
+) {
+    mstd(p);
+}
+
+else if (
+    rfg41n !== 0 &&
+    rfg42n === 0 &&
+    rfg43n === 0 &&
+    rfg44n === 0 &&
+    rfg45n === 0 &&
+    f100[p][1][0] === rfg41n
+) {
+    mstd(p);
+}
+
 
 f101=[];
 
-
-for (p=0;p<f100.length;p++){
-		if (
-		fg41.options[0].selected==true &&
-		fg42.options[0].selected==true &&
-		fg43.options[0].selected==true &&
-		fg44.options[0].selected==true &&
-		fg45.options[0].selected==true) {
-			mstd(p);
-		}else if (((
-		fg41.options[0].selected==false &&
-		fg42.options[0].selected==true &&
-		fg43.options[0].selected==true &&
-		fg44.options[0].selected==true &&
-		fg45.options[0].selected==true) ||
-		f111.length==1) &&
-		f100[p][1][0]==fg41n){
-			mstd(p);
-		}else if (((
-		fg41.options[0].selected==false &&
-		fg42.options[0].selected==false &&
-		fg43.options[0].selected==true &&
-		fg44.options[0].selected==true &&
-		fg45.options[0].selected==true) ||
-		f111.length==2) &&
-		f100[p][1][0]==fg41n &&
-		f100[p][1][1]==fg42n){
-			mstd(p);
-		}else if (((
-		fg41.options[0].selected==false &&
-		fg42.options[0].selected==false &&
-		fg43.options[0].selected==false &&
-		fg44.options[0].selected==true &&
-		fg45.options[0].selected==true ) ||
-		f111.length==3) &&
-		f100[p][1][0]==fg41n &&
-		f100[p][1][1]==fg42n && 
-		f100[p][1][2]==fg43n){
-			mstd(p);
-		}else if (((
-		fg41.options[0].selected==false &&
-		fg42.options[0].selected==false &&
-		fg43.options[0].selected==false &&
-		fg44.options[0].selected==false &&
-		fg45.options[0].selected==true) ||
-		f111.length==4 ) &&
-		f100[p][1][0]==fg41n && 
-		f100[p][1][1]==fg42n && 
-		f100[p][1][2]==fg43n && 
-		f100[p][1][3]==fg44n){
-			mstd(p);
-		}else if (((
-		fg41.options[0].selected==false &&
-		fg42.options[0].selected==false &&
-		fg43.options[0].selected==false &&
-		fg44.options[0].selected==false &&
-		fg45.options[0].selected==false) ||
-		f111.length==5 ) &&
-		f100[p][1][0]==fg41n &&
-		f100[p][1][1]==fg42n && 
-		f100[p][1][2]==fg43n && 
-		f100[p][1][3]==fg44n && 
-		f100[p][1][4]==fg45n){
-			mstd(p);
-		}
-}
-
-if (f101.length==0){
-	fg41.options[0].selected=true;
-	fg42.options[0].selected=true;
-	fg43.options[0].selected=true;
-	fg44.options[0].selected=true;
-	fg45.options[0].selected=true;
-		for (p=0;p<f100.length;p++){
-			mstd(p);
-		}
-}	
 
 f101.sort(function(a,b){return(a[3] - b[3]);});
 
@@ -15243,7 +15155,7 @@ f110.push(['\r\n'+fc[0][1],f101[0][1][0]]);
 
 f111=[];
 
-if (fg4.options[0].selected==false){
+if (fg4n!=0){
 	if (fg4n<fp.length){
 		for (p=1;p<=fg4n;p++){
 		f111.push([fp[p][4],f101[0][1][p],f101[0][2][p]]);
