@@ -15138,13 +15138,20 @@ console.log(
     "f101.length =", f101.length,
     "fg4n =", fg4n
 );
-f111 = [];
 
-if (fg4n !== 0) {
+f111=[];
+
+// 最初の音の前に16分休符以上ある場合、
+// 1音目のfinger restrictionを解除する
+if (fp.length > 0 && fp[0][4] === 1) {
+    f111.push([1, 0, 0]);
+}
+
+if (fg4n != 0) {
 
     if (fg4n < fp.length) {
 
-        for (p = 1; p <= fg4n; p++) {
+        for (p=1; p<=fg4n; p++) {
             f111.push([
                 fp[p][4],
                 f101[0][1][p],
@@ -15154,14 +15161,13 @@ if (fg4n !== 0) {
 
     } else {
 
-        for (p = 1; p < fp.length; p++) {
+        for (p=1; p<fp.length; p++) {
             f111.push([
                 fp[p][4],
                 f101[0][1][p],
                 f101[0][2][p]
             ]);
         }
-
     }
 }
 
