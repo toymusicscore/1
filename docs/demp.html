@@ -14675,6 +14675,9 @@ if(f7.length>0 && fp.length>8){
 	}
 }
 
+let normalCount = 0;
+let restCount = 0;
+
 f9=[];
 if(f8.length>0 && fp.length>9){
 	for (p=0;p<f8.length;p++){
@@ -14685,6 +14688,7 @@ if(f8.length>0 && fp.length>9){
 		for (q=0;q<f1.length;q++){
 			let [[nf8, nt8], [ff8, ft8], [cf8, ct8], [tf8, tt8]]=f1[q];
 			if(tf8-tt7<rst7 && nt7==nf8 && ft7==ff8 && ft7!=ft8){
+                normalCount++;
 				f9.push([[nf0, nt8], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8], 
@@ -14694,6 +14698,7 @@ if(f8.length>0 && fp.length>9){
 		for (r=0;r<f1x1.length;r++){
 			let [[nf8x, nt8x], [ff8x, ft8x], [cf8x, ct8x], [tf8x, tt8x]]=f1x1[r];
 			if(tf8x-tt7>=rst7 && nt7==nf8x ){
+                restCount++;
 				f9.push([[nf0, nt8x], 
 				[ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, ft8x], 
 				[cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8x], 
@@ -14702,6 +14707,9 @@ if(f8.length>0 && fp.length>9){
 		}
 	}
 }
+
+console.log("f9 normal =", normalCount);
+console.log("f9 rest   =", restCount);
 
 let f9Unique = [
     ...new Map(
