@@ -14703,6 +14703,15 @@ if(f8.length>0 && fp.length>9){
 	}
 }
 
+let f9Unique = [
+    ...new Map(
+        f9.map(x => [JSON.stringify(x[1]), x])
+    ).values()
+];
+
+console.log("f9 =", f9.length);
+console.log("f9Unique finger patterns =", f9Unique.length);
+
 f10=[];
 if(f9.length>0 && fp.length>10){
 	for (p=0;p<f9.length;p++){
