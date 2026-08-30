@@ -14203,10 +14203,9 @@ for (let i = 0; i < s0.length; i++) {
         ]);
     }
 }
-
-f0=[];
-let cp0=0;
-let cp1=0;
+f0 = [];
+let cp0 = 0;
+let cp1 = 0;
 
 for (let p = 1; p < fp.length; p++) {
 
@@ -14219,7 +14218,14 @@ for (let p = 1; p < fp.length; p++) {
     }
 
     //========================================
-    // q → r
+    // この音符間の候補
+    //========================================
+
+    let localCandidates = [];
+
+    //========================================
+    // 第1段階
+    // 黒鍵ルールを適用
     //========================================
 
     for (let q = 1; q <= 5; q++) {
@@ -14230,7 +14236,15 @@ for (let p = 1; p < fp.length; p++) {
                 continue;
             }
 
-            // 指 q → r の許容範囲
+            // 黒鍵ルール
+            if (!isValidBlackKeyFinger(fp1[0], q)) {
+                continue;
+            }
+
+            if (!isValidBlackKeyFinger(fp0[0], r)) {
+                continue;
+            }
+
             const range = getFingerRange(q, r);
 
             if (!range) {
@@ -14252,12 +14266,13 @@ for (let p = 1; p < fp.length; p++) {
                 let pitchDiff;
 
                 if (fg1n === 0) {
-                    // Right Hand
+
                     pitchDiff =
                         Number(fp0[0]) -
                         Number(fp1[0]);
+
                 } else {
-                    // Left Hand
+
                     pitchDiff =
                         Number(fp1[0]) -
                         Number(fp0[0]);
@@ -14289,7 +14304,7 @@ for (let p = 1; p < fp.length; p++) {
                             fingerBase[r - 1][1];
                     }
 
-                    f0.push([
+                    localCandidates.push([
                         [fp1[3], fp0[3]],
                         [q, r],
                         [cp1, cp0],
@@ -14327,7 +14342,7 @@ for (let p = 1; p < fp.length; p++) {
                         fingerBase[r - 1][1];
                 }
 
-                f0.push([
+                localCandidates.push([
                     [fp1[3], fp0[3]],
                     [q, r],
                     [cp1, cp0],
@@ -14337,7 +14352,140 @@ for (let p = 1; p < fp.length; p++) {
             }
         }
     }
+
+    //========================================
+    // 第2段階
+    // 黒鍵ルールによって候補がなくなった場合
+    //========================================
+
+    if (
+        localCandidates.length === 0
+    ) {
+
+        for (let q = 1; q <= 5; q++) {
+
+            for (let r = 1; r <= 5; r++) {
+
+                if (q === r) {
+                    continue;
+                }
+
+                const range = getFingerRange(q, r);
+
+                if (!range) {
+                    continue;
+                }
+
+                const min = range[0];
+                const max = range[1];
+
+                //========================================
+                // Strict
+                //========================================
+
+                if (
+                    fg2n === 1 &&
+                    fp0[1] - fp1[2] < rst8
+                ) {
+
+                    let pitchDiff;
+
+                    if (fg1n === 0) {
+
+                        pitchDiff =
+                            Number(fp0[0]) -
+                            Number(fp1[0]);
+
+                    } else {
+
+                        pitchDiff =
+                            Number(fp1[0]) -
+                            Number(fp0[0]);
+                    }
+
+                    if (
+                        pitchDiff >= min &&
+                        pitchDiff <= max
+                    ) {
+
+                        if (fg1n === 0) {
+
+                            cp1 =
+                                Number(fp1[0]) -
+                                fingerBase[q - 1][1];
+
+                            cp0 =
+                                Number(fp0[0]) -
+                                fingerBase[r - 1][1];
+
+                        } else {
+
+                            cp1 =
+                                Number(fp1[0]) +
+                                fingerBase[q - 1][1];
+
+                            cp0 =
+                                Number(fp0[0]) +
+                                fingerBase[r - 1][1];
+                        }
+
+                        localCandidates.push([
+                            [fp1[3], fp0[3]],
+                            [q, r],
+                            [cp1, cp0],
+                            [fp1[0], fp0[0]],
+                            [fp1[1], fp0[2]]
+                        ]);
+                    }
+
+                //========================================
+                // No Limit
+                //========================================
+
+                } else if (
+                    fg2n === 0
+                ) {
+
+                    if (fg1n === 0) {
+
+                        cp1 =
+                            Number(fp1[0]) -
+                            fingerBase[q - 1][1];
+
+                        cp0 =
+                            Number(fp0[0]) -
+                            fingerBase[r - 1][1];
+
+                    } else {
+
+                        cp1 =
+                            Number(fp1[0]) +
+                            fingerBase[q - 1][1];
+
+                        cp0 =
+                            Number(fp0[0]) +
+                            fingerBase[r - 1][1];
+                    }
+
+                    localCandidates.push([
+                        [fp1[3], fp0[3]],
+                        [q, r],
+                        [cp1, cp0],
+                        [fp1[0], fp0[0]],
+                        [fp1[1], fp0[2]]
+                    ]);
+                }
+            }
+        }
+    }
+
+    //========================================
+    // 最終的に f0 に追加
+    //========================================
+
+    f0.push(...localCandidates);
 }
+
 
 // Black Key Rule
 // fg3n === 1 の場合、黒鍵の親指・小指を禁止する。
