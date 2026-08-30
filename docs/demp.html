@@ -14486,56 +14486,9 @@ for (let p = 1; p < fp.length; p++) {
     f0.push(...localCandidates);
 }
 
-
-// Black Key Rule
-// fg3n === 1 の場合、黒鍵の親指・小指を禁止する。
-// ただし、この制約によって運指候補がなくなった場合は、
-// 黒鍵制約を解除して元の候補を使用する。
-
 f1 = [];
 
 if (f0.length > 0 && fp.length > 1) {
-
-    for (let p = 0; p < f0.length; p++) {
-
-        let [[nf0, nt0],
-             [ff0, ft0],
-             [cf0, ct0],
-             [midif0, midit0],
-             [tf0, tt0]] = f0[p];
-
-        if (fg3n === 0) {
-
-            f1.push([
-                [nf0, nt0],
-                [ff0, ft0],
-                [cf0, ct0],
-                [tf0, tt0]
-            ]);
-
-        } else if (
-            fg3n === 1 &&
-            isValidBlackKeyFinger(midif0, ff0) &&
-            isValidBlackKeyFinger(midit0, ft0)
-        ) {
-
-            f1.push([
-                [nf0, nt0],
-                [ff0, ft0],
-                [cf0, ct0],
-                [tf0, tt0]
-            ]);
-        }
-    }
-}
-
-// 黒鍵制約によって候補がなくなった場合は、
-// 黒鍵制約を解除して元の候補を使用する
-if (fg3n === 1 && f1.length === 0 && f0.length > 0) {
-
-    console.log(
-        "Black Key Rule released: no valid fingering remained."
-    );
 
     for (let p = 0; p < f0.length; p++) {
 
