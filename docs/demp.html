@@ -14102,6 +14102,34 @@ function getFingerRange(q, r) {
     return [min, max];
 }
 
+function isBlackKey(midi) {
+
+    const pc = Number(midi) % 12;
+
+    return (
+        pc === 1 ||
+        pc === 3 ||
+        pc === 6 ||
+        pc === 8 ||
+        pc === 10
+    );
+}
+
+function isValidBlackKeyFinger(midi, finger) {
+
+    // 白鍵ならすべての指を許可
+    if (!isBlackKey(midi)) {
+        return true;
+    }
+
+    // 黒鍵では 1（Thumb）と 5（Little Finger）を禁止
+    return (
+        Number(finger) === 2 ||
+        Number(finger) === 3 ||
+        Number(finger) === 4
+    );
+}
+
 function finger1(n_idf){
 
     fc = [];
@@ -14293,53 +14321,53 @@ for (let p = 1; p < fp.length; p++) {
     }
 }
 
-f1=[];
+f1 = [];
 
-if(f0.length>0 && fp.length>1){
-	for (let p=0;p<f0.length;p++){
-		let [[nf0, nt0], 
-			 [ff0, ft0], 
-			 [cf0, ct0],
-			 [midif0, midit0],
-			 [tf0, tt0]]=f0[p];
-		if (fg3n===0){
-			f1.push([[nf0, nt0], 
-			[ff0, ft0], 
-			[cf0, ct0],
-			[tf0, tt0]]);
-		}else if(fg3n===1 &&
-			(
-				(
-					(midif0%12==0||midif0%12==2||midif0%12==4||midif0%12==5||
-					midif0%12==7||midif0%12==9||midif0%12==11
-					) ||
-					(
-					(midif0%12==1||midif0%12==3||midif0%12==6||midif0%12==8||midif0%12==10
-					) &&
-					(ff0=="2"||ff0=="3"||ff0=="4"
-					)
-					)
-				) &&
-				(
-					(midit0%12==0||midit0%12==2||midit0%12==4||
-					midit0%12==5||midit0%12==7||midit0%12==9||midit0%12==11
-					) ||
-					(
-					(midit0%12==1||midit0%12==3||midit0%12==6||midit0%12==8||midit0%12==10
-					) &&
-					(ft0=="2"||ft0=="3"||ft0=="4"
-					)
-					)
-				)
-			)
-		){
-			f1.push([[nf0, nt0], 
-		 			 [ff0, ft0], 
-					 [cf0, ct0],
-					 [tf0, tt0]]);
-		}
-	}
+if (f0.length > 0 && fp.length > 1) {
+
+    for (let p = 0; p < f0.length; p++) {
+
+        let [
+            [nf0, nt0],
+            [ff0, ft0],
+            [cf0, ct0],
+            [midif0, midit0],
+            [tf0, tt0]
+        ] = f0[p];
+
+        //========================================
+        // No Limit
+        //========================================
+
+        if (fg3n === 0) {
+
+            f1.push([
+                [nf0, nt0],
+                [ff0, ft0],
+                [cf0, ct0],
+                [tf0, tt0]
+            ]);
+
+        //========================================
+        // No Thumb or Little Finger
+        //========================================
+
+        } else if (
+            fg3n === 1 &&
+            isValidBlackKeyFinger(midif0, ff0) &&
+            isValidBlackKeyFinger(midit0, ft0)
+        ) {
+
+            f1.push([
+                [nf0, nt0],
+                [ff0, ft0],
+                [cf0, ct0],
+                [tf0, tt0]
+            ]);
+        }
+    }
 }
+
 
 let f1x0=[];
 
