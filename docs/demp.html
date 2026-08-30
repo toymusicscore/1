@@ -14130,7 +14130,6 @@ function isValidBlackKeyFinger(midi, finger) {
     );
 }
 
-
 function extendFingering(currentF, f1, f1x1, rst7) {
 
     const nextF = [];
@@ -14143,7 +14142,6 @@ function extendFingering(currentF, f1, f1x1, rst7) {
         const nt0 = notes[1];
 
         const ft0 = fingers[fingers.length - 1];
-        const ct0 = cps[cps.length - 1];
         const tt0 = times[0];
 
         //========================================
@@ -14158,6 +14156,7 @@ function extendFingering(currentF, f1, f1x1, rst7) {
                 [cf1, ct1],
                 [tf1, tt1]
             ] = f1[q];
+
             if (
                 tf1 - tt0 < rst7 &&
                 nt0 === nf1 &&
@@ -14166,13 +14165,14 @@ function extendFingering(currentF, f1, f1x1, rst7) {
             ) {
 
                 nextF.push([
-                    [nf1, nt0],
-                    [ff1, ...fingers],
-                    [cf1, ...cps],
-                    [tt1, tt0]
+                    [nf0, nt1],
+                    [...fingers, ft1],
+                    [...cps, ct1],
+                    [tt1]
                 ]);
             }
         }
+
         //========================================
         // Long rest
         //========================================
@@ -14185,16 +14185,17 @@ function extendFingering(currentF, f1, f1x1, rst7) {
                 [cf1x, ct1x],
                 [tf1x, tt1x]
             ] = f1x1[r];
+
             if (
                 tf1x - tt0 >= rst7 &&
                 nt0 === nf1x
             ) {
 
                 nextF.push([
-                    [nf1x, nt0],
-                    [ff1x,...fingers],
-                    [cf1x,...cps],
-                    [tf1x, tt0]
+                    [nf0, nt1x],
+                    [...fingers, ft1x],
+                    [...cps, ct1x],
+                    [tt1x]
                 ]);
             }
         }
