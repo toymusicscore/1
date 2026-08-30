@@ -14550,39 +14550,63 @@ if(f4.length>0 && fp.length>5){
 		}
 	}
 }
+f6 = [];
 
-f6=[];
-if(f5.length>0 && fp.length>6){
-	for (p=0;p<f5.length;p++){
-		let [[nf0, nt4], 
-			 [ff0, ft0, ft1, ft2, ft3, ft4], 
-			 [cf0, ct0, ct1, ct2, ct3, ct4],
-			 [tt4]]=f5[p];
-		for (q=0;q<f1.length;q++){
-			let [[nf5, nt5], 
-				 [ff5, ft5], 
-				 [cf5, ct5], 
-				 [tf5, tt5]]=f1[q];
-			if(tf5-tt4<rst7 && nt4==nf5-0 && ft4==ff5-0 && ft4!=ft5){
-				f6.push([[nf0, nt5], 
-						 [ff0, ft0, ft1, ft2, ft3, ft4, ft5], 
-						 [cf0, ct0, ct1, ct2, ct3, ct4, ct5], 
-						 [tt5]]);
-			}
-		}
-		for (r=0;r<f1x1.length;r++){
-			let [[nf5x, nt5x], 
-				 [ff5x, ft5x], 
-				 [cf5x, ct5x], 
-				 [tf5x, tt5x]]=f1x1[r];
-			if(tf5x-tt4>=rst7 && nt4==nf5x-0 ){
-				f6.push([[nf0, nt5x], 
-						 [ff0, ft0, ft1, ft2, ft3, ft4, ft5x], 
-						 [cf0, ct0, ct1, ct2, ct3, ct4, ct5x], 
-						 [tt5x]]);
-			}
-		}
-	}
+if (f5.length > 0 && fp.length > 6) {
+
+    for (p = 0; p < f5.length; p++) {
+
+        let [[nf0, nt4],
+             [ff0, ft0, ft1, ft2, ft3, ft4],
+             [cf0, ct0, ct1, ct2, ct3, ct4],
+             [tt4]] = f5[p];
+
+        // Short rest
+        for (q = 0; q < f1.length; q++) {
+
+            let [[nf5, nt5],
+                 [ff5, ft5],
+                 [cf5, ct5],
+                 [tf5, tt5]] = f1[q];
+
+            if (
+                tf5 - tt4 < rst7 &&
+                nt4 == nf5 &&
+                ft4 == ff5 &&
+                ft4 != ft5
+            ) {
+
+                f6.push([
+                    [nf0, nt5],
+                    [ff0, ft0, ft1, ft2, ft3, ft4, ft5],
+                    [cf0, ct0, ct1, ct2, ct3, ct4, ct5],
+                    [tt5]
+                ]);
+            }
+        }
+
+        // Long rest
+        for (r = 0; r < f1x1.length; r++) {
+
+            let [[nf5x, nt5x],
+                 [ff5x, ft5x],
+                 [cf5x, ct5x],
+                 [tf5x, tt5x]] = f1x1[r];
+
+            if (
+                tf5x - tt4 >= rst7 &&
+                nt4 == nf5x
+            ) {
+
+                f6.push([
+                    [nf0, nt5x],
+                    [ff0, ft0, ft1, ft2, ft3, ft4, ft5x],
+                    [cf0, ct0, ct1, ct2, ct3, ct4, ct5x],
+                    [tt5x]
+                ]);
+            }
+        }
+    }
 }
 
 f7=[];
@@ -14597,7 +14621,7 @@ if(f6.length>0 && fp.length>7){
 				 [ff6, ft6], 
 				 [cf6, ct6], 
 				 [tf6, tt6]]=f1[q];
-			if(tf6-tt5<rst7 && nt5==nf6-0 && ft5==ff6-0 && ft5!=ft6){
+			if(tf6-tt5<rst7 && nt5==nf6 && ft5==ff6 && ft5!=ft6){
 				f7.push([[nf0, nt6], 
 						 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6], 
 						 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6], 
@@ -14609,7 +14633,7 @@ if(f6.length>0 && fp.length>7){
 				 [ff6x, ft6x], 
 				 [cf6x, ct6x], 
 				 [tf6x, tt6x]]=f1x1[r];
-			if(tf6x-tt5>=rst7 && nt5==nf6x-0 ){
+			if(tf6x-tt5>=rst7 && nt5==nf6x ){
 				f7.push([[nf0, nt6x], 
 						 [ff0, ft0, ft1, ft2, ft3, ft4, ft5, ft6x], 
 						 [cf0, ct0, ct1, ct2, ct3, ct4, ct5, ct6x], 
