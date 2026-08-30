@@ -14023,9 +14023,9 @@ const standardDeviation = (arr, usePopulation = false) => {
 
 const mstd = (p) => {
 	let	s0=0;
-	fg6v=4;
-	for (q=0;q<f100[p][2].length-fg6v+1;q++){
-		s0=s0+standardDeviation(f100[p][2].slice(q, q+fg6v))
+    let fg6n = workingFinger.variabilityRange.fg6n;
+    for (q=0;q<f100[p][2].length-fg6n+1;q++){
+		s0=s0+standardDeviation(f100[p][2].slice(q, q+fg6n))
 		};
 	f101.push([f100[p][0],f100[p][1],f100[p][2],s0]);
 }
