@@ -14165,33 +14165,38 @@ if (fg1n===0){
     s0=scoreLeft; 
 }
 
-for(let i=0; i<s0.length; i++){
-    if (i>0 && 
-        s0[i].start-s0[i-1].stop>=rst7 &&
-        s0[i].n_id>=n_idf &&
-        s0[i].n_id<=fg5np
-    ){
-        fp.push([
-            s0[i].midi,
-            s0[i].start,
-            s0[i].stop,
-            s0[i].n_id,
-            1
-        ]);
-    }else if (
-        s0[i].n_id>=n_idf &&
-        s0[i].n_id<=fg5np
-    ){
-        fp.push([
-            s0[i].midi,
-            s0[i].start,
-            s0[i].stop,
-            s0[i].n_id,
-            0
-        ]);
+for (let i = 0; i < s0.length; i++) {
 
+    let restBefore = false;
+
+    if (i === 0) {
+
+        if (s0[i].start >= rst7) {
+            restBefore = true;
+        }
+
+    } else {
+
+        if (s0[i].start - s0[i-1].stop >= rst7) {
+            restBefore = true;
+        }
     }
-    if(s0[i].n_id==n_idf){
+
+    if (
+        s0[i].n_id >= n_idf &&
+        s0[i].n_id <= fg5np
+    ) {
+
+        fp.push([
+            s0[i].midi,
+            s0[i].start,
+            s0[i].stop,
+            s0[i].n_id,
+            restBefore ? 1 : 0
+        ]);
+    }
+
+    if (s0[i].n_id == n_idf) {
         fc.push([
             s0[i].midi,
             s0[i].n_id
