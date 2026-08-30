@@ -14130,6 +14130,83 @@ function isValidBlackKeyFinger(midi, finger) {
     );
 }
 
+
+function extendFingering(currentF, f1, f1x1, rst7) {
+
+    const nextF = [];
+
+    for (let p = 0; p < currentF.length; p++) {
+
+        const [notes, fingers, cps, times] = currentF[p];
+
+        const nf0 = notes[0];
+        const nt0 = notes[1];
+
+        const ft0 = fingers[fingers.length - 1];
+        const ct0 = cps[cps.length - 1];
+        const tt0 = times[0];
+
+        //========================================
+        // Short rest
+        //========================================
+
+        for (let q = 0; q < f1.length; q++) {
+
+            const [
+                [nf1, nt1],
+                [ff1, ft1],
+                [cf1, ct1],
+                [tf1, tt1]
+            ] = f1[q];
+
+            if (
+                tf1 - tt0 < rst7 &&
+                nt0 === nf1 &&
+                ft0 === ff1 &&
+                ft0 !== ft1
+            ) {
+
+                nextF.push([
+                    [nf0, nt1],
+                    [...fingers, ft1],
+                    [...cps, ct1],
+                    [tt1]
+                ]);
+            }
+        }
+
+        //========================================
+        // Long rest
+        //========================================
+
+        for (let r = 0; r < f1x1.length; r++) {
+
+            const [
+                [nf1x, nt1x],
+                [ff1x, ft1x],
+                [cf1x, ct1x],
+                [tf1x, tt1x]
+            ] = f1x1[r];
+
+            if (
+                tf1x - tt0 >= rst7 &&
+                nt0 === nf1x
+            ) {
+
+                nextF.push([
+                    [nf0, nt1x],
+                    [...fingers, ft1x],
+                    [...cps, ct1x],
+                    [tt1x]
+                ]);
+            }
+        }
+    }
+
+    return nextF;
+}
+
+
 function finger1(n_idf){
 
     fc = [];
@@ -14523,6 +14600,29 @@ let f1x1 = [
     ).values()
 ];
 
+let f = [];
+
+f[0] = f0;
+f[1] = f1;
+
+for (let n = 2; n <= 18; n++) {
+
+    f[n] = [];
+
+    if (
+        fp.length > n &&
+        f[n - 1].length > 0
+    ) {
+        f[n] = extendFingering(
+            f[n - 1],
+            f1,
+            f1x1,
+            rst7
+        );
+    }
+}
+
+/*
 f2=[];
 if(f1.length>0 && fp.length>2){
 	for (p=0;p<f1.length;p++){
@@ -15140,9 +15240,12 @@ if(f17.length>0 && fp.length>18){
 		}
 	}
 }
+*/
 
-f100=[];
+//f100=[];
+f100 = f[fp.length - 1];
 
+/*
 if (fp.length==1 ){
 	f100.push([[f111[0][0]],[f111[0][1]],[f111[0][2]]]);
 }else if (fp.length==2 && f1.length>0){
@@ -15182,6 +15285,7 @@ if (fp.length==1 ){
 }else if (fp.length==19 && f18.length>0){
 	f100=f18;
 }
+*/
 
 if (fp.length > 0 && fp[0][4]==1){
     f111=[];
@@ -15342,6 +15446,8 @@ if (fg4n != 0) {
         }
     }
 }
+
+consle.log(f100,f101,f111);
 
 szx=1100;
 szy=350;
