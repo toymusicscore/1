@@ -14567,28 +14567,6 @@ for (let p = 1; p < fp.length; p++) {
     f0.push(...localCandidates);
 }
 
-//test
-for (let i = 0; i < f0.length; i++) {
-
-    const fingers = f0[i][1];
-
-    for (let j = 1; j < fingers.length; j++) {
-
-        if (fingers[j] === fingers[j - 1]) {
-
-            console.log(
-                "f0 SAME:",
-                i,
-                fingers,
-                "position =", j
-            );
-
-            break;
-        }
-    }
-}
-//test
-
 f1 = [];
 
 if (f0.length > 0 && fp.length > 1) {
@@ -14624,6 +14602,30 @@ let f1x1 = [
         f1x0.map(x => [JSON.stringify(x), x])
     ).values()
 ];
+
+
+//test
+for (let i = 0; i < f1.length; i++) {
+
+    const fingers = f1[i][1];
+
+    for (let j = 1; j < fingers.length; j++) {
+
+        if (fingers[j] === fingers[j - 1]) {
+
+            console.log(
+                "f0 SAME:",
+                i,
+                fingers,
+                "position =", j
+            );
+
+            break;
+        }
+    }
+}
+//test
+
 
 let f = [];
 
