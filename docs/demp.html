@@ -14609,22 +14609,16 @@ let f1x1 = [
 for (let i = 0; i < f1.length; i++) {
 
     const fingers = f1[i][1];
+    const test1=[];
 
     for (let j = 1; j < fingers.length; j++) {
 
         if (fingers[j] === fingers[j - 1]) {
-
-            console.log(
-                "f1 SAME:",
-                i,
-                fingers,
-                "position =", j
-            );
-
-            break;
+            test.push([i,j]);
         }
     }
 }
+console.log("test1=",test1);
 //test
 
 
