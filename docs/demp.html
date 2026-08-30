@@ -14418,38 +14418,69 @@ if(f1.length>0 && fp.length>2){
 	}
 }
 
-f3=[];
-if(f2.length>0 && fp.length>3){
-	for (p=0;p<f2.length;p++){
-		let [[nf0, nt1], 
-			 [ff0, ft0, ft1], 
-			 [cf0, ct0, ct1],
-			 [tt1]]=f2[p];
-		for (q=0;q<f1.length;q++){
-			let [[nf2, nt2], 
-				 [ff2, ft2], 
-				 [cf2, ct2], 
-				 [tf2, tt2]]=f1[q];
-			if(tf2-tt1<rst7 && nt1==nf2 && ft1==ff2 && ft1!=ft2){
-				f3.push([[nf0, nt2], 
-						 [ff0, ft0, ft1, ft2], 
-						 [cf0, ct0, ct1, ct2], 
-						 [tt2]]);
-			}
-		}
-		for (r=0;r<f1x1.length;r++){
-			let [[nf2x, nt2x], 
-				 [ff2x, ft2x], 
-				 [cf2x, ct2x], 
-				 [tf2x, tt2x]]=f1x1[r];
-			if(tf2x-tt1>=rst7 && nt1==nf2x ){
-				f3.push([[nf0, nt2x], 
-				[ff0, ft0, ft1, ft2x], 
-				[cf0, ct0, ct1, ct2x], 
-				[tt2x]]);
-			}
-		}
-	}
+f3 = [];
+
+if (f2.length > 0 && fp.length > 3) {
+
+    for (p = 0; p < f2.length; p++) {
+
+        let [
+            [nf0, nt1],
+            [ff0, ft0, ft1],
+            [cf0, ct0, ct1],
+            [tt1]
+        ] = f2[p];
+
+        // Short rest: connect directly to f1
+        for (q = 0; q < f1.length; q++) {
+
+            let [
+                [nf2, nt2],
+                [ff2, ft2],
+                [cf2, ct2],
+                [tf2, tt2]
+            ] = f1[q];
+
+            if (
+                tf2 - tt1 < rst7 &&
+                nt1 == nf2 &&
+                ft1 == ff2 &&
+                ft1 != ft2
+            ) {
+
+                f3.push([
+                    [nf0, nt2],
+                    [ff0, ft0, ft1, ft2],
+                    [cf0, ct0, ct1, ct2],
+                    [tt2]
+                ]);
+            }
+        }
+
+        // Long rest: use f1x1
+        for (r = 0; r < f1x1.length; r++) {
+
+            let [
+                [nf2x, nt2x],
+                [ff2x, ft2x],
+                [cf2x, ct2x],
+                [tf2x, tt2x]
+            ] = f1x1[r];
+
+            if (
+                tf2x - tt1 >= rst7 &&
+                nt1 == nf2x
+            ) {
+
+                f3.push([
+                    [nf0, nt2x],
+                    [ff0, ft0, ft1, ft2x],
+                    [cf0, ct0, ct1, ct2x],
+                    [tt2x]
+                ]);
+            }
+        }
+    }
 }
 
 f4=[];
