@@ -14825,7 +14825,7 @@ ctx.strokeStyle="red";
 ctx.stroke();
 ctx.fillStyle="black";
 ctx.font="20px Arial";
-ctx.fillText(vmn0,0,my*1.6+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
+ctx.fillText(vmn0+1,0,my*1.6+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
 
 }else if(m%(ticksPerQuarterNote)===0 && m>=pauseTick && m<=(pauseTick+ticksPerQuarterNote*beatsPerMeasure)){
 ctx.beginPath();
@@ -14859,7 +14859,7 @@ for (p=0;p<f101.length;p++){
 	ctx.stroke();
 	}
 	for(i=0;i<fp.length;i++){
-		ctx.fillText(fp[i][4],180+50*i,Number(szy)+30);
+		ctx.fillText(fp[i][3],180+50*i,Number(szy)+30);
 		let [midi, start, stop, n_id, channel]=fp[i];
 		gt=stop-start;
 			if(start>=pauseTick && stop<pauseTick+ticksPerQuarterNote*beatsPerMeasure){
