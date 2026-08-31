@@ -14155,11 +14155,12 @@ function extendFingering(currentF, f1, f1x1, rst7) {
                 [nf1, nt1],
                 [ff1, ft1],
                 [cf1, ct1],
-                [tf1, tt1]
+                [tt0, tt1],
+                [tf0, tf1]
             ] = f1[q];
 
             if (
-                tf1 - tt0 < rst7 &&
+                tt1 - tf0 < rst7 &&
                 nt0 === nf1 &&
                 ft0 === ff1 &&
                 ft0 !== ft1
@@ -14185,11 +14186,12 @@ function extendFingering(currentF, f1, f1x1, rst7) {
                 [nf1x, nt1x],
                 [ff1x, ft1x],
                 [cf1x, ct1x],
-                [tf1x, tt1x]
+                [tt0x, tt1x],
+                [tf0x, tf1x]
             ] = f1x1[r];
 
             if (
-                tf1x - tt0 >= rst7 &&
+                tt1x - tf0 >= rst7 &&
                 nt0 === nf1x
             ) {
 
@@ -14197,7 +14199,8 @@ function extendFingering(currentF, f1, f1x1, rst7) {
                     [nf0, nt1x],
                     [...fingers, ft1x],
                     [...cps, ct1x],
-                    [...times, tt1x]
+                    [...tickStart, tt1x],
+                    [...tickStop, tf1x]
                 ]);
             }
         }
