@@ -14862,7 +14862,7 @@ for (p=0;p<f101.length;p++){
 		ctx.fillText(fp[i][3],180+50*i,Number(szy)+30);
 		let [midi, start, stop, n_id, channel]=fp[i];
 		gt=stop-start;
-			if(start>=pauseTick && stop<pauseTick+ticksPerQuarterNote*beatsPerMeasure){
+			if(start>=pauseTick && start<=pauseTick+ticksPerQuarterNote*beatsPerMeasure){
 				ctx.fillStyle=col[midi%12];
 				ctx.fillRect((midi-midi_min)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw,gt*(szy-2*my)/(ticksPerQuarterNote*beatsPerMeasure));
 				ctx.beginPath();
