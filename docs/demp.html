@@ -14776,23 +14776,6 @@ if (fg4n != 0) {
     }
 }
 
-//test
-const test2=[];
-for (let i = 0; i < f[2].length; i++) {
-
-    const fingers = f[2][i][1];
-
-    for (let j = 1; j < fingers.length; j++) {
-
-        if (fingers[j] === fingers[j - 1]) {
-            test2.push([i,j,fingers]);
-        }
-    }
-}
-console.log("f2=",f[2]);
-console.log("test2=",test2);
-//test
-
 console.log("fp=",fp,"f0=",f0,"f1=",f1,"f100=",f100,"f101=",f101,"f111=",f111);
 
 szx=1100;
@@ -14877,7 +14860,7 @@ for (p=0;p<f101.length;p++){
 	}
 	for(i=0;i<fp.length;i++){
 		ctx.fillText(fp[i][4],180+50*i,Number(szy)+30);
-		let [midi, start, stop, channel, n_id]=fp[i];
+		let [midi, start, stop, n_id, channel]=fp[i];
 		gt=stop-start;
 			if(start>=pauseTick && stop<pauseTick+ticksPerQuarterNote*beatsPerMeasure){
 				ctx.fillStyle=col[midi%12];
