@@ -14136,13 +14136,14 @@ function extendFingering(currentF, f1, f1x1, rst7) {
 
     for (let p = 0; p < currentF.length; p++) {
 
-        const [notes, fingers, cps, times] = currentF[p];
+        const [notes, fingers, cps, tickStart, tickStop] = currentF[p];
 
         const nf0 = notes[0];
         const nt0 = notes[1];
 
         const ft0 = fingers[fingers.length - 1];
-        const tt0 = times[0];
+        const tt0 = tickStart[0];
+        const tf0 = tickStop[0];
 
         //========================================
         // Short rest
@@ -14168,7 +14169,8 @@ function extendFingering(currentF, f1, f1x1, rst7) {
                     [nf0, nt1],
                     [...fingers, ft1],
                     [...cps, ct1],
-                    [...times, tt1]
+                    [...tickStart, tt1],
+                    [...tickStop, tf1]
                 ]);
             }
         }
@@ -14284,13 +14286,13 @@ f0 = [];
 let cp0 = 0;
 let cp1 = 0;
 
-for (let p = 1; p < fp.length; p++) {
+for (let p = 0; p < fp.length-1; p++) {
 
     const fp0 = fp[p];
-    const fp1 = fp[p - 1];
+    const fp1 = fp[p + 1];
 
     // 前後の音符が連続していること
-    if (fp1[3] !== fp0[3] - 1) {
+    if (fp0[3] !== fp1[3] - 1) {
         continue;
     }
 
@@ -14314,11 +14316,11 @@ for (let p = 1; p < fp.length; p++) {
             }
 
             // 黒鍵ルール
-            if (!isValidBlackKeyFinger(fp1[0], q)) {
+            if (!isValidBlackKeyFinger(fp0[0], q)) {
                 continue;
             }
 
-            if (!isValidBlackKeyFinger(fp0[0], r)) {
+            if (!isValidBlackKeyFinger(fp1[0], r)) {
                 continue;
             }
 
@@ -14337,7 +14339,7 @@ for (let p = 1; p < fp.length; p++) {
 
             if (
                 fg2n === 1 &&
-                fp0[1] - fp1[2] < rst7
+                fp1[1] - fp0[2] < rst7
             ) {
 
                 let pitchDiff;
@@ -14345,14 +14347,14 @@ for (let p = 1; p < fp.length; p++) {
                 if (fg1n === 0) {
 
                     pitchDiff =
-                        Number(fp0[0]) -
-                        Number(fp1[0]);
+                        Number(fp1[0]) -
+                        Number(fp0[0]);
 
                 } else {
 
                     pitchDiff =
-                        Number(fp1[0]) -
-                        Number(fp0[0]);
+                        Number(fp0[0]) -
+                        Number(fp1[0]);
                 }
 
                 if (
@@ -14362,31 +14364,32 @@ for (let p = 1; p < fp.length; p++) {
 
                     if (fg1n === 0) {
 
-                        cp1 =
-                            Number(fp1[0]) -
-                            fingerBase[q - 1][1];
-
                         cp0 =
                             Number(fp0[0]) -
+                            fingerBase[q - 1][1];
+
+                        cp1 =
+                            Number(fp1[0]) -
                             fingerBase[r - 1][1];
 
                     } else {
 
-                        cp1 =
-                            Number(fp1[0]) +
-                            fingerBase[q - 1][1];
-
                         cp0 =
                             Number(fp0[0]) +
+                            fingerBase[q - 1][1];
+
+                        cp1 =
+                            Number(fp1[0]) +
                             fingerBase[r - 1][1];
                     }
 
                     localCandidates.push([
-                        [fp1[3], fp0[3]],
+                        [fp0[3], fp1[3]],
                         [q, r],
-                        [cp1, cp0],
-                        [fp1[0], fp0[0]],
-                        [fp1[1], fp0[2]]
+                        [cp0, cp1],
+                        [fp0[0], fp1[0]],
+                        [fp0[1], fp1[1]],
+                        [fp0[2], fp1[2]]
                     ]);
                 }
 
@@ -14396,36 +14399,37 @@ for (let p = 1; p < fp.length; p++) {
 
             } else if (
                 fg2n === 0 ||
-                fp0[1] - fp1[2] >= rst7
+                fp1[1] - fp0[2] >= rst7
             ) {
 
                 if (fg1n === 0) {
 
-                    cp1 =
-                        Number(fp1[0]) -
-                        fingerBase[q - 1][1];
-
                     cp0 =
                         Number(fp0[0]) -
+                        fingerBase[q - 1][1];
+
+                    cp1 =
+                        Number(fp1[0]) -
                         fingerBase[r - 1][1];
 
                 } else {
 
-                    cp1 =
-                        Number(fp1[0]) +
-                        fingerBase[q - 1][1];
-
                     cp0 =
                         Number(fp0[0]) +
+                        fingerBase[q - 1][1];
+
+                    cp1 =
+                        Number(fp1[0]) +
                         fingerBase[r - 1][1];
                 }
 
                 localCandidates.push([
-                    [fp1[3], fp0[3]],
+                    [fp0[3], fp1[3]],
                     [q, r],
-                    [cp1, cp0],
-                    [fp1[0], fp0[0]],
-                    [fp1[1], fp0[2]]
+                    [cp0, cp1],
+                    [fp0[0], fp1[0]],
+                    [fp0[1], fp1[1]],
+                    [fp0[2], fp1[2]]
                 ]);
             }
         }
@@ -14463,7 +14467,7 @@ for (let p = 1; p < fp.length; p++) {
 
                 if (
                     fg2n === 1 &&
-                    fp0[1] - fp1[2] < rst7
+                    fp1[1] - fp0[2] < rst7
                 ) {
 
                     let pitchDiff;
@@ -14471,14 +14475,14 @@ for (let p = 1; p < fp.length; p++) {
                     if (fg1n === 0) {
 
                         pitchDiff =
-                            Number(fp0[0]) -
-                            Number(fp1[0]);
+                            Number(fp1[0]) -
+                            Number(fp0[0]);
 
                     } else {
 
                         pitchDiff =
-                            Number(fp1[0]) -
-                            Number(fp0[0]);
+                            Number(fp0[0]) -
+                            Number(fp1[0]);
                     }
 
                     if (
@@ -14488,31 +14492,32 @@ for (let p = 1; p < fp.length; p++) {
 
                         if (fg1n === 0) {
 
-                            cp1 =
-                                Number(fp1[0]) -
-                                fingerBase[q - 1][1];
-
                             cp0 =
                                 Number(fp0[0]) -
+                                fingerBase[q - 1][1];
+
+                            cp1 =
+                                Number(fp1[0]) -
                                 fingerBase[r - 1][1];
 
                         } else {
 
-                            cp1 =
-                                Number(fp1[0]) +
-                                fingerBase[q - 1][1];
-
                             cp0 =
                                 Number(fp0[0]) +
+                                fingerBase[q - 1][1];
+
+                            cp1 =
+                                Number(fp1[0]) +
                                 fingerBase[r - 1][1];
                         }
 
                         localCandidates.push([
-                            [fp1[3], fp0[3]],
+                            [fp0[3], fp1[3]],
                             [q, r],
-                            [cp1, cp0],
-                            [fp1[0], fp0[0]],
-                            [fp1[1], fp0[2]]
+                            [cp0, cp1],
+                            [fp0[0], fp1[0]],
+                            [fp0[1], fp1[1]],
+                            [fp0[2], fp1[2]]
                         ]);
                     }
 
@@ -14522,37 +14527,38 @@ for (let p = 1; p < fp.length; p++) {
 
                 } else if (
                     fg2n === 0 ||
-                    fp0[1] - fp1[2] >= rst7
+                    fp1[1] - fp0[2] >= rst7
 
                 ) {
 
                     if (fg1n === 0) {
 
-                        cp1 =
-                            Number(fp1[0]) -
-                            fingerBase[q - 1][1];
-
                         cp0 =
                             Number(fp0[0]) -
+                            fingerBase[q - 1][1];
+
+                        cp1 =
+                            Number(fp1[0]) -
                             fingerBase[r - 1][1];
 
                     } else {
 
-                        cp1 =
-                            Number(fp1[0]) +
-                            fingerBase[q - 1][1];
-
                         cp0 =
                             Number(fp0[0]) +
+                            fingerBase[q - 1][1];
+
+                        cp1 =
+                            Number(fp1[0]) +
                             fingerBase[r - 1][1];
                     }
 
                     localCandidates.push([
-                        [fp1[3], fp0[3]],
+                        [fp0[3], fp1[3]],
                         [q, r],
-                        [cp1, cp0],
-                        [fp1[0], fp0[0]],
-                        [fp1[2], fp0[1]]
+                        [cp0, cp1],
+                        [fp0[0], fp1[0]],
+                        [fp0[1], fp1[1]],
+                        [fp0[2], fp1[2]]
                     ]);
                 }
             }
@@ -14576,13 +14582,15 @@ if (f0.length > 0 && fp.length > 1) {
              [ff0, ft0],
              [cf0, ct0],
              [midif0, midit0],
-             [tf0, tt0]] = f0[p];
+             [tt0, tt1],
+             [tf0, tf1]] = f0[p];
 
         f1.push([
             [nf0, nt0],
             [ff0, ft0],
             [cf0, ct0],
-            [tf0, tt0]
+            [tt0, tt1],
+            [tf0, tf1]
         ]);
     }
 }
@@ -14593,7 +14601,8 @@ for (p=0;p<f1.length;p++){
 	f1x0.push([[f1[p][0][0], f1[p][0][1]], 
 			   ["0", f1[p][1][1]], 
 			   ["0", f1[p][2][1]],
-			   [f1[p][3][0], f1[p][3][1]]]);
+			   [f1[p][3][0], f1[p][3][1]],
+			   [f1[p][4][0], f1[p][4][1]]]);
 }
 
 let f1x1 = [
