@@ -752,10 +752,6 @@ Upper Limit: Largest allowable distance between the two fingers.
 <select name="fg4">
 	<option value="0"> Connect No Notes</option>
 	<option value="1" selected="selected"> Connect 1 Note</option>
-	<option value="2"> Connect 2 Notes</option>
-	<option value="3"> Connect 3 Notes</option>
-	<option value="4"> Connect 4 Notes</option>
-	<option value="5"> Connect 5 Notes</option>
 	</select>
 <br><br>
 
@@ -14621,38 +14617,9 @@ for (let i = 2; i < fp.length; i++) {
 f100 = f[fp.length - 1];
 
 let rfg41n = fg41n;
-let rfg42n = fg42n;
-let rfg43n = fg43n;
-let rfg44n = fg44n;
-let rfg45n = fg45n;
 
-if (fg4n === 0 && f111.length > 0) {
-
-    rfg41n = Number(f111[0][1]);
-
-    if (f111.length >= 2) {
-        rfg42n = Number(f111[1][1]);
-    } else {
-        rfg42n = 0;
-    }
-
-    if (f111.length >= 3) {
-        rfg43n = Number(f111[2][1]);
-    } else {
-        rfg43n = 0;
-    }
-
-    if (f111.length >= 4) {
-        rfg44n = Number(f111[3][1]);
-    } else {
-        rfg44n = 0;
-    }
-
-    if (f111.length >= 5) {
-        rfg45n = Number(f111[4][1]);
-    } else {
-        rfg45n = 0;
-    }
+if (fg4n === 1 && f111.length > 0) {
+        rfg41n = Number(f111[0][1]);
 }
 
 f101 = [];
@@ -14669,69 +14636,9 @@ for (p = 0; p < f100.length; p++) {
         mstd(p);
 
     } else if (
-        rfg41n === 0 &&
-        rfg42n === 0 &&
-        rfg43n === 0 &&
-        rfg44n === 0 &&
-        rfg45n === 0 
+        rfg41n === 0
     ) {
 
-        mstd(p);
-
-    }else if (
-        rfg41n !== 0 &&
-        rfg42n === 0 &&
-        rfg43n === 0 &&
-        rfg44n === 0 &&
-        rfg45n === 0 &&
-        f100[p][1][0] === rfg41n
-    ) {
-        mstd(p);
-    }else if (
-        rfg41n !== 0 &&
-        rfg42n !== 0 &&
-        rfg43n === 0 &&
-        rfg44n === 0 &&
-        rfg45n === 0 &&
-        f100[p][1][0] === rfg41n &&
-        f100[p][2][0] === rfg42n
-    ) {
-        mstd(p);
-    }else if (
-        rfg41n !== 0 &&
-        rfg42n !== 0 &&
-        rfg43n !== 0 &&
-        rfg44n === 0 &&
-        rfg45n === 0 &&
-        f100[p][1][0] === rfg41n &&
-        f100[p][2][0] === rfg42n &&
-        f100[p][3][0] === rfg43n
-    ) {
-        mstd(p);
-    }else if (
-        rfg41n !== 0 &&
-        rfg42n !== 0 &&
-        rfg43n !== 0 &&
-        rfg44n !== 0 &&
-        rfg45n === 0 &&
-        f100[p][1][0] === rfg41n &&
-        f100[p][2][0] === rfg42n &&
-        f100[p][3][0] === rfg43n &&
-        f100[p][4][0] === rfg44n
-    ) {
-        mstd(p);
-    }else if (
-        rfg41n !== 0 &&
-        rfg42n !== 0 &&
-        rfg43n !== 0 &&
-        rfg44n !== 0 &&
-        rfg45n !== 0 &&
-        f100[p][1][0] === rfg41n &&
-        f100[p][2][0] === rfg42n &&
-        f100[p][3][0] === rfg43n &&
-        f100[p][4][0] === rfg44n &&
-        f100[p][5][0] === rfg45n
-    ) {
         mstd(p);
     }
 }
