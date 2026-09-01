@@ -15002,6 +15002,11 @@ if (pauseTick === 0) {
 }
 
 for (let s=0; s<notes.length; s++){
+	for (t=0;t<notes.length;t++){
+		if (notes[t].n_id==n_idf){
+			pauseTick=notes.start;
+		}
+	}
 	finger1(n_idf);
 	await new Promise(r => timer=setTimeout(r,1));
 	n_idf+=1;
@@ -15095,7 +15100,14 @@ console.log(
     "notes.length =", notes.length
 );
 
-finger1(n_idf);
+for (let s=0; s<notes.length; s++){
+	for (t=0;t<notes.length;t++){
+		if (notes[t].n_id==n_idf){
+			pauseTick=notes.start;
+		}
+	}
+	finger1(n_idf);
+}
 
 };
 
