@@ -14602,16 +14602,16 @@ let f = [];
 f[0] = f0;
 f[1] = f1;
 
-for (let n = 2; n < fp.length; n++) {
+for (let i = 2; i < fp.length; i++) {
 
-    f[n] = [];
+    f[i] = [];
 
     if (
-        fp.length > n &&
-        f[n - 1].length > 0
+        fp.length > i &&
+        f[i - 1].length > 0
     ) {
-        f[n] = extendFingering(
-            f[n - 1],
+        f[i] = extendFingering(
+            f[i - 1],
             f1,
             f1x1
         );
