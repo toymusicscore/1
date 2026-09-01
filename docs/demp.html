@@ -14693,6 +14693,22 @@ if (
 }
 
 console.log("fp=",fp,"f0=",f0,"f1=",f1,"f9=",f[9],"f100=",f100,"f101=",f101,"f111=",f111);
+for (let i = 2; i < fp.length; i++) {
+    f[i] = [];
+
+    if (
+        fp.length > i &&
+        f[i - 1].length > 0
+    ) {
+        f[i] = extendFingering(
+            f[i - 1],
+            f1,
+            f1x1
+        );
+    }
+
+    console.log("f[" + i + "] =", f[i].length);
+}
 
 szx=1100;
 szy=350;
