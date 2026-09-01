@@ -14160,7 +14160,7 @@ function extendFingering(currentF, f1, f1x1) {
             ) {
 
                 nextF.push([
-                    [nf0, nt1],
+                    [...notes, nt1],
                     [...fingers, ft1],
                     [...cps, ct1],
                     [...flg, flg1]
@@ -14188,7 +14188,7 @@ function extendFingering(currentF, f1, f1x1) {
             ) {
 
                 nextF.push([
-                    [nf0, nt1x],
+                    [...notes, nt1x],
                     [...fingers, ft1x],
                     [...cps, ct1x],
                     [...flg, flg1x]
@@ -14649,9 +14649,9 @@ for (p = 0; p < f100.length; p++) {
         // 前回の最良の運指の第2音と今回の第1音が一致する
         // 制約条件に合致する運指のみ評価値計算
         fg4n === 1 &&
-        f103 > 0 &&
+        f103.length > 0 &&
         f100[p][1].length > 1 &&
-        f100[p][1][0] === f103
+        f100[p][1][0] === f103[1]
     ) {
         mstd(p);
     }
@@ -14669,14 +14669,14 @@ if (f101.length > 0) {
     ]);
 }
 
-f103 = 0;
+f103 = [];
 
 if (
     fg4n === 1 &&
     f101.length > 0 &&
     f101[0][1].length > 1
 ) {
-    f103 = f101[0][1][1];
+    f103 = [f101[0][0][1],f101[0][1][1],f101[0][2][1]];
 }
 
 console.log("fp=",fp,"f0=",f0,"f1=",f1,"f100=",f100,"f101=",f101,"f111=",f111);
