@@ -15007,9 +15007,12 @@ for (let s=0; s<notes.length; s++){
 	n_idf+=1;
 }
 
-time1=Date.now();
-timed=(time1-time0)/60000;
+let time1=Date.now();
+let timed=(time1-time0)/60000;
 f110.push([['\r\n','','','',timed]]);
+
+let file1name =
+    val("song1");
 
 downloadFile(file1name+'_Ch'+(Number(x_ch3)+1)+'H'+fg1v+'L'+fg2v+'X'+fg3v+'C'+fg4v+'N'+fg5v+'n'+fg6v+'r'+fg7v+'R'+fg8v+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f110));
 
