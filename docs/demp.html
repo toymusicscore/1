@@ -752,6 +752,10 @@ Upper Limit: Largest allowable distance between the two fingers.
 <select name="fg4">
 	<option value="0"> Connect No Notes</option>
 	<option value="1" selected="selected"> Connect 1 Note</option>
+	<option value="2"> Connect 2 Notes</option>
+	<option value="3"> Connect 3 Notes</option>
+	<option value="4"> Connect 4 Notes</option>
+	<option value="5"> Connect 5 Notes</option>
 	</select>
 <br><br>
 
@@ -759,10 +763,6 @@ Upper Limit: Largest allowable distance between the two fingers.
 <select name="fg41">
 	<option value="0" selected="selected"> No Limit for 1st Note </option>
 	<option value="1"> Limit 1 for 1st Note </option>
-	<option value="2"> Limit 2 for 1st Note </option>
-	<option value="3"> Limit 3 for 1st Note </option>
-	<option value="4"> Limit 4 for 1st Note </option>
-	<option value="5"> Limit 5 for 1st Note </option>
 	</select>
 <br>
 
@@ -14616,12 +14616,6 @@ for (let i = 2; i < fp.length; i++) {
 
 f100 = f[fp.length - 1];
 
-let rfg41n = fg41n;
-
-if (fg4n === 1 && f111.length > 0) {
-        rfg41n = Number(f111[0][1]);
-}
-
 f101 = [];
 
 const firstNoteUnrestricted =
@@ -14629,16 +14623,29 @@ const firstNoteUnrestricted =
 
 for (p = 0; p < f100.length; p++) {
 
-    if (firstNoteUnrestricted) {
+    if (fp.length > 0 &&
+        fp[0][5] === 1
+    ) {
 
         // 最初の音の前に16分休符以上がある場合、
-        // fg41 のrestrictionを解除
+        // fg41 のrestrictionを解除して標準偏差計算
         mstd(p);
 
     } else if (
-        rfg41n === 0
+        //接続音数が0の場合、
+        // fg41 のrestrictionを解除して標準偏差計算
+        fg4n === 0
     ) {
-
+        mstd(p);
+    } else if (
+        //接続音数が1の場合、
+        //前回の最良の運指の第２音と今回の第１音が一致するという
+        //制約条件に合致する運指のみ標準偏差計算
+        fg4n === 1 &&
+        f111.length > 0 &&
+        f100.length > 0 &&
+        f111[1] === f100[p][1][0]
+    ) {
         mstd(p);
     }
 }
@@ -14652,28 +14659,11 @@ if (f101.length === 0) {
 
 f111=[];
 
-if (fg4n != 0) {
-
-    if (fg4n < fp.length) {
-
-        for (let i=1; i<=fg4n; i++) {
-            f111.push([
-                fp[i][3],
-                f101[0][1][i],
-                f101[0][2][i]
-            ]);
-        }
-
-    } else {
-
-        for (let i=1; i<fp.length; i++) {
-            f111.push([
-                fp[i][3],
-                f101[0][1][i],
-                f101[0][2][i]
-            ]);
-        }
-    }
+if (fg4n === 1) {
+    f111=[
+        fp[i][3],
+        f101[0][1][i]
+    ];
 }
 
 console.log("fp=",fp,"f0=",f0,"f1=",f1,"f100=",f100,"f101=",f101,"f111=",f111);
