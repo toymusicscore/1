@@ -14271,13 +14271,6 @@ for (let i = 0; i < s0.length; i++) {
             restBefore ? 1 : 0
         ]);
     }
-
-    if (s0[i].n_id == n_idf) {
-        fc.push([
-            s0[i].midi,
-            s0[i].n_id
-        ]);
-    }
 }
 
 f0 = [];
@@ -14747,7 +14740,7 @@ if (f101.length === 0) {
 } else {
     f101.sort(function(a,b){return a[3] - b[3];});
 
-    f110.push(['\r\n' + fc[0][1], f101[0][1][0], f101[0][2][0]]);
+    f110.push(['\r\n' + n_idf, f101[0][1][0], f101[0][2][0]]);
 }
 
 f111=[];
@@ -14870,7 +14863,7 @@ for (let p=0;p<f101.length;p++){
 				ctx.fillStyle=col3[channel];
 				ctx.fill();
 				ctx.beginPath();
-				ctx.arc((f101[0][2][n_id-fc[0][1]]-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw/4,0,2*Math.PI,false);
+				ctx.arc((f101[0][2][n_id-n_idf]-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw/4,0,2*Math.PI,false);
 				ctx.fillStyle="red";
 				ctx.fill();
 				ctx.fillStyle="black";
