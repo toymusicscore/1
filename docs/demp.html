@@ -14618,9 +14618,6 @@ f100 = f[fp.length - 1];
 
 f101 = [];
 
-const firstNoteUnrestricted =
-    fp.length > 0 && fp[0][5] === 1;
-
 for (p = 0; p < f100.length; p++) {
 
     if (fp.length > 0 &&
@@ -14628,19 +14625,19 @@ for (p = 0; p < f100.length; p++) {
     ) {
 
         // 最初の音の前に16分休符以上がある場合、
-        // fg41 のrestrictionを解除して標準偏差計算
+        // fg41 のrestrictionを解除して評価値計算
         mstd(p);
 
     } else if (
         //接続音数が0の場合、
-        // fg41 のrestrictionを解除して標準偏差計算
+        // fg41 のrestrictionを解除して評価値計算
         fg4n === 0
     ) {
         mstd(p);
     } else if (
         //接続音数が1の場合、
         //前回の最良の運指の第２音と今回の第１音が一致するという
-        //制約条件に合致する運指のみ標準偏差計算
+        //制約条件に合致する運指のみ評価値計算
         fg4n === 1 &&
         f111.length > 0 &&
         f100.length > 0 &&
