@@ -15094,12 +15094,6 @@ if (pauseTick === 0) {
     }
 }
 
-console.log(
-    "pauseTick =", pauseTick,
-    "n_idf =", n_idf,
-    "notes.length =", notes.length
-);
-
 for (let s=0; s<notes.length; s++){
 	for (let t=0;t<notes.length;t++){
 		if (notes[t].n_id==n_idf){
@@ -15107,6 +15101,8 @@ for (let s=0; s<notes.length; s++){
 		}
 	}
 	finger1(n_idf);
+	await new Promise(r => timer=setTimeout(r,1));
+	n_idf+=1;
 }
 
 };
