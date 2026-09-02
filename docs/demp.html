@@ -14154,7 +14154,23 @@ function extendFingering(currentF, f1, f1x1, i) {
                 flg1 === 0 &&
                 nt0 === nf1 &&
                 ft0 === ff1 &&
-                ft0 !== ft1
+                ft0 !== ft1 &&
+                q === 0 &&
+                fg4n === 1 &&
+                f103.length > 0 &&
+                f103[1] === ff1
+            ) {
+                nextF.push([
+                    [...notes, nt1],
+                    [...fingers, ft1],
+                    [...cps, ct1],
+                    [...flg, flg1]
+                ]);
+            }else if (
+                flg1 === 0 &&
+                nt0 === nf1 &&
+                ft0 === ff1 &&
+                ft0 !== ft1 
             ) {
                 nextF.push([
                     [...notes, nt1],
@@ -14556,13 +14572,6 @@ f1 = [];
 
 if (f0.length > 0 && fp.length > 1) {
     for (let i = 0;i < f0.length; i++) {
-        if (
-            fg4n === 1 
-            && f103.length > 0
-            && f0[4][0] === 0 
-//          && f103[1] === f0[i][1][0]
-) {
-console.log("f103[1]=",f103[1],"f0[i][1][0]=",f0[i][1][0])
             let [[nf0, nt0],
                 [ff0, ft0],
                 [cf0, ct0],
@@ -14575,21 +14584,6 @@ console.log("f103[1]=",f103[1],"f0[i][1][0]=",f0[i][1][0])
                 [cf0, ct0],
                 [flg0, flg1]
             ]);
-        }else {
-
-            let [[nf0, nt0],
-                [ff0, ft0],
-                [cf0, ct0],
-                [midif0, midit0],
-                [flg0, flg1]] = f0[i];
-
-            f1.push([
-                [nf0, nt0],
-                [ff0, ft0],
-                [cf0, ct0],
-                [flg0, flg1]
-            ]);
-        }
     }
 }
 
