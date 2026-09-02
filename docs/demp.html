@@ -14200,6 +14200,23 @@ function extendFingering(currentF, f1, f1x1, i) {
                 [flg1x]
             ] = f1x1[r];
 
+
+            if (isNewEvalStart) {
+
+                if (
+                    flg1x === 1 &&
+                    nt0 === nf1x &&
+                    ft0 !== ft1x &&
+                    f103[1] === ff1 //前回の評価値計算区間の最良の運指の第２音と今回の評価値計算区間の第１音の運指が一致する条件を満たす
+                ) {
+                    nextF.push([
+                        [nf1, nt1x],
+                        [ff1, ft1x],
+                        [cf1, ct1x],
+                        [flg0, flg1x]
+                    ]);
+                }
+            }
             if (
                 flg1x === 1 &&
                 nt0 === nf1x &&
