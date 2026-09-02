@@ -14952,16 +14952,16 @@ const showFingeringAssistant = async () => {
     let fg7n = workingFinger.evaluationRangeRest.fg7n;
     let fg8n = workingFinger.fingerReachRest.fg8n;
 
-    let notes;
+    let score;
 
 
     if (fg1n == 0) {
 
-        notes = scoreRight;
+        score = scoreRight;
 
     } else if (fg1n == 1) {
     
-        notes = scoreLeft;
+        score = scoreLeft;
 
     }
 
@@ -14969,26 +14969,26 @@ let n_idf;
 
 if (pauseTick === 0) {
 
-    if (notes.length > 0) {
-        n_idf = notes[0].n_id;
+    if (score.length > 0) {
+        n_idf = score[0].n_id;
     }
 
 } else {
 
-    for (let p = 0; p < notes.length; p++) {
+    for (let p = 0; p < score.length; p++) {
 
-        if (pauseTick === notes[p].start) {
+        if (pauseTick === score[p].start) {
 
-            n_idf = notes[p].n_id;
+            n_idf = score[p].n_id;
             break;
 
         } else if (
-            notes[p + 1] &&
-            pauseTick > notes[p].start &&
-            pauseTick < notes[p + 1].start
+            score[p + 1] &&
+            pauseTick > score[p].start &&
+            pauseTick < score[p + 1].start
         ) {
 
-            n_idf = notes[p].n_id;
+            n_idf = score[p].n_id;
             break;
         }
     }
