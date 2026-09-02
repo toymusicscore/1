@@ -14137,11 +14137,6 @@ function extendFingering(currentF, f1, f1x1, i) {
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
 
-        const isNewEvalStart =
-            p === 0 && //今回の評価値計算区間の最初の処理
-            fg4n === 1 && //前回の評価値計算区間の最良の運指の第２音と今回の評価値計算区間の第１音の運指が一致する条件が設定されている
-            f103.length > 0 ; //前回の評価値計算区間の最良の運指の第２音が保存されている＝楽曲の最初の部分ではない
-
         //========================================
         // Short rest
         //========================================
@@ -14155,24 +14150,7 @@ function extendFingering(currentF, f1, f1x1, i) {
                 [flg0, flg1]
             ] = f1[q];
 
-            if (isNewEvalStart) {
-
-                if (
-                    flg1 === 0 &&
-                    nt0 === nf1 &&
-                    ft0 === ff1 &&
-                    ft0 !== ft1 &&
-                    f103[1] === ff1 //前回の評価値計算区間の最良の運指の第２音と今回の評価値計算区間の第１音の運指が一致する条件を満たす
-                ) {
-                    nextF.push([
-                        [nf1, nt1],
-                        [ff1, ft1],
-                        [cf1, ct1],
-                        [flg0, flg1]
-                    ]);
-                }
-
-            } else if (
+            if (
                 flg1 === 0 &&
                 nt0 === nf1 &&
                 ft0 === ff1 &&
@@ -14198,24 +14176,8 @@ function extendFingering(currentF, f1, f1x1, i) {
                 [cf1x, ct1x],
                 [flg1x]
             ] = f1x1[r];
-
-            if (isNewEvalStart) {
-
-                if (
-                    flg1x === 1 &&
-                    nt0 === nf1x &&
-                    ft0 !== ft1x &&
-                    f103[1] === ff1x
-                ) {
-                    nextF.push([
-                        [nf1x, nt1x],
-                        [ff1x, ft1x],
-                        [cf1x, ct1x],
-                        [flg0, flg1x]
-                    ]);
-                }
-
-            } else if (
+ 
+            if (
                 flg1x === 1 &&
                 nt0 === nf1x &&
                 ft0 !== ft1x
