@@ -14137,6 +14137,12 @@ function extendFingering(currentF, f1, f1x1, i) {
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
 
+        const isNewEvalStart =
+            p === 0 &&
+            fg4n === 1 &&
+            f103.length > 0 &&
+            !isSongStart;
+
         //========================================
         // Short rest
         //========================================
@@ -14150,27 +14156,28 @@ function extendFingering(currentF, f1, f1x1, i) {
                 [flg0, flg1]
             ] = f1[q];
 
-            if (
+            if (isNewEvalStart) {
+
+                if (
+                    flg1 === 0 &&
+                    nt0 === nf1 &&
+                    ft0 === ff1 &&
+                    ft0 !== ft1 &&
+                    f103[1] === ff1
+                ) {
+                    nextF.push([
+                        [nf1, nt1],
+                        [ff1, ft1],
+                        [cf1, ct1],
+                        [flg0, flg1]
+                    ]);
+                }
+
+            } else if (
                 flg1 === 0 &&
                 nt0 === nf1 &&
                 ft0 === ff1 &&
-                ft0 !== ft1 &&
-                p === 0 &&
-                fg4n === 1 &&
-                f103.length > 0 &&
-                f103[1] === ff1
-            ) {
-                nextF.push([
-                    [nf1, nt1],
-                    [ff1, ft1],
-                    [cf1, ct1],
-                    [flg0, flg1]
-                ]);
-            }else if (
-                flg1 === 0 &&
-                nt0 === nf1 &&
-                ft0 === ff1 &&
-                ft0 !== ft1 
+                ft0 !== ft1
             ) {
                 nextF.push([
                     [...notes, nt1],
