@@ -14890,57 +14890,26 @@ f110.push([['NoteID','Fingering','CenterPoint','Difference','Minutes']]);
     let fg7n = workingFinger.evaluationRangeRest.fg7n;
     let fg8n = workingFinger.fingerReachRest.fg8n;
 
-    let notes;
+    let score;
 
 
     if (fg1n == 0) {
 
-        notes = scoreRight;
+        score = scoreRight;
 
     } else if (fg1n == 1) {
     
-        notes = scoreLeft;
+        score = scoreLeft;
 
     }
 
 let n_idf;
 
-if (pauseTick === 0) {
-
-    if (notes.length > 0) {
-        n_idf = notes[0].n_id;
-    }
-
-} else {
-
-    for (let p = 0; p < notes.length; p++) {
-
-        if (pauseTick === notes[p].start) {
-
-            n_idf = notes[p].n_id;
-            break;
-
-        } else if (
-            notes[p + 1] &&
-            pauseTick > notes[p].start &&
-            pauseTick < notes[p + 1].start
-        ) {
-
-            n_idf = notes[p].n_id;
-            break;
-        }
-    }
-}
-
-for (let s=0; s<notes.length; s++){
-	for (let t=0;t<notes.length;t++){
-		if (notes[t].n_id==n_idf){
-			pauseTick=notes[t].start;
-		}
-	}
+for (let i=0; i<score.length; i++){
+    n_idf = score[i].n_id;
+    pauseTick = score[i].start;
 	finger1(n_idf);
 	await new Promise(r => timer=setTimeout(r,1));
-	n_idf+=1;
 }
 
 let time1=Date.now();
