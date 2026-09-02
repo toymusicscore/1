@@ -14138,9 +14138,9 @@ function extendFingering(currentF, f1, f1x1, i) {
         const ft0 = fingers[fingers.length - 1];
 
         const isNewEvalStart =
-            p === 0 &&
-            fg4n === 1 &&
-            f103.length > 0 ;
+            p === 0 && //評価値計算区間の最初の処理
+            fg4n === 1 && //前回の評価値計算区間の最良の運指の第２音と今回の評価値計算区間の第１音の運指が一致する条件設定
+            f103.length > 0 ; //前回の評価値計算区間の最良の運指の第２音が保存されている
 
         //========================================
         // Short rest
@@ -14162,7 +14162,7 @@ function extendFingering(currentF, f1, f1x1, i) {
                     nt0 === nf1 &&
                     ft0 === ff1 &&
                     ft0 !== ft1 &&
-                    f103[1] === ff1
+                    f103[1] === ff1 //前回の評価値計算区間の最良の運指の第２音と今回の評価値計算区間の第１音の運指が一致する条件を満たす
                 ) {
                     nextF.push([
                         [nf1, nt1],
