@@ -14126,7 +14126,7 @@ function isValidBlackKeyFinger(midi, finger) {
     );
 }
 
-function extendFingering(currentF, f1, f1x1) {
+function extendFingering(currentF, f1, f1x1, i) {
 
     const nextF = [];
 
@@ -14158,15 +14158,17 @@ function extendFingering(currentF, f1, f1x1) {
                 ft0 === ff1 &&
                 ft0 !== ft1
             ) {
-console.log(
-    "ADD short:",
-    "nt0=", nt0,
-    "ft0=", ft0,
-    "nf1=", nf1,
-    "nt1=", nt1,
-    "ff1=", ff1,
-    "ft1=", ft1
-);
+if (i === 5) {
+    console.log(
+        "SHORT:",
+        "nt0=", nt0,
+        "ft0=", ft0,
+        "nf1=", nf1,
+        "nt1=", nt1,
+        "ff1=", ff1,
+        "ft1=", ft1
+    );
+}
                 nextF.push([
                     [...notes, nt1],
                     [...fingers, ft1],
@@ -14194,15 +14196,17 @@ console.log(
                 nt0 === nf1x &&
                 ft0 !== ft1x
             ) {
-console.log(
-    "ADD long:",
-    "nt0=", nt0,
-    "ft0=", ft0,
-    "nf1x=", nf1x,
-    "nt1x=", nt1x,
-    "ff1x=", ff1x,
-    "ft1x=", ft1x
-);
+if (i === 5) {
+    console.log(
+        "LONG:",
+        "nt0=", nt0,
+        "ft0=", ft0,
+        "nf1x=", nf1x,
+        "nt1x=", nt1x,
+        "ff1x=", ff1x,
+        "ft1x=", ft1x
+    );
+}
                 nextF.push([
                     [...notes, nt1x],
                     [...fingers, ft1x],
@@ -14634,7 +14638,8 @@ if (i === 5) {
         f[i] = extendFingering(
             f[i - 1],
             f1,
-            f1x1
+            f1x1,
+            i
         );
     }
 }
