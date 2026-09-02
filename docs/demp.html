@@ -2759,9 +2759,9 @@ function updateLocalFileOption(files){
 
 async function loadLocalFiles(files){
 
-    console.log("=== loadLocalFiles START ===");
-    console.log("files =", files);
-    console.log("files.length =", files.length);
+//    console.log("=== loadLocalFiles START ===");
+//    console.log("files =", files);
+//    console.log("files.length =", files.length);
 
     const midi = files.find(
         file =>
@@ -2875,8 +2875,8 @@ async function fetchData(){
             f.name.endsWith(".tsv")
         );
 
-        console.log("MIDI =", midiFile?.name);
-        console.log("TSV  =", tsvFile?.name);
+//        console.log("MIDI =", midiFile?.name);
+//        console.log("TSV  =", tsvFile?.name);
 
         const data1 = midiFile
             ? await midiFile.arrayBuffer()
@@ -3268,17 +3268,17 @@ function setTsv(data2){
 
     tsv.raw = data2;
 
-	console.log("=== TSV DEBUG START ===");
-	console.log(data2);
-	console.log("length:", data2?.length);
+//	console.log("=== TSV DEBUG START ===");
+//	console.log(data2);
+//	console.log("length:", data2?.length);
 
 	const lines = data2?.split("\n") || [];
 
-	console.log("lines:", lines.length);
-	console.log("first line:", lines[0]);
-	console.log("first cols:", lines[0]?.split("\t"));
+//	console.log("lines:", lines.length);
+//	console.log("first line:", lines[0]);
+//	console.log("first cols:", lines[0]?.split("\t"));
 
-	console.log("=== TSV DEBUG END ===");
+//	console.log("=== TSV DEBUG END ===");
 
 //    const lines = data2.split('\n');
 
