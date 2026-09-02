@@ -14132,10 +14132,9 @@ function extendFingering(currentF, f1, f1x1, i) {
 
     for (let p = 0; p < currentF.length; p++) {
 
-        const [notes, fingers, cps, flg] = currentF[p];
+        const nf0 = notes[notes.length - 2];
 
-        const nf0 = notes[0];
-        const nt0 = notes[1];
+        const nt0 = notes[notes.length - 1];
 
         const ft0 = fingers[fingers.length - 1];
 
