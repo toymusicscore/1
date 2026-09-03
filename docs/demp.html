@@ -14233,18 +14233,18 @@ if (fg1n===0){
 
 for (let i = 0; i < s0.length; i++) {
 
-    let restBefore = false;
+    let restBefore = 0;
 
     if (i === 0) {
-
-        if (s0[i].start >= rst7) {
-            restBefore = true;
-        }
+            restBefore = 2;
 
     } else {
 
-        if (s0[i].start - s0[i-1].stop >= rst7) {
-            restBefore = true;
+        if (s0[i].start - s0[i-1].stop >= rst8) {
+            restBefore = 2;
+        }
+        else if (s0[i].start - s0[i-1].stop < rst8 && s0[i].start - s0[i-1].stop >= rst7) {
+            restBefore = 1;
         }
     }
 
@@ -14259,7 +14259,7 @@ for (let i = 0; i < s0.length; i++) {
             s0[i].stop,
             s0[i].n_id,
             s0[i].channel,
-            restBefore ? 1 : 0
+            restBefore
         ]);
     }
 }
