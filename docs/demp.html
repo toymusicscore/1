@@ -14585,52 +14585,109 @@ let f1x1 = [
     ).values()
 ];
 
+if (fg4n === 1 && f103.length > 0) {
 
-f2=[];
+    // 前回最良運指との接続を要求
+    if (
+        f103[1] === ff0 &&
+        rt1 === 0 &&
+        nt0 == nf1 &&
+        ft0 == ff1 &&
+        nf0 == fp[0][3] &&
+        ft0 != ft1
+    ) {
+        f2.push([
+            [nf0, nt0, nt1],
+            [ff0, ft0, ft1],
+            [cf0, ct0, ct1],
+            [rf0, rt0, rt1]
+        ]);
+    }
 
-if(f1.length>0 && fp.length>2){
-	for (let p=0;p<f1.length;p++){
-		let [[nf0, nt0], 
-			 [ff0, ft0], 
-			 [cf0, ct0],
-			 [rf0, rt0]]=f1[p];
-		for (let q=0;q<f1.length;q++){
-			let [[nf1, nt1], 
-				 [ff1, ft1], 
-				 [cf1, ct1], 
-				 [rf1, rt1]]=f1[q];
-			if(fg4n ===1 && f103.length >0 && f103[1]===ff0 && rt1===0 && nt0==nf1 && ft0==ff1 && nf0==fp[0][3] && ft0!=ft1){
-				f2.push([[nf0, nt0, nt1], 
-						 [ff0, ft0, ft1], 
-						 [cf0, ct0, ct1], 
-						 [rf0, rt0, rt1]]);
-			}
-            else if(rt1===0 && nt0==nf1 && ft0==ff1 && nf0==fp[0][3] && ft0!=ft1){
-				f2.push([[nf0, nt0, nt1], 
-						 [ff0, ft0, ft1], 
-						 [cf0, ct0, ct1], 
-						 [rf0, rt0, rt1]]);
-			}
-		}
-		for (let r=0;r<f1x1.length;r++){
-			let [[nf1x, nt1x], 
-				 [ff1x, ft1x], 
-				 [cf1x, ct1x], 
-				 [rf1x, rt1x]]=f1x1[r];
-			if(fg4n ===1 && f103.length >0 && f103[1]===ff0 && rt1x === 1 && nt0 == nf1x && nf0==fp[0][3]){
-				f2.push([[nf0, nt0, nt1x], 
-						 [ff0, ft0, ft1x], 
-						 [cf0, ct0, ct1x], 
-						 [rf0, rt0, rt1x]]);
-			}
-            else if(rt1x === 1 && nt0 == nf1x && nf0==fp[0][3]){
-				f2.push([[nf0, nt0, nt1x], 
-						 [ff0, ft0, ft1x], 
-						 [cf0, ct0, ct1x], 
-						 [rf0, rt0, rt1x]]);
-			}
-		}
-	}
+} else {
+
+    // 前回最良運指との接続を要求しない
+    if (
+        rt1 === 0 &&
+        nt0 == nf1 &&
+        ft0 == ff1 &&
+        nf0 == fp[0][3] &&
+        ft0 != ft1
+    ) {
+        f2.push([
+            [nf0, nt0, nt1],
+            [ff0, ft0, ft1],
+            [cf0, ct0, ct1],
+            [rf0, rt0, rt1]
+        ]);
+    }
+}
+if (fg4n === 1 && f103.length > 0) {
+
+    // 前回最良運指との接続を要求
+    if (
+        f103[1] === ff0 &&
+        rt1x === 1 &&
+        nt0 == nf1x &&
+        nf0 == fp[0][3]
+    ) {
+        f2.push([
+            [nf0, nt0, nt1x],
+            [ff0, ft0, ft1x],
+            [cf0, ct0, ct1x],
+            [rf0, rt0, rt1x]
+        ]);
+    }
+
+} else {
+
+    // 前回最良運指との接続を要求しない
+    if (
+        rt1x === 1 &&
+        nt0 == nf1x &&
+        nf0 == fp[0][3]
+    ) {
+        f2.push([
+            [nf0, nt0, nt1x],
+            [ff0, ft0, ft1x],
+            [cf0, ct0, ct1x],
+            [rf0, rt0, rt1x]
+        ]);
+    }
+}
+
+if (fg4n === 1 && f103.length > 0) {
+
+    // 前回最良運指との接続を要求
+    if (
+        f103[1] === ff0 &&
+        rt1x === 1 &&
+        nt0 == nf1x &&
+        nf0 == fp[0][3]
+    ) {
+        f2.push([
+            [nf0, nt0, nt1x],
+            [ff0, ft0, ft1x],
+            [cf0, ct0, ct1x],
+            [rf0, rt0, rt1x]
+        ]);
+    }
+
+} else {
+
+    // 前回最良運指との接続を要求しない
+    if (
+        rt1x === 1 &&
+        nt0 == nf1x &&
+        nf0 == fp[0][3]
+    ) {
+        f2.push([
+            [nf0, nt0, nt1x],
+            [ff0, ft0, ft1x],
+            [cf0, ct0, ct1x],
+            [rf0, rt0, rt1x]
+        ]);
+    }
 }
 
 let f = [];
