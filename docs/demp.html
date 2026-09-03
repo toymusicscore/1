@@ -14191,6 +14191,18 @@ function extendFingering(currentF, f1, f1x1, i) {
         }
     }
 
+    if (nextF.length === 0) {
+        console.log(
+            "extendFingering ZERO:",
+            "i =", i,
+            "currentF =", currentF.length,
+            "last note =", currentF[0]?.[0]?.slice(-1)[0],
+            "last finger =", currentF[0]?.[1]?.slice(-1)[0],
+            "f1 =", f1.length,
+            "f1x1 =", f1x1.length
+        );
+    }
+
     return nextF;
     
 }
