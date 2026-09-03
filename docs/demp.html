@@ -14233,18 +14233,18 @@ if (fg1n===0){
 
 for (let i = 0; i < s0.length; i++) {
 
-    let restBefore = 0;
+    let restBefore = false;
 
     if (i === 0) {
-            restBefore = 1; //楽曲の最初の音、指の届く範囲の制約を解除する
+
+        if (s0[i].start >= rst7) {
+            restBefore = true;
+        }
 
     } else {
 
-        if (s0[i].start - s0[i-1].stop >= rst8) {
-            restBefore = 2; //相対的に長い休符の後の音、指の届く範囲の制約を解除し、さらに同じ指の打鍵の制限も解除する
-        }
-        else if (s0[i].start - s0[i-1].stop < rst8 && s0[i].start - s0[i-1].stop >= rst7) {
-            restBefore = 1;　//相対的に短い休符の後の音、指の届く範囲の制約を解除する
+        if (s0[i].start - s0[i-1].stop >= rst7) {
+            restBefore = true;
         }
     }
 
@@ -14259,7 +14259,7 @@ for (let i = 0; i < s0.length; i++) {
             s0[i].stop,
             s0[i].n_id,
             s0[i].channel,
-            restBefore
+            restBefore ? 1 : 0
         ]);
     }
 }
@@ -14380,7 +14380,7 @@ for (let p = 0; p < fp.length - 1; p++) {
 
             } else if (
                 fg2n === 0 ||
-                fp1[5] >= 1
+                fp1[5] === 1
             ) {
 
                 if (fg1n === 0) {
@@ -14506,7 +14506,7 @@ for (let p = 0; p < fp.length - 1; p++) {
 
                 } else if (
                     fg2n === 0 ||
-                    fp1[5] >= 1
+                    fp1[5] === 1
 
                 ) {
 
@@ -14621,11 +14621,11 @@ console.log("fp.length, f0.length, f1.length",fp.length, f0.length, f1.length)
 
 if (n_idf === s0[s0.length - 1].n_id) {
 
-    f101 = [
+    f101 = [[
             [f103[0],f103[0]],
             [f103[1],f103[1]],
             [f103[2],f103[2]],
-            f103[3]
+            f103[3]]
         ];
 
 } else {
@@ -14640,9 +14640,9 @@ if (n_idf === s0[s0.length - 1].n_id) {
 
     for (let i = 0; i < f100.length; i++) {
         if (
-            fg4n === 0 || //接続制約なし
-            f103.length === 0 || //楽曲の最初
-            f100[i][3][0] >= 1 //相対的に短い休符の後
+            fg4n === 0 ||
+            f103.length === 0 ||
+            f100[i][3][0] === 1
         ) {
             mstd(i);
 
@@ -14687,8 +14687,7 @@ f102.push([
 f103 = [
     f101[0][0][1],
     f101[0][1][1],
-    f101[0][2][1],
-    f101[0][3]
+    f101[0][2][1],f101[3]
 ];
 
 
