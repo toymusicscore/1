@@ -15103,13 +15103,30 @@ f102.push([['NoteID','Fingering','CenterPoint','Difference','Minutes']]);
     }
 
 let n_idf;
+for (let i = 0; i < score.length; i++){
 
+    n_idf = score[i].n_id;
+    pauseTick = score[i].start;
+
+    console.log(
+        "finger1 start:",
+        "i =", i,
+        "n_idf =", n_idf
+    );
+
+    finger1(n_idf);
+
+    await new Promise(r => timer=setTimeout(r,1));
+}
+
+/*
 for (let i=0; i<score.length; i++){
     n_idf = score[i].n_id;
     pauseTick = score[i].start;
 	finger1(n_idf);
 	await new Promise(r => timer=setTimeout(r,1));
 }
+*/
 
 let time1=Date.now();
 let timed=(time1-time0)/60000;
