@@ -14614,7 +14614,6 @@ console.log("fp.length, f0.length, f1.length",fp.length, f0.length, f1.length)
     console.log("f[" + i + "] =", f[i].length);
     }
 
-f100 = f[fp.length - 1];
 
 //============================================================
 // 最後の1音
@@ -14622,9 +14621,15 @@ f100 = f[fp.length - 1];
 
 if (n_idf === s0[s0.length - 1].n_id) {
 
-    f101 = f103;
+    f101.push([
+            [f103[0]],
+            [f103[1]],
+            [f103[2]]
+        ]);
 
 } else {
+
+    f100 = f[fp.length - 1];
 
     //========================================================
     // f101
