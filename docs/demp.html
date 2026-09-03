@@ -14871,25 +14871,25 @@ f102.push([['NoteID','Fingering','CenterPoint','Difference','Minutes']]);
     let fg7n = workingFinger.evaluationRangeRest.fg7n;
     let fg8n = workingFinger.fingerReachRest.fg8n;
 
-    let score;
+    let s0;
 
     f103=[];
 
     if (fg1n == 0) {
 
-        score = scoreRight;
+        s0 = scoreRight;
 
     } else if (fg1n == 1) {
     
-        score = scoreLeft;
+        s0 = scoreLeft;
 
     }
 
 let n_idf;
 
-for (let i=0; i<score.length; i++){
-    n_idf = score[i].n_id;
-    pauseTick = score[i].start;
+for (let i=0; i<s0.length; i++){
+    n_idf = s0[i].n_id;
+    pauseTick = s0[i].start;
 	finger1(n_idf);
 	await new Promise(r => timer=setTimeout(r,1));
 }
@@ -14934,18 +14934,18 @@ const showFingeringAssistant = async () => {
     let fg7n = workingFinger.evaluationRangeRest.fg7n;
     let fg8n = workingFinger.fingerReachRest.fg8n;
 
-    let score;
+    let s0;
 
     f103=[];
 
 
     if (fg1n == 0) {
 
-        score = scoreRight;
+        s0 = scoreRight;
 
     } else if (fg1n == 1) {
     
-        score = scoreLeft;
+        s0 = scoreLeft;
 
     }
 
@@ -14953,26 +14953,26 @@ let n_idf;
 
 if (pauseTick === 0) {
 
-    if (score.length > 0) {
-        n_idf = score[0].n_id;
+    if (s0.length > 0) {
+        n_idf = s0[0].n_id;
     }
 
 } else {
 
-    for (let p = 0; p < score.length; p++) {
+    for (let p = 0; p < s0.length; p++) {
 
-        if (pauseTick === score[p].start) {
+        if (pauseTick === s0[p].start) {
 
-            n_idf = score[p].n_id;
+            n_idf = s0[p].n_id;
             break;
 
         } else if (
-            score[p + 1] &&
-            pauseTick > score[p].start &&
-            pauseTick < score[p + 1].start
+            s0[p + 1] &&
+            pauseTick > s0[p].start &&
+            pauseTick < s0[p + 1].start
         ) {
 
-            n_idf = score[p].n_id;
+            n_idf = s0[p].n_id;
             break;
         }
     }
