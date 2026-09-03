@@ -14127,10 +14127,7 @@ function isValidBlackKeyFinger(midi, finger) {
 }
 
 function extendFingering(currentF, f1, f1x1, i) {
-console.log(
-    "nt0 =", currentF[0][0][currentF[0][0].length - 1],
-    "ft0 =", currentF[0][1][currentF[0][1].length - 1]
-);
+
     const nextF = [];
 
     for (let p = 0; p < currentF.length; p++) {
@@ -14143,7 +14140,14 @@ console.log(
         //========================================
         // Short rest
         //========================================
-
+if (i === 9) {
+    console.log("===== i=9 =====");
+    console.log("current last note =", currentF[0][0][currentF[0][0].length - 1]);
+    console.log(
+        "f1 nf1/nt1 =",
+        f1.map(x => [x[0][0], x[0][1]])
+    );
+}
         for (let q = 0; q < f1.length; q++) {
 
             const [
