@@ -14716,8 +14716,6 @@ for (let p=0;p<f101.length;p++){
 
 const showFingeringRecorder= async () =>{
 time0=Date.now();
-f102=[];
-f102.push([['NoteID','Fingering','CenterPoint','Difference','Minutes']]);
 
     let fg1n = workingFinger.selectHand.fg1n;
     let fg2n = workingFinger.fingerReach.fg2n;
@@ -14728,8 +14726,30 @@ f102.push([['NoteID','Fingering','CenterPoint','Difference','Minutes']]);
     let fg7n = workingFinger.disconnectionRest.fg7n;
     let s0;
 
+    f102=[];
+
+//    f102.push([['NoteID','Fingering','CenterPoint','Difference','Minutes']]);
+
     f103=[];
 
+    let n_idf;
+
+const handsToCalculate = [scoreRight, scoreLeft];
+
+for (const s0 of handsToCalculate) {
+
+    for (let i = 0; i < s0.length; i++) {
+
+        n_idf = s0[i].n_id;
+        pauseTick = s0[i].start;
+
+        finger1(n_idf);
+
+        await new Promise(r => timer = setTimeout(r, 1));
+    }
+}
+
+/*
     if (fg1n == 0) {
 
         s0 = scoreRight;
@@ -14740,14 +14760,13 @@ f102.push([['NoteID','Fingering','CenterPoint','Difference','Minutes']]);
 
     }
 
-let n_idf;
-
 for (let i=0; i<s0.length; i++){
     n_idf = s0[i].n_id;
     pauseTick = s0[i].start;
 	finger1(n_idf);
 	await new Promise(r => timer=setTimeout(r,1));
 }
+*/
 
 let time1=Date.now();
 let timed=(time1-time0)/60000;
