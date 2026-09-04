@@ -14165,7 +14165,7 @@ function extendFingering(currentF, f1, f1x1, i) {
             }
         }
         //========================================
-        // Middle - Long rest
+        // Long rest
         //========================================
 
         for (let r = 0; r < f1x1.length; r++) {
@@ -14178,7 +14178,7 @@ function extendFingering(currentF, f1, f1x1, i) {
             ] = f1x1[r];
  
             if (
-                rt1x >= 1 &&
+                rt1x === 1 &&
                 nt0 === nf1x
             ) {
                 nextF.push([
@@ -14206,23 +14206,23 @@ function finger1(n_idf){
     let fg3n = workingFinger.blackKey.fg3n;
     let fg4n = workingFinger.linkRange.fg4n;
 
-    let fg41n = workingFinger.restrict1.fg41n;
-    let fg42n = workingFinger.restrict2.fg42n;
-    let fg43n = workingFinger.restrict3.fg43n;
-    let fg44n = workingFinger.restrict4.fg44n;
-    let fg45n = workingFinger.restrict5.fg45n;
+//    let fg41n = workingFinger.restrict1.fg41n;
+//    let fg42n = workingFinger.restrict2.fg42n;
+//    let fg43n = workingFinger.restrict3.fg43n;
+//    let fg44n = workingFinger.restrict4.fg44n;
+//    let fg45n = workingFinger.restrict5.fg45n;
 
     let fg5n = workingFinger.evaluationRange.fg5n;
     let fg6n = workingFinger.variabilityRange.fg6n;
 
     let fg7n = workingFinger.evaluationRangeRest.fg7n;
-    let fg8n = workingFinger.fingerReachRest.fg8n;
+//    let fg8n = workingFinger.fingerReachRest.fg8n;
 
 let fg5np = n_idf + fg5n - 1;
 let rst7=ticksPerMeasure/fg7n;
-let rst8=ticksPerMeasure/fg8n;
-let ftr;
-let fch;
+//let rst8=ticksPerMeasure/fg8n;
+//let ftr;
+//let fch;
 let s0;
 
 if (fg1n===0){ 
@@ -14239,13 +14239,11 @@ for (let i = 0; i < s0.length; i++) {
 
         const restLength = s0[i].start - s0[i - 1].stop;
 
-        if (restLength >= rst8) {
-            restBefore = 2;   // 長い休符
-        } else if (restLength >= rst7) {
+        if (restLength >= rst7) {
             restBefore = 1;   // 短い休符
         }
     }
-    
+
     if (
         s0[i].n_id >= n_idf &&
         s0[i].n_id <= fg5np
@@ -14378,7 +14376,7 @@ for (let p = 0; p < fp.length - 1; p++) {
 
             } else if (
                 fg2n === 0 ||
-                fp1[5] >= 1
+                fp1[5] === 1
             ) {
 
                 if (fg1n === 0) {
@@ -14504,7 +14502,7 @@ for (let p = 0; p < fp.length - 1; p++) {
 
                 } else if (
                     fg2n === 0 ||
-                    fp1[5] >= 1
+                    fp1[5] === 1
 
                 ) {
 
@@ -14640,7 +14638,7 @@ if (n_idf === s0[s0.length - 1].n_id) {
         if (
             fg4n === 0 || //前回の運指に制約されない設定
             f103.length === 0 || //楽曲の最初、前回の最良の運指の第２音の運指が保存されていない
-            f100[i][3][0] === 2 //音符の前に長い休符（fg8n）以上の時間がある場合
+            f100[i][3][0] === 1 //音符の前に休符（fg7n）以上の時間がある場合
         ) {
             mstd(i);
 
