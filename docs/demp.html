@@ -2431,7 +2431,7 @@ let pairs = [];
 let localFiles = null;
 let rawMidi;
 let showRecord = true;
-
+let fingeringByNoteID = {};
 /*
 let shapeBeatData = {};
 let shapeMeasureData = {};
@@ -4150,8 +4150,8 @@ function getLabel(midi, n_id){
 	}else if (practiceSettings.noteTextType === 11 && tsv.t1[n_id]!=undefined){
 		nl=tsv.t1[n_id];
 	//tsv fingering2
-	}else if (practiceSettings.noteTextType === 12 && f102[n_id][2]!=undefined){
-		nl=f102[n_id][2];
+	}else if (practiceSettings.noteTextType === 12 && f102[n_id][1]!=undefined){
+		nl=f102[n_id][1];
 	//tsv Text1
 	}else if (practiceSettings.noteTextType === 13 && tsv.t5[n_id]!=undefined){
 		nl=tsv.t5[n_id];
@@ -14752,6 +14752,16 @@ for (const s0 of handsToCalculate) {
 let time1=Date.now();
 let timed=(time1-time0)/60000;
 f102.push([['\r\n','','',timed]]);
+
+fingeringByNoteID = {};
+
+for (let i = 1; i < f102.length; i++){
+
+    const id = Number(f102[i][0]);
+    const fingering = f102[i][1];
+
+    fingeringByNoteID[id] = fingering;
+}
 
 let file1name =
     val("song1");
