@@ -14165,7 +14165,7 @@ function extendFingering(currentF, f1, f1x1, i) {
             }
         }
         //========================================
-        // Long rest
+        // Middle - Long rest
         //========================================
 
         for (let r = 0; r < f1x1.length; r++) {
@@ -14178,7 +14178,7 @@ function extendFingering(currentF, f1, f1x1, i) {
             ] = f1x1[r];
  
             if (
-                rt1x === 1 &&
+                rt1x >= 1 &&
                 nt0 === nf1x
             ) {
                 nextF.push([
@@ -14233,20 +14233,13 @@ if (fg1n===0){
 
 for (let i = 0; i < s0.length; i++) {
 
-    let restBefore = false;
+    let restBefore = 0;
 
-    if (i === 0) {
-
-        if (s0[i].start >= rst7) {
-            restBefore = true;
+        if (s0[i].start >= rst8) {
+            restBefore = 2; //音符の前に長い休符（fg8n）以上の時間がある場合
+        }else if (s0[i].start - s0[i-1].stop >= rst7) {
+            restBefore = 1; //音符の前に長い休符（fg8n）未満、短い休符（fg7n）以上の時間がある場合
         }
-
-    } else {
-
-        if (s0[i].start - s0[i-1].stop >= rst7) {
-            restBefore = true;
-        }
-    }
 
     if (
         s0[i].n_id >= n_idf &&
@@ -14259,7 +14252,7 @@ for (let i = 0; i < s0.length; i++) {
             s0[i].stop,
             s0[i].n_id,
             s0[i].channel,
-            restBefore ? 1 : 0
+            restBefore
         ]);
     }
 }
@@ -14380,7 +14373,7 @@ for (let p = 0; p < fp.length - 1; p++) {
 
             } else if (
                 fg2n === 0 ||
-                fp1[5] === 1
+                fp1[5] >= 1
             ) {
 
                 if (fg1n === 0) {
@@ -14506,7 +14499,7 @@ for (let p = 0; p < fp.length - 1; p++) {
 
                 } else if (
                     fg2n === 0 ||
-                    fp1[5] === 1
+                    fp1[5] >= 1
 
                 ) {
 
@@ -14640,16 +14633,16 @@ if (n_idf === s0[s0.length - 1].n_id) {
 
     for (let i = 0; i < f100.length; i++) {
         if (
-            fg4n === 0 ||
-            f103.length === 0 ||
-            f100[i][3][0] === 1
+            fg4n === 0 || //前回の運指に制約されない設定
+            f103.length === 0 || //楽曲の最初
+            f100[i][3][0] === 2 //音符の前に長い休符（fg8n）以上の時間がある場合
         ) {
             mstd(i);
 
         } else if (
-            fg4n === 1 &&
-            f103.length > 0 &&
-            f100[i][1][0] === f103[1]
+            fg4n === 1 && //今回の運指情報の第１音が、前回の運指に制約される設定
+            f103.length > 0 && //楽曲の途中、前回の最良の運指の第２音の運指が保存されている
+            f100[i][1][0] === f103[1] //今回の運指情報の第１音が、前回の最良の運指の第２音の運指が同じ番号である
         ) {
             mstd(i);
         }
