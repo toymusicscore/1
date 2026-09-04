@@ -738,8 +738,8 @@ Upper Limit: Largest allowable distance between the two fingers.
 <br>
 <label>Finger Reach Rule</label>
 <select name="fg2">
-    <option value="0" selected>No Limit</option>
-    <option value="1">Strict</option>
+    <option value="0">No Limit</option>
+    <option value="1" selected>Strict</option>
 </select>
 <br>
 <label>Black Key Rule</label>
@@ -756,57 +756,6 @@ Upper Limit: Largest allowable distance between the two fingers.
 	<option value="3"> Connect 3 Notes</option>
 	<option value="4"> Connect 4 Notes</option>
 	<option value="5"> Connect 5 Notes</option>
-	</select>
-<br><br>
-
-<label>Finger Restriction for 1st Note</label>
-<select name="fg41">
-	<option value="0" selected> No Limit for 1st Note </option>
-	<option value="1"> Limit 1 for 1st Note </option>
-	</select>
-<br>
-
-<label>Finger Restriction for 2nd Note</label>
-<select name="fg42">
-	<option value="0" selected> No Limit for 2nd Note </option>
-	<option value="1"> Limit 1 for 2nd Note </option>
-	<option value="2"> Limit 2 for 2nd Note </option>
-	<option value="3"> Limit 3 for 2nd Note </option>
-	<option value="4"> Limit 4 for 2nd Note </option>
-	<option value="5"> Limit 5 for 2nd Note </option>
-	</select>
-<br>
-
-<label>Finger Restriction for 3rd Note</label>
-<select name="fg43">
-	<option value="0" selected> No Limit for 3rd Note </option>
-	<option value="1"> Limit 1 for 3rd Note </option>
-	<option value="2"> Limit 2 for 3rd Note </option>
-	<option value="3"> Limit 3 for 3rd Note </option>
-	<option value="4"> Limit 4 for 3rd Note </option>
-	<option value="5"> Limit 5 for 3rd Note </option>
-	</select>
-<br>
-
-<label>Finger Restriction for 4th Note</label>
-<select name="fg44">
-	<option value="0" selected> No Limit for 4th Note </option>
-	<option value="1"> Limit 1 for 4th Note </option>
-	<option value="2"> Limit 2 for 4th Note </option>
-	<option value="3"> Limit 3 for 4th Note </option>
-	<option value="4"> Limit 4 for 4th Note </option>
-	<option value="5"> Limit 5 for 4th Note </option>
-	</select>
-<br>
-
-<label>Finger Restriction for 5th Note</label>
-<select name="fg45">
-	<option value="0" selected> No Limit for 5th Note </option>
-	<option value="1"> Limit 1 for 5th Note </option>
-	<option value="2"> Limit 2 for 5th Note </option>
-	<option value="3"> Limit 3 for 5th Note </option>
-	<option value="4"> Limit 4 for 5th Note </option>
-	<option value="5"> Limit 5 for 5th Note </option>
 	</select>
 <br><br>
 
@@ -1651,28 +1600,13 @@ const defaultFinger = {
         fg1n:0
     },
     fingerReach:{
-        fg2n:0
+        fg2n:1
     },
     blackKey:{
         fg3n:1
     },
     linkRange:{
         fg4n:1
-    },
-    restrict1:{
-        fg41n:0
-    },
-    restrict2:{
-        fg42n:0
-    },
-    restrict3:{
-        fg43n:0
-    },
-    restrict4:{
-        fg44n:0
-    },
-    restrict5:{
-        fg45n:0
     },
     evaluationRange:{
         fg5n:10
