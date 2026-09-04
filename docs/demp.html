@@ -14109,7 +14109,8 @@ for (let i = 0; i < s0.length; i++) {
         const restLength = s0[i].start - s0[i - 1].stop;
 
         if (restLength >= rst7) {
-            restBefore = 1;   // 短い休符
+            restBefore = 1;     // 設定した休符以上の時間が音符の前にあった場合には、評価値計算区間の接続を解除する
+                                // 同時に、指の届く範囲の制限も、連続打鍵制限も、解除する
         }
     }
 
