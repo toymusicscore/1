@@ -3754,8 +3754,13 @@ for (p=0;p<f1.length;p++){
 			   [f1[p][3][0], f1[p][3][1]]]);
 }
 
-let f1x1=[(new Set(f1x0))];
+//let f1x1=[(new Set(f1x0))];
 
+let f1x1 = [
+    ...new Map(
+        f1x0.map(x => [JSON.stringify(x), x])
+    ).values()
+];
 
 f2=[];
 if(f1.length>0 && fp.length>2){
