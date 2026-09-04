@@ -793,18 +793,6 @@ Upper Limit: Largest allowable distance between the two fingers.
     <option value="32">32nd Rest</option>
     <option value="64">64th Rest</option>
 </select>
-<br>
-
-<label>Finger Reach Restriction Release Rest Threshold</label>
-<select name="fg8">
-    <option value="1">Whole Rest</option>
-    <option value="2">Half Rest</option>
-    <option value="4" selected>Quarter Rest</option>
-    <option value="8">8th Rest</option>
-    <option value="16">16th Rest</option>
-    <option value="32">32nd Rest</option>
-    <option value="64">64th Rest</option>
-</select>
 <br><br>
 
 <input type="button"
@@ -1617,9 +1605,6 @@ const defaultFinger = {
     evaluationRangeRest:{
         fg7n:16
     },
-    fingerReachRest:{
-        fg8n:4
-    },
 
 };
 let workingFinger = structuredClone(defaultFinger);
@@ -1726,23 +1711,6 @@ function readFingerUi(){
     workingFinger.linkRange.fg4n =
         Number(fg4.value);
 
-
-    workingFinger.restrict1.fg41n =
-        Number(fg41.value);
-
-    workingFinger.restrict2.fg42n =
-        Number(fg42.value);
-
-    workingFinger.restrict3.fg43n =
-        Number(fg43.value);
-
-    workingFinger.restrict4.fg44n =
-        Number(fg44.value);
-
-    workingFinger.restrict5.fg45n =
-        Number(fg45.value);
-
-
     workingFinger.evaluationRange.fg5n =
         Number(fg5.value);
 
@@ -1751,9 +1719,6 @@ function readFingerUi(){
 
     workingFinger.evaluationRangeRest.fg7n =
         Number(fg7.value);
-
-    workingFinger.fingerReachRest.fg8n =
-        Number(fg8.value);
 
 }
 
