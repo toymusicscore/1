@@ -14235,12 +14235,17 @@ for (let i = 0; i < s0.length; i++) {
 
     let restBefore = 0;
 
-        if (s0[i].start >= rst8) {
-            restBefore = 2; //音符の前に長い休符（fg8n）以上の時間がある場合
-        }else if (s0[i].start - s0[i-1].stop >= rst7) {
-            restBefore = 1; //音符の前に長い休符（fg8n）未満、短い休符（fg7n）以上の時間がある場合
-        }
+    if (i > 0) {
 
+        const restLength = s0[i].start - s0[i - 1].stop;
+
+        if (restLength >= rst8) {
+            restBefore = 2;   // 長い休符
+        } else if (restLength >= rst7) {
+            restBefore = 1;   // 短い休符
+        }
+    }
+    
     if (
         s0[i].n_id >= n_idf &&
         s0[i].n_id <= fg5np
