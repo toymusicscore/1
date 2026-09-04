@@ -1602,7 +1602,7 @@ const defaultFinger = {
     variabilityRange:{
         fg6n:2
     },
-    evaluationRangeRest:{
+    disconnectionRest:{
         fg7n:16
     },
 
@@ -1717,7 +1717,7 @@ function readFingerUi(){
     workingFinger.variabilityRange.fg6n =
         Number(fg6.value);
 
-    workingFinger.evaluationRangeRest.fg7n =
+    workingFinger.disconnectionRest.fg7n =
         Number(fg7.value);
 
 }
@@ -1766,7 +1766,7 @@ function updateFingerUi(){
     fg4.value = workingFinger.linkRange.fg4n;
     fg5.value = workingFinger.evaluationRange.fg5n;
     fg6.value = workingFinger.variabilityRange.fg6n;
-    fg7.value = workingFinger.evaluationRangeRest.fg7n;
+    fg7.value = workingFinger.disconnectionRest.fg7n;
 
 }
 
@@ -14088,7 +14088,7 @@ function finger1(n_idf){
     let fg4n = workingFinger.linkRange.fg4n;
     let fg5n = workingFinger.evaluationRange.fg5n;
     let fg6n = workingFinger.variabilityRange.fg6n;
-    let fg7n = workingFinger.evaluationRangeRest.fg7n;
+    let fg7n = workingFinger.disconnectionRest.fg7n;
 
 let fg5np = n_idf + fg5n - 1;
 let rst7=ticksPerMeasure/fg7n;
@@ -14727,7 +14727,7 @@ f102.push([['NoteID','Fingering','CenterPoint','Difference','Minutes']]);
     let fg4n = workingFinger.linkRange.fg4n;
     let fg5n = workingFinger.evaluationRange.fg5n;
     let fg6n = workingFinger.variabilityRange.fg6n;
-    let fg7n = workingFinger.evaluationRangeRest.fg7n;
+    let fg7n = workingFinger.disconnectionRest.fg7n;
     let s0;
 
     f103=[];
@@ -14780,7 +14780,7 @@ const showFingeringAssistant = async () => {
     let fg4n = workingFinger.linkRange.fg4n;
     let fg5n = workingFinger.evaluationRange.fg5n;
     let fg6n = workingFinger.variabilityRange.fg6n;
-    let fg7n = workingFinger.evaluationRangeRest.fg7n;
+    let fg7n = workingFinger.disconnectionRest.fg7n;
     let s0;
 
     f103=[];
