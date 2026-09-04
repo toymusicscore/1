@@ -1801,15 +1801,24 @@ function onSaveFinger(){
 }
 
 function saveFinger() {
+
     localStorage.setItem(
         "workingFinger",
         JSON.stringify(workingFinger)
     );
+
+    console.log(
+        "保存後:",
+        localStorage.getItem("workingFinger")
+    );
 }
+
 
 function loadSavedFinger(){
 
     const tmp = localStorage.getItem("workingFinger");
+
+    console.log("起動時の保存データ:", tmp);
 
     if(tmp){
         workingFinger = JSON.parse(tmp);
