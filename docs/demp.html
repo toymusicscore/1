@@ -14073,12 +14073,12 @@ function extendFingering(currentF, f1, f1x1, i) {
 }
 
 
-function finger1(n_idf){
+function finger1(n_idf, hand){
 
     fc = [];
     fp = [];
 
-    let fg1n = workingFinger.selectHand.fg1n;
+    let fg1n = hand;
     let fg2n = workingFinger.fingerReach.fg2n;
     let fg3n = workingFinger.blackKey.fg3n;
     let fg4n = workingFinger.linkRange.fg4n;
@@ -14731,23 +14731,25 @@ time0=Date.now();
 
     let n_idf;
 
-const handsToCalculate = [scoreRight, scoreLeft];
+const handsToCalculate = [
+    [scoreRight, 0],
+    [scoreLeft, 1]
+];
 
-for (const s0 of handsToCalculate) {
+for (const [s0, hand] of handsToCalculate) {
 
-    f103=[];
+    f103 = [];
 
     for (let i = 0; i < s0.length; i++) {
 
         n_idf = s0[i].n_id;
         pauseTick = s0[i].start;
 
-        finger1(n_idf);
+        finger1(n_idf, hand);
 
         await new Promise(r => timer = setTimeout(r, 1));
     }
 }
-
 
 let time1=Date.now();
 let timed=(time1-time0)/60000;
