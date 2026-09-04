@@ -14748,7 +14748,39 @@ for (const s0 of handsToCalculate) {
     }
 }
 
-/*
+
+let time1=Date.now();
+let timed=(time1-time0)/60000;
+f102.push([['\r\n','','',timed]]);
+
+let file1name =
+    val("song1");
+
+downloadFile(file1name+'_H'+fg1n+'R'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+
+}
+
+
+const showFingeringRecorder1= async () =>{
+time0=Date.now();
+
+    let fg1n = workingFinger.selectHand.fg1n;
+    let fg2n = workingFinger.fingerReach.fg2n;
+    let fg3n = workingFinger.blackKey.fg3n;
+    let fg4n = workingFinger.linkRange.fg4n;
+    let fg5n = workingFinger.evaluationRange.fg5n;
+    let fg6n = workingFinger.variabilityRange.fg6n;
+    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let s0;
+    let n_idf;
+
+    f102=[];
+
+    f102.push([['NoteID','Fingering','CenterPoint','Minutes']]);
+
+
+    f103=[];
+
     if (fg1n == 0) {
 
         s0 = scoreRight;
@@ -14765,7 +14797,7 @@ for (let i=0; i<s0.length; i++){
 	finger1(n_idf);
 	await new Promise(r => timer=setTimeout(r,1));
 }
-*/
+
 
 let time1=Date.now();
 let timed=(time1-time0)/60000;
