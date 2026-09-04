@@ -1610,6 +1610,7 @@ const defaultFinger = {
 let workingFinger = structuredClone(defaultFinger);
 
 let fingerRange = [];
+let fingerRangeMap = [];
 let fingerBase = [];
 
 function createFingerRange() {
@@ -1635,7 +1636,30 @@ function createFingerRange() {
             ]);
         }
     }
+
+    //========================================
+    // Finger Range Map
+    //========================================
+
+    fingerRangeMap = Array.from(
+        { length: 6 },
+        () => Array(6).fill(null)
+    );
+
+    for (const x of fingerRange) {
+
+        const q = x[0];
+        const r = x[1];
+
+        fingerRangeMap[q][r] = [x[2], x[3]];
+        fingerRangeMap[r][q] = [-x[3], -x[2]];
+    }
 }
+
+function getFingerRange(q, r) {
+    return fingerRangeMap[q][r];
+}
+
 
 function createFingerBase() {
 
@@ -13949,25 +13973,6 @@ function testTstd(data = scoreRight) {
     }
 
     console.log("Results:", test0);
-}
-
-
-const fingerRangeMap = Array.from(
-    { length: 6 },
-    () => Array(6).fill(null)
-);
-
-for (const x of fingerRange) {
-
-    const q = x[0];
-    const r = x[1];
-
-    fingerRangeMap[q][r] = [x[2], x[3]];
-    fingerRangeMap[r][q] = [-x[3], -x[2]];
-}
-
-function getFingerRange(q, r) {
-    return fingerRangeMap[q][r];
 }
 
 /*
