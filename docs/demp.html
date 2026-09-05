@@ -14063,7 +14063,6 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
         const nf0 = notes[0];
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
-        const pt0 = stops[stops.length - 1];
 
         //========================================
         // Short rest
@@ -14080,7 +14079,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
             ] = f1[q];
 
             if (
-                tt1 - pt0 < rst7 &&
+                tt1 - pf1 < rst7 &&
                 nf0 === n_idf &&
                 nt0 === nf1 &&
                 ft0 === ff1 &&
@@ -14110,7 +14109,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
             ] = f1x1[r];
  
             if (
-                tt1x - pt0 >= rst7 &&
+                tt1x - pf1x >= rst7 &&
                 nf0 === n_idf &&
                 nt0 === nf1x
             ) {
