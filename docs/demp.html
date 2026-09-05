@@ -14036,6 +14036,9 @@ function isValidBlackKeyFinger(midi, finger, fg3n) {
 
 function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
+    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let rst7=ticksPerMeasure/fg7n;
+
     const nextF = [];
 
     for (let p = 0; p < currentF.length; p++) {
@@ -14045,6 +14048,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
         const nf0 = n_idf;
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
+        const pt0 = stop[fingers.length - 1];
 
         //========================================
         // Short rest
@@ -14061,7 +14065,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
             ] = f1[q];
 
             if (
-                rt1 === 0 &&
+                tt1 - pt0 < rst7 &&
                 nt0 === nf1 &&
                 ft0 === ff1 &&
                 ft0 !== ft1
@@ -14090,7 +14094,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
             ] = f1x1[r];
  
             if (
-                rt1x === 1 &&
+                tt1x - pt0 >= rst7 &&
                 nt0 === nf1x
             ) {
                 nextF.push([
@@ -14110,6 +14114,9 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
 
 function createF0 (fp0, fp1, fg3n) {
+
+    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let rst7=ticksPerMeasure/fg7n;
 
     for (let q = 1; q <= 5; q++) {
 
