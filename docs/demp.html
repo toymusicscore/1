@@ -14051,7 +14051,7 @@ function isValidBlackKeyFinger(midi, finger) {
 }
 */
 
-function extendFingering(currentF, f1, f1x1, i) {
+function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
     const nextF = [];
 
@@ -14059,6 +14059,7 @@ function extendFingering(currentF, f1, f1x1, i) {
 
         const [notes, fingers, cps, flg] = currentF[p];
 
+        const nf0 = n_idf;
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
 
@@ -14552,7 +14553,8 @@ console.log("fp.length, f0.length, f1.length",fp.length, f0.length, f1.length)
                 f[i-1],
                 f1,
                 f1x1,
-                i
+                i,
+                n_idf
             );
         }
     console.log("f[" + i + "] =", f[i].length);
