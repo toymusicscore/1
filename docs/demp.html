@@ -14150,6 +14150,18 @@ function createF0 (fp0, fp1, fg3n) {
             // Strict Finger Range
             //========================================
 
+            let min;
+            let max;
+
+            const range = getFingerRange(q, r);
+
+            if (!range) {
+                continue;
+            }
+
+            min = range[0];
+            max = range[1];
+            
             if (
                 fp0[4] !== fp1[4] - 1 &&
                 fg2n === 1 &&
@@ -14321,18 +14333,6 @@ for (let p = 1; p < fp.length; p++) {
     const fp0 = fp[p-1];
     const fp1 = fp[p];
 
-    let min;
-    let max;
-
-    const range = getFingerRange(q, r);
-
-    if (!range) {
-        continue;
-    }
-
-    min = range[0];
-    max = range[1];
-    
     //========================================
     // 第1段階
     // 黒鍵ルールを適用
