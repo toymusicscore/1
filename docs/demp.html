@@ -14334,13 +14334,13 @@ if (f0.length > 0 && fp.length > 1) {
                 [ff0, ft0],
                 [cf0, ct0],
                 [midif0, midit0],
-                [rf0, rt0]] = f0[i];
+                [tf0, tt0]] = f0[i];
 
             f1.push([
                 [nf0, nt0],
                 [ff0, ft0],
                 [cf0, ct0],
-                [rf0, rt0]
+                [tf0, tt0]
             ]);
     }
 }
@@ -14554,7 +14554,7 @@ for (let p=0;p<f101.length;p++){
 	}
 	for(let i=0;i<fp.length;i++){
 		ctx.fillText(fp[i][3],180+50*i,Number(szy)+30);
-		let [midi, start, stop, n_id, channel]=fp[i];
+		let [midi, start, stop, channel, n_id]=fp[i];
 		gt=stop-start;
 			if(start>=pauseTick && start<=pauseTick+ticksPerQuarterNote*beatsPerMeasure){
 				ctx.fillStyle=col[midi%12];
