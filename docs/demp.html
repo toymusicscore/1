@@ -14205,18 +14205,35 @@ for (let p = 0; p < fp.length - 1; p++) {
 
         for (let r = 1; r <= 5; r++) {
 
-            const range = getFingerRange(q, r);
+            let min;
+            let max;
+
+                //========================================
                 // 長い休符
-                // rangeチェックをしない
-                // 長い休符では同じ指も許可
-            if (
+                // range制約なし
+                // q===rも許可
+                //========================================
+
+            if (fp1[5] === 0) {
+
+                //========================================
                 // 短い休符
-                // 短い休符では同じ指を禁止
-                // getFingerRange()を使う
-                fp1[5] === 0 &&
-                (q === r || !range)
-            ) {
-                continue;
+                // 同じ指は禁止
+                // range制約あり
+                //========================================
+
+                if (q === r) {
+                    continue;
+                }
+
+                const range = getFingerRange(q, r);
+
+                if (!range) {
+                    continue;
+                }
+
+                min = range[0];
+                max = range[1];
             }
 
             // 黒鍵ルール
@@ -14227,9 +14244,6 @@ for (let p = 0; p < fp.length - 1; p++) {
             if (!isValidBlackKeyFinger(fp1[0], r, fg3n)) {
                 continue;
             }
-
-            const min = range[0];
-            const max = range[1];
 
             //========================================
             // Strict Finger Range
