@@ -14392,8 +14392,10 @@ let f1x1 = [
     ).values()
 ];
 
+if (n_idf === 85){
 console.log("n_idf, fp.length, f0.length, f1.length", n_idf, fp.length, f0.length, f1.length)
-
+console.log("f0", f0);
+}
     //========================================================
     // f2以降を作る
     //========================================================
@@ -14420,8 +14422,12 @@ console.log("n_idf, fp.length, f0.length, f1.length", n_idf, fp.length, f0.lengt
                 n_idf
             );
         }
-    console.log("f[" + i + "] =", f[i].length);
-    }
+
+        if (n_idf === 85){
+            console.log("f[" + i + "] =", f[i].length);
+        }
+
+}
 
 
 //============================================================
@@ -14484,7 +14490,10 @@ if (n_idf === s0[s0.length - 1].n_id) {
     });
 }
 
+if (n_idf === 85){
 console.log("n_idf, f100.length, f101.length, f103.length", n_idf, f100.length, f101.length, f103.length)
+console.log("f101", f101);
+}
 
 //============================================================
 // 最良結果
