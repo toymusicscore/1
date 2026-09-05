@@ -14225,10 +14225,20 @@ for (let p = 0; p < fp.length - 1; p++) {
 
             const range = getFingerRange(q, r);
 
-            if (!range) {
-                continue;
+            if (fp1[5] === 1) {
+                // 長い休符
+                // rangeチェックをしない
+                // q===rも許可
             }
-
+            else {
+                // 短い休符
+                // q===r禁止
+                // getFingerRange()を使う
+                if (!range) {
+                    continue;
+                }
+            }
+            
             const min = range[0];
             const max = range[1];
 
