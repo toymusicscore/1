@@ -14058,12 +14058,12 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
     for (let p = 0; p < currentF.length; p++) {
 
-        const [notes, fingers, cps, start, stop] = currentF[p];
+        const [notes, fingers, cps, starts, stops] = currentF[p];
 
         const nf0 = notes[0];
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
-        const pt0 = stop[stop.length - 1];
+        const pt0 = stops[stops.length - 1];
 
         //========================================
         // Short rest
