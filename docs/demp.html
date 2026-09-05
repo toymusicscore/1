@@ -14130,7 +14130,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
 }
 
 
-function createF0 (fp0, fp1, fg3n) {
+function createF0 (fp0, fp1, fg3n, hand) {
 
     let fg1n = hand;
     let fg2n = workingFinger.fingerReach.fg2n;
@@ -14340,7 +14340,7 @@ for (let p = 1; p < fp.length; p++) {
     // 黒鍵ルールを適用
     //========================================
 
-    createF0(fp0, fp1, fg3n);
+    createF0(fp0, fp1, fg3n, hand);
 
     //========================================
     // 第2段階
@@ -14350,7 +14350,7 @@ for (let p = 1; p < fp.length; p++) {
 
     if (f0.length === 0 && fg3n !== 0) {
         f0 = [];
-        createF0(fp0, fp1, 0);
+        createF0(fp0, fp1, 0, hand);
     }
  
 }
