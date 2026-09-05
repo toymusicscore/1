@@ -14280,82 +14280,82 @@ function finger1(n_idf, hand){
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let fg8n = workingFinger.disconnectionRest.fg8n;
 
-let fg5np = n_idf + fg5n - 1;
-let rst7=ticksPerMeasure/fg7n;
-let rst8=ticksPerMeasure/fg8n;
-let s0;
+    let fg5np = n_idf + fg5n - 1;
+    let rst7=ticksPerMeasure/fg7n;
+    let rst8=ticksPerMeasure/fg8n;
+    let s0;
 
-if (fg1n===0){ 
-    s0=scoreRight; 
-}else if (fg1n===1){ 
-    s0=scoreLeft; 
-}
+    if (fg1n===0){ 
+        s0=scoreRight; 
+    }else if (fg1n===1){ 
+        s0=scoreLeft; 
+    }
 
-for (let i = 0; i < s0.length; i++) {
+    for (let i = 0; i < s0.length; i++) {
 
-    let disconnectRest = 0;
+        let disconnectRest = 0;
 
-    if (i === 0) {
-        
-        disconnectRest = 1;
+        if (i === 0) {
+            
+            disconnectRest = 1;
 
-    }else if (i > 0) {
+        }else if (i > 0) {
 
-        const restLength = s0[i].start - s0[i - 1].stop;
+            const restLength = s0[i].start - s0[i - 1].stop;
 
-        if (restLength >= rst8) {
-            disconnectRest = 1;     // 設定した休符（rst8）以上の時間が音符の前にあった場合
-                                // 評価値計算区間の接続を解除する
+            if (restLength >= rst8) {
+                disconnectRest = 1;     // 設定した休符（rst8）以上の時間が音符の前にあった場合
+                                    // 評価値計算区間の接続を解除する
+            }
+        }
+
+        if (
+            s0[i].n_id >= n_idf &&
+            s0[i].n_id <= fg5np
+        ) {
+
+            fp.push([
+                s0[i].midi,
+                s0[i].start,
+                s0[i].stop,
+                s0[i].channel,
+                s0[i].n_id,
+                disconnectRest
+            ]);
         }
     }
 
-    if (
-        s0[i].n_id >= n_idf &&
-        s0[i].n_id <= fg5np
-    ) {
+    f0 = [];
 
-        fp.push([
-            s0[i].midi,
-            s0[i].start,
-            s0[i].stop,
-            s0[i].channel,
-            s0[i].n_id,
-            disconnectRest
-        ]);
-    }
-}
+    let cp0 = 0;
+    let cp1 = 0;
 
-f0 = [];
+    for (let p = 1; p < fp.length; p++) {
 
-let cp0 = 0;
-let cp1 = 0;
+        const fp0 = fp[p-1];
+        const fp1 = fp[p];
 
-for (let p = 1; p < fp.length; p++) {
+        const beforeLength = f0.length;
 
-    const fp0 = fp[p-1];
-    const fp1 = fp[p];
+        //========================================
+        // 第1段階
+        // 黒鍵ルールを適用
+        //========================================
 
-    const beforeLength = f0.length;
+        createF0(fp0, fp1, fg3n, hand);
 
-    //========================================
-    // 第1段階
-    // 黒鍵ルールを適用
-    //========================================
-
-    createF0(fp0, fp1, fg3n, hand);
-
-    //========================================
-    // 第2段階
-    // 黒鍵ルールによって候補がなくなった場合
-    // 黒鍵ルールを解除する
-    //========================================
-
-    // 今回の組み合わせで候補が1つも追加されなかった
-    if (f0.length === beforeLength && fg3n !== 0) {
-
+        //========================================
         // 第2段階
-        createF0(fp0, fp1, 0, hand);
-    }
+        // 黒鍵ルールによって候補がなくなった場合
+        // 黒鍵ルールを解除する
+        //========================================
+
+        // 今回の組み合わせで候補が1つも追加されなかった
+        if (f0.length === beforeLength && fg3n !== 0) {
+
+            // 第2段階
+            createF0(fp0, fp1, 0, hand);
+        }
  
 }
 
