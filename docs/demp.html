@@ -1748,9 +1748,21 @@ function readFingerUi(){
 
 function onFingerChange(){
 
+    console.log("★★ onFingerChange 開始");
+
     readFingerUi();
 
+    console.log(
+        "readFingerUi後:",
+        workingFinger.blackKey.fg3n
+    );
+
     updateFingerData();
+
+    console.log(
+        "updateFingerData後:",
+        workingFinger.blackKey.fg3n
+    );
 
     onSaveFinger();
 
