@@ -783,13 +783,25 @@ Upper Limit: Largest allowable distance between the two fingers.
 	</select>
 <br>
 
-<label>Evaluation Range Disconnection Rest Threshold</label>
+<label>Finger Reach Range Rest Threshold</label>
 <select name="fg7">
     <option value="1">Whole Rest</option>
     <option value="2">Half Rest</option>
     <option value="4">Quarter Rest</option>
     <option value="8">8th Rest</option>
     <option value="16" selected>16th Rest</option>
+    <option value="32">32nd Rest</option>
+    <option value="64">64th Rest</option>
+</select>
+<br><br>
+
+<label>Evaluation Range Disconnection Rest Threshold</label>
+<select name="fg8">
+    <option value="1">Whole Rest</option>
+    <option value="2">Half Rest</option>
+    <option value="4" selected>Quarter Rest</option>
+    <option value="8">8th Rest</option>
+    <option value="16">16th Rest</option>
     <option value="32">32nd Rest</option>
     <option value="64">64th Rest</option>
 </select>
@@ -1614,8 +1626,11 @@ const defaultFinger = {
     variabilityRange:{
         fg6n:2
     },
-    disconnectionRest:{
+    fingerReachRest:{
         fg7n:16
+    },
+    disconnectionRest:{
+        fg8n:4
     },
 
 };
@@ -1753,8 +1768,11 @@ function readFingerUi(){
     workingFinger.variabilityRange.fg6n =
         Number(fg6.value);
 
-    workingFinger.disconnectionRest.fg7n =
+    workingFinger.fingerReachRest.fg7n =
         Number(fg7.value);
+
+    workingFinger.disconnectionRest.fg8n =
+        Number(fg8.value);
 
 }
 
@@ -1795,6 +1813,7 @@ function updateFingerUi(){
     const fg5 = document.querySelector('[name="fg5"]');
     const fg6 = document.querySelector('[name="fg6"]');
     const fg7 = document.querySelector('[name="fg7"]');
+    const fg8 = document.querySelector('[name="fg8"]');
 
     fg1.value = workingFinger.selectHand.fg1n;
     fg2.value = workingFinger.fingerReach.fg2n;
@@ -1802,7 +1821,8 @@ function updateFingerUi(){
     fg4.value = workingFinger.linkRange.fg4n;
     fg5.value = workingFinger.evaluationRange.fg5n;
     fg6.value = workingFinger.variabilityRange.fg6n;
-    fg7.value = workingFinger.disconnectionRest.fg7n;
+    fg7.value = workingFinger.fingerReachRest.fg7n;
+    fg8.value = workingFinger.disconnectionRest.fg8n;
 
 }
 
@@ -14036,7 +14056,7 @@ function isValidBlackKeyFinger(midi, finger, fg3n) {
 
 function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
-    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7=ticksPerMeasure/fg7n;
 
     const nextF = [];
@@ -14045,7 +14065,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
         const [notes, fingers, cps, start, stop] = currentF[p];
 
-        const nf0 = n_idf;
+        const nf0 = notes[0];
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
         const pt0 = stop[fingers.length - 1];
@@ -14066,6 +14086,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
             if (
                 tt1 - pt0 < rst7 &&
+                nf0 === n_idf &&
                 nt0 === nf1 &&
                 ft0 === ff1 &&
                 ft0 !== ft1
@@ -14095,6 +14116,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
  
             if (
                 tt1x - pt0 >= rst7 &&
+                nf0 === n_idf &&
                 nt0 === nf1x
             ) {
                 nextF.push([
@@ -14115,7 +14137,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
 function createF0 (fp0, fp1, fg3n) {
 
-    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7=ticksPerMeasure/fg7n;
 
     for (let q = 1; q <= 5; q++) {
@@ -14239,7 +14261,6 @@ function createF0 (fp0, fp1, fg3n) {
 function finger1(n_idf, hand){
 
     fp = [];
-    fc = [];
 
     let fg1n = hand;
     let fg2n = workingFinger.fingerReach.fg2n;
@@ -14247,10 +14268,12 @@ function finger1(n_idf, hand){
     let fg4n = workingFinger.linkRange.fg4n;
     let fg5n = workingFinger.evaluationRange.fg5n;
     let fg6n = workingFinger.variabilityRange.fg6n;
-    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let fg7n = workingFinger.fingerReachRest.fg7n;
+    let fg8n = workingFinger.disconnectionRest.fg8n;
 
 let fg5np = n_idf + fg5n - 1;
 let rst7=ticksPerMeasure/fg7n;
+let rst8=ticksPerMeasure/fg8n;
 let s0;
 
 if (fg1n===0){ 
@@ -14270,7 +14293,7 @@ for (let i = 0; i < s0.length; i++) {
 
         const restLength = s0[i].start - s0[i - 1].stop;
 
-        if (restLength >= rst7) {
+        if (restLength >= rst8) {
             restBefore = 1;     // 設定した休符以上の時間が音符の前にあった場合
                                 // 評価値計算区間の接続を解除、指の届く範囲の制限を解除、連続打鍵制限を解除する
         }
@@ -14290,12 +14313,6 @@ for (let i = 0; i < s0.length; i++) {
             restBefore
         ]);
     }
-}
-
-for(i=0;i<s0.length;i++){
-	if (n_id==n_idf){
-		fc.push([s0[i].midi, s0[i].n_id]);
-	}
 }
 
 f0 = [];
@@ -14655,7 +14672,8 @@ time0=Date.now();
     let fg4n = workingFinger.linkRange.fg4n;
     let fg5n = workingFinger.evaluationRange.fg5n;
     let fg6n = workingFinger.variabilityRange.fg6n;
-    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let fg7n = workingFinger.fingerReachRest.fg7n;
+    let fg8n = workingFinger.disconnectionRest.fg8n;
 
     f102=[];
 
@@ -14700,7 +14718,7 @@ for (let i = 1; i < f102.length; i++){
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'R'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 
 }
 
@@ -14714,7 +14732,8 @@ time0=Date.now();
     let fg4n = workingFinger.linkRange.fg4n;
     let fg5n = workingFinger.evaluationRange.fg5n;
     let fg6n = workingFinger.variabilityRange.fg6n;
-    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let fg7n = workingFinger.fingerReachRest.fg7n;
+    let fg8n = workingFinger.disconnectionRest.fg8n;
     let s0;
     let n_idf;
 
@@ -14749,7 +14768,7 @@ f102.push([['\r\n','','',timed]]);
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'R'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 
 }
 
@@ -14771,7 +14790,8 @@ const showFingeringAssistant = async () => {
     let fg4n = workingFinger.linkRange.fg4n;
     let fg5n = workingFinger.evaluationRange.fg5n;
     let fg6n = workingFinger.variabilityRange.fg6n;
-    let fg7n = workingFinger.disconnectionRest.fg7n;
+    let fg7n = workingFinger.fingerReachRest.fg7n;
+    let fg8n = workingFinger.disconnectionRest.fg8n;
     let s0;
 
     f103=[];
