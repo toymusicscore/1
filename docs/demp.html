@@ -14134,7 +14134,10 @@ function createF0 (fp0, fp1, fg3n, hand) {
     let fg1n = hand;
     let fg2n = workingFinger.fingerReach.fg2n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
-    let rst7=ticksPerMeasure/fg7n;
+    let rst7 = ticksPerMeasure / fg7n;
+
+    const restLength = fp1[1] - fp0[2];
+    const isLongRest = restLength >= rst7;
 
     for (let q = 1; q <= 5; q++) {
 
@@ -14147,28 +14150,64 @@ function createF0 (fp0, fp1, fg3n, hand) {
             if (!isValidBlackKeyFinger(fp1[0], r, fg3n)) {
                 continue;
             }
+
+            //========================================
+            // Long rest : No Limit Finger Range
+            //========================================
+
+            if (fg2n === 0 || isLongRest) {
+
+                if (fg1n === 0) {
+
+                    cp0 =
+                        Number(fp0[0]) -
+                        fingerBase[q - 1][1];
+
+                    cp1 =
+                        Number(fp1[0]) -
+                        fingerBase[r - 1][1];
+
+                } else {
+
+                    cp0 =
+                        Number(fp0[0]) +
+                        fingerBase[q - 1][1];
+
+                    cp1 =
+                        Number(fp1[0]) +
+                        fingerBase[r - 1][1];
+                }
+
+                f0.push([
+                    [fp0[4], fp1[4]],
+                    [q, r],
+                    [cp0, cp1],
+                    [fp0[1], fp1[1]],
+                    [fp0[2], fp1[2]]
+                ]);
+
+                continue;
+            }
+
             //========================================
             // Strict Finger Range
             //========================================
 
-            let min;
-            let max;
-
-            const range = getFingerRange(q, r);
-
-            if (!range) {
-                continue;
-            }
-
-            min = range[0];
-            max = range[1];
-
             if (
                 fp0[4] === fp1[4] - 1 &&
                 fg2n === 1 &&
-                fp1[1] - fp0[2] < rst7 &&
                 q !== r
-            ) { 
+            ) {
+
+                const range = getFingerRange(q, r);
+
+                if (!range) {
+                    continue;
+                }
+
+                const min = range[0];
+                const max = range[1];
+
                 let pitchDiff;
 
                 if (fg1n === 0) {
@@ -14218,45 +14257,6 @@ function createF0 (fp0, fp1, fg3n, hand) {
                         [fp0[2], fp1[2]]
                     ]);
                 }
-
-            //========================================
-            // No Limit Finger Range
-            //========================================
-
-            } else if (
-                fg2n === 0 ||
-                fp1[1] - fp0[2] >= rst7
-
-            ) {
-
-                if (fg1n === 0) {
-
-                    cp0 =
-                        Number(fp0[0]) -
-                        fingerBase[q - 1][1];
-
-                    cp1 =
-                        Number(fp1[0]) -
-                        fingerBase[r - 1][1];
-
-                } else {
-
-                    cp0 =
-                        Number(fp0[0]) +
-                        fingerBase[q - 1][1];
-
-                    cp1 =
-                        Number(fp1[0]) +
-                        fingerBase[r - 1][1];
-                }
-
-                f0.push([
-                    [fp0[4], fp1[4]],
-                    [q, r],
-                    [cp0, cp1],
-                    [fp0[1], fp1[1]],
-                    [fp0[2], fp1[2]],
-                ]);
             }
         }
     }
