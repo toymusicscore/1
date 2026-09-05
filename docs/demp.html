@@ -14205,11 +14205,16 @@ for (let p = 0; p < fp.length - 1; p++) {
 
         for (let r = 1; r <= 5; r++) {
 
-            // 短い休符では同じ指を禁止
-            // 長い休符では同じ指も許可
+            const range = getFingerRange(q, r);
+                // 長い休符
+                // rangeチェックをしない
+                // 長い休符では同じ指も許可
             if (
-                q === r &&
-                fp1[5] === 0
+                // 短い休符
+                // 短い休符では同じ指を禁止
+                // getFingerRange()を使う
+                fp1[5] === 0 &&
+                (q === r || !range)
             ) {
                 continue;
             }
@@ -14223,22 +14228,6 @@ for (let p = 0; p < fp.length - 1; p++) {
                 continue;
             }
 
-            const range = getFingerRange(q, r);
-
-            if (fp1[5] === 1) {
-                // 長い休符
-                // rangeチェックをしない
-                // q===rも許可
-            }
-            else {
-                // 短い休符
-                // q===r禁止
-                // getFingerRange()を使う
-                if (!range) {
-                    continue;
-                }
-            }
-            
             const min = range[0];
             const max = range[1];
 
