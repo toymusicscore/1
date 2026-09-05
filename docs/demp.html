@@ -1760,21 +1760,9 @@ function readFingerUi(){
 
 function onFingerChange(){
 
-    console.log("★★ onFingerChange 開始");
-
     readFingerUi();
 
-    console.log(
-        "readFingerUi後:",
-        workingFinger.blackKey.fg3n
-    );
-
     updateFingerData();
-
-    console.log(
-        "updateFingerData後:",
-        workingFinger.blackKey.fg3n
-    );
 
     onSaveFinger();
 
@@ -1822,17 +1810,7 @@ function onFingerChange(){
 
     readFingerUi();
 
-    console.log(
-        "readFingerUi後:",
-        workingFinger.blackKey.fg3n
-    );
-
     updateFingerData();
-
-    console.log(
-        "updateFingerData後:",
-        workingFinger.blackKey.fg3n
-    );
 
     onSaveFinger();
 
@@ -1849,16 +1827,6 @@ function onSaveFinger(){
 
 function saveFinger() {
 
-    console.log(
-        "保存直前:",
-        workingFinger.blackKey.fg3n
-    );
-
-    console.log(
-        "画面上:",
-        document.querySelector('[name="fg3"]').value
-    );
-
     localStorage.setItem(
         "workingFinger",
         JSON.stringify(workingFinger)
@@ -1868,8 +1836,6 @@ function saveFinger() {
 function loadSavedFinger(){
 
     const tmp = localStorage.getItem("workingFinger");
-
-    console.log("起動時の保存データ:", tmp);
 
     if(tmp){
         workingFinger = JSON.parse(tmp);
