@@ -1794,9 +1794,25 @@ function updateFingerUi(){
 
 }
 
-function onSaveFinger(){
+function onFingerChange(){
 
-    saveFinger();
+    readFingerUi();
+
+    console.log(
+        "readFingerUi後:",
+        workingFinger.blackKey.fg3n
+    );
+
+    updateFingerData();
+
+    console.log(
+        "updateFingerData後:",
+        workingFinger.blackKey.fg3n
+    );
+
+    onSaveFinger();
+
+    showSelectedView();
 
 }
 
