@@ -1802,17 +1802,21 @@ function onSaveFinger(){
 
 function saveFinger() {
 
+    console.log(
+        "保存直前 fg3n =",
+        workingFinger.blackKey.fg3n
+    );
+
     localStorage.setItem(
         "workingFinger",
         JSON.stringify(workingFinger)
     );
 
     console.log(
-        "保存後:",
+        "保存後 =",
         localStorage.getItem("workingFinger")
     );
 }
-
 
 function loadSavedFinger(){
 
