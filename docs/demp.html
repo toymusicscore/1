@@ -14335,6 +14335,8 @@ for (let p = 1; p < fp.length; p++) {
     const fp0 = fp[p-1];
     const fp1 = fp[p];
 
+    const beforeLength = f0.length;
+
     //========================================
     // 第1段階
     // 黒鍵ルールを適用
@@ -14348,8 +14350,10 @@ for (let p = 1; p < fp.length; p++) {
     // 黒鍵ルールを解除する
     //========================================
 
-    if (f0.length === 0 && fg3n !== 0) {
-        f0 = [];
+    // 今回の組み合わせで候補が1つも追加されなかった
+    if (f0.length === beforeLength && fg3n !== 0) {
+
+        // 第2段階
         createF0(fp0, fp1, 0, hand);
     }
  
