@@ -14034,23 +14034,6 @@ function isValidBlackKeyFinger(midi, finger, fg3n) {
     );
 }
 
-/*
-function isValidBlackKeyFinger(midi, finger) {
-
-    // 白鍵ならすべての指を許可
-    if (!isBlackKey(midi)) {
-        return true;
-    }
-
-    // 黒鍵では２、３、４に限定
-    return (
-        Number(finger) === 2 ||
-        Number(finger) === 3 ||
-        Number(finger) === 4
-    );
-}
-*/
-
 function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
     const nextF = [];
@@ -14125,17 +14108,16 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
 function createF0 (fp0, fp1, fg3n) {
 
     for (let q = 1; q <= 5; q++) {
-        // 黒鍵ルール
-        if (!isValidBlackKeyFinger(fp0[0], q, fg3n)) {
-            continue;
-        }
 
-        if (!isValidBlackKeyFinger(fp1[0], r, fg3n)) {
+        if (!isValidBlackKeyFinger(fp0[0], q, fg3n)) {
             continue;
         }
 
         for (let r = 1; r <= 5; r++) {
 
+            if (!isValidBlackKeyFinger(fp1[0], r, fg3n)) {
+                continue;
+            }
             //========================================
             // Strict Finger Range
             //========================================
