@@ -14040,7 +14040,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
     for (let p = 0; p < currentF.length; p++) {
 
-        const [notes, fingers, cps, flg] = currentF[p];
+        const [notes, fingers, cps, ticks] = currentF[p];
 
         const nf0 = n_idf;
         const nt0 = notes[notes.length - 1];
@@ -14056,7 +14056,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
                 [nf1, nt1],
                 [ff1, ft1],
                 [cf1, ct1],
-                [rf1, rt1]
+                [tf1, tt1]
             ] = f1[q];
 
             if (
@@ -14069,7 +14069,7 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
                     [...notes, nt1],
                     [...fingers, ft1],
                     [...cps, ct1],
-                    [...flg, rt1]
+                    [...ticks, tt1]
                 ]);
             }
         }
@@ -14175,7 +14175,8 @@ function createF0 (fp0, fp1, fg3n) {
                         [q, r],
                         [cp0, cp1],
                         [fp0[0], fp1[0]],
-                        [fp0[2], fp1[1]]
+                        [fp0[1], fp1[1]],
+                        [fp0[2], fp1[2]]
                     ]);
                 }
 
@@ -14215,7 +14216,8 @@ function createF0 (fp0, fp1, fg3n) {
                     [q, r],
                     [cp0, cp1],
                     [fp0[0], fp1[0]],
-                    [fp0[2], fp1[1]]
+                    [fp0[1], fp1[1]],
+                    [fp0[2], fp1[2]],
                 ]);
             }
         }
