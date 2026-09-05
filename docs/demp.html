@@ -1217,8 +1217,13 @@ function showTab(tab){
 					<br><br>
 				<input 
 					type="button" 
-					id="fingeringRecorderButton"
-					value="✋ Fingering Recorder">
+					id="fingeringRecorderBothHandButton"
+					value="✋ Fingering Recorder Both Hands">
+					<br><br>
+				<input 
+					type="button" 
+					id="fingeringRecorderOneHandButton"
+					value="✋ Fingering Recorder One Hand">
 					<br><br>
             `;
 				$("fingerSettingsButton").onclick = function(){
@@ -1229,8 +1234,12 @@ function showTab(tab){
 					showFingeringAssistant();
 					closeMenuWindow();
 				};
-				$("fingeringRecorderButton").onclick = function(){
-					showFingeringRecorder();
+				$("fingeringRecorderBothHandsButton").onclick = function(){
+					showFingeringRecorderBothHands();
+					closeMenuWindow();
+				};
+				$("fingeringRecorderOneHandButton").onclick = function(){
+					showFingeringRecorderOneHand();
 					closeMenuWindow();
 				};
 
@@ -14768,7 +14777,7 @@ for (let p=0;p<f101.length;p++){
 }
 
 
-const showFingeringRecorder= async () =>{
+const showFingeringRecorderBothHands= async () =>{
 time0=Date.now();
 
     let fg1n = workingFinger.selectHand.fg1n;
@@ -14827,7 +14836,7 @@ downloadFile(file1name+'_H'+fg1n+'R'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r
 }
 
 
-const showFingeringRecorder1= async () =>{
+const showFingeringRecorderOneHand= async () =>{
 time0=Date.now();
 
     let fg1n = workingFinger.selectHand.fg1n;
@@ -14860,7 +14869,7 @@ time0=Date.now();
 for (let i=0; i<s0.length; i++){
     n_idf = s0[i].n_id;
     pauseTick = s0[i].start;
-	finger1(n_idf);
+	finger1(n_idf, fg1n);
 	await new Promise(r => timer=setTimeout(r,1));
 }
 
