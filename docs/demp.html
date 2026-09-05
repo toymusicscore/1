@@ -14284,18 +14284,19 @@ if (fg1n===0){
 
 for (let i = 0; i < s0.length; i++) {
 
-    let restBefore = 0;
+    let disconnectRest = 0;
+    
     if (i === 0) {
         
-        restBefore = 1;
+        disconnectRest = 1;
 
     }else if (i > 0) {
 
         const restLength = s0[i].start - s0[i - 1].stop;
 
         if (restLength >= rst8) {
-            restBefore = 1;     // 設定した休符以上の時間が音符の前にあった場合
-                                // 評価値計算区間の接続を解除、指の届く範囲の制限を解除、連続打鍵制限を解除する
+            disconnectRest = 1;     // 設定した休符（rst8）以上の時間が音符の前にあった場合
+                                // 評価値計算区間の接続を解除する
         }
     }
 
@@ -14310,7 +14311,7 @@ for (let i = 0; i < s0.length; i++) {
             s0[i].stop,
             s0[i].channel,
             s0[i].n_id,
-            restBefore
+            disconnectRest
         ]);
     }
 }
