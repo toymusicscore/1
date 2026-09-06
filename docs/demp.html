@@ -1600,12 +1600,6 @@ const defaultFinger = {
     variabilityRangeSize:{
         fg6n:2
     },
-    fingerReachRest:{
-        fg7n:16
-    },
-    disconnectionRest:{
-        fg8n:4
-    },
 
 };
 let workingFinger = structuredClone(defaultFinger);
@@ -1715,9 +1709,6 @@ function readFingerUi(){
     let fg4 = document.querySelector('[name="fg4"]');
     let fg5 = document.querySelector('[name="fg5"]');
     let fg6 = document.querySelector('[name="fg6"]');
-    let fg7 = document.querySelector('[name="fg7"]');
-    let fg8 = document.querySelector('[name="fg8"]');
-
 
     workingFinger.selectHand.fg1n =
         Number(fg1.value);
@@ -1736,12 +1727,6 @@ function readFingerUi(){
 
     workingFinger.variabilityRangeSize.fg6n =
         Number(fg6.value);
-
-    workingFinger.fingerReachRest.fg7n =
-        Number(fg7.value);
-
-    workingFinger.disconnectionRest.fg8n =
-        Number(fg8.value);
 
 }
 
@@ -1781,8 +1766,6 @@ function updateFingerUi(){
     const fg4 = document.querySelector('[name="fg4"]');
     const fg5 = document.querySelector('[name="fg5"]');
     const fg6 = document.querySelector('[name="fg6"]');
-    const fg7 = document.querySelector('[name="fg7"]');
-    const fg8 = document.querySelector('[name="fg8"]');
 
     fg1.value = workingFinger.selectHand.fg1n;
     fg2.value = workingFinger.fingerReachRule.fg2n;
@@ -1790,8 +1773,6 @@ function updateFingerUi(){
     fg4.value = workingFinger.rangeLinkRule.fg4n;
     fg5.value = workingFinger.evaluationRangeSize.fg5n;
     fg6.value = workingFinger.variabilityRangeSize.fg6n;
-    fg7.value = workingFinger.fingerReachRest.fg7n;
-    fg8.value = workingFinger.disconnectionRest.fg8n;
 
 }
 
@@ -14549,8 +14530,6 @@ time0=Date.now();
     let fg4n = workingFinger.rangeLinkRule.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
-    let fg7n = workingFinger.fingerReachRest.fg7n;
-    let fg8n = workingFinger.disconnectionRest.fg8n;
 
     f102=[];
 
@@ -14585,7 +14564,7 @@ f102.push([['\r\n','','',timed]]);
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+downloadFile(file1name+'_HBL'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 
 fingeringByNoteID = {};
 
@@ -14596,9 +14575,6 @@ for (let i = 1; i < f102.length; i++){
 
     fingeringByNoteID[id] = fingering;
 }
-
-console.log("f102.length =", f102.length);
-console.log("fingeringByNoteID =", fingeringByNoteID);
 
 }
 
@@ -14612,8 +14588,6 @@ time0=Date.now();
     let fg4n = workingFinger.rangeLinkRule.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
-    let fg7n = workingFinger.fingerReachRest.fg7n;
-    let fg8n = workingFinger.disconnectionRest.fg8n;
     let s0;
     let n_idf;
 
@@ -14648,7 +14622,7 @@ f102.push([['\r\n','','',timed]]);
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 
 fingeringByNoteID = {};
 
@@ -14682,8 +14656,6 @@ const showFingeringAssistant = async () => {
     let fg4n = workingFinger.rangeLinkRule.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
-    let fg7n = workingFinger.fingerReachRest.fg7n;
-    let fg8n = workingFinger.disconnectionRest.fg8n;
     let s0;
 
     f103=[];
