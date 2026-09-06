@@ -1611,19 +1611,19 @@ const defaultFinger = {
     selectHand:{
         fg1n:0
     },
-    fingerReach:{
+    fingerReachRule:{
         fg2n:1
     },
-    blackKey:{
-        fg3n:0
+    blackKeyRule:{
+        fg3n:1
     },
-    linkRange:{
+    linkRangeSize:{
         fg4n:1
     },
-    evaluationRange:{
+    evaluationRangeSize:{
         fg5n:10
     },
-    variabilityRange:{
+    variabilityRangeSize:{
         fg6n:2
     },
     fingerReachRest:{
@@ -1748,19 +1748,19 @@ function readFingerUi(){
     workingFinger.selectHand.fg1n =
         Number(fg1.value);
 
-    workingFinger.fingerReach.fg2n =
+    workingFinger.fingerReachRule.fg2n =
         Number(fg2.value);
 
-    workingFinger.blackKey.fg3n =
+    workingFinger.blackKeyRule.fg3n =
         Number(fg3.value);
 
-    workingFinger.linkRange.fg4n =
+    workingFinger.linkRangeSize.fg4n =
         Number(fg4.value);
 
-    workingFinger.evaluationRange.fg5n =
+    workingFinger.evaluationRangeSize.fg5n =
         Number(fg5.value);
 
-    workingFinger.variabilityRange.fg6n =
+    workingFinger.variabilityRangeSize.fg6n =
         Number(fg6.value);
 
     workingFinger.fingerReachRest.fg7n =
@@ -1811,11 +1811,11 @@ function updateFingerUi(){
     const fg8 = document.querySelector('[name="fg8"]');
 
     fg1.value = workingFinger.selectHand.fg1n;
-    fg2.value = workingFinger.fingerReach.fg2n;
-    fg3.value = workingFinger.blackKey.fg3n;
-    fg4.value = workingFinger.linkRange.fg4n;
-    fg5.value = workingFinger.evaluationRange.fg5n;
-    fg6.value = workingFinger.variabilityRange.fg6n;
+    fg2.value = workingFinger.fingerReachRule.fg2n;
+    fg3.value = workingFinger.blackKeyRule.fg3n;
+    fg4.value = workingFinger.linkRangeSize.fg4n;
+    fg5.value = workingFinger.evaluationRangeSize.fg5n;
+    fg6.value = workingFinger.variabilityRangeSize.fg6n;
     fg7.value = workingFinger.fingerReachRest.fg7n;
     fg8.value = workingFinger.disconnectionRest.fg8n;
 
@@ -14268,11 +14268,11 @@ function finger1(n_idf, hand){
     fp = [];
 
     let fg1n = hand;
-    let fg2n = workingFinger.fingerReach.fg2n;
-    let fg3n = workingFinger.blackKey.fg3n;
-    let fg4n = workingFinger.linkRange.fg4n;
-    let fg5n = workingFinger.evaluationRange.fg5n;
-    let fg6n = workingFinger.variabilityRange.fg6n;
+    let fg2n = workingFinger.fingerReachRule.fg2n;
+    let fg3n = workingFinger.blackKeyRule.fg3n;
+    let fg4n = workingFinger.linkRangeSize.fg4n;
+    let fg5n = workingFinger.evaluationRangeSize.fg5n;
+    let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let fg8n = workingFinger.disconnectionRest.fg8n;
 
@@ -14666,11 +14666,11 @@ const showFingeringRecorderBothHands= async () =>{
 time0=Date.now();
 
     let fg1n = workingFinger.selectHand.fg1n;
-    let fg2n = workingFinger.fingerReach.fg2n;
-    let fg3n = workingFinger.blackKey.fg3n;
-    let fg4n = workingFinger.linkRange.fg4n;
-    let fg5n = workingFinger.evaluationRange.fg5n;
-    let fg6n = workingFinger.variabilityRange.fg6n;
+    let fg2n = workingFinger.fingerReachRule.fg2n;
+    let fg3n = workingFinger.blackKeyRule.fg3n;
+    let fg4n = workingFinger.linkRangeSize.fg4n;
+    let fg5n = workingFinger.evaluationRangeSize.fg5n;
+    let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let fg8n = workingFinger.disconnectionRest.fg8n;
 
@@ -14729,11 +14729,11 @@ const showFingeringRecorderOneHand= async () =>{
 time0=Date.now();
 
     let fg1n = workingFinger.selectHand.fg1n;
-    let fg2n = workingFinger.fingerReach.fg2n;
-    let fg3n = workingFinger.blackKey.fg3n;
-    let fg4n = workingFinger.linkRange.fg4n;
-    let fg5n = workingFinger.evaluationRange.fg5n;
-    let fg6n = workingFinger.variabilityRange.fg6n;
+    let fg2n = workingFinger.fingerReachRule.fg2n;
+    let fg3n = workingFinger.blackKeyRule.fg3n;
+    let fg4n = workingFinger.linkRangeSize.fg4n;
+    let fg5n = workingFinger.evaluationRangeSize.fg5n;
+    let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let fg8n = workingFinger.disconnectionRest.fg8n;
     let s0;
@@ -14799,11 +14799,11 @@ aLink.dispatchEvent(evt);
 const showFingeringAssistant = async () => {
 
     let fg1n = workingFinger.selectHand.fg1n;
-    let fg2n = workingFinger.fingerReach.fg2n;
-    let fg3n = workingFinger.blackKey.fg3n;
-    let fg4n = workingFinger.linkRange.fg4n;
-    let fg5n = workingFinger.evaluationRange.fg5n;
-    let fg6n = workingFinger.variabilityRange.fg6n;
+    let fg2n = workingFinger.fingerReachRule.fg2n;
+    let fg3n = workingFinger.blackKeyRule.fg3n;
+    let fg4n = workingFinger.linkRangeSize.fg4n;
+    let fg5n = workingFinger.evaluationRangeSize.fg5n;
+    let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let fg8n = workingFinger.disconnectionRest.fg8n;
     let s0;
