@@ -14111,7 +14111,8 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
             if (
                 tt1x - pf1x >= rst7 &&
                 nf0 === n_idf &&
-                nt0 === nf1x
+                nt0 === nf1x &&
+                ft0 !== ft1x
             ) {
                 nextF.push([
                     [...notes, nt1x],
@@ -14155,7 +14156,7 @@ function createF0 (fp0, fp1, fg3n, hand) {
             // Long rest : No Limit Finger Range
             //========================================
 
-            if (fg2n === 0 || isLongRest) {
+            if ((fg2n === 0 || isLongRest) && q!==r) {
 
                 if (fg1n === 0) {
 
