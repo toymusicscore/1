@@ -14059,14 +14059,9 @@ function extendFingering(currentF, f1, i, n_idf) {
     for (let p = 0; p < currentF.length; p++) {
 
         const [notes, fingers, cps, starts, stops] = currentF[p];
-
         const nf0 = notes[0];
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
-
-        //========================================
-        // Short rest
-        //========================================
 
         for (let q = 0; q < f1.length; q++) {
 
@@ -14094,37 +14089,6 @@ function extendFingering(currentF, f1, i, n_idf) {
                 ]);
             }
         }
-/*
-        //========================================
-        // Long rest
-        //========================================
-
-        for (let r = 0; r < f1x1.length; r++) {
-
-            const [
-                [nf1x, nt1x],
-                [ff1x, ft1x],
-                [cf1x, ct1x],
-                [tf1x, tt1x],
-                [pf1x, pt1x]
-            ] = f1x1[r];
- 
-            if (
-                tt1x - pf1x >= rst7 &&
-                nf0 === n_idf &&
-                nt0 === nf1x &&
-                ft0 !== ft1x
-            ) {
-                nextF.push([
-                    [...notes, nt1x],
-                    [...fingers, ft1x],
-                    [...cps, ct1x],
-                    [...starts, tt1x],
-                    [...stops, pt1x]
-                ]);
-            }
-        }
-            */
     }
 
     return nextF;
