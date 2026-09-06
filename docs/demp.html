@@ -14010,10 +14010,10 @@ function extendFingering(currentF, f1, n_idf) {
 
     for (let p = 0; p < currentF.length; p++) {
 
-        const [notes, fingers, hps] = currentF[p];
+        const [n_ids, fingers, hps] = currentF[p];
 
-        const nf0 = notes[0];
-        const nt0 = notes[notes.length - 1];
+        const nf0 = n_ids[0];
+        const nt0 = n_ids[n_ids.length - 1];
         const ft0 = fingers[fingers.length - 1];
 
         for (let q = 0; q < f1.length; q++) {
@@ -14031,7 +14031,7 @@ function extendFingering(currentF, f1, n_idf) {
                 ft0 !== ft1
             ) {
                 nextF.push([
-                    [...notes, nt1],
+                    [...n_ids, nt1],
                     [...fingers, ft1],
                     [...hps, ht1]
                 ]);
