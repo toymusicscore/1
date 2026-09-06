@@ -14049,7 +14049,7 @@ function isValidBlackKeyFinger(midi, finger, fg3n) {
     );
 }
 
-function extendFingering(currentF, f1, i, n_idf) {
+function extendFingering(currentF, f1, f1x1, i, n_idf) {
 
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7=ticksPerMeasure/fg7n;
@@ -14059,9 +14059,14 @@ function extendFingering(currentF, f1, i, n_idf) {
     for (let p = 0; p < currentF.length; p++) {
 
         const [notes, fingers, cps, starts, stops] = currentF[p];
+
         const nf0 = notes[0];
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
+
+        //========================================
+        // Short rest
+        //========================================
 
         for (let q = 0; q < f1.length; q++) {
 
@@ -14089,6 +14094,35 @@ function extendFingering(currentF, f1, i, n_idf) {
                 ]);
             }
         }
+        //========================================
+        // Long rest
+        //========================================
+
+        for (let r = 0; r < f1x1.length; r++) {
+
+            const [
+                [nf1x, nt1x],
+                [ff1x, ft1x],
+                [cf1x, ct1x],
+                [tf1x, tt1x],
+                [pf1x, pt1x]
+            ] = f1x1[r];
+ 
+            if (
+                tt1x - pf1x >= rst7 &&
+                nf0 === n_idf &&
+                nt0 === nf1x &&
+                ft0 !== ft1x
+            ) {
+                nextF.push([
+                    [...notes, nt1x],
+                    [...fingers, ft1x],
+                    [...cps, ct1x],
+                    [...starts, tt1x],
+                    [...stops, pt1x]
+                ]);
+            }
+        }
     }
 
     return nextF;
@@ -14096,7 +14130,7 @@ function extendFingering(currentF, f1, i, n_idf) {
 }
 
 
-function createF1 (fp0, fp1, fg3n, hand) {
+function createF0 (fp0, fp1, fg3n, hand) {
 
     let fg1n = hand;
     let fg2n = workingFinger.fingerReachRule.fg2n;
@@ -14145,7 +14179,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
                         fingerBase[r - 1][1];
                 }
 
-                f1.push([
+                f0.push([
                     [fp0[4], fp1[4]],
                     [q, r],
                     [cp0, cp1],
@@ -14216,7 +14250,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
                             fingerBase[r - 1][1];
                     }
 
-                    f1.push([
+                    f0.push([
                         [fp0[4], fp1[4]],
                         [q, r],
                         [cp0, cp1],
@@ -14288,7 +14322,7 @@ function finger1(n_idf, hand){
         }
     }
 
-    f1 = [];
+    f0 = [];
 
     let cp0 = 0;
     let cp1 = 0;
@@ -14298,14 +14332,14 @@ function finger1(n_idf, hand){
         const fp0 = fp[p-1];
         const fp1 = fp[p];
 
-        const beforeLength = f1.length;
+        const beforeLength = f0.length;
 
         //========================================
         // 第1段階
         // 黒鍵ルールを適用
         //========================================
 
-        createF1(fp0, fp1, fg3n, hand);
+        createF0(fp0, fp1, fg3n, hand);
 
         //========================================
         // 第2段階
@@ -14314,13 +14348,49 @@ function finger1(n_idf, hand){
         //========================================
 
         // 今回の組み合わせで候補が1つも追加されなかった
-        if (f1.length === beforeLength && fg3n !== 0) {
+        if (f0.length === beforeLength && fg3n !== 0) {
 
             // 第2段階
-            createF1(fp0, fp1, 0, hand);
+            createF0(fp0, fp1, 0, hand);
         }
  
 }
+
+f1 = [];
+
+if (f0.length > 0 && fp.length > 1) {
+    for (let i = 0;i < f0.length; i++) {
+        let [[nf0, nt0],
+            [ff0, ft0],
+            [cf0, ct0],
+            [tf0, tt0],
+            [pf0, pt0]] = f0[i];
+
+        f1.push([
+            [nf0, nt0],
+            [ff0, ft0],
+            [cf0, ct0],
+            [tf0, tt0],
+            [pf0, pt0]
+        ]);
+    }
+}
+
+let f1x0=[];
+
+for (let i=0;i<f1.length;i++){
+	f1x0.push([[f1[i][0][0], f1[i][0][1]], 
+			   ["0", f1[i][1][1]], 
+			   ["0", f1[i][2][1]],
+			   [f1[i][3][0], f1[i][3][1]],
+			   [f1[i][4][0], f1[i][4][1]]]);
+}
+
+let f1x1 = [
+    ...new Map(
+        f1x0.map(x => [JSON.stringify(x), x])
+    ).values()
+];
 
     //========================================================
     // f2以降を作る
@@ -14328,6 +14398,7 @@ function finger1(n_idf, hand){
 
     f = [];
 
+    f[0] = f0;
     f[1] = f1;
 
     for(let i=2; i<fp.length; i++){
@@ -14342,11 +14413,13 @@ function finger1(n_idf, hand){
             f[i] = extendFingering(
                 f[i-1],
                 f1,
+                f1x1,
                 i,
                 n_idf
             );
         }
 }
+
 
 //============================================================
 // 最後の1音のf101はf103から作る
@@ -14377,17 +14450,17 @@ if (n_idf === s0[s0.length - 1].n_id) {
 
     for (let i = 0; i < f100.length; i++) {
         if (
-            fg4n === 0 || //今回の評価値計算区間の第１音が、前回の運指に制約されない設定
+            fg4n === 0 || //前回の運指に制約されない設定
             f103.length === 0 || //楽曲の最初、前回の最良の運指の第２音の運指が保存されていない
-            fp[0][5] === 1  //今回の評価値計算区間の第１音の前に指定休符（rst8）以上の時間がある場合
+            fp[0][5] === 1  //今回の運指情報の第１音の前に指定休符（rst8）以上の時間がある場合
         ) {
             mstd(i);
 
         } else if (
-            fg4n === 1 && //今回の評価値計算区間の第１音が、前回の運指に制約される設定
+            fg4n === 1 && //今回の運指情報の第１音が、前回の運指に制約される設定
             f103.length > 0 && //楽曲の途中、前回の最良の運指の第２音の運指が保存されている
-            fp[0][5] === 0 &&//今回の評価値計算区間の第１音の前に指定休符（rst8）以上の時間がない場合
-            f100[i][1][0] === f103[1] //今回の運指情報の第１音の運指が、前回の最良の運指の第２音の運指が同じ番号である
+            fp[0][5] === 0 &&//今回の運指情報の第１音の前に指定休符（rst8）以上の時間がない場合
+            f100[i][1][0] === f103[1] //今回の運指情報の第１音が、前回の最良の運指の第２音の運指が同じ番号である
         ) {
             mstd(i);
         }
