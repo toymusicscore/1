@@ -14704,6 +14704,11 @@ let time1=Date.now();
 let timed=(time1-time0)/60000;
 f102.push([['\r\n','','',timed]]);
 
+let file1name =
+    val("song1");
+
+downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+
 fingeringByNoteID = {};
 
 for (let i = 1; i < f102.length; i++){
@@ -14714,10 +14719,8 @@ for (let i = 1; i < f102.length; i++){
     fingeringByNoteID[id] = fingering;
 }
 
-let file1name =
-    val("song1");
-
-downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+console.log("f102.length =", f102.length);
+console.log("fingeringByNoteID =", fingeringByNoteID);
 
 }
 
@@ -14768,6 +14771,18 @@ let file1name =
     val("song1");
 
 downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+
+fingeringByNoteID = {};
+
+for (let i = 1; i < f102.length; i++) {
+    const id = Number(f102[i][0]);
+    const fingering = f102[i][1];
+
+    fingeringByNoteID[id] = fingering;
+}
+
+console.log("f102.length =", f102.length);
+console.log("fingeringByNoteID =", fingeringByNoteID);
 
 }
 
