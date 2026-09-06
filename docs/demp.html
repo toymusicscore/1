@@ -14049,7 +14049,7 @@ function isValidBlackKeyFinger(midi, finger, fg3n) {
     );
 }
 
-function extendFingering(currentF, f1, f1x1, i, n_idf) {
+function extendFingering(currentF, f1, i, n_idf) {
 
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7=ticksPerMeasure/fg7n;
@@ -14063,10 +14063,6 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
         const nf0 = notes[0];
         const nt0 = notes[notes.length - 1];
         const ft0 = fingers[fingers.length - 1];
-
-        //========================================
-        // Short rest
-        //========================================
 
         for (let q = 0; q < f1.length; q++) {
 
@@ -14091,35 +14087,6 @@ function extendFingering(currentF, f1, f1x1, i, n_idf) {
                     [...cps, ct1],
                     [...starts, tt1],
                     [...stops, pt1]
-                ]);
-            }
-        }
-        //========================================
-        // Long rest
-        //========================================
-
-        for (let r = 0; r < f1x1.length; r++) {
-
-            const [
-                [nf1x, nt1x],
-                [ff1x, ft1x],
-                [cf1x, ct1x],
-                [tf1x, tt1x],
-                [pf1x, pt1x]
-            ] = f1x1[r];
- 
-            if (
-                tt1x - pf1x >= rst7 &&
-                nf0 === n_idf &&
-                nt0 === nf1x &&
-                ft0 !== ft1x
-            ) {
-                nextF.push([
-                    [...notes, nt1x],
-                    [...fingers, ft1x],
-                    [...cps, ct1x],
-                    [...starts, tt1x],
-                    [...stops, pt1x]
                 ]);
             }
         }
@@ -14211,7 +14178,7 @@ function extendFingering_bk(currentF, f1, f1x1, i, n_idf) {
 }
 
 
-function createF0 (fp0, fp1, fg3n, hand) {
+function createF1 (fp0, fp1, fg3n, hand) {
 
     let fg1n = hand;
     let fg2n = workingFinger.fingerReachRule.fg2n;
@@ -14260,7 +14227,7 @@ function createF0 (fp0, fp1, fg3n, hand) {
                         fingerBase[r - 1][1];
                 }
 
-                f0.push([
+                f1.push([
                     [fp0[4], fp1[4]],
                     [q, r],
                     [cp0, cp1],
@@ -14331,7 +14298,7 @@ function createF0 (fp0, fp1, fg3n, hand) {
                             fingerBase[r - 1][1];
                     }
 
-                    f0.push([
+                    f1.push([
                         [fp0[4], fp1[4]],
                         [q, r],
                         [cp0, cp1],
@@ -14537,7 +14504,7 @@ function finger1(n_idf, hand){
         }
     }
 
-    f0 = [];
+    f1 = [];
 
     let cp0 = 0;
     let cp1 = 0;
@@ -14547,14 +14514,14 @@ function finger1(n_idf, hand){
         const fp0 = fp[p-1];
         const fp1 = fp[p];
 
-        const beforeLength = f0.length;
+        const beforeLength = f1.length;
 
         //========================================
         // 第1段階
         // 黒鍵ルールを適用
         //========================================
 
-        createF0(fp0, fp1, fg3n, hand);
+        createF1(fp0, fp1, fg3n, hand);
 
         //========================================
         // 第2段階
@@ -14563,49 +14530,13 @@ function finger1(n_idf, hand){
         //========================================
 
         // 今回の組み合わせで候補が1つも追加されなかった
-        if (f0.length === beforeLength && fg3n !== 0) {
+        if (f1.length === beforeLength && fg3n !== 0) {
 
             // 第2段階
-            createF0(fp0, fp1, 0, hand);
+            createF1(fp0, fp1, 0, hand);
         }
  
 }
-
-f1 = [];
-
-if (f0.length > 0 && fp.length > 1) {
-    for (let i = 0;i < f0.length; i++) {
-        let [[nf0, nt0],
-            [ff0, ft0],
-            [cf0, ct0],
-            [tf0, tt0],
-            [pf0, pt0]] = f0[i];
-
-        f1.push([
-            [nf0, nt0],
-            [ff0, ft0],
-            [cf0, ct0],
-            [tf0, tt0],
-            [pf0, pt0]
-        ]);
-    }
-}
-
-let f1x0=[];
-
-for (let i=0;i<f1.length;i++){
-	f1x0.push([[f1[i][0][0], f1[i][0][1]], 
-			   ["0", f1[i][1][1]], 
-			   ["0", f1[i][2][1]],
-			   [f1[i][3][0], f1[i][3][1]],
-			   [f1[i][4][0], f1[i][4][1]]]);
-}
-
-let f1x1 = [
-    ...new Map(
-        f1x0.map(x => [JSON.stringify(x), x])
-    ).values()
-];
 
     //========================================================
     // f2以降を作る
@@ -14613,7 +14544,6 @@ let f1x1 = [
 
     f = [];
 
-    f[0] = f0;
     f[1] = f1;
 
     for(let i=2; i<fp.length; i++){
@@ -14628,7 +14558,6 @@ let f1x1 = [
             f[i] = extendFingering(
                 f[i-1],
                 f1,
-                f1x1,
                 i,
                 n_idf
             );
