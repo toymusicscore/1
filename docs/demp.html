@@ -14060,10 +14060,10 @@ function extendFingering(currentF, f1, n_idf) {
 
     for (let p = 0; p < currentF.length; p++) {
 
-        const [notes, fingers, cps, starts, stops] = currentF[p];
+        const [n_ids, fingers, hps, starts, stops] = currentF[p];
 
-        const nf0 = notes[0];
-        const nt0 = notes[notes.length - 1];
+        const nf0 = n_ids[0];
+        const nt0 = n_ids[n_ids.length - 1];
         const ft0 = fingers[fingers.length - 1];
 
         for (let q = 0; q < f1.length; q++) {
@@ -14071,7 +14071,7 @@ function extendFingering(currentF, f1, n_idf) {
             const [
                 [nf1, nt1],
                 [ff1, ft1],
-                [cf1, ct1],
+                [hf1, ht1],
                 [tf1, tt1],
                 [pf1, pt1]
             ] = f1[q];
@@ -14083,9 +14083,9 @@ function extendFingering(currentF, f1, n_idf) {
                 ft0 !== ft1
             ) {
                 nextF.push([
-                    [...notes, nt1],
+                    [...n_ids, nt1],
                     [...fingers, ft1],
-                    [...cps, ct1],
+                    [...hps, ht1],
                     [...starts, tt1],
                     [...stops, pt1]
                 ]);
@@ -14100,6 +14100,8 @@ function extendFingering(currentF, f1, n_idf) {
 
 function createF1 (fp0, fp1, fg3n, hand) {
 
+    let hp0 = 0;
+    let hp1 = 0;
     let fg1n = hand;
     let fg2n = workingFinger.fingerReachRule.fg2n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14135,21 +14137,21 @@ function createF1 (fp0, fp1, fg3n, hand) {
 
                 if (fg1n === 0) {
 
-                    cp0 =
+                    hp0 =
                         Number(fp0[0]) -
                         fingerBase[q - 1][1];
 
-                    cp1 =
+                    hp1 =
                         Number(fp1[0]) -
                         fingerBase[r - 1][1];
 
                 } else {
 
-                    cp0 =
+                    hp0 =
                         Number(fp0[0]) +
                         fingerBase[q - 1][1];
 
-                    cp1 =
+                    hp1 =
                         Number(fp1[0]) +
                         fingerBase[r - 1][1];
                 }
@@ -14157,7 +14159,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
                 f1.push([
                     [fp0[4], fp1[4]],
                     [q, r],
-                    [cp0, cp1],
+                    [hp0, hp1],
                     [fp0[1], fp1[1]],
                     [fp0[2], fp1[2]]
                 ]);
@@ -14206,21 +14208,21 @@ function createF1 (fp0, fp1, fg3n, hand) {
 
                     if (fg1n === 0) {
 
-                        cp0 =
+                        hp0 =
                             Number(fp0[0]) -
                             fingerBase[q - 1][1];
 
-                        cp1 =
+                        hp1 =
                             Number(fp1[0]) -
                             fingerBase[r - 1][1];
 
                     } else {
 
-                        cp0 =
+                        hp0 =
                             Number(fp0[0]) +
                             fingerBase[q - 1][1];
 
-                        cp1 =
+                        hp1 =
                             Number(fp1[0]) +
                             fingerBase[r - 1][1];
                     }
@@ -14228,7 +14230,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
                     f1.push([
                         [fp0[4], fp1[4]],
                         [q, r],
-                        [cp0, cp1],
+                        [hp0, hp1],
                         [fp0[1], fp1[1]],
                         [fp0[2], fp1[2]]
                     ]);
@@ -14298,9 +14300,6 @@ function finger1(n_idf, hand){
     }
 
     f1 = [];
-
-    let cp0 = 0;
-    let cp1 = 0;
 
     for (let p = 1; p < fp.length; p++) {
 
@@ -14645,7 +14644,7 @@ f102.push([['\r\n','','',timed]]);
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+downloadFile(file1name+'_HBL'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 
 fingeringByNoteID = {};
 
