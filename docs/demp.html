@@ -14108,7 +14108,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
     let rst7 = ticksPerMeasure / fg7n;
 
     const restLength = fp1[1] - fp0[2];
-    const isLongRest = restLength >= rst7;
+    const isShortRest = restLength >= rst7;
 
     for (let q = 1; q <= 5; q++) {
 
@@ -14123,7 +14123,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
             }
 
             //========================================
-            // Long rest : No Limit Finger Range
+            // Short rest : No Limit Finger Range
             //========================================
 
             if ((
@@ -14132,7 +14132,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
                 ) && 
                 (
                 fg2n === 0 || 
-                isLongRest
+                isShortRest
                 )) {
 
                 if (fg1n === 0) {
