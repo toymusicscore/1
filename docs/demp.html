@@ -14242,19 +14242,24 @@ function finger1(n_idf, hand){
 
     for (let i = 0; i < s0.length; i++) {
 
-        let firstFingerReachRest = 0;
+        let fingerReachRest = 0;
+        let previousMidi = 0;
 
         if (i === 0) {
             
-            firstFingerReachRest = 1;
+            fingerReachRest = 1;
+            previousMidi = 0;
 
         }else if (i > 0) {
 
             const restLength = s0[i].start - s0[i - 1].stop;
 
             if (restLength >= rst7) {
-                firstFingerReachRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にあった場合、評価値計算区間の接続を解除する
+                fingerReachRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にあった場合、評価値計算区間の接続を解除する
             }
+
+            previousMidi = s0[i-1].midi;
+
         }
 
         if (
@@ -14268,7 +14273,8 @@ function finger1(n_idf, hand){
                 s0[i].stop,
                 s0[i].channel,
                 s0[i].n_id,
-                firstFingerReachRest
+                fingerReachRest,
+                previousMidi
             ]);
         }
     }
