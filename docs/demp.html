@@ -794,19 +794,6 @@ Upper Limit: Largest allowable distance between the two fingers.
     <option value="32">32nd Rest</option>
     <option value="64">64th Rest</option>
 </select>
-<br>
-
-<label>Evaluation Range Disconnection Rest Threshold</label>
-<select name="fg8">
-    <option value="0">No Exception</option>
-    <option value="1">Whole Rest</option>
-    <option value="2">Half Rest</option>
-    <option value="4" selected>Quarter Rest</option>
-    <option value="8">8th Rest</option>
-    <option value="16">16th Rest</option>
-    <option value="32">32nd Rest</option>
-    <option value="64">64th Rest</option>
-</select>
 <br><br>
 
 <input type="button"
@@ -1631,9 +1618,6 @@ const defaultFinger = {
     fingerReachRest:{
         fg7n:16
     },
-    disconnectionRest:{
-        fg8n:4
-    },
 
 };
 let workingFinger = structuredClone(defaultFinger);
@@ -1744,8 +1728,6 @@ function readFingerUi(){
     let fg5 = document.querySelector('[name="fg5"]');
     let fg6 = document.querySelector('[name="fg6"]');
     let fg7 = document.querySelector('[name="fg7"]');
-    let fg8 = document.querySelector('[name="fg8"]');
-
 
     workingFinger.selectHand.fg1n =
         Number(fg1.value);
@@ -1767,9 +1749,6 @@ function readFingerUi(){
 
     workingFinger.fingerReachRest.fg7n =
         Number(fg7.value);
-
-    workingFinger.disconnectionRest.fg8n =
-        Number(fg8.value);
 
 }
 
@@ -1810,7 +1789,6 @@ function updateFingerUi(){
     const fg5 = document.querySelector('[name="fg5"]');
     const fg6 = document.querySelector('[name="fg6"]');
     const fg7 = document.querySelector('[name="fg7"]');
-    const fg8 = document.querySelector('[name="fg8"]');
 
     fg1.value = workingFinger.selectHand.fg1n;
     fg2.value = workingFinger.fingerReachRule.fg2n;
@@ -1819,7 +1797,6 @@ function updateFingerUi(){
     fg5.value = workingFinger.evaluationRangeSize.fg5n;
     fg6.value = workingFinger.variabilityRangeSize.fg6n;
     fg7.value = workingFinger.fingerReachRest.fg7n;
-    fg8.value = workingFinger.disconnectionRest.fg8n;
 
 }
 
@@ -14252,11 +14229,9 @@ function finger1(n_idf, hand){
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
-    let fg8n = workingFinger.disconnectionRest.fg8n;
 
     let fg5np = n_idf + fg5n - 1;
     let rst7=ticksPerMeasure/fg7n;
-    let rst8=ticksPerMeasure/fg8n;
     let s0;
 
     if (fg1n===0){ 
@@ -14610,7 +14585,6 @@ time0=Date.now();
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
-    let fg8n = workingFinger.disconnectionRest.fg8n;
 
     f102=[];
 
@@ -14645,7 +14619,7 @@ f102.push([['\r\n','','',timed]]);
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_HBL'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+downloadFile(file1name+'_HBL'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 
 fingeringByNoteID = {};
 
@@ -14673,7 +14647,6 @@ time0=Date.now();
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
-    let fg8n = workingFinger.disconnectionRest.fg8n;
     let s0;
     let n_idf;
 
@@ -14708,7 +14681,7 @@ f102.push([['\r\n','','',timed]]);
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'R'+fg8n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 
 fingeringByNoteID = {};
 
@@ -14743,7 +14716,6 @@ const showFingeringAssistant = async () => {
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
-    let fg8n = workingFinger.disconnectionRest.fg8n;
     let s0;
 
     f103=[];
