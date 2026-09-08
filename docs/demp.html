@@ -14267,18 +14267,18 @@ function finger1(n_idf, hand){
 
     for (let i = 0; i < s0.length; i++) {
 
-        let disconnectRest = 0;
+        let fingerReachRest = 0;
 
         if (i === 0) {
             
-            disconnectRest = 1;
+            fingerReachRest = 1;
 
         }else if (i > 0) {
 
             const restLength = s0[i].start - s0[i - 1].stop;
 
             if (restLength >= rst7) {
-                disconnectRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にあった場合、評価値計算区間の接続を解除する
+                fingerReachRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にあった場合、評価値計算区間の接続を解除する
             }
         }
 
