@@ -14306,12 +14306,12 @@ function finger1(n_idf, hand){
     for (let i = 0; i < s0.length; i++) {
 
         let fingerReachRest = 0;
-        let previousMidi = 0;
+        let prevFinger = 0;
 
         if (i === 0) {
             
             fingerReachRest = 1;
-            previousMidi = 0;
+            prevFinger = 0;
 
         }else if (i > 0) {
 
@@ -14321,9 +14321,10 @@ function finger1(n_idf, hand){
                 fingerReachRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にある場合
             }
 
-            previousMidi = s0[i-1].midi;
+            prevFinger =
+                f102[f102.length - 1][1][f102[f102.length - 1][1].length - 1];
 
-        }
+            }
 
         if (
             s0[i].n_id >= n_idf &&
@@ -14337,7 +14338,7 @@ function finger1(n_idf, hand){
                 s0[i].channel,
                 s0[i].n_id,
                 fingerReachRest,
-                previousMidi
+                prevFinger
             ]);
         }
     }
