@@ -14300,40 +14300,30 @@ function finger1(n_idf, hand){
         }
     }
 
+    const t0 = performance.now();
+
     f1 = [];
 
     for (let p = 1; p < fp.length; p++) {
 
-        const fp0 = fp[p-1];
+        const fp0 = fp[p - 1];
         const fp1 = fp[p];
 
         const beforeLength = f1.length;
 
-        //========================================
-        // 第1段階
-        // 黒鍵ルールを適用
-        //========================================
-
         createF1(fp0, fp1, fg3n, hand);
 
-        //========================================
-        // 第2段階
-        // 黒鍵ルールによって候補がなくなった場合
-        // 黒鍵ルールを解除して再度計算する
-        //========================================
-
-        // 今回の組み合わせで候補が1つも追加されなかった
         if (f1.length === beforeLength && fg3n !== 0) {
-
-            // 第2段階
             createF1(fp0, fp1, 0, hand);
         }
- 
-}
+    }
+
+    console.log("createF1 =", performance.now() - t0, "ms");
 
     //========================================================
     // f2以降を作る
     //========================================================
+    const t1 = performance.now();
 
     f = [];
 
@@ -14354,8 +14344,9 @@ function finger1(n_idf, hand){
                 n_idf
             );
         }
-}
+    }
 
+console.log("extendFingering =", performance.now() - t1, "ms");
 
 //============================================================
 // 最後の1音のf101はf103から作る
