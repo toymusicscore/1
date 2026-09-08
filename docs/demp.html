@@ -14108,7 +14108,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
     let rst7 = ticksPerMeasure / fg7n;
 
     const restLength = fp1[1] - fp0[2];
-    const isShortRest = restLength >= rst7;
+    const isFingerReachRest = restLength >= rst7;
 
     for (let q = 1; q <= 5; q++) {
 
@@ -14123,7 +14123,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
             }
 
             //========================================
-            // Short Rest : No Limit Finger Range
+            // Is Finger Reach Rest : No Limit Finger Range
             //========================================
 
             if ((
@@ -14132,7 +14132,7 @@ function createF1 (fp0, fp1, fg3n, hand) {
                 ) && 
                 (
                 fg2n === 0 || 
-                isShortRest
+                isFingerReachRest
                 )) {
 
                 if (fg1n === 0) {
@@ -14277,9 +14277,8 @@ function finger1(n_idf, hand){
 
             const restLength = s0[i].start - s0[i - 1].stop;
 
-            if (restLength >= rst8) {
-                disconnectRest = 1;     // 設定した休符（rst8）以上の時間が音符の前にあった場合
-                                    // 評価値計算区間の接続を解除する
+            if (restLength >= rst7) {
+                disconnectRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にあった場合、評価値計算区間の接続を解除する
             }
         }
 
@@ -14387,7 +14386,7 @@ if (n_idf === s0[s0.length - 1].n_id) {
         if (
             f103.length === 0 || //楽曲の最初、前回の最良の運指の第２音の運指が保存されていない
             ((fg4n === 0 || //前回の運指最良の運指の第２音に制約されない設定
-            fp[0][5] === 1  //今回の運指情報の第１音の前に指定休符（rst8）以上の時間がある場合
+            fp[0][5] === 1  //今回の運指情報の第１音の前に指定休符（rst7）以上の時間がある場合
             ) && f100[i][1][0] !== f102[f102.length - 1][1] ) //同じ指の連続打鍵禁止
             //今回の運指情報の第１音の運指と前回の最良の運指の第１音の運指が異なる
         ) {
@@ -14396,7 +14395,7 @@ if (n_idf === s0[s0.length - 1].n_id) {
         } else if (
             fg4n === 1 && //今回の運指情報の第１音が、前回の運指に制約される設定
             f103.length > 0 && //楽曲の途中、前回の最良の運指の第２音の運指が保存されている
-            fp[0][5] === 0 &&//今回の運指情報の第１音の前に指定休符（rst8）以上の時間がない場合
+            fp[0][5] === 0 &&//今回の運指情報の第１音の前に指定休符（rst7）以上の時間がない場合
             f100[i][1][0] === f103[1] //今回の運指情報の第１音が、前回の最良の運指の第２音の運指が同じ番号である
         ) {
             mstd(i);
