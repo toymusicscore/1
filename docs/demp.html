@@ -14103,45 +14103,82 @@ function createF1 (fp0, fp1, fg3n, hand) {
             // Is Finger Reach Rest : No Limit Finger Range
             //========================================
 
-            if ((
+            if (
                 fp0[4] === fp1[4] - 1 &&
-                q !== r
-                ) && 
-                (
-                fg2n === 0 || 
+                q !== r && 
                 isFingerReachRest
-                )) {
+                ) {
+
+                const range0 = getFingerRange(fp0[6], q);
+
+                if (!range0) {
+                    continue;
+                }
+
+                const min0 = range0[0];
+                const max0 = range0[1];
+
+                let pitchDiff0;
 
                 if (fg1n === 0) {
 
-                    hp0 =
+                    pitchDiff0 =
                         Number(fp0[0]) -
-                        fingerBase[q - 1][1];
+                        Number(fp0[6]);
 
-                    hp1 =
+                    pitchDiff1 =
                         Number(fp1[0]) -
-                        fingerBase[r - 1][1];
+                        Number(fp0[0]);
 
                 } else {
 
-                    hp0 =
-                        Number(fp0[0]) +
-                        fingerBase[q - 1][1];
+                    pitchDiff0 =
+                        Number(fp0[0]) -
+                        Number(fp0[6]);
 
-                    hp1 =
-                        Number(fp1[0]) +
-                        fingerBase[r - 1][1];
+                    pitchDiff1 =
+                        Number(fp0[0]) -
+                        Number(fp1[0]);
                 }
 
-                f1.push([
-                    [fp0[4], fp1[4]],
-                    [q, r],
-                    [hp0, hp1],
-                    [fp0[1], fp1[1]],
-                    [fp0[2], fp1[2]]
-                ]);
+                    if (
+                        (fp0[5] === 0 &&
+                        pitchDiff0 >= min0 &&
+                        pitchDiff0 <= max0) ||
+                        fp0[5] ===1
+                    ) {
 
-                continue;
+                        if (fg1n === 0) {
+
+                            hp0 =
+                                Number(fp0[0]) -
+                                fingerBase[q - 1][1];
+
+                            hp1 =
+                                Number(fp1[0]) -
+                                fingerBase[r - 1][1];
+
+                        } else {
+
+                            hp0 =
+                                Number(fp0[0]) +
+                                fingerBase[q - 1][1];
+
+                            hp1 =
+                                Number(fp1[0]) +
+                                fingerBase[r - 1][1];
+                        }
+
+                        f1.push([
+                            [fp0[4], fp1[4]],
+                            [q, r],
+                            [hp0, hp1],
+                            [fp0[1], fp1[1]],
+                            [fp0[2], fp1[2]]
+                        ]);
+
+                    continue;
+                }
             }
 
             //========================================
@@ -14154,33 +14191,57 @@ function createF1 (fp0, fp1, fg3n, hand) {
                 q !== r
             ) {
 
-                const range = getFingerRange(q, r);
+                const range0 = getFingerRange(fp0[6], q);
 
-                if (!range) {
+                if (!range0) {
                     continue;
                 }
 
-                const min = range[0];
-                const max = range[1];
+                const min0 = range0[0];
+                const max0 = range0[1];
 
-                let pitchDiff;
+                const range1 = getFingerRange(q, r);
+
+                if (!range1) {
+                    continue;
+                }
+
+                const min1 = range1[0];
+                const max1 = range1[1];
+
+                let pitchDiff0;
+                let pitchDiff1;
 
                 if (fg1n === 0) {
 
-                    pitchDiff =
+                    pitchDiff0 =
+                        Number(fp0[0]) -
+                        Number(fp0[6]);
+
+                    pitchDiff1 =
                         Number(fp1[0]) -
                         Number(fp0[0]);
 
                 } else {
 
-                    pitchDiff =
+                    pitchDiff0 =
+                        Number(fp0[0]) -
+                        Number(fp0[6]);
+
+                    pitchDiff1 =
                         Number(fp0[0]) -
                         Number(fp1[0]);
                 }
 
                 if (
-                    pitchDiff >= min &&
-                    pitchDiff <= max
+                    (fp0[5] === 0 &&
+                    pitchDiff0 >= min0 &&
+                    pitchDiff0 <= max0 &&
+                    pitchDiff1 >= min0 &&
+                    pitchDiff1 <= max0) ||
+                    (fp0[5] === 1 &&
+                    pitchDiff1 >= min1 &&
+                    pitchDiff1 <= max1)
                 ) {
 
                     if (fg1n === 0) {
