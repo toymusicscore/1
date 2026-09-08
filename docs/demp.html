@@ -14278,7 +14278,7 @@ function finger1(n_idf, hand){
             const restLength = s0[i].start - s0[i - 1].stop;
 
             if (restLength >= rst7) {
-                disconnectRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にあった場合、評価値計算区間の接続を解除する
+                disconnectionRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にあった場合、評価値計算区間の接続を解除する
             }
         }
 
@@ -14293,7 +14293,7 @@ function finger1(n_idf, hand){
                 s0[i].stop,
                 s0[i].channel,
                 s0[i].n_id,
-                disconnectRest
+                disconnectionRest
             ]);
         }
     }
