@@ -14318,6 +14318,17 @@ function finger1(n_idf, hand){
             ]);
         }
     }
+console.log(
+    "n_idf =", n_idf,
+    "f102 =", f102,
+    "last f102 =", f102[f102.length - 1],
+    "last fingers =",
+    f102[f102.length - 1]?.[1],
+    "prevFinger =",
+    f102[f102.length - 1]?.[1]?.[
+        f102[f102.length - 1]?.[1]?.length - 1
+    ]
+);
 
     const t0 = performance.now();
 
