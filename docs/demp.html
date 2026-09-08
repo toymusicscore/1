@@ -14029,7 +14029,13 @@ function isValidBlackKeyFinger(midi, finger, fg3n) {
 }
 
 function extendFingering(currentF, f1, n_idf) {
-
+console.log(
+    "extend",
+    "n_idf =", n_idf,
+    "p =", p,
+    "currentF.length =", currentF.length,
+    "nextF.length =", nextF.length
+);
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7=ticksPerMeasure/fg7n;
 
@@ -14254,14 +14260,6 @@ function finger1(n_idf, hand){
     }else if (fg1n===1){ 
         s0=scoreLeft; 
     }
-
-    console.log(
-        "finger1",
-        "n_idf =", n_idf,
-        "hand =", hand,
-        "scoreRight =", scoreRight.length,
-        "scoreLeft =", scoreLeft.length
-    );
 
     for (let i = 0; i < s0.length; i++) {
 
