@@ -14074,11 +14074,11 @@ function extendFingering(currentF, f1, n_idf) {
     
 }
 
-
-function createF1 (fp0, fp1, fg3n, hand) {
+function createF1(fp0, fp1, fg3n, hand) {
 
     let hp0 = 0;
     let hp1 = 0;
+
     let fg1n = hand;
     let fg2n = workingFinger.fingerReachRule.fg2n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14099,106 +14099,66 @@ function createF1 (fp0, fp1, fg3n, hand) {
                 continue;
             }
 
-            //========================================
-            // Is Finger Reach Rest : No Limit Finger Range
-            //========================================
+            if (q === r) {
+                continue;
+            }
 
-            if (
-                fp0[4] === fp1[4] - 1 &&
-                q !== r && 
-                isFingerReachRest
-                ) {
+            //================================================
+            // 前回最良運指の最後の指 → 今回の第1音 q
+            //================================================
 
-                const range0 = getFingerRange(fp0[6], q);
+            let isFirstNoteReachOK = true;
 
-                if (!range0) {
-                    continue;
-                }
+            if (fp0[6] > 0 && fg2n === 1) {
 
-                const min0 = range0[0];
-                const max0 = range0[1];
+                // rst7以上の休符がある場合は
+                // 前回の指から今回の第1音への
+                // 指届き制約を解除
+                if (!isFingerReachRest) {
 
-                let pitchDiff0;
+                    const range0 = getFingerRange(fp0[6], q);
 
-                if (fg1n === 0) {
+                    if (!range0) {
+                        isFirstNoteReachOK = false;
+                    } else {
 
-                    pitchDiff0 =
-                        Number(fp0[0]) -
-                        Number(fp0[6]);
+                        const min0 = range0[0];
+                        const max0 = range0[1];
 
-                    pitchDiff1 =
-                        Number(fp1[0]) -
-                        Number(fp0[0]);
-
-                } else {
-
-                    pitchDiff0 =
-                        Number(fp0[6]) -
-                        Number(fp0[0]);
-
-                    pitchDiff1 =
-                        Number(fp0[0]) -
-                        Number(fp1[0]);
-                }
-
-                    if (
-                        (fp0[5] === 0 &&
-                        pitchDiff0 >= min0 &&
-                        pitchDiff0 <= max0) ||
-                        fp0[5] ===1
-                    ) {
+                        let pitchDiff0;
 
                         if (fg1n === 0) {
 
-                            hp0 =
+                            pitchDiff0 =
                                 Number(fp0[0]) -
-                                fingerBase[q - 1][1];
-
-                            hp1 =
-                                Number(fp1[0]) -
-                                fingerBase[r - 1][1];
+                                Number(fp0[6]);
 
                         } else {
 
-                            hp0 =
-                                Number(fp0[0]) +
-                                fingerBase[q - 1][1];
-
-                            hp1 =
-                                Number(fp1[0]) +
-                                fingerBase[r - 1][1];
+                            pitchDiff0 =
+                                Number(fp0[6]) -
+                                Number(fp0[0]);
                         }
 
-                        f1.push([
-                            [fp0[4], fp1[4]],
-                            [q, r],
-                            [hp0, hp1],
-                            [fp0[1], fp1[1]],
-                            [fp0[2], fp1[2]]
-                        ]);
-
-                    continue;
+                        if (
+                            pitchDiff0 < min0 ||
+                            pitchDiff0 > max0
+                        ) {
+                            isFirstNoteReachOK = false;
+                        }
+                    }
                 }
             }
 
-            //========================================
-            // Strict Finger Range
-            //========================================
+            if (!isFirstNoteReachOK) {
+                continue;
+            }
 
-            if (
-                fp0[4] === fp1[4] - 1 &&
-                fg2n === 1 &&
-                q !== r
-            ) {
+            //================================================
+            // 今回の評価区間内 q → r
+            //================================================
 
-                const range0 = getFingerRange(fp0[6], q);
-
-                if (!range0) {
-                    continue;
-                }
-
-                const min0 = range0[0];
-                const max0 = range0[1];
+            if (fg2n === 1) {
 
                 const range1 = getFingerRange(q, r);
 
@@ -14209,14 +14169,9 @@ function createF1 (fp0, fp1, fg3n, hand) {
                 const min1 = range1[0];
                 const max1 = range1[1];
 
-                let pitchDiff0;
                 let pitchDiff1;
 
                 if (fg1n === 0) {
-
-                    pitchDiff0 =
-                        Number(fp0[0]) -
-                        Number(fp0[6]);
 
                     pitchDiff1 =
                         Number(fp1[0]) -
@@ -14224,56 +14179,55 @@ function createF1 (fp0, fp1, fg3n, hand) {
 
                 } else {
 
-                    pitchDiff0 =
-                        Number(fp0[6]) -
-                        Number(fp0[0]);
-
                     pitchDiff1 =
                         Number(fp0[0]) -
                         Number(fp1[0]);
                 }
 
                 if (
-                    (fp0[5] === 0 &&
-                    pitchDiff0 >= min0 &&
-                    pitchDiff0 <= max0 &&
-                    pitchDiff1 >= min0 &&
-                    pitchDiff1 <= max0) ||
-                    (fp0[5] === 1 &&
-                    pitchDiff1 >= min1 &&
-                    pitchDiff1 <= max1)
+                    pitchDiff1 < min1 ||
+                    pitchDiff1 > max1
                 ) {
-
-                    if (fg1n === 0) {
-
-                        hp0 =
-                            Number(fp0[0]) -
-                            fingerBase[q - 1][1];
-
-                        hp1 =
-                            Number(fp1[0]) -
-                            fingerBase[r - 1][1];
-
-                    } else {
-
-                        hp0 =
-                            Number(fp0[0]) +
-                            fingerBase[q - 1][1];
-
-                        hp1 =
-                            Number(fp1[0]) +
-                            fingerBase[r - 1][1];
-                    }
-
-                    f1.push([
-                        [fp0[4], fp1[4]],
-                        [q, r],
-                        [hp0, hp1],
-                        [fp0[1], fp1[1]],
-                        [fp0[2], fp1[2]]
-                    ]);
+                    continue;
                 }
             }
+
+            //================================================
+            // 運指位置
+            //================================================
+
+            if (fg1n === 0) {
+
+                hp0 =
+                    Number(fp0[0]) -
+                    fingerBase[q - 1][1];
+
+                hp1 =
+                    Number(fp1[0]) -
+                    fingerBase[r - 1][1];
+
+            } else {
+
+                hp0 =
+                    Number(fp0[0]) +
+                    fingerBase[q - 1][1];
+
+                hp1 =
+                    Number(fp1[0]) +
+                    fingerBase[r - 1][1];
+            }
+
+            //================================================
+            // f1
+            //================================================
+
+            f1.push([
+                [fp0[4], fp1[4]],
+                [q, r],
+                [hp0, hp1],
+                [fp0[1], fp1[1]],
+                [fp0[2], fp1[2]]
+            ]);
         }
     }
 }
@@ -14303,32 +14257,37 @@ function finger1(n_idf, hand){
 
     for (let i = 0; i < s0.length; i++) {
 
+
         let fingerReachRest = 0;
         let prevFinger = 0;
 
         if (i === 0) {
-            
+
             fingerReachRest = 1;
             prevFinger = 0;
 
-        }else if (i > 0) {
+        } else {
 
             const restLength = s0[i].start - s0[i - 1].stop;
 
             if (restLength >= rst7) {
-                fingerReachRest = 1;     // 設定した休符（rst7）以上の時間が音符の前にある場合
+                fingerReachRest = 1;
             }
 
-            prevFinger =
-                f102[f102.length - 1][1][f102[f102.length - 1][1].length - 1];
-
+            // 今回の評価区間の第1音だけ
+            // 前回の最良運指の最後の指を保存
+            if (s0[i].n_id === n_idf && f102.length > 0) {
+                prevFinger =
+                    f102[f102.length - 1][1][
+                        f102[f102.length - 1][1].length - 1
+                    ];
             }
+        }
 
         if (
             s0[i].n_id >= n_idf &&
             s0[i].n_id <= fg5np
         ) {
-
             fp.push([
                 s0[i].midi,
                 s0[i].start,
