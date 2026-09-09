@@ -14324,13 +14324,13 @@ function finger1(n_idf, hand){
             continue;
         }
 
-        // 前回最良の運指と今回の第１音の運指が一致する設定
+        // 前回最良の運指と今回の第１音の運指が一致する設定で一致しない場合
         if (fg4n === 1 && 
             firstFinger !== f103[1]) {
             continue;
         }
 
-        // 前回最良運指 → 今回第1音 指の届く距離の制約なし
+        // 前回最良運指 → 今回第1音 指の届く距離の制約あり
 
         const range0 =
             getFingerRange(prevFinger, firstFinger);
