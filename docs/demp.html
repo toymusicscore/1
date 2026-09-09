@@ -14815,7 +14815,25 @@ console.log("fingeringByNoteID =", fingeringByNoteID);
 
 }
 
+function downloadFile(fileName, textData) {
+    const blob = new Blob([textData], {
+        type: "text/plain;charset=utf-8"
+    });
 
+    const url = URL.createObjectURL(blob);
+
+    const aLink = document.createElement("a");
+    aLink.href = url;
+    aLink.download = fileName;
+
+    document.body.appendChild(aLink);
+    aLink.click();
+    document.body.removeChild(aLink);
+
+    URL.revokeObjectURL(url);
+}
+
+/*
 function downloadFile(fileName, urlData) {
 var aLink = document.createElement('a');
 var evt = document.createEvent("HTMLEvents");
@@ -14824,6 +14842,7 @@ aLink.download = fileName;
 aLink.href = urlData;
 aLink.dispatchEvent(evt);
 }
+*/
 
 const showFingeringAssistant = async () => {
 
