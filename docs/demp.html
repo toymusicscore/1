@@ -14400,6 +14400,8 @@ function finger1(n_idf, hand){
 
     f[1] = f1;
 
+console.log("f[1].length =", f[1].length);
+
     for(let i=2; i<fp.length; i++){
 
         f[i] = [];
@@ -14439,8 +14441,15 @@ if (n_idf === s0[s0.length - 1].n_id) {
 
     f100 = f[fp.length - 1];
 
+    console.log(
+        "FINAL f100.length =",
+        f100.length
+    );
+
     if(f100.length===0){
         alert("No Fingering data");
+        console.log("!!! f100 IS EMPTY !!!");
+        return;
     }
 
     //========================================================
