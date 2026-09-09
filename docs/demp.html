@@ -14281,6 +14281,10 @@ function finger1(n_idf, hand){
 
     const t0 = performance.now();
 
+    //================================================
+    // 制約なしの２音の組み合わせ
+    //================================================
+
     f0 = [];
 
     for (let p = 1; p < fp.length; p++) {
@@ -14297,11 +14301,11 @@ function finger1(n_idf, hand){
         }
     }
 
-    f1 = [];
-
     //================================================
     // 前回最良運指の最後の指 → 今回の第1音 q
     //================================================
+
+    f1 = [];
 
     const prevFinger =
         f103.length > 0
@@ -14369,54 +14373,6 @@ function finger1(n_idf, hand){
 
         f1.push(f0[i]);
     }
-
-
-/*
-const prevFinger = f102[f102.length - 1][1];
-    const firstFinger = f0[0][1][0];
-
-    if (fg2n === 1 && //指の届く範囲の制約あり
-        fp[0][5] === 0 && // rst7以上の休符がない場合
-        f103.length > 0 && //楽曲の途中、前回の最良運指あり
-        firstFinger !== prevFinger //同じ指の連続打鍵禁止
-     ){
-
-        const range0 = getFingerRange(pervFinger, firstFinger);
-        const min0 = range0[0];
-        const max0 = range0[1];
-
-        let pitchDiff0;
-
-        if (fg1n === 0) {
-
-            pitchDiff0 =
-                Number(firstFinger) -
-                Number(prevFinger);
-
-        } else {
-
-            pitchDiff0 =
-                Number(prevFinger) -
-                Number(firstFinger);
-        }
-
-        if (
-            pitchDiff0 < min0 ||
-            pitchDiff0 > max0
-        ) {
-            f1=f0;
-        }
-
-    }else if ((fg2n === 0 || //指の届く範囲の制約なし
-                f103.length === 0) || //楽曲の最初、前回の最良運指なし
-                (fg2n === 1 && //指の届く範囲の制約あり
-                fp0[0][5] === 1 && // rst7以上の休符がある場合
-                f103.length > 0 && //楽曲の途中、前回の最良運指あり
-                firstFinger !== prevFinger) //同じ指の連続打鍵禁止
-     ){
-        f1=f0;
-    }
-*/
 
     console.log("createF1 =", performance.now() - t0, "ms");
 
