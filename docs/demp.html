@@ -14362,6 +14362,12 @@ function finger1(n_idf, hand){
     // f2以降を作る
     //========================================================
 //    const t1 = performance.now();
+ console.log(
+        "before extend",
+        "fp.length =", fp.length,
+        "f0.length =", f0.length,
+        "f1.length =", f1.length,
+    );
 
     f = [];
 
@@ -14440,22 +14446,6 @@ if (n_idf === s0[s0.length - 1].n_id) {
     //========================================================
     // 評価値順
     //========================================================
- console.log(
-        "before extend",
-        "fp.length =", fp.length,
-        "f0.length =", f0.length,
-        "f1.length =", f1.length,
-        "f2.length =", f[2].length,
-        "f3.length =", f[3].length,
-        "f4.length =", f[4].length,
-        "f5.length =", f[5].length,
-        "f5.length =", f[6].length,
-        "f7.length =", f[7].length,
-        "f8.length =", f[8].length,
-        "f9.length =", f[9].length,
-        "f100.length =", f100.length,
-        "f101.length =", f101.length,
-    );
 
     f101.sort(function(a, b) {
         return a[3] - b[3];
@@ -14483,6 +14473,14 @@ f103 = [
     f101[0][2][1],
     f101[0][3]
 ];
+
+ console.log(
+        "before extend",
+        "f100.length =", f100.length,
+        "f101.length =", f101.length,
+        "f102.length =", f102.length,
+        "f103.length =", f103.length,
+    );
 
 szx=1100;
 szy=350;
