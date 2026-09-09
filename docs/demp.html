@@ -14378,8 +14378,9 @@ let c7 = 0;
         f1.push(f0[i]);
     }
 console.log(
-    "f1 filter:",
-    "f0 =", f0.length,
+    "n_idf", n_idf,
+    "f0.len =", f0.length,
+    "f1.len =", f1.length,
     "c1 =", c1,
     "c2 =", c2,
     "c3 =", c3,
@@ -14387,27 +14388,12 @@ console.log(
     "c5 =", c5,
     "c6 =", c6,
     "c7 =", c7,
-    "f1 =", f1.length
 );
 //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
     //========================================================
 //    const t1 = performance.now();
- console.log(
-    "f1 condition:",
-    "fg2n =", fg2n,
-    "fg4n =", fg4n,
-    "prevFinger =", prevFinger,
-    "f103[1] =", f103[1],
-    "fp[0] =", fp[0]
-);
-console.log(
-        "before extend",
-        "fp.length =", fp.length,
-        "f0.length =", f0.length,
-        "f1.length =", f1.length,
-    );
 
     f = [];
 
@@ -14450,7 +14436,7 @@ if (n_idf === s0[s0.length - 1].n_id) {
     f100 = f[fp.length - 1];
 
     if(f100.length===0){
-        console.log("!!! f100 IS EMPTY !!!");
+        console.log("!!! f100 IS EMPTY !!!", n_idf);
         return;
     }
 
