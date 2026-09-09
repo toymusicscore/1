@@ -14223,6 +14223,8 @@ function createF0(fp0, fp1, fg3n, hand) {
 
 function finger1(n_idf, hand){
 
+    console.log("=== finger1 START ===", n_idf, hand);
+
     fp = [];
 
     let fg1n = hand;
@@ -14284,6 +14286,7 @@ function finger1(n_idf, hand){
     //================================================
     // 開始側の制約を考慮しない２音の組み合わせ
     //================================================
+  console.log("fp.length =", fp.length);
 
     f0 = [];
 
@@ -14301,6 +14304,8 @@ function finger1(n_idf, hand){
         }
     }
 
+    console.log("f0.length =", f0.length);
+    
     //================================================
     // f0の２音のうち開始側の制約を考慮する　前回最良運指の最後の指 → 今回の第1音 q
     //================================================
@@ -14377,11 +14382,17 @@ function finger1(n_idf, hand){
     }
 
 //    console.log("createF1 =", performance.now() - t0, "ms");
-
+    console.log("f1.length =", f1.length);
     //========================================================
     // f2以降を作る
     //========================================================
-    const t1 = performance.now();
+//    const t1 = performance.now();
+ console.log(
+        "before extend",
+        "fp.length =", fp.length,
+        "f1.length =", f1.length,
+        "f0.length =", f0.length
+    );
 
     f = [];
 
