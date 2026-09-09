@@ -14082,7 +14082,7 @@ function extendFingering(currentF, f1, n_idf) {
     
 }
 
-function createF1(fp0, fp1, fg3n, hand) {
+function createF0(fp0, fp1, fg3n, hand) {
 
     let hp0 = 0;
     let hp1 = 0;
@@ -14108,57 +14108,6 @@ function createF1(fp0, fp1, fg3n, hand) {
             }
 
             if (q === r) {
-                continue;
-            }
-
-            //================================================
-            // 前回最良運指の最後の指 → 今回の第1音 q
-            //================================================
-
-            let isFirstNoteReachOK = true;
-
-            if (fp0[6] > 0 && fg2n === 1) {
-
-                // rst7以上の休符がある場合は
-                // 前回の指から今回の第1音への
-                // 指届き制約を解除
-                if (!isFingerReachRest) {
-
-                    const range0 = getFingerRange(fp0[6], q);
-
-                    if (!range0) {
-                        isFirstNoteReachOK = false;
-                    } else {
-
-                        const min0 = range0[0];
-                        const max0 = range0[1];
-
-                        let pitchDiff0;
-
-                        if (fg1n === 0) {
-
-                            pitchDiff0 =
-                                Number(fp0[0]) -
-                                Number(fp0[6]);
-
-                        } else {
-
-                            pitchDiff0 =
-                                Number(fp0[6]) -
-                                Number(fp0[0]);
-                        }
-
-                        if (
-                            pitchDiff0 < min0 ||
-                            pitchDiff0 > max0
-                        ) {
-                            isFirstNoteReachOK = false;
-                        }
-                    }
-                }
-            }
-
-            if (!isFirstNoteReachOK) {
                 continue;
             }
 
@@ -14226,10 +14175,10 @@ function createF1(fp0, fp1, fg3n, hand) {
             }
 
             //================================================
-            // f1
+            // f0
             //================================================
 
-            f1.push([
+            f0.push([
                 [fp0[4], fp1[4]],
                 [q, r],
                 [hp0, hp1],
@@ -14283,7 +14232,6 @@ function finger1(n_idf, hand){
         if (i === 0) {
 
             fingerReachRest = 1;
-            prevFinger = 0;
 
         } else {
 
@@ -14291,15 +14239,6 @@ function finger1(n_idf, hand){
 
             if (restLength >= rst7) {
                 fingerReachRest = 1;
-            }
-
-            // 今回の評価区間の第1音だけ
-            // 前回の最良運指の最後の指を保存
-            if (s0[i].n_id === n_idf && f102.length > 0) {
-                prevFinger =
-                    f102[f102.length - 1][1][
-                        f102[f102.length - 1][1].length - 1
-                    ];
             }
         }
 
@@ -14314,25 +14253,13 @@ function finger1(n_idf, hand){
                 s0[i].channel,
                 s0[i].n_id,
                 fingerReachRest,
-                prevFinger
             ]);
         }
     }
-console.log(
-    "n_idf =", n_idf,
-    "f102 =", f102,
-    "last f102 =", f102[f102.length - 1],
-    "last fingers =",
-    f102[f102.length - 1]?.[1],
-    "prevFinger =",
-    f102[f102.length - 1]?.[1]?.[
-        f102[f102.length - 1]?.[1]?.length - 1
-    ]
-);
 
     const t0 = performance.now();
 
-    f1 = [];
+    f0 = [];
 
     for (let p = 1; p < fp.length; p++) {
 
@@ -14341,11 +14268,80 @@ console.log(
 
         const beforeLength = f1.length;
 
-        createF1(fp0, fp1, fg3n, hand);
+        createF0(fp0, fp1, fg3n, hand);
 
         if (f1.length === beforeLength && fg3n !== 0) {
-            createF1(fp0, fp1, 0, hand);
+            createF0(fp0, fp1, 0, hand);
         }
+    }
+
+                f0.push([
+                [fp0[4], fp1[4]],
+                [q, r],
+                [hp0, hp1],
+                [fp0[1], fp1[1]],
+                [fp0[2], fp1[2]]
+            ]);
+
+    f1 = [];
+
+    //================================================
+    // 前回最良運指の最後の指 → 今回の第1音 q
+    //================================================
+    const prevFinger = f102[f102.length - 1][1];
+    const firstFinger = f0[0][1][0];
+
+    if (fp0[0][5] === 0 && // rst7以上の休符がない場合
+        fg2n === 1 && //指の届く範囲の制約あり
+        f103.length > 0 && //楽曲の途中、前回の最良運指あり
+        firstFinger !== prevFinger //同じ指の連続打鍵禁止
+     ){
+
+            if (prevFinger) {
+
+                if (!isFingerReachRest) {
+
+                    const range0 = getFingerRange(pervFinger, firstFinger);
+
+                    if (!range0) {
+                        isFirstNoteReachOK = false;
+                    } else {
+
+                        const min0 = range0[0];
+                        const max0 = range0[1];
+
+                        let pitchDiff0;
+
+                        if (fg1n === 0) {
+
+                            pitchDiff0 =
+                                Number(firstFinger) -
+                                Number(prevFinger);
+
+                        } else {
+
+                            pitchDiff0 =
+                                Number(prevFinger) -
+                                Number(firstFinger);
+                        }
+
+                        if (
+                            pitchDiff0 < min0 ||
+                            pitchDiff0 > max0
+                        ) {
+                            isFirstNoteReachOK = false;
+                        }
+                    }
+                }
+            }
+
+    }else if ((fp0[0][5] === 1 || // rst7以上の休符がある場合
+                fg2n === 0 || //指の届く範囲の制約なし
+                f103.length === 0) && //楽曲の最初、前回の最良運指なし
+                (f103.length > 0 || //楽曲の途中、前回の最良運指あり
+                firstFinger !== prevFinger) //同じ指の連続打鍵禁止
+     ){
+        f1=f0;
     }
 
     console.log("createF1 =", performance.now() - t0, "ms");
@@ -14370,7 +14366,7 @@ console.log(
 
             f[i] = extendFingering(
                 f[i-1],
-                f1,
+                f0,
                 n_idf
             );
         }
