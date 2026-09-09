@@ -14291,49 +14291,37 @@ function finger1(n_idf, hand){
     const prevFinger = f102[f102.length - 1][1];
     const firstFinger = f0[0][1][0];
 
-    if (fp0[0][5] === 0 && // rst7以上の休符がない場合
-        fg2n === 1 && //指の届く範囲の制約あり
+    if (fg2n === 1 && //指の届く範囲の制約あり
+        fp0[0][5] === 0 && // rst7以上の休符がない場合
         f103.length > 0 && //楽曲の途中、前回の最良運指あり
         firstFinger !== prevFinger //同じ指の連続打鍵禁止
      ){
 
-            if (prevFinger) {
+        const range0 = getFingerRange(pervFinger, firstFinger);
+        const min0 = range0[0];
+        const max0 = range0[1];
 
-                if (!isFingerReachRest) {
+        let pitchDiff0;
 
-                    const range0 = getFingerRange(pervFinger, firstFinger);
+        if (fg1n === 0) {
 
-                    if (!range0) {
-                        isFirstNoteReachOK = false;
-                    } else {
+            pitchDiff0 =
+                Number(firstFinger) -
+                Number(prevFinger);
 
-                        const min0 = range0[0];
-                        const max0 = range0[1];
+        } else {
 
-                        let pitchDiff0;
+            pitchDiff0 =
+                Number(prevFinger) -
+                Number(firstFinger);
+        }
 
-                        if (fg1n === 0) {
-
-                            pitchDiff0 =
-                                Number(firstFinger) -
-                                Number(prevFinger);
-
-                        } else {
-
-                            pitchDiff0 =
-                                Number(prevFinger) -
-                                Number(firstFinger);
-                        }
-
-                        if (
-                            pitchDiff0 < min0 ||
-                            pitchDiff0 > max0
-                        ) {
-                            isFirstNoteReachOK = false;
-                        }
-                    }
-                }
-            }
+        if (
+            pitchDiff0 < min0 ||
+            pitchDiff0 > max0
+        ) {
+            f1=f0;
+        }
 
     }else if ((fg2n === 0 || //指の届く範囲の制約なし
                 f103.length === 0) || //楽曲の最初、前回の最良運指なし
