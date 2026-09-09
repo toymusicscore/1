@@ -14794,12 +14794,18 @@ for (let i=0; i<s0.length; i++){
 
 let time1=Date.now();
 let timed=(time1-time0)/60000;
-f102.push([['\r\n','','',timed]]);
+f102.push([['','','',timed]]);
 
+const textData = f102
+    .map(row => row.join(','))
+    .join('\r\n');
+
+//downloadFile("data.csv", textData);
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+//downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
+downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
 
 fingeringByNoteID = {};
 
@@ -14816,9 +14822,10 @@ console.log("fingeringByNoteID =", fingeringByNoteID);
 }
 
 function downloadFile(fileName, textData) {
-    const blob = new Blob([textData], {
-        type: "text/plain;charset=utf-8"
-    });
+    const blob = new Blob(
+        ["\uFEFF" + textData],
+        { type: "text/csv;charset=utf-8" }
+    );
 
     const url = URL.createObjectURL(blob);
 
