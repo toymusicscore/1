@@ -14028,7 +14028,7 @@ function isValidBlackKeyFinger(midi, finger, fg3n) {
     );
 }
 
-function extendFingering(currentF, f1, n_idf) {
+function extendFingering(currentF, f0, n_idf) {
 
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7=ticksPerMeasure/fg7n;
@@ -14059,13 +14059,29 @@ function extendFingering(currentF, f1, n_idf) {
                 [hf1, ht1],
                 [tf1, tt1],
                 [pf1, pt1]
-            ] = f1[q];
+            ] = f0[q];
 
             if (
                 nf0 === n_idf &&
                 nt0 === nf1 &&
                 ft0 === ff1 &&
-                ft0 !== ft1
+                ft0 !== ft1 &&
+                pf1-tt1>=rst7
+            ) {
+                nextF.push([
+                    [...n_ids, nt1],
+                    [...fingers, ft1],
+                    [...hps, ht1],
+                    [...starts, tt1],
+                    [...stops, pt1]
+                ]);
+            }else
+            if (
+                nf0 === n_idf &&
+                nt0 === nf1 &&
+                ft0 === ff1 &&
+                ft0 !== ft1 &&
+                pf1-tt1 < rst7
             ) {
                 nextF.push([
                     [...n_ids, nt1],
