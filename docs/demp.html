@@ -14064,32 +14064,37 @@ function extendFingering(currentF, f0, n_idf) {
             if (
                 nf0 === n_idf &&
                 nt0 === nf1 &&
-                ft0 === ff1 &&
-                ft0 !== ft1 &&
-                pf1-tt1>=rst7
+                ft0 !== ft1
             ) {
-                nextF.push([
-                    [...n_ids, nt1],
-                    [...fingers, ft1],
-                    [...hps, ht1],
-                    [...starts, tt1],
-                    [...stops, pt1]
-                ]);
-            }else
-            if (
-                nf0 === n_idf &&
-                nt0 === nf1 &&
-                ft0 === ff1 &&
-                ft0 !== ft1 &&
-                pf1-tt1 < rst7
-            ) {
-                nextF.push([
-                    [...n_ids, nt1],
-                    [...fingers, ft1],
-                    [...hps, ht1],
-                    [...starts, tt1],
-                    [...stops, pt1]
-                ]);
+                const restLength = pf1 - tt1;
+
+                if (restLength >= rst7) {
+                    // 長い休符：
+                    // 前回の指との接続を解除
+                    // ただし同じ指の連続打鍵は禁止
+                    if (ft0 !== ff1) {
+                        nextF.push([
+                            [...n_ids, nt1],
+                            [...fingers, ft1],
+                            [...hps, ht1],
+                            [...starts, tt1],
+                            [...stops, pt1]
+                        ]);
+                    }
+
+                } else {
+                    // 短い休符：
+                    // 前回の最後の指と今回の第1音を接続
+                    if (ft0 === ff1) {
+                        nextF.push([
+                            [...n_ids, nt1],
+                            [...fingers, ft1],
+                            [...hps, ht1],
+                            [...starts, tt1],
+                            [...stops, pt1]
+                        ]);
+                    }
+                }
             }
         }
     }
