@@ -14204,8 +14204,6 @@ function createF0(fp0, fp1, fg3n, hand) {
 
 function finger1(n_idf, hand){
 
-    console.log("=== finger1 START ===", n_idf, hand);
-
     fp = [];
 
     let fg1n = hand;
@@ -14267,7 +14265,6 @@ function finger1(n_idf, hand){
     //================================================
     // 開始側の制約を考慮しない２音の組み合わせ
     //================================================
-  console.log("fp.length =", fp.length);
 
     f0 = [];
 
@@ -14363,7 +14360,6 @@ function finger1(n_idf, hand){
     }
 
 //    console.log("createF1 =", performance.now() - t0, "ms");
-    console.log("f1.length =", f1.length);
     //========================================================
     // f2以降を作る
     //========================================================
@@ -14378,8 +14374,6 @@ function finger1(n_idf, hand){
     f = [];
 
     f[1] = f1;
-
-console.log("f[1].length =", f[1].length);
 
     for(let i=2; i<fp.length; i++){
 
@@ -14396,9 +14390,6 @@ console.log("f[1].length =", f[1].length);
                 n_idf
             );
         }
-            console.log(
-        "f[" + i + "].length =",
-        f[i].length);
     }
 
 //console.log("extendFingering =", performance.now() - t1, "ms");
@@ -14419,11 +14410,6 @@ if (n_idf === s0[s0.length - 1].n_id) {
 } else {
 
     f100 = f[fp.length - 1];
-
-    console.log(
-        "FINAL f100.length =",
-        f100.length
-    );
 
     if(f100.length===0){
         console.log("!!! f100 IS EMPTY !!!");
