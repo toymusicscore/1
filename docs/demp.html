@@ -14038,15 +14038,7 @@ function extendFingering(currentF, f0, n_idf) {
     const nextF = [];
 
     for (let p = 0; p < currentF.length; p++) {
-/*
-        console.log(
-            "extend",
-            "n_idf =", n_idf,
-            "p =", p,
-            "currentF.length =", currentF.length,
-            "nextF.length =", nextF.length
-        );
-*/
+
         const [n_ids, fingers, hps, starts, stops] = currentF[p];
 
         const nf0 = n_ids[0];
@@ -14070,23 +14062,7 @@ function extendFingering(currentF, f0, n_idf) {
 
             ) {
                 const restLength = tt1 - pf1;
-/*console.log(
-    "extend condition",
-    "ft0 =", ft0,
-    "ff1 =", ff1,
-    "ft1 =", ft1,
-    "restLength =", restLength,
-    "rst7 =", rst7
-);*/
                 if (restLength >= rst7) {
-                        /*console.log("LONG REST",
-                        
-        "ft0 =", ft0,
-        "ff1 =", ff1,
-        "ft1 =", ft1,
-        "rest =", restLength
-    );*/
-
                     // 長い休符：
                     // 前回の指との接続を解除
                         nextF.push([
@@ -14223,18 +14199,6 @@ function createF0(fp0, fp1, fg3n, hand) {
             ]);
         }
     }
-    /*
-    if (fp0[4] ===395) {
-        console.log(
-            "createF1 result:",
-            "n_id0 =", fp0[4],
-            "n_id1 =", fp1[4],
-            "restLength =", restLength,
-            "rst7 =", rst7,
-            "isFingerReachRest =", isFingerReachRest,
-            "f1.length =", f1.length
-        );
-    }*/
 }
 
 
