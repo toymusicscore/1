@@ -14247,16 +14247,17 @@ function finger1(n_idf, hand){
 
     for (let i = 0; i < s0.length; i++) {
 
-
+        let prevMidi = 0;
         let fingerReachRest = 0;
-        let prevFinger = 0;
 
         if (i === 0) {
 
             fingerReachRest = 1;
 
         } else {
-
+            
+            prevMidi=s0[i-1].midi;
+            
             const restLength = s0[i].start - s0[i - 1].stop;
 
             if (restLength >= rst7) {
@@ -14275,6 +14276,7 @@ function finger1(n_idf, hand){
                 s0[i].channel,
                 s0[i].n_id,
                 fingerReachRest,
+                prevMidi
             ]);
         }
     }
@@ -14282,7 +14284,7 @@ function finger1(n_idf, hand){
     const t0 = performance.now();
 
     //================================================
-    // 開始側に制約なしの２音の組み合わせ
+    // 開始側の制約を考慮しない２音の組み合わせ
     //================================================
 
     f0 = [];
@@ -14330,9 +14332,7 @@ function finger1(n_idf, hand){
             continue;
         }
 
-        // rst7以上の休符あり
-        // 前回の指から今回第1音への
-        // 指の届く範囲の制約を解除
+        // rst7以上の休符あり＝前回の指から今回第1音への指の届く範囲の制約を解除
         // 同じ指の連続打鍵は禁止
         if (fp[0][5] === 1 &&
             firstFinger !== prevFinger) {
@@ -14361,10 +14361,10 @@ function finger1(n_idf, hand){
         if (fg1n === 0) {
             pitchDiff0 =
                 Number(fp[0][0]) -
-                Number(f103[0]);
+                Number(fp[0][6]);
         } else {
             pitchDiff0 =
-                Number(f103[0]) -
+                Number(fp[0][6]) -
                 Number(fp[0][0]);
         }
 
