@@ -14287,6 +14287,13 @@ function finger1(n_idf, hand){
     //================================================
 
     f1 = [];
+let c1 = 0;
+let c2 = 0;
+let c3 = 0;
+let c4 = 0;
+let c5 = 0;
+let c6 = 0;
+let c7 = 0;
 
     const prevFinger =
         f103.length > 0
@@ -14299,6 +14306,7 @@ function finger1(n_idf, hand){
 
         // 楽曲の最初
         if (f103.length === 0) {
+            c1++;
             f1.push(f0[i]);
             continue;
         }
@@ -14307,6 +14315,7 @@ function finger1(n_idf, hand){
         // 同じ指の連続打鍵は禁止
         if (fg2n === 0 && 
             firstFinger !== prevFinger) {
+                c2++;
             f1.push(f0[i]);
             continue;
         }
@@ -14315,18 +14324,21 @@ function finger1(n_idf, hand){
         // 同じ指の連続打鍵は禁止
         if (fp[0][5] === 1 &&
             firstFinger !== prevFinger) {
+                c3++;
             f1.push(f0[i]);
             continue;
         }
 
         // 同じ指の連続打鍵は禁止
         if (firstFinger === prevFinger) {
+            c4++;
             continue;
         }
 
         // 前回最良の運指と今回の第１音の運指が一致する設定で一致しない場合
         if (fg4n === 1 && 
             firstFinger !== f103[1]) {
+                c5++;
             continue;
         }
 
@@ -14334,11 +14346,12 @@ function finger1(n_idf, hand){
 
         const range0 =
             getFingerRange(prevFinger, firstFinger);
-/*
+
         if (!range0) {
             continue;
+            c6++;
         }
-*/
+
         const min0 = range0[0];
         const max0 = range0[1];
 
@@ -14358,12 +14371,24 @@ function finger1(n_idf, hand){
             pitchDiff0 < min0 ||
             pitchDiff0 > max0
         ) {
+            c7++;
             continue;
         }
 
         f1.push(f0[i]);
     }
-
+console.log(
+    "f1 filter:",
+    "f0 =", f0.length,
+    "c1 =", c1,
+    "c2 =", c2,
+    "c3 =", c3,
+    "c4 =", c4,
+    "c5 =", c5,
+    "c6 =", c6,
+    "c7 =", c7,
+    "f1 =", f1.length
+);
 //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
