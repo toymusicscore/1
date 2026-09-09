@@ -14296,7 +14296,77 @@ function finger1(n_idf, hand){
     //================================================
     // 前回最良運指の最後の指 → 今回の第1音 q
     //================================================
-    const prevFinger = f102[f102.length - 1][1];
+
+    const prevFinger =
+        f103.length > 0
+            ? f102[f102.length - 1][1]
+            : 0;
+
+    for (let i = 0; i < f0.length; i++) {
+
+        const firstFinger = f0[i][1][0];
+
+        // 楽曲の最初
+        if (f103.length === 0) {
+            f1.push(f0[i]);
+            continue;
+        }
+
+        // 指の届く範囲の制約なし
+        if (fg2n === 0) {
+            f1.push(f0[i]);
+            continue;
+        }
+
+        // rst7以上の休符あり
+        // 前回の指から今回第1音への
+        // 指の届く範囲の制約を解除
+        if (fp[0][5] === 1) {
+            f1.push(f0[i]);
+            continue;
+        }
+
+        // 同じ指の連続打鍵は禁止
+        if (firstFinger === prevFinger) {
+            continue;
+        }
+
+        // 前回最良運指 → 今回第1音
+        const range0 =
+            getFingerRange(prevFinger, firstFinger);
+
+        if (!range0) {
+            continue;
+        }
+
+        const min0 = range0[0];
+        const max0 = range0[1];
+
+        let pitchDiff0;
+
+        if (fg1n === 0) {
+            pitchDiff0 =
+                Number(fp[0][0]) -
+                Number(f103[0]);
+        } else {
+            pitchDiff0 =
+                Number(f103[0]) -
+                Number(fp[0][0]);
+        }
+
+        if (
+            pitchDiff0 < min0 ||
+            pitchDiff0 > max0
+        ) {
+            continue;
+        }
+
+        f1.push(f0[i]);
+    }
+
+
+/*
+const prevFinger = f102[f102.length - 1][1];
     const firstFinger = f0[0][1][0];
 
     if (fg2n === 1 && //指の届く範囲の制約あり
@@ -14340,6 +14410,7 @@ function finger1(n_idf, hand){
      ){
         f1=f0;
     }
+*/
 
     console.log("createF1 =", performance.now() - t0, "ms");
 
