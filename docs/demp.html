@@ -14330,7 +14330,11 @@ function finger1(n_idf, hand){
             continue;
         }
 
-        // 前回最良運指 → 今回第1音
+        // 前回最良運指 → 今回第1音 指の届く距離の制約なし
+        if (fg2n === 0 ) {
+            continue;
+        }
+
         const range0 =
             getFingerRange(prevFinger, firstFinger);
 
