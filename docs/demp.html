@@ -14674,11 +14674,9 @@ const textData = f102
     .map(row => row.join(','))
     .join('\r\n');
 
-//downloadFile("data.csv", textData);
 let file1name =
     val("song1");
 
-//downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
 
 fingeringByNoteID = {};
@@ -14742,11 +14740,9 @@ const textData = f102
     .map(row => row.join(','))
     .join('\r\n');
 
-//downloadFile("data.csv", textData);
 let file1name =
     val("song1");
 
-//downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', 'data:text/csv;charset=UTF-8,' + encodeURIComponent(f102));
 downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
 
 fingeringByNoteID = {};
@@ -14781,17 +14777,6 @@ function downloadFile(fileName, textData) {
 
     URL.revokeObjectURL(url);
 }
-
-/*
-function downloadFile(fileName, urlData) {
-var aLink = document.createElement('a');
-var evt = document.createEvent("HTMLEvents");
-evt.initEvent("click");
-aLink.download = fileName;
-aLink.href = urlData;
-aLink.dispatchEvent(evt);
-}
-*/
 
 const showFingeringAssistant = async () => {
 
