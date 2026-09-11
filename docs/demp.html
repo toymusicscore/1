@@ -748,15 +748,6 @@ Upper Limit: Largest allowable distance between the two fingers.
     <option value="1">Only 2,3,4 on Black Keys</option>
 </select>
 <br>
-<label>Evaluation Index Calculation Range Linking Rule</label>
-<select name="fg4">
-	<option value="0"> Connect No Notes</option>
-	<option value="1" selected> Connect 1 Note</option>
-	<option value="2"> Connect 2 Notes</option>
-	<option value="3"> Connect 3 Notes</option>
-	<option value="4"> Connect 4 Notes</option>
-	<option value="5"> Connect 5 Notes</option>
-	</select>
 <br><br>
 
 <label>Evaluation Index Calculation Range Size</label>
@@ -1606,9 +1597,6 @@ const defaultFinger = {
     blackKeyRule:{
         fg3n:1
     },
-    rangeLinkRule:{
-        fg4n:1
-    },
     evaluationRangeSize:{
         fg5n:10
     },
@@ -1724,7 +1712,6 @@ function readFingerUi(){
     let fg1 = document.querySelector('[name="fg1"]');
     let fg2 = document.querySelector('[name="fg2"]');
     let fg3 = document.querySelector('[name="fg3"]');
-    let fg4 = document.querySelector('[name="fg4"]');
     let fg5 = document.querySelector('[name="fg5"]');
     let fg6 = document.querySelector('[name="fg6"]');
     let fg7 = document.querySelector('[name="fg7"]');
@@ -1737,9 +1724,6 @@ function readFingerUi(){
 
     workingFinger.blackKeyRule.fg3n =
         Number(fg3.value);
-
-    workingFinger.rangeLinkRule.fg4n =
-        Number(fg4.value);
 
     workingFinger.evaluationRangeSize.fg5n =
         Number(fg5.value);
@@ -1785,7 +1769,6 @@ function updateFingerUi(){
     const fg1 = document.querySelector('[name="fg1"]');
     const fg2 = document.querySelector('[name="fg2"]');
     const fg3 = document.querySelector('[name="fg3"]');
-    const fg4 = document.querySelector('[name="fg4"]');
     const fg5 = document.querySelector('[name="fg5"]');
     const fg6 = document.querySelector('[name="fg6"]');
     const fg7 = document.querySelector('[name="fg7"]');
@@ -1793,7 +1776,6 @@ function updateFingerUi(){
     fg1.value = workingFinger.selectHand.fg1n;
     fg2.value = workingFinger.fingerReachRule.fg2n;
     fg3.value = workingFinger.blackKeyRule.fg3n;
-    fg4.value = workingFinger.rangeLinkRule.fg4n;
     fg5.value = workingFinger.evaluationRangeSize.fg5n;
     fg6.value = workingFinger.variabilityRangeSize.fg6n;
     fg7.value = workingFinger.fingerReachRest.fg7n;
@@ -14207,7 +14189,6 @@ function finger1(n_idf, hand){
     let fg1n = hand;
     let fg2n = workingFinger.fingerReachRule.fg2n;
     let fg3n = workingFinger.blackKeyRule.fg3n;
-    let fg4n = workingFinger.rangeLinkRule.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14323,8 +14304,7 @@ function finger1(n_idf, hand){
         }
 
         // 今回の第１音の運指が前回最良の第２音の運指と一致する設定
-        if (fg4n === 1 && 
-            firstFinger !== f103[1]) {
+        if (firstFinger !== f103[1]) {
             continue;
         }
 
@@ -14418,14 +14398,12 @@ if (n_idf === s0[s0.length - 1].n_id) {
 
     for (let i = 0; i < f100.length; i++) {
         if (
-            f103.length === 0 || //楽曲の最初、前回の最良の運指の第２音の運指が保存されていない
-            fg4n === 0 //今回の運指情報の第１音が、前回の運指に制約されない設定
+            f103.length === 0 //楽曲の最初、前回の最良の運指の第２音の運指が保存されていない
         ) {
             mstd(i);
 
         } else if (
             f103.length > 0 && //楽曲の途中、前回の最良の運指の第２音の運指が保存されている
-            fg4n === 1 && //今回の運指情報の第１音が、前回の運指に制約される設定
             f100[i][1][0] === f103[1] //今回の運指情報の第１音の運指が、前回の最良の運指の第２音の運指と同じ番号である
         ) {
             mstd(i);
@@ -14636,7 +14614,6 @@ time0=Date.now();
     let fg1n = workingFinger.selectHand.fg1n;
     let fg2n = workingFinger.fingerReachRule.fg2n;
     let fg3n = workingFinger.blackKeyRule.fg3n;
-    let fg4n = workingFinger.rangeLinkRule.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14678,7 +14655,7 @@ const textData = f102
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
+downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
 
 fingeringByNoteID = {};
 
@@ -14699,7 +14676,6 @@ time0=Date.now();
     let fg1n = workingFinger.selectHand.fg1n;
     let fg2n = workingFinger.fingerReachRule.fg2n;
     let fg3n = workingFinger.blackKeyRule.fg3n;
-    let fg4n = workingFinger.rangeLinkRule.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14741,7 +14717,7 @@ const textData = f102
 let file1name =
     val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'C'+fg4n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
+downloadFile(file1name+'_H'+fg1n+'L'+fg2n+'B'+fg3n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
 
 fingeringByNoteID = {};
 
@@ -14778,7 +14754,6 @@ const showFingeringAssistant = async () => {
     let fg1n = workingFinger.selectHand.fg1n;
     let fg2n = workingFinger.fingerReachRule.fg2n;
     let fg3n = workingFinger.blackKeyRule.fg3n;
-    let fg4n = workingFinger.rangeLinkRule.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
