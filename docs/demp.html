@@ -122,7 +122,7 @@ demp
 
     position:absolute;
 
-    left:500px;
+    left:900px;
     top:5px;
 
     font-size:14px;
@@ -147,6 +147,69 @@ demp
 </head>
 <body style="font-family:Arial;font-size:100%">
 <button id="menuButton" onclick="showMenu()">☰</button>
+<select id="song1" onchange="onSettingsChange()">
+    <option value="bach-invention-01">bwv772-bach-invention-01</option>
+    <option value="bach-invention-02" selected>bwv773-bach-invention-02</option>
+    <option value="bach-invention-03">bwv774-bach-invention-03</option>
+    <option value="bach-invention-04">bwv775-bach-invention-04</option>
+    <option value="bach-invention-05">bwv776-bach-invention-05</option>
+    <option value="bach-invention-06">bwv777-bach-invention-06</option>
+    <option value="bach-invention-07">bwv778-bach-invention-07</option>
+    <option value="bach-invention-08">bwv779-bach-invention-08</option>
+    <option value="bach-invention-09">bwv780-bach-invention-09</option>
+    <option value="bach-invention-10">bwv781-bach-invention-10</option>
+    <option value="bach-invention-11">bwv782-bach-invention-11</option>
+    <option value="bach-invention-12">bwv783-bach-invention-12</option>
+    <option value="bach-invention-13">bwv784-bach-invention-13</option>
+    <option value="bach-invention-14">bwv785-bach-invention-14</option>
+    <option value="bach-invention-15">bwv786-bach-invention-15</option>
+    <option value="K545-1">K545-1</option>
+    <option value="debussy_Arabesque_1">debussy_Arabesque_1</option>
+</select>
+<label style="font-size:70%">BPM</label>
+<input
+    type="number"
+    id="x_bpm"
+    name="x_bpm"
+    value="1"
+    min="1"
+    step="0.1"
+	onchange = "onSettingsChange()";
+    style="width:40px">
+<input
+    type="button"
+    value="Song First BPM"
+    onclick="setSongFirstBpm()">
+
+<select id="nl1" name="nl1" onchange="onSettingsChange()">
+	<option value="0"> No Label </option>
+	<option value="1"> Solfege # </option>
+	<option value="2"> Solfege b </option>
+	<option value="3"> English # </option>
+	<option value="4"> English b </option>
+	<option value="5"> German # </option>
+	<option value="6"> German b </option>
+	<option value="7"> Pitch Class </option>
+	<option value="8"> Octave & PC </option>
+	<option value="9"> MIDI Note Num </option>
+	<option value="10"> Note ID </option>
+	<option value="11" selected> Fingering1</option>
+	<option value="12"> Fingering2 </option>
+	<option value="13"> Text1 </option>
+	<option value="14"> Text2 </option>
+	<option value="15"> Text3 </option>
+	<option value="16"> Text4 </option>
+	<option value="17"> Text5 </option>
+	</select>
+
+<select id="sv1" name="sv1" onchange="onSettingsChange()">
+	<option value="0" selected> ToyScore </option>
+	<option value="1"> Key Estimation </option>
+	<option value="2"> Keyboard Label </option>
+	<option value="3"> Track/Channel </option>
+	<option value="4"> Shape Beat </option>
+	<option value="5"> Shape Measure </option>
+	</select>
 				<input 
 					id="mainButton"
 					type="button"
