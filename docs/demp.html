@@ -167,20 +167,6 @@ demp
     <option value="K545-1">K545-1</option>
     <option value="debussy_Arabesque_1">debussy_Arabesque_1</option>
 </select>
-<label style="font-size:70%">BPM</label>
-<input
-    type="number"
-    id="x_bpm"
-    name="x_bpm"
-    value="1"
-    min="1"
-    step="0.1"
-	onchange = "onSettingsChange()";
-    style="width:40px">
-<input
-    type="button"
-    value="Song BPM"
-    onclick="setSongFirstBpm()">
 
 <select id="nl1" name="nl1" onchange="onSettingsChange()">
 	<option value="0"> No Label </option>
@@ -212,44 +198,19 @@ demp
 	<option value="5"> Shape Measure </option>
 	</select>
 				<input 
-					id="mainButton"
-					type="button"
-					value="🏠">
-				<input 
 					type="button" 
 					id="playScoreButton"
 					value="▶️🎼">
-				<input 
-					type="button" 
-					id="playRecordButton"
-					value="▶️🎙">
-				<input 
-					type="button" 
-					id="startRecordingButton"
-					value="🔴🎙">
 				<input type="button" 
 					id="btnPause" 
 					value="⏸" 
 					onclick="pauseButton()">
-				<input 
-					type="button"
-					value="💾" 
-					onclick="saveRecord()">
 				<input type="button" id="btnFirstMeasure" value="|◀" onclick="goToFirstMeasure()">
 				<input type="button" id="btnBackOnePage" value="◀◀" onclick="goBackOnePage()">
 				<input type="button" id="btnBackOneMeasure" value="◀" onclick="goBackOneMeasure()">
 				<input type="button" id="btnForwardOneMeasure" value="▶" onclick="goForwardOneMeasure()">
 				<input type="button" id="btnForwardOnePage" value="▶▶" onclick="goForwardOnePage()">
 				<input type="button" id="btnLastMeasure" value="▶|" onclick="goToLastMeasure()">
-				<input 
-					id="btnToggleRecordView" 
-					type="button" 
-					value="🙈" 
-					onclick="toggleRecordView()">
-				<input 
-					type="button" 
-					value="🗑" 
-					onclick="clearRecord()">
   
 <div id="mainPage">
     <canvas id="canvas"></canvas>
@@ -14359,6 +14320,8 @@ function finger1(n_idf, hand){
         }
     }
     
+    console.log("n_idf=",n_idf,"f0=",f0);
+
     //================================================
     // f0の２音のうち開始側の制約を考慮する　前回最良運指の最後の指 → 今回の第1音 q
     //================================================
