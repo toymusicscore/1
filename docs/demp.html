@@ -9093,22 +9093,22 @@ function lineScore(tick){
 	for(let l=0;l<Number(view.kn);l++){
 		let k=Number(view.midi_min)+l;
 		ctx.fillStyle=workingColor.oct[Math.floor(k/12)-1];
-		ctx.fillRect(mx+l*view.kw,0,view.kw,my/2);
+		ctx.fillRect(mx+l*view.kw,my,view.kw,my/2);
 		ctx.fillStyle=workingColor.pc[k%12];
-		ctx.fillRect(mx+l*view.kw,my/2,view.kw,my/2);
+		ctx.fillRect(mx+l*view.kw,my+my/2,view.kw,my/2);
 		if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
 		ctx.fillStyle=workingColor.line[0];
-		ctx.fillRect(mx+l*view.kw,my,view.kw,szy);
+		ctx.fillRect(mx+l*view.kw,2*my,view.kw,szy);
 		}else if (k%12===0){
 		ctx.beginPath();
-		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,my+szy);
+		ctx.moveTo(mx+l*view.kw,2*my);
+		ctx.lineTo(mx+l*view.kw,2*my+szy);
 		ctx.strokeStyle=workingColor.line[1];
 		ctx.stroke();
 		}else if (k%12===5){
 		ctx.beginPath();
-		ctx.moveTo(mx+l*view.kw,my);
-		ctx.lineTo(mx+l*view.kw,my+szy);
+		ctx.moveTo(mx+l*view.kw,2*my);
+		ctx.lineTo(mx+l*view.kw,2*my+szy);
 		ctx.strokeStyle=workingColor.line[2];
 		ctx.stroke();
 		}
@@ -9116,8 +9116,8 @@ function lineScore(tick){
 
 	if (tick<songLengthTicks){
 		ctx.beginPath();
-		ctx.moveTo(0,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.lineTo(szx,my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.moveTo(0,2*my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.lineTo(szx,2*my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 		ctx.strokeStyle=workingColor.line[5];
 		ctx.stroke();
 	} else {
@@ -9125,8 +9125,8 @@ function lineScore(tick){
 	}
 
 	ctx.beginPath();
-	ctx.moveTo(0,my+szy);
-	ctx.lineTo(mx+szk,my+szy);
+	ctx.moveTo(0,2*my+szy);
+	ctx.lineTo(2*mx+szk,my+szy);
 	ctx.strokeStyle=workingColor.line[3];
 	ctx.stroke();
 
@@ -9134,8 +9134,8 @@ function lineScore(tick){
 		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			let vmn0=m/ticksPerMeasure+1;
 			ctx.beginPath();
-			ctx.moveTo(0,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.moveTo(0,2*my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.lineTo(mx+szk,2*my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 			ctx.strokeStyle=workingColor.line[3];
 			ctx.stroke();
 			if(vmn0 === highlightMeasure){
@@ -9146,11 +9146,11 @@ function lineScore(tick){
 				ctx.font = "25px Arial";
 			}
 			ctx.textAlign = "left";
-			ctx.fillText(vmn0,0,my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.fillText(vmn0,0,2*my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			ctx.beginPath();
-			ctx.moveTo(mx,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-			ctx.lineTo(mx+szk,my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.moveTo(mx,2*my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.lineTo(mx+szk,2*my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 			ctx.strokeStyle=workingColor.line[4];
 			ctx.stroke();
 			}
