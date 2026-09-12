@@ -14429,6 +14429,18 @@ function finger1(n_idf, hand){
             createF0(
                 fp[i - 1],
                 fp[i],
+                fg2n,
+                0,
+                hand
+            );
+        }
+
+        // 指の届く距離の条件で候補がなくなった場合だけ解除
+        if (f0.length === 0 && fg2n !== 0) {
+            createF0(
+                fp[i - 1],
+                fp[i],
+                0,
                 0,
                 hand
             );
