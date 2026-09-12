@@ -14814,7 +14814,7 @@ time0=Date.now();
 
     f102=[];
 
-    f102.push(['NoteID','Fingering','HandPosition','Minutes']);
+    f102.push(['NoteID','Fingering','HandPosition','MovementSTDEVP','Minutes']);
 
 
     f103=[];
@@ -14836,9 +14836,11 @@ for (let i=0; i<s0.length; i++){
 	await new Promise(r => timer=setTimeout(r,1));
 }
 
+const movementStdevp = calculateMovementSTDEVP(f102);
+
 let time1=Date.now();
 let timed=(time1-time0)/60000;
-f102.push(['','','',timed]);
+f102.push(['','','', movementStdevp, timed]);
 
 const textData = f102
     .map(row => row.join(','))
@@ -14935,6 +14937,128 @@ finger1(n_idf,fg1n);
 
 };
 
+function calculateMovementSTDEVP(f102) {
+
+    const differences = [];
+
+    for (let i = 2; i < f102.length; i++) {
+
+        const hp0 = Number(f102[i - 1][2]);
+        const hp1 = Number(f102[i][2]);
+
+        if (
+            !Number.isNaN(hp0) &&
+            !Number.isNaN(hp1)
+        ) {
+            differences.push(hp1 - hp0);
+        }
+    }
+
+    if (differences.length === 0) {
+        return 0;
+    }
+
+    const mean =
+        differences.reduce((sum, value) => sum + value, 0)
+        / differences.length;
+
+    const variance =
+        differences.reduce(
+            (sum, value) => sum + (value - mean) ** 2,
+            0
+        ) / differences.length;
+
+    return Math.sqrt(variance);
+}
+
+function createFingeringMap() {
+
+    const fingeringByNoteID = {};
+
+    for (let i = 1; i < f102.length; i++) {
+
+        if (f102[i].length < 2) {
+            continue;
+        }
+
+        const id = Number(f102[i][0]);
+        const fingering = Number(f102[i][1]);
+
+        if (!Number.isNaN(id) && !Number.isNaN(fingering)) {
+            fingeringByNoteID[id] = fingering;
+        }
+    }
+
+    return fingeringByNoteID;
+}
+
+/*
+const newFingering = createFingeringMap();
+
+fingeringSets["N5_FR0_B1"] = newFingering;
+
+//save to local storage
+
+localStorage.setItem(
+    "fingeringSets",
+    JSON.stringify(fingeringSets)
+);
+
+//open local storage
+
+const saved = localStorage.getItem("fingeringSets");
+
+if (saved) {
+    fingeringSets = JSON.parse(saved);
+} else {
+    fingeringSets = {};
+}
+
+//structured local storage by song
+
+fingeringSets = {
+    "bach-invention-02": {
+        "N5_FR0_B1": {...},
+        "N6_FR0_B1": {...},
+        "N8_FR0_B1": {...}
+    },
+
+    "another-song": {
+        "N5_FR0_B1": {...}
+    }
+};
+
+//open structured local storage
+
+const songId = val("song1");
+
+if (!fingeringSets[songId]) {
+    fingeringSets[songId] = {};
+}
+
+fingeringSets[songId]["N5_FR0_B1"] =
+    createFingeringMap();
+
+localStorage.setItem(
+    "fingeringSets",
+    JSON.stringify(fingeringSets)
+);
+
+// open in piano roll
+
+currentFingeringSet = "N5_FR0_B1";
+
+const fingering =
+    fingeringSets[songId][currentFingeringSet][noteID];
+
+    const fingering =
+    fingeringSets[songId][currentFingeringSet]?.[noteID];
+
+if (fingering !== undefined) {
+    // 運指を表示
+}
+
+*/
 
 </script>
 </body>
