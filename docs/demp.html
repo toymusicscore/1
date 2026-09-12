@@ -14130,13 +14130,12 @@ function extendFingering(currentF, f0, n_idf) {
     
 }
 
-function createF0(fp0, fp1, fg3n, hand) {
+function createF0(fp0, fp1, fg2n, fg3n, hand) {
 
     let hp0 = 0;
     let hp1 = 0;
 
     let fg1n = hand;
-    let fg2n = workingFinger.fingerReachRule.fg2n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7 = ticksPerMeasure / fg7n;
 
@@ -14308,11 +14307,16 @@ function finger1(n_idf, hand){
         const fp0 = fp[0];
         const fp1 = fp[1];
 
-        createF0(fp0, fp1, fg3n, hand);
+        createF0(fp0, fp1, fg2n, fg3n, hand);
 
         if (f0.length === 0 && fg3n !== 0) {
-            createF0(fp0, fp1, 0, hand);
+            createF0(fp0, fp1, fg2n, 0, hand);
         }
+
+        if (f0.length === 0 && fg2n !== 0) {
+            createF0(fp0, fp1, 0, 0, hand);
+        }
+
     }    
 
     //================================================
