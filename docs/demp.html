@@ -14309,7 +14309,7 @@ function finger1(n_idf, hand){
             createF0(fp0, fp1, 0, hand);
         }
     }    
-    
+
     //================================================
     // f0の２音のうち開始側の制約を考慮する　前回最良運指の最後の指 → 今回の第1音 q
     //================================================
@@ -14401,17 +14401,33 @@ function finger1(n_idf, hand){
 
     f[1] = f1;
 
-    for(let i=2; i<fp.length; i++){
+    for (let i = 2; i < fp.length; i++) {
 
         f[i] = [];
 
-        if(
-            fp.length > i &&
-            f[i-1].length > 0
-        ){
+        if (f[i - 1].length > 0) {
+
+            // 今回追加する2音だけで f0 を作る
+            f0 = [];
+
+            createF0(
+                fp[i - 1],
+                fp[i],
+                fg3n,
+                hand
+            );
+
+            if (f0.length === 0 && fg3n !== 0) {
+                createF0(
+                    fp[i - 1],
+                    fp[i],
+                    0,
+                    hand
+                );
+            }
 
             f[i] = extendFingering(
-                f[i-1],
+                f[i - 1],
                 f0,
                 n_idf
             );
@@ -14422,21 +14438,21 @@ function finger1(n_idf, hand){
 // 最後の1音のf101はf103から作る
 //============================================================
 
-if (n_idf === s0[s0.length - 1].n_id) {
+    if (n_idf === s0[s0.length - 1].n_id) {
 
-    f101 = [[
-            [f103[0]],
-            [f103[1]],
-            [f103[2]],
-            f103[3]
-        ]];
+        f101 = [[
+                [f103[0]],
+                [f103[1]],
+                [f103[2]],
+                f103[3]
+            ]];
 
-} else {
+    } else {
 
-    f100 = f[fp.length - 1];
-    if(f100.length===0){
-        console.log("!!! f100 IS EMPTY !!!", n_idf);
-        return;
+        f100 = f[fp.length - 1];
+        if(f100.length===0){
+            console.log("!!! f100 IS EMPTY !!!", n_idf);
+            return;
     }
 
     //========================================================
