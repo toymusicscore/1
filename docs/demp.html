@@ -14836,11 +14836,13 @@ for (let i=0; i<s0.length; i++){
 	await new Promise(r => timer=setTimeout(r,1));
 }
 
-const movementStdevp = calculateMovementSTDEVP(f102);
-
 let time1=Date.now();
 let timed=(time1-time0)/60000;
-f102.push(['','','', movementStdevp, timed]);
+
+const movementStdevp = calculateMovementSTDEVP(f102);
+const  meanAbsoluteDifference = calculateMeanAbsoluteDifference(f102);
+
+f102.push(['','','', timed, movementStdevp, meanAbsoluteDifference]);
 
 const textData = f102
     .map(row => row.join(','))
@@ -14990,6 +14992,38 @@ function createFingeringMap() {
     }
 
     return fingeringByNoteID;
+}
+
+function calculateMeanAbsoluteDifference(f102) {
+
+    const differences = [];
+
+    for (let i = 2; i < f102.length; i++) {
+
+        const hp0 = Number(f102[i - 1][2]);
+        const hp1 = Number(f102[i][2]);
+
+        if (
+            !Number.isNaN(hp0) &&
+            !Number.isNaN(hp1)
+        ) {
+            differences.push(
+                Math.abs(hp1 - hp0)
+            );
+        }
+    }
+
+    if (differences.length === 0) {
+        return 0;
+    }
+
+    const meanAbsoluteDifference =
+        differences.reduce(
+            (sum, value) => sum + value,
+            0
+        ) / differences.length;
+
+    return meanAbsoluteDifference;
 }
 
 /*
