@@ -14773,28 +14773,34 @@ for (let i = 1; i < f102.length; i++){
     fingeringByNoteID[id] = fingering;
 }
 
-//save structured local storage
-
-fingeringSets[songId] =
-    createFingeringMap();
-
-localStorage.setItem(
-    "fingeringSets",
-    JSON.stringify(fingeringSets)
-);
-
-//open local storage
-
-const saved = localStorage.getItem("fingeringSets");
-
-if (saved) {
-    fingeringSets = JSON.parse(saved);
-} else {
-    fingeringSets = {};
-}
 
 }
 
+function saveFingering(){
+
+    const songId = val("song1");
+
+    //save structured local storage
+
+    fingeringSets[songId] =
+        createFingeringMap();
+
+    localStorage.setItem(
+        "fingeringSets",
+        JSON.stringify(fingeringSets)
+    );
+
+    //open local storage
+
+    const saved = localStorage.getItem("fingeringSets");
+
+    if (saved) {
+        fingeringSets = JSON.parse(saved);
+    } else {
+        fingeringSets = {};
+    }
+
+}
 
 const showFingeringRecorderOneHand= async () =>{
 time0=Date.now();
