@@ -4225,10 +4225,10 @@ function getLabel(midi, n_id, songId){
 		nl=midi;
 	}else if (practiceSettings.noteTextType === 10){
 		nl=n_id;
-	//tsv fingering1
+	//fingering user
 	}else if (practiceSettings.noteTextType === 11){
 		nl=fingeringSets[songId]?.[n_id] ?? "";
-	//tsv fingering2
+	//fingering Auto
 	}else if (practiceSettings.noteTextType === 12) {
         nl = fingeringByNoteID[n_id] ?? "";
 	//tsv Text1
@@ -13053,19 +13053,26 @@ function setFinger(finger){
 
     updateNote();
 
-    const songId = val("song1");
+    if (practiceSettings.noteTextType === 11){
+    
+        const songId = val("song1");
 
-    if (!fingeringSets[songId]) {
-        fingeringSets[songId] = {};
+        if (!fingeringSets[songId]) {
+            fingeringSets[songId] = {};
+        }
+
+        fingeringSets[songId][selectedNote.n_id] = finger;
+
+        localStorage.setItem(
+            "fingeringSets",
+            JSON.stringify(fingeringSets)
+        );
+	
+    }else if (practiceSettings.noteTextType === 12) {
+
+        fingeringByNoteId[selectedNote.n_id] = finger;
+
     }
-
-    fingeringSets[songId][selectedNote.n_id] = finger;
-
-    localStorage.setItem(
-        "fingeringSets",
-        JSON.stringify(fingeringSets)
-    );
-
 }
 
 function hideFinger(){
