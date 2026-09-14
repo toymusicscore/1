@@ -4196,7 +4196,7 @@ function midiToFreq(midi){
 //
 
 
-function getLabel(midi, n_id){
+function getLabel(midi, n_id, songId){
 		if (practiceSettings.noteTextType === 0){
 		nl="";
 	}else if (practiceSettings.noteTextType === 1){
@@ -4220,8 +4220,8 @@ function getLabel(midi, n_id){
 	}else if (practiceSettings.noteTextType === 10){
 		nl=n_id;
 	//tsv fingering1
-	}else if (practiceSettings.noteTextType === 11 && tsv.t1[n_id]!=undefined){
-		nl=tsv.t1[n_id];
+	}else if (practiceSettings.noteTextType === 11 && fingeringSets[songId]?.[n_id]!=undefined){
+		nl=fingeringSets[songId]?.[n_id];
 	//tsv fingering2
 	}else if (practiceSettings.noteTextType === 12 && fingeringByNoteID[n_id]!=undefined){
 		nl=fingeringByNoteID[n_id];
@@ -9152,6 +9152,7 @@ function clearPitchClassSearch(){
 
 
 function lineScore(tick){
+    const songId = val("song1");
     notePosition = [];
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	szx = canvas.width;
@@ -9376,7 +9377,7 @@ function lineScore(tick){
 			ctx.fillStyle = handColor;
 			ctx.fill();
 
-            getLabel(midi, n_id);
+            getLabel(midi, n_id, songId);
 			if (nl!=""){
 				ctx.fillStyle=workingColor.text[1];
 				ctx.textAlign = "center";
@@ -14757,10 +14758,9 @@ const textData = f102
     .map(row => row.join(','))
     .join('\r\n');
 
-let file1name =
-    val("song1");
+const songId = val("song1");
 
-downloadFile(file1name+'_H'+fg1n+'F'+fg2n+'B'+fg3n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
+downloadFile(songId+'_H'+fg1n+'F'+fg2n+'B'+fg3n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
 
 fingeringByNoteID = {};
 
@@ -14771,6 +14771,29 @@ for (let i = 1; i < f102.length; i++){
 
     fingeringByNoteID[id] = fingering;
 }
+
+//save structured local storage
+
+fingeringSets[songId] =
+    createFingeringMap();
+
+localStorage.setItem(
+    "fingeringSets",
+    JSON.stringify(fingeringSets)
+);
+
+//open local storage
+
+const saved = localStorage.getItem("fingeringSets");
+
+if (saved) {
+    fingeringSets = JSON.parse(saved);
+} else {
+    fingeringSets = {};
+}
+
+const fingering =
+    fingeringSets[songId]?.[noteID];
 
 }
 
@@ -15037,7 +15060,7 @@ fingeringSets = {
     }
 };
 
-//open structured local storage
+//set structured local storage
 
 const songId = val("song1");
 
