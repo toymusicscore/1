@@ -13055,6 +13055,10 @@ function setFinger(finger){
 
     const songId = val("song1");
 
+    if (!fingeringSets[songId]) {
+        fingeringSets[songId] = {};
+    }
+
     fingeringSets[songId][selectedNote.n_id] = finger;
 
     localStorage.setItem(
