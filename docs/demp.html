@@ -14806,6 +14806,18 @@ function saveFingering(){
 
 }
 
+function loadFingering(){
+
+    const saved = localStorage.getItem("fingeringSets");
+
+    if (saved) {
+        fingeringSets = JSON.parse(saved);
+    } else {
+        fingeringSets = {};
+    }
+
+}
+
 const showFingeringRecorderOneHand= async () =>{
 time0=Date.now();
 
