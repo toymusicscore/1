@@ -14992,27 +14992,6 @@ function calculateMovementSTDEVP(f102) {
     return Math.sqrt(variance);
 }
 
-function createFingeringMap() {
-
-    const fingeringByNoteID = {};
-
-    for (let i = 1; i < f102.length; i++) {
-
-        if (f102[i].length < 2) {
-            continue;
-        }
-
-        const id = Number(f102[i][0]);
-        const fingering = Number(f102[i][1]);
-
-        if (!Number.isNaN(id) && !Number.isNaN(fingering)) {
-            fingeringByNoteID[id] = fingering;
-        }
-    }
-
-    return fingeringByNoteID;
-}
-
 function calculateMeanAbsoluteDifference(f102) {
 
     const differences = [];
@@ -15043,6 +15022,27 @@ function calculateMeanAbsoluteDifference(f102) {
         ) / differences.length;
 
     return meanAbsoluteDifference;
+}
+
+function createFingeringMap() {
+
+    const fingeringByNoteID = {};
+
+    for (let i = 1; i < f102.length; i++) {
+
+        if (f102[i].length < 2) {
+            continue;
+        }
+
+        const id = Number(f102[i][0]);
+        const fingering = Number(f102[i][1]);
+
+        if (!Number.isNaN(id) && !Number.isNaN(fingering)) {
+            fingeringByNoteID[id] = fingering;
+        }
+    }
+
+    return fingeringByNoteID;
 }
 
 /*
