@@ -13057,6 +13057,11 @@ function setFinger(finger){
 
     fingeringSets[songId][selectedNote.n_id] = finger;
 
+    localStorage.setItem(
+        "fingeringSets",
+        JSON.stringify(fingeringSets)
+    );
+
 }
 
 function hideFinger(){
