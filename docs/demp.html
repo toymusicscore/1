@@ -14803,10 +14803,22 @@ downloadFile(songId+'_H'+fg1n+'F'+fg2n+'B'+fg3n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'T'+t
 function downloadFingeringSaved(){
 
     const songId = val("song1");
+    const data = fingeringSets[songId];
 
-    const textData = fingeringSets[songId]
-        .map(row => row.join(','))
-        .join('\r\n');
+    if (!data) return;
+
+    const rows = [
+        ["NoteID", "Fingering"]
+    ];
+
+    Object.entries(data).forEach(([n_id, finger]) => {
+        rows.push([n_id, finger]);
+    });
+
+    const textData = rows
+        .map(row => row.join(","))
+        .join("\r\n");
+
 
     let time1=Date.now();
 
