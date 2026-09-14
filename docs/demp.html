@@ -211,6 +211,10 @@ demp
     type="button"
     value="💾" 
     onclick="saveFingering()">
+<input 
+    type="button"
+    value="⬇️" 
+    onclick="downloadFingeringSaved()">
 <input type="button" id="btnFirstMeasure" value="|◀" onclick="goToFirstMeasure()">
 <input type="button" id="btnBackOneMeasure" value="◀" onclick="goBackOneMeasure()">
 <input type="button" id="btnForwardOneMeasure" value="▶" onclick="goForwardOneMeasure()">
@@ -14787,12 +14791,26 @@ const textData = f102
 
 const songId = val("song1");
 
-downloadFile(songId+'_H'+fg1n+'F'+fg2n+'B'+fg3n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
+downloadFile(songId+'_H'+fg1n+'F'+fg2n+'B'+fg3n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'T'+time1+'.csv', textData);
 
     fingeringAuto = {};
 
     fingeringAuto = 
             createFingeringMap();
+
+}
+
+function downloadFingeringSaved(){
+
+    const songId = val("song1");
+
+    const textData = fingeringSets[songId]
+        .map(row => row.join(','))
+        .join('\r\n');
+
+    let time1=Date.now();
+
+    downloadFile(songId+'_Saved_'+time1+'.csv', textData);
 
 }
 
