@@ -13048,6 +13048,8 @@ function setFinger(finger){
 
     if(!selectedNote) return;
 
+    const n_id = selectedNote.n_id;
+
     selectedNote.finger = finger;
 
     updateNote();
@@ -13060,26 +13062,16 @@ function setFinger(finger){
             fingeringSets[songId] = {};
         }
 
-        fingeringSets[songId][selectedNote.n_id] = finger;
-
-        console.log("songId =", songId);
-        console.log("n_id =", selectedNote.n_id);
-        console.log("finger =", finger);
-        console.log("fingeringSets =", fingeringSets);
+        fingeringSets[songId][n_id] = finger;
 
         localStorage.setItem(
             "fingeringSets",
             JSON.stringify(fingeringSets)
         );
 
-        console.log(
-            "saved =",
-            localStorage.getItem("fingeringSets")
-        );
-
     }else if (practiceSettings.noteTextType === 12) {
 
-        fingeringAuto[selectedNote.n_id] = finger;
+        fingeringAuto[n_id] = finger;
     }
 }
 
