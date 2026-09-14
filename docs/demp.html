@@ -14811,9 +14811,11 @@ function downloadFingeringSaved(){
         ["NoteID", "Fingering"]
     ];
 
-    Object.entries(data).forEach(([n_id, finger]) => {
-        rows.push([n_id, finger]);
-    });
+    if(n_id>0){
+        Object.entries(data).forEach(([n_id, finger]) => {
+            rows.push([n_id, finger]);
+        });
+    }
 
     const textData = rows
         .map(row => row.join(","))
