@@ -4269,7 +4269,7 @@ function getLabel(midi, n_id, songId){
 		nl=fingeringSets[songId]?.[n_id] ?? "";
 	//fingering Auto
 	}else if (practiceSettings.noteTextType === 12) {
-        nl = fingeringAuto[n_id] ?? "";
+        nl = fingeringAuto[songId]?.[n_id] ?? "";
 	//tsv Text1
 	}else if (practiceSettings.noteTextType === 13 && tsv.t5[n_id]!=undefined){
 		nl=tsv.t5[n_id];
