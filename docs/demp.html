@@ -2683,6 +2683,8 @@ function onMIDIFailure(error) {
 
 async function initialize(){
 	
+    console.log("===== initialize START =====");
+
     loadSavedSettings();
     updateSettingsUi();
     syncMeasuresPerScreen();
@@ -2698,8 +2700,16 @@ async function initialize(){
     loadSavedFinger();
     updateFingerUi();
     updateFingerData();
+
+    console.log(
+        "after updateFingerData:",
+        "fingerRangeMap =", fingerRangeMap,
+        "fingerBase =", fingerBase
+    );
     loadSavedFingering();
 
+    console.log("===== initialize END =====");
+    
 }
 
 function initializePage() {
