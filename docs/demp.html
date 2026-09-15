@@ -190,6 +190,19 @@ demp
 	</select>
 <input 
     type="button" 
+    id="fingeringRecorderBothHandsButton"
+    value="✋"
+    onclick="showFingeringRecorderBothHands()">
+<input 
+    type="button"
+    value="💾" 
+    onclick="saveFingering()">
+<input 
+    type="button"
+    value="⬇️" 
+    onclick="downloadFingeringSaved()">
+<input 
+    type="button" 
     id="playScoreButton"
     value="▶️"
     onclick="playScore()">
@@ -202,19 +215,6 @@ demp
     id="btnPause" 
     value="⏸" 
     onclick="pauseButton()">
-<input 
-    type="button" 
-    id="fingeringRecorderBothHandsButton"
-    value="✋"
-    onclick="showFingeringRecorderBothHands()">
-<input 
-    type="button"
-    value="💾" 
-    onclick="saveFingering()">
-<input 
-    type="button"
-    value="⬇️" 
-    onclick="downloadFingeringSaved()">
 <input type="button" id="btnFirstMeasure" value="|◀" onclick="goToFirstMeasure()">
 <input type="button" id="btnBackOneMeasure" value="◀" onclick="goBackOneMeasure()">
 <input type="button" id="btnForwardOneMeasure" value="▶" onclick="goForwardOneMeasure()">
@@ -811,6 +811,7 @@ Upper Limit: Largest allowable distance between the two fingers.
 <select name="fg2">
     <option value="0">No Limit</option>
     <option value="1" selected>Limit in Finger Reach</option>
+    <option value="2">Limit Lower Only</option>
 </select>
 <br>
 <label>Black Key Rule</label>
@@ -822,6 +823,8 @@ Upper Limit: Largest allowable distance between the two fingers.
 
 <label>Evaluation Index Calculation Range Size</label>
 <select name="fg5">
+	<option value="3"> 3 </option>
+	<option value="4"> 4 </option>
 	<option value="5"> 5 </option>
 	<option value="6"> 6 </option>
 	<option value="7"> 7 </option>
@@ -14237,6 +14240,38 @@ function createF0(fp0, fp1, fg2n, fg3n, hand) {
                     continue;
                 }
             }
+            else if (fg2n === 2 && !isFingerReachRest) {
+
+                const range1 = getFingerRange(q, r);
+
+                if (!range1) {
+                    continue;
+                }
+
+                const min1 = range1[0];
+                const max1 = range1[1];
+
+                let pitchDiff1;
+
+                if (fg1n === 0) {
+
+                    pitchDiff1 =
+                        Number(fp1[0]) -
+                        Number(fp0[0]);
+
+                } else {
+
+                    pitchDiff1 =
+                        Number(fp0[0]) -
+                        Number(fp1[0]);
+                }
+
+                if (
+                    pitchDiff1 < min1
+                ) {
+                    continue;
+                }
+            }
 
             //================================================
             // 手の中心点の位置
@@ -14433,8 +14468,18 @@ function finger1(n_idf, hand){
         }
 
         if (
+            fg2n === 1 &&
+            (
             pitchDiff0 < min0 ||
             pitchDiff0 > max0
+            )
+        ) {
+            continue;
+        }
+
+        if (
+            fg2n === 2 &&
+            pitchDiff0 < min0
         ) {
             continue;
         }
