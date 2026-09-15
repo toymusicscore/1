@@ -1740,10 +1740,36 @@ function createFingerRange() {
     }
 }
 
+/*
 function getFingerRange(q, r) {
     return fingerRangeMap[q][r];
 }
+ */
 
+function getFingerRange(q, r) {
+
+    if (!fingerRangeMap[q]) {
+        console.log(
+            "ERROR getFingerRange:",
+            "q =", q,
+            "r =", r,
+            "fingerRangeMap =", fingerRangeMap
+        );
+        return null;
+    }
+
+    if (!fingerRangeMap[q][r]) {
+        console.log(
+            "ERROR getFingerRange:",
+            "q =", q,
+            "r =", r,
+            "fingerRangeMap[q] =", fingerRangeMap[q]
+        );
+        return null;
+    }
+
+    return fingerRangeMap[q][r];
+}
 
 function createFingerBase() {
 
