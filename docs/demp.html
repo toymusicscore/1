@@ -14846,7 +14846,7 @@ downloadFile(songId+'_Auto_HBF'+fg2n+'B'+fg3n+'N'+fg5n+'n'+fg6n+'r'+fg7n+'.csv',
 
     fingeringAuto = {};
 
-    fingeringAuto = 
+    fingeringAuto[songId] = 
             createFingeringMap();
 
     //save structured local storage
@@ -14908,7 +14908,7 @@ function saveFingering(){
     //save structured local storage
 
     fingeringSets[songId] =
-            fingeringAuto
+            fingeringAuto[songId]
 
     localStorage.setItem(
         "fingeringSets",
