@@ -9327,6 +9327,13 @@ function lineScore(tick){
                 y: y
             });
 
+			ctx.fillStyle=workingColor.pc[midi%12];
+			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
+			ctx.beginPath();
+			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
+			ctx.fillStyle = handColor;
+			ctx.fill();
+
 		if(markerVisible && view.scoreViewData[i].marker){
 			let size = view.kw;
 
@@ -9420,13 +9427,7 @@ function lineScore(tick){
 				break;
 			}
 		}
-			ctx.fillStyle=workingColor.pc[midi%12];
-			ctx.fillRect(x0,y,view.kw,gt*szy/measuresPerScreen);
-			ctx.beginPath();
-			ctx.arc(x1,y,view.kw/2,0,2*Math.PI,false);
-			ctx.fillStyle = handColor;
-			ctx.fill();
-
+        
             getLabel(midi, n_id, songId);
 			if (nl!=""){
 //				ctx.fillStyle=workingColor.text[1];
