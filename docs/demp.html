@@ -1767,22 +1767,10 @@ function getFingerRange(q, r) {
 function getFingerRange(q, r) {
 
     if (!fingerRangeMap[q]) {
-        console.log(
-            "ERROR getFingerRange:",
-            "q =", q,
-            "r =", r,
-            "fingerRangeMap =", fingerRangeMap
-        );
         return null;
     }
 
     if (!fingerRangeMap[q][r]) {
-        console.log(
-            "ERROR getFingerRange:",
-            "q =", q,
-            "r =", r,
-            "fingerRangeMap[q] =", fingerRangeMap[q]
-        );
         return null;
     }
 
@@ -1812,16 +1800,9 @@ function createFingerBase() {
 
 function updateFingerData() {
 
-    console.log("updateFingerData START");
-
     createFingerRange();
     createFingerBase();
 
-    console.log(
-        "updateFingerData END:",
-        "fingerRangeMap =", fingerRangeMap,
-        "fingerBase =", fingerBase
-    );
 }
 
 
