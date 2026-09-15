@@ -9269,12 +9269,16 @@ function lineScore(tick){
 				workingColor.hand[
 					HAND_COLOR.SCORE_RIGHT
 				];
+			handColorText =
+				workingColor.hand[
+					HAND_COLOR.SCORE_RIGHT_TEXT
+				];
 		}
 		else if(track == practiceSettings.handsTrackChannel.left.track
 		 && channel == practiceSettings.handsTrackChannel.left.channel){
-			handColor =
+			handColorText =
 				workingColor.hand[
-					HAND_COLOR.SCORE_LEFT
+					HAND_COLOR.SCORE_LEFT_TEXT
 				];
 		}
 		if (dp >=0 && dt < measuresPerScreen*3/4){
@@ -12142,10 +12146,6 @@ function trackChannelInfo(){
 				workingColor.hand[
 					HAND_COLOR.SCORE_RIGHT
 				];
-			handColorText =
-				workingColor.hand[
-					HAND_COLOR.SCORE_RIGHT_TEXT
-				];
 			handName = HANDS_LABEL[HANDS.RIGHT];
 		}
 		else if(row.track == practiceSettings.handsTrackChannel.left.track && 
@@ -12153,10 +12153,6 @@ function trackChannelInfo(){
 			handColor =
 				workingColor.hand[
 					HAND_COLOR.SCORE_LEFT
-				];
-			handColorText =
-				workingColor.hand[
-					HAND_COLOR.SCORE_LEFT_TEXT
 				];
 			handName = HANDS_LABEL[HANDS.LEFT];
 		}
