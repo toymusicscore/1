@@ -14240,7 +14240,7 @@ function createF0(fp0, fp1, fg2n, fg3n, hand) {
             // 今回の評価区間内 q → r
             //================================================
 
-            if (fg2n === 1 && !isFingerReachRest) {
+            if (fg2n > 0 && !isFingerReachRest) {
 
                 const range1 = getFingerRange(q, r);
 
@@ -14267,39 +14267,17 @@ function createF0(fp0, fp1, fg2n, fg3n, hand) {
                 }
 
                 if (
+                    fg2n === 1 &&
+                    (
                     pitchDiff1 < min1 ||
                     pitchDiff1 > max1
+                    )
                 ) {
                     continue;
                 }
-            }
-            else if (fg2n === 2 && !isFingerReachRest) {
-
-                const range1 = getFingerRange(q, r);
-
-                if (!range1) {
-                    continue;
-                }
-
-                const min1 = range1[0];
-                const max1 = range1[1];
-
-                let pitchDiff1;
-
-                if (fg1n === 0) {
-
-                    pitchDiff1 =
-                        Number(fp1[0]) -
-                        Number(fp0[0]);
-
-                } else {
-
-                    pitchDiff1 =
-                        Number(fp0[0]) -
-                        Number(fp1[0]);
-                }
 
                 if (
+                    fg2n === 2 &&
                     pitchDiff1 < min1
                 ) {
                     continue;
