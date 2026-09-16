@@ -14210,7 +14210,16 @@ function extendFingering(currentF, f0, n_idf) {
     }
 
     return nextF;
-    
+
+if (n_idf === 15) {
+    console.log(
+        "extend:",
+        "ft0=", ft0,
+        "ff1=", ff1,
+        "restLength=", restLength,
+        "sameFinger=", ft0 === ff1
+    );
+}    
 }
 
 function createF0(fp0, fp1, fg2n, hand) {
@@ -14504,7 +14513,7 @@ function finger1(n_idf, hand){
             n_idf
         );
 
-    if(n_idf === 256){
+    if(n_idf === 15){
         console.log("f0=",f0);
         console.log("currentF=",currentF);
         console.log("nextF=",nextF);
@@ -14534,6 +14543,7 @@ function finger1(n_idf, hand){
         if(f100.length===0){
             alert(n_idf + "!!! f100 IS EMPTY !!!");
             console.log(n_idf, "!!! f100 IS EMPTY !!!");
+            return;
     }
 
     //========================================================
