@@ -14446,9 +14446,19 @@ function finger1(n_idf, hand){
         const range0 =
             getFingerRange(prevFinger, firstFinger);
 
-        if (!range0) {
+/*        if (!range0) {
             continue;
         }
+*/
+if (!range0) {
+    console.log(
+        "range0 EMPTY",
+        "i =", i,
+        "prevFinger =", prevFinger,
+        "firstFinger =", firstFinger
+    );
+    continue;
+}
 
         const min0 = range0[0];
         const max0 = range0[1];
@@ -14466,11 +14476,12 @@ function finger1(n_idf, hand){
         }
 console.log(
     "range check",
+    "i =", i,
+    "prevFinger =", prevFinger,
     "firstFinger =", firstFinger,
     "range0 =", range0,
     "pitchDiff0 =", pitchDiff0
 );
-
         if (
             pitchDiff0 < min0 ||
             pitchDiff0 > max0
@@ -14480,15 +14491,8 @@ console.log(
 
         f1.push(f0[i]);
     }
-console.log("n_idf =", n_idf);
-console.log("fp.length =", fp.length);
-console.log("f0.length =", f0.length);
-console.log("f1.length =", f1.length);
-console.log("f1 =", f1);
-console.log("f103 =", f103);
-console.log("prevFinger =", prevFinger);
-console.log("fp[0] =", fp[0]);
-//    console.log("createF1 =", performance.now() - t0, "ms");
+
+    //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
     //========================================================
