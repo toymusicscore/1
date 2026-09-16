@@ -14512,7 +14512,8 @@ function finger1(n_idf, hand){
             f0,
             n_idf
         );
-*/ nextF = extendFingering(
+*/
+const nextF = extendFingering(
     currentF,
     f0,
     n_idf
@@ -14524,9 +14525,7 @@ console.log(
     "i =", i,
     "currentF =", currentF.length,
     "f0 =", f0.length,
-    "nextF =", nextF.length,
-    "prevNoteID =", fp[i - 1][4],
-    "currentNoteID =", fp[i][4]
+    "nextF =", nextF.length
 );
 
 if (nextF.length === 0) {
@@ -14536,8 +14535,8 @@ if (nextF.length === 0) {
         "i =", i,
         "currentF =", currentF.length,
         "f0 =", f0.length,
-        "prevNote =", fp[i - 1],
-        "currentNote =", fp[i]
+        "prevNoteID =", fp[i - 1][4],
+        "currentNoteID =", fp[i][4]
     );
 }
 
