@@ -14428,6 +14428,14 @@ function finger1(n_idf, hand){
             continue;
         }
 
+        console.log(
+    "f1 check",
+    "i =", i,
+    "firstFinger =", firstFinger,
+    "prevFinger =", prevFinger,
+    "f103[1] =", f103[1]
+);
+
         // 今回の第１音の運指が前回最良の第２音の運指と一致する設定
         if (firstFinger !== f103[1]) {
             continue;
@@ -14441,7 +14449,12 @@ function finger1(n_idf, hand){
         if (!range0) {
             continue;
         }
-
+console.log(
+    "range check",
+    "firstFinger =", firstFinger,
+    "range0 =", range0,
+    "pitchDiff0 =", pitchDiff0
+);
         const min0 = range0[0];
         const max0 = range0[1];
 
@@ -14466,7 +14479,14 @@ function finger1(n_idf, hand){
 
         f1.push(f0[i]);
     }
-
+console.log("n_idf =", n_idf);
+console.log("fp.length =", fp.length);
+console.log("f0.length =", f0.length);
+console.log("f1.length =", f1.length);
+console.log("f1 =", f1);
+console.log("f103 =", f103);
+console.log("prevFinger =", prevFinger);
+console.log("fp[0] =", fp[0]);
 //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
