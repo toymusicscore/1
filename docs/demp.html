@@ -14605,8 +14605,8 @@ function finger1(n_idf, hand){
 
     //黒鍵の制約に合致する場合には、その運指情報を選択する
     for(i=0; i<f101.length; i++){
-        if (!isValidBlackKeyFinger(fp[0][0], f101[i][1][0], fg3n)) {
-            f101b.push([f101[i]]);
+        if (isValidBlackKeyFinger(fp[0][0], f101[i][1][0], fg3n)) {
+            f101b.push(f101[i]);
         }
     }
 
