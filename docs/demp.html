@@ -14428,14 +14428,6 @@ function finger1(n_idf, hand){
             continue;
         }
 
-        console.log(
-    "f1 check",
-    "i =", i,
-    "firstFinger =", firstFinger,
-    "prevFinger =", prevFinger,
-    "f103[1] =", f103[1]
-);
-
         // 今回の第１音の運指が前回最良の第２音の運指と一致する設定
         if (firstFinger !== f103[1]) {
             continue;
@@ -14446,19 +14438,9 @@ function finger1(n_idf, hand){
         const range0 =
             getFingerRange(prevFinger, firstFinger);
 
-/*        if (!range0) {
+        if (!range0) {
             continue;
         }
-*/
-if (!range0) {
-    console.log(
-        "range0 EMPTY",
-        "i =", i,
-        "prevFinger =", prevFinger,
-        "firstFinger =", firstFinger
-    );
-    continue;
-}
 
         const min0 = range0[0];
         const max0 = range0[1];
@@ -14537,14 +14519,6 @@ console.log(
             f0,
             n_idf
         );
-
-            console.log("n_idf =", n_idf);
-            console.log("i =", i);
-            console.log("f0 =", f0);
-            console.log("currentFLen =", currentF.length);
-            console.log("nextFLen =", nextF.length);
-            console.log("currentF =", currentF);
-            console.log("nextF =", nextF);
 
         // currentF はここで不要
         currentF = nextF;
