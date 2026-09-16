@@ -14177,8 +14177,7 @@ function extendFingering(currentF, f0, n_idf) {
 
             if (
                 nf0 === n_idf &&
-                nt0 === nf1 &&
-                ff1 !== ft1     // 同じ指の連続打鍵は禁止
+                nt0 === nf1
 
             ) {
                 const restLength = tt1 - pf1;
@@ -14229,10 +14228,6 @@ function createF0(fp0, fp1, fg2n, hand) {
     for (let q = 1; q <= 5; q++) {
 
         for (let r = 1; r <= 5; r++) {
-
-            if (q === r) {
-                continue;
-            }
 
             //================================================
             // 今回の評価区間内 q → r
@@ -14414,23 +14409,14 @@ function finger1(n_idf, hand){
         }
 
         // 指の届く範囲の制約なし
-        // 同じ指の連続打鍵は禁止
-        if (fg2n === 0 && 
-            firstFinger !== prevFinger) {
+        if (fg2n === 0) {
             f1.push(f0[i]);
             continue;
         }
 
         // rst7以上の休符あり＝前回の指から今回第1音への指の届く範囲の制約を解除
-        // 同じ指の連続打鍵は禁止
-        if (fp[0][5] === 1 &&
-            firstFinger !== prevFinger) {
+        if (fp[0][5] === 1 ) {
             f1.push(f0[i]);
-            continue;
-        }
-
-        // 同じ指の連続打鍵は禁止
-        if (firstFinger === prevFinger) {
             continue;
         }
 
@@ -14537,7 +14523,7 @@ function finger1(n_idf, hand){
         console.log("f8=",f8);
         console.log("f9=",f9);
     }
-    
+
 //============================================================
 // 最後の1音のf101はf103から作る
 //============================================================
