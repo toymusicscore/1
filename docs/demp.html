@@ -14477,6 +14477,13 @@ function finger1(n_idf, hand){
 
     for (let i = 2; i < fp.length; i++) {
 
+                if(n_idf === 15){
+            console.log("f0=",f0);
+            console.log("currentF=",currentF);
+            console.log("nextF=",nextF);
+        }
+
+
         if (currentF.length === 0) {
             break;
         }
@@ -14512,12 +14519,6 @@ function finger1(n_idf, hand){
             f0,
             n_idf
         );
-
-        if(n_idf === 15){
-            console.log("f0=",f0);
-            console.log("currentF=",currentF);
-            console.log("nextF=",nextF);
-        }
 
         // currentF はここで不要
         currentF = nextF;
