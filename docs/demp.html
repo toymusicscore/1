@@ -14211,15 +14211,6 @@ function extendFingering(currentF, f0, n_idf) {
 
     return nextF;
 
-if (n_idf === 15) {
-    console.log(
-        "extend:",
-        "ft0=", ft0,
-        "ff1=", ff1,
-        "restLength=", restLength,
-        "sameFinger=", ft0 === ff1
-    );
-}    
 }
 
 function createF0(fp0, fp1, fg2n, hand) {
@@ -14427,20 +14418,12 @@ function finger1(n_idf, hand){
             f1.push(f0[i]);
             continue;
         }
-console.log(
-    "f1 candidate",
-    "n_idf =", n_idf,
-    "i =", i,
-    "firstFinger =", firstFinger,
-    "prevFinger =", prevFinger,
-    "f103[1] =", f103[1],
-    "rest =", fp[0][5]
-);
+
         // 今回の第１音の運指が前回最良の第２音の運指と一致する設定
-        if (firstFinger !== f103[1]) {
+/*        if (firstFinger !== f103[1]) {
             continue;
         }
-
+*/
         // 前回最良運指 → 今回第1音 指の届く距離の制約あり
 
         const range0 =
@@ -14475,13 +14458,6 @@ console.log(
         f1.push(f0[i]);
     }
 
-    console.log(
-    "f1 RESULT",
-    "n_idf =", n_idf,
-    "f0.length =", f0.length,
-    "f1.length =", f1.length
-);
-
     //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
@@ -14490,13 +14466,6 @@ console.log(
 
     let currentF = f1;
 
-console.log(
-    "START EXTEND",
-    "n_idf =", n_idf,
-    "fp.length =", fp.length,
-    "f0.length =", f0.length,
-    "f1.length =", f1.length
-);
     for (let i = 2; i < fp.length; i++) {
 
         if (currentF.length === 0) {
