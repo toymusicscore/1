@@ -14512,7 +14512,7 @@ function finger1(n_idf, hand){
         );
 
         // 黒鍵条件で候補がなくなった場合だけ解除
-        if (f0.length === 0 && fg3n !== 0) {
+/*        if (f0.length === 0 && fg3n !== 0) {
             createF0(
                 fp[i - 1],
                 fp[i],
@@ -14523,51 +14523,17 @@ function finger1(n_idf, hand){
 
             bk_flag = 1;
         }
- 
-        if (n_idf === 314){
-            console.log("after bk1 f0=",f0);
-        }
-
+*/
         // 指の届く距離の条件で候補がなくなった場合だけ解除
         if (f0.length === 0 && fg2n !== 0) {
             createF0(
                 fp[i - 1],
                 fp[i],
                 0,
-                0,
+                fg3n,
                 hand
             );
 
-        }
-        
-        if (n_idf === 314){
-            console.log("after fg f0=",f0);
-        }
-        
-        // 黒鍵条件で候補がなくなった場合の次回以降でフラグがある場合は解除継続
-        if (bk_flag === 1 && fg3n !== 0) {
-            createF0(
-                fp[i - 1],
-                fp[i],
-                fg2n,
-                0,
-                hand
-            );
-
-        }
-
-        if (n_idf === 314){
-            console.log("after bk2 f0=",f0);
-        }
-                
-        // 黒鍵条件で解除した場合のフラグを戻す
-        if (bk_flag === 1 && fg3n !== 0 && f0.length > 0 && !isBlackKey(fp[i][0]) ) {
-
-            bk_flag = 0;
-        }
-
-        if (n_idf === 314){
-            console.log("after bk3 f0=",f0);
         }
         
         if (f0.length === 0) {
@@ -14580,16 +14546,6 @@ function finger1(n_idf, hand){
             f0,
             n_idf
         );
-if (n_idf === 314) {
-    console.log(
-        "extend:",
-        "i=", i,
-        "currentF.length=", currentF.length,
-        "f0.length=", f0.length,
-        "nextF.length=", nextF.length,
-        "bk_flag=", bk_flag
-    );
-}
 
         // currentF はここで不要
         currentF = nextF;
