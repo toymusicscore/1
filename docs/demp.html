@@ -14427,7 +14427,15 @@ function finger1(n_idf, hand){
             f1.push(f0[i]);
             continue;
         }
-
+console.log(
+    "f1 candidate",
+    "n_idf =", n_idf,
+    "i =", i,
+    "firstFinger =", firstFinger,
+    "prevFinger =", prevFinger,
+    "f103[1] =", f103[1],
+    "rest =", fp[0][5]
+);
         // 今回の第１音の運指が前回最良の第２音の運指と一致する設定
         if (firstFinger !== f103[1]) {
             continue;
@@ -14467,6 +14475,13 @@ function finger1(n_idf, hand){
         f1.push(f0[i]);
     }
 
+    console.log(
+    "f1 RESULT",
+    "n_idf =", n_idf,
+    "f0.length =", f0.length,
+    "f1.length =", f1.length
+);
+
     //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
@@ -14475,6 +14490,13 @@ function finger1(n_idf, hand){
 
     let currentF = f1;
 
+console.log(
+    "START EXTEND",
+    "n_idf =", n_idf,
+    "fp.length =", fp.length,
+    "f0.length =", f0.length,
+    "f1.length =", f1.length
+);
     for (let i = 2; i < fp.length; i++) {
 
         if (currentF.length === 0) {
@@ -14506,39 +14528,12 @@ function finger1(n_idf, hand){
             currentF = [];
             break;
         }
-/*
+
         const nextF = extendFingering(
             currentF,
             f0,
             n_idf
         );
-*/
-const nextF = extendFingering(
-    currentF,
-    f0,
-    n_idf
-);
-
-console.log(
-    "FING",
-    "n_idf =", n_idf,
-    "i =", i,
-    "currentF =", currentF.length,
-    "f0 =", f0.length,
-    "nextF =", nextF.length
-);
-
-if (nextF.length === 0) {
-    console.log(
-        "### NEXT F EMPTY ###",
-        "n_idf =", n_idf,
-        "i =", i,
-        "currentF =", currentF.length,
-        "f0 =", f0.length,
-        "prevNoteID =", fp[i - 1][4],
-        "currentNoteID =", fp[i][4]
-    );
-}
 
         // currentF はここで不要
         currentF = nextF;
