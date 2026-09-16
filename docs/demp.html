@@ -14227,17 +14227,9 @@ function createF0(fp0, fp1, fg2n, fg3n, hand) {
     const isFingerReachRest = restLength >= rst7;
 
     for (let q = 1; q <= 5; q++) {
-/*
-        if (!isValidBlackKeyFinger(fp0[0], q, fg3n)) {
-            continue;
-        }
-*/
+
         for (let r = 1; r <= 5; r++) {
-/*
-            if (!isValidBlackKeyFinger(fp1[0], r, fg3n)) {
-                continue;
-            }
-*/
+
             if (q === r) {
                 continue;
             }
@@ -14492,7 +14484,6 @@ function finger1(n_idf, hand){
     //    const t1 = performance.now();
 
     let currentF = f1;
-    let bk_flag = 0;
 
     for (let i = 2; i < fp.length; i++) {
 
@@ -14511,19 +14502,6 @@ function finger1(n_idf, hand){
             hand
         );
 
-        // 黒鍵条件で候補がなくなった場合だけ解除
-/*        if (f0.length === 0 && fg3n !== 0) {
-            createF0(
-                fp[i - 1],
-                fp[i],
-                fg2n,
-                0,
-                hand
-            );
-
-            bk_flag = 1;
-        }
-*/
         // 指の届く距離の条件で候補がなくなった場合だけ解除
         if (f0.length === 0 && fg2n !== 0) {
             createF0(
@@ -14601,17 +14579,17 @@ function finger1(n_idf, hand){
         }
     }
 
-    let f101b=[];
+    let f101b = [];
 
     //黒鍵の制約に合致する場合には、その運指情報を選択する
-    for(i=0; i<f101.length; i++){
+    for(let i = 0; i < f101.length; i++){
         if (isValidBlackKeyFinger(fp[0][0], f101[i][1][0], fg3n)) {
             f101b.push(f101[i]);
         }
     }
 
     if (f101b.length > 0){
-        f101=f101b;
+        f101 = f101b;
     }
 
     //========================================================
