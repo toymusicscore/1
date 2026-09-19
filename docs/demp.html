@@ -14455,15 +14455,6 @@ function finger1(n_idf, hand){
 
     // 開始側の制約で候補がすべて除外された場合
     if (f1.length === 0 && f0.length > 0) {
-        console.log(
-            "### f1 EMPTY: release start-side range constraint ###",
-            "n_idf =", n_idf,
-            "prevFinger =", prevFinger,
-            "f0.length =", f0.length,
-            "f103 =",f103,
-            "f103[0] =",f103[0],
-        );
-
         f1 = f0;
     }
 
@@ -14523,18 +14514,6 @@ function finger1(n_idf, hand){
                 0
             );        
         }
-
-    if (nextF.length === 0) {
-        console.log(
-            "### extendFingering EMPTY ###",
-            "n_idf =", n_idf,
-            "i =", i,
-            "currentF.length =", currentF.length,
-            "f0.length =", f0.length,
-            "fp[i-1] =", fp[i - 1],
-            "fp[i] =", fp[i]
-        );
-    }
 
         // currentF はここで不要
         currentF = nextF;
