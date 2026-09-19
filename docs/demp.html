@@ -14536,19 +14536,6 @@ if (nextF.length === 0) {
 
     f100 = currentF;
 
-    if (f100.length === 0) {
-        console.log(
-            n_idf,
-            "!!! f100 IS EMPTY !!!",
-            "prevFinger =", prevFinger,
-            "fp =", fp,
-            "f0 =", f0,
-            "f1 =", f1,
-            "f102=",f102,
-            "f103=",f103,
-        );
-    }
-
     //黒鍵の制約に合致する運指情報があれば、その運指情報を選択する
     let f100b = [];
 
@@ -14656,6 +14643,19 @@ f103 = [
     f101[0][2][1],
     f101[0][3]
 ];
+    if (f100.length === 0) {
+        console.log(
+            n_idf,
+            "!!! f100 IS EMPTY !!!",
+            "prevFinger =", prevFinger,
+            "fp =", fp,
+            "f0 =", f0,
+            "f1 =", f1,
+            "f102=",f102,
+            "f103=",f103,
+        );
+        return;
+    }
 
 drawFinger1(n_idf);
 
