@@ -14465,6 +14465,11 @@ function finger1(n_idf, hand){
         }
     }
 
+    // 同じ指による打鍵禁止を解除する
+    if (f1.length === 0 && f0.length > 0){
+        f1 = f0;
+    }
+
     //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
