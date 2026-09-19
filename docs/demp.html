@@ -14400,7 +14400,9 @@ function finger1(n_idf, hand){
     // 指の届く範囲の制約なし
     // rst7以上の休符あり＝前回の指から今回第1音への指の届く範囲の制約を解除
     if (
+        fp.length === 0 ||
         f103.length === 0 ||
+        f103[0] === undefined ||
         fg2n === 0 ||
         fp[0][5] === 1 
     ) {
