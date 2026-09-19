@@ -14144,7 +14144,7 @@ function isValidBlackKeyFinger(midi, finger, fg3n) {
     );
 }
 
-function extendFingering(currentF, f0, n_idf) {
+function extendFingering(currentF, f0, n_idf, conn) {
 
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7=ticksPerMeasure/fg7n;
@@ -14175,8 +14175,8 @@ function extendFingering(currentF, f0, n_idf) {
 
             ) {
                 const restLength = tt1 - pf1;
-                if (restLength >= rst7) {
-                    // 長い休符：
+                if (restLength >= rst7 || conn === 0) {
+                    // 長い休符または前回の最後の指と今回の第1音を接続しない設定
                     // 前回の指との接続を解除
                     nextF.push([
                         [...n_ids, nt1],
@@ -14508,10 +14508,17 @@ function finger1(n_idf, hand){
         const nextF = extendFingering(
             currentF,
             f0,
-            n_idf
+            n_idf,
+            1
         );
 
     if (nextF.length === 0) {
+        const nextF = extendFingering(
+            currentF,
+            f0,
+            n_idf,
+            0
+        );
         console.log(
             "### extendFingering EMPTY ###",
             "n_idf =", n_idf,
