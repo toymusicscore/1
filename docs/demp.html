@@ -14454,8 +14454,15 @@ function finger1(n_idf, hand){
     }
 
     // 開始側の制約で候補がすべて除外された場合
-    if (f1.length === 0 && f0.length > 0) {
-        f1 = f0;
+    // 指が届く範囲の制約を解除する
+    // 同じ指による打鍵を禁止する
+    if (f1.length === 0 && f0.length > 0){
+        for (let i = 0; i < f0.length; i++) {
+            const firstFinger = f0[i][1][0];
+            if (firstFinger !== prevFinger ){
+                f1.push(f0[i]);
+            }
+        }
     }
 
     //    console.log("createF1 =", performance.now() - t0, "ms");
