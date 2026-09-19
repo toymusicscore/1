@@ -14379,7 +14379,7 @@ function finger1(n_idf, hand){
         }
 
     }    
-
+ 
     //================================================
     // f0の２音のうち開始側の制約を考慮する　前回最良運指の最後の指 → 今回の第1音 q
     //================================================
@@ -14430,7 +14430,7 @@ function finger1(n_idf, hand){
                     Number(fp[0][6]) -
                     Number(fp[0][0]);
             }
-    if (n_idf === 196) {
+    if (n_idf === 18) {
         console.log(
             "range check",
             "i =", i,
@@ -14524,18 +14524,20 @@ if (nextF.length === 0) {
         );
 
         console.log(
-            "range check",
+            "f100 empty check",
             "prevFinger =", prevFinger,
             "fp =", fp,
             "f0 =", f0,
-            "f1 =", f1
+            "f1 =", f1,
+            "f102=",f102,
+            "f103=",f103,
         );
     }
 /*
     //黒鍵の制約に合致する運指情報があれば、その運指情報を選択する
     let f100b = [];
 
-    for(let i = 0; i < f100.length; i++){
+     for(let i = 0; i < f100.length; i++){
         if (isValidBlackKeyFinger(fp[0][0], f1[i][1][0], fg3n)) {
             f100b.push(f100[i]);
         }
