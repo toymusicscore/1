@@ -14451,6 +14451,18 @@ function finger1(n_idf, hand){
         }
     }
 
+    // 開始側の制約で候補がすべて除外された場合
+    if (f1.length === 0 && f0.length > 0) {
+        console.log(
+            "### f1 EMPTY: release start-side range constraint ###",
+            "n_idf =", n_idf,
+            "prevFinger =", prevFinger,
+            "f0.length =", f0.length
+        );
+
+        f1 = f0;
+    }
+
     //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
