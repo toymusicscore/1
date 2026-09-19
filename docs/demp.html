@@ -14536,6 +14536,20 @@ function finger1(n_idf, hand){
 
     f100 = currentF;
 
+    const isLastNote =
+        n_idf === s0[s0.length - 1]?.n_id;
+
+    if (f100.length === 0 && !isLastNote) {
+        console.log(
+            "!!! f100 IS EMPTY !!!",
+            "n_idf =", n_idf,
+            "fp.length =", fp.length,
+            "f0.length =", f0.length,
+            "f1.length =", f1.length
+        );
+        return;
+    }
+
     //黒鍵の制約に合致する運指情報があれば、その運指情報を選択する
     let f100b = [];
 
@@ -14647,20 +14661,6 @@ function finger1(n_idf, hand){
     ];
 
     drawFinger1(n_idf);
-
-    if (f100.length === 0) {
-        console.log(
-            n_idf,
-            "!!! f100 IS EMPTY !!!",
-            "prevFinger =", prevFinger,
-            "fp =", fp,
-            "f0 =", f0,
-            "f1 =", f1,
-            "f102=",f102,
-            "f103=",f103,
-        );
-        return;
-    }
 
 }
 
