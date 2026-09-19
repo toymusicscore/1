@@ -14467,46 +14467,6 @@ if (n_idf === 196) {
         f1.push(f0[i]);
     }
 
-    //黒鍵の制約に合致する運指情報があれば、その運指情報を選択する
-    let f1b = [];
-
-    for(let i = 0; i < f1.length; i++){
-        if (isValidBlackKeyFinger(fp[0][0], f1[i][1][0], fg3n)) {
-            f1b.push(f1[i]);
-        }
-    }
-
-    if (f1b.length > 0){
-        f1 = f1b;
-    }
-
-    //同じ指の連続打鍵を除外した運指情報があれば、その運指情報を採用する
-    let f1d = [];
-
-    for(let i = 0; i < f1.length; i++){
-        if (f102.length > 1 && f1[i][1][0] !== f102[f102.length - 1][1]) {
-            f1d.push(f1[i]);
-        }
-    }
-
-    if (f1d.length > 0){
-        f1 = f1d;
-    }
-
-    // 今回の第１音の運指が前回最良の第２音の運指と一致する運指情報があれば、その運指情報を採用する
-    let f1c = [];
-
-    for(let i = 0; i < f1.length; i++){
-        if (f103.length > 0 && f1[i][1][0] === f103[1]) {
-            f1c.push(f1[i]);
-        }
-    }
-
-    if (f1c.length > 0){
-        f1 = f1c;
-    }
-
-
     //    console.log("createF1 =", performance.now() - t0, "ms");
     //========================================================
     // f2以降を作る
@@ -14587,6 +14547,46 @@ if (nextF.length === 0) {
             "f1 =", f1
         );
     }
+
+    //黒鍵の制約に合致する運指情報があれば、その運指情報を選択する
+    let f100b = [];
+
+    for(let i = 0; i < f100.length; i++){
+        if (isValidBlackKeyFinger(fp[0][0], f1[i][1][0], fg3n)) {
+            f1b.push(f100[i]);
+        }
+    }
+
+    if (f1b.length > 0){
+        f100 = f100b;
+    }
+
+    //同じ指の連続打鍵を除外した運指情報があれば、その運指情報を採用する
+    let f100d = [];
+
+    for(let i = 0; i < f100.length; i++){
+        if (f102.length > 1 && f100[i][1][0] !== f102[f102.length - 1][1]) {
+            f100d.push(f100[i]);
+        }
+    }
+
+    if (f100d.length > 0){
+        f100 = f100d;
+    }
+
+    // 今回の第１音の運指が前回最良の第２音の運指と一致する運指情報があれば、その運指情報を採用する
+    let f100c = [];
+
+    for(let i = 0; i < f100.length; i++){
+        if (f103.length > 0 && f100[i][1][0] === f103[1]) {
+            f100c.push(f100[i]);
+        }
+    }
+
+    if (f100c.length > 0){
+        f100 = f100c;
+    }
+
 
 //============================================================
 // 最後の1音のf101はf103から作る
