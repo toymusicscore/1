@@ -14129,12 +14129,7 @@ function isBlackKey(midi) {
     );
 }
 
-function isValidBlackKeyFinger(midi, finger, fg3n) {
-
-    // 黒鍵ルールを適用しない
-    if (fg3n === 0) {
-        return true;
-    }
+function isValidBlackKeyFinger(midi, finger) {
 
     // 白鍵ならすべての指を許可
     if (!isBlackKey(midi)) {
@@ -14214,7 +14209,7 @@ function extendFingering(currentF, f0, n_idf, conn) {
 
 }
 
-function createF0(fp0, fp1, fg2n, hand) {
+function createF0(fp0, fp1, fingerReach, hand) {
 
     let hp0 = 0;
     let hp1 = 0;
@@ -14239,7 +14234,7 @@ function createF0(fp0, fp1, fg2n, hand) {
             // 今回の評価区間内 q → r
             //================================================
 
-            if (fg2n === 1 && !isFingerReachRest && q !== r) {
+            if (fingerReach === 1 && !isFingerReachRest && q !== r) {
 
                 const range1 = getFingerRange(q, r);
 
@@ -14319,8 +14314,8 @@ function finger1(n_idf, hand){
     fp = [];
 
     let fg1n = hand;
-    let fg2n = workingFinger.fingerReachRule.fg2n;
-    let fg3n = workingFinger.blackKeyRule.fg3n;
+//    let fg2n = workingFinger.fingerReachRule.fg2n;
+//    let fg3n = workingFinger.blackKeyRule.fg3n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14382,9 +14377,9 @@ function finger1(n_idf, hand){
         const fp0 = fp[0];
         const fp1 = fp[1];
 
-        createF0(fp0, fp1, fg2n, hand);
+        createF0(fp0, fp1, 1, hand);
 
-        if (f0.length === 0 && fg2n !== 0) {
+        if (f0.length === 0) {
             createF0(fp0, fp1, 0, hand);
         }
 
@@ -14402,12 +14397,10 @@ function finger1(n_idf, hand){
             : 0;
 
     // 楽曲の最初
-    // 指の届く範囲の制約なし
     // rst7以上の休符あり＝前回の指から今回第1音への指の届く範囲の制約を解除
     if (
         f103.length === 0 ||
         f103[0] === undefined ||
-        fg2n === 0 ||
         fp[0][5] === 1 
     ) {
         f1 = f0;
@@ -14492,12 +14485,12 @@ function finger1(n_idf, hand){
         createF0(
             fp[i - 1],
             fp[i],
-            fg2n,
+            1,
             hand
         );
 
         // 指の届く距離の条件で候補がなくなった場合に、条件を解除する
-        if (f0.length === 0 && fg2n !== 0) {
+        if (f0.length === 0) {
             createF0(
                 fp[i - 1],
                 fp[i],
@@ -14570,7 +14563,7 @@ function finger1(n_idf, hand){
     let f100b = [];
 
      for(let i = 0; i < f100.length; i++){
-        if (isValidBlackKeyFinger(fp[0][0], f100[i][1][0], fg3n)) {
+        if (isValidBlackKeyFinger(fp[0][0], f100[i][1][0])) {
             f100b.push(f100[i]);
         }
     }
