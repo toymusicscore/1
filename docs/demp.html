@@ -829,18 +829,6 @@ Upper Limit: Largest allowable distance between the two fingers.
 	<option value="0" selected> Right Hand </option>
 	<option value="1"> Left Hand </option>
 </select>
-<br>
-<label>Finger Reach Rule</label>
-<select name="fg2">
-    <option value="0">No Limit</option>
-    <option value="1" selected>Limit in Finger Reach</option>
-</select>
-<br>
-<label>Black Key Rule</label>
-<select name="fg3">
-    <option value="0" selected>No Limit</option>
-    <option value="1">Only 2,3,4 on Black Keys</option>
-</select>
 <br><br>
 
 <label>Evaluation Index Calculation Range Size</label>
@@ -1696,12 +1684,6 @@ const defaultFinger = {
     selectHand:{
         fg1n:0
     },
-    fingerReachRule:{
-        fg2n:1
-    },
-    blackKeyRule:{
-        fg3n:1
-    },
     evaluationRangeSize:{
         fg5n:10
     },
@@ -1823,20 +1805,12 @@ function readFingerUi(){
 
 
     let fg1 = document.querySelector('[name="fg1"]');
-    let fg2 = document.querySelector('[name="fg2"]');
-    let fg3 = document.querySelector('[name="fg3"]');
     let fg5 = document.querySelector('[name="fg5"]');
     let fg6 = document.querySelector('[name="fg6"]');
     let fg7 = document.querySelector('[name="fg7"]');
 
     workingFinger.selectHand.fg1n =
         Number(fg1.value);
-
-    workingFinger.fingerReachRule.fg2n =
-        Number(fg2.value);
-
-    workingFinger.blackKeyRule.fg3n =
-        Number(fg3.value);
 
     workingFinger.evaluationRangeSize.fg5n =
         Number(fg5.value);
@@ -1880,15 +1854,11 @@ function updateFingerUi(){
 
 
     const fg1 = document.querySelector('[name="fg1"]');
-    const fg2 = document.querySelector('[name="fg2"]');
-    const fg3 = document.querySelector('[name="fg3"]');
     const fg5 = document.querySelector('[name="fg5"]');
     const fg6 = document.querySelector('[name="fg6"]');
     const fg7 = document.querySelector('[name="fg7"]');
 
     fg1.value = workingFinger.selectHand.fg1n;
-    fg2.value = workingFinger.fingerReachRule.fg2n;
-    fg3.value = workingFinger.blackKeyRule.fg3n;
     fg5.value = workingFinger.evaluationRangeSize.fg5n;
     fg6.value = workingFinger.variabilityRangeSize.fg6n;
     fg7.value = workingFinger.fingerReachRest.fg7n;
