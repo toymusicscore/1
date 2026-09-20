@@ -199,14 +199,6 @@ demp
     value="✋"
     onclick="showFingeringRecorderBothHands()">
 <input 
-    type="button"
-    value="📝" 
-    onclick="saveFingering()">
-<input 
-    type="button"
-    value="📥" 
-    onclick="downloadFingeringSaved()">
-<input 
     type="button" 
     id="playScoreButton"
     value="▶️"
@@ -1307,6 +1299,16 @@ function showTab(tab){
 					type="button" 
 					id="fingeringRecorderOneHandButton"
 					value="✋ Fingering Recorder One Hand">
+					<br><br>
+                <input 
+                    type="button"
+                    value="📝 Save Fingering" 
+                    onclick="saveFingering()">
+					<br><br>
+                <input 
+                    type="button"
+                    value="📥 Download Fingering Saved" 
+                    onclick="downloadFingeringSaved()">
 					<br><br>
             `;
 				$("fingerSettingsButton").onclick = function(){
@@ -14284,8 +14286,6 @@ function finger1(n_idf, hand){
     fp = [];
 
     let fg1n = hand;
-//    let fg2n = workingFinger.fingerReachRule.fg2n;
-//    let fg3n = workingFinger.blackKeyRule.fg3n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14769,8 +14769,6 @@ const showFingeringRecorderBothHands= async () =>{
 time0=Date.now();
 
     let fg1n = workingFinger.selectHand.fg1n;
-//    let fg2n = workingFinger.fingerReachRule.fg2n;
-//    let fg3n = workingFinger.blackKeyRule.fg3n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14823,6 +14821,18 @@ downloadFile(songId+'_Auto_HBN'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
     localStorage.setItem(
         "fingeringAuto",
         JSON.stringify(fingeringAuto)
+    );
+
+    fingeringSets = {};
+
+    fingeringSets[songId]=
+               createFingeringMap();
+
+    //save structured local storage
+
+    localStorage.setItem(
+        "fingeringSets",
+        JSON.stringify(fingeringSets)
     );
 
 }
@@ -14920,8 +14930,6 @@ const showFingeringRecorderOneHand= async () =>{
 time0=Date.now();
 
     let fg1n = workingFinger.selectHand.fg1n;
-//    let fg2n = workingFinger.fingerReachRule.fg2n;
-//    let fg3n = workingFinger.blackKeyRule.fg3n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14999,8 +15007,6 @@ function downloadFile(fileName, textData) {
 const showFingeringAssistant = async () => {
 
     let fg1n = workingFinger.selectHand.fg1n;
-//    let fg2n = workingFinger.fingerReachRule.fg2n;
-//    let fg3n = workingFinger.blackKeyRule.fg3n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
     let fg7n = workingFinger.fingerReachRest.fg7n;
