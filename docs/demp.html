@@ -14598,7 +14598,8 @@ function finger1(n_idf, hand){
     f102.push([
         f101[0][0][0],
         f101[0][1][0],
-        f101[0][2][0]
+        f101[0][2][0],
+        f101[0][3]
     ]);
 
     //============================================================
@@ -14816,7 +14817,7 @@ for (const [s0, hand] of handsToCalculate) {
 
 let time1=Date.now();
 let timed=(time1-time0)/60000;
-f102.push(['','','',timed]);
+f102.push(['','','','',timed]);
 
 const textData = f102
     .map(row => row.join(','))
@@ -14969,7 +14970,7 @@ let timed=(time1-time0)/60000;
 const movementStdevp = calculateMovementSTDEVP(f102);
 const  meanAbsoluteDifference = calculateMeanAbsoluteDifference(f102);
 
-f102.push(['','','', timed, movementStdevp, meanAbsoluteDifference]);
+f102.push(['','','','', movementStdevp, meanAbsoluteDifference, timed]);
 
 const textData = f102
     .map(row => row.join(','))
