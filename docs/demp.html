@@ -14255,6 +14255,14 @@ function createF0(fp0, fp1, fingerReach, hand) {
                 ) {
                     continue;
                 }
+
+                //和音の場合は指の交差を禁止する」
+                if (
+                    pitchDiff1 < 0 &&
+                    fp0[0][1] === fp1[0][1]
+                ) {
+                    continue;
+                }
             }
 
             //================================================
@@ -14428,6 +14436,14 @@ function finger1(n_idf, hand){
             if (
                 pitchDiff0 < min0 ||
                 pitchDiff0 > max0
+            ) {
+                continue;
+            }
+
+            //和音の場合は指の交差を禁止する」
+            if (
+                pitchDiff1 < 0 &&
+                fp0[0][1] === fp1[0][1]
             ) {
                 continue;
             }
