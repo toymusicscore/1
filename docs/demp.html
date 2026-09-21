@@ -1289,6 +1289,11 @@ function showTab(tab){
 					type="button" 
 					id="fingeringAssistantButton"
 					value="✋ Fingering Assistant">
+                <label>Input n_id to StartFingering</label>
+				<input 
+					type="number" 
+					id="x_n_idf"
+					value="">
 					<br><br>
 				<input 
 					type="button" 
@@ -15025,7 +15030,7 @@ const showFingeringAssistant = async () => {
 
     }
 
-let n_idf;
+let n_idf = num(x_n_idf);
 
 if (pauseTick === 0) {
 
