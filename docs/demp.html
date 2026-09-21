@@ -15022,50 +15022,11 @@ const showFingeringAssistant = async () => {
 
     f103=[];
 
-    if (fg1n == 0) {
+    const n_idf = num("x_n_idf");
 
-        s0 = scoreRight;
+    console.log(n_idf);
 
-    } else if (fg1n == 1) {
-    
-        s0 = scoreLeft;
-
-    }
-
-const n_idf = num("x_n_idf");
-
-console.log(n_idf);
-console.log(x_n_idf);
-
-/*
-if (pauseTick === 0) {
-
-    if (s0.length > 0) {
-        n_idf = s0[0].n_id;
-    }
-
-} else {
-
-    for (let p = 0; p < s0.length; p++) {
-
-        if (pauseTick === s0[p].start) {
-
-            n_idf = s0[p].n_id;
-            break;
-
-        } else if (
-            s0[p + 1] &&
-            pauseTick > s0[p].start &&
-            pauseTick < s0[p + 1].start
-        ) {
-
-            n_idf = s0[p].n_id;
-            break;
-        }
-    }
-}
-*/
-finger1(n_idf,fg1n);
+    finger1(n_idf,fg1n);
 
 };
 
