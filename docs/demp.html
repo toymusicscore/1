@@ -215,6 +215,7 @@ demp
 <input type="button" id="btnFirstMeasure" value="|◀" onclick="goToFirstMeasure()">
 <input type="button" id="btnBackOneMeasure" value="◀" onclick="goBackOneMeasure()">
 <input type="button" id="btnForwardOneMeasure" value="▶" onclick="goForwardOneMeasure()">
+<input type="button" id="btnLastMeasure" value="▶|" onclick="goToLastMeasure()">
   
 <div id="mainPage">
     <canvas id="canvas"></canvas>
@@ -1291,6 +1292,13 @@ function showTab(tab){
 					id="x_n_idf"
 					value="" 
                     style="width:40px">
+                <label>Hand</label>
+				<input 
+					type="number" 
+					id="x_hand"
+					value="" 
+                    style="width:40px">
+                    <br>
 				<input 
 					type="button" 
 					id="fingeringAssistantButton"
@@ -15001,11 +15009,10 @@ function downloadFile(fileName, textData) {
 
 const showFingeringAssistant = async () => {
 
-    let fg1n = workingFinger.selectHand.fg1n;
-
     const n_idf = num("x_n_idf");
+    const hand = num("x_hand");
 
-    finger1(n_idf,fg1n);
+    finger1(n_idf,hand);
 
 };
 
