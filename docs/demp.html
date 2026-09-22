@@ -14431,33 +14431,46 @@ function finger1(n_idf, hand){
                 continue;
             }
 
-            console.log("F100 REJECT", {
-    n_idf,
-    hand,
-    firstFinger,
-    prevFinger,
-    fp0: fp[0],
-    fp1: fp[1],
-    f0,
-    f1
-});
-        // 和音の場合は指の交差を禁止する
-        if (
-            fp[0][7] === 0 &&
-            (
-                (hand === 0 && (
-                    (fp[0][0] < fp[0][6] && firstFinger >= prevFinger) ||
-                    (fp[0][0] > fp[0][6] && firstFinger <= prevFinger)
-                )) ||
-                (hand === 1 && (
-                    (fp[0][0] < fp[0][6] && firstFinger <= prevFinger) ||
-                    (fp[0][0] > fp[0][6] && firstFinger >= prevFinger)
-                ))
-            )
-        ) {
-            continue;
-        }
-            f1.push(f0[i]);
+            console.log("Before", {
+                n_idf,
+                hand,
+                firstFinger,
+                prevFinger,
+                fp0: fp[0],
+                fp1: fp[1],
+                f0,
+                f1
+            });
+
+            // 和音の場合は指の交差を禁止する
+            if (
+                fp[0][7] === 0 &&
+                (
+                    (hand === 0 && (
+                        (fp[0][0] < fp[0][6] && firstFinger >= prevFinger) ||
+                        (fp[0][0] > fp[0][6] && firstFinger <= prevFinger)
+                    )) ||
+                    (hand === 1 && (
+                        (fp[0][0] < fp[0][6] && firstFinger <= prevFinger) ||
+                        (fp[0][0] > fp[0][6] && firstFinger >= prevFinger)
+                    ))
+                )
+            ) {
+                continue;
+            }
+
+            console.log("After", {
+                n_idf,
+                hand,
+                firstFinger,
+                prevFinger,
+                fp0: fp[0],
+                fp1: fp[1],
+                f0,
+                f1
+            });
+
+        f1.push(f0[i]);
         }
     }
 
@@ -14478,13 +14491,6 @@ function finger1(n_idf, hand){
     if (f1.length === 0 && f0.length > 0){
         f1 = f0;
     }
-
-    console.log(
-    "n_idf=",n_idf,
-    "fp=",fp,
-    "f0=",f0,
-    "f1=",f1,
-    );
 
     //========================================================
     // f2以降を作る
