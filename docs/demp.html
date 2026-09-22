@@ -13262,11 +13262,26 @@ const songInfoData = [
 ];
 
 
+    const escapeHtml = (value) =>
+        String(value ?? "").replace(/[&<>"']/g, c => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[c]));
+
 function showSongInfoTable(){
 
-    	let html = `
-		<h2>Song Information</h2>
-		<table border='1' table style='font-size:25px; border-collapse:collapse; width:100%;'>;
+    let html = `
+        <h2>Song Information</h2>
+
+        <table style="
+            font-size:25px;
+            border-collapse:collapse;
+            width:100%;
+        " border="1">
+
         <tr>
             <th>Title</th>
             <th>Composer</th>
@@ -13275,26 +13290,27 @@ function showSongInfoTable(){
             <th>Source License URI</th>
             <th>Source Status</th>
         </tr>
-        `;
+    `;
 
-    songInfoData.forEach((row, i) => {
+    songInfoData.forEach(row => {
 
         html += `
             <tr>
-                <td><class="title" data-index="${i}" value="${row.title}"></td>
-                <td><class="composer" data-index="${i}" value="${row.composer}"></td>
-                <td><class="sourceUri"      data-index="${i}" value="${row.sourceUri}"></td>
-                <td><class="sourceLicense" data-index="${i}" value="${row.sourceLicense}"></td>
-                <td><class="sourceLicenseUri" data-index="${i}" value="${row.sourceLicenseUri}"></td>
-                <td><class="sourceStatus"      data-index="${i}" value="${row.sourceStatus}"></td>
+                <td>${escapeHtml(row.title)}</td>
+                <td>${escapeHtml(row.composer)}</td>
+                <td>${escapeHtml(row.sourceUri)}</td>
+                <td>${escapeHtml(row.sourceLicense)}</td>
+                <td>${escapeHtml(row.sourceLicenseUri)}</td>
+                <td>${escapeHtml(row.sourceStatus)}</td>
             </tr>
         `;
     });
 
+    html += `</table>`;
+
     $("htmlArea").innerHTML = html;
 
     showPage(PAGE.HTML);
-
 }
 
 
