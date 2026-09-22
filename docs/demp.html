@@ -14318,7 +14318,8 @@ function finger1(n_idf, hand){
     let fg5np = n_idf + fg5n - 1;
     let rst7=ticksPerMeasure/fg7n;
     let s0;
- 
+    let startDiff = 1;
+
     if (fg1n===0){ 
         s0=scoreRight; 
     }else if (fg1n===1){ 
@@ -14344,7 +14345,7 @@ function finger1(n_idf, hand){
                 fingerReachRest = 1;
             }
 
-            const startDiff = s0[i].start - s0[i - 1].start;
+            startDiff = s0[i].start - s0[i - 1].start;
 
         }
 
