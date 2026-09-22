@@ -14494,6 +14494,15 @@ function finger1(n_idf, hand){
             hand
         );
 
+    if (n_idf === 457) {
+        console.log(
+            "n_idf =", n_idf,
+            "f0 =", f0,
+            "f1 =", f1,
+            "f100 =", f100
+        );
+    }
+
         // 指の届く距離の条件で候補がなくなった場合に、条件を解除する
         if (f0.length === 0) {
             createF0(
@@ -14549,15 +14558,6 @@ function finger1(n_idf, hand){
 
         );
         return;
-    }
-
-    if (n_idf === 457) {
-        console.log(
-            "n_idf =", n_idf,
-            "f0 =", f0,
-            "f1 =", f1,
-            "f100 =", f100
-        );
     }
 
     // 今回の第１音の運指が前回最良の第２音の運指と一致する運指情報があれば、その運指情報を採用する
