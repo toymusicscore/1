@@ -14343,6 +14343,9 @@ function finger1(n_idf, hand){
             if (restLength >= rst7) {
                 fingerReachRest = 1;
             }
+
+            const startDiff = s0[i].start - s0[i - 1].start;
+
         }
 
         if (
@@ -14356,7 +14359,8 @@ function finger1(n_idf, hand){
                 s0[i].channel,
                 s0[i].n_id,
                 fingerReachRest,
-                prevMidi
+                prevMidi,
+                startDiff
             ]);
         }
     }
@@ -14442,8 +14446,16 @@ function finger1(n_idf, hand){
 
             //和音の場合は指の交差を禁止する」
             if (
-                pitchDiff1 < 0 &&
-                fp0[0][1] === fp1[0][1]
+                (
+                fp[0][7] === 0 &&
+                fg1n === 0 &&
+                firstFinger < prevFinger
+                ) ||
+                (
+                fp[0][7] === 0 &&
+                fg1n === 1 &&
+                firstFinger > prevFinger
+                )
             ) {
                 continue;
             }
