@@ -2653,6 +2653,12 @@ async function initialize(){
     syncMeasuresPerScreen();
 	updateTempo(); 
 
+    // 通常楽曲を自動で読み込む
+    if (val("song1") !== "local") {
+        await changeSong();
+        changeTrackChannel();
+    }
+    
 //    await changeSong();
 
 //    changeTrackChannel();
