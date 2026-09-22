@@ -3657,15 +3657,25 @@ const MODE = {
 
 let inputMode = MODE.PLAY;
 
+let inputMemo = false;
+
 function inputRouter(e){
 
+    // 録音中は必ず録音を優先
     if(isRecording){
         playSound(e);
-    }else{
-        editNote(e);
+        return;
     }
-}
 
+    // メモ入力モード
+    if(inputMemo){
+        editNote(e);
+        return;
+    }
+
+    // 通常は音を鳴らす
+    playSound(e);
+}
 
 function playSound(e){
 
@@ -9515,16 +9525,21 @@ function lineScore(tick){
 };
 
 function toggleInputView(){
-    touchInitialized = !touchInitialized;
-	updateInputButton();
-    showNoteMenu();	
-	showSelectedView();
-}	
+
+    inputMemo = !inputMemo;
+
+    updateInputButton();
+
+    showNoteMenu();
+    showSelectedView();
+}
 
 function updateInputButton(){
+
     const btn = $("btnToggleInputView");
+
     if(btn){
-        btn.value = touchInitialized ? "📝" : "♪";
+        btn.value = inputMemo ? "📝" : "♪";
     }
 }
 
