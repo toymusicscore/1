@@ -14236,30 +14236,17 @@ function createF0(fp0, fp1, fingerReach, hand) {
 
                 //和音の場合は指の交差を禁止する
                 if (
+                    fp0[0][1] === fp1[0][1] &&
                     (
-                        fp0[0][1] === fp1[0][1] &&
-                        hand === 0 &&
-                        pitchDiff1 < 0 &&
-                        q >= r
-                    ) ||
-                    (
-                        fp0[0][1] === fp1[0][1] &&
-                        hand === 0 &&
-                        pitchDiff1 > 0 &&
-                        q <= r
-                    ) ||
-                    (
-                        fp0[0][1] === fp1[0][1] &&
-                        hand === 1 &&
-                        pitchDiff1 < 0 &&
-                        q <= r
-                    ) ||
-                    (
-                        fp0[0][1] === fp1[0][1] &&
-                        hand === 1 &&
-                        pitchDiff1 > 0 &&
-                        q >= r
-                    ) 
+                        (hand === 0 && (
+                            (pitchDiff1 < 0 && q >= r) ||
+                            (pitchDiff1 > 0 && q <= r)
+                        )) ||
+                        (hand === 1 && (
+                            (pitchDiff1 < 0 && q <= r) ||
+                            (pitchDiff1 > 0 && q >= r)
+                        ))
+                    )
                 ) {
                     continue;
                 }
