@@ -870,11 +870,6 @@ Upper Limit: Largest allowable distance between the two fingers.
     onclick="resetCommentData()">
 </div>
 
-<div id="songInfoPage" style="display:none">
-<table id="songInfoTable">
-</table>
-</div>
-
 <div id="htmlPage" style="display:none">
     <div id="htmlArea"></div>
 </div>
@@ -1261,7 +1256,6 @@ function showTab(tab){
 					id="x_n_idf"
 					value="" 
                     style="width:40px">
-                <label>Hand</label>
                 <select id="x_hand">
                     <option value="0" selected> Right Hand </option>
                     <option value="1"> Left Hand </option>
@@ -13140,7 +13134,7 @@ function deleteLabel(){
 }
 
 
-const defaultSongInfoData = [
+const songInfoData = [
     {
 		id:1,
         title: "Invention 1",
@@ -13278,20 +13272,12 @@ const defaultSongInfoData = [
     },
 ];
 
-let songInfoData = structuredClone(defaultSongInfoData);
-
-function resetSongInfoData(){
-
-    songInfoData = structuredClone(defaultSongInfoData);
-
-    showSongInfoTable();
-}
 
 function showSongInfoTable(){
 
-    const table = $("songInfoTable");
-
-    table.innerHTML = `
+    	let html = `
+		<h2>Download Files</h2>
+		<table border='1' table style='font-size:25px; border-collapse:collapse; width:100%;'>;
         <tr>
             <th>Title</th>
             <th>Composer</th>
@@ -13300,11 +13286,11 @@ function showSongInfoTable(){
             <th>Source License URI</th>
             <th>Source Status</th>
         </tr>
-    `;
+        `;
 
     songInfoData.forEach((row, i) => {
 
-        table.innerHTML += `
+        html += `
             <tr>
                 <td><input class="title" data-index="${i}" value="${row.title}"></td>
                 <td><input class="composer" data-index="${i}" value="${row.composer}"></td>
@@ -13315,36 +13301,11 @@ function showSongInfoTable(){
             </tr>
         `;
     });
-$("songInfoTable").style.display = "table";
-$("songInfoTable").style.border = "2px solid black";
-}
 
+    $("htmlArea").innerHTML = html;
 
-function saveSongInfoTable(){
+    showPage(PAGE.HTML);
 
-    const rows = $("songInfoTable").rows;
-
-    for(let i = 1; i < rows.length; i++){
-
-		songInfoData[i - 1].title =
-			rows[i].querySelector(".title").value;
-
-		songInfoData[i - 1].composer =
-			rows[i].querySelector(".composer").value;
-
-		songInfoData[i - 1].sourceUri =
-			rows[i].querySelector(".sourceUri").value;
-
-		songInfoData[i - 1].sourceLicense =
-			rows[i].querySelector(".sourceLicense").value;
-
-		songInfoData[i - 1].sourceLicenseUri =
-			rows[i].querySelector(".sourceLicenseUri").value;
-
-		songInfoData[i - 1].sourceStatus =
-			rows[i].querySelector(".sourceStatus").value;
-
-    }
 }
 
 
