@@ -14431,36 +14431,22 @@ function finger1(n_idf, hand){
                 continue;
             }
 
-            //和音の場合は指の交差を禁止する
-            if (
-                (
-                fp[0][7] === 0 &&
-                hand === 0 &&
-                fp[0][0] < fp[0][6] &&
-                firstFinger >= prevFinger
-                ) ||
-                (
-                fp[0][7] === 0 &&
-                hand === 0 &&
-                fp[0][0] > fp[0][6] &&
-                firstFinger <= prevFinger
-                ) ||
-                (
-                fp[0][7] === 0 &&
-                hand === 1 &&
-                fp[0][0] < fp[0][6] &&
-                firstFinger <= prevFinger
-                ) ||
-                (
-                fp[0][7] === 0 &&
-                hand === 1 &&
-                fp[0][0] > fp[0][6] &&
-                firstFinger >= prevFinger
-                )
-            ) {
-                continue;
-            }
-
+        // 和音の場合は指の交差を禁止する
+        if (
+            fp[0][7] === 0 &&
+            (
+                (hand === 0 && (
+                    (fp[0][0] < fp[0][6] && firstFinger >= prevFinger) ||
+                    (fp[0][0] > fp[0][6] && firstFinger <= prevFinger)
+                )) ||
+                (hand === 1 && (
+                    (fp[0][0] < fp[0][6] && firstFinger <= prevFinger) ||
+                    (fp[0][0] > fp[0][6] && firstFinger >= prevFinger)
+                ))
+            )
+        ) {
+            continue;
+        }
             f1.push(f0[i]);
         }
     }
