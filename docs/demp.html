@@ -217,6 +217,11 @@ demp
 <input type="button" id="btnBackOneMeasure" value="◀" onclick="goBackOneMeasure()">
 <input type="button" id="btnForwardOneMeasure" value="▶" onclick="goForwardOneMeasure()">
 <input type="button" id="btnLastMeasure" value="▶|" onclick="goToLastMeasure()">
+<input 
+    id="btnToggleInputView" 
+    type="button" 
+    value="📝" 
+    onclick="toggleInputView()">
   
 <div id="mainPage">
     <canvas id="canvas"></canvas>
@@ -9508,6 +9513,19 @@ function lineScore(tick){
 		}
 	}
 };
+
+function toggleInputView(){
+    touchInitialized = !touchInitialized;
+	updateInputButton();	
+	showSelectedView();
+}	
+
+function updateInputButton(){
+    const btn = $("btnToggleInputView");
+    if(btn){
+        btn.value = touchInitialized ? "📝" : "♪";
+    }
+}
 
 
 function toggleRecordView(){
