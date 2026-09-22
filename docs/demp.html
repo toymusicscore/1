@@ -871,19 +871,8 @@ Upper Limit: Largest allowable distance between the two fingers.
 </div>
 
 <div id="songInfoPage" style="display:none">
-
 <table id="songInfoTable">
 </table>
-
-
-<input
-    type="button"
-    value="Save Song Info"
-    onclick="saveSongInfoTable()">
-<input
-    type="button"
-    value="Reset Song Info"
-    onclick="resetSongInfoData()">
 </div>
 
 <div id="htmlPage" style="display:none">
@@ -1416,10 +1405,6 @@ function showTab(tab){
 					id="commentButton"
 					value="📝 Comment">
 					<br><br>
-				<input
-					type="button"
-					id="songInfoButton"
-					value="ⓘ  Song Info">
 				<br><br>
             `;
 				$("colorButton").onclick = function(){
@@ -1430,16 +1415,16 @@ function showTab(tab){
 					openCommentPage();
 					closeMenuWindow();
 				};
-				$("songInfoButton").onclick = function(){
-					openSongInfoPage();
-					closeMenuWindow();
-				};
 
             break;
 
 		case "info":
 
             menuBody.innerHTML = `
+				<input
+					type="button"
+					id="songInfoButton"
+					value="ⓘ  Song Info">
 				<input 
 					type="button" 
 					id="licenseButton"
@@ -1466,6 +1451,10 @@ function showTab(tab){
 					value="🔒 Privacy & Terms">
 					<br><br>
             `;
+				$("songInfoButton").onclick = function(){
+					openSongInfoPage();
+					closeMenuWindow();
+				};
 				$("licenseButton").onclick = function(){
                 	showPage(PAGE.HTML);
 					showLicensePage();
@@ -1499,11 +1488,6 @@ function showTab(tab){
             menuBody.innerHTML = `
 				<input
 					type="button"
-					id="downloadButton"
-					value="⬇️ Download">
-					<br><br>
-				<input
-					type="button"
 					id="openSongButton"
 					value="📂 Open Song">
 					<br><br>
@@ -1518,10 +1502,6 @@ function showTab(tab){
 					value="🎹 Practice Settings">
 					<br><br>
 				`;
-				$("downloadButton").onclick = function(){
-					showDownloadPage();
-					closeMenuWindow();
-				};
 				$("openSongButton").onclick = function(){
 					openSongPage();
 					closeMenuWindow();
