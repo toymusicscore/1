@@ -9524,14 +9524,19 @@ function lineScore(tick){
 	}
 };
 
+
 function toggleInputView(){
 
     inputMemo = !inputMemo;
 
     updateInputButton();
 
-    showNoteMenu();
-    showSelectedView();
+    if (inputMemo){
+        showNoteMenu();
+    }else {
+        hideNoteMenu();
+    }
+
 }
 
 function updateInputButton(){
