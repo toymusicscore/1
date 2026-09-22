@@ -14201,8 +14201,6 @@ function createF0(fp0, fp1, fingerReach, hand) {
             // 今回の評価区間内 q → r
             //================================================
 
-            if (fingerReach === 1 && !isFingerReachRest && q !== r) {
-
                 const range1 = getFingerRange(q, r);
 
                 if (!range1) {
@@ -14227,13 +14225,6 @@ function createF0(fp0, fp1, fingerReach, hand) {
                         Number(fp1[0]);
                 }
 
-                if (
-                    pitchDiff1 < min1 ||
-                    pitchDiff1 > max1
-                ) {
-                    continue;
-                }
-
                 //和音の場合は指の交差を禁止する
                 if (
                     fp0[1] === fp1[1] &&
@@ -14247,6 +14238,15 @@ function createF0(fp0, fp1, fingerReach, hand) {
                             (pitchDiff1 > 0 && q <= r)
                         ))
                     )
+                ) {
+                    continue;
+                }
+
+                if (fingerReach === 1 && !isFingerReachRest && q !== r) {
+
+                if (
+                    pitchDiff1 < min1 ||
+                    pitchDiff1 > max1
                 ) {
                     continue;
                 }
