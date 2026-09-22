@@ -14240,25 +14240,25 @@ function createF0(fp0, fp1, fingerReach, hand) {
                         fp0[0][1] === fp1[0][1] &&
                         hand === 0 &&
                         pitchDiff1 < 0 &&
-                        q > r
+                        q >= r
                     ) ||
                     (
                         fp0[0][1] === fp1[0][1] &&
                         hand === 0 &&
                         pitchDiff1 > 0 &&
-                        q < r
+                        q <= r
                     ) ||
                     (
                         fp0[0][1] === fp1[0][1] &&
                         hand === 1 &&
                         pitchDiff1 < 0 &&
-                        q < r
+                        q <= r
                     ) ||
                     (
                         fp0[0][1] === fp1[0][1] &&
                         hand === 1 &&
                         pitchDiff1 > 0 &&
-                        q > r
+                        q >= r
                     ) 
                 ) {
                     continue;
@@ -14450,25 +14450,25 @@ function finger1(n_idf, hand){
                 fp[0][7] === 0 &&
                 hand === 0 &&
                 fp[0][0] < fp[0][6] &&
-                firstFinger > prevFinger
+                firstFinger >= prevFinger
                 ) ||
                 (
                 fp[0][7] === 0 &&
                 hand === 0 &&
                 fp[0][0] > fp[0][6] &&
-                firstFinger < prevFinger
+                firstFinger <= prevFinger
                 ) ||
                 (
                 fp[0][7] === 0 &&
                 hand === 1 &&
                 fp[0][0] < fp[0][6] &&
-                firstFinger < prevFinger
+                firstFinger <= prevFinger
                 ) ||
                 (
                 fp[0][7] === 0 &&
                 hand === 1 &&
                 fp[0][0] > fp[0][6] &&
-                firstFinger > prevFinger
+                firstFinger >= prevFinger
                 )
             ) {
                 continue;
