@@ -3351,17 +3351,6 @@ function openCommentPage(){
 }
 
 
-function openSongInfoPage(){
-
-    showPage(PAGE.SONGINFO);
-
-    setTimeout(()=>{
-        showSongInfoTable();
-    },0);
-
-}
-
-
 function pauseButton(){
 	
     if(isRecording){
@@ -13276,7 +13265,7 @@ const songInfoData = [
 function showSongInfoTable(){
 
     	let html = `
-		<h2>Download Files</h2>
+		<h2>Song Information</h2>
 		<table border='1' table style='font-size:25px; border-collapse:collapse; width:100%;'>;
         <tr>
             <th>Title</th>
@@ -13292,12 +13281,12 @@ function showSongInfoTable(){
 
         html += `
             <tr>
-                <td><input class="title" data-index="${i}" value="${row.title}"></td>
-                <td><input class="composer" data-index="${i}" value="${row.composer}"></td>
-                <td><input class="sourceUri"      data-index="${i}" value="${row.sourceUri}"></td>
-                <td><input class="sourceLicense" data-index="${i}" value="${row.sourceLicense}"></td>
-                <td><input class="sourceLicenseUri" data-index="${i}" value="${row.sourceLicenseUri}"></td>
-                <td><input class="sourceStatus"      data-index="${i}" value="${row.sourceStatus}"></td>
+                <td><class="title" data-index="${i}" value="${row.title}"></td>
+                <td><class="composer" data-index="${i}" value="${row.composer}"></td>
+                <td><class="sourceUri"      data-index="${i}" value="${row.sourceUri}"></td>
+                <td><class="sourceLicense" data-index="${i}" value="${row.sourceLicense}"></td>
+                <td><class="sourceLicenseUri" data-index="${i}" value="${row.sourceLicenseUri}"></td>
+                <td><class="sourceStatus"      data-index="${i}" value="${row.sourceStatus}"></td>
             </tr>
         `;
     });
