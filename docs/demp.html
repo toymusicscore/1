@@ -117,6 +117,13 @@ demp
 #mainPage{
     position:relative;
 }
+
+.fingerTable input {
+    width: 42px;
+    box-sizing: border-box;
+    padding: 2px;
+}
+
 /*
 #menuButton{
 
@@ -710,11 +717,19 @@ Upper Limit: Largest allowable distance between the two fingers.
 <br>
 </label>
 
-<table  class="fingerTable" 
-        style="
-            border-collapse:collapse;
-            width:95%;
-        " border="1">
+<table class="fingerTable"
+    style="
+        border-collapse:collapse;
+        width:auto;
+        table-layout:fixed;
+    "
+    border="1">
+
+    <colgroup>
+        <col style="width:110px;">
+        <col span="10" style="width:52px;">
+    </colgroup>
+
 <tr>
     <th></th>
     <th>1-2</th>
