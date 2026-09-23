@@ -4113,10 +4113,7 @@ function midiToFreq(midi){
 
 
 function getLabel(midi, n_id, songId){
-console.log(
-    "LABEL CHECK",
-    "noteTextType =", practiceSettings.noteTextType
-);
+
     let nl = "";
 
     if (practiceSettings.noteTextType === 0){
@@ -4160,15 +4157,7 @@ console.log(
 
         nl = csv?.[`c${col}`]?.[n_id]?.[0] ?? "";
 
-        console.log(
-            "CSV LABEL CHECK",
-            "type =", practiceSettings.noteTextType,
-            "n_id =", n_id,
-            "col =", col,
-            "value =", nl
-        );
     }
-    console.log("LABEL RESULT", midi, n_id, nl);
 
     return nl;
 }
