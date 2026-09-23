@@ -347,27 +347,6 @@ demp
     value="Song BPM"
     onclick="setSongFirstBpm()">
 
-<select id="nl1" name="nl1" onchange="onSettingsChange()">
-	<option value="0"> No Label </option>
-	<option value="1"> Solfege # </option>
-	<option value="2"> Solfege b </option>
-	<option value="3"> English # </option>
-	<option value="4"> English b </option>
-	<option value="5"> German # </option>
-	<option value="6"> German b </option>
-	<option value="7"> Pitch Class </option>
-	<option value="8"> Octave & PC </option>
-	<option value="9"> MIDI Note Num </option>
-	<option value="10"> Note ID </option>
-	<option value="11" selected> Fingering CSV</option>
-	<option value="12"> Fingering Gen </option>
-	<option value="13"> Text1 </option>
-	<option value="14"> Text2 </option>
-	<option value="15"> Text3 </option>
-	<option value="16"> Text4 </option>
-	<option value="17"> Text5 </option>
-	</select>
-
 <select id="sv1" name="sv1" onchange="onSettingsChange()">
 	<option value="0" selected> ToyScore </option>
 	<option value="1"> Key Estimation </option>
@@ -1174,7 +1153,7 @@ function showTab(tab){
 				<input 
 					id="btnToggleRecordView" 
 					type="button" 
-					value="🙈 Hide Record" 
+					value="👁 Show Record" 
 					onclick="toggleRecordView()">
 				<input 
 					type="button" 
@@ -1328,7 +1307,7 @@ function showTab(tab){
                 <input
                     id="pitchClassInput"
                     type="text"
-                    placeholder="例: 0 2 4 5 7"
+                    placeholder="Sample: 0 2 4 5 7"
                     style="width:300px;"
                     >
 				<input 
@@ -1416,12 +1395,12 @@ function showTab(tab){
 				<input 
 					type="button" 
 					id="licenseButton"
-					value="📜 Software License">
+					value="📜 License">
 					<br><br>
 				<input 
 					type="button"
 					id="aboutButton" 
-					value="ℹ️ About ToyScore">
+					value="ℹ️ About">
 					<br><br>
 				<input 
 					type="button"
@@ -3366,7 +3345,7 @@ function stopRecording(){
 function updateRecordButton(){
     const btn = $("btnToggleRecordView");
     if(btn){
-        btn.value = recordVisible ? "🙈 Hide Record" : "👁 Show Record";
+        btn.value = recordVisible ?  "👁 Show Record": "🙈 Hide Record";
     }
 }
 
