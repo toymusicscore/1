@@ -2586,6 +2586,11 @@ async function initialize(){
 	
     loadSavedSettings();
     updateSettingsUi();
+
+    if (!val("song1")) {
+        setVal("song1", "bach-invention-01");
+    }
+    
     syncMeasuresPerScreen();
 	updateTempo(); 
 
