@@ -327,6 +327,16 @@ demp
     min="1"
 	onchange = "onSettingsChange()";
     style="width:40px">
+    
+<button onclick="renderTrackChannelInfo()">
+    Refresh MIDI Info
+</button>
+
+<button onclick="autoAssignHands()">
+    Auto Assign Hands
+</button>
+
+<pre id="trackChannelInfoView"></pre>
 
 <select id="hands" name="hands" onchange="onSettingsChange()">
 	<option value="0" selected> Both Hands </option>
@@ -2898,6 +2908,7 @@ function initializeScoreSystem(){
 	midi_min = range.min;
 	midi_max = range.max;
 
+    renderTrackChannelInfo();
 }
 
 function getTicksPerQuarterNote(midi) {
@@ -11987,7 +11998,121 @@ const texts = [
 
 }
 
+
 function trackChannelInfo(){
+
+    const infoMap = {};
+
+    for(const note of scoreData){
+
+        const key = note.track + "_" + note.channel;
+
+        if(!infoMap[key]){
+            infoMap[key] = {
+                track: note.track,
+                channel: note.channel,
+                sum: 0,
+                count: 0
+            };
+        }
+
+        infoMap[key].sum += note.midi;
+        infoMap[key].count++;
+    }
+
+    const rows = Object.values(infoMap);
+
+    rows.forEach(row => {
+
+        row.avg = row.sum / row.count;
+
+        // InstrumentはTrackとChannelの組で識別
+        const program = rawMidi.tracks[row.track]
+            ?.find(e =>
+                e.type === "programChange" &&
+                e.channel === row.channel
+            );
+
+        row.instrument = program
+            ? (instName[program.programNumber] || "-")
+            : "-";
+    });
+
+    return rows;
+}
+
+function autoAssignHands(){
+
+    const rows = trackChannelInfo();
+
+    if(rows.length < 2){
+        return;
+    }
+
+    // 平均音高の順に並べる
+    const sorted = [...rows].sort(
+        (a, b) => a.avg - b.avg
+    );
+
+    const left  = sorted[0];
+    const right = sorted[sorted.length - 1];
+
+    // 同じTrack/Channelは両手に設定しない
+    if(left.track === right.track &&
+       left.channel === right.channel){
+        return;
+    }
+
+    setVal("x_leftTrack", left.track);
+    setVal("x_leftChannel", left.channel);
+
+    setVal("x_rightTrack", right.track);
+    setVal("x_rightChannel", right.channel);
+
+    onSettingsChange();
+
+    renderTrackChannelInfo();
+}
+
+function renderTrackChannelInfo(){
+
+    const rows = trackChannelInfo();
+
+    const text = rows.map(row => {
+
+        let hand = "Other";
+
+        if(
+            row.track == val("x_rightTrack") &&
+            row.channel == val("x_rightChannel")
+        ){
+            hand = "Right";
+        }
+        else if(
+            row.track == val("x_leftTrack") &&
+            row.channel == val("x_leftChannel")
+        ){
+            hand = "Left";
+        }
+
+        return [
+            hand,
+            "Track " + row.track,
+            "Ch " + row.channel,
+            "Notes " + row.count,
+            "Avg " + row.avg.toFixed(1),
+            row.instrument
+        ].join(" | ");
+
+    }).join("\n");
+
+    document.getElementById(
+        "trackChannelInfoView"
+    ).textContent = text;
+}
+
+
+function trackChannelInfo_bk(){
 
 	ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.font = "15px Arial";
