@@ -3163,8 +3163,14 @@ function getSongLength(){
 
 function setCsv(data2){
 
+    // CSVがない場合は、現在のCSVを維持
+    if(!data2){
+        console.log("CSV is not loaded");
+        return;
+    }
+
     csv = {
-        raw: "",
+        raw: data2,
         c0: [],
         c1: [],
         c2: [],
@@ -3178,41 +3184,23 @@ function setCsv(data2){
         c10: [],
     };
 
-    // ★ CSVが無い場合は空で終了
-    if(!data2){
-        console.log("CSV is empty (local file or missing)");
-        return;
-    }
-
-    csv.raw = data2;
-
-//	console.log("=== TSV DEBUG START ===");
-//	console.log(data2);
-//	console.log("length:", data2?.length);
-
-	const lines = data2?.split("\n") || [];
-
-//	console.log("lines:", lines.length);
-//	console.log("first line:", lines[0]);
-//	console.log("first cols:", lines[0]?.split("\t"));
-
-//	console.log("=== TSV DEBUG END ===");
-
-//    const lines = data2.split('\n');
+    const lines = data2.split("\n");
 
     lines.forEach(line => {
-        const cols = line.split(',');
-            csv.c0.push([cols[0]]);
-            csv.c1.push([cols[1]]);
-            csv.c2.push([cols[2]]);
-            csv.c3.push([cols[3]]);
-            csv.c4.push([cols[4]]);
-            csv.c5.push([cols[5]]);
-            csv.c6.push([cols[6]]);
-            csv.c7.push([cols[7]]);
-            csv.c8.push([cols[8]]);
-            csv.c9.push([cols[9]]);
-            csv.c10.push([cols[10]]);
+
+        const cols = line.split(",");
+
+        csv.c0.push([cols[0]]);
+        csv.c1.push([cols[1]]);
+        csv.c2.push([cols[2]]);
+        csv.c3.push([cols[3]]);
+        csv.c4.push([cols[4]]);
+        csv.c5.push([cols[5]]);
+        csv.c6.push([cols[6]]);
+        csv.c7.push([cols[7]]);
+        csv.c8.push([cols[8]]);
+        csv.c9.push([cols[9]]);
+        csv.c10.push([cols[10]]);
     });
 }
 
