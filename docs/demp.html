@@ -4163,21 +4163,30 @@ function getLabel(midi, n_id, songId){
     return nl;
 }
 
-
 function getLabelReverse(midi, n_id){
-		  if (practiceSettings.noteTextType === 2){
-		nlr=drms1[midi%12];
-	}else if (practiceSettings.noteTextType === 1){
-		nlr=drmf1[midi%12];
-	}else if (practiceSettings.noteTextType === 4){
-		nlr=engs1[midi%12];
-	}else if (practiceSettings.noteTextType === 3){
-		nlr=engf1[midi%12];
-	}else if (practiceSettings.noteTextType === 6){
-		nlr=gers1[midi%12];
-	}else if (practiceSettings.noteTextType === 5){
-		nlr=gerf1[midi%12];
-	}
+
+    let nlr = "";
+
+    if (practiceSettings.noteTextType === 2){
+        nlr = drms1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 1){
+        nlr = drmf1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 4){
+        nlr = engs1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 3){
+        nlr = engf1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 6){
+        nlr = gers1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 5){
+        nlr = gerf1[midi%12];
+    }
+
+    return nlr;
 }
 
 function getVisibleLength(start, stop, tick){
