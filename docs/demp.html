@@ -11873,7 +11873,7 @@ function showIcon(){
 }
 
 
-function showLicensePage(){
+function showAboutPage(){
 
 	const logo =
 	'<span style="font-family:Arial;font-size:32px;font-weight:bold;">' +
@@ -11896,6 +11896,28 @@ function showLicensePage(){
         "Patents in Japan:",
         '<a href="https://www.j-platpat.inpit.go.jp/c1801/PU/JP-2024-106303/11/ja" target="_blank">No. 7685023</a>',
         '<a href="https://www.j-platpat.inpit.go.jp/c1801/PU/JP-2025-064391/11/ja" target="_blank">No. 7873218</a>',
+		"",
+		"",
+	]
+
+	$("htmlArea").style.height = canvas.height + "px";
+	$("htmlArea").style.overflowY = "auto";
+	$("htmlArea").style.padding = "20px";
+	$("htmlArea").style.fontFamily = "Arial";
+	$("htmlArea").style.fontSize = "15px";
+
+    $("htmlArea").innerHTML =
+		logo +
+		"<br><br>" +
+		texts.join("<br>");
+
+    showPage(PAGE.HTML);
+
+}
+
+function showLicensePage(){
+
+	const texts = [
 		"",
 		"",
 		"midi-file",
@@ -11932,8 +11954,6 @@ function showLicensePage(){
 	$("htmlArea").style.fontSize = "15px";
 
     $("htmlArea").innerHTML =
-		logo +
-		"<br><br>" +
 		texts.join("<br>");
 
     showPage(PAGE.HTML);
