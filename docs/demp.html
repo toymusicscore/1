@@ -14639,9 +14639,11 @@ function finger1(n_idf, hand){
     f102.push([
         f101[0][0][0],
         f101[0][1][0],
+/*      
         f101[0][2][0],
         f101[0][3]
-    ]);
+*/    
+        ]);
 
     //============================================================
     // 次の評価区間へ渡す情報
@@ -14759,65 +14761,6 @@ for (let p=0;p<f101.length;p++){
 				ctx.fillStyle="black";
 //                ctx.fillText(n_id,(midi-midi_min)*kw+2*mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
                 ctx.fillText(f101[0][1][n_id-n_idf],(midi-midi_min+0.7)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-               /*
-				if (document.nl1.options[0].selected==true){
-					ctx.fillText("",(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[1].selected==true){
-					ctx.fillText(drms1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[2].selected==true){
-					ctx.fillText(drmf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[3].selected==true){
-					ctx.fillText(engs1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[4].selected==true){
-					ctx.fillText(engf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[5].selected==true){
-					ctx.fillText(gers1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[6].selected==true){
-					ctx.fillText(gerf1[midi%12],(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[7].selected==true){
-					ctx.fillText((midi%12).toString(12),(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[8].selected==true){
-					ctx.fillText(midi.toString(12),(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[9].selected==true){
-					ctx.fillText(midi,(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[10].selected==true){
-					ctx.fillText(n_id,(midi-midi_min)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[11].selected==true && tsv1[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv1[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[12].selected==true && tsv2[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv2[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[13].selected==true && tsv5[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv5[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[14].selected==true && tsv6[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv6[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[15].selected==true && tsv7[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv7[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[16].selected==true && tsv8[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv8[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[17].selected==true && tsv9[n_id-tsvst0+1]!=undefined){
-					ctx.fillText(tsv9[n_id-tsvst0+1],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[18].selected==true){
-					ctx.fillText(f101[0][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[19].selected==true){
-					ctx.fillText(f101[1][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[20].selected==true){
-					ctx.fillText(f101[2][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[21].selected==true){
-					ctx.fillText(f101[3][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[22].selected==true){
-					ctx.fillText(f101[4][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[23].selected==true){
-					ctx.fillText(f101[5][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[24].selected==true){
-					ctx.fillText(f101[6][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[25].selected==true){
-					ctx.fillText(f101[7][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[26].selected==true){
-					ctx.fillText(f101[8][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}else if (document.nl1.options[27].selected==true){
-					ctx.fillText(f101[9][1][n_id-fc[0][1]],(midi-midi_min+0.2)*kw+mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-				}
-                    */
 			}//if(start>=pauseTick && start<pauseTick+1*ppq*bttl)
 	}//for(i=0;)
 }
@@ -14831,7 +14774,7 @@ time0=Date.now();
 
     f102=[];
 
-    f102.push(['NoteID','Fingering','HandPosition','Stdevp','Minutes']);
+    f102.push(['NoteID','Fingering','Minutes']);
 
     let n_idf;
 
@@ -14857,7 +14800,7 @@ for (const [s0, hand] of handsToCalculate) {
 
 let time1=Date.now();
 let timed=(time1-time0)/60000;
-f102.push(['','','','',timed]);
+f102.push(['','',timed]);
 
 const textData = f102
     .map(row => row.join(','))
