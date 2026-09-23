@@ -1190,6 +1190,11 @@ function showTab(tab){
 				<input type="button"
 					id="clearHistoryButton"
 					value="🗑 Clear History">
+					<br><br>				
+                <input
+					type="button"
+					id="practiceSettingsButton"
+					value="🎹 Practice Settings">
 					<br><br>
             `;
 				$("performanceGraphButton").onclick = function(){
@@ -1207,6 +1212,10 @@ function showTab(tab){
 				};
 				$("clearHistoryButton").onclick = function(){
 					clearHistory();
+				};
+				$("practiceSettingsButton").onclick = function(){
+					showPage(PAGE.SETTINGS);
+					closeMenuWindow();
 				};
 
 			break;
@@ -1357,32 +1366,6 @@ function showTab(tab){
 
 			break;
 
-		case "edit":
-
-            menuBody.innerHTML = `
-				<input
-					type="button"
-					id="colorButton"
-					value="🎨 Color">
-					<br><br>
-				<input
-					type="button"
-					id="commentButton"
-					value="📝 Comment">
-					<br><br>
-				<br><br>
-            `;
-				$("colorButton").onclick = function(){
-					showPage(PAGE.COLOR);
-					closeMenuWindow();
-				};
-				$("commentButton").onclick = function(){
-					openCommentPage();
-					closeMenuWindow();
-				};
-
-            break;
-
 		case "info":
 
             menuBody.innerHTML = `
@@ -1464,9 +1447,15 @@ function showTab(tab){
 					<br><br>
 				<input
 					type="button"
-					id="practiceSettingsButton"
-					value="🎹 Practice Settings">
+					id="colorButton"
+					value="🎨 Color">
 					<br><br>
+				<input
+					type="button"
+					id="commentButton"
+					value="📝 Comment">
+					<br><br>
+				<br><br>
 				`;
 				$("openSongButton").onclick = function(){
 					openSongPage();
@@ -1476,8 +1465,12 @@ function showTab(tab){
 					showPage(PAGE.SETTINGS);
 					closeMenuWindow();
 				};
-				$("practiceSettingsButton").onclick = function(){
-					showPage(PAGE.SETTINGS);
+				$("colorButton").onclick = function(){
+					showPage(PAGE.COLOR);
+					closeMenuWindow();
+				};
+				$("commentButton").onclick = function(){
+					openCommentPage();
 					closeMenuWindow();
 				};
 
