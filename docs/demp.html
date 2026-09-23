@@ -4183,29 +4183,21 @@ function getLabel(midi, n_id, songId){
 	//fingering Auto
 	}else if (practiceSettings.noteTextType === 12) {
         nl = fingeringAuto[songId]?.[n_id] ?? "";
-	//tsv Text1
-	}else if (practiceSettings.noteTextType === 13 && tsv.t5[n_id]!=undefined){
-		nl=tsv.t5[n_id];
-	//tsv Text2
-	}else if (practiceSettings.noteTextType === 14 && tsv.t6[n_id]!=undefined){
-		nl=tsv.t6[n_id];
-	//tsv Text3
-	}else if (practiceSettings.noteTextType === 15 && tsv.t7[n_id]!=undefined){
-		nl=tsv.t7[n_id];
-	//tsv Text4
+	//csv Text1
+	}else if (practiceSettings.noteTextType === 13 && csv.c1[n_id]!=undefined){
+		nl=csv.c1[n_id];
+	//csv Text2
+	}else if (practiceSettings.noteTextType === 14 && csv.c2[n_id]!=undefined){
+		nl=csv.c2[n_id];
+	//csv Text3
+	}else if (practiceSettings.noteTextType === 15 && csv.c3[n_id]!=undefined){
+		nl=csv.c3[n_id];
+	//csv Text4
 	}else if (practiceSettings.noteTextType === 16 && tsv.t8[n_id]!=undefined){
-		nl=tsv.t8[n_id];
-	//tsv Text5
-	}else if (practiceSettings.noteTextType === 17 && tsv.t9[n_id]!=undefined){
-		nl=tsv.t9[n_id];
-	}
-	//tsv notations left
-	if (tsv.t3[n_id]!=undefined){
-		nll=tsv.t3[n_id];
-	}
-	//tsv notations right
-	if (tsv.t4[n_id]!=undefined){
-		nlr=tsv.t4[n_id];
+		nl=csv.c4[n_id];
+	//csv Text5
+	}else if (practiceSettings.noteTextType === 17 && csv.c5[n_id]!=undefined){
+		nl=csv.c5[n_id];
 	}
 
 }
