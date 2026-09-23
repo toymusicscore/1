@@ -278,7 +278,7 @@ demp
 <input
         type="file"
         id="localFiles"
-        accept=".mid,.tsv"
+        accept=".mid,.csv"
         multiple
     >
 
@@ -2829,8 +2829,8 @@ async function fetchData(){
             f.name.endsWith(".mid") || f.name.endsWith(".midi")
         );
 
-        const tsvFile = localFiles.find(f =>
-            f.name.endsWith(".tsv")
+        const csvFile = localFiles.find(f =>
+            f.name.endsWith(".csv")
         );
 
 //        console.log("MIDI =", midiFile?.name);
@@ -2840,8 +2840,8 @@ async function fetchData(){
             ? await midiFile.arrayBuffer()
             : null;
 
-        const data2 = tsvFile
-            ? await tsvFile.text()
+        const data2 = csvFile
+            ? await csvFile.text()
             : null;
 
         return { data1, data2 };
@@ -2855,7 +2855,7 @@ async function fetchData(){
     console.log("LOAD FETCH FILE:", file1name);
 
     const uri1 = "./data/" + file1name + ".mid";
-    const uri2 = "./data/" + file1name + ".tsv";
+    const uri2 = "./data/" + file1name + ".csv";
 
     const res1 = await fetch(uri1);
     const res2 = await fetch(uri2);
@@ -3197,34 +3197,30 @@ function getSongLength(){
     return maxTick;
 }
 
-function setTsv(data2){
+function setCsv(data2){
 
-    tsv = {
+    csv = {
         raw: "",
-        a: [],
-        sc: [],
-        ff: [],
-        ft: [],
-        sd: [],
-        dl: [],
-        t1: [],
-        t2: [],
-        t3: [],
-        t4: [],
-        t5: [],
-        t6: [],
-        t7: [],
-        t8: [],
-        t9: []
+        c0: [],
+        c1: [],
+        c2: [],
+        c3: [],
+        c4: [],
+        c5: [],
+        c6: [],
+        c7: [],
+        c8: [],
+        c9: [],
+        c10: [],
     };
 
-    // ★ TSVが無い場合は空で終了
+    // ★ CSVが無い場合は空で終了
     if(!data2){
-        console.log("TSV is empty (local file or missing)");
+        console.log("CSV is empty (local file or missing)");
         return;
     }
 
-    tsv.raw = data2;
+    csv.raw = data2;
 
 //	console.log("=== TSV DEBUG START ===");
 //	console.log(data2);
@@ -3241,29 +3237,18 @@ function setTsv(data2){
 //    const lines = data2.split('\n');
 
     lines.forEach(line => {
-        const cols = line.split('\t');
-        const type = cols[0];
-
-        if(type === "A"){
-            tsv.a.push([cols[1], cols[2]]);
-        }else if(type === "B"){
-            tsv.sc.push([cols[2]]);
-        }else if(type === "C"){
-            tsv.ff.push([cols[1], cols[2]]);
-            tsv.ft.push([cols[2], cols[1]]);
-            tsv.sd.push([cols[3], -cols[3]]);
-            tsv.dl.push([cols[4], cols[4]]);
-        }else if(type === "D"){
-            tsv.t1.push([cols[2]]);
-            tsv.t2.push([cols[3]]);
-            tsv.t3.push([cols[4]]);
-            tsv.t4.push([cols[5]]);
-            tsv.t5.push([cols[6]]);
-            tsv.t6.push([cols[7]]);
-            tsv.t7.push([cols[8]]);
-            tsv.t8.push([cols[9]]);
-            tsv.t9.push([cols[10]]);
-        }
+        const cols = line.split(',');
+            csv.c0.push([cols[0]]);
+            csv.c1.push([cols[1]]);
+            csv.c2.push([cols[2]]);
+            csv.c3.push([cols[3]]);
+            csv.c4.push([cols[4]]);
+            csv.c5.push([cols[5]]);
+            csv.c6.push([cols[6]]);
+            csv.c7.push([cols[7]]);
+            csv.c8.push([cols[8]]);
+            csv.c9.push([cols[9]]);
+            csv.c10.push([cols[10]]);
     });
 }
 
