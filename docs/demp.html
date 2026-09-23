@@ -2592,7 +2592,7 @@ console.log("song1 =", val("song1"));
     if (!val("song1")) {
         setVal("song1", "bach-invention-01");
     }
-    
+
     syncMeasuresPerScreen();
 	updateTempo(); 
 
@@ -4158,7 +4158,19 @@ function getLabel(midi, n_id, songId){
 	//csv Text5
 	}else if (practiceSettings.noteTextType === 17 && csv.c5[n_id]!=undefined){
 		nl=csv.c5[n_id];
-	}
+    // CSV Text1～5
+    }else if (
+        practiceSettings.noteTextType >= 13 &&
+        practiceSettings.noteTextType <= 17
+    ){
+
+        const col = practiceSettings.noteTextType - 12;
+
+        nl = csv?.[`c${col}`]?.[n_id]?.[0] ?? "";
+
+    }
+
+    return nl;
 
 }
 
