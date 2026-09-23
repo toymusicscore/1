@@ -1270,11 +1270,6 @@ function showTab(tab){
 					id="fingeringRecorderBothHandsButton"
 					value="✋ Fingering Recorder Both Hands">
 					<br><br>
-				<input 
-					type="button" 
-					id="fingeringRecorderOneHandButton"
-					value="✋ Fingering Recorder One Hand">
-					<br><br>
                 <input 
                     type="button"
                     value="💾 Save Fingering Auto as Saved" 
@@ -1298,11 +1293,6 @@ function showTab(tab){
 				$("fingeringRecorderBothHandsButton").onclick = function(){
                     showPage(PAGE.MAIN);
 					showFingeringRecorderBothHands();
-					closeMenuWindow();
-				};
-				$("fingeringRecorderOneHandButton").onclick = function(){
-                	showPage(PAGE.MAIN);
-					showFingeringRecorderOneHand();
 					closeMenuWindow();
 				};
 
@@ -2633,7 +2623,7 @@ async function initialize(){
     updateFingerData();
     loadSavedFingering();
     showMain();
-    
+
 }
 
 function initializePage() {
@@ -15001,6 +14991,7 @@ function loadSavedFingering(){
 
 }
 
+/*
 const showFingeringRecorderOneHand= async () =>{
 time0=Date.now();
 
@@ -15059,6 +15050,7 @@ fingeringAuto[songId] =
 
 
 }
+*/
 
 function downloadFile(fileName, textData) {
     const blob = new Blob(
