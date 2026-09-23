@@ -2685,10 +2685,6 @@ function updateLocalFileOption(files){
 
 async function loadLocalFiles(files){
 
-//    console.log("=== loadLocalFiles START ===");
-//    console.log("files =", files);
-//    console.log("files.length =", files.length);
-
     const midi = files.find(
         file =>
             file.name.toLowerCase().endsWith(".mid") ||
@@ -2700,37 +2696,37 @@ async function loadLocalFiles(files){
             file.name.toLowerCase().endsWith(".csv")
     );
 
-//    console.log("midi =", midi);
-//    console.log("tsv =", tsv);
+    // MIDIがあれば読む
+    if (midi) {
 
-    if(!midi){
-        console.error("MIDI missing");
-        return;
+        const data1 = await midi.arrayBuffer();
+
+        console.log(
+            "MIDI bytes =",
+            data1.byteLength
+        );
+
+        loadMidi(data1);
     }
 
-    const data1 =
-        await midi.arrayBuffer();
+    // CSVがあれば読む
+    if (csv) {
 
-    console.log(
-        "MIDI bytes =",
-        data1.byteLength
-    );
+        const data2 = await csv.text();
 
-    const data2 =
-        csv ? await csv.text() : null;
+        console.log(
+            "CSV chars =",
+            data2.length
+        );
 
-    console.log(
-        "CSV chars =",
-        data2?.length
-    );
+        setCsv(data2);
+    }
 
-    console.log("before loadMidi");
-
-    loadMidi(data1);
-
-    console.log("after loadMidi");
-
-    setCsv(data2);
+    // どちらもなければ終了
+    if (!midi && !csv) {
+        console.error("MIDI or CSV missing");
+        return;
+    }
 
     showSelectedView();
 
