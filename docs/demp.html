@@ -2590,7 +2590,7 @@ async function initialize(){
     if (!val("song1")) {
         setVal("song1", "bach-invention-01");
     }
-    
+
     syncMeasuresPerScreen();
 	updateTempo(); 
 
@@ -4156,6 +4156,14 @@ function getLabel(midi, n_id, songId){
         const col = practiceSettings.noteTextType - 12;
 
         nl = csv?.[`c${col}`]?.[n_id]?.[0] ?? "";
+
+        console.log(
+            "CSV LABEL CHECK",
+            "type =", practiceSettings.noteTextType,
+            "n_id =", n_id,
+            "col =", col,
+            "value =", nl
+        );
     }
 
     return nl;
