@@ -4115,64 +4115,54 @@ function midiToFreq(midi){
 
 
 function getLabel(midi, n_id, songId){
-		if (practiceSettings.noteTextType === 0){
-		nl="";
-	}else if (practiceSettings.noteTextType === 1){
-		nl=drms1[midi%12];
-	}else if (practiceSettings.noteTextType === 2){
-		nl=drmf1[midi%12];
-	}else if (practiceSettings.noteTextType === 3){
-		nl=engs1[midi%12];
-	}else if (practiceSettings.noteTextType === 4){
-		nl=engf1[midi%12];
-	}else if (practiceSettings.noteTextType === 5){
-		nl=gers1[midi%12];
-	}else if (practiceSettings.noteTextType === 6){
-		nl=gerf1[midi%12];
-	}else if (practiceSettings.noteTextType === 7){
-		nl=(midi%12).toString(12);
-	}else if (practiceSettings.noteTextType === 8){
-		nl=Math.floor((midi-12)/12)+(midi%12).toString(12);
-	}else if (practiceSettings.noteTextType === 9){
-		nl=midi;
-	}else if (practiceSettings.noteTextType === 10){
-		nl=n_id;
-	//fingering user
-	}else if (practiceSettings.noteTextType === 11){
-		nl=fingeringSets[songId]?.[n_id] ?? "";
-	//fingering Auto
-	}else if (practiceSettings.noteTextType === 12) {
+
+    let nl = "";
+
+    if (practiceSettings.noteTextType === 0){
+        nl = "";
+    }else if (practiceSettings.noteTextType === 1){
+        nl = drms1[midi%12];
+    }else if (practiceSettings.noteTextType === 2){
+        nl = drmf1[midi%12];
+    }else if (practiceSettings.noteTextType === 3){
+        nl = engs1[midi%12];
+    }else if (practiceSettings.noteTextType === 4){
+        nl = engf1[midi%12];
+    }else if (practiceSettings.noteTextType === 5){
+        nl = gers1[midi%12];
+    }else if (practiceSettings.noteTextType === 6){
+        nl = gerf1[midi%12];
+    }else if (practiceSettings.noteTextType === 7){
+        nl = (midi%12).toString(12);
+    }else if (practiceSettings.noteTextType === 8){
+        nl = Math.floor((midi-12)/12)
+           + (midi%12).toString(12);
+    }else if (practiceSettings.noteTextType === 9){
+        nl = midi;
+    }else if (practiceSettings.noteTextType === 10){
+        nl = n_id;
+
+    // Fingering user
+    }else if (practiceSettings.noteTextType === 11){
+        nl = fingeringSets[songId]?.[n_id] ?? "";
+
+    // Fingering Auto
+    }else if (practiceSettings.noteTextType === 12){
         nl = fingeringAuto[songId]?.[n_id] ?? "";
-	//csv Text1
-	}else if (practiceSettings.noteTextType === 13 && csv.c1[n_id]!=undefined){
-		nl=csv.c1[n_id];
-	//csv Text2
-	}else if (practiceSettings.noteTextType === 14 && csv.c2[n_id]!=undefined){
-		nl=csv.c2[n_id];
-	//csv Text3
-	}else if (practiceSettings.noteTextType === 15 && csv.c3[n_id]!=undefined){
-		nl=csv.c3[n_id];
-	//csv Text4
-	}else if (practiceSettings.noteTextType === 16 && csv.c4[n_id]!=undefined){
-		nl=csv.c4[n_id];
-	//csv Text5
-	}else if (practiceSettings.noteTextType === 17 && csv.c5[n_id]!=undefined){
-		nl=csv.c5[n_id];
+
     // CSV Text1～5
     }else if (
         practiceSettings.noteTextType >= 13 &&
         practiceSettings.noteTextType <= 17
     ){
-
         const col = practiceSettings.noteTextType - 12;
 
         nl = csv?.[`c${col}`]?.[n_id]?.[0] ?? "";
-
     }
 
     return nl;
-
 }
+
 
 function getLabelReverse(midi, n_id){
 		  if (practiceSettings.noteTextType === 2){
