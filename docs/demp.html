@@ -1144,22 +1144,22 @@ function showTab(tab){
 					type="button"
 					value="🏠 Main"
 					onclick="showMain()">
-					<br><br>
 				<input 
 					type="button" 
 					id="playScoreButton"
 					value="▶️🎼 Score"
 					onclick="playScore()">
-				<input 
-					type="button" 
-					id="playRecordButton"
-					value="▶️🎙 Record"
-					onclick="playRecord()">
+					<br><br>
 				<input 
 					type="button" 
 					id="startRecordingButton"
 					value="🔴🎙 Record"
 					onclick="startRecording()">
+				<input 
+					type="button" 
+					id="playRecordButton"
+					value="▶️🎙 Record"
+					onclick="playRecord()">
 					<br><br>
 				<input type="button" id="btnPause" value="⏸" onclick="pauseButton()">
 				<input type="button" id="btnFirstMeasure" value="|◀" onclick="goToFirstMeasure()">
@@ -1193,12 +1193,12 @@ function showTab(tab){
 					playScore();
 					closeMenuWindow();
 				};
-				$("playRecordButton").onclick = function(){
-					playRecord();
-					closeMenuWindow();
-				};
 				$("startRecordingButton").onclick = function(){
 					startRecording();
+					closeMenuWindow();
+				};
+				$("playRecordButton").onclick = function(){
+					playRecord();
 					closeMenuWindow();
 				};
 
