@@ -1510,14 +1510,23 @@ function closeMenuWindow(){
     $("menuWindow").style.display = "none";
 
 }
-
 function showMain(){
-	showPage(PAGE.MAIN);
-	lineScore(0);
-    clearRecord();
-	closeMenuWindow();
-}
 
+    showPage(PAGE.MAIN);
+
+    console.log("A: before lineScore");
+
+    lineScore(0);
+
+    console.log("B: after lineScore");
+
+    clearRecord();
+
+    console.log("C: after clearRecord");
+
+    closeMenuWindow();
+
+}
 
 //========================================
 // Color Settings
