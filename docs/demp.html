@@ -1145,15 +1145,9 @@ function showTab(tab){
 
             menuBody.innerHTML = `
 				<input 
-					id="mainButton"
-					type="button"
-					value="🏠 Main"
-					onclick="showMain()">
-					<br><br>
-				<input 
 					type="button" 
 					id="playRecordButton"
-					value="▶️🎙 Record"
+					value="▶️Play Record"
 					onclick="playRecord()">
 					<br><br>
 				<input type="button" id="btnBackOnePage" value="◀◀" onclick="goBackOnePage()">
@@ -1176,9 +1170,6 @@ function showTab(tab){
 					onclick="clearRecord()">
 					<br><br>
             `;
-				$("mainButton").onclick = function(){
-					showMain();
-				};
 				$("playRecordButton").onclick = function(){
 					playRecord();
 					closeMenuWindow();
@@ -1189,6 +1180,11 @@ function showTab(tab){
         case "practice":
 
 		menuBody.innerHTML = `
+				<input 
+					type="button" 
+					id="keyEstimationButton"
+					value="🔑 Key Estimation">
+					<br><br>
 				<input 
 					type="button" 
 					id="performanceGraphButton"
@@ -1209,6 +1205,11 @@ function showTab(tab){
 					value="🗑 Clear History">
 					<br><br>				
               `;
+				$("keyEstimationButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showKeyEstimation();
+					closeMenuWindow();
+				};
 				$("performanceGraphButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					drawPerformanceGraph();
@@ -1234,7 +1235,7 @@ function showTab(tab){
 				<input
 					type="button"
 					id="fingerSettingsButton"
-					value="✋ Finger Settings">
+					value="⚙ Finger Settings">
 					<br><br>
                 <label style="font-size:70%">Note ID</label>
 				<input 
@@ -1250,7 +1251,7 @@ function showTab(tab){
 				<input 
 					type="button" 
 					id="fingeringAssistantButton"
-					value="✋ Fingering Assistant">
+					value="☝️ Fingering Assistant">
 					<br><br>
 				<input 
 					type="button" 
@@ -1366,15 +1367,10 @@ function showTab(tab){
 		case "info":
 
             menuBody.innerHTML = `
-				<input 
-					type="button" 
-					id="keyEstimationButton"
-					value="🔑 Key Estimation">
-					<br><br>
 				<input
 					type="button"
 					id="songInfoButton"
-					value="ⓘ Song Info">
+					value="🎼 Song Info">
                     <br><br>
 				<input 
 					type="button" 
@@ -1401,11 +1397,6 @@ function showTab(tab){
 					value="🔒 Privacy & Terms">
 					<br><br>
             `;
-				$("keyEstimationButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					showKeyEstimation();
-					closeMenuWindow();
-				};
 				$("songInfoButton").onclick = function(){
 					showSongInfoTable();
 					closeMenuWindow();
