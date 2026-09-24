@@ -1227,7 +1227,11 @@ function showTab(tab){
 					id="clearHistoryButton"
 					value="🗑 Clear History">
 					<br><br>				
-            `;
+				<input type="button"
+					id="keyboardLabelButton"
+					value=" Keyboard Label">
+					<br><br>				
+              `;
 				$("performanceGraphButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					drawPerformanceGraph();
@@ -1243,6 +1247,9 @@ function showTab(tab){
 				};
 				$("clearHistoryButton").onclick = function(){
 					clearHistory();
+				};
+				$("keboardLabelButton").onclick = function(){
+					showKeyboardLabel();
 				};
 
 			break;
