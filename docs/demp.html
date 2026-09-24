@@ -257,8 +257,6 @@ demp
 
         <button onclick="showTab('fingering')">Fingering</button>
 
-		<button onclick="showTab('analysis')">Analysis</button>
-
 		<button onclick="showTab('info')">Info</button>
 
 		<button onclick="showTab('settings')">Settings</button>
@@ -1308,11 +1306,6 @@ function showTab(tab){
             case "analysis":
 
 		menuBody.innerHTML = `
-				<input 
-					type="button" 
-					id="keyEstimationButton"
-					value="🔑 Key Estimation">
-					<br><br>
                 <label style="font-size:70%">Motif Minimum Length</label>
                     <select id="motifMinLength"
                         onchange="MIN_LENGTH = Number(this.value)">
@@ -1357,11 +1350,6 @@ function showTab(tab){
 					value="📍 Test Tstd">
 					<br><br>
             `;
-				$("keyEstimationButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					showKeyEstimation();
-					closeMenuWindow();
-				};
 				$("internalMotifButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showInternalMotif();
@@ -1396,6 +1384,11 @@ function showTab(tab){
 		case "info":
 
             menuBody.innerHTML = `
+				<input 
+					type="button" 
+					id="keyEstimationButton"
+					value="🔑 Key Estimation">
+					<br><br>
 				<input
 					type="button"
 					id="songInfoButton"
@@ -1427,6 +1420,11 @@ function showTab(tab){
 					value="🔒 Privacy & Terms">
 					<br><br>
             `;
+				$("keyEstimationButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showKeyEstimation();
+					closeMenuWindow();
+				};
 				$("songInfoButton").onclick = function(){
 					showSongInfoTable();
 					closeMenuWindow();
