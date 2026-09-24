@@ -11586,9 +11586,19 @@ function goForwardOnePage(){
 //
 
 function showKeyboardLabel(){
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	canvas.width = 1300;
-	canvas.height = 1300;
+function showKeyboardLabel(){
+
+    console.log("showKeyboardLabel called");
+    console.log("canvas:", canvas);
+    console.log("canvas size:", canvas.width, canvas.height);
+    console.log("ctx canvas:", ctx.canvas);
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    canvas.width = 1300;
+    canvas.height = 1300;
+
+    console.log("new size:", canvas.width, canvas.height);
 
 	let kw=78;
 	let kw0=kw*12/7*3/5;
