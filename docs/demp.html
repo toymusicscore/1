@@ -14357,7 +14357,7 @@ function createF0(fp0, fp1, fingerReach, hand) {
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7 = ticksPerMeasure / fg7n;
 
-    const restLength = fp1[1] - fp0[1];
+    const restLength = fp1[1] - fp0[2];
     const isFingerReachRest = restLength >= rst7;
 
     for (let q = 1; q <= 5; q++) {
@@ -14492,7 +14492,7 @@ function finger1(n_idf, hand){
             
             prevMidi = s0[i-1].midi;
 
-            const restLength = s0[i].start - s0[i - 1].start;
+            const restLength = s0[i].start - s0[i - 1].stop;
 
             if (restLength >= rst7) {
                 fingerReachRest = 1;
