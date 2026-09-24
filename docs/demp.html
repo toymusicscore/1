@@ -1224,10 +1224,6 @@ function showTab(tab){
 					id="clearHistoryButton"
 					value="🗑 Clear History">
 					<br><br>				
-				<input type="button"
-					id="keyboardLabelButton"
-					value="🎹 Keyboard Label">
-					<br><br>				
               `;
 				$("performanceGraphButton").onclick = function(){
 					showPage(PAGE.MAIN);
@@ -1244,10 +1240,6 @@ function showTab(tab){
 				};
 				$("clearHistoryButton").onclick = function(){
 					clearHistory();
-				};
-				$("keyboardLabelButton").onclick = function(){
-					showKeyboardLabel();
-                    showMain();
 				};
 
 			break;
@@ -1409,7 +1401,6 @@ function showTab(tab){
 					type="button"
 					id="aboutButton" 
 					value="ℹ️ About ToyScore">
-					<br><br>
 				<input 
 					type="button"
 					id="iconButton" 
@@ -1481,7 +1472,10 @@ function showTab(tab){
 					id="commentButton"
 					value="📝 Comment">
 					<br><br>
-				<br><br>
+				<input type="button"
+					id="keyboardLabelButton"
+					value="🎹 Keyboard Label">
+					<br><br>				
 				`;
 				$("settingsButton").onclick = function(){
 					showPage(PAGE.SETTINGS);
@@ -1494,6 +1488,10 @@ function showTab(tab){
 				$("commentButton").onclick = function(){
 					openCommentPage();
 					closeMenuWindow();
+				};
+				$("keyboardLabelButton").onclick = function(){
+					showKeyboardLabel();
+                    showMain();
 				};
 
             break;
