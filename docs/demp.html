@@ -1182,11 +1182,6 @@ function showTab(tab){
 		menuBody.innerHTML = `
 				<input 
 					type="button" 
-					id="keyEstimationButton"
-					value="🔑 Key Estimation">
-					<br><br>
-				<input 
-					type="button" 
 					id="performanceGraphButton"
 					value="📈 Performance Gragh">
                     <br><br>
@@ -1205,11 +1200,6 @@ function showTab(tab){
 					value="🗑 Clear History">
 					<br><br>				
               `;
-				$("keyEstimationButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					showKeyEstimation();
-					closeMenuWindow();
-				};
 				$("performanceGraphButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					drawPerformanceGraph();
@@ -1289,6 +1279,15 @@ function showTab(tab){
             case "analysis":
 
 		menuBody.innerHTML = `
+				<input type="button"
+					id="keyboardLabelButton"
+					value="🎹 Keyboard Label">
+					<br><br>				
+				<input 
+					type="button" 
+					id="keyEstimationButton"
+					value="🔑 Key Estimation">
+					<br><br>
                 <label style="font-size:70%">Motif Minimum Length</label>
                     <select id="motifMinLength"
                         onchange="MIN_LENGTH = Number(this.value)">
@@ -1327,12 +1326,16 @@ function showTab(tab){
 					id="searchPitchClassButton"
 					value="📍 Search Pitch Class">
 					<br><br>
-				<input 
-					type="button" 
-					id="testTstdButton"
-					value="📍 Test Tstd">
-					<br><br>
             `;
+				$("keyboardLabelButton").onclick = function(){
+					showKeyboardLabel();
+                    showMain();
+				};
+				$("keyEstimationButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showKeyEstimation();
+					closeMenuWindow();
+				};
 				$("internalMotifButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showInternalMotif();
@@ -1355,10 +1358,6 @@ function showTab(tab){
 				};
 				$("searchPitchClassButton").onclick = function(){
 					searchPitchClass();
-                	showPage(PAGE.HTML);
-				};
-				$("testTstdButton").onclick = function(){
-					testTstd();
                 	showPage(PAGE.HTML);
 				};
 
@@ -1448,10 +1447,6 @@ function showTab(tab){
 					id="commentButton"
 					value="📝 Comment">
 					<br><br>
-				<input type="button"
-					id="keyboardLabelButton"
-					value="🎹 Keyboard Label">
-					<br><br>				
 				`;
 				$("settingsButton").onclick = function(){
 					showPage(PAGE.SETTINGS);
@@ -1464,10 +1459,6 @@ function showTab(tab){
 				$("commentButton").onclick = function(){
 					openCommentPage();
 					closeMenuWindow();
-				};
-				$("keyboardLabelButton").onclick = function(){
-					showKeyboardLabel();
-                    showMain();
 				};
 
             break;
