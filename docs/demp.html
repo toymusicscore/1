@@ -14477,8 +14477,6 @@ function finger1(n_idf, hand){
                 fingerReachRest = 1;
             }
 
-            startDiff = s0[i].start - s0[i - 1].start;
-
         }
 
         if (
@@ -14493,7 +14491,6 @@ function finger1(n_idf, hand){
                 s0[i].n_id,
                 fingerReachRest,
                 prevMidi,
-                startDiff
             ]);
         }
     }
@@ -14579,7 +14576,7 @@ function finger1(n_idf, hand){
 
             // 和音の場合は指の交差を禁止する
             if (
-                fp[0][7] === 0 &&
+                fp[0][5] === 0 &&
                 (
                     (fp[0][0] < fp[0][6] && firstFinger >= prevFinger) ||
                     (fp[0][0] > fp[0][6] && firstFinger <= prevFinger)
