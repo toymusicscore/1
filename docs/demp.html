@@ -14705,34 +14705,24 @@ if (n_idf===170) {
         );
         return;
     }
-if (n_idf === 170 && f103.length > 0) {
-    console.log(
-        "REST TEST",
-        "n_idf =", n_idf,
-        "fp0Rest =", fp[0][5],
-        "f103 =", f103,
-        "f100 =", f100.length
-    );
-}
+
     // 今回の第１音の運指が前回最良の第２音の運指と一致する運指情報があれば、その運指情報を採用する
     let f100c = [];
 
-    for(let i = 0; i < f100.length; i++){
-        if (f103.length > 0 && f100[i][1][0] === f103[1]) {
-            f100c.push(f100[i]);
+    if (fp[0][5] !== 1) {
+
+        for(let i = 0; i < f100.length; i++){
+            if (f103.length > 0 && f100[i][1][0] === f103[1]) {
+                f100c.push(f100[i]);
+            }
+        }
+
+        if (f100c.length > 0){
+            f100 = f100c;
         }
     }
 
-    if (f100c.length > 0){
-        f100 = f100c;
-    }
-if (n_idf === 170) {
-    console.log(
-        "REST TEST AFTER",
-        "f100 =", f100.length,
-        "f100c =", f100c.length
-    );
-}
+    /*
     //黒鍵の制約に合致する運指情報があれば、その運指情報を選択する
     let f100b = [];
 
@@ -14745,6 +14735,7 @@ if (n_idf === 170) {
     if (f100b.length > 0){
         f100 = f100b;
     }
+    */
 
     //============================================================
     // 最後の1音のf101はf103から作る
