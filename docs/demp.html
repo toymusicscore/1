@@ -14697,7 +14697,14 @@ function finger1(n_idf, hand){
         );
         return;
     }
-
+if (n_idf === 170) {
+    console.log(
+        "FILTER TEST",
+        "f100[0] =", f100[0][0], f100[0][1],
+        "score =", f100[0][3],
+        "f103 =", f103
+    );
+}
     // 今回の第１音の運指が前回最良の第２音の運指と一致する運指情報があれば、その運指情報を採用する
     let f100c = [];
 
@@ -14713,7 +14720,15 @@ function finger1(n_idf, hand){
             f100 = f100c;
         }
     }
-
+if (n_idf === 170) {
+    console.log(
+        "AFTER f100c",
+        "length =", f100c.length,
+        "first =", f100c[0]?.[0],
+        f100c[0]?.[1],
+        f100c[0]?.[3]
+    );
+}
     /*
     //黒鍵の制約に合致する運指情報があれば、その運指情報を選択する
     let f100b = [];
