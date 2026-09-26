@@ -14624,7 +14624,8 @@ function finger1(n_idf, hand){
         // 今回の音と前回の音の間に休符相当時間がある場合
         // 前回の音を最後の音として処理を終了する
         if (
-            fp[i][5] === 1
+            i + 1 < fp.length &&
+            fp[i + 1][5] === 1
         ) {
             isRestEnd = true;
             break;
