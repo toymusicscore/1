@@ -14620,57 +14620,60 @@ function finger1(n_idf, hand){
             break;
         }
 
-        // 今回必要な2音だけで f0 を作る
-        f0 = [];
+    // 今回の音と次の音の間に休符相当時間がある場合
+    // 今回の音を最後の音として処理を終了する
+    if (
+        i + 1 < fp.length &&
+        fp[i + 1][5] === 1
+    ) {
+        break;
+    }
 
-        // 今回の音から次の音の間で指定休符以降の時間が空いていない場合にはF0を作る
-        if (fp[i + 1][5] === 0){
+    // 今回必要な2音だけで f0 を作る
+    f0 = [];
+
+        createF0(
+            fp[i - 1],
+            fp[i],
+            1,
+            hand
+        );
+    
+        // 指の届く距離の条件で候補がなくなった場合に、条件を解除する
+        if (f0.length === 0) {
             createF0(
                 fp[i - 1],
                 fp[i],
-                1,
+                0,
                 hand
             );
-        
-            // 指の届く距離の条件で候補がなくなった場合に、条件を解除する
-            if (f0.length === 0) {
-                createF0(
-                    fp[i - 1],
-                    fp[i],
-                    0,
-                    hand
-                );
 
-            }
+        }
 
-            if (f0.length === 0) {
-                currentF = f1;
-            }
+        if (f0.length === 0) {
+            currentF = f1;
+        }
 
-            let nextF = extendFingering(
+        let nextF = extendFingering(
+            currentF,
+            f0,
+            n_idf,
+            1
+        );
+
+        // 候補がなくなった場合に、指の届く距離の制約を解除する
+        if (nextF.length === 0) {
+            nextF = extendFingering(
                 currentF,
                 f0,
                 n_idf,
-                1
-            );
-
-            // 候補がなくなった場合に、指の届く距離の制約を解除する
-            if (nextF.length === 0) {
-                nextF = extendFingering(
-                    currentF,
-                    f0,
-                    n_idf,
-                    0
-                );        
-            }
-
-            // currentF はここで不要
-            currentF = nextF;
-            
-        }else {
-            currentF = f1;
-
+                0
+            );        
         }
+
+        // currentF はここで不要
+        currentF = nextF;
+
     }
 
     f100 = currentF;
