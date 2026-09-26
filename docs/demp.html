@@ -14623,20 +14623,14 @@ function finger1(n_idf, hand){
         // 今回必要な2音だけで f0 を作る
         f0 = [];
 
-        createF0(
-            fp[i - 1],
-            fp[i],
-            1,
-            hand
-        );
-
-    if (n_idf === 457) {
-        console.log(
-            "n_idf =", n_idf,
-            "f0 =", f0,
-            "f1 =", f1,
-            "f100 =", f100
-        );
+        if (fp[i + 1][5] < rst7){
+            createF0(
+                fp[i - 1],
+                fp[i],
+                1,
+                hand
+            );
+        }
     }
 
         // 指の届く距離の条件で候補がなくなった場合に、条件を解除する
