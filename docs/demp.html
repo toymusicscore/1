@@ -14582,7 +14582,7 @@ function finger1(n_idf, hand){
                     (fp[0][0] > fp[0][6] && firstFinger <= prevFinger)
                 )
             ) {
-                console.log("fp[0][0]=",fp[0][0],"fp[0][6]=",fp[0][6],  "prevFinger=", prevFinger, "FirstFinger=", firstFinger);
+//                console.log("fp[0][0]=",fp[0][0],"fp[0][6]=",fp[0][6],  "prevFinger=", prevFinger, "FirstFinger=", firstFinger);
                 continue;
             }
 
@@ -14655,14 +14655,38 @@ function finger1(n_idf, hand){
         if (f0.length === 0) {
             currentF = f1;
         }
-
+if (f0.length === 0) {
+    console.log(
+        "F0 EMPTY",
+        "i =", i,
+        "n_idf =", n_idf,
+        "currentF =", currentF,
+        "f1 =", f1
+    );
+}
         let nextF = extendFingering(
             currentF,
             f0,
             n_idf,
             1
         );
+if (nextF.length === 0) {
+    console.log(
+        "NEXTF EMPTY",
+        "i =", i,
+        "n_idf =", n_idf,
+        "f0 =", f0,
+        "currentF =", currentF
+    );
 
+    nextF = extendFingering(
+        currentF,
+        f0,
+        n_idf,
+        0
+    );
+}
+/*
         // 候補がなくなった場合に、指の届く距離の制約を解除する
         if (nextF.length === 0) {
             nextF = extendFingering(
@@ -14672,7 +14696,7 @@ function finger1(n_idf, hand){
                 0
             );        
         }
-
+*/
         // currentF はここで不要
         currentF = nextF;
 
