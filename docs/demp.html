@@ -14627,12 +14627,6 @@ function finger1(n_idf, hand){
             i + 1 < fp.length &&
             fp[i + 1][5] === 1
         ) {
-            console.log(
-                "REST END",
-                i,
-                fp[i][4],
-                fp[i + 1][4]
-            );
 
             isRestEnd = true;
             break;
@@ -14687,11 +14681,11 @@ function finger1(n_idf, hand){
 
     f100 = currentF;
 
-if (isRestEnd) {
+if (n_idf===170) {
     console.log(
-        "REST F100",
+        "n_idf 170",
         "n_idf =", n_idf,
-        "f100.length =", f100.length
+        "f100 =", f100
     );
 }
 
