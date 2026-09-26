@@ -14627,13 +14627,7 @@ function finger1(n_idf, hand){
             i + 1 < fp.length &&
             fp[i + 1][5] === 1
         ) {
-    console.log(
-        "REST END",
-        "i =", i,
-        "n_id =", fp[i][4],
-        "next_n_id =", fp[i + 1][4]
-    );
-                isRestEnd = true;
+            isRestEnd = true;
             break;
         }
 
@@ -14669,14 +14663,6 @@ function finger1(n_idf, hand){
             1
         );
 
-        nextF = extendFingering(
-        currentF,
-        f0,
-        n_idf,
-        0
-    );
-}
-/*
         // 候補がなくなった場合に、指の届く距離の制約を解除する
         if (nextF.length === 0) {
             nextF = extendFingering(
@@ -14686,7 +14672,7 @@ function finger1(n_idf, hand){
                 0
             );        
         }
-*/
+
         // currentF はここで不要
         currentF = nextF;
 
@@ -14694,13 +14680,6 @@ function finger1(n_idf, hand){
 
     f100 = currentF;
 
-if (isRestEnd) {
-    console.log(
-        "REST F100",
-        "n_idf =", n_idf,
-        "f100.length =", f100.length
-    );
-}
     const isLastNote =
         n_idf === s0[s0.length - 1]?.n_id;
 
