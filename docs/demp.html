@@ -14620,7 +14620,7 @@ function finger1(n_idf, hand){
         if (currentF.length === 0) {
             break;
         }
-
+/*
         // 今回の音と次の音の間に休符相当時間がある場合
         // 今回の音を最後の音として処理を終了する
         if (
@@ -14631,7 +14631,7 @@ function finger1(n_idf, hand){
             isRestEnd = true;
             break;
         }
-
+*/
         // 今回必要な2音だけで f0 を作る
         f0 = [];
 
@@ -14693,25 +14693,10 @@ function finger1(n_idf, hand){
             "f1.length =", f1.length,
             "f0 =", f0,
             "f1 =", f1
-
         );
         return;
     }
-if (n_idf === 170) {
-    console.log(
-        "FILTER TEST",
-        "f100[0] =", f100[0][0], f100[0][1],
-        "score =", f100[0][3],
-        "f103 =", f103
-    );
-}
-if (n_idf === 170) {
-    console.log(
-        "TARGET",
-        f100.some(x => x[1].join("") === "12342312"),
-        f100.some(x => x[1].join("") === "12342313")
-    );
-}
+
     // 今回の第１音の運指が前回最良の第２音の運指と一致する運指情報があれば、その運指情報を採用する
     let f100c = [];
 
