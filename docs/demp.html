@@ -14627,7 +14627,13 @@ function finger1(n_idf, hand){
             i + 1 < fp.length &&
             fp[i + 1][5] === 1
         ) {
-            isRestEnd = true;
+    console.log(
+        "REST END",
+        "i =", i,
+        "n_id =", fp[i][4],
+        "next_n_id =", fp[i + 1][4]
+    );
+                isRestEnd = true;
             break;
         }
 
@@ -14655,31 +14661,15 @@ function finger1(n_idf, hand){
         if (f0.length === 0) {
             currentF = f1;
         }
-if (f0.length === 0) {
-    console.log(
-        "F0 EMPTY",
-        "i =", i,
-        "n_idf =", n_idf,
-        "currentF =", currentF,
-        "f1 =", f1
-    );
-}
+
         let nextF = extendFingering(
             currentF,
             f0,
             n_idf,
             1
         );
-if (nextF.length === 0) {
-    console.log(
-        "NEXTF EMPTY",
-        "i =", i,
-        "n_idf =", n_idf,
-        "f0 =", f0,
-        "currentF =", currentF
-    );
 
-    nextF = extendFingering(
+        nextF = extendFingering(
         currentF,
         f0,
         n_idf,
@@ -14704,6 +14694,13 @@ if (nextF.length === 0) {
 
     f100 = currentF;
 
+if (isRestEnd) {
+    console.log(
+        "REST F100",
+        "n_idf =", n_idf,
+        "f100.length =", f100.length
+    );
+}
     const isLastNote =
         n_idf === s0[s0.length - 1]?.n_id;
 
