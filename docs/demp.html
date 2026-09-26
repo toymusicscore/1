@@ -14287,19 +14287,7 @@ function extendFingering(currentF, f0, n_idf, conn) {
                 [tf1, tt1],
                 [pf1, pt1]
             ] = f0[q];
-console.log(
-    "CHECK CONNECT",
-    "n_idf =", n_idf,
-    "nf0 =", nf0,
-    "nt0 =", nt0,
-    "nf1 =", nf1,
-    "ft0 =", ft0,
-    "ff1 =", ff1,
-    "ft1 =", ft1,
-    "restLength =", tt1 - tf1,
-    "rst7 =", rst7,
-    "conn =", conn
-);
+
             if (
                 nf0 === n_idf &&
                 nt0 === nf1 &&
@@ -14635,14 +14623,14 @@ function finger1(n_idf, hand){
 
         // 今回の音と次の音の間に休符相当時間がある場合
         // 今回の音を最後の音として処理を終了する
-/*        if (
+        if (
             i + 1 < fp.length &&
             fp[i + 1][5] === 1
         ) {
             isRestEnd = true;
             break;
         }
-*/
+
         // 今回必要な2音だけで f0 を作る
         f0 = [];
 
