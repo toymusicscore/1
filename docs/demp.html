@@ -14623,6 +14623,7 @@ function finger1(n_idf, hand){
         // 今回必要な2音だけで f0 を作る
         f0 = [];
 
+        // 今回の音から次の音の間で指定休符以降の時間が空いていない場合にはF0を作る
         if (fp[i + 1][5] === 0){
             createF0(
                 fp[i - 1],
@@ -14634,7 +14635,7 @@ function finger1(n_idf, hand){
     }
 
         // 指の届く距離の条件で候補がなくなった場合に、条件を解除する
-        if (f0.length === 0) {
+        if (fp[i + 1][5] === 0 && f0.length === 0) {
             createF0(
                 fp[i - 1],
                 fp[i],
