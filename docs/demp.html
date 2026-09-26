@@ -14287,7 +14287,19 @@ function extendFingering(currentF, f0, n_idf, conn) {
                 [tf1, tt1],
                 [pf1, pt1]
             ] = f0[q];
-
+console.log(
+    "CHECK CONNECT",
+    "n_idf =", n_idf,
+    "nf0 =", nf0,
+    "nt0 =", nt0,
+    "nf1 =", nf1,
+    "ft0 =", ft0,
+    "ff1 =", ff1,
+    "ft1 =", ft1,
+    "restLength =", tt1 - tf1,
+    "rst7 =", rst7,
+    "conn =", conn
+);
             if (
                 nf0 === n_idf &&
                 nt0 === nf1 &&
@@ -14671,19 +14683,7 @@ if (f0.length === 0) {
             1
         );
 if (nextF.length === 0) {
-console.log(
-    "CHECK CONNECT",
-    "n_idf =", n_idf,
-    "nf0 =", nf0,
-    "nt0 =", nt0,
-    "nf1 =", nf1,
-    "ft0 =", ft0,
-    "ff1 =", ff1,
-    "ft1 =", ft1,
-    "restLength =", tt1 - tf1,
-    "rst7 =", rst7,
-    "conn =", conn
-);    console.log(
+    console.log(
         "NEXTF EMPTY",
         "i =", i,
         "n_idf =", n_idf,
