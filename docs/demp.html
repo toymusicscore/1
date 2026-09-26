@@ -14631,45 +14631,46 @@ function finger1(n_idf, hand){
                 1,
                 hand
             );
-        }
-    }
+        
+            // 指の届く距離の条件で候補がなくなった場合に、条件を解除する
+            if (f0.length === 0) {
+                createF0(
+                    fp[i - 1],
+                    fp[i],
+                    0,
+                    hand
+                );
 
-        // 指の届く距離の条件で候補がなくなった場合に、条件を解除する
-        if (fp[i + 1][5] === 0 && f0.length === 0) {
-            createF0(
-                fp[i - 1],
-                fp[i],
-                0,
-                hand
-            );
+            }
 
-        }
+            if (f0.length === 0) {
+                currentF = f1;
+            }
 
-        if (f0.length === 0) {
-            currentF = [];
-            break;
-        }
-
-        let nextF = extendFingering(
-            currentF,
-            f0,
-            n_idf,
-            1
-        );
-
-        // 候補がなくなった場合に、指の届く距離の制約を解除する
-        if (nextF.length === 0) {
-            nextF = extendFingering(
+            let nextF = extendFingering(
                 currentF,
                 f0,
                 n_idf,
-                0
-            );        
-        }
+                1
+            );
 
-        // currentF はここで不要
-        currentF = nextF;
-        
+            // 候補がなくなった場合に、指の届く距離の制約を解除する
+            if (nextF.length === 0) {
+                nextF = extendFingering(
+                    currentF,
+                    f0,
+                    n_idf,
+                    0
+                );        
+            }
+
+            // currentF はここで不要
+            currentF = nextF;
+            
+        }else {
+            currentF = f1;
+
+        }
     }
 
     f100 = currentF;
