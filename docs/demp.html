@@ -14621,18 +14621,18 @@ function finger1(n_idf, hand){
             break;
         }
 
-    // 今回の音と次の音の間に休符相当時間がある場合
-    // 今回の音を最後の音として処理を終了する
-    if (
-        i + 1 < fp.length &&
-        fp[i + 1][5] === 1
-    ) {
-        let isRestEnd = true;
-        break;
-    }
+        // 今回の音と次の音の間に休符相当時間がある場合
+        // 今回の音を最後の音として処理を終了する
+        if (
+            i + 1 < fp.length &&
+            fp[i + 1][5] === 1
+        ) {
+            let isRestEnd = true;
+            break;
+        }
 
-    // 今回必要な2音だけで f0 を作る
-    f0 = [];
+        // 今回必要な2音だけで f0 を作る
+        f0 = [];
 
         createF0(
             fp[i - 1],
