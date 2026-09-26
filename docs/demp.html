@@ -14677,6 +14677,10 @@ function finger1(n_idf, hand){
 
     }
 
+    if(n_idf === 127){
+        console.log("n_idf=",n_idf, "currentF=", currentF);
+    }
+
     f100 = currentF;
 
     const isLastNote =
@@ -14766,9 +14770,8 @@ function finger1(n_idf, hand){
         f101[0][1][0],      
         ]);
 
-        if (n_idf>=170 && n_idf<=177) {
+        if (n_idf===127) {
             console.log(
-                "n_idf 170-177",
                 "n_idf =", n_idf,
                 "f101 =", f101,
             );
