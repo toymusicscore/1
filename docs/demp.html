@@ -14627,7 +14627,7 @@ function finger1(n_idf, hand){
             i + 1 < fp.length &&
             fp[i + 1][5] === 1
         ) {
-            let isRestEnd = true;
+            isRestEnd = true;
             break;
         }
 
@@ -14727,8 +14727,8 @@ function finger1(n_idf, hand){
     // 最後の1音のf101はf103から作る
     //============================================================
     if (
-        n_idf === s0[s0.length - 1].n_id &&
-        !isRestEnd
+        n_idf === s0[s0.length - 1].n_id ||
+        isRestEnd
     ) {
 
         f101 = [[
