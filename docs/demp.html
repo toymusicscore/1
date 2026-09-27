@@ -14294,7 +14294,7 @@ function extendFingering(currentF, f0, n_idf, conn) {
                 ft0 !== ft1
 
             ) {
-                const restLength = tt1 - tf1;
+                const restLength = tt1 - pf1;
                 if (restLength >= rst7 || conn === 0) {
                     // 長い休符
                     // 前回の最後の指と今回の第1音を接続しない設定
@@ -14336,7 +14336,7 @@ function createF0(fp0, fp1, fingerReachRule, hand) {
     let fg7n = workingFinger.fingerReachRest.fg7n;
     let rst7 = ticksPerMeasure / fg7n;
 
-    const restLength = fp1[1] - fp0[1];
+    const restLength = fp1[1] - fp0[2];
     const isFingerReachRest = restLength >= rst7;
 
     for (let q = 1; q <= 5; q++) {
@@ -14471,7 +14471,8 @@ function finger1(n_idf, hand){
             
             prevMidi = s0[i-1].midi;
 
-            const restLength = s0[i].start - s0[i - 1].start;
+            const restLength = s0[i].start - s0[i - 1].stop;
+            startDiff = s0[i].start - s0[i - 1].start;
 
             if (restLength >= rst7) {
                 fingerReachRest = 1;
@@ -14491,6 +14492,7 @@ function finger1(n_idf, hand){
                 s0[i].n_id,
                 fingerReachRest,
                 prevMidi,
+                startDiff
             ]);
         }
     }
@@ -14576,7 +14578,7 @@ function finger1(n_idf, hand){
 
             // 和音の場合は指の交差を禁止する
             if (
-                fp[0][5] === 0 &&
+                fp[0][7] === 0 &&
                 (
                     (fp[0][0] < fp[0][6] && firstFinger >= prevFinger) ||
                     (fp[0][0] > fp[0][6] && firstFinger <= prevFinger)
@@ -14612,21 +14614,11 @@ function finger1(n_idf, hand){
     // f2以降を作る
     //========================================================
 
-    let isRestEnd = false;
     let currentF = f1;
 
     for (let i = 2; i < fp.length; i++) {
 
         if (currentF.length === 0) {
-            break;
-        }
-
-        // 今回の音と前回の音の間に休符相当時間がある場合
-        // 前回の音を最後の音として処理を終了する
-        if (
-            fp[i][5] === 1
-        ) {
-            isRestEnd = true;
             break;
         }
 
@@ -14677,11 +14669,6 @@ function finger1(n_idf, hand){
 
     }
 
-/*
-    if(n_idf === 127){
-        console.log("n_idf=",n_idf, "currentF=", currentF);
-    }
-*/
     f100 = currentF;
 
     const isLastNote =
