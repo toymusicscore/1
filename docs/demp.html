@@ -206,6 +206,11 @@ demp
     type="button"
     value="🏠"
     onclick="showMain()">
+<select id="hands" name="hands" onchange="onSettingsChange()">
+	<option value="0" selected> ✋🤚</option>
+	<option value="1"> 🤚 </option>
+	<option value="2"> ✋ </option>
+	</select>
 <input 
     id="btnToggleInputView" 
     type="button" 
@@ -340,14 +345,6 @@ demp
 
 <label style="font-size:70%">Track Channel Information</label>
 <pre id="trackChannelInfoView"></pre>
-
-<label style="font-size:70%">Select Hand</label>
-<select id="hands" name="hands" onchange="onSettingsChange()">
-	<option value="0" selected> ✋🤚Both Hands </option>
-	<option value="1"> 🤚Right Hand </option>
-	<option value="2"> ✋Left Hand </option>
-	</select>
-<br><br>
 
 <label style="font-size:70%">Measures/Screen</label>
 <select id="measuresPerScreen" onchange="onSettingsChange()">
