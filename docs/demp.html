@@ -273,8 +273,6 @@ demp
     </div>
 	<div id="menuTabs">
 
-		<button onclick="showTab('record')">Record</button>
-
 		<button onclick="showTab('practice')">Practice</button>
 
         <button onclick="showTab('fingering')">Fingering</button>
@@ -1153,19 +1151,19 @@ function showTab(tab){
 
     switch(tab){
 
-        case "record":
+        case "practice":
 
-            menuBody.innerHTML = `
+		menuBody.innerHTML = `
+				<input 
+					type="button"
+					value="💾 Save Record" 
+					onclick="saveRecord()">
+					<br><br>
 				<input 
 					type="button" 
 					id="playRecordButton"
 					value="▶️Play Record"
 					onclick="playRecord()">
-					<br><br>
-				<input 
-					type="button"
-					value="💾 Save Record" 
-					onclick="saveRecord()">
 					<br><br>
 				<input 
 					id="btnToggleRecordView" 
@@ -1178,17 +1176,6 @@ function showTab(tab){
 					value="🗑 Clear Record" 
 					onclick="clearRecord()">
 					<br><br>
-            `;
-				$("playRecordButton").onclick = function(){
-					playRecord();
-					closeMenuWindow();
-				};
-
-            break;
-
-        case "practice":
-
-		menuBody.innerHTML = `
 				<input 
 					type="button" 
 					id="practiceHistoryButton"
@@ -1199,6 +1186,10 @@ function showTab(tab){
 					value="🗑 Clear History">
 					<br><br>				
               `;
+				$("playRecordButton").onclick = function(){
+					playRecord();
+					closeMenuWindow();
+				};
 				$("practiceHistoryButton").onclick = function(){
 					showPracticeHistory();
 					closeMenuWindow();
