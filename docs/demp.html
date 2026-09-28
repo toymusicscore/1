@@ -212,6 +212,16 @@ demp
     value="🏠"
     onclick="showMain()">
 <input 
+    type="button" 
+    id="performanceGraphButton"
+    value="📈 Performance Gragh"
+	onclick="drawPerformanceGraph()">
+<input 
+    type="button" 
+    id="practiceRankingButton"
+    value="🏆 Practice Ranking"
+    onclick="showPracticeRanking()">
+<input 
     id="btnToggleInputView" 
     type="button" 
     value="📝" 
@@ -1181,16 +1191,6 @@ function showTab(tab){
 		menuBody.innerHTML = `
 				<input 
 					type="button" 
-					id="performanceGraphButton"
-					value="📈 Performance Gragh">
-                    <br><br>
-				<input 
-					type="button" 
-					id="practiceRankingButton"
-					value="🏆 Practice Ranking">
-					<br><br>
-				<input 
-					type="button" 
 					id="practiceHistoryButton"
 					value="🕘 Practice History">
                     <br><br>
@@ -1199,15 +1199,6 @@ function showTab(tab){
 					value="🗑 Clear History">
 					<br><br>				
               `;
-				$("performanceGraphButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					drawPerformanceGraph();
-					closeMenuWindow();
-				};
-				$("practiceRankingButton").onclick = function(){
-					showPracticeRanking();
-					closeMenuWindow();
-				};
 				$("practiceHistoryButton").onclick = function(){
 					showPracticeHistory();
 					closeMenuWindow();
