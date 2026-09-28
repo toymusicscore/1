@@ -807,16 +807,14 @@ Upper Limit: Largest allowable distance between the two fingers.
 <br>
 <label>Finger Reach Difficulty Level</label>
 <select name="fg2">
-	<option value="0" selected> Limit in Finger Reach </option>
-	<option value="1"> Upper Limit + 1 </option>
-	<option value="2"> Upper Limit + 2 </option>
+	<option value="0"> No Limit </option>
+	<option value="1" selected> Limit in Finger Reach </option>
 	</select>
 <br>
 <label>Black Key Rule</label>
 <select name="fg3">
 	<option value="0" selected> No Limit </option>
-	<option value="1"> If Possible </option>
-	<option value="2"> Only 2,3,4 on BK</option>
+	<option value="1"> Only 2,3,4 on BK</option>
 	</select>
 <br>
 <label>Fingering Connection Range Size</label>
@@ -1614,14 +1612,14 @@ const defaultFinger = {
         "3_5": 7,
         "4_5": 4,
     },
-    difficultyLevel:{
-        fg2n:0
+    fingerReachRule:{
+        fg2n:1
     },
     blackKeyRule:{
         fg3n:0
     },
     connectionRangeSize:{
-        fg4n:3
+        fg4n:5
     },
     evaluationRangeSize:{
         fg5n:8
@@ -1742,10 +1740,18 @@ function readFingerUi(){
         "x_upperLimit_"
     );
 
+    let fg2 = document.querySelector('[name="fg2"]');
+    let fg3 = document.querySelector('[name="fg3"]');
     let fg4 = document.querySelector('[name="fg4"]');
     let fg5 = document.querySelector('[name="fg5"]');
     let fg6 = document.querySelector('[name="fg6"]');
     let fg7 = document.querySelector('[name="fg7"]');
+
+    workingFinger.fingerReachRule.fg2n =
+        Number(fg2.value);
+
+    workingFinger.blackKeyRule.fg3n =
+        Number(fg3.value);
 
     workingFinger.connectionRangeSize.fg4n =
         Number(fg4.value);
@@ -1790,11 +1796,15 @@ function updateFingerUi(){
         "x_upperLimit_"
     );
 
+    const fg2 = document.querySelector('[name="fg2"]');
+    const fg3 = document.querySelector('[name="fg3"]');
     const fg4 = document.querySelector('[name="fg4"]');
     const fg5 = document.querySelector('[name="fg5"]');
     const fg6 = document.querySelector('[name="fg6"]');
     const fg7 = document.querySelector('[name="fg7"]');
 
+    fg2.value = workingFinger.fingerReachRule.fg2n;
+    fg3.value = workingFinger.blackKeyRule.fg3n;
     fg4.value = workingFinger.connectionRangeSize.fg4n;
     fg5.value = workingFinger.evaluationRangeSize.fg5n;
     fg6.value = workingFinger.variabilityRangeSize.fg6n;
@@ -14469,6 +14479,8 @@ function finger1(n_idf, hand){
 
     fp = [];
 
+    let fg2n = workingFinger.fingerReachRule.fg2n;
+    let fg3n = workingFinger.blackKeyRule.fg3n;
     let fg4n = workingFinger.connectionRangeSize.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
