@@ -1614,6 +1614,9 @@ const defaultFinger = {
         "3_5": 7,
         "4_5": 4,
     },
+    connectionRangeSize:{
+        fg4n:3
+    },
     evaluationRangeSize:{
         fg5n:8
     },
@@ -1733,9 +1736,13 @@ function readFingerUi(){
         "x_upperLimit_"
     );
 
+    let fg4 = document.querySelector('[name="fg4"]');
     let fg5 = document.querySelector('[name="fg5"]');
     let fg6 = document.querySelector('[name="fg6"]');
     let fg7 = document.querySelector('[name="fg7"]');
+
+    workingFinger.connectionRangeSize.fg4n =
+        Number(fg4.value);
 
     workingFinger.evaluationRangeSize.fg5n =
         Number(fg5.value);
@@ -1777,11 +1784,12 @@ function updateFingerUi(){
         "x_upperLimit_"
     );
 
-
+    const fg4 = document.querySelector('[name="fg4"]');
     const fg5 = document.querySelector('[name="fg5"]');
     const fg6 = document.querySelector('[name="fg6"]');
     const fg7 = document.querySelector('[name="fg7"]');
 
+    fg4.value = workingFinger.commectionRangeSize.fg4n;
     fg5.value = workingFinger.evaluationRangeSize.fg5n;
     fg6.value = workingFinger.variabilityRangeSize.fg6n;
     fg7.value = workingFinger.fingerReachRest.fg7n;
