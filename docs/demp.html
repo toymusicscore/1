@@ -12486,7 +12486,7 @@ ctx.fillText("Scale",50,120+mscnt*20);
 ctx.textAlign = "right";		
 ctx.fillText("Major 1st+5th",230,120+mscnt*20);
 ctx.fillText("Minor 1st+5th",480,120+mscnt*20);
-ctx.fillText("Major",550,120+mscnt*20);
+ctx.fillText("Major",520,120+mscnt*20);
 ctx.fillText("Minor",680,120+mscnt*20);
 ctx.textAlign = "left";		
 ctx.fillText("Estimated Key",700,120+mscnt*20);
@@ -12599,8 +12599,8 @@ for (let i = 0; i < mscnt; i++) {
 
 
     ctx.fillStyle = "black";
-    ctx.fillText(measurePc[i].estKey,740,50+10*i);
-    ctx.fillText(measurePc[i].estKey,740,100+mscnt*10+10*i);
+    ctx.fillText(measurePc[i].estKey,710,50+10*i);
+    ctx.fillText(measurePc[i].estKey,710,100+mscnt*10+10*i);
 
 	if (!measurePc[i]) continue;
 
@@ -12621,7 +12621,7 @@ for (let i = 0; i < mscnt; i++) {
 		// major scale
 		ctx.fillText(
 			pair.major.name,
-			90,
+			80,
 			ry
 		);
 		// 採用キー
@@ -12630,7 +12630,7 @@ for (let i = 0; i < mscnt; i++) {
 				.filter(k => k.point > 0)
 				.map(k => k.key.name)
 				.join(" / "),
-			740,
+			750,
 			ry
 		);
 
@@ -12736,7 +12736,7 @@ for (let i = 0; i < mscnt; i++) {
 
 			ctx.fillText(
 				majorMinorDiff.toFixed(2),
-				550,
+				520,
 				y + 10
 			);
 
