@@ -11846,25 +11846,32 @@ function showIcon(){
     ctx.beginPath();
     ctx.moveTo(x, y + 12 * kw);
     ctx.lineTo(x + 12 * kw, y + 12 * kw);
-    ctx.strokeStyle="blue";
+    ctx.strokeStyle="red";
+
+    for (let i = 1; i < 3; i++){
     ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y + 3 * i * kw);
+    ctx.lineTo(x + 12 * kw, y + 3 * i * kw);
+    ctx.strokeStyle="blue";
+    }
 
     ctx.beginPath();
     ctx.moveTo(x, y + 2 * kw);
     ctx.lineTo(x, y + 12 * kw);
-    ctx.fillStyle=defaultColor.oct[0];
+    ctx.fillStyle=defaultColor.pc[0];
     ctx.stroke();
 
     ctx.beginPath();
     ctx.moveTo(x + 12 * kw, y + 2 * kw);
     ctx.lineTo(x + 12 * kw, y + 12 * kw);
-    ctx.fillStyle=defaultColor.oct[0];
+    ctx.fillStyle=defaultColor.pc[0];
     ctx.stroke();
 
     ctx.beginPath();
     ctx.moveTo(x + 5 * kw, y + 2 * kw);
     ctx.lineTo(x + 5 * kw, y + 12 * kw);
-    ctx.fillStyle=defaultColor.oct[5];
+    ctx.fillStyle=defaultColor.pc[5];
     ctx.stroke();
 
 }
