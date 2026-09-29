@@ -14839,13 +14839,7 @@ function finger1(n_idf, hand){
 }
 
 function drawFinger1(n_idf){
-console.log("drawFinger1 n_idf =", n_idf);
-console.log("f101 =", f101);
-console.log("f101.length =", f101?.length);
 
-for (let i = 0; i < 10; i++) {
-    console.log("f101[" + i + "] =", f101?.[i]);
-}
     const marginX = 30;
     const marginY = 20;
 
@@ -14920,9 +14914,9 @@ ctx.strokeStyle="blue";
 ctx.stroke();
 }
 }
-    for (let p = 0; p < 10; p++) {
+    for (let p = 0; p < Math.min(10, f101.length); p++) {
 
-    const y = szy + 40 + rowHeight * p;
+    const y = szy + 30 + rowHeight * p;
 
     ctx.textAlign = "right";
     ctx.fillText(p + 1, 30, y + 20);
