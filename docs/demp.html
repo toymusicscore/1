@@ -11856,17 +11856,13 @@ function showIcon(){
     ctx.stroke();
     }
 
+    for (let i = 0; i < 2; i++){
     ctx.beginPath();
-    ctx.moveTo(x, y + 2 * kw);
-    ctx.lineTo(x, y + 12 * kw);
+    ctx.moveTo(x + 12 * i, y + 2 * kw);
+    ctx.lineTo(x + 12 * i, y + 12 * kw);
     ctx.fillStyle="red";
     ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(x + 12 * kw, y + 2 * kw);
-    ctx.lineTo(x + 12 * kw, y + 12 * kw);
-    ctx.fillStyle="red";
-    ctx.stroke();
+    }
 
     ctx.beginPath();
     ctx.moveTo(x + 5 * kw, y + 2 * kw);
