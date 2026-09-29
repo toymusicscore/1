@@ -14952,7 +14952,6 @@ for (let i = 0; i < 10 + 1; i++) {
 }
 
 	for(let i=0;i<fp.length;i++){
-		ctx.fillText(fp[i][4],180+50*i,Number(szy)+30);
 		let [midi, start, stop, channel, n_id]=fp[i];
 		gt=stop-start;
 			if(start>=pauseTick && start<=pauseTick+ticksPerQuarterNote*beatsPerMeasure){
@@ -14967,7 +14966,6 @@ for (let i = 0; i < 10 + 1; i++) {
 				ctx.fillStyle="red";
 				ctx.fill();
 				ctx.fillStyle="black";
-//                ctx.fillText(n_id,(midi-midi_min)*kw+2*mx,6/5*my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
                 ctx.fillText(f101[0][1][n_id-n_idf],(midi-midi_min+0.7)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
 			}//if(start>=pauseTick && start<pauseTick+1*ppq*bttl)
 	}//for(i=0;)
