@@ -14807,9 +14807,37 @@ function finger1(n_idf, hand){
 }
 
 function drawFinger1(n_idf){
+
+    const marginX = 30;
+    const marginY = 20;
+
+    szx = canvas.width * 0.9;
+    szy = canvas.height * 0.5;
+
+    szk = szx;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.lineWidth = 1;
+
+    let kn = Number(midi_max) - Number(midi_min) + 1;
+    let kw = (szk - mx) / kn;
+
+    // 表示可能な行数に合わせて行間を調整
+    const rowHeight = Math.min(
+        30,
+        Math.max(16, (canvas.height - szy - 50) / Math.max(f101.length, 1))
+    );
+
+    // 表示可能な列数に合わせて列幅を調整
+    const colWidth = Math.min(
+        50,
+        Math.max(20, (canvas.width - 180 - 20) / Math.max(fp.length, 1))
+    );
+/*    
+function drawFinger1(n_idf){
 szx = canvas.width*0.9;
 szy = canvas.height*0.5;
-
 //szx=1100;
 //szy=350;
 szk=szx;
@@ -14821,7 +14849,7 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 ctx.lineWidth=1;
 let kn=Number(midi_max)-Number(midi_min)+1;
 let kw=(szk-mx)/kn;
-
+*/
 for(let l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx.fillStyle=col2[Math.floor(k/12)-1];
@@ -14869,16 +14897,69 @@ ctx.strokeStyle="blue";
 ctx.stroke();
 }
 }
+    for (let p = 0; p < f101.length; p++) {
+
+    const y = szy + 40 + rowHeight * p;
+
+    ctx.textAlign = "right";
+    ctx.fillText(p + 1, 30, y + 20);
+
+    for (q = 0; q < fp.length; q++) {
+        ctx.fillText(
+            f101[p][1][q],
+            180 + colWidth * q,
+            y + 20
+        );
+    }
+
+    ctx.fillText(
+        (f101[p][3]).toFixed(2),
+        120,
+        y + 20
+    );
+}
+
+/*
 for (let p=0;p<f101.length;p++){
             ctx.textAlign = "right";
 			ctx.fillText(p+1,30,Number(szy)+60+30*p);
 			for (q=0;q<fp.length;q++){
 				ctx.fillText(f101[p][1][q],180+50*q,Number(szy)+60+30*p);
 				}
-		
+
+
 		ctx.fillText((f101[p][3]).toFixed(2),120,Number(szy)+60+30*p);
 	}
-	ctx.fillStyle="black";
+*/
+
+ctx.fillText("No.", 30, szy + 30);
+ctx.fillText("Index", 120, szy + 30);
+
+for (let i = 0; i < fp.length; i++) {
+    ctx.fillText(
+        fp[i][4],
+        180 + colWidth * i,
+        szy + 30
+    );
+}
+
+for (let i = 0; i < f101.length + 1; i++) {
+
+    const y = szy + 40 + rowHeight * i;
+
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(
+        Math.min(canvas.width, 180 + colWidth * fp.length),
+        y
+    );
+
+    ctx.strokeStyle = col[i % col.length];
+    ctx.stroke();
+}
+
+    /*
+    ctx.fillStyle="black";
 	ctx.fillText("No.",30,Number(szy)+30);
 	ctx.fillText("Index",120,Number(szy)+30);
 	ctx.beginPath();
@@ -14889,6 +14970,7 @@ for (let p=0;p<f101.length;p++){
 	ctx.strokeStyle=col[i];
 	ctx.stroke();
 	}
+*/
 	for(let i=0;i<fp.length;i++){
 		ctx.fillText(fp[i][4],180+50*i,Number(szy)+30);
 		let [midi, start, stop, channel, n_id]=fp[i];
