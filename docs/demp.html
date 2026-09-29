@@ -14834,22 +14834,7 @@ function drawFinger1(n_idf){
         50,
         Math.max(20, (canvas.width - 180 - 20) / Math.max(fp.length, 1))
     );
-/*    
-function drawFinger1(n_idf){
-szx = canvas.width*0.9;
-szy = canvas.height*0.5;
-//szx=1100;
-//szy=350;
-szk=szx;
-//canvas.width = 1100;
-//canvas.height = 690;
-//ctx.clearRect(0,0,1400,1400);
-ctx.clearRect(0,0,canvas.width,canvas.height);
 
-ctx.lineWidth=1;
-let kn=Number(midi_max)-Number(midi_min)+1;
-let kw=(szk-mx)/kn;
-*/
 for(let l=0;l<Number(kn);l++){
 let k=Number(midi_min)+l;
 ctx.fillStyle=col2[Math.floor(k/12)-1];
@@ -14919,19 +14904,6 @@ ctx.stroke();
     );
 }
 
-/*
-for (let p=0;p<f101.length;p++){
-            ctx.textAlign = "right";
-			ctx.fillText(p+1,30,Number(szy)+60+30*p);
-			for (q=0;q<fp.length;q++){
-				ctx.fillText(f101[p][1][q],180+50*q,Number(szy)+60+30*p);
-				}
-
-
-		ctx.fillText((f101[p][3]).toFixed(2),120,Number(szy)+60+30*p);
-	}
-*/
-
 ctx.fillText("No.", 30, szy + 30);
 ctx.fillText("Index", 120, szy + 30);
 
@@ -14958,19 +14930,6 @@ for (let i = 0; i < 10 + 1; i++) {
     ctx.stroke();
 }
 
-    /*
-    ctx.fillStyle="black";
-	ctx.fillText("No.",30,Number(szy)+30);
-	ctx.fillText("Index",120,Number(szy)+30);
-	ctx.beginPath();
-	for(let i=0;i<13;i++){
-	ctx.beginPath();
-	ctx.moveTo(0,Number(szy)+40+30*i);
-	ctx.lineTo(180+50*fp.length,Number(szy)+40+30*i);
-	ctx.strokeStyle=col[i];
-	ctx.stroke();
-	}
-*/
 	for(let i=0;i<fp.length;i++){
 		ctx.fillText(fp[i][4],180+50*i,Number(szy)+30);
 		let [midi, start, stop, channel, n_id]=fp[i];
