@@ -13245,10 +13245,9 @@ function deleteLabel(){
 
 }
 
-
 const songInfoData = [
     {
-		id:1,
+        id: "bach-invention-01",
         title: "Invention 1",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV772/bach-invention-01/bach-invention-01.mid",
@@ -13257,7 +13256,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:2,
+        id: "bach-invention-02",
         title: "Invention 2",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV773/bach-invention-02/bach-invention-02.mid",
@@ -13266,7 +13265,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:3,
+        id: "bach-invention-03",
         title: "Invention 3",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV774/bach-invention-03/bach-invention-03.mid",
@@ -13275,7 +13274,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:4,
+        id: "bach-invention-04",
         title: "Invention 4",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV775/bach-invention-04/bach-invention-04.mid",
@@ -13284,7 +13283,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:5,
+        id: "bach-invention-05",
         title: "Invention 5",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV776/bach-invention-05/bach-invention-05.mid",
@@ -13293,6 +13292,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
+        id: "bach-invention-06",
 		id:6,
         title: "Invention 6",
         composer: "Johann Sebastian Bach",
@@ -13302,6 +13302,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
+        id: "bach-invention-07",
 		id:7,
         title: "Invention 7",
         composer: "Johann Sebastian Bach",
@@ -13311,7 +13312,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:8,
+        id: "bach-invention-08",
         title: "Invention 8",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV779/bach-invention-08/bach-invention-08.mid",
@@ -13320,7 +13321,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:9,
+        id: "bach-invention-09",
         title: "Invention 9",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV780/bach-invention-09/bach-invention-09.mid",
@@ -13329,7 +13330,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:10,
+        id: "bach-invention-10",
         title: "Invention 10",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV781/bach-invention-10/bach-invention-10.mid",
@@ -13338,7 +13339,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:11,
+        id: "bach-invention-11",
         title: "Invention 11",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV782/bach-invention-11/bach-invention-11.mid",
@@ -13347,7 +13348,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:12,
+        id: "bach-invention-12",
         title: "Invention 12",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV783/bach-invention-12/bach-invention-12.mid",
@@ -13356,7 +13357,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:13,
+        id: "bach-invention-13",
         title: "Invention 13",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV784/bach-invention-13/bach-invention-13.mid",
@@ -13365,7 +13366,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:14,
+        id: "bach-invention-14",
         title: "Invention 14",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV785/bach-invention-14/bach-invention-14.mid",
@@ -13374,7 +13375,7 @@ const songInfoData = [
         sourceStatus: "Unmodified",
     },
     {
-		id:15,
+        id: "bach-invention-15",
         title: "Invention 15",
         composer: "Johann Sebastian Bach",
         sourceUri: "https://www.mutopiaproject.org/ftp/BachJS/BWV786/bach-invention-15/bach-invention-15.mid",
@@ -13396,8 +13397,25 @@ const songInfoData = [
 
 function showSongInfoTable(){
 
+    const songId = val("song1");
+
+    const row = songInfoData.find(
+        item => item.id === songId
+    );
+
+    if(!row){
+        $("htmlArea").innerHTML = `
+            <h2 style="margin-left:20px;">Song Information</h2>
+            <p style="margin-left:20px;">Song information not found.</p>
+        `;
+
+        showPage(PAGE.HTML);
+        return;
+    }
+
     let html = `
         <h2 style="margin-left:20px;">Song Information</h2>
+
         <table style="
             border-collapse:collapse;
             width:98%;
@@ -13412,23 +13430,18 @@ function showSongInfoTable(){
             <th>Source License URI</th>
             <th>Source Status</th>
         </tr>
+
+        <tr>
+            <td>${escapeHtml(row.title)}</td>
+            <td>${escapeHtml(row.composer)}</td>
+            <td>${escapeHtml(row.sourceUri)}</td>
+            <td>${escapeHtml(row.sourceLicense)}</td>
+            <td>${escapeHtml(row.sourceLicenseUri)}</td>
+            <td>${escapeHtml(row.sourceStatus)}</td>
+        </tr>
+
+        </table>
     `;
-
-    songInfoData.forEach(row => {
-
-        html += `
-            <tr>
-                <td>${escapeHtml(row.title)}</td>
-                <td>${escapeHtml(row.composer)}</td>
-                <td>${escapeHtml(row.sourceUri)}</td>
-                <td>${escapeHtml(row.sourceLicense)}</td>
-                <td>${escapeHtml(row.sourceLicenseUri)}</td>
-                <td>${escapeHtml(row.sourceStatus)}</td>
-            </tr>
-        `;
-    });
-
-    html += `</table>`;
 
     $("htmlArea").innerHTML = html;
 
