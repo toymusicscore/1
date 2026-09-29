@@ -14962,6 +14962,8 @@ ctx.stroke();
 }
 }
 
+    ctx.font="18px Arial";
+    
     for (let p = 0; p < Math.min(10, f101.length); p++) {
 
         const y = szy + 40 + rowHeight * p;
@@ -15012,8 +15014,6 @@ ctx.stroke();
 
 	for(let i=0;i<fp.length;i++){
 		let [midi, start, stop, channel, n_id]=fp[i];
-        const songId = val("song1");
-        const nl = getLabel(midi, n_id, songId);
 		gt=stop-start;
 			if(start>=pauseTick && start<=pauseTick+ticksPerQuarterNote*beatsPerMeasure){
 				ctx.fillStyle=col[midi%12];
@@ -15026,10 +15026,9 @@ ctx.stroke();
 				ctx.arc((f101[0][2][n_id-n_idf]-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw/4,0,2*Math.PI,false);
 				ctx.fillStyle="red";
 				ctx.fill();
-                if (nl !== ""){
-                    ctx.fillStyle="black";
-                    ctx.fillText(nl,(midi-midi_min+0.7)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-    			}
+                ctx.fillStyle="black";
+                ctx.fillText(n_id,(midi-midi_min+0.7)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
+//                ctx.fillText(f101[0][1][n_id-n_idf],(midi-midi_min+0.7)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
 			}//if(start>=pauseTick && start<pauseTick+1*ppq*bttl)
 	}//for(i=0;)
 }
