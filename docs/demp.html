@@ -11850,33 +11850,33 @@ function showIcon(){
 		ctx.fillRect(x+(k%12)*kw,y+kw,kw,kw);
 	}
 
-    ctx.beginPath();
-    ctx.moveTo(x, y + 12 * kw);
-    ctx.lineTo(x + 12 * kw, y + 12 * kw);
-    ctx.strokeStyle="red";
-    ctx.stroke();
-
-    for (let i = 1; i < 4; i++){
-    ctx.beginPath();
-    ctx.moveTo(x, y + (2 + 2.5 * i) * kw);
-    ctx.lineTo(x + 12 * kw, y + (2 + 2.5 * i) * kw);
-    ctx.strokeStyle="blue";
-    ctx.stroke();
-    }
-
     for (let i = 0; i < 2; i++){
     ctx.beginPath();
     ctx.moveTo(x + 12 * i * kw, y + 2 * kw);
     ctx.lineTo(x + 12 * i * kw, y + 12 * kw);
-    ctx.strokeStyle="red";
+    ctx.strokeStyle=defaultColor.line[1];
     ctx.stroke();
     }
 
     ctx.beginPath();
     ctx.moveTo(x + 5 * kw, y + 2 * kw);
     ctx.lineTo(x + 5 * kw, y + 12 * kw);
-    ctx.strokeStyle=defaultColor.pc[5];
+    ctx.strokeStyle=defaultColor.line[2];
     ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.moveTo(x, y + 12 * kw);
+    ctx.lineTo(x + 12 * kw, y + 12 * kw);
+    ctx.strokeStyle=defaultColor.line[3];
+    ctx.stroke();
+
+    for (let i = 1; i < 4; i++){
+    ctx.beginPath();
+    ctx.moveTo(x, y + (2 + 2.5 * i) * kw);
+    ctx.lineTo(x + 12 * kw, y + (2 + 2.5 * i) * kw);
+    ctx.strokeStyle=defaultColor.line[4];
+    ctx.stroke();
+    }
 
 }
 
