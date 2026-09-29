@@ -13422,19 +13422,31 @@ function showSongInfoTable(){
 
         <tr>
             <th>Title</th>
-            <th>Composer</th>
-            <th>Source URI</th>
-            <th>Source License</th>
-            <th>Source License URI</th>
-            <th>Source Status</th>
+            <td>${escapeHtml(row.title)}</td>
         </tr>
 
         <tr>
-            <td>${escapeHtml(row.title)}</td>
+            <th>Composer</th>
             <td>${escapeHtml(row.composer)}</td>
+        </tr>
+
+        <tr>
+            <th>Source URI</th>
             <td>${escapeHtml(row.sourceUri)}</td>
+        </tr>
+
+        <tr>
+            <th>Source License</th>
             <td>${escapeHtml(row.sourceLicense)}</td>
+        </tr>
+
+        <tr>
+            <th>Source License URI</th>
             <td>${escapeHtml(row.sourceLicenseUri)}</td>
+        </tr>
+
+        <tr>
+            <th>Source Status</th>
             <td>${escapeHtml(row.sourceStatus)}</td>
         </tr>
 
@@ -13445,7 +13457,6 @@ function showSongInfoTable(){
 
     showPage(PAGE.HTML);
 }
-
 
 const defaultCommentData = [
     {
