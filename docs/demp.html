@@ -11843,8 +11843,11 @@ function showIcon(){
 		ctx.fillRect(x+(k%12)*kw,y+kw,kw,kw);
 	}
 
-    ctx.strokeStyle="black";
-    ctx.strokeRect(x,y,12*kw,12*kw);
+    ctx.beginPath();
+    ctx.moveTo(0, 12*kw);
+    ctx.lineTo(12*kw,12*kw);
+    ctx.strokeStyle="blue";
+    ctx.stroke();
 
 }
 
