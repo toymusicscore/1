@@ -15017,21 +15017,24 @@ ctx.stroke();
 	for(let i=0;i<fp.length;i++){
 		let [midi, start, stop, channel, n_id]=fp[i];
 		gt=stop-start;
-			if(start>=pauseTick && start<=pauseTick+ticksPerQuarterNote*beatsPerMeasure){
-				ctx.fillStyle=col[midi%12];
-				ctx.fillRect((midi-midi_min)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw,gt*(szy-2*my)/(ticksPerQuarterNote*beatsPerMeasure));
-				ctx.beginPath();
-				ctx.arc((midi-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw/2,0,2*Math.PI,false);
-				ctx.fillStyle=col3[channel];
-				ctx.fill();
-				ctx.beginPath();
-				ctx.arc((f101[0][2][n_id-n_idf]-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw/4,0,2*Math.PI,false);
-				ctx.fillStyle="red";
-				ctx.fill();
-                ctx.fillStyle="black";
+        if(start>=pauseTick && start<=pauseTick+ticksPerQuarterNote*beatsPerMeasure){
+            ctx.fillStyle=col[midi%12];
+            ctx.fillRect((midi-midi_min)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw,gt*(szy-2*my)/(ticksPerQuarterNote*beatsPerMeasure));
+            ctx.beginPath();
+            ctx.arc((midi-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw/2,0,2*Math.PI,false);
+            ctx.fillStyle=col3[channel];
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc((f101[0][2][n_id-n_idf]-midi_min+0.5)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure),kw/4,0,2*Math.PI,false);
+            ctx.fillStyle="red";
+            ctx.fill();
+            ctx.fillStyle="black";
+            if (num("x_notelabel")===0){
                 ctx.fillText(n_id,(midi-midi_min+0.7)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-//                ctx.fillText(f101[0][1][n_id-n_idf],(midi-midi_min+0.7)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-			}//if(start>=pauseTick && start<pauseTick+1*ppq*bttl)
+            } else if (num("x_notelabel")===1){
+                ctx.fillText(f101[0][1][n_id-n_idf],(midi-midi_min+0.7)*kw+mx,my+(start-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
+            }
+        }//if(start>=pauseTick && start<pauseTick+1*ppq*bttl)
 	}//for(i=0;)
 }
 
