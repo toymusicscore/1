@@ -11659,11 +11659,11 @@ function showKeyboardLabel(){
                 }
                 else if (num("x_keyboardLabel") === 8) {
                     ctx.fillStyle="black";
-                    ctx.fillText(k%12, (k-Math.floor(k/12)*12)*kw0+40,(Math.floor(k/12)*2-1)*cl+38);
+                    ctx.fillText((k%12).toString(12), (k-Math.floor(k/12)*12)*kw0+40,(Math.floor(k/12)*2-1)*cl+38);
                 }
                 else if (num("x_keyboardLabel") === 9) {
                     ctx.fillStyle="black";
-                    ctx.fillText(Math.floor((k-12)/12).toString() + k%12, (k-Math.floor(k/12)*12)*kw0+40,(Math.floor(k/12)*2-1)*cl+38);
+                    ctx.fillText(Math.floor((k-12)/12).toString(12) + (k%12).toString(12), (k-Math.floor(k/12)*12)*kw0+40,(Math.floor(k/12)*2-1)*cl+38);
                 }
             }
 		}else{
@@ -11704,11 +11704,11 @@ function showKeyboardLabel(){
                 }
                 else if (num("x_keyboardLabel") === 8) {
                     ctx.fillStyle="black";
-                    ctx.fillText(k%12, 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+40,(Math.floor(k/12)*2-1)*cl+38);
+                    ctx.fillText((k%12).toString(12), 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+40,(Math.floor(k/12)*2-1)*cl+38);
                 }
                 else if (num("x_keyboardLabel") === 9) {
                     ctx.fillStyle="black";
-                    ctx.fillText(Math.floor((k-12)/12).toString() + k%12, 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+40,(Math.floor(k/12)*2-1)*cl+38);
+                    ctx.fillText(Math.floor((k-12)/12).toString(12) + (k%12).toString(12), 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+40,(Math.floor(k/12)*2-1)*cl+38);
                 }
             }
 		}
