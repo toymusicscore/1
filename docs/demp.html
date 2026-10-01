@@ -1295,10 +1295,6 @@ function showTab(tab){
             case "appendix":
 
 		menuBody.innerHTML = `
-				<input type="button"
-					id="keyboardLabelButton"
-					value="🎹 Keyboard Label to Print">
-					<br><br>				
 				<input 
 					type="button" 
 					id="keyEstimationButton"
@@ -1345,11 +1341,6 @@ function showTab(tab){
 					value="📍 Search Pitch Class">
 					<br><br>
             `;
-				$("keyboardLabelButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					showKeyboardLabel();
-					closeMenuWindow();
-				};
 				$("keyEstimationButton").onclick = function(){
 					showPage(PAGE.MAIN);
 					showKeyEstimation();
@@ -1465,6 +1456,10 @@ function showTab(tab){
 					id="commentButton"
 					value="📝 Comment">
 					<br><br>
+				<input type="button"
+					id="keyboardLabelButton"
+					value="🎹 Keyboard Label">
+					<br><br>				
 				`;
 				$("settingsButton").onclick = function(){
 					showPage(PAGE.SETTINGS);
@@ -1476,6 +1471,11 @@ function showTab(tab){
 				};
 				$("commentButton").onclick = function(){
 					openCommentPage();
+					closeMenuWindow();
+				};
+				$("keyboardLabelButton").onclick = function(){
+					showPage(PAGE.MAIN);
+					showKeyboardLabel();
 					closeMenuWindow();
 				};
 
