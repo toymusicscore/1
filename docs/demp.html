@@ -11628,6 +11628,30 @@ function showKeyboardLabel(){
                 ctx.arc((k-Math.floor(k/12)*12)*kw0+37,(Math.floor(k/12)*2-1)*cl+31,cl/3,0,2*Math.PI,false);
                 ctx.fillStyle="white";
                 ctx.fill();
+                if (num("x_keyboardLabel") === 1) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+                }
+                if (num("x_keyboardLabel") === 2) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+                }
+                if (num("x_keyboardLabel") === 3) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+                }
+                if (num("x_keyboardLabel") === 4) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+                }
+                if (num("x_keyboardLabel") === 5) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+                }
+                if (num("x_keyboardLabel") === 6) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+                }
                 if (num("x_keyboardLabel") === 7) {
                     ctx.fillStyle="black";
                     ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
@@ -11635,6 +11659,10 @@ function showKeyboardLabel(){
                 else if (num("x_keyboardLabel") === 8) {
                     ctx.fillStyle="black";
                     ctx.fillText(k%12, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
+                }
+                else if (num("x_keyboardLabel") === 9) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(Math.floor(k/12) & k%12, (k-Math.floor(k/12)*12)*kw0+30,(Math.floor(k/12)*2-1)*cl+40);
                 }
             }
 		}else{
