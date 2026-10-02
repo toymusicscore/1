@@ -11611,9 +11611,9 @@ function showKeyboardLabel(){
 
 	ctx.lineWidth=1;
 	for(let k=21;k<=108;k++){
-		if (num("x_keyboardLabel") > 0 && k%12 === 0) {
             ctx.fillStyle=workingColor.oct[Math.floor(k/12)-1];
             ctx.fillRect((k-Math.floor(k/12)*12)*kw+50,(Math.floor(k/12)*2-2)*cl+10,kw,cl);
+		if (num("x_keyboardLabel") > 0 && k%12 === 0) {
 			ctx.beginPath();
 			ctx.arc((k-Math.floor(k/12)*12)*kw+90,(Math.floor(k/12)*2-2)*cl+30,cl/2,0,2*Math.PI,false);
 			ctx.fillStyle="white";
@@ -11622,8 +11622,6 @@ function showKeyboardLabel(){
 			ctx.fillText(Math.floor((k-12)/12), (k-Math.floor(k/12)*12)*kw+90,(Math.floor(k/12)*2-2)*cl+38);
 		}            
 		if(k%12<=4){
-            ctx.fillStyle=workingColor.oct[Math.floor(k/12)-1];
-            ctx.fillRect((k-Math.floor(k/12)*12)*kw0+50,(Math.floor(k/12)*2-2)*cl+10,kw0,cl);
 			ctx.fillStyle=workingColor.pc[k%12];
 			ctx.fillRect((k-Math.floor(k/12)*12)*kw0+50,(Math.floor(k/12)*2-1)*cl+10,kw0,cl);
     		if (num("x_keyboardLabel") > 0) {
@@ -11669,8 +11667,6 @@ function showKeyboardLabel(){
                 }
             }
 		}else{
-            ctx.fillStyle=workingColor.oct[Math.floor(k/12)-1];
-            ctx.fillRect((k-Math.floor(k/12)*12)*kw1+50,(Math.floor(k/12)*2-2)*cl+10,kw1,cl);
 			ctx.fillStyle=workingColor.pc[k%12];
 			ctx.fillRect(3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+50,(Math.floor(k/12)*2-1)*cl+10,kw1,cl);
     		if (num("x_keyboardLabel") > 0) {
