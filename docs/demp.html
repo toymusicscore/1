@@ -188,7 +188,7 @@ canvas {
 	<option value="5"> German # </option>
 	<option value="6"> German b </option>
 	<option value="7"> Pitch Class </option>
-	<option value="8"> Octave & Pitch </option>
+	<option value="8"> Octave & PC </option>
 	<option value="9"> MIDI Note Num </option>
 	<option value="10"> Note ID </option>
 	<option value="11" selected> Fingering Saved</option>
@@ -1457,16 +1457,16 @@ function showTab(tab){
 					value="📝 Comment">
 					<br><br>
                 <select id="x_keyboardLabel" onchange="showKeyboardLabel()">
-                    <option value="0" selected> No Label </option>
+                    <option value="0"> No Label </option>
                     <option value="1"> DoReMi # </option>
                     <option value="2"> DoReMi b </option>
                     <option value="3"> English # </option>
                     <option value="4"> English b </option>
                     <option value="5"> German # </option>
                     <option value="6"> German b </option>
-                    <option value="7"> Midi Note Num </option>
-                    <option value="8"> PitchClass </option>
-                    <option value="9"> Oct & Pitch </option>
+                    <option value="7"> PitchClass </option>
+                    <option value="8" selected> Octave & PC </option>
+                    <option value="9"> Midi Note Num </option>
                 </select>
 					<br>
 				<input type="button"
@@ -11633,37 +11633,37 @@ function showKeyboardLabel(){
                     ctx.fillStyle="black";
                     ctx.fillText(drms1[k%12], (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 2) {
+                else if (num("x_keyboardLabel") === 2) {
                     ctx.fillStyle="black";
                     ctx.fillText(drmf1[k%12], (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 3) {
+                else if (num("x_keyboardLabel") === 3) {
                     ctx.fillStyle="black";
                     ctx.fillText(engs1[k%12], (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 4) {
+                else if (num("x_keyboardLabel") === 4) {
                     ctx.fillStyle="black";
                     ctx.fillText(engf1[k%12], (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 5) {
+                else if (num("x_keyboardLabel") === 5) {
                     ctx.fillStyle="black";
                     ctx.fillText(gers1[k%12], (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 6) {
+                else if (num("x_keyboardLabel") === 6) {
                     ctx.fillStyle="black";
                     ctx.fillText(gerf1[k%12], (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 7) {
-                    ctx.fillStyle="black";
-                    ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
-                }
-                else if (num("x_keyboardLabel") === 8) {
+                else if (num("x_keyboardLabel") === 7) {
                     ctx.fillStyle="black";
                     ctx.fillText((k%12).toString(12), (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                else if (num("x_keyboardLabel") === 9) {
+                else if (num("x_keyboardLabel") === 8) {
                     ctx.fillStyle="black";
                     ctx.fillText(Math.floor((k-12)/12).toString(12) + (k%12).toString(12), (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
+                }
+                else if (num("x_keyboardLabel") === 9) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(k, (k-Math.floor(k/12)*12)*kw0+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
             }
 		}else{
@@ -11678,37 +11678,37 @@ function showKeyboardLabel(){
                     ctx.fillStyle="black";
                     ctx.fillText(drms1[k%12], 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 2) {
+                else if (num("x_keyboardLabel") === 2) {
                     ctx.fillStyle="black";
                     ctx.fillText(drmf1[k%12], 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 3) {
+                else if (num("x_keyboardLabel") === 3) {
                     ctx.fillStyle="black";
                     ctx.fillText(engs1[k%12], 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 4) {
+                else if (num("x_keyboardLabel") === 4) {
                     ctx.fillStyle="black";
                     ctx.fillText(engf1[k%12], 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 5) {
+                else if (num("x_keyboardLabel") === 5) {
                     ctx.fillStyle="black";
                     ctx.fillText(gers1[k%12], 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 6) {
+                else if (num("x_keyboardLabel") === 6) {
                     ctx.fillStyle="black";
                     ctx.fillText(gerf1[k%12], 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                if (num("x_keyboardLabel") === 7) {
-                    ctx.fillStyle="black";
-                    ctx.fillText(k, 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
-                }
-                else if (num("x_keyboardLabel") === 8) {
+                else if (num("x_keyboardLabel") === 7) {
                     ctx.fillStyle="black";
                     ctx.fillText((k%12).toString(12), 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
-                else if (num("x_keyboardLabel") === 9) {
+                else if (num("x_keyboardLabel") === 8) {
                     ctx.fillStyle="black";
                     ctx.fillText(Math.floor((k-12)/12).toString(12) + (k%12).toString(12), 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
+                }
+                else if (num("x_keyboardLabel") === 9) {
+                    ctx.fillStyle="black";
+                    ctx.fillText(k, 3*kw*12/7+(k-Math.floor(k/12)*12-5)*kw1+90,(Math.floor(k/12)*2-1)*cl+38);
                 }
             }
 		}
