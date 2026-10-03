@@ -4107,7 +4107,51 @@ function midiToFreq(midi){
 //
 // Drawing Pianoroll
 //
+function getAutoLabelType(keyName) {
 
+    const flatKeys = [
+        "F major",
+        "Bb major",
+        "Eb major",
+        "Ab major",
+        "Db major",
+        "Gb major",
+        "Cb major",
+
+        "D minor",
+        "G minor",
+        "C minor",
+        "F minor",
+        "Bb minor",
+        "Eb minor",
+        "Ab minor"
+    ];
+
+    const sharpKeys = [
+        "G major",
+        "D major",
+        "A major",
+        "E major",
+        "B major",
+        "F# major",
+        "C# major",
+
+        "E minor",
+        "B minor",
+        "F# minor",
+        "C# minor",
+        "G# minor",
+        "D# minor",
+        "A# minor"
+    ];
+
+    if (flatKeys.includes(keyName)) return "flat";
+
+    if (sharpKeys.includes(keyName)) return "sharp";
+
+    // C major / A minor など
+    return "sharp";
+}
 
 function getLabel(midi, n_id, songId){
 
@@ -12941,52 +12985,6 @@ function darkenColor(color, factor) {
 
     estimatedKey = measurePc.keyPoints[0]?.[0] ?? "";
 
-}
-
-function getKeyAccidental(keyName) {
-
-    const flatKeys = [
-        "F major",
-        "Bb major",
-        "Eb major",
-        "Ab major",
-        "Db major",
-        "Gb major",
-        "Cb major",
-
-        "D minor",
-        "G minor",
-        "C minor",
-        "F minor",
-        "Bb minor",
-        "Eb minor",
-        "Ab minor"
-    ];
-
-    const sharpKeys = [
-        "C major",
-        "G major",
-        "D major",
-        "A major",
-        "E major",
-        "B major",
-        "F# major",
-        "C# major",
-
-        "A minor",
-        "E minor",
-        "B minor",
-        "F# minor",
-        "C# minor",
-        "G# minor",
-        "D# minor",
-        "A# minor"
-    ];
-
-    if (flatKeys.includes(keyName)) return "b";
-    if (sharpKeys.includes(keyName)) return "#";
-
-    return "";
 }
 
 
