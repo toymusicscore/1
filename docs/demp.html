@@ -14695,16 +14695,24 @@ function finger1(n_idf, hand){
             fp[fp.length - 1][4];
     }
 
+if (
+    isSectionEnd ||
+    f100.length === 0 ||
+    isLastNote
+) {
     console.log(
-        "SECTION TEST",
+        "FINGER CHECK",
         "n_idf =", n_idf,
-        "fp.length =", fp.length,
-        "isSectionEnd =", isSectionEnd,
+        "sectionEndNid =", sectionEndNid,
         "isRestEnd =", isRestEnd,
         "isLastNote =", isLastNote,
-        "sectionEndNid =", sectionEndNid,
-        "fp =", fp
+        "fp.length =", fp.length,
+        "f100.length =", f100.length,
+        "f101.length =", f101.length,
+        "f102.last =", f102.slice(-5),
+        "f103 =", f103
     );
+}
     
     //================================================
     // 開始側の制約を考慮しない２音の組み合わせ
