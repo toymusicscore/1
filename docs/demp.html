@@ -178,15 +178,14 @@ canvas {
     <option value="debussy_Arabesque_1">debussy_Arabesque_1</option>
 </select>
 
-
 <select id="nl1" name="nl1" onchange="onSettingsChange()">
 	<option value="0"> No Label </option>
-	<option value="1"> DoReMi # </option>
-	<option value="2"> DoReMi b </option>
-	<option value="3"> C-D-E # </option>
-	<option value="4"> C-D-E b </option>
-	<option value="5"> DoReMi Auto </option>
-	<option value="6"> C-D-E Auto </option>
+	<option value="1"> DoReMi Auto </option>
+	<option value="2"> DoReMi # </option>
+	<option value="3"> DoReMi b </option>
+	<option value="4"> C-D-E Auto </option>
+	<option value="5"> C-D-E # </option>
+	<option value="6"> C-D-E b </option>
 	<option value="7"> Pitch Class </option>
 	<option value="8"> Octave & PC </option>
 	<option value="9"> MIDI Note Num </option>
@@ -4168,24 +4167,28 @@ function getLabel(midi, n_id, songId){
     if (practiceSettings.noteTextType === 0){
         nl = "";
     }else if (practiceSettings.noteTextType === 1){
-        nl = drms1[midi%12];
-    }else if (practiceSettings.noteTextType === 2){
-        nl = drmf1[midi%12];
-    }else if (practiceSettings.noteTextType === 3){
-        nl = engs1[midi%12];
-    }else if (practiceSettings.noteTextType === 4){
-        nl = engf1[midi%12];
-    }else if (practiceSettings.noteTextType === 5){
 
         nl = getAutoLabelType(estimatedKey) === "flat"
             ? drmf1[midi%12]
             : drms1[midi%12];
 
-    }else if (practiceSettings.noteTextType === 6){
+    }else if (practiceSettings.noteTextType === 2){
+        nl = drms1[midi%12];
+        
+    }else if (practiceSettings.noteTextType === 3){
+        nl = drmf1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 4){
 
         nl = getAutoLabelType(estimatedKey) === "flat"
             ? engf1[midi%12]
             : engs1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 5){
+        nl = engs1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 6){
+        nl = engf1[midi%12];
 
     }else if (practiceSettings.noteTextType === 7){
         nl = (midi%12).toString(12);
