@@ -15067,7 +15067,7 @@ console.log(
     const bestFingers = best[1];
 
     // 休止または曲末の場合は、未確定部分をまとめて確定する
-    const commitAll = isSectionEnd;
+    const commitAll = isRestEnd || isLastNote;
 
     if (commitAll) {
 
