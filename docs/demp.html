@@ -12932,6 +12932,51 @@ function darkenColor(color, factor) {
 
 }
 
+function getKeyAccidental(keyName) {
+
+    const flatKeys = [
+        "F major",
+        "Bb major",
+        "Eb major",
+        "Ab major",
+        "Db major",
+        "Gb major",
+        "Cb major",
+
+        "D minor",
+        "G minor",
+        "C minor",
+        "F minor",
+        "Bb minor",
+        "Eb minor",
+        "Ab minor"
+    ];
+
+    const sharpKeys = [
+        "G major",
+        "D major",
+        "A major",
+        "E major",
+        "B major",
+        "F# major",
+        "C# major",
+
+        "E minor",
+        "B minor",
+        "F# minor",
+        "C# minor",
+        "G# minor",
+        "D# minor",
+        "A# minor"
+    ];
+
+    if (flatKeys.includes(keyName)) return "b";
+    if (sharpKeys.includes(keyName)) return "#";
+
+    return "";
+}
+
+
 async function showDownloadPage(){
 
     const text =
