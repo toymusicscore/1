@@ -2543,6 +2543,8 @@ async function main(){
         setCsv(data2);
     }
 
+    keyEstimation();
+
     showSelectedView();
 }
 
@@ -2861,6 +2863,8 @@ const TRACK = Object.freeze({
 });
 
 function initializeScoreSystem(){
+
+    estimatedKey = "";
 
 	rawMidi =
 		parseMidi(midiData);
