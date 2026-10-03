@@ -14606,6 +14606,17 @@ function finger1(n_idf, hand){
     let fg7n = workingFinger.fingerReachRest.fg7n;
 
     let fg5np = n_idf + fg5n - 1;
+
+    // 曲末では評価区間を最後の音符まで延長する
+    const lastScoreNid =
+        hand === 0
+            ? scoreRight[scoreRight.length - 1].n_id
+            : scoreLeft[scoreLeft.length - 1].n_id;
+
+    if (fg5np >= lastScoreNid) {
+        fg5np = lastScoreNid;
+    }
+
     let rst7 = ticksPerMeasure / fg7n;
 
     let s0;
@@ -14720,25 +14731,31 @@ console.log(
 );
 }
 
-if (isLastNote) {
-    console.log(
-        "FINAL CHECK",
-        "lastScoreID =", s0[s0.length - 1].n_id,
-        "f102.length =", f102.length,
-        "f102.last =", f102.slice(-5),
-        "f103.ids =", f103[0],
-        "f103.fingers =", f103[1]
-    );
-}
-if (isLastNote) {
-    console.log(
-        "FINAL CANDIDATE",
-        "best IDs =", f101[0]?.[0],
-        "best Fingers =", f101[0]?.[1],
-        "best length =", f101[0]?.[0]?.length,
-        "last score ID =", s0[s0.length - 1].n_id
-    );
-}
+    if (isLastNote) {
+        console.log(
+            "FINAL CHECK",
+            "lastScoreID =", s0[s0.length - 1].n_id,
+            "f102.length =", f102.length,
+            "f102.last =", f102.slice(-5),
+            "f103.ids =", f103[0],
+            "f103.fingers =", f103[1]
+        );
+        console.log(
+            "FINAL CANDIDATE",
+            "best IDs =", f101[0]?.[0],
+            "best Fingers =", f101[0]?.[1],
+            "best length =", f101[0]?.[0]?.length,
+            "last score ID =", s0[s0.length - 1].n_id
+        );
+        console.log(
+            "FINAL RANGE",
+            "n_idf =", n_idf,
+            "fg5np =", fg5np,
+            "lastScoreNid =", lastScoreNid,
+            "fp IDs =", fp.map(v => v[4])
+        );
+    }
+
     //================================================
     // 開始側の制約を考慮しない２音の組み合わせ
     //================================================
