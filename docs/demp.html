@@ -14599,7 +14599,7 @@ function finger1(n_idf, hand){
     ) {
         return;
     }
-    
+
     let fg4n = workingFinger.connectionRangeSize.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
@@ -14990,24 +14990,69 @@ function finger1(n_idf, hand){
     // 最良結果
     //============================================================
 
-    f102.push([
-        f101[0][0][0],
-        f101[0][1][0],      
+    const best = f101[0];
+
+    const bestIds = best[0];
+    const bestFingers = best[1];
+
+    // 休止または曲末の場合は、未確定部分をまとめて確定する
+    const commitAll = isSectionEnd;
+
+    if (commitAll) {
+
+        for (let i = 0; i < bestIds.length; i++) {
+
+            const id = bestIds[i];
+
+            // 今回の対象区間内だけを確定
+            if (
+                id < n_idf ||
+                id > sectionEndNid
+            ) {
+                continue;
+            }
+
+            // 重複登録を防止
+            const alreadySaved =
+                f102.some(v => Number(v[0]) === Number(id));
+
+            if (alreadySaved) {
+                continue;
+            }
+
+            f102.push([
+                id,
+                bestFingers[i]
+            ]);
+        }
+
+    } else {
+
+        // 通常時は従来どおり1音だけ確定
+        f102.push([
+            bestIds[0],
+            bestFingers[0]
         ]);
+    }
 
     //============================================================
     // 次の評価区間へ渡す情報
     //============================================================
 
     f103 = [
-        f101[0][0],
-        f101[0][1],
-        f101[0][2],
-        f101[0][3]
+        best[0],
+        best[1],
+        best[2],
+        best[3]
     ];
-    
-    drawFinger1(n_idf);
 
+    // 休止後は新しい区間として運指計算を開始する
+    if (isRestEnd) {
+        f103 = [];
+    }
+
+    drawFinger1(n_idf);
+    
 }
 
 function drawFinger1(n_idf){
