@@ -2864,8 +2864,6 @@ const TRACK = Object.freeze({
 
 function initializeScoreSystem(){
 
-    estimatedKey = "";
-
 	rawMidi =
 		parseMidi(midiData);
 
@@ -2909,10 +2907,6 @@ function initializeScoreSystem(){
 	});
 	midi_min = range.min;
 	midi_max = range.max;
-
-    // Estimate key before drawing note labels
-    estimatedKey = "";
-    estimateKey();
 
     renderTrackChannelInfo();
 }
