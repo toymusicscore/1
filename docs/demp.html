@@ -4231,18 +4231,33 @@ function getLabelReverse(midi, n_id){
 
     let nlr = "";
 
-    if (practiceSettings.noteTextType === 3){
-        nlr = drms1[midi%12];
+    if (practiceSettings.noteTextType === 1){
+        // DoReMi Auto
+        nlr = getAutoLabelType(estimatedKey) === "flat"
+            ? drms1[midi%12]
+            : drmf1[midi%12];
 
     }else if (practiceSettings.noteTextType === 2){
+        // DoReMi #
         nlr = drmf1[midi%12];
 
-    }else if (practiceSettings.noteTextType === 6){
-        nlr = engs1[midi%12];
+    }else if (practiceSettings.noteTextType === 3){
+        // DoReMi b
+        nlr = drms1[midi%12];
+
+    }else if (practiceSettings.noteTextType === 4){
+        // C-D-E Auto
+        nlr = getAutoLabelType(estimatedKey) === "flat"
+            ? engs1[midi%12]
+            : engf1[midi%12];
 
     }else if (practiceSettings.noteTextType === 5){
+        // C-D-E #
         nlr = engf1[midi%12];
 
+    }else if (practiceSettings.noteTextType === 6){
+        // C-D-E b
+        nlr = engs1[midi%12];
     }
 
     return nlr;
