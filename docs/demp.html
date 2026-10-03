@@ -4229,23 +4229,18 @@ function getLabelReverse(midi, n_id){
 
     let nlr = "";
 
-    if (practiceSettings.noteTextType === 2){
+    if (practiceSettings.noteTextType === 3){
         nlr = drms1[midi%12];
 
-    }else if (practiceSettings.noteTextType === 1){
+    }else if (practiceSettings.noteTextType === 2){
         nlr = drmf1[midi%12];
 
-    }else if (practiceSettings.noteTextType === 4){
+    }else if (practiceSettings.noteTextType === 6){
         nlr = engs1[midi%12];
 
-    }else if (practiceSettings.noteTextType === 3){
+    }else if (practiceSettings.noteTextType === 5){
         nlr = engf1[midi%12];
 
-    }else if (practiceSettings.noteTextType === 6){
-        nlr = gers1[midi%12];
-
-    }else if (practiceSettings.noteTextType === 5){
-        nlr = gerf1[midi%12];
     }
 
     return nlr;
