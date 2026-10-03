@@ -2458,21 +2458,6 @@ let rawMidi;
 let showRecord = true;
 let fingeringSets = {};
 let fingeringAuto = {};
-/*
-let shapeBeatData = {};
-let shapeMeasureData = {};
-
-let shapeBeatDataRight = {};
-let shapeBeatDataLeft = {};
-
-let beatSimilarityRight = [];
-let beatSimilarityLeft = [];
-
-let beatSimilarityRightRight = [];
-let beatSimilarityLeftLeft = [];
-let beatSimilarityLeftRight = [];
-let beatSimilarityRightLeft = [];
-*/
 
 let songNameA;
 let scoreRightA;
@@ -2495,6 +2480,8 @@ let motifGroupsLeftRight = [];
 let motifGroupsRightLeft = [];
 let motifCandidates = [];
 let motifGroups = [];
+
+let estimatedKey = "";
 
 //========================================
 // Initialize
@@ -12938,6 +12925,11 @@ function darkenColor(color, factor) {
         r.toString(16).padStart(2, "0") +
         g.toString(16).padStart(2, "0") +
         b.toString(16).padStart(2, "0");
+
+    measurePc.keyPoints.sort((a, b) => b[1] - a[1]);
+
+    estimatedKey = measurePc.keyPoints[0]?.[0] ?? "";
+
 }
 
 async function showDownloadPage(){
