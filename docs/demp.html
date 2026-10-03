@@ -2486,7 +2486,8 @@ let motifGroupsRightLeft = [];
 let motifCandidates = [];
 let motifGroups = [];
 
-let estimatedKey = "";
+let estimatedKey = null;
+let estimatedLabelType = "sharp";
 
 //========================================
 // Initialize
@@ -12865,7 +12866,14 @@ for (let i = 0; i < mscnt; i++) {
 
     estimatedKey = measurePc.keyPoints[0]?.[0] ?? "";
 
-    console.log("Estimated Key:", estimatedKey);
+    estimatedLabelType = getAutoLabelType(estimatedKey);
+
+    console.log(
+        "Estimated Key:",
+        estimatedKey,
+        "Label Type:",
+        estimatedLabelType
+    );
 
 	const rowPointStart = Number(mscnt*30)+Number(row*10);
 
