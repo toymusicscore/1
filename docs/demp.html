@@ -14706,56 +14706,6 @@ function finger1(n_idf, hand){
             fp[fp.length - 1][4];
     }
 
-if (
-    isSectionEnd ||
-    f100.length === 0 ||
-    isLastNote
-) {
-console.log(
-    "FINGER CHECK",
-    "n_idf =", n_idf,
-    "sectionEndNid =", sectionEndNid,
-    "isRestEnd =", isRestEnd,
-    "isLastNote =", isLastNote,
-
-    "f102.length =", f102.length,
-
-    "f102.last10 =",
-    f102.slice(-10),
-
-    "f103.ids =",
-    f103[0],
-
-    "f103.fingers =",
-    f103[1]
-);
-}
-
-    if (isLastNote) {
-        console.log(
-            "FINAL CHECK",
-            "lastScoreID =", s0[s0.length - 1].n_id,
-            "f102.length =", f102.length,
-            "f102.last =", f102.slice(-5),
-            "f103.ids =", f103[0],
-            "f103.fingers =", f103[1]
-        );
-        console.log(
-            "FINAL CANDIDATE",
-            "best IDs =", f101[0]?.[0],
-            "best Fingers =", f101[0]?.[1],
-            "best length =", f101[0]?.[0]?.length,
-            "last score ID =", s0[s0.length - 1].n_id
-        );
-        console.log(
-            "FINAL RANGE",
-            "n_idf =", n_idf,
-            "fg5np =", fg5np,
-            "lastScoreNid =", lastScoreNid,
-            "fp IDs =", fp.map(v => v[4])
-        );
-    }
-
     //================================================
     // 開始側の制約を考慮しない２音の組み合わせ
     //================================================
@@ -14843,7 +14793,6 @@ console.log(
                     (fp[0][0] > fp[0][6] && firstFinger <= prevFinger)
                 )
             ) {
-//                console.log("fp[0][0]=",fp[0][0],"fp[0][6]=",fp[0][6],  "prevFinger=", prevFinger, "FirstFinger=", firstFinger);
                 continue;
             }
 
@@ -14929,21 +14878,6 @@ console.log(
     }
 
     f100 = currentF;
-
-    if (isLastNote) {
-        console.log(
-            "FINAL DETAIL",
-            "n_idf =", n_idf,
-            "fg5np =", fg5np,
-            "fp IDs =", fp.map(v => v[4]),
-            "f100 first IDs =", f100[0]?.[0],
-            "f100 first fingers =", f100[0]?.[1],
-            "f100 length =", f100.length
-        );
-    }
-
-//    isLastNote =
-//        n_idf === s0[s0.length - 1]?.n_id;
 
     if (f100.length === 0 && !isLastNote) {
         console.log(
@@ -15048,15 +14982,6 @@ console.log(
         return a[3] - b[3];
     });
 
-    if (isLastNote) {
-    console.log(
-        "FINAL F101",
-        "count =", f101.length,
-        "best IDs =", f101[0]?.[0],
-        "best Fingers =", f101[0]?.[1],
-        "best length =", f101[0]?.[0]?.length
-    );
-}
     //============================================================
     // 最良結果
     //============================================================
@@ -15116,15 +15041,7 @@ console.log(
         best[2],
         best[3]
     ];
-if (isLastNote) {
-    console.log(
-        "FINAL SAVED",
-        "f102 last =", f102.slice(-12),
-        "f102 length =", f102.length,
-        "f103 IDs =", f103[0],
-        "f103 Fingers =", f103[1]
-    );
-}
+
     // 休止後は新しい区間として運指計算を開始する
     if (isRestEnd) {
         f103 = [];
