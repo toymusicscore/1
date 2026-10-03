@@ -1392,11 +1392,6 @@ function showTab(tab){
 					<br><br>
 				<input 
 					type="button"
-					id="iconButton" 
-					value="🎹 Icon ToyScore">
-					<br><br>
-				<input 
-					type="button"
 					id="helpButton" 
 					value="❓ Help">
 					<br><br>
@@ -1418,11 +1413,6 @@ function showTab(tab){
 				$("aboutButton").onclick = function(){
                 	showPage(PAGE.HTML);
 					showAboutPage();
-					closeMenuWindow();
-				};
-				$("iconButton").onclick = function(){
-					showPage(PAGE.MAIN);
-					showIcon();
 					closeMenuWindow();
 				};
 				$("helpButton").onclick = function(){
@@ -11888,60 +11878,6 @@ function showKeyboardLabel(){
 	ctx.lineTo(52*kw23+x2,15*kw20+y2);
 	ctx.strokeStyle="black";
 	ctx.stroke();
-
-}
-
-
-function showIcon(){
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	canvas.width = 400;
-	canvas.height = 400;
-
-	ctx.font="25px Arial";
-	ctx.lineWidth=1;
-
-	let x=100;
-	let y=100;
-	let kw=10;
-
-	for(let k=60;k<72;k++){
-		if(k%12===1||k%12===3||k%12===6||k%12===8||k%12===10){
-			ctx.fillStyle=defaultColor.line[0];
-			ctx.fillRect(x+(k%12)*kw,y+2*kw,kw,10*kw);
-		}
-        ctx.fillStyle=defaultColor.oct[Math.floor(k/12-1)];
-        ctx.fillRect(x+(k%12)*kw,y,kw,kw);
-		ctx.fillStyle=defaultColor.pc[k%12];
-		ctx.fillRect(x+(k%12)*kw,y+kw,kw,kw);
-	}
-
-    for (let i = 0; i < 2; i++){
-    ctx.beginPath();
-    ctx.moveTo(x + 12 * i * kw, y + 2 * kw);
-    ctx.lineTo(x + 12 * i * kw, y + 12 * kw);
-    ctx.strokeStyle=defaultColor.line[1];
-    ctx.stroke();
-    }
-
-    ctx.beginPath();
-    ctx.moveTo(x + 5 * kw, y + 2 * kw);
-    ctx.lineTo(x + 5 * kw, y + 12 * kw);
-    ctx.strokeStyle=defaultColor.line[2];
-    ctx.stroke();
-    
-    ctx.beginPath();
-    ctx.moveTo(x, y + 12 * kw);
-    ctx.lineTo(x + 12 * kw, y + 12 * kw);
-    ctx.strokeStyle=defaultColor.line[3];
-    ctx.stroke();
-
-    for (let i = 1; i < 4; i++){
-    ctx.beginPath();
-    ctx.moveTo(x, y + (2 + 2.5 * i) * kw);
-    ctx.lineTo(x + 12 * kw, y + (2 + 2.5 * i) * kw);
-    ctx.strokeStyle=defaultColor.line[4];
-    ctx.stroke();
-    }
 
 }
 
