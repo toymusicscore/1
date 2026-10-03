@@ -185,8 +185,8 @@ canvas {
 	<option value="2"> DoReMi b </option>
 	<option value="3"> English # </option>
 	<option value="4"> English b </option>
-	<option value="5"> German # </option>
-	<option value="6"> German b </option>
+	<option value="5"> DoReMi Auto </option>
+	<option value="6"> Engllish Auto </option>
 	<option value="7"> Pitch Class </option>
 	<option value="8"> Octave & PC </option>
 	<option value="9"> MIDI Note Num </option>
@@ -4124,16 +4124,27 @@ function getLabel(midi, n_id, songId){
     }else if (practiceSettings.noteTextType === 4){
         nl = engf1[midi%12];
     }else if (practiceSettings.noteTextType === 5){
-        nl = gers1[midi%12];
+
+        nl = getAutoLabelType(estimatedKey) === "flat"
+            ? drmf1[midi%12]
+            : drms1[midi%12];
+
     }else if (practiceSettings.noteTextType === 6){
-        nl = gerf1[midi%12];
+
+        nl = getAutoLabelType(estimatedKey) === "flat"
+            ? engf1[midi%12]
+            : engs1[midi%12];
+
     }else if (practiceSettings.noteTextType === 7){
         nl = (midi%12).toString(12);
+
     }else if (practiceSettings.noteTextType === 8){
         nl = Math.floor((midi-12)/12)
            + (midi%12).toString(12);
+
     }else if (practiceSettings.noteTextType === 9){
         nl = midi;
+
     }else if (practiceSettings.noteTextType === 10){
         nl = n_id;
 
