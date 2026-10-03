@@ -12966,6 +12966,21 @@ for (let i = 0; i < mscnt; i++) {
 		y += 18;
 
 	}
+
+    measurePc.keyPoints.sort((a, b) => b[1] - a[1]);
+
+    estimatedKey = measurePc.keyPoints[0]?.[0] ?? "";
+
+    console.log(
+    "Estimated Key Points:",
+    measurePc.keyPoints
+);
+
+console.log(
+    "Estimated Key:",
+    measurePc.keyPoints[0]?.[0]
+);
+
 }
 
 function darkenColor(color, factor) {
@@ -12985,10 +13000,6 @@ function darkenColor(color, factor) {
         r.toString(16).padStart(2, "0") +
         g.toString(16).padStart(2, "0") +
         b.toString(16).padStart(2, "0");
-
-    measurePc.keyPoints.sort((a, b) => b[1] - a[1]);
-
-    estimatedKey = measurePc.keyPoints[0]?.[0] ?? "";
 
 }
 
