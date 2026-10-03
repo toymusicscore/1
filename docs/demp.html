@@ -14593,7 +14593,13 @@ function createF0(fp0, fp1, fingerReachRule, hand) {
 function finger1(n_idf, hand){
 
     fp = [];
-
+    // すでに確定済みの音符は再処理しない
+    if (
+        f102.some(v => Number(v[0]) === Number(n_idf))
+    ) {
+        return;
+    }
+    
     let fg4n = workingFinger.connectionRangeSize.fg4n;
     let fg5n = workingFinger.evaluationRangeSize.fg5n;
     let fg6n = workingFinger.variabilityRangeSize.fg6n;
