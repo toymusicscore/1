@@ -14600,14 +14600,22 @@ function finger1(n_idf, hand){
     let fg7n = workingFinger.fingerReachRest.fg7n;
 
     let fg5np = n_idf + fg5n - 1;
-    let rst7=ticksPerMeasure/fg7n;
+    let rst7 = ticksPerMeasure / fg7n;
+
     let s0;
+
+    let isSectionEnd = false;
+    let isRestEnd = false;
+    let isLastNote = false;
+
+    let sectionEndNid = 0;
+
     let startDiff = 1;
 
-    if (hand===0){ 
-        s0=scoreRight; 
-    }else if (hand===1){ 
-        s0=scoreLeft; 
+    if (hand === 0) {
+        s0 = scoreRight;
+    } else if (hand === 1) {
+        s0 = scoreLeft;
     }
 
     for (let i = 0; i < s0.length; i++) {
@@ -14620,22 +14628,40 @@ function finger1(n_idf, hand){
             fingerReachRest = 1;
 
         } else {
-            
-            prevMidi = s0[i-1].midi;
 
-            const restLength = s0[i].start - s0[i - 1].stop;
-            startDiff = s0[i].start - s0[i - 1].start;
+            prevMidi = s0[i - 1].midi;
+
+            const restLength =
+                s0[i].start - s0[i - 1].stop;
+
+            startDiff =
+                s0[i].start - s0[i - 1].start;
 
             if (restLength >= rst7) {
                 fingerReachRest = 1;
             }
-
         }
 
         if (
             s0[i].n_id >= n_idf &&
             s0[i].n_id <= fg5np
         ) {
+
+            // 休符による区間終了
+            if (
+                fp.length > 0 &&
+                fingerReachRest === 1
+            ) {
+
+                isSectionEnd = true;
+                isRestEnd = true;
+
+                sectionEndNid =
+                    fp[fp.length - 1][4];
+
+                break;
+            }
+
             fp.push([
                 s0[i].midi,
                 s0[i].start,
@@ -14649,6 +14675,31 @@ function finger1(n_idf, hand){
         }
     }
 
+    // 楽曲の最後
+    if (
+        fp.length > 0 &&
+        fp[fp.length - 1][4] ===
+            s0[s0.length - 1].n_id
+    ) {
+
+        isSectionEnd = true;
+        isLastNote = true;
+
+        sectionEndNid =
+            fp[fp.length - 1][4];
+    }
+
+    console.log(
+        "SECTION TEST",
+        "n_idf =", n_idf,
+        "fp.length =", fp.length,
+        "isSectionEnd =", isSectionEnd,
+        "isRestEnd =", isRestEnd,
+        "isLastNote =", isLastNote,
+        "sectionEndNid =", sectionEndNid,
+        "fp =", fp
+    );
+    
     //================================================
     // 開始側の制約を考慮しない２音の組み合わせ
     //================================================
@@ -14823,8 +14874,8 @@ function finger1(n_idf, hand){
 
     f100 = currentF;
 
-    const isLastNote =
-        n_idf === s0[s0.length - 1]?.n_id;
+//    isLastNote =
+//        n_idf === s0[s0.length - 1]?.n_id;
 
     if (f100.length === 0 && !isLastNote) {
         console.log(
