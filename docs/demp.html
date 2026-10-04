@@ -14953,30 +14953,6 @@ function finger1(n_idf, hand){
             f100 = f100c;
         }
 
-    //黒鍵の制約に合致する運指情報があれば、その運指情報を選択する
-
-    console.log("BLACK KEY TEST", {
-        n_idf,
-        fp: fp.map(v => ({
-            id: v[4],
-            midi: v[0],
-            black: isBlackKey(v[0])
-        })),
-        candidates: f100.map(v => ({
-            ids: v[0],
-            fingers: v[1],
-            violations: v[1].map((finger, j) => ({
-                id: v[0][j],
-                midi: fp[j]?.[0],
-                finger,
-                black: fp[j] ? isBlackKey(fp[j][0]) : null,
-                valid: fp[j]
-                    ? isValidBlackKeyFinger(fp[j][0], finger)
-                    : null
-            }))
-        }))
-    });
-
     // 黒鍵の制約に合致する運指情報を優先
 
     let f100b = [];
@@ -15052,6 +15028,14 @@ function finger1(n_idf, hand){
     //============================================================
     // 最良結果
     //============================================================
+console.log("FINAL CANDIDATES", {
+    n_idf,
+    candidates: f101.slice(0, 5).map(v => ({
+        ids: v[0],
+        fingers: v[1],
+        score: v[3]
+    }))
+});
 
     const best = f101[0];
 
