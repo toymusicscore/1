@@ -14424,6 +14424,22 @@ function extendFingering(currentF, f0, n_idf, conn) {
                 [pf1, pt1]
             ] = f0[q];
 
+            if (n_idf === 31) {
+                console.log(
+                    "EXTEND 31",
+                    "n_ids=", n_ids,
+                    "fingers=", fingers.join(""),
+                    "nf0=", nf0,
+                    "nt0=", nt0,
+                    "ft0=", ft0,
+                    "nf1=", nf1,
+                    "nt1=", nt1,
+                    "ff1=", ff1,
+                    "ft1=", ft1,
+                    "restLength=", tt1 - pf1,
+                    "conn=", conn
+                );
+            }
             if (
                 nf0 === n_idf &&
                 nt0 === nf1 &&
@@ -14436,11 +14452,6 @@ function extendFingering(currentF, f0, n_idf, conn) {
                     // 長い休符
                     // 前回の最後の指と今回の第1音を接続しない設定
                     // 前回の指との接続を解除
-const path = [...fingers, ft1].join("");
-
-if (n_idf === 31 && path === "25432435") {
-    console.log("TARGET FOUND", path);
-}
                     nextF.push([
                         [...n_ids, nt1],
                         [...fingers, ft1],
@@ -14452,11 +14463,6 @@ if (n_idf === 31 && path === "25432435") {
                 } else {
                     // 短い休符：
                     // 前回の最後の指と今回の第1音を接続
-const path = [...fingers, ft1].join("");
-
-if (n_idf === 31 && path === "25432435") {
-    console.log("TARGET FOUND", path);
-}
                     if (ft0 === ff1) {
                         nextF.push([
                             [...n_ids, nt1],
