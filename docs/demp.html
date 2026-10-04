@@ -14924,7 +14924,7 @@ function finger1(n_idf, hand){
 // 黒鍵ルールに適合する候補を優先
 //============================================================
 
-    const f101b = f101.filter(candidate => {
+    const f100b = f100.filter(candidate => {
 
         const ids = candidate[0];
         const fingers = candidate[1];
@@ -14944,15 +14944,8 @@ function finger1(n_idf, hand){
         });
     });
 
-    console.log("BLACK FILTER RESULT", {
-        n_idf,
-        before: f101.length,
-        valid: f101b.length,
-        selected: f101b.length > 0 ? "black-key-valid" : "fallback"
-    });
-
-    if (f101b.length > 0) {
-        f101 = f101b;
+    if (f100b.length > 0) {
+        f100 = f100b;
     }
 
     //============================================================
