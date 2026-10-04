@@ -14447,6 +14447,13 @@ function extendFingering(currentF, f0, n_idf, conn) {
                 } else {
                     // 短い休符：
                     // 前回の最後の指と今回の第1音を接続
+if (n_idf >= 28 && n_idf <= 31) {
+    console.log(
+        "PUSH",
+        n_idf,
+        [...fingers, ft1]
+    );
+}
                     if (ft0 === ff1) {
                         nextF.push([
                             [...n_ids, nt1],
