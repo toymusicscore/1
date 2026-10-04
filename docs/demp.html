@@ -14923,34 +14923,37 @@ function finger1(n_idf, hand){
 //============================================================
 // 黒鍵ルールに適合する候補を優先
 //============================================================
+//============================================================
+// 黒鍵ルールに適合する候補を優先
+//============================================================
 
     const f101b = f101.filter(candidate => {
 
         const ids = candidate[0];
         const fingers = candidate[1];
 
-        for (let j = 0; j < ids.length; j++) {
+        return ids.every((id, j) => {
 
             const note = fp.find(
-                v => Number(v[4]) === Number(ids[j])
+                v => Number(v[4]) === Number(id)
             );
 
-            if (!note) continue;
+            if (!note) return true;
 
-            if (
-                !isValidBlackKeyFinger(
-                    note[0],
-                    fingers[j]
-                )
-            ) {
-                return false;
-            }
-        }
-
-        return true;
+            return isValidBlackKeyFinger(
+                note[0],
+                fingers[j]
+            );
+        });
     });
 
-    // 適合候補が存在するときだけ置き換える
+    console.log("BLACK FILTER RESULT", {
+        n_idf,
+        before: f101.length,
+        valid: f101b.length,
+        selected: f101b.length > 0 ? "black-key-valid" : "fallback"
+    });
+
     if (f101b.length > 0) {
         f101 = f101b;
     }
