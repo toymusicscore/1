@@ -14399,6 +14399,23 @@ function isValidBlackKeyFinger(midi, finger) {
     );
 }
 
+// 黒鍵ルールに合致する候補を優先
+function filterBlackKeyFinger(f0, fp0, fp1) {
+
+    const valid = f0.filter(v => {
+
+        const fingers = v[1];
+
+        return (
+            isValidBlackKeyFinger(fp0[0], fingers[0]) &&
+            isValidBlackKeyFinger(fp1[0], fingers[1])
+        );
+    });
+
+    // 条件に合う候補がなければ元の候補を維持
+    return valid.length > 0 ? valid : f0;
+}
+
 function extendFingering(currentF, f0, n_idf, conn) {
 
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14718,6 +14735,8 @@ function finger1(n_idf, hand){
         const fp1 = fp[1];
 
         createF0(fp0, fp1, 1, hand);
+
+        f0 = filterBlackKeyFinger(f0, fp0, fp1);
 
         if (f0.length === 0) {
             createF0(fp0, fp1, 0, hand);
