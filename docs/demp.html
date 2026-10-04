@@ -14954,15 +14954,14 @@ function finger1(n_idf, hand){
         }
 
     // 黒鍵の制約に合致する運指情報を優先
-/*
-    let f100b = [];
+//============================================================
+// 黒鍵ルールに適合する候補を優先
+//============================================================
 
-    for (let i = 0; i < f100.length; i++) {
+    const f101b = f101.filter(candidate => {
 
-        const ids = f100[i][0];
-        const fingers = f100[i][1];
-
-        let isValid = true;
+        const ids = candidate[0];
+        const fingers = candidate[1];
 
         for (let j = 0; j < ids.length; j++) {
 
@@ -14970,26 +14969,26 @@ function finger1(n_idf, hand){
                 v => Number(v[4]) === Number(ids[j])
             );
 
-            if (!note) {
-                continue;
-            }
+            if (!note) continue;
 
-            if (!isValidBlackKeyFinger(note[0], fingers[j])) {
-                isValid = false;
-                break;
+            if (
+                !isValidBlackKeyFinger(
+                    note[0],
+                    fingers[j]
+                )
+            ) {
+                return false;
             }
         }
 
-        if (isValid) {
-            f100b.push(f100[i]);
-        }
+        return true;
+    });
+
+    // 適合候補が存在するときだけ置き換える
+    if (f101b.length > 0) {
+        f101 = f101b;
     }
 
-    // 条件に合う候補があれば優先する
-    if (f100b.length > 0) {
-        f100 = f100b;
-    }
-*/    
     //============================================================
     // 最後の1音のf101はf103から作る
     //============================================================
