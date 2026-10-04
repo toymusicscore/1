@@ -14399,23 +14399,6 @@ function isValidBlackKeyFinger(midi, finger) {
     );
 }
 
-// 黒鍵ルールに合致する候補を優先
-function filterBlackKeyFinger(f0, fp0, fp1) {
-
-    const valid = f0.filter(v => {
-
-        const fingers = v[1];
-
-        return (
-            isValidBlackKeyFinger(fp0[0], fingers[0]) &&
-            isValidBlackKeyFinger(fp1[0], fingers[1])
-        );
-    });
-
-    // 条件に合う候補がなければ元の候補を維持
-    return valid.length > 0 ? valid : f0;
-}
-
 function extendFingering(currentF, f0, n_idf, conn) {
 
     let fg7n = workingFinger.fingerReachRest.fg7n;
@@ -14448,22 +14431,8 @@ function extendFingering(currentF, f0, n_idf, conn) {
 
             ) {
                 const restLength = tt1 - pf1;
-if (n_idf >= 236 && n_idf <= 237) {
-    console.log(
-        "extend",
-        "n_idf=", n_idf,
-        "nf0=", nf0,
-        "nt0=", nt0,
-        "ft0=", ft0,
-        "nf1=", nf1,
-        "ff1=", ff1,
-        "pf1=", pf1,
-        "tt1=", tt1,
-        "restLength=", restLength,
-        "rst7=", rst7,
-        "conn=", conn
-    );
-}                if (restLength >= rst7 || conn === 0) {
+
+                if (restLength >= rst7 || conn === 0) {
                     // 長い休符
                     // 前回の最後の指と今回の第1音を接続しない設定
                     // 前回の指との接続を解除
@@ -14736,8 +14705,6 @@ function finger1(n_idf, hand){
 
         createF0(fp0, fp1, 1, hand);
 
-//        f0 = filterBlackKeyFinger(f0, fp0, fp1);
-
         if (f0.length === 0) {
             createF0(fp0, fp1, 0, hand);
         }
@@ -14953,7 +14920,6 @@ function finger1(n_idf, hand){
             f100 = f100c;
         }
 
-    // 黒鍵の制約に合致する運指情報を優先
 //============================================================
 // 黒鍵ルールに適合する候補を優先
 //============================================================
