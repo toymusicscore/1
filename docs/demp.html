@@ -15088,13 +15088,13 @@ ctx.fillStyle=col[k%12];
 ctx.fillRect(mx+l*kw,my*3/4,kw,my/4);
 
 if (k%12===1 || k%12===3 || k%12===6 || k%12===8 || k%12===10){
-ctx.fillStyle="lightgrey";
+ctx.fillStyle=workingColor.line[0];
 ctx.fillRect(mx+l*kw,my,kw,szy-my);
 }else if (k%12===0){
 ctx.beginPath();
 ctx.moveTo(mx+l*kw,my);
 ctx.lineTo(mx+l*kw,szy);
-ctx.strokeStyle="red";
+ctx.strokeStyle=workingColor.line[1];
 ctx.stroke();
 ctx.fillStyle="black";
 ctx.font="20px Arial";
@@ -15102,7 +15102,7 @@ ctx.font="20px Arial";
 ctx.beginPath();
 ctx.moveTo(mx+l*kw,my);
 ctx.lineTo(mx+l*kw,szy);
-ctx.strokeStyle="green";
+ctx.strokeStyle=workingColor.line[2];
 ctx.stroke();
 }
 }
@@ -15113,7 +15113,7 @@ let vmn0=m/ticksPerQuarterNote;
 ctx.beginPath();
 ctx.moveTo(0,my+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
 ctx.lineTo(mx+szk,my+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-ctx.strokeStyle="red";
+ctx.strokeStyle=workingColor.line[3];
 ctx.stroke();
 ctx.fillStyle="black";
 ctx.font="20px Arial";
@@ -15123,7 +15123,7 @@ ctx.fillText(vmn0+1,30,2*my+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPer
 ctx.beginPath();
 ctx.moveTo(mx,my+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
 ctx.lineTo(mx+szk,my+(m-pauseTick)*(szy-my)/(ticksPerQuarterNote*beatsPerMeasure));
-ctx.strokeStyle="blue";
+ctx.strokeStyle=workingColor.line[4];
 ctx.stroke();
 }
 }
