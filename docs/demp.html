@@ -2138,9 +2138,9 @@ const engf1=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
 const gers1=["C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","H"];
 const gerf1=["C","Des","D","Es","E","F","Ges","G","As","A","B","H"];
 const scaler1=["major","minor"];
-const scaleMjr0=[0,2,4,5,7,9,11];
-const scaleMjrH=[0,2,4,5,7,8,11];
-const scaleMjrM=[0,2,4,5,7,8,10];
+const scaleMjrN=[0,2,4,5,7,9,11];
+//const scaleMjrH=[0,2,4,5,7,8,11];
+//const scaleMjrM=[0,2,4,5,7,8,10];
 const scaleMnrH=[0,2,4,5,8,9,11];
 const scaleMnrM=[0,2,4,6,8,9,11];
 const engMnr1=["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
@@ -12504,18 +12504,43 @@ for (let i = 0; i < mscnt; i++) {
 
     for (let j = 0; j < 12; j++) {
 
-        let scaleMember = 0;
+        let scaleMemberN = 0;
+        let scaleMemberH = 0;
+        let scaleMemberM = 0;
 
         for (let k = 0; k < 12; k++) {
-            if (scaleMjr0.includes((12 - j + k) % 12)) {
-                scaleMember += measurePc[i].pc[k];
+            if (scaleMjrN.includes((12 - j + k) % 12)) {
+                scaleMemberN += measurePc[i].pc[k];
+            }
+            if (scaleMnrH.includes((12 - j + k) % 12)) {
+                scaleMemberH += measurePc[i].pc[k];
+            }
+            if (scaleMnrM.includes((12 - j + k) % 12)) {
+                scaleMemberM += measurePc[i].pc[k];
             }
         }
+            if (scaleMjrN >= scaleMnrH && scaleMjrN >= scaleMnrM){
+                measurePc[i].scale[j] = [
+                    scaleMemberN,
+                    scaleMemberN / measurePc[i].count * 100,
+                    "N"
+                ];
+            }
+            if (scaleMnrH >= scaleMjrN && scaleMnrH >= scaleMnrM){
+                measurePc[i].scale[j] = [
+                    scaleMemberH,
+                    scaleMemberH / measurePc[i].count * 100,
+                    "H"
+                ];
+            }
+            if (scaleMnrM >= scaleMnrH && scaleMnrM >= scaleMjrN){
+                measurePc[i].scale[j] = [
+                    scaleMemberM,
+                    scaleMemberM / measurePc[i].count * 100,
+                    "M"
+                ];
+            }
 
-        measurePc[i].scale[j] = [
-            scaleMember,
-            scaleMember / measurePc[i].count * 100
-        ];
     }
 }
 
