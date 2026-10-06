@@ -12519,28 +12519,27 @@ for (let i = 0; i < mscnt; i++) {
                 scaleMemberM += measurePc[i].pc[k];
             }
         }
-            if (scaleMjrN >= scaleMnrH && scaleMjrN >= scaleMnrM){
-                measurePc[i].scale[j] = [
-                    scaleMemberN,
-                    scaleMemberN / measurePc[i].count * 100,
-                    "N"
-                ];
-            }
-            if (scaleMnrH >= scaleMjrN && scaleMnrH >= scaleMnrM){
-                measurePc[i].scale[j] = [
-                    scaleMemberH,
-                    scaleMemberH / measurePc[i].count * 100,
-                    "H"
-                ];
-            }
-            if (scaleMnrM >= scaleMnrH && scaleMnrM >= scaleMjrN){
-                measurePc[i].scale[j] = [
-                    scaleMemberM,
-                    scaleMemberM / measurePc[i].count * 100,
-                    "M"
-                ];
-            }
-
+        if (scaleMjrN >= scaleMnrH && scaleMjrN >= scaleMnrM){
+            measurePc[i].scale[j] = [
+                scaleMemberN,
+                scaleMemberN / measurePc[i].count * 100,
+                "N"
+            ];
+        }
+        if (scaleMnrH >= scaleMjrN && scaleMnrH >= scaleMnrM){
+            measurePc[i].scale[j] = [
+                scaleMemberH,
+                scaleMemberH / measurePc[i].count * 100,
+                "H"
+            ];
+        }
+        if (scaleMnrM >= scaleMnrH && scaleMnrM >= scaleMjrN){
+            measurePc[i].scale[j] = [
+                scaleMemberM,
+                scaleMemberM / measurePc[i].count * 100,
+                "M"
+            ];
+        }
     }
 }
 
