@@ -12507,6 +12507,8 @@ for (let i = 0; i < mscnt; i++) {
         let scaleMemberN = 0;
         let scaleMemberH = 0;
         let scaleMemberM = 0;
+        let specialMemberH = 0;
+        let specialMemberM = 0;
 
         for (let k = 0; k < 12; k++) {
             if (scaleMjrN.includes((12 - j + k) % 12)) {
@@ -12514,9 +12516,15 @@ for (let i = 0; i < mscnt; i++) {
             }
             if (scaleMnrH.includes((12 - j + k) % 12)) {
                 scaleMemberH += measurePc[i].pc[k];
+                if(k === 7){
+                specialMemberH += measurePc[i].pc[k];
+                }
             }
             if (scaleMnrM.includes((12 - j + k) % 12)) {
                 scaleMemberM += measurePc[i].pc[k];
+                if(k === 6 || k === 7){
+                specialMemberM += measurePc[i].pc[k];
+                }
             }
         }
         if (scaleMemberN >= scaleMemberH && scaleMemberN >= scaleMemberM){
@@ -12526,14 +12534,14 @@ for (let i = 0; i < mscnt; i++) {
                 "N"
             ];
         }
-        if (scaleMemberH >= scaleMemberN && scaleMemberH >= scaleMemberM){
+        if (scaleMemberH >= scaleMemberN && scaleMemberH >= scaleMemberM && specialMemberH >0){
             measurePc[i].scale[j] = [
                 scaleMemberH,
                 scaleMemberH / measurePc[i].count * 100,
                 "H"
             ];
         }
-        if (scaleMemberM >= scaleMemberH && scaleMemberM >= scaleMemberN){
+        if (scaleMemberM >= scaleMemberH && scaleMemberM >= scaleMemberN && specialMemberM >0){
             measurePc[i].scale[j] = [
                 scaleMemberM,
                 scaleMemberM / measurePc[i].count * 100,
