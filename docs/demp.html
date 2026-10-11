@@ -12747,33 +12747,7 @@ for (let i = 0; i < mscnt; i++) {
 
         // H / M が候補に含まれていれば Minor を優先
 
-        const scaleType = measurePc[i].scale[j][2];
-        const hasMinorScale =
-            scaleType === "H" || scaleType === "M";
-
-        if (hasMinorScale) {
-
-            // H / M: j を短調の主音として選択
-            const minorKey = {
-                measure: i + 1,
-                root: j,
-                mode: "minor",
-                name: engMnr1[j] + " minor",
-                weight1: measurePc[i].pc[j] /
-                    measurePc[i].count * 100,
-                weight5: measurePc[i].pc[(j + 7) % 12] /
-                    measurePc[i].count * 100
-            };
-
-            minorKey.weight =
-                minorKey.weight1 + minorKey.weight5;
-
-            pair.selected.push({
-                key: minorKey,
-                point: scalePoint * minorKey.weight
-            });
-
-        } else if (major.weight > minor.weight) {
+        if (major.weight > minor.weight) {
 
             pair.selected.push({
                 key: major,
@@ -12798,9 +12772,9 @@ for (let i = 0; i < mscnt; i++) {
                 key: minor,
                 point: 0
             });
-        }
 
-        
+        }
+       
 /*
         if (hasMinorScale) {
 
