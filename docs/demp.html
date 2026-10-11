@@ -12716,6 +12716,49 @@ for (let i = 0; i < mscnt; i++) {
 
     for (const j of measurePc[i].bestScale) {
 
+        const scaleType = measurePc[i].scale[j][2];
+        const isMinorScale =
+            scaleType === "H" || scaleType === "M";
+
+        const majorRoot = isMinorScale
+            ? (j + 3) % 12
+            : j;
+
+        const minorRoot = isMinorScale
+            ? j
+            : (j + 9) % 12;
+
+        const major = {
+            measure: i + 1,
+            root: majorRoot,
+            mode: "major",
+            name: engf1[majorRoot] + " major",
+            weight1:
+                measurePc[i].pc[majorRoot] /
+                measurePc[i].count * 100,
+            weight5:
+                measurePc[i].pc[(majorRoot + 7) % 12] /
+                measurePc[i].count * 100
+        };
+
+        major.weight = major.weight1 + major.weight5;
+
+        const minor = {
+            measure: i + 1,
+            root: minorRoot,
+            mode: "minor",
+            name: engMnr1[minorRoot] + " minor",
+            weight1:
+                measurePc[i].pc[minorRoot] /
+                measurePc[i].count * 100,
+            weight5:
+                measurePc[i].pc[(minorRoot + 7) % 12] /
+                measurePc[i].count * 100
+        };
+
+        minor.weight = minor.weight1 + minor.weight5;
+
+        /*
         const major = {
 			measure: i+1,
             root: j,
@@ -12737,7 +12780,7 @@ for (let i = 0; i < mscnt; i++) {
         };
 
         minor.weight = minor.weight1 + minor.weight5;
-
+*/
 		const pair = {
 			major: major,
 			minor: minor,
