@@ -12934,10 +12934,22 @@ if (i >= 11 && i <= 13) {
 			.map(item => item.key.name)
 			.join(" / ");
 
-
+    measurePc[i].estScaleType =
+        measurePc[i].bestScale
+            .map(j => measurePc[i].scale[j][2])
+            .filter(type => type === "H" || type === "M")
+            .filter((type, index, array) =>
+                array.indexOf(type) === index
+            )
+            .join(" / ");
+            
     ctx.fillStyle = "black";
-    ctx.fillText(measurePc[i].estKey,710,50+10*i);
-    ctx.fillText(measurePc[i].estKey,710,100+mscnt*10+10*i);
+    const displayKey = measurePc[i].estScaleType
+        ? measurePc[i].estKey + " (" + measurePc[i].estScaleType + ")"
+        : measurePc[i].estKey;
+
+    ctx.fillText(displayKey, 710, 50 + 10 * i);
+    ctx.fillText(displayKey, 710, 100 + mscnt * 10 + 10 * i);
 
 	if (!measurePc[i]) continue;
 
