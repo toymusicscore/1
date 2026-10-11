@@ -12609,6 +12609,16 @@ for (let i = 0; i < mscnt; i++) {
                 "M"
             ];
         }
+        // Default: Natural Major
+        if (
+            measurePc[i].scale[j].length === 0
+        ) {
+            measurePc[i].scale[j] = [
+                scaleMemberN,
+                scaleMemberN / measurePc[i].count * 100,
+                "N"
+            ];
+        }
     }
 }
 
