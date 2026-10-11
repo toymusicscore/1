@@ -12519,22 +12519,21 @@ for (let i = 0; i < mscnt; i++) {
                 scaleMemberM += measurePc[i].pc[k];
             }
         }
-        if (scaleMjrN >= scaleMnrH && scaleMjrN >= scaleMnrM){
+        if (scaleMemberN >= scaleMemberH && scaleMemberN >= scaleMemberM){
             measurePc[i].scale[j] = [
                 scaleMemberN,
                 scaleMemberN / measurePc[i].count * 100,
                 "N"
             ];
         }
-
-        if (scaleMnrH >= scaleMjrN && scaleMnrH >= scaleMnrM){
+        if (scaleMemberH >= scaleMemberN && scaleMemberH >= scaleMemberM){
             measurePc[i].scale[j] = [
                 scaleMemberH,
                 scaleMemberH / measurePc[i].count * 100,
                 "H"
             ];
         }
-        if (scaleMnrM >= scaleMnrH && scaleMnrM >= scaleMjrN){
+        if (scaleMemberM >= scaleMemberH && scaleMemberM >= scaleMemberN){
             measurePc[i].scale[j] = [
                 scaleMemberM,
                 scaleMemberM / measurePc[i].count * 100,
