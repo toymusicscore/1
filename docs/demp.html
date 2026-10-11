@@ -12526,19 +12526,35 @@ for (let i = 0; i < mscnt; i++) {
         let scaleMemberN = 0;
         let scaleMemberH = 0;
         let scaleMemberM = 0;
-        let specialMember6 = 0;
-        let specialMember7 = 0;
+        let specialMemberN6 = 0;
+        let specialMemberN7 = 0;
+        let specialMemberH6 = 0;
+        let specialMemberH7 = 0;
+        let specialMemberM6 = 0;
+        let specialMemberM7 = 0;
 
         for (let k = 0; k < 12; k++) {
             if (scaleMjrN.includes((12 - j + k) % 12)) {
                 scaleMemberN += measurePc[i].pc[k];
+
+                if ((12 - j + k) % 12 === 9) {
+                    specialMemberN6 += measurePc[i].pc[k];
+                }
+
+                if ((12 - j + k) % 12 === 11) {
+                    specialMemberN7 += measurePc[i].pc[k];
+                }
             }
 
             if (scaleMnrH.includes((12 - j + k) % 12)) {
                 scaleMemberH += measurePc[i].pc[k];
 
+                if ((12 - j + k) % 12 === 9) {
+                    specialMemberH6 += measurePc[i].pc[k];
+                }
+
                 if ((12 - j + k) % 12 === 11) {
-                    specialMember7 += measurePc[i].pc[k];
+                    specialMemberH7 += measurePc[i].pc[k];
                 }
             }
 
@@ -12546,25 +12562,33 @@ for (let i = 0; i < mscnt; i++) {
                 scaleMemberM += measurePc[i].pc[k];
 
                 if ((12 - j + k) % 12 === 9) {
-                    specialMember6 += measurePc[i].pc[k];
+                    specialMemberM6 += measurePc[i].pc[k];
                 }
 
                 if ((12 - j + k) % 12 === 11) {
-                    specialMember7 += measurePc[i].pc[k];
+                    specialMemberM7 += measurePc[i].pc[k];
                 }
             }
         }
         // Default: Natural Major
-        measurePc[i].scale[j] = [
-            scaleMemberN,
-            scaleMemberN / measurePc[i].count * 100,
-            "N"
-        ];
+        if (
+            scaleMemberN >= scaleMemberH &&
+            scaleMemberN >= scaleMemberM &&
+            specialMemberN6 === 0 &&
+            specialMemberN7 === 0
+        ) {
+            measurePc[i].scale[j] = [
+                scaleMemberN,
+                scaleMemberN / measurePc[i].count * 100,
+                "N"
+            ];
+        }
 
         if (
             scaleMemberH >= scaleMemberN &&
             scaleMemberH >= scaleMemberM &&
-            specialMember7 > 0
+            specialMemberH6 === 0 &&
+            specialMemberH7 > 0
         ) {
             measurePc[i].scale[j] = [
                 scaleMemberH,
@@ -12576,8 +12600,8 @@ for (let i = 0; i < mscnt; i++) {
         if (
             scaleMemberM >= scaleMemberH &&
             scaleMemberM >= scaleMemberN &&
-            specialMember6 > 0 &&
-            specialMember7 > 0
+            specialMemberM6 > 0 &&
+            specialMemberM7 > 0
         ) {
             measurePc[i].scale[j] = [
                 scaleMemberM,
