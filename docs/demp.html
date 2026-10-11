@@ -12572,7 +12572,7 @@ for (let i = 0; i < mscnt; i++) {
         }
 if (i === 13){
     console.log({ 
-    i,
+    i,j,
     scaleMemberN,
     scaleMemberH,
     scaleMemberM,
@@ -12705,6 +12705,14 @@ ctx.textAlign = "left";
 ctx.fillText("Estimated Key",700,120+mscnt*20);
 
 let row = 0;
+
+const scaleType = measurePc[i].scale[j][2];
+
+if (scaleType === "H" || scaleType === "M") {
+    // Minor
+} else {
+    // Natural scale: compare Major and Minor
+}
 
 for (let i = 0; i < mscnt; i++) {
 
