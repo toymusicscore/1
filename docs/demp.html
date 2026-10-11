@@ -12706,14 +12706,6 @@ ctx.fillText("Estimated Key",700,120+mscnt*20);
 
 let row = 0;
 
-const scaleType = measurePc[i].scale[j][2];
-
-if (scaleType === "H" || scaleType === "M") {
-    // Minor
-} else {
-    // Natural scale: compare Major and Minor
-}
-
 for (let i = 0; i < mscnt; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
@@ -12752,6 +12744,49 @@ for (let i = 0; i < mscnt; i++) {
 			selected: [],
 			point: scalePoint
 		};
+
+        // H / M が候補に含まれていれば Minor を優先
+        const hasMinorScale = measurePc[i].scale.some(
+            scale => scale &&
+                (scale[2] === "H" || scale[2] === "M")
+        );
+
+        if (hasMinorScale) {
+
+            pair.selected.push({
+                key: minor,
+                point: scalePoint * minor.weight
+            });
+
+        } else if (major.weight > minor.weight) {
+
+            pair.selected.push({
+                key: major,
+                point: scalePoint * (major.weight - minor.weight)
+            });
+
+        } else if (major.weight < minor.weight) {
+
+            pair.selected.push({
+                key: minor,
+                point: scalePoint * (minor.weight - major.weight)
+            });
+
+        } else {
+
+            pair.selected.push({
+                key: major,
+                point: 0
+            });
+
+            pair.selected.push({
+                key: minor,
+                point: 0
+            });
+
+        }
+
+        /*
 		if (major.weight > minor.weight) {
 
 			pair.selected.push({
@@ -12781,6 +12816,7 @@ for (let i = 0; i < mscnt; i++) {
 			});
 
 		}
+*/
 
 		measurePc[i].pairs.push(pair);
 
