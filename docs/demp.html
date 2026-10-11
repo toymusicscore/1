@@ -1841,17 +1841,36 @@ function saveFinger() {
     );
 }
 
-function loadSavedFingerSettings(){
 
+function loadSavedFingerSettings() {
     const tmp = localStorage.getItem("workingFinger");
 
-    if(tmp){
-        workingFinger = JSON.parse(tmp);
-    }else{
+    if (tmp) {
+        const saved = JSON.parse(tmp);
+
+        workingFinger = {
+            ...structuredClone(defaultFinger),
+            ...saved,
+            connectionRangeSize: {
+                ...defaultFinger.connectionRangeSize,
+                ...saved.connectionRangeSize
+            },
+            evaluationRangeSize: {
+                ...defaultFinger.evaluationRangeSize,
+                ...saved.evaluationRangeSize
+            },
+            variabilityRangeSize: {
+                ...defaultFinger.variabilityRangeSize,
+                ...saved.variabilityRangeSize
+            },
+            fingerReachRest: {
+                ...defaultFinger.fingerReachRest,
+                ...saved.fingerReachRest
+            }
+        };
+    } else {
         workingFinger = structuredClone(defaultFinger);
     }
-
-//    updateFingerData();
 }
 
 function onResetFinger(){
