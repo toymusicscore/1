@@ -12746,11 +12746,62 @@ for (let i = 0; i < mscnt; i++) {
 		};
 
         // H / M が候補に含まれていれば Minor を優先
-        const hasMinorScale = measurePc[i].scale.some(
-            scale => scale &&
-                (scale[2] === "H" || scale[2] === "M")
-        );
 
+        const scaleType = measurePc[i].scale[j][2];
+        const hasMinorScale =
+            scaleType === "H" || scaleType === "M";
+
+        if (hasMinorScale) {
+
+            // H / M: j を短調の主音として選択
+            const minorKey = {
+                measure: i + 1,
+                root: j,
+                mode: "minor",
+                name: engMnr1[j] + " minor",
+                weight1: measurePc[i].pc[j] /
+                    measurePc[i].count * 100,
+                weight5: measurePc[i].pc[(j + 7) % 12] /
+                    measurePc[i].count * 100
+            };
+
+            minorKey.weight =
+                minorKey.weight1 + minorKey.weight5;
+
+            pair.selected.push({
+                key: minorKey,
+                point: scalePoint * minorKey.weight
+            });
+
+        } else if (major.weight > minor.weight) {
+
+            pair.selected.push({
+                key: major,
+                point: scalePoint * (major.weight - minor.weight)
+            });
+
+        } else if (major.weight < minor.weight) {
+
+            pair.selected.push({
+                key: minor,
+                point: scalePoint * (minor.weight - major.weight)
+            });
+
+        } else {
+
+            pair.selected.push({
+                key: major,
+                point: 0
+            });
+
+            pair.selected.push({
+                key: minor,
+                point: 0
+            });
+        }
+
+        
+/*
         if (hasMinorScale) {
 
             pair.selected.push({
@@ -12785,7 +12836,7 @@ for (let i = 0; i < mscnt; i++) {
             });
 
         }
-
+*/
         /*
 		if (major.weight > minor.weight) {
 
