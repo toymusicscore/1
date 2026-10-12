@@ -12626,29 +12626,63 @@ for (let i = 0; i < mscnt; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-	measurePc[i].bestScale = [];
+    measurePc[i].bestScale = [];
 
-	let maxScore = -1;
+    let maxNaturalScore = -1;
+    let maxMinorScore = -1;
 
-	for (let j = 0; j < 12; j++) {
+    // Find the best Natural score and the best H/M score
+    for (let j = 0; j < 12; j++) {
 
-		const score = measurePc[i].scale[j][1];
+        const scale = measurePc[i].scale[j];
+        const info = scale[3];
 
-		if (score > maxScore) {
+        maxNaturalScore = Math.max(
+            maxNaturalScore,
+            scale[0]
+        );
 
-			maxScore = score;
-			measurePc[i].bestScale = [j];
+        maxMinorScore = Math.max(
+            maxMinorScore,
+            info.scaleMemberH,
+            info.scaleMemberM
+        );
+    }
 
-		} else if (score === maxScore) {
+    // Use H/M only when it exceeds the best Natural score
+    const useMinorScale =
+        maxMinorScore > maxNaturalScore;
 
-			measurePc[i].bestScale.push(j);
-		}
-	}
+    const maxScore = useMinorScale
+        ? maxMinorScore
+        : maxNaturalScore;
 
-	measurePc[i].bestScore = maxScore;
-	measurePc[i].scaleMax = measurePc[i].bestScale.length;
+    // Keep all candidates with the maximum score
+    for (let j = 0; j < 12; j++) {
 
+        const scale = measurePc[i].scale[j];
+        const info = scale[3];
+
+        const score = useMinorScale
+            ? Math.max(
+                info.scaleMemberH,
+                info.scaleMemberM
+            )
+            : scale[0];
+
+        if (score === maxScore) {
+            measurePc[i].bestScale.push(j);
+        }
+    }
+
+    // Store the score as a percentage
+    measurePc[i].bestScore =
+        maxScore / measurePc[i].count * 100;
+
+    measurePc[i].scaleMax =
+        measurePc[i].bestScale.length;
 }
+
 
 for (let i = 11; i <= 12; i++) {
 
