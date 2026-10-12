@@ -12566,92 +12566,58 @@ for (let i = 0; i < mscnt; i++) {
             }
         }
 
-if (i === 1 && j === 9) {
+        if (i === 1 && j === 9) {
 
-    console.log("Measure 2: Pitch-class counts", {
-        i,j,
-        pc: measurePc[i].pc,
-        count: measurePc[i].count,
-        scaleMnrN,
-        scaleMnrH,
-        scaleMnrM
-    });
+            console.log("Measure 2: Pitch-class counts", {
+                i,j,
+                pc: measurePc[i].pc,
+                count: measurePc[i].count,
+                scaleMnrN,
+                scaleMnrH,
+                scaleMnrM
+            });
 
-    console.log("Measure 2: Scale comparison", {
-        i,j,
-        scaleMemberN,
-        scaleMemberH,
-        scaleMemberM,
-        specialMemberN6,
-        specialMemberN7,
-        specialMemberH6,
-        specialMemberH7,
-        specialMemberM6,
-        specialMemberM7
-    });
-
-}
-        if (
-            scaleMemberN >= scaleMemberH &&
-            scaleMemberN >= scaleMemberM &&
-            specialMemberN6 === 0 &&
-            specialMemberN7 === 0
-        ) {
-            measurePc[i].scale[j] = [
+            console.log("Measure 2: Scale comparison", {
+                i,j,
                 scaleMemberN,
-                scaleMemberN / measurePc[i].count * 100,
-                "N"
-            ];
-        }
-
-        if (
-            scaleMemberH >= scaleMemberN &&
-            scaleMemberH >= scaleMemberM &&
-            specialMemberH6 === 0 &&
-            specialMemberH7 > 0
-        ) {
-            measurePc[i].scale[j] = [
                 scaleMemberH,
-                scaleMemberH / measurePc[i].count * 100,
-                "H"
-            ];
-        }
-
-        if (
-            scaleMemberM >= scaleMemberH &&
-            scaleMemberM >= scaleMemberN &&
-            specialMemberM6 > 0 &&
-            specialMemberM7 > 0
-        ) {
-            measurePc[i].scale[j] = [
                 scaleMemberM,
-                scaleMemberM / measurePc[i].count * 100,
-                "M"
-            ];
+                specialMemberN6,
+                specialMemberN7,
+                specialMemberH6,
+                specialMemberH7,
+                specialMemberM6,
+                specialMemberM7
+            });
+
         }
 
-if (i === 1 && j === 0) {
-    console.log("Measure 2, root C, before Default", {
-        scaleMemberN,
-        scaleMemberH,
-        scaleMemberM,
-        specialMemberM6,
-        specialMemberM7,
-        scale: measurePc[i].scale[j]
-    });
-}
+        measurePc[i].scale[j] = [
+            scaleMemberN,
+            scaleMemberN / measurePc[i].count * 100,
+            "N"
+        ];
 
-        // Default: Natural Minor
-        if (
-            !measurePc[i].scale[j] ||
-            measurePc[i].scale[j].length === 0
-        ) {
-            measurePc[i].scale[j] = [
+        measurePc[i].scale[j].push({
+            scaleMemberH,
+            scaleMemberM,
+            specialMemberH6,
+            specialMemberH7,
+            specialMemberM6,
+            specialMemberM7
+        });
+
+        if (i === 1 && j === 0) {
+            console.log("Measure 2, root C, before Default", {
                 scaleMemberN,
-                scaleMemberN / measurePc[i].count * 100,
-                "N"
-            ];
+                scaleMemberH,
+                scaleMemberM,
+                specialMemberM6,
+                specialMemberM7,
+                scale: measurePc[i].scale[j]
+            });
         }
+
     }
 }
 
