@@ -12736,22 +12736,43 @@ for (let i = 0; i < mscnt; i++) {
         const scaleType = measurePc[i].scale[j][2];
         const hasMinorScale = scaleType === "H" || scaleType === "M";
 
-        if (hasMinorScale) {
+        if (major.weight > minor.weight) {
 
-            // Harmonic / Melodic Minor: select minor
-            pair.selected.push({
-                key: minor,
-                point: scalePoint * minor.weight
-            });
-
-        } else if (major.weight > minor.weight) {
-
+            // Natural: Major is selected
             pair.selected.push({
                 key: major,
                 point: scalePoint * (major.weight - minor.weight)
             });
 
         } else if (major.weight < minor.weight) {
+
+            // Natural: Minor is selected
+            // Then check Harmonic / Melodic Minor
+
+            const scale = measurePc[i].scale[j];
+            const info = scale[3];
+
+            let scaleType = "N";
+
+            if (
+                info.scaleMemberH >= scale[0] &&
+                info.scaleMemberH >= info.scaleMemberM &&
+                info.specialMemberH6 === 0 &&
+                info.specialMemberH7 > 0
+            ) {
+                scaleType = "H";
+
+            } else if (
+                info.scaleMemberM >= info.scaleMemberH &&
+                info.scaleMemberM >= scale[0] &&
+                info.specialMemberM6 > 0 &&
+                info.specialMemberM7 > 0
+            ) {
+                scaleType = "M";
+            }
+
+            // Save the final minor scale type
+            scale[2] = scaleType;
 
             pair.selected.push({
                 key: minor,
@@ -12760,6 +12781,7 @@ for (let i = 0; i < mscnt; i++) {
 
         } else {
 
+            // Equal weights: no preference
             pair.selected.push({
                 key: major,
                 point: 0
