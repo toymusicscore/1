@@ -12943,6 +12943,24 @@ if (i >= 11 && i <= 13) {
             )
             .join(" / ");
             
+            if (i === 1) {
+    console.log("Measure 2", {
+        bestScale: measurePc[i].bestScale.map(j => ({
+            root: engf1[j],
+            score: measurePc[i].scale[j][1],
+            type: measurePc[i].scale[j][2]
+        })),
+        estimatedKey: measurePc[i].estKey,
+        pairs: measurePc[i].pairs.map(pair => ({
+            major: pair.major.name,
+            minor: pair.minor.name,
+            selected: pair.selected
+                .filter(item => item.point > 0)
+                .map(item => item.key.name)
+        }))
+    });
+}
+
     ctx.fillStyle = "black";
     const displayKey = measurePc[i].estScaleType
         ? measurePc[i].estKey + " (" + measurePc[i].estScaleType + ")"
