@@ -12534,40 +12534,35 @@ for (let i = 0; i < mscnt; i++) {
         let specialMemberM7 = 0;
 
         for (let k = 0; k < 12; k++) {
-            if (scaleMjrN.includes((12 - j + k) % 12)) {
-                scaleMemberN += measurePc[i].pc[k];
 
-                if ((12 - j + k) % 12 === 6) {
-                    specialMemberN6 += measurePc[i].pc[k];
-                }
+            const interval = (12 - j + k) % 12;
+            const count = measurePc[i].pc[k];
 
-                if ((12 - j + k) % 12 === 8) {
-                    specialMemberN7 += measurePc[i].pc[k];
-                }
+            // Scale membership
+            if (scaleMnrN.includes(interval)) {
+                scaleMemberN += count;
             }
 
-            if (scaleMnrH.includes((12 - j + k) % 12)) {
-                scaleMemberH += measurePc[i].pc[k];
-
-                if ((12 - j + k) % 12 === 6) {
-                    specialMemberH6 += measurePc[i].pc[k];
-                }
-
-                if ((12 - j + k) % 12 === 8) {
-                    specialMemberH7 += measurePc[i].pc[k];
-                }
+            if (scaleMnrH.includes(interval)) {
+                scaleMemberH += count;
             }
 
-            if (scaleMnrM.includes((12 - j + k) % 12)) {
-                scaleMemberM += measurePc[i].pc[k];
+            if (scaleMnrM.includes(interval)) {
+                scaleMemberM += count;
+            }
 
-                if ((12 - j + k) % 12 === 6) {
-                    specialMemberM6 += measurePc[i].pc[k];
-                }
+            // Raised 6th: semitone 9
+            if (interval === 9) {
+                specialMemberN6 += count;
+                specialMemberH6 += count;
+                specialMemberM6 += count;
+            }
 
-                if ((12 - j + k) % 12 === 8) {
-                    specialMemberM7 += measurePc[i].pc[k];
-                }
+            // Raised 7th: semitone 11
+            if (interval === 11) {
+                specialMemberN7 += count;
+                specialMemberH7 += count;
+                specialMemberM7 += count;
             }
         }
 
