@@ -12751,21 +12751,6 @@ for (let i = 0; i < mscnt; i++) {
 
             const scale = measurePc[i].scale[j];
             const info = scale[3];
-
-        if (i === 10 && j === 2) {
-            console.log("Measure 11: D minor check", {
-                i,j,
-                scaleMemberN: scale[0],
-                scaleMemberH: info.scaleMemberH,
-                scaleMemberM: info.scaleMemberM,
-                specialMemberH6: info.specialMemberH6,
-                specialMemberH7: info.specialMemberH7,
-                specialMemberM6: info.specialMemberM6,
-                specialMemberM7: info.specialMemberM7,
-                scaleType
-            });
-        }
-
             let scaleType = "N";
 
             if (
@@ -12808,6 +12793,20 @@ for (let i = 0; i < mscnt; i++) {
         }
 
 		measurePc[i].pairs.push(pair);
+
+        if (i === 10 && j === 2) {
+            console.log("Measure 11: D minor check", {
+                i,j,
+                scaleMemberN: scale[0],
+                scaleMemberH: info.scaleMemberH,
+                scaleMemberM: info.scaleMemberM,
+                specialMemberH6: info.specialMemberH6,
+                specialMemberH7: info.specialMemberH7,
+                specialMemberM6: info.specialMemberM6,
+                specialMemberM7: info.specialMemberM7,
+                scaleType
+            });
+        }
 
 	}
 
