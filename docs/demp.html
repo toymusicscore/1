@@ -12988,7 +12988,7 @@ for (let i = 0; i < mscnt; i++) {
 const scaleType = measurePc[i].estScaleType;
 
 const displayKey =
-    scaleType === "N" && measurePc[i].mode === "minor"
+    scaleType === "N" && measurePc[i].estKey.endsWith("minor")
         ? measurePc[i].estKey + " (N)"
         : scaleType && scaleType !== "N"
             ? measurePc[i].estKey + " (" + scaleType + ")"
