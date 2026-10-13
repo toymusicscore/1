@@ -12784,6 +12784,71 @@ for (let i = 0; i < mscnt; i++) {
             point: scalePoint
         };
 
+
+        // Determine the scale type first
+        const scale = measurePc[i].scale[j];
+        const info = scale[3];
+
+        let scaleType = "N";
+
+        if (
+            info.scaleMemberH >= info.scaleMemberM &&
+            info.scaleMemberH >= scale[0] &&
+            info.specialMemberH7 > 0
+        ) {
+            scaleType = "H";
+
+        } else if (
+            info.scaleMemberM >= info.scaleMemberH &&
+            info.scaleMemberM >= scale[0] &&
+            info.specialMemberM6 > 0 &&
+            info.specialMemberM7 > 0
+        ) {
+            scaleType = "M";
+        }
+
+        // Save the scale type before comparing Major / Minor
+        scale[2] = scaleType;
+
+        if (scaleType === "H" || scaleType === "M") {
+
+            // Harmonic / Melodic Minor
+            pair.selected.push({
+                key: minor,
+                point: scalePoint
+            });
+
+        } else if (major.weight > minor.weight) {
+
+            // Natural Major
+            pair.selected.push({
+                key: major,
+                point: scalePoint * (major.weight - minor.weight)
+            });
+
+        } else if (major.weight < minor.weight) {
+
+            // Natural Minor
+            pair.selected.push({
+                key: minor,
+                point: scalePoint * (minor.weight - major.weight)
+            });
+
+        } else {
+
+            // Equal weights: no preference
+            pair.selected.push({
+                key: major,
+                point: 0
+            });
+
+            pair.selected.push({
+                key: minor,
+                point: 0
+            });
+        }
+        
+        /*
         const scaleType = measurePc[i].scale[j][2];
         const hasMinorScale = scaleType === "H" || scaleType === "M";
 
@@ -12841,7 +12906,7 @@ for (let i = 0; i < mscnt; i++) {
                 point: 0
             });
         }
-
+*/
 		measurePc[i].pairs.push(pair);
 /*
         if (i === 10 && j === 2) {
