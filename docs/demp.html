@@ -13250,24 +13250,24 @@ const displayKey = isMinor
 		ctx.fillStyle = "black";
 
 		const endAngle = startAngle + ratio * Math.PI * 2;
+        
+        // キー名から色を決定
+        const keyName = measurePc.keyPoints[i][0];
+        let root;
 
-		// キー名から色を決定
-		let keyName = measurePc.keyPoints[i][0];
-		let root;
+        if (keyName.endsWith("M")) {
+            root = engf1.indexOf(keyName.slice(0, -1));
+        } else {
+            root = engMnr1.indexOf(keyName.slice(0, -1));
+        }
 
-		if (keyName.includes("major")) {
-			root = engf1.indexOf(keyName.replace(" major", ""));
-		} else {
-			root = engMnr1.indexOf(keyName.replace(" minor", ""));
-		}
+        const key = keyName;
 
-		const key = measurePc.keyPoints[i][0];
+        let color = workingColor.pc[root];
 
-		let color = workingColor.pc[root];
-
-		if (key.includes("minor")) {
-			color = darkenColor(color, 0.8);
-		}
+        if (key.endsWith("m")) {
+            color = darkenColor(color, 0.8);
+        }
 
 		ctx.fillStyle = color;
 
