@@ -12985,20 +12985,14 @@ for (let i = 0; i < mscnt; i++) {
 
     ctx.fillStyle = "black";
 
+ctx.fillStyle = "black";
+
 const scaleType = measurePc[i].estScaleType;
+const isMinor = measurePc[i].estKey.includes("minor");
 
-const displayKey =
-    scaleType === "N" && measurePc[i].estKey.endsWith("minor")
-        ? measurePc[i].estKey + " (N)"
-        : scaleType && scaleType !== "N"
-            ? measurePc[i].estKey + " (" + scaleType + ")"
-            : measurePc[i].estKey;
-
-/*
-    const displayKey = measurePc[i].estScaleType
-        ? measurePc[i].estKey + " (" + measurePc[i].estScaleType + ")"
-        : measurePc[i].estKey;
-*/
+const displayKey = isMinor
+    ? measurePc[i].estKey + " (" + (scaleType || "N") + ")"
+    : measurePc[i].estKey;
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
     ctx.fillText(displayKey, 710, 100 + mscnt * 10 + 10 * i);
