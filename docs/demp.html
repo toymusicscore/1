@@ -12776,6 +12776,20 @@ for (let i = 0; i < mscnt; i++) {
 
         major.weight = major.weight1 + major.weight5;
 
+        if (i === 21) {
+            console.log("Measure 22 key comparison", {
+                major: major.name,
+                majorRoot: engf1[majorRoot],
+                weight1: major.weight1,
+                weight5: major.weight5,
+                majorWeight: major.weight,
+                minor: minor.name,
+                minorWeight1: minor.weight1,
+                minorWeight5: minor.weight5,
+                minorWeight: minor.weight
+            });
+        }
+
         const pair = {
             major: major,
             minor: minor,
