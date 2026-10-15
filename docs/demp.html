@@ -12955,23 +12955,23 @@ for (let i = 0; i < mscnt; i++) {
 			.map(item => item.key.name)
 			.join(" / ");
 
-measurePc[i].estScaleType =
-    measurePc[i].pairs
-        .flatMap(pair =>
-            pair.selected
-                .filter(item =>
-                    item.point > 0 &&
-                    item.key.mode === "minor"
-                )
-                .map(item =>
-                    measurePc[i].scale[item.key.root][2]
-                )
-        )
-        .filter((type, index, array) =>
-            array.indexOf(type) === index
-        )
-        .join(" / ");
-                    
+    measurePc[i].estScaleType =
+        measurePc[i].pairs
+            .flatMap(pair =>
+                pair.selected
+                    .filter(item =>
+                        item.point > 0 &&
+                        item.key.mode === "minor"
+                    )
+                    .map(item =>
+                        measurePc[i].scale[item.key.root][2]
+                    )
+            )
+            .filter((type, index, array) =>
+                array.indexOf(type) === index
+            )
+            .join(" / ");
+
             if (i === 1) {
     console.log("Measure 2", {
         bestScale: measurePc[i].bestScale.map(j => ({
@@ -12992,12 +12992,16 @@ measurePc[i].estScaleType =
 
     ctx.fillStyle = "black";
 
-const scaleType = measurePc[i].estScaleType;
-const isMinor = measurePc[i].estKey.includes("minor");
+    const scaleType = measurePc[i].estScaleType;
+    const estKey = measurePc[i].estKey;
 
-const displayKey = isMinor
-    ? measurePc[i].estKey + " (" + (scaleType || "N") + ")"
-    : measurePc[i].estKey;
+    const isMinor = estKey
+        .split(" / ")
+        .some(key => key.endsWith("m"));
+
+    const displayKey = isMinor && scaleType
+        ? estKey + " (" + scaleType + ")"
+        : estKey;
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
     ctx.fillText(displayKey, 710, 100 + mscnt * 10 + 10 * i);
