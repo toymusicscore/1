@@ -12955,15 +12955,23 @@ for (let i = 0; i < mscnt; i++) {
 			.map(item => item.key.name)
 			.join(" / ");
 
-    measurePc[i].estScaleType =
-        measurePc[i].bestScale
-            .map(j => measurePc[i].scale[j][2])
-            .filter(type => type === "H" || type === "M")
-            .filter((type, index, array) =>
-                array.indexOf(type) === index
-            )
-            .join(" / ");
-            
+measurePc[i].estScaleType =
+    measurePc[i].pairs
+        .flatMap(pair =>
+            pair.selected
+                .filter(item =>
+                    item.point > 0 &&
+                    item.key.mode === "minor"
+                )
+                .map(item =>
+                    measurePc[i].scale[item.key.root][2]
+                )
+        )
+        .filter((type, index, array) =>
+            array.indexOf(type) === index
+        )
+        .join(" / ");
+                    
             if (i === 1) {
     console.log("Measure 2", {
         bestScale: measurePc[i].bestScale.map(j => ({
@@ -12983,8 +12991,6 @@ for (let i = 0; i < mscnt; i++) {
 }
 
     ctx.fillStyle = "black";
-
-ctx.fillStyle = "black";
 
 const scaleType = measurePc[i].estScaleType;
 const isMinor = measurePc[i].estKey.includes("minor");
@@ -13250,7 +13256,7 @@ const displayKey = isMinor
 		ctx.fillStyle = "black";
 
 		const endAngle = startAngle + ratio * Math.PI * 2;
-        
+
         // キー名から色を決定
         const keyName = measurePc.keyPoints[i][0];
         let root;
