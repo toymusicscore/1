@@ -13004,10 +13004,17 @@ for (let i = 0; i < mscnt; i++) {
     });
 }
 
+    if (!measurePc[i]) continue;
+
     ctx.fillStyle = "black";
 
     const scaleType = measurePc[i].estScaleType;
     const estKey = measurePc[i].estKey;
+
+    if (i === 21) {
+        console.log("Measure 22 estKey:", estKey);
+        console.log("Measure 22 pairs:", measurePc[i].pairs);
+    }
 
     const isMinor = estKey
         .split(" / ")
@@ -13019,8 +13026,6 @@ for (let i = 0; i < mscnt; i++) {
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
     ctx.fillText(displayKey, 710, 100 + mscnt * 10 + 10 * i);
-
-	if (!measurePc[i]) continue;
 
 	for (const pair of measurePc[i].pairs) {
 
