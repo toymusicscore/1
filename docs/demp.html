@@ -12763,17 +12763,22 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			ry
 		);
 		// 採用キー
-		ctx.fillText(
-            /*
-			pair.selected
-				.filter(k => k.point > 0)
-				.map(k => k.key.name)
-				.join(" / "),
-			*/
-            displayKey,
-            710,
-			ry
-		);
+        // Selected key for this pair
+        const pairKey = pair.selected
+            .filter(k => k.point > 0)
+            .map(k => {
+                const name = k.key.name;
+
+                if (k.key.mode !== "minor") {
+                    return name;
+                }
+
+                const type = measurePc[i].scale[k.key.root][2];
+                return name + "(" + type + ")";
+            })
+            .join(" / ");
+
+        ctx.fillText(pairKey, 710, ry);
 
 		// ===== Major 左側 =====
 		ctx.textAlign = "right";		
