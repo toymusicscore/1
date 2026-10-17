@@ -12842,6 +12842,11 @@ for (const j of measurePc[i].bestScale) {
 // H/M candidates are retained as minor.
 //========================================================
 
+//========================================================
+// Compare winning N candidates across roots.
+// Compare Major and Minor together using key.weight.
+//========================================================
+
 const naturalCandidates = measurePc[i].pairs
     .filter(pair => pair.scaleType === "N")
     .flatMap(pair =>
@@ -12849,7 +12854,9 @@ const naturalCandidates = measurePc[i].pairs
     );
 
 const maxNaturalWeight = naturalCandidates.length > 0
-    ? Math.max(...naturalCandidates.map(item => item.point))
+    ? Math.max(
+        ...naturalCandidates.map(item => item.key.weight)
+    )
     : -1;
 
 for (const pair of measurePc[i].pairs) {
@@ -12860,7 +12867,7 @@ for (const pair of measurePc[i].pairs) {
 
         if (
             item.point > 0 &&
-            item.point < maxNaturalWeight
+            item.key.weight < maxNaturalWeight
         ) {
             item.point = 0;
         }
