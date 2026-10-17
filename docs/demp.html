@@ -12743,303 +12743,185 @@ for (let i = 0; i < mscnt; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-	measurePc[i].pairs = [];
+    measurePc[i].pairs = [];
 
-    const scalePoint = 1 / measurePc[i].bestScale.length;
+const scalePoint = 1 / measurePc[i].bestScale.length;
 
-    for (const j of measurePc[i].bestScale) {
+for (const j of measurePc[i].bestScale) {
 
-        const minor = {
-            measure: i + 1,
-            root: j,
-            mode: "minor",
-            name: engMnr1[j] + "m",
-            weight1: measurePc[i].pc[j] / measurePc[i].count * 100,
-            weight5: measurePc[i].pc[(j + 7) % 12]
-                / measurePc[i].count * 100
-        };
+    const minor = {
+        measure: i + 1,
+        root: j,
+        mode: "minor",
+        name: engMnr1[j] + "m",
+        weight1: measurePc[i].pc[j] / measurePc[i].count * 100,
+        weight5: measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 100
+    };
+    minor.weight = minor.weight1 + minor.weight5;
 
-        minor.weight = minor.weight1 + minor.weight5;
+    const majorRoot = (j + 3) % 12;
 
-        const majorRoot = (j + 3) % 12;
+    const major = {
+        measure: i + 1,
+        root: majorRoot,
+        mode: "major",
+        name: engf1[majorRoot] + "M",
+        weight1: measurePc[i].pc[majorRoot] / measurePc[i].count * 100,
+        weight5: measurePc[i].pc[(majorRoot + 7) % 12] / measurePc[i].count * 100
+    };
+    major.weight = major.weight1 + major.weight5;
 
-        const major = {
-            measure: i + 1,
-            root: majorRoot,
-            mode: "major",
-            name: engf1[majorRoot] + "M",
-            weight1: measurePc[i].pc[majorRoot]
-                / measurePc[i].count * 100,
-            weight5: measurePc[i].pc[(majorRoot + 7) % 12]
-                / measurePc[i].count * 100
-        };
+    const pair = {
+        major,
+        minor,
+        selected: [],
+        point: scalePoint,
+        scaleType: "N"
+    };
 
-        major.weight = major.weight1 + major.weight5;
+    const scale = measurePc[i].scale[j];
+    const info = scale[3];
 
-        if (i === 21) {
-            console.log("Measure 22 key comparison", {
-                major: major.name,
-                majorRoot: engf1[majorRoot],
-                weight1: major.weight1,
-                weight5: major.weight5,
-                majorWeight: major.weight,
-                minor: minor.name,
-                minorWeight1: minor.weight1,
-                minorWeight5: minor.weight5,
-                minorWeight: minor.weight
-            });
-        }
+    let scaleType = "N";
 
-        const pair = {
-            major: major,
-            minor: minor,
-            selected: [],
+    if (
+        info.scaleMemberH >= info.scaleMemberM &&
+        info.scaleMemberH >= scale[0] &&
+        info.specialMemberM6 === 0 &&
+        info.specialMemberH7 > 0
+    ) {
+        scaleType = "H";
+    } else if (
+        info.scaleMemberM >= info.scaleMemberH &&
+        info.scaleMemberM >= scale[0] &&
+        info.specialMemberM6 > 0 &&
+        info.specialMemberM7 > 0
+    ) {
+        scaleType = "M";
+    }
+
+    scale[2] = scaleType;
+    pair.scaleType = scaleType;
+
+    // H/M: select minor directly.
+    // N: compare major and minor.
+    if (scaleType === "H" || scaleType === "M") {
+
+        pair.selected.push({
+            key: minor,
             point: scalePoint
-        };
+        });
 
-        const scale = measurePc[i].scale[j];
-        const info = scale[3];
+    } else if (major.weight > minor.weight) {
 
-        let scaleType = "N";
+        pair.selected.push({
+            key: major,
+            point: scalePoint * (major.weight - minor.weight)
+        });
+
+    } else if (major.weight < minor.weight) {
+
+        pair.selected.push({
+            key: minor,
+            point: scalePoint * (minor.weight - major.weight)
+        });
+
+    } else {
+
+        pair.selected.push({ key: major, point: 0 });
+        pair.selected.push({ key: minor, point: 0 });
+    }
+
+    measurePc[i].pairs.push(pair);
+}
+
+
+//========================================================
+// Compare winning N candidates across roots.
+// Major and Minor are compared together.
+// H/M candidates are retained as minor.
+//========================================================
+
+const naturalCandidates = measurePc[i].pairs
+    .filter(pair => pair.scaleType === "N")
+    .flatMap(pair =>
+        pair.selected
+            .filter(item => item.point > 0)
+            .map(item => item.key.weight)
+    );
+
+const maxNaturalWeight = naturalCandidates.length > 0
+    ? Math.max(...naturalCandidates)
+    : -1;
+
+for (const pair of measurePc[i].pairs) {
+
+    if (pair.scaleType !== "N") continue;
+
+    for (const item of pair.selected) {
 
         if (
-            info.scaleMemberH >= info.scaleMemberM &&
-            info.scaleMemberH >= scale[0] &&
-            info.specialMemberM6 === 0 &&
-            info.specialMemberH7 > 0
+            item.point > 0 &&
+            item.key.weight < maxNaturalWeight
         ) {
-            scaleType = "H";
-
-        } else if (
-            info.scaleMemberM >= info.scaleMemberH &&
-            info.scaleMemberM >= scale[0] &&
-            info.specialMemberM6 > 0 &&
-            info.specialMemberM7 > 0
-        ) {
-            scaleType = "M";
-        }
-
-        // Save the scale type before comparing Major / Minor
-        scale[2] = scaleType;
-
-        if (scaleType === "H" || scaleType === "M") {
-
-            // Harmonic / Melodic Minor
-            pair.selected.push({
-                key: minor,
-                point: scalePoint
-            });
-
-        } else if (major.weight > minor.weight) {
-
-            // Natural Major
-            pair.selected.push({
-                key: major,
-                point: scalePoint * (major.weight - minor.weight)
-            });
-
-        } else if (major.weight < minor.weight) {
-
-            // Natural Minor
-            pair.selected.push({
-                key: minor,
-                point: scalePoint * (minor.weight - major.weight)
-            });
-
-        } else {
-
-            // Equal weights: no preference
-            pair.selected.push({
-                key: major,
-                point: 0
-            });
-
-            pair.selected.push({
-                key: minor,
-                point: 0
-            });
-        }
-
-if (i === 21) {
-    console.log("Measure 22 pair result", {
-        j,
-        bestScale: measurePc[i].bestScale,
-        scalePoint,
-        major: major.name,
-        majorWeight: major.weight,
-        minor: minor.name,
-        minorWeight: minor.weight,
-        scaleType,
-        selected: pair.selected
-    });
-}
-
-        /*
-        const scaleType = measurePc[i].scale[j][2];
-        const hasMinorScale = scaleType === "H" || scaleType === "M";
-
-        if (major.weight > minor.weight) {
-
-            // Natural: Major is selected
-            pair.selected.push({
-                key: major,
-                point: scalePoint * (major.weight - minor.weight)
-            });
-
-        } else if (major.weight < minor.weight) {
-
-            // Natural: Minor is selected
-            // Then check Harmonic / Melodic Minor
-
-            const scale = measurePc[i].scale[j];
-            const info = scale[3];
-            let scaleType = "N";
-
-            if (
-                info.scaleMemberH >= info.scaleMemberM &&
-                info.scaleMemberH >= scale[0] &&
-                info.specialMemberH7 > 0
-            ) {
-                scaleType = "H";
- 
-            } else if (
-                info.scaleMemberM >= info.scaleMemberH &&
-                info.scaleMemberM >= scale[0] &&
-                info.specialMemberM6 > 0 &&
-                info.specialMemberM7 > 0
-            ) {
-                scaleType = "M";
-            }
-
-            // Save the final minor scale type
-            scale[2] = scaleType;
-
-            pair.selected.push({
-                key: minor,
-                point: scalePoint * (minor.weight - major.weight)
-            });
-
-        } else {
-
-            // Equal weights: no preference
-            pair.selected.push({
-                key: major,
-                point: 0
-            });
-
-            pair.selected.push({
-                key: minor,
-                point: 0
-            });
-        }
-*/
-		measurePc[i].pairs.push(pair);
-/*
-        if (i === 10 && j === 2) {
-            console.log("Measure 11: D minor check", {
-                i,j,
-                scaleMemberN: scale[0],
-                scaleMemberH: info.scaleMemberH,
-                scaleMemberM: info.scaleMemberM,
-                specialMemberH6: info.specialMemberH6,
-                specialMemberH7: info.specialMemberH7,
-                specialMemberM6: info.specialMemberM6,
-                specialMemberM7: info.specialMemberM7,
-                scaleType
-            });
-        }
-*/
-	}
-
-        // Keep only candidates with the highest major weight
-    const selectedPairs = measurePc[i].pairs
-        .flatMap(pair => pair.selected)
-        .filter(item => item.point > 0);
-
-    if (selectedPairs.length > 0) {
-        const maxMajorWeight = Math.max(
-            ...selectedPairs.map(item => {
-                const pair = measurePc[i].pairs.find(
-                    p => p.selected.includes(item)
-                );
-                return pair.major.weight;
-            })
-        );
-
-        for (const pair of measurePc[i].pairs) {
-            pair.selected = pair.selected.filter(item =>
-                item.point > 0 &&
-                pair.major.weight === maxMajorWeight
-            );
+            item.point = 0;
         }
     }
-    
-	measurePc[i].keyPoints = [];
-
-	for (const pair of measurePc[i].pairs){
-
-		for (const item of pair.selected){
-
-			if (item.point > 0) {
-
-				measurePc[i].keyPoints.push([
-					item.key.name,
-					item.point
-				]);
-
-				// weight double for first & last
-				if (i == 0 || i == mscnt - 1){
-
-					measurePc[i].keyPoints.push([
-						item.key.name,
-						item.point
-					]);
-				}
-			}
-		}
-	}
-
-	measurePc[i].estKey =
-		measurePc[i].pairs
-			.flatMap(pair => pair.selected)
-			.filter(item => item.point > 0)
-			.map(item => item.key.name)
-			.join(" / ");
-
-    measurePc[i].estScaleType =
-        measurePc[i].pairs
-            .flatMap(pair =>
-                pair.selected
-                    .filter(item =>
-                        item.point > 0 &&
-                        item.key.mode === "minor"
-                    )
-                    .map(item =>
-                        measurePc[i].scale[item.key.root][2]
-                    )
-            )
-            .filter((type, index, array) =>
-                array.indexOf(type) === index
-            )
-            .join(" / ");
-
-            if (i === 1) {
-    console.log("Measure 2", {
-        bestScale: measurePc[i].bestScale.map(j => ({
-            root: engf1[j],
-            score: measurePc[i].scale[j][1],
-            type: measurePc[i].scale[j][2]
-        })),
-        estimatedKey: measurePc[i].estKey,
-        pairs: measurePc[i].pairs.map(pair => ({
-            major: pair.major.name,
-            minor: pair.minor.name,
-            selected: pair.selected
-                .filter(item => item.point > 0)
-                .map(item => item.key.name)
-        }))
-    });
 }
+
+
+//========================================================
+// Build keyPoints and estKey
+//========================================================
+
+measurePc[i].keyPoints = [];
+
+for (const pair of measurePc[i].pairs) {
+
+    for (const item of pair.selected) {
+
+        if (item.point > 0) {
+
+            measurePc[i].keyPoints.push([
+                item.key.name,
+                item.point
+            ]);
+
+            // First and last measures receive double weight.
+            if (i === 0 || i === mscnt - 1) {
+                measurePc[i].keyPoints.push([
+                    item.key.name,
+                    item.point
+                ]);
+            }
+        }
+    }
+}
+
+measurePc[i].estKey = measurePc[i].pairs
+    .flatMap(pair => pair.selected)
+    .filter(item => item.point > 0)
+    .map(item => item.key.name)
+    .filter((name, index, array) =>
+        array.indexOf(name) === index
+    )
+    .join(" / ");
+
+measurePc[i].estScaleType = measurePc[i].pairs
+    .flatMap(pair =>
+        pair.selected
+            .filter(item =>
+                item.point > 0 &&
+                item.key.mode === "minor"
+            )
+            .map(item =>
+                measurePc[i].scale[item.key.root][2]
+            )
+    )
+    .filter((type, index, array) =>
+        array.indexOf(type) === index
+    )
+    .join(" / ");
 
     if (!measurePc[i]) continue;
 
