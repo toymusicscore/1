@@ -12605,18 +12605,7 @@ for (let i = 0; i < mscnt; i++) {
             specialMemberM6,
             specialMemberM7
         });
-
-        if (i === 10 && j === 2) {
-            console.log("Measure 11, root D, before Default", {
-                scaleMemberN,
-                scaleMemberH,
-                scaleMemberM,
-                specialMemberM6,
-                specialMemberM7,
-                scale: measurePc[i].scale[j]
-            });
-        }
-
+        
     }
 }
 
@@ -12680,25 +12669,6 @@ for (let i = 0; i < mscnt; i++) {
 
     measurePc[i].scaleMax =
         measurePc[i].bestScale.length;
-}
-
-
-for (let i = 11; i <= 12; i++) {
-
-    if (!measurePc[i] || measurePc[i].count === 0) continue;
-
-    console.log(`Measure ${i + 1}: Scale candidates`, {
-        count: measurePc[i].count,
-        pc: measurePc[i].pc,
-        bestScale: measurePc[i].bestScale.map(j => ({
-            root: engf1[j],
-            scoreN: measurePc[i].scale[j][1],
-            scoreH: measurePc[i].scale[j][3].scaleMemberH,
-            scoreM: measurePc[i].scale[j][3].scaleMemberM
-        })),
-        A_minor: measurePc[i].scale[9],
-        E_minor: measurePc[i].scale[4]
-    });
 }
 
 //multiple max weights
