@@ -13011,10 +13011,19 @@ for (let i = 0; i < mscnt; i++) {
     const scaleType = measurePc[i].estScaleType;
     const estKey = measurePc[i].estKey;
 
-    if (i === 21) {
-        console.log("Measure 22 estKey:", estKey);
-        console.log("Measure 22 pairs:", measurePc[i].pairs);
-    }
+if (i === 21) {
+    console.log("Measure 22 pair result", {
+        j,
+        bestScale: measurePc[i].bestScale,
+        scalePoint,
+        major: major.name,
+        majorWeight: major.weight,
+        minor: minor.name,
+        minorWeight: minor.weight,
+        scaleType,
+        selected: pair.selected
+    });
+}
 
     const isMinor = estKey
         .split(" / ")
