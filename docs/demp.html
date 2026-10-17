@@ -12845,13 +12845,11 @@ for (const j of measurePc[i].bestScale) {
 const naturalCandidates = measurePc[i].pairs
     .filter(pair => pair.scaleType === "N")
     .flatMap(pair =>
-        pair.selected
-            .filter(item => item.point > 0)
-            .map(item => item.key.weight)
+        pair.selected.filter(item => item.point > 0)
     );
 
 const maxNaturalWeight = naturalCandidates.length > 0
-    ? Math.max(...naturalCandidates)
+    ? Math.max(...naturalCandidates.map(item => item.point))
     : -1;
 
 for (const pair of measurePc[i].pairs) {
@@ -12862,7 +12860,7 @@ for (const pair of measurePc[i].pairs) {
 
         if (
             item.point > 0 &&
-            item.key.weight < maxNaturalWeight
+            item.point < maxNaturalWeight
         ) {
             item.point = 0;
         }
