@@ -12635,51 +12635,38 @@ for (const j of measurePc[i].bestScale) {
 // Compare Major and Minor together using key.weight.
 //========================================================
 
-if (i === 20 || i === 21) {
-    console.log(
-        "Measure", i + 1,
-        measurePc[i].pairs
-            .filter(pair => pair.scaleType === "N")
-            .flatMap(pair =>
-                pair.selected
-                    .filter(item => item.point > 0)
-                    .map(item => ({
-                        key: item.key.name,
-                        weight: item.key.weight,
-                        point: item.point
-                    }))
-            )
-    );
-}
+    const naturalCandidates = measurePc[i].pairs
+        .filter(pair => pair.scaleType === "N")
+        .flatMap(pair =>
+            pair.selected.filter(item => item.point > 0)
+        );
 
+    const maxWeight = naturalCandidates.length > 0
+        ? Math.max(...naturalCandidates.map(item => item.key.weight))
+        : -1;
 
-const naturalCandidates = measurePc[i].pairs
-    .filter(pair => pair.scaleType === "N")
-    .flatMap(pair =>
-        pair.selected.filter(item => item.point > 0)
-    );
+    const maxPoint = naturalCandidates
+        .filter(item => item.key.weight === maxWeight)
+        .reduce((max, item) => Math.max(max, item.point), -1);
 
-const maxNaturalWeight = naturalCandidates.length > 0
-    ? Math.max(
-        ...naturalCandidates.map(item => item.key.weight)
-    )
-    : -1;
+    for (const pair of measurePc[i].pairs) {
+        if (pair.scaleType !== "N") continue;
 
-for (const pair of measurePc[i].pairs) {
-
-    if (pair.scaleType !== "N") continue;
-
-    for (const item of pair.selected) {
-
-        if (
-            item.point > 0 &&
-            item.key.weight < maxNaturalWeight
-        ) {
-            item.point = 0;
+        for (const item of pair.selected) {
+            if (
+                item.point > 0 &&
+                (
+                    item.key.weight < maxWeight ||
+                    (
+                        item.key.weight === maxWeight &&
+                        item.point < maxPoint
+                    )
+                )
+            ) {
+                item.point = 0;
+            }
         }
     }
-}
-
 
 //========================================================
 // Build keyPoints and estKey
