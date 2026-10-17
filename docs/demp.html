@@ -12492,9 +12492,8 @@ for (let i = 0; i < mscnt; i++) {
 //multiple max weights
 for(let i=0;i<mscnt;i++){
 	for (let j = 0; j < 12; j++) {
-
+        let majorScale = (j+3)%12;	
 		if (measurePc[i].scale[j][1] === measurePc[i].bestScore){
-            let majorScale = (j+3)%12;	
 			ctx.fillStyle = workingColor.pc[majorScale];
 			ctx.fillRect(100 + 50 * majorScale, 90 + mscnt * 10 + 10 * i, 50, 10);
 		}
