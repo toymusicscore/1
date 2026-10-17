@@ -12847,6 +12847,24 @@ for (const j of measurePc[i].bestScale) {
 // Compare Major and Minor together using key.weight.
 //========================================================
 
+if (i === 20 || i === 21) {
+    console.log(
+        "Measure", i + 1,
+        measurePc[i].pairs
+            .filter(pair => pair.scaleType === "N")
+            .flatMap(pair =>
+                pair.selected
+                    .filter(item => item.point > 0)
+                    .map(item => ({
+                        key: item.key.name,
+                        weight: item.key.weight,
+                        point: item.point
+                    }))
+            )
+    );
+}
+
+
 const naturalCandidates = measurePc[i].pairs
     .filter(pair => pair.scaleType === "N")
     .flatMap(pair =>
