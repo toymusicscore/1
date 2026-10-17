@@ -12764,8 +12764,14 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		);
 		// 採用キー
         // Selected key for this pair
+        const selectedNames = measurePc[i].keyPoints
+            .map(k => k[0]);
+
         const pairKey = pair.selected
-            .filter(k => k.point > 0)
+            .filter(k =>
+                k.point > 0 &&
+                selectedNames.includes(k.key.name)
+            )
             .map(k => {
                 const name = k.key.name;
 
@@ -12776,6 +12782,9 @@ measurePc[i].estScaleType = measurePc[i].pairs
                 const type = measurePc[i].scale[k.key.root][2];
                 return name + "(" + type + ")";
             })
+            .filter((name, index, array) =>
+                array.indexOf(name) === index
+            )
             .join(" / ");
 
         ctx.fillText(pairKey, 710, ry);
