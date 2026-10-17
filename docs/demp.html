@@ -12859,7 +12859,7 @@ for (let i = 0; i < mscnt; i++) {
                 point: 0
             });
         }
-        
+
 if (i === 21) {
     console.log("Measure 22 pair result", {
         j,
@@ -12951,6 +12951,29 @@ if (i === 21) {
 */
 	}
 
+        // Keep only candidates with the highest major weight
+    const selectedPairs = measurePc[i].pairs
+        .flatMap(pair => pair.selected)
+        .filter(item => item.point > 0);
+
+    if (selectedPairs.length > 0) {
+        const maxMajorWeight = Math.max(
+            ...selectedPairs.map(item => {
+                const pair = measurePc[i].pairs.find(
+                    p => p.selected.includes(item)
+                );
+                return pair.major.weight;
+            })
+        );
+
+        for (const pair of measurePc[i].pairs) {
+            pair.selected = pair.selected.filter(item =>
+                item.point > 0 &&
+                pair.major.weight === maxMajorWeight
+            );
+        }
+    }
+    
 	measurePc[i].keyPoints = [];
 
 	for (const pair of measurePc[i].pairs){
