@@ -12615,9 +12615,17 @@ for (const j of measurePc[i].bestScale) {
         });
 
     } else {
+        const tiePoint = scalePoint * major.weight;
 
-        pair.selected.push({ key: major, point: 0 });
-        pair.selected.push({ key: minor, point: 0 });
+        pair.selected.push({
+            key: major,
+            point: tiePoint
+        });
+
+        pair.selected.push({
+            key: minor,
+            point: tiePoint
+        });
     }
 
     measurePc[i].pairs.push(pair);
