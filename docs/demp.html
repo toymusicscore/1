@@ -4612,17 +4612,6 @@ function showInternalMotif(){
             shapeEventDataLeft
         );
 
-    console.log(
-        "internalRight =",
-        internalRight
-    );
-
-    console.log(
-        "internalLeft =",
-        internalLeft
-    );
-
-
     // =====================================
     // Right / Left を統合
     // =====================================
@@ -4633,12 +4622,6 @@ function showInternalMotif(){
             internalLeft,
             internalCommon
         );
-
-    console.log(
-        "internalMotifs =",
-        internalMotifs
-    );
-
 
     // =====================================
     // Graph
@@ -4655,13 +4638,6 @@ function showInternalMotif(){
 
 
 function createShapeEvent(scoreNotes, hand){
-
-    console.log(
-        "createShapeEvent:",
-        hand,
-        "scoreNotes =",
-        scoreNotes
-    );
 
     const shapeEventData = {};
 
@@ -6674,12 +6650,6 @@ function showMotifTwoSongs(){
             shapeEventDataRightA
         );
 
-    console.log(
-        "internalRightA =",
-        internalRightA
-    );
-
-
     // -------------------------------------
     // A Left
     // -------------------------------------
@@ -6688,12 +6658,6 @@ function showMotifTwoSongs(){
         findInternalMotifs(
             shapeEventDataLeftA
         );
-
-    console.log(
-        "internalLeftA =",
-        internalLeftA
-    );
-
 
     // -------------------------------------
     // B Right
@@ -6704,12 +6668,6 @@ function showMotifTwoSongs(){
             shapeEventDataRightB
         );
 
-    console.log(
-        "internalRightB =",
-        internalRightB
-    );
-
-
     // -------------------------------------
     // B Left
     // -------------------------------------
@@ -6718,11 +6676,6 @@ function showMotifTwoSongs(){
         findInternalMotifs(
             shapeEventDataLeftB
         );
-
-    console.log(
-        "internalLeftB =",
-        internalLeftB
-    );
 
     // =====================================
     // Motif 1
@@ -6763,22 +6716,7 @@ function showMotifTwoSongs(){
         selectLongestCommonMotifs(
             commonMotifCandidates
         );
-/*
-    console.log(
-        "Common Motif candidates =",
-        commonMotifCandidates.length
-    );
 
-    console.log(
-        "Common Motifs =",
-        commonMotifs.length
-    );
-
-    console.log(
-        "commonMotifs =",
-        commonMotifs
-    );
-*/
     const commonMotifGroups =
         groupCommonMotifs(
             commonMotifs,
@@ -6787,11 +6725,6 @@ function showMotifTwoSongs(){
             shapeEventDataLeftA,
             shapeEventDataLeftB
         );
-
-    console.log(
-        "commonMotifGroups =",
-        commonMotifGroups
-    );
 
     drawCommonMotifGraph(
         commonMotifGroups
@@ -8530,11 +8463,6 @@ function getPitchClassQuery(){
     const input =
         $("pitchClassInput").value.trim();
 
-    console.log(
-        "pitchClass raw input =",
-        input
-    );
-
     if(!input){
         return [];
     }
@@ -8608,11 +8536,6 @@ function getPitchClassQuery(){
             }
         }
     }
-
-    console.log(
-        "pitchClass pattern =",
-        pattern
-    );
 
     return pattern;
 }
@@ -8948,15 +8871,8 @@ function searchPitchClassInEventData(
 
 function searchPitchClass(){
 
-    console.log("=== searchPitchClass ===");
-
     const queryPattern =
         getPitchClassQuery();
-
-    console.log(
-        "queryPattern =",
-        queryPattern
-    );
 
     if(queryPattern.length === 0){
         return;
@@ -8987,26 +8903,6 @@ function searchPitchClass(){
             scoreLeftB,
             "left"
         );
-
-    console.log(
-        "shapeEventDataRightA =",
-        shapeEventDataRightA
-    );
-
-    console.log(
-        "shapeEventDataLeftA =",
-        shapeEventDataLeftA
-    );
-
-    console.log(
-        "shapeEventDataRightB =",
-        shapeEventDataRightB
-    );
-
-    console.log(
-        "shapeEventDataLeftB =",
-        shapeEventDataLeftB
-    );
 
     const resultDiv = $("htmlArea");
 
@@ -9082,29 +8978,7 @@ function searchPitchClass(){
         queryPattern,
         results
     );
-console.log(
-    "shapeEventDataRightA =",
-    shapeEventDataRightA
-);
 
-console.log(
-    "shapeEventDataLeftA =",
-    shapeEventDataLeftA
-);
-
-console.log(
-    "shapeEventDataRightB =",
-    shapeEventDataRightB
-);
-
-console.log(
-    "shapeEventDataLeftB =",
-    shapeEventDataLeftB
-);
-console.log(
-    "pitchClass search results =",
-    results
-);
 }
 
 
@@ -10046,19 +9920,6 @@ function drawPerformanceGraph(){
 			p => p.score && p.record
 		);
 
-	console.log(
-		"matched",
-		matched.length
-	);
-
-	if(pairs.length > 0){
-		console.log(pairs[0]);
-	}
-
-	if(diffData.length > 0){
-		console.log(diffData[0]);
-	}
-
     ctx.clearRect(
         0,
         0,
@@ -10702,11 +10563,6 @@ function matchNotes(scoreData, recordData){
 			p => p.score && p.record
 		);
 
-	console.log(
-		"matched",
-		matched.length
-	);
-
 }
 
 
@@ -11105,13 +10961,6 @@ function onMIDIMessage(event){
 		const cc = data1;
         const value = data2;
 
-		console.log(
-				"CC",
-				data1,
-				"value",
-				data2
-			);
-
 		if(
 			cc === 64 ||
 			cc === 66 ||
@@ -11128,7 +10977,6 @@ function onMIDIMessage(event){
 			}
 		}
 
-		console.log(pedalData);
 	}
 
 	// Note On
@@ -11197,8 +11045,6 @@ function noteToFreq(note){
 }
 
 function noteOn(note, velocity){
-
-	console.log(status, note, velocity);
 
     if(oscillators[note]){
 
@@ -12289,8 +12135,6 @@ function trackChannelInfo_bk(){
 
 	});
 
-	console.log(channelInstrument);
-
 	rows.forEach(row => {
 
 		const instNumber =
@@ -13091,13 +12935,6 @@ measurePc[i].estScaleType = measurePc[i].pairs
     estimatedKey = measurePc.keyPoints[0]?.[0] ?? "";
 
     estimatedLabelType = getAutoLabelType(estimatedKey);
-
-    console.log(
-        "Estimated Key:",
-        estimatedKey,
-        "Label Type:",
-        estimatedLabelType
-    );
 
 	const rowPointStart = Number(mscnt*30)+Number(row*10);
 
@@ -14209,7 +14046,7 @@ const symbolMenuData = {
 };
 
 function selectSymbolMenuItem(symbol){
-console.log($("mainNoteMenu"));
+
     setSymbol(symbol);
 
 }
@@ -14566,7 +14403,6 @@ const tstd = (N) => {
 
 function testTstd(data = scoreRight) {
     if (!data || !Array.isArray(data)) {
-        console.error("testTstd: scoreRight is missing or not an array:", data);
         return;
     }
 
@@ -14578,7 +14414,6 @@ function testTstd(data = scoreRight) {
         tstd(N);
     }
 
-    console.log("Results:", test0);
 }
 
 function isBlackKey(midi) {
