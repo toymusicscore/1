@@ -12930,7 +12930,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
             );
 
         }
-        else if (majorMinorDiff < 0) {
+        else if (majorMinorDiff < 0 && estimatedKeys.includes(pair.minor.name)) {
 
             // Minor優勢
             ctx.fillStyle = workingColor.pc[minorKey.root];
