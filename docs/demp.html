@@ -13003,35 +13003,36 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
         for (const pair of measurePc[i].pairs) {
 
-            if (!estimatedKeys.includes(pair.major.name) || !estimatedKeys.includes(pair.minor.name)) continue;
+            if (estimatedKeys.includes(pair.major.name) || estimatedKeys.includes(pair.minor.name)){
 
-            const y = rowPointStart + 10 * (i + 1);
+                const y = rowPointStart + 10 * (i + 1);
 
-            if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]) {
+                if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]) {
 
-                ctx.fillStyle = "yellow";
-                ctx.fillRect(0, y - 8, 230, 10);
+                    ctx.fillStyle = "yellow";
+                    ctx.fillRect(0, y - 8, 230, 10);
+                }
+
+                ctx.fillStyle = "black";
+
+                ctx.fillText(
+                    measurePc.keyPoints[i][0],
+                    70,
+                    y
+                );
+
+                ctx.fillText(
+                    measurePc.keyPoints[i][1].toFixed(2),
+                    150,
+                    y
+                );
+
+                ctx.fillText(
+                    (measurePc.keyPoints[i][1] / total * 100).toFixed(2) + "%",
+                    230,
+                    y
+                );
             }
-
-            ctx.fillStyle = "black";
-
-            ctx.fillText(
-                measurePc.keyPoints[i][0],
-                70,
-                y
-            );
-
-            ctx.fillText(
-                measurePc.keyPoints[i][1].toFixed(2),
-                150,
-                y
-            );
-
-            ctx.fillText(
-                (measurePc.keyPoints[i][1] / total * 100).toFixed(2) + "%",
-                230,
-                y
-            );
         }
     }
 
