@@ -12499,6 +12499,24 @@ if (i === 11 && j === 9) {
         measurePc[i].bestScale.length;
 }
 
+for (let i = 11; i <= 12; i++) {
+
+    if (!measurePc[i] || measurePc[i].count === 0) continue;
+
+    console.log(`Measure ${i + 1}: Scale candidates`, {
+        count: measurePc[i].count,
+        pc: measurePc[i].pc,
+        bestScale: measurePc[i].bestScale.map(j => ({
+            root: engf1[j],
+            scoreN: measurePc[i].scale[j][1],
+            scoreH: measurePc[i].scale[j][3].scaleMemberH,
+            scoreM: measurePc[i].scale[j][3].scaleMemberM
+        })),
+        A_minor: measurePc[i].scale[9],
+        E_minor: measurePc[i].scale[4]
+    });
+}
+
 //multiple max weights
 for(let i=0;i<mscnt;i++){
 	for (let j = 0; j < 12; j++) {
