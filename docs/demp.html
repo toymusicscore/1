@@ -12903,6 +12903,42 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			ty
 		);
 	
+                // ===== Actual score added to each key =====
+
+        const selected = pair.selected.filter(
+            item => item.point > 0
+        );
+
+        ctx.textAlign = "left";
+        ctx.fillStyle = "black";
+
+        if (selected.length === 0) {
+
+            ctx.fillText(
+                "No selection",
+                520,
+                y + 10
+            );
+
+        } else {
+
+            const scoreText = selected
+                .map(item =>
+                    item.key.name + ": " +
+                    item.point.toFixed(2)
+                )
+                .join(" / ");
+
+            ctx.fillText(
+                scoreText,
+                520,
+                y + 10
+            );
+        }
+
+        ctx.textAlign = "left";
+        
+        /*
 		const majorMinorDiff = majorKey.weight - minorKey.weight;
 
 		if (majorMinorDiff > 0) {
@@ -12952,6 +12988,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
         }
 
 		ctx.textAlign = "left";		
+*/
 
 		row++;
 
