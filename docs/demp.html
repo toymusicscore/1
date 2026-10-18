@@ -12906,12 +12906,10 @@ measurePc[i].estScaleType = measurePc[i].pairs
         // ===== Actual score added to each key =====
 
         const majorMinorDiff = majorKey.weight - minorKey.weight;
-        
+
         const estimatedKeys = measurePc[i].estKey.split(" / ");
 
-        if (!estimatedKeys.includes(pair.major.name)) continue;
-
-        if (majorMinorDiff > 0) {
+        if (majorMinorDiff > 0 && estimatedKeys.includes(pair.major.name)) {
 
             // Major優勢
             ctx.fillStyle = workingColor.pc[majorKey.root];
