@@ -12997,41 +12997,47 @@ measurePc[i].estScaleType = measurePc[i].pairs
 	ctx.fillText("Score",150,rowPointStart);
 	ctx.fillText("Proportion",230,rowPointStart);
 
-	for (let i = 0; i < measurePc.keyPoints.length; i++) {
+    for (let i = 0; i < measurePc.length; i++) {
+
+        const majorMinorDiff = majorKey.weight - minorKey.weight;
 
         const estimatedKeys = measurePc[i].estKey.split(" / ");
 
         for (const pair of measurePc[i].pairs) {
 
-            if (estimatedKeys.includes(pair.major.name) || estimatedKeys.includes(pair.minor.name)){
+            if ((majorMinorDiff > 0 && estimatedKeys.includes(pair.major.name)) ||
+                (majorMinorDiff < 0 && estimatedKeys.includes(pair.minor.name))) {
 
-                const y = rowPointStart + 10 * (i + 1);
+                for (let j = 0; j < measurePc.keyPoints.length; j++) {
 
-                if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]) {
+                    const y = rowPointStart + 10 * (j + 1);
 
-                    ctx.fillStyle = "yellow";
-                    ctx.fillRect(0, y - 8, 230, 10);
+                    if (measurePc.keyPoints[j][1] == measurePc.keyPoints[0][1]) {
+
+                        ctx.fillStyle = "yellow";
+                        ctx.fillRect(0, y - 8, 230, 10);
+                    }
+
+                    ctx.fillStyle = "black";
+
+                    ctx.fillText(
+                        measurePc.keyPoints[i][0],
+                        70,
+                        y
+                    );
+
+                    ctx.fillText(
+                        measurePc.keyPoints[i][1].toFixed(2),
+                        150,
+                        y
+                    );
+
+                    ctx.fillText(
+                        (measurePc.keyPoints[i][1] / total * 100).toFixed(2) + "%",
+                        230,
+                        y
+                    );
                 }
-
-                ctx.fillStyle = "black";
-
-                ctx.fillText(
-                    measurePc.keyPoints[i][0],
-                    70,
-                    y
-                );
-
-                ctx.fillText(
-                    measurePc.keyPoints[i][1].toFixed(2),
-                    150,
-                    y
-                );
-
-                ctx.fillText(
-                    (measurePc.keyPoints[i][1] / total * 100).toFixed(2) + "%",
-                    230,
-                    y
-                );
             }
         }
     }
