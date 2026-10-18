@@ -12997,21 +12997,27 @@ measurePc[i].estScaleType = measurePc[i].pairs
 	ctx.fillText("Score",150,rowPointStart);
 	ctx.fillText("Proportion",230,rowPointStart);
 
-	for (let i = 0; i < measurePc.keyPoints.length; i++) {
+    for (let i = 0; i < measurePc.keyPoints.length; i++) {
 
         const estimatedKeys = measurePc[i].estKey.split(" / ");
-
         const pair = measurePc[i].pairs;
 
-        if (!estimatedKeys.includes(pair.major.name) || !estimatedKeys.includes(pair.minor.name)) continue;
+        if (!pair || !pair.major || !pair.minor) {
+            console.log("Invalid pairs:", i, pair);
+            continue;
+        }
 
-		const y = rowPointStart + 10 * (i + 1);
+        if (
+            !estimatedKeys.includes(pair.major.name) ||
+            !estimatedKeys.includes(pair.minor.name)
+        ) continue;
 
-		if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]) {
+        const y = rowPointStart + 10 * (i + 1);
 
-			ctx.fillStyle = "yellow";
-			ctx.fillRect(0, y - 8, 230, 10);
-		}
+        if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]) {
+            ctx.fillStyle = "yellow";
+            ctx.fillRect(0, y - 8, 230, 10);
+        }
 
 		ctx.fillStyle = "black";
 
