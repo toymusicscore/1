@@ -13002,8 +13002,8 @@ measurePc[i].estScaleType = measurePc[i].pairs
         const estimatedKeys = measurePc[i].estKey.split(" / ");
 
         const pair = measurePc[i].pairs;
-        
-        if (estimatedKeys.includes(pair.major.name) || estimatedKeys.includes(pair.minor.name)) continue;
+
+        if (!estimatedKeys.includes(pair.major.name) || !estimatedKeys.includes(pair.minor.name)) continue;
 
 		const y = rowPointStart + 10 * (i + 1);
 
