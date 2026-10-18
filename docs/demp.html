@@ -12903,58 +12903,59 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			ty
 		);
 	
-                // ===== Actual score added to each key =====
-const majorMinorDiff = majorKey.weight - minorKey.weight;
+        // ===== Actual score added to each key =====
 
-if (majorMinorDiff > 0) {
+        const majorMinorDiff = majorKey.weight - minorKey.weight;
 
-    // Major優勢
-    ctx.fillStyle = workingColor.pc[majorKey.root];
+        if (majorMinorDiff > 0) {
 
-    ctx.fillRect(
-        600 - majorMinorDiff,
-        y,
-        majorMinorDiff,
-        10
-    );
+            // Major優勢
+            ctx.fillStyle = workingColor.pc[majorKey.root];
 
-    ctx.fillStyle = "black";
+            ctx.fillRect(
+                600 - majorMinorDiff,
+                y,
+                majorMinorDiff,
+                10
+            );
 
-    ctx.fillText(
-        majorMinorDiff.toFixed(2),
-        520,
-        y + 10
-    );
+            ctx.fillStyle = "black";
 
-}
-else if (majorMinorDiff < 0) {
+            ctx.fillText(
+                majorMinorDiff.toFixed(2),
+                520,
+                y + 10
+            );
 
-    // Minor優勢
-    ctx.fillStyle = workingColor.pc[minorKey.root];
+        }
+        else if (majorMinorDiff < 0) {
 
-    ctx.fillRect(
-        600,
-        y,
-        -majorMinorDiff,
-        10
-    );
+            // Minor優勢
+            ctx.fillStyle = workingColor.pc[minorKey.root];
 
-    ctx.fillStyle = "black";
+            ctx.fillRect(
+                600,
+                y,
+                -majorMinorDiff,
+                10
+            );
 
-    ctx.fillText(
-        (-majorMinorDiff).toFixed(2),
-        680,
-        y + 10
-    );
+            ctx.fillStyle = "black";
 
-} else {
+            ctx.fillText(
+                (-majorMinorDiff).toFixed(2),
+                680,
+                y + 10
+            );
 
-    ctx.fillStyle = "black";
-    ctx.fillText("0.00", 520, y + 10);
-    ctx.fillText("0.00", 680, y + 10);
-}
+        } else {
 
-ctx.textAlign = "left";
+            ctx.fillStyle = "black";
+            ctx.fillText("0.00", 520, y + 10);
+            ctx.fillText("0.00", 680, y + 10);
+        }
+
+        ctx.textAlign = "left";
 
 /*
 		const majorMinorDiff = majorKey.weight - minorKey.weight;
