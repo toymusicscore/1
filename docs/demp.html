@@ -12997,49 +12997,43 @@ measurePc[i].estScaleType = measurePc[i].pairs
 	ctx.fillText("Score",150,rowPointStart);
 	ctx.fillText("Proportion",230,rowPointStart);
 
-    for (let i = 0; i < measurePc.keyPoints.length; i++) {
+	for (let i = 0; i < measurePc.keyPoints.length; i++) {
 
         const estimatedKeys = measurePc[i].estKey.split(" / ");
-        const pairs = measurePc[i].pairs;
 
-        if (!Array.isArray(pairs) || pairs.length === 0) continue;
+        for (const pair of measurePc[i].pairs) {
 
-        const matched = pairs.some(pair =>
-            pair.major &&
-            pair.minor &&
-            estimatedKeys.includes(pair.major.name) &&
-            estimatedKeys.includes(pair.minor.name)
-        );
+            if (!estimatedKeys.includes(pair.major.name) || !estimatedKeys.includes(pair.minor.name)) continue;
 
-        if (!matched) continue;
+            const y = rowPointStart + 10 * (i + 1);
 
-        const y = rowPointStart + 10 * (i + 1);
+            if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]) {
 
-        if (measurePc.keyPoints[i][1] == measurePc.keyPoints[0][1]) {
-            ctx.fillStyle = "yellow";
-            ctx.fillRect(0, y - 8, 230, 10);
+                ctx.fillStyle = "yellow";
+                ctx.fillRect(0, y - 8, 230, 10);
+            }
+
+            ctx.fillStyle = "black";
+
+            ctx.fillText(
+                measurePc.keyPoints[i][0],
+                70,
+                y
+            );
+
+            ctx.fillText(
+                measurePc.keyPoints[i][1].toFixed(2),
+                150,
+                y
+            );
+
+            ctx.fillText(
+                (measurePc.keyPoints[i][1] / total * 100).toFixed(2) + "%",
+                230,
+                y
+            );
         }
-
-		ctx.fillStyle = "black";
-
-		ctx.fillText(
-			measurePc.keyPoints[i][0],
-			70,
-			y
-		);
-
-		ctx.fillText(
-			measurePc.keyPoints[i][1].toFixed(2),
-			150,
-			y
-		);
-
-		ctx.fillText(
-			(measurePc.keyPoints[i][1] / total * 100).toFixed(2) + "%",
-			230,
-			y
-		);
-	}
+    }
 
 	ctx.textAlign = "left";		
 
