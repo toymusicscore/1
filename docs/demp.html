@@ -12904,40 +12904,57 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		);
 	
                 // ===== Actual score added to each key =====
+                
+        const majorMinorDiff =
+            majorKey.weight - minorKey.weight;
 
-        const selected = pair.selected.filter(
-            item => item.point > 0
-        );
+        if (majorMinorDiff > 0) {
 
-        ctx.textAlign = "left";
-        ctx.fillStyle = "black";
+            // Major is larger: draw to the left
+            ctx.fillStyle =
+                workingColor.pc[majorKey.root];
 
-        if (selected.length === 0) {
+            ctx.fillRect(
+                600 - majorMinorDiff,
+                y,
+                majorMinorDiff,
+                10
+            );
 
+            ctx.fillStyle = "black";
+
+            ctx.textAlign = "right";
             ctx.fillText(
-                "No selection",
-                520,
+                majorMinorDiff.toFixed(2),
+                590,
                 y + 10
             );
 
-        } else {
+        } else if (majorMinorDiff < 0) {
 
-            const scoreText = selected
-                .map(item =>
-                    item.key.name + ": " +
-                    item.point.toFixed(2)
-                )
-                .join(" / ");
+            // Minor is larger: draw to the right
+            ctx.fillStyle =
+                workingColor.pc[minorKey.root];
 
+            ctx.fillRect(
+                600,
+                y,
+                -majorMinorDiff,
+                10
+            );
+
+            ctx.fillStyle = "black";
+
+            ctx.textAlign = "left";
             ctx.fillText(
-                scoreText,
-                520,
+                (-majorMinorDiff).toFixed(2),
+                610 + (-majorMinorDiff),
                 y + 10
             );
         }
 
         ctx.textAlign = "left";
-        
+
         /*
 		const majorMinorDiff = majorKey.weight - minorKey.weight;
 
