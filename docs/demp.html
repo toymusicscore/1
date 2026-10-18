@@ -12904,58 +12904,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		);
 	
                 // ===== Actual score added to each key =====
-                
-        const majorMinorDiff =
-            majorKey.weight - minorKey.weight;
 
-        if (majorMinorDiff > 0) {
-
-            // Major is larger: draw to the left
-            ctx.fillStyle =
-                workingColor.pc[majorKey.root];
-
-            ctx.fillRect(
-                600 - majorMinorDiff,
-                y,
-                majorMinorDiff,
-                10
-            );
-
-            ctx.fillStyle = "black";
-
-            ctx.textAlign = "right";
-            ctx.fillText(
-                majorMinorDiff.toFixed(2),
-                590,
-                y + 10
-            );
-
-        } else if (majorMinorDiff < 0) {
-
-            // Minor is larger: draw to the right
-            ctx.fillStyle =
-                workingColor.pc[minorKey.root];
-
-            ctx.fillRect(
-                600,
-                y,
-                -majorMinorDiff,
-                10
-            );
-
-            ctx.fillStyle = "black";
-
-            ctx.textAlign = "left";
-            ctx.fillText(
-                (-majorMinorDiff).toFixed(2),
-                610 + (-majorMinorDiff),
-                y + 10
-            );
-        }
-
-        ctx.textAlign = "left";
-
-        /*
 		const majorMinorDiff = majorKey.weight - minorKey.weight;
 
 		if (majorMinorDiff > 0) {
@@ -13005,7 +12954,6 @@ measurePc[i].estScaleType = measurePc[i].pairs
         }
 
 		ctx.textAlign = "left";		
-*/
 
 		row++;
 
