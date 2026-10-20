@@ -12997,41 +12997,35 @@ measurePc[i].estScaleType = measurePc[i].pairs
 	ctx.fillText("Score",150,rowPointStart);
 	ctx.fillText("Proportion",230,rowPointStart);
     
-    for (let i = 0; i < measurePc.length; i++) {
+for (let i = 0; i < measurePc.length; i++) {
 
-        const majorMinorDiff = majorKey.weight - minorKey.weight;
-        const estimatedKeys = measurePc[i].estKey.split(" / ");
-        const pairs = measurePc[i].pairs || [];
+    if (!measurePc[i] || !measurePc[i].keyPoints) continue;
 
-        let selectedKey = null;
+    for (let j = 0; j < measurePc[i].keyPoints.length; j++) {
 
-        for (const pair of pairs) {
+        const y = rowPointStart + 10 * (j + 1);
+        const key = measurePc[i].keyPoints[j];
 
-            if (
-                majorMinorDiff > 0 &&
-                pair.major &&
-                estimatedKeys.includes(pair.major.name)
-            ) {
-                selectedKey = pair.major.name;
-                break;
-            }
-
-            if (
-                majorMinorDiff < 0 &&
-                pair.minor &&
-                estimatedKeys.includes(pair.minor.name)
-            ) {
-                selectedKey = pair.minor.name;
-                break;
-            }
+        if (
+            measurePc[i].keyPoints[j][1] ===
+            Math.max(...measurePc[i].keyPoints.map(k => k[1]))
+        ) {
+            ctx.fillStyle = "yellow";
+            ctx.fillRect(0, y - 8, 230, 10);
         }
 
-        console.log(
-            "Measure:", i + 1,
-            "Estimated:", estimatedKeys,
-            "Selected:", selectedKey
+        ctx.fillStyle = "black";
+
+        ctx.fillText(key[0], 70, y);
+        ctx.fillText(key[1].toFixed(2), 150, y);
+
+        ctx.fillText(
+            (key[1] / total * 100).toFixed(2) + "%",
+            230,
+            y
         );
     }
+}
 
 /*
     for (let i = 0; i < measurePc.length; i++) {
