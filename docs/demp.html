@@ -4193,42 +4193,48 @@ function getAutoLabelType(keyName) {
     return "sharp";
 }
 
-function getLabel(midi, n_id, songId){
+
+function getLabel(midi, n_id, songId, measureIndex){
 
     let nl = "";
 
+    const labelType =
+        estimatedMeasureLabelTypes?.[measureIndex]
+        ?? estimatedLabelType;
+
     if (practiceSettings.noteTextType === 0){
         nl = "";
+
     }else if (practiceSettings.noteTextType === 1){
 
-        nl = estimatedLabelType === "flat"
-            ? drmf1[midi%12]
-            : drms1[midi%12];
+        nl = labelType === "flat"
+            ? drmf1[midi % 12]
+            : drms1[midi % 12];
 
     }else if (practiceSettings.noteTextType === 2){
-        nl = drms1[midi%12];
-        
+        nl = drms1[midi % 12];
+
     }else if (practiceSettings.noteTextType === 3){
-        nl = drmf1[midi%12];
+        nl = drmf1[midi % 12];
 
     }else if (practiceSettings.noteTextType === 4){
 
-    nl = estimatedLabelType === "flat"
-            ? engf1[midi%12]
-            : engs1[midi%12];
+        nl = labelType === "flat"
+            ? engf1[midi % 12]
+            : engs1[midi % 12];
 
     }else if (practiceSettings.noteTextType === 5){
-        nl = engs1[midi%12];
+        nl = engs1[midi % 12];
 
     }else if (practiceSettings.noteTextType === 6){
-        nl = engf1[midi%12];
+        nl = engf1[midi % 12];
 
     }else if (practiceSettings.noteTextType === 7){
-        nl = (midi%12).toString(12);
+        nl = (midi % 12).toString(12);
 
     }else if (practiceSettings.noteTextType === 8){
-        nl = Math.floor((midi-12)/12)
-           + (midi%12).toString(12);
+        nl = Math.floor((midi - 12) / 12)
+           + (midi % 12).toString(12);
 
     }else if (practiceSettings.noteTextType === 9){
         nl = midi;
@@ -4236,23 +4242,18 @@ function getLabel(midi, n_id, songId){
     }else if (practiceSettings.noteTextType === 10){
         nl = n_id;
 
-    // Fingering user
     }else if (practiceSettings.noteTextType === 11){
         nl = fingeringSets[songId]?.[n_id] ?? "";
 
-    // Fingering Auto
     }else if (practiceSettings.noteTextType === 12){
         nl = fingeringAuto[songId]?.[n_id] ?? "";
 
-    // CSV Text1～10
     }else if (
         practiceSettings.noteTextType >= 13 &&
         practiceSettings.noteTextType <= 22
     ){
         const col = practiceSettings.noteTextType - 12;
-
         nl = csv?.[`c${col}`]?.[n_id]?.[0] ?? "";
-
     }
 
     return nl;
