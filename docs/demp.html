@@ -12253,7 +12253,17 @@ function keyEstimation(){
 
     estimatedMeasureLabelTypes = [];
 
+    let measureIndex = 0;
+
+    const labelType =
+        estimatedMeasureLabelTypes[measureIndex]
+        ?? estimatedLabelType;
+
+
 for (const note of scoreData) {
+
+    measureIndex =
+        Math.floor(note.start / ticksPerMeasure);
 
     const measure = Math.floor(note.start / ticksPerMeasure);
     const pc = note.midi % 12;
@@ -12787,13 +12797,6 @@ measurePc[i].estScaleType = measurePc[i].pairs
     getAutoLabelType(
         measurePc[i].estKey.split(" / ")[0]
     );
-
-    const measureIndex =
-        Math.floor(note.start / ticksPerMeasure);
-
-    const labelType =
-        estimatedMeasureLabelTypes[measureIndex]
-        ?? estimatedLabelType;
 
 	for (const pair of measurePc[i].pairs) {
 
