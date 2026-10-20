@@ -12253,32 +12253,26 @@ function keyEstimation(){
 
     estimatedMeasureLabelTypes = [];
 
-    let measureIndex = 0;
+    for (const note of scoreData) {
 
-    const labelType =
-        estimatedMeasureLabelTypes[measureIndex]
-        ?? estimatedLabelType;
+        const measure =
+            Math.floor(note.start / ticksPerMeasure);
 
+        const pc = note.midi % 12;
 
-for (const note of scoreData) {
+        if (!measurePc[measure]) {
+            measurePc[measure] = {
+                pc: new Array(12).fill(0),
+                count: 0
+            };
+        }
 
-    measureIndex =
-        Math.floor(note.start / ticksPerMeasure);
-
-    const measure = Math.floor(note.start / ticksPerMeasure);
-    const pc = note.midi % 12;
-
-    if (!measurePc[measure]) {
-        measurePc[measure] = {
-            pc: new Array(12).fill(0),
-            count: 0
-        };
+        measurePc[measure].pc[pc]++;
+        measurePc[measure].count++;
     }
 
-    measurePc[measure].pc[pc]++;
-    measurePc[measure].count++;
+    // この後に既存の調性判定処理を続ける
 
-}
 
 let lastStart = 0;
 
