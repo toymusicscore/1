@@ -12240,6 +12240,8 @@ function showKeyEstimation() {
     showSelectedView();
 }
 
+let estimatedMeasureLabelTypes = [];
+
 function keyEstimation(){
 canvas.width = 1300;
 canvas.height = 3000;
@@ -12770,6 +12772,18 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
     ctx.fillText(displayKey, 710, 100 + mscnt * 10 + 10 * i);
+
+    estimatedMeasureLabelTypes[i] =
+    getAutoLabelType(
+        measurePc[i].estKey.split(" / ")[0]
+    );
+
+    const measureIndex =
+        Math.floor(note.start / ticksPerMeasure);
+
+    const labelType =
+        estimatedMeasureLabelTypes[measureIndex]
+        ?? estimatedLabelType;
 
 	for (const pair of measurePc[i].pairs) {
 
