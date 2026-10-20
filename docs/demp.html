@@ -4196,11 +4196,11 @@ function getAutoLabelType(keyName) {
 
 function getLabel(midi, n_id, songId, measureIndex){
 
-    let nl = "";
-
     const labelType =
-        estimatedMeasureLabelTypes?.[measureIndex]
+        estimatedMeasureLabelTypes[measureIndex]
         ?? estimatedLabelType;
+
+    let nl = "";
 
     if (practiceSettings.noteTextType === 0){
         nl = "";
@@ -12252,7 +12252,7 @@ function keyEstimation(){
     let measurePc = [];
 
     estimatedMeasureLabelTypes = [];
-    
+
 for (const note of scoreData) {
 
     const measure = Math.floor(note.start / ticksPerMeasure);
@@ -12759,6 +12759,11 @@ measurePc[i].estScaleType = measurePc[i].pairs
         array.indexOf(type) === index
     )
     .join(" / ");
+
+    estimatedMeasureLabelTypes[i] =
+    getAutoLabelType(
+        measurePc[i].estKey.split(" / ")[0]
+    );
 
     if (!measurePc[i]) continue;
 
