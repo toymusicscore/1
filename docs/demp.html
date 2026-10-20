@@ -12329,6 +12329,31 @@ for (const channel in notesByChannel) {
             direction: curr.midi > prev.midi ? 1 : -1,
             channel: Number(channel)
         });
+        
+        if (
+    Number(channel) === 2 &&
+    (
+        prev.midi === 70 ||
+        curr.midi === 70
+    )
+) {
+    console.log("LH movement around Bb4:", {
+        prevMidi: prev.midi,
+        currMidi: curr.midi,
+        prevStart: prev.start,
+        currStart: curr.start,
+        prevMeasure: Math.floor(
+            prev.start / ticksPerMeasure
+        ) + 1,
+        currMeasure: Math.floor(
+            curr.start / ticksPerMeasure
+        ) + 1,
+        direction: curr.midi > prev.midi
+            ? "up"
+            : "down"
+    });
+}
+
     }
 }
 
