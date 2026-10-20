@@ -9285,7 +9285,8 @@ function lineScore(tick){
 			}
 		}
 
-            const nl = getLabel(midi, n_id, songId);
+        const measureIndex = Math.floor(start / ticksPerMeasure);
+        const nl = getLabel(midi, n_id, songId, measureIndex);
                 if (nl !== ""){
 //				ctx.fillStyle=workingColor.text[1];
 				ctx.fillStyle=handColorText;
