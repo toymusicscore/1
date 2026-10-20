@@ -13063,16 +13063,16 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
 	let startAngle = -Math.PI / 2;   // 12時から開始
 
-	for (let i = 0; i < measurePc.keyPoints.length; i++) {
+	for (let i = 0; i < measurePc.estKeyPoints.length; i++) {
 
-		const ratio = measurePc.keyPoints[i][1] / total;
+		const ratio = measurePc.estKeyPoints[i][1] / total;
 		const percent = ratio * 100;
 		ctx.fillStyle = "black";
 
 		const endAngle = startAngle + ratio * Math.PI * 2;
 
         // キー名から色を決定
-        const keyName = measurePc.keyPoints[i][0];
+        const keyName = measurePc.estKeyPoints[i][0];
         let root;
 
         if (keyName.endsWith("M")) {
