@@ -12329,7 +12329,7 @@ for (const channel in notesByChannel) {
             direction: curr.midi > prev.midi ? 1 : -1,
             channel: Number(channel)
         });
-        
+
         if (
     Number(channel) === 2 &&
     (
@@ -12708,9 +12708,13 @@ for (const note of directionalNotes) {
 
     } else {
 
-        if (prevInterval === 10) lowered6Down++;
-        if (prevInterval === 0) lowered7Down++;
+        // Lowered 6th descending: e.g. Bb in D minor
+        if (prevInterval === 8) lowered6Down++;
+
+        // Lowered 7th descending: e.g. C natural in D minor
+        if (prevInterval === 10) lowered7Down++;
     }
+
 }
 
 
