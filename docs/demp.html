@@ -12285,6 +12285,61 @@ for (const note of scoreData) {
 
 const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
 
+//========================================================
+// Analyze melodic direction by MIDI channel
+//========================================================
+
+const directionalNotes = [];
+
+const notesByChannel = {};
+
+for (const note of scoreData) {
+    if (!notesByChannel[note.channel]) {
+        notesByChannel[note.channel] = [];
+    }
+
+    notesByChannel[note.channel].push(note);
+}
+
+for (const channel in notesByChannel) {
+
+    const notes = notesByChannel[channel]
+        .slice()
+        .sort((a, b) =>
+            a.start - b.start ||
+            a.midi - b.midi
+        );
+
+    for (let n = 1; n < notes.length; n++) {
+
+        const prev = notes[n - 1];
+        const curr = notes[n];
+
+        // Ignore simultaneous notes.
+        if (prev.start === curr.start) continue;
+
+        let direction = 0;
+
+        if (curr.midi > prev.midi) {
+            direction = 1;  // Ascending
+        } else if (curr.midi < prev.midi) {
+            direction = -1; // Descending
+        }
+
+        if (direction === 0) continue;
+
+        const measure =
+            Math.floor(curr.start / ticksPerMeasure);
+
+        directionalNotes.push({
+            measure,
+            midi: curr.midi,
+            direction,
+            channel: curr.channel
+        });
+    }
+}
+
 ctx.clearRect(0,0,canvas.width,canvas.height);
 ctx.font="10px Arial";
 ctx.lineWidth=1;
