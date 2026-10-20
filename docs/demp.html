@@ -12703,15 +12703,19 @@ for (const note of directionalNotes) {
 
     if (note.direction === 1) {
 
-        if (currInterval === 9) raised6Up++;
-        if (currInterval === 11) raised7Up++;
+        // Count raised degrees at either end of an ascending movement.
+        if (prevInterval === 9 || currInterval === 9) {
+            raised6Up++;
+        }
+
+        if (prevInterval === 11 || currInterval === 11) {
+            raised7Up++;
+        }
 
     } else {
 
-        // Lowered 6th descending: e.g. Bb in D minor
+        // Count lowered degrees at the start of a descending movement.
         if (prevInterval === 8) lowered6Down++;
-
-        // Lowered 7th descending: e.g. C natural in D minor
         if (prevInterval === 10) lowered7Down++;
     }
 
