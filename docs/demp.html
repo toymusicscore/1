@@ -13001,15 +13001,16 @@ for (let i = 0; i < measurePc.length; i++) {
 
     if (!measurePc[i] || !measurePc[i].keyPoints) continue;
 
-    for (let j = 0; j < measurePc[i].keyPoints.length; j++) {
+    const keyPoints = measurePc[i].keyPoints;
+    const maxPoint = Math.max(...keyPoints.map(k => k[1]));
+
+    for (let j = 0; j < keyPoints.length; j++) {
 
         const y = rowPointStart + 10 * (j + 1);
-        const key = measurePc[i].keyPoints[j];
+        const key = keyPoints[j];
 
-        if (
-            measurePc[i].keyPoints[j][1] ===
-            Math.max(...measurePc[i].keyPoints.map(k => k[1]))
-        ) {
+        // Highlight all tied maximum scores.
+        if (key[1] === maxPoint) {
             ctx.fillStyle = "yellow";
             ctx.fillRect(0, y - 8, 230, 10);
         }
