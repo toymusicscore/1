@@ -12704,6 +12704,7 @@ for (const j of measurePc[i].bestScale) {
 //========================================================
 
 measurePc[i].keyPoints = [];
+measurePc[i].estKeyPoints = [];
 
 for (const pair of measurePc[i].pairs) {
 
@@ -12929,10 +12930,12 @@ measurePc[i].estScaleType = measurePc[i].pairs
                 y + 10
             );
 
-            measurePc[i].estKeyPoints.push[pair.major.name, majorMinorDiff];
-
-        }
-        else if (majorMinorDiff < 0 && estimatedKeys.includes(pair.minor.name)) {
+            measurePc[i].estKeyPoints.push([
+                pair.major.name,
+                majorMinorDiff
+            ]);
+                    
+        }else if (majorMinorDiff < 0 && estimatedKeys.includes(pair.minor.name)) {
 
             // Minor優勢
             ctx.fillStyle = workingColor.pc[minorKey.root];
@@ -12952,7 +12955,10 @@ measurePc[i].estScaleType = measurePc[i].pairs
                 y + 10
             );
 
-            measurePc[i].estKeyPoints.push[pair.minor.name, -majorMinorDiff];
+            measurePc[i].estKeyPoints.push([
+                pair.minor.name,
+                -majorMinorDiff
+            ]);
 
         } else {
 
@@ -12969,26 +12975,30 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
 }
 
-/*
-	const points = {};
+    const points = {};
 
-	for (let i = 0; i < measurePc.length; i++) {
+    for (let i = 0; i < measurePc.length; i++) {
 
-		for (const [key, point] of measurePc[i].keyPoints) {
+        const measureWeight =
+            (i === 0 || i === measurePc.length - 1) ? 2 : 1;
 
-			points[key] = (points[key] || 0) + point;
-		}
-	}
+        for (const [key, point] of measurePc[i].estKeyPoints) {
 
-	measurePc.keyPoints = Object.entries(points);
-*/
+            points[key] =
+                (points[key] || 0) + point * measureWeight;
+        }
+    }
+
+    measurePc.estKeyPoints = Object.entries(points);
 
     measurePc.estKeyPoints.sort((a, b) => b[1] - a[1]);
 
-	const total = measurePc.estKeyPoints.reduce((sum, [, w]) => sum + w, 0);
+    const total = measurePc.estKeyPoints.reduce(
+        (sum, [, point]) => sum + point,
+        0
+    );
 
     estimatedKey = measurePc.estKeyPoints[0]?.[0] ?? "";
-
     estimatedLabelType = getAutoLabelType(estimatedKey);
 
 	const rowPointStart = Number(mscnt*30)+Number(row*10);
