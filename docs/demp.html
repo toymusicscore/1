@@ -12665,23 +12665,55 @@ for (const j of measurePc[i].bestScale) {
     const scale = measurePc[i].scale[j];
     const info = scale[3];
 
-    let scaleType = "N";
 
-    if (
-        info.scaleMemberH >= info.scaleMemberM &&
-        info.scaleMemberH >= scale[0] &&
-        info.specialMemberM6 === 0 &&
-        info.specialMemberH7 > 0
-    ) {
-        scaleType = "H";
-    } else if (
-        info.scaleMemberM >= info.scaleMemberH &&
-        info.scaleMemberM >= scale[0] &&
-        info.specialMemberM6 > 0 &&
-        info.specialMemberM7 > 0
-    ) {
-        scaleType = "M";
+let scaleType = "N";
+
+let raised6Up = 0;
+let raised7Up = 0;
+let lowered6Down = 0;
+let lowered7Down = 0;
+
+// Count characteristic notes in melodic direction.
+for (const note of directionalNotes) {
+
+    if (note.measure !== i) continue;
+
+    const interval =
+        (12 - j + note.midi % 12) % 12;
+
+    if (note.direction === 1) {
+
+        if (interval === 9) raised6Up++;
+        if (interval === 11) raised7Up++;
+
+    } else if (note.direction === -1) {
+
+        if (interval === 8) lowered6Down++;
+        if (interval === 10) lowered7Down++;
     }
+}
+
+// Melodic minor: raised 6th and 7th ascending,
+// and at least one lowered degree descending.
+const isMelodicMinor =
+    raised6Up > 0 &&
+    raised7Up > 0 &&
+    (
+        lowered6Down > 0 ||
+        lowered7Down > 0
+    );
+
+if (isMelodicMinor) {
+
+    scaleType = "M";
+
+} else if (
+    info.specialMemberH7 > 0 &&
+    info.scaleMemberH >= scale[0]
+) {
+
+    scaleType = "H";
+}
 
     scale[2] = scaleType;
     pair.scaleType = scaleType;
