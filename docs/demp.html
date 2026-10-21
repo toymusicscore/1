@@ -12721,16 +12721,6 @@ for (const note of directionalNotes) {
 
 }
 
-if ((i === 11 || i === 12) && j === 9) {
-    console.log(`Measure ${i + 1}: A minor direction`, {
-        raised6Up,
-        raised7Up,
-        lowered6Down,
-        lowered7Down,
-        scaleType
-    });
-}
-
 // Melodic minor: raised 6th and 7th ascending,
 // and at least one lowered degree descending.
 const isMelodicMinor =
@@ -12765,6 +12755,18 @@ if (i === 10 && j === 2) {
 }
 
     scale[2] = scaleType;
+    
+    if ((i === 11 || i === 12) && j === 9) {
+    console.log(`Measure ${i + 1}: A minor direction`, {
+        raised6Up,
+        raised7Up,
+        lowered6Down,
+        lowered7Down,
+        isMelodicMinor,
+        scaleType
+    });
+}
+
     pair.scaleType = scaleType;
 
     // H/M: select minor directly.
