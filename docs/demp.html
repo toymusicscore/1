@@ -12337,21 +12337,7 @@ for (const channel in notesByChannel) {
         curr.midi === 70
     )
 ) {
-    console.log("LH movement around Bb4:", {
-        prevMidi: prev.midi,
-        currMidi: curr.midi,
-        prevStart: prev.start,
-        currStart: curr.start,
-        prevMeasure: Math.floor(
-            prev.start / ticksPerMeasure
-        ) + 1,
-        currMeasure: Math.floor(
-            curr.start / ticksPerMeasure
-        ) + 1,
-        direction: curr.midi > prev.midi
-            ? "up"
-            : "down"
-    });
+
 }
 
     }
@@ -12527,16 +12513,6 @@ for (let i = 0; i < mscnt; i++) {
         const scale = measurePc[i].scale[j];
         const info = scale[3];
 
-if (i === 11 && j === 9) {
-    console.log("Measure 12, A minor classification:", {
-        scaleMemberN: scale[0],
-        scaleMemberH: info.scaleMemberH,
-        scaleMemberM: info.scaleMemberM,
-        specialMemberM6: info.specialMemberM6,
-        specialMemberM7: info.specialMemberM7
-    });
-}
-
         maxNaturalScore = Math.max(
             maxNaturalScore,
             scale[0]
@@ -12587,18 +12563,6 @@ for (let i = 11; i <= 12; i++) {
 
     if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-    console.log(`Measure ${i + 1}: Scale candidates`, {
-        count: measurePc[i].count,
-        pc: measurePc[i].pc,
-        bestScale: measurePc[i].bestScale.map(j => ({
-            root: engf1[j],
-            scoreN: measurePc[i].scale[j][1],
-            scoreH: measurePc[i].scale[j][3].scaleMemberH,
-            scoreM: measurePc[i].scale[j][3].scaleMemberM
-        })),
-        A_minor: measurePc[i].scale[9],
-        E_minor: measurePc[i].scale[4]
-    });
 }
 
 //multiple max weights
@@ -12743,29 +12707,7 @@ if (isMelodicMinor) {
     scaleType = "H";
 }
 
-if (i === 10 && j === 2) {
-    console.log("Measure 11: D minor direction", {
-        raised6Up,
-        raised7Up,
-        lowered6Down,
-        lowered7Down,
-        isMelodicMinor,
-        scaleType
-    });
-}
-
     scale[2] = scaleType;
-
-    if ((i === 11 || i === 12) && j === 9) {
-    console.log(`Measure ${i + 1}: A minor direction`, {
-        raised6Up,
-        raised7Up,
-        lowered6Down,
-        lowered7Down,
-        isMelodicMinor,
-        scaleType
-    });
-}
 
     pair.scaleType = scaleType;
 
@@ -12913,37 +12855,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
     const scaleType = measurePc[i].estScaleType;
 
-
-    if (i === 11) {
-    console.log("Measure 12: Final key label", {
-        bestScale: measurePc[i].bestScale,
-        estKey: measurePc[i].estKey,
-        estScaleType: measurePc[i].estScaleType,
-        selectedMinor: measurePc[i].pairs
-            .flatMap(pair => pair.selected)
-            .filter(item =>
-                item.point > 0 &&
-                item.key.mode === "minor"
-            )
-            .map(item => ({
-                name: item.key.name,
-                root: item.key.root,
-                scaleType:
-                    measurePc[i].scale[item.key.root][2],
-                point: item.point
-            }))
-    });
-}
-
-
     const estKey = measurePc[i].estKey;
-
-    if (i === 11) {
-    console.log("Measure 12: Display key", {
-        estKey: estKey,
-        scaleType: scaleType
-    });
-}
 
     const isMinor = estKey
         .split(" / ")
@@ -12952,10 +12864,6 @@ measurePc[i].estScaleType = measurePc[i].pairs
     const displayKey = isMinor && scaleType
         ? estKey + " (" + scaleType + ")"
         : estKey;
-
-    if (i === 11) {
-    console.log("Measure 12: displayKey =", displayKey);
-}
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
     ctx.fillText(displayKey, 710, 100 + mscnt * 10 + 10 * i);
