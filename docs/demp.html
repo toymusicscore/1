@@ -4195,6 +4195,37 @@ function getAutoLabelType(keyName) {
 }
 
 
+function getMelodicMinorLabel(
+    midi,
+    measureIndex,
+    sharpNames,
+    flatNames
+) {
+    const info = estimatedMeasureKeys[measureIndex];
+
+    if (
+        !info ||
+        info.estScaleType !== "M" ||
+        info.rootPc == null
+    ) {
+        return null;
+    }
+
+    const pc = ((midi % 12) + 12) % 12;
+    const interval = (pc - info.rootPc + 12) % 12;
+
+    // 6th: lowered or raised
+    if (interval === 8) return flatNames[pc];
+    if (interval === 9) return sharpNames[pc];
+
+    // 7th: lowered or raised
+    if (interval === 10) return flatNames[pc];
+    if (interval === 11) return sharpNames[pc];
+
+    return null;
+}
+
+
 function getLabel(midi, n_id, songId, measureIndex){
 
     const labelType =
@@ -4205,25 +4236,50 @@ function getLabel(midi, n_id, songId, measureIndex){
 
     if (practiceSettings.noteTextType === 0){
         nl = "";
-    
+    } else if (practiceSettings.noteTextType === 1) {
+    const specialLabel = getMelodicMinorLabel(
+        midi,
+        measureIndex,
+        drms1,
+        drmf1
+    );
+
+    nl = specialLabel ??
+        (labelType === "flat"
+            ? drmf1[midi % 12]
+            : drms1[midi % 12]);
+
+} else if (practiceSettings.noteTextType === 4) {
+    const specialLabel = getMelodicMinorLabel(
+        midi,
+        measureIndex,
+        engs1,
+        engf1
+    );
+
+    nl = specialLabel ??
+        (labelType === "flat"
+            ? engf1[midi % 12]
+            : engs1[midi % 12]);
+            /*
     }else if (practiceSettings.noteTextType === 1){
 
         nl = labelType === "flat"
             ? drmf1[midi % 12]
             : drms1[midi % 12];
-
+*/
     }else if (practiceSettings.noteTextType === 2){
         nl = drms1[midi % 12];
 
     }else if (practiceSettings.noteTextType === 3){
         nl = drmf1[midi % 12];
-
+/*
     }else if (practiceSettings.noteTextType === 4){
 
         nl = labelType === "flat"
             ? engf1[midi % 12]
             : engs1[midi % 12];
-
+*/
     }else if (practiceSettings.noteTextType === 5){
         nl = engs1[midi % 12];
 
@@ -12247,6 +12303,8 @@ let estimatedMeasureLabelTypes = [];
 
 function keyEstimation(){
 
+    estimatedMeasureKeys = [];
+
     canvas.width = 1300;
     canvas.height = 3000;
 
@@ -12589,10 +12647,12 @@ for(let i=0;i<mscnt;i++){
 	}
 }
 
+/*
 estimatedMeasureKeys = measurePc.map(m => ({
     estKey: m.estKey,
     estScaleType: m.estScaleType
 }));
+*/
 
 ctx.fillStyle="black";
 ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",100,110+mscnt*20);
@@ -12873,6 +12933,26 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
     ctx.fillText(displayKey, 710, 100 + mscnt * 10 + 10 * i);
+
+    const primaryKey = measurePc[i].estKey.split(" / ")[0];
+
+    const primaryMinor = measurePc[i].pairs
+        .flatMap(pair => pair.selected)
+        .find(item =>
+            item.point > 0 &&
+            item.key.name === primaryKey &&
+            item.key.mode === "minor"
+        );
+
+    estimatedMeasureKeys[i] = {
+        estKey: primaryKey,
+        estScaleType: primaryMinor
+            ? measurePc[i].scale[primaryMinor.key.root][2]
+            : null,
+        rootPc: primaryMinor
+            ? primaryMinor.key.root
+            : null
+    };
 
     estimatedMeasureLabelTypes[i] =
     getAutoLabelType(
