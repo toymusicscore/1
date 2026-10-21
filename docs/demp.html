@@ -12938,6 +12938,13 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
     const estKey = measurePc[i].estKey;
 
+    if (i === 11) {
+    console.log("Measure 12: Display key", {
+        estKey: estKey,
+        scaleType: scaleType
+    });
+}
+
     const isMinor = estKey
         .split(" / ")
         .some(key => key.endsWith("m"));
