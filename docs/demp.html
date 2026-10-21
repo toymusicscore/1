@@ -12755,7 +12755,7 @@ if (i === 10 && j === 2) {
 }
 
     scale[2] = scaleType;
-    
+
     if ((i === 11 || i === 12) && j === 9) {
     console.log(`Measure ${i + 1}: A minor direction`, {
         raised6Up,
@@ -12912,6 +12912,30 @@ measurePc[i].estScaleType = measurePc[i].pairs
     ctx.fillStyle = "black";
 
     const scaleType = measurePc[i].estScaleType;
+
+
+    if (i === 11) {
+    console.log("Measure 12: Final key label", {
+        bestScale: measurePc[i].bestScale,
+        estKey: measurePc[i].estKey,
+        estScaleType: measurePc[i].estScaleType,
+        selectedMinor: measurePc[i].pairs
+            .flatMap(pair => pair.selected)
+            .filter(item =>
+                item.point > 0 &&
+                item.key.mode === "minor"
+            )
+            .map(item => ({
+                name: item.key.name,
+                root: item.key.root,
+                scaleType:
+                    measurePc[i].scale[item.key.root][2],
+                point: item.point
+            }))
+    });
+}
+
+
     const estKey = measurePc[i].estKey;
 
     const isMinor = estKey
