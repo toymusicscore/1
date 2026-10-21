@@ -4193,6 +4193,57 @@ function getAutoLabelType(keyName) {
     return "sharp";
 }
 
+function getMeasureLabel(midi, measureIndex) {
+
+    const labelType =
+        estimatedMeasureLabelTypes[measureIndex]
+        ?? estimatedLabelType;
+
+    const pc = midi % 12;
+
+    // Existing automatic spelling
+    let labels = labelType === "flat"
+        ? engf1
+        : engs1;
+
+    // Get the estimated key and scale type for this measure
+    const key = measurePc?.[measureIndex]?.estKey;
+    const scaleType = measurePc?.[measureIndex]?.estScaleType;
+
+    if (!key || !scaleType) {
+        return labels[pc];
+    }
+
+    const root = key.split(" / ")[0];
+    const type = scaleType.split(" / ")[0];
+
+    if (!root.endsWith("m")) {
+        return labels[pc];
+    }
+
+    // Determine the raised 6th and 7th scale degrees
+    const rootPc = {
+        C: 0, "C#": 1, Db: 1, D: 2, "D#": 3, Eb: 3,
+        E: 4, F: 5, "F#": 6, Gb: 6, G: 7,
+        "G#": 8, Ab: 8, A: 9, "A#": 10, Bb: 10, B: 11
+    }[root.slice(0, -1)];
+
+    if (rootPc === undefined) {
+        return labels[pc];
+    }
+
+    const interval = (pc - rootPc + 12) % 12;
+
+    if (
+        (type === "H" && interval === 11) ||
+        (type === "M" && (interval === 9 || interval === 11))
+    ) {
+        return engs1[pc];
+    }
+
+    return labels[pc];
+}
+
 
 function getLabel(midi, n_id, songId, measureIndex){
 
@@ -4204,25 +4255,36 @@ function getLabel(midi, n_id, songId, measureIndex){
 
     if (practiceSettings.noteTextType === 0){
         nl = "";
+    
+    }else if (practiceSettings.noteTextType === 1){
 
+        nl = getMeasureLabel(midi, measureIndex) === engf1[midi % 12]
+            ? drmf1[midi % 12]
+            : drms1[midi % 12];
+
+    }else if (practiceSettings.noteTextType === 4){
+
+        nl = getMeasureLabel(midi, measureIndex);
+
+/*
     }else if (practiceSettings.noteTextType === 1){
 
         nl = labelType === "flat"
             ? drmf1[midi % 12]
             : drms1[midi % 12];
-
+*/
     }else if (practiceSettings.noteTextType === 2){
         nl = drms1[midi % 12];
 
     }else if (practiceSettings.noteTextType === 3){
         nl = drmf1[midi % 12];
-
+/*
     }else if (practiceSettings.noteTextType === 4){
 
         nl = labelType === "flat"
             ? engf1[midi % 12]
             : engs1[midi % 12];
-
+*/
     }else if (practiceSettings.noteTextType === 5){
         nl = engs1[midi % 12];
 
