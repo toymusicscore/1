@@ -12636,7 +12636,55 @@ for (let i = 11; i <= 12; i++) {
 
 }
 
-//multiple max weights
+//========================================================
+// Paint every major scale tied for the best fit
+//========================================================
+
+for (let i = 0; i < mscnt; i++) {
+
+    if (!measurePc[i] || measurePc[i].count === 0) continue;
+
+    for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
+
+        const majorScore = measurePc[i].pc
+            .reduce((sum, count, pc) => {
+                const interval = (pc - majorRoot + 12) % 12;
+
+                return sum + (
+                    [0, 2, 4, 5, 7, 9, 11].includes(interval)
+                        ? count
+                        : 0
+                );
+            }, 0);
+
+        const majorPercent =
+            majorScore / measurePc[i].count * 100;
+
+        if (majorPercent === measurePc[i].bestScore) {
+            ctx.fillStyle = workingColor.pc[majorRoot];
+
+            ctx.fillRect(
+                100 + 50 * majorRoot,
+                90 + mscnt * 10 + 10 * i,
+                50,
+                10
+            );
+        }
+
+		ctx.fillStyle = "black";
+
+		const w1 = measurePc[i].scale[j][1].toFixed(2);
+
+        ctx.textAlign = "right";		
+		
+        ctx.fillText(w1, 110 + 50 * majorScale, 100 + mscnt * 10 + 10 * i);
+
+    }
+}
+
+
+/*
+multiple max weights
 for(let i=0;i<mscnt;i++){
 	for (let j = 0; j < 12; j++) {
         let majorScale = (j+3)%12;	
@@ -12658,6 +12706,7 @@ for(let i=0;i<mscnt;i++){
 		}
 	}
 }
+*/
 
 /*
 estimatedMeasureKeys = measurePc.map(m => ({
