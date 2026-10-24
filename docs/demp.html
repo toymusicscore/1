@@ -12718,80 +12718,84 @@ for (let i = 0; i < mscnt; i++) {
 
     measurePc[i].pairs = [];
 
-const scalePoint = 1 / measurePc[i].bestScale.length;
+    const scalePoint = 1 / measurePc[i].bestScale.length;
 
-for (const j of measurePc[i].bestScale) {
+    if (i === 11) {
+        console.log("Measure 12 bestScale roots:", measurePc[i].bestScale);
+    }
 
-    const minor = {
-        measure: i + 1,
-        root: j,
-        mode: "minor",
-        name: engMnr1[j] + "m",
-        weight1: measurePc[i].pc[j] / measurePc[i].count * 100,
-        weight5: measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 100
-    };
-    minor.weight = minor.weight1 + minor.weight5;
+    for (const j of measurePc[i].bestScale) {
 
-    const majorRoot = (j + 3) % 12;
+        const minor = {
+            measure: i + 1,
+            root: j,
+            mode: "minor",
+            name: engMnr1[j] + "m",
+            weight1: measurePc[i].pc[j] / measurePc[i].count * 100,
+            weight5: measurePc[i].pc[(j + 7) % 12] / measurePc[i].count * 100
+        };
+        minor.weight = minor.weight1 + minor.weight5;
 
-    const major = {
-        measure: i + 1,
-        root: majorRoot,
-        mode: "major",
-        name: engf1[majorRoot] + "M",
-        weight1: measurePc[i].pc[majorRoot] / measurePc[i].count * 100,
-        weight5: measurePc[i].pc[(majorRoot + 7) % 12] / measurePc[i].count * 100
-    };
-    major.weight = major.weight1 + major.weight5;
+        const majorRoot = (j + 3) % 12;
 
-    const pair = {
-        major,
-        minor,
-        selected: [],
-        point: scalePoint,
-        scaleType: "N"
-    };
+        const major = {
+            measure: i + 1,
+            root: majorRoot,
+            mode: "major",
+            name: engf1[majorRoot] + "M",
+            weight1: measurePc[i].pc[majorRoot] / measurePc[i].count * 100,
+            weight5: measurePc[i].pc[(majorRoot + 7) % 12] / measurePc[i].count * 100
+        };
+        major.weight = major.weight1 + major.weight5;
+
+        const pair = {
+            major,
+            minor,
+            selected: [],
+            point: scalePoint,
+            scaleType: "N"
+        };
 
     const scale = measurePc[i].scale[j];
     const info = scale[3];
 
 
-let scaleType = "N";
-let raised6Up = 0;
-let raised7Up = 0;
-let lowered6Down = 0;
-let lowered7Down = 0;
+    let scaleType = "N";
+    let raised6Up = 0;
+    let raised7Up = 0;
+    let lowered6Down = 0;
+    let lowered7Down = 0;
 
-for (const note of directionalNotes) {
+    for (const note of directionalNotes) {
 
-    // Count movements that end in this measure.
-    if (note.currMeasure !== i) continue;
+        // Count movements that end in this measure.
+        if (note.currMeasure !== i) continue;
 
-    const prevInterval =
-        (note.prevMidi % 12 - j + 12) % 12;
+        const prevInterval =
+            (note.prevMidi % 12 - j + 12) % 12;
 
-    const currInterval =
-        (note.currMidi % 12 - j + 12) % 12;
+        const currInterval =
+            (note.currMidi % 12 - j + 12) % 12;
 
-    if (note.direction === 1) {
+        if (note.direction === 1) {
 
-        // Count raised degrees at either end of an ascending movement.
-        if (prevInterval === 9 || currInterval === 9) {
-            raised6Up++;
+            // Count raised degrees at either end of an ascending movement.
+            if (prevInterval === 9 || currInterval === 9) {
+                raised6Up++;
+            }
+
+            if (prevInterval === 11 || currInterval === 11) {
+                raised7Up++;
+            }
+
+        } else {
+
+            // Count lowered degrees at the start of a descending movement.
+            if (prevInterval === 8) lowered6Down++;
+            if (prevInterval === 10) lowered7Down++;
         }
 
-        if (prevInterval === 11 || currInterval === 11) {
-            raised7Up++;
-        }
-
-    } else {
-
-        // Count lowered degrees at the start of a descending movement.
-        if (prevInterval === 8) lowered6Down++;
-        if (prevInterval === 10) lowered7Down++;
     }
-
-}
 
 // Melodic minor: raised 6th and 7th ascending,
 // and at least one lowered degree descending.
