@@ -12640,15 +12640,17 @@ for (let i = 11; i <= 12; i++) {
 // Paint every major scale tied for the best fit
 //========================================================
 
-for (let i = 0; i < mscnt; i++) {
+    for (let i = 0; i < mscnt; i++) {
 
-    if (!measurePc[i] || measurePc[i].count === 0) continue;
+        if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-    for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
+        // Calculate scores for all 12 major scales
+        const majorScores = [];
 
-        const majorScore = measurePc[i].pc
-            .reduce((sum, count, pc) => {
-                const interval = (pc - majorRoot + 12) % 12;
+        for (let root = 0; root < 12; root++) {
+
+            const score = measurePc[i].pc.reduce((sum, count, pc) => {
+                const interval = (pc - root + 12) % 12;
 
                 return sum + (
                     [0, 2, 4, 5, 7, 9, 11].includes(interval)
@@ -12657,35 +12659,41 @@ for (let i = 0; i < mscnt; i++) {
                 );
             }, 0);
 
-        const majorPercent =
-            majorScore / measurePc[i].count * 100;
-
-        if (majorScores[majorRoot] === maxMajorScore) {
-            ctx.fillStyle = workingColor.pc[majorRoot];
-
-            ctx.fillRect(
-                100 + 50 * majorRoot,
-                90 + mscnt * 10 + 10 * i,
-                50,
-                10
-            );
+            majorScores.push(score);
         }
 
-		ctx.fillStyle = "black";
+        const maxMajorScore = Math.max(...majorScores);
 
-        const minorRoot = (majorRoot + 9) % 12;
-        const w1 = measurePc[i].scale[minorRoot][1].toFixed(2);
+        // Paint every major scale tied for the highest score
+        for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
 
-        ctx.textAlign = "right";		
-		
-        ctx.fillText(
-            w1,
-            130 + 50 * majorRoot,
-            100 + mscnt * 10 + 10 * i
-        );
+            if (majorScores[majorRoot] === maxMajorScore) {
 
+                ctx.fillStyle = workingColor.pc[majorRoot];
+
+                ctx.fillRect(
+                    100 + 50 * majorRoot,
+                    90 + mscnt * 10 + 10 * i,
+                    50,
+                    10
+                );
+            }
+
+            // Display the original relative-minor score
+            ctx.fillStyle = "black";
+
+            const minorRoot = (majorRoot + 9) % 12;
+            const w1 = measurePc[i].scale[minorRoot][1].toFixed(2);
+
+            ctx.textAlign = "right";
+
+            ctx.fillText(
+                w1,
+                110 + 50 * majorRoot,
+                100 + mscnt * 10 + 10 * i
+            );
+        }
     }
-}
 
 
 /*
