@@ -12794,18 +12794,18 @@ for (let i = 11; i <= 12; i++) {
 */
 
 ctx.fillStyle="black";
-ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",100,110+mscnt*20);
-ctx.fillText("Measure",0,120+mscnt*20);
-ctx.fillText("Major",50,110+mscnt*20);
-ctx.fillText("Scale",50,120+mscnt*20);
+ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",100,110+mscnt*40);
+ctx.fillText("Measure",0,120+mscnt*40);
+ctx.fillText("Major",50,110+mscnt*40);
+ctx.fillText("Scale",50,120+mscnt*40);
 
 ctx.textAlign = "right";		
-ctx.fillText("Major 1st+5th",220,120+mscnt*20);
-ctx.fillText("Minor 1st+5th",480,120+mscnt*20);
-ctx.fillText("Major",520,120+mscnt*20);
-ctx.fillText("Minor",680,120+mscnt*20);
+ctx.fillText("Major 1st+5th",220,120+mscnt*40);
+ctx.fillText("Minor 1st+5th",480,120+mscnt*40);
+ctx.fillText("Major",520,120+mscnt*40);
+ctx.fillText("Minor",680,120+mscnt*40);
 ctx.textAlign = "left";		
-ctx.fillText("Estimated Key",700,120+mscnt*20);
+ctx.fillText("Estimated Key",700,120+mscnt*40);
 
 let row = 0;
 
@@ -13124,7 +13124,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		const majorKey = pair.major;
 		const minorKey = pair.minor;
 
-		const y = 120 + mscnt * 20 + 10 * row;
+		const y = 120 + mscnt * 40 + 10 * row;
 		const ry = y + 10;
 
 		ctx.textAlign = "right";		
@@ -13399,7 +13399,7 @@ for (let i = 0; i < measurePc.length; i++) {
     estimatedKey = measurePc.estKeyPoints[0]?.[0] ?? "";
     estimatedLabelType = getAutoLabelType(estimatedKey);
 
-	const rowPointStart = Number(mscnt*30)+Number(row*10);
+	const rowPointStart = Number(mscnt*50)+Number(row*10);
 
 	ctx.fillStyle="black";
 	ctx.fillText("Estimated Key",300,rowPointStart);
