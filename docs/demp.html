@@ -12696,38 +12696,6 @@ for (let i = 11; i <= 12; i++) {
     }
 
 
-/*
-multiple max weights
-for(let i=0;i<mscnt;i++){
-	for (let j = 0; j < 12; j++) {
-        let majorScale = (j+3)%12;	
-            if (measurePc[i].bestScale.includes(j)) {
-//        if (measurePc[i].scale[j][1] === measurePc[i].bestScore) {
-            ctx.fillStyle = workingColor.pc[majorScale];
-			ctx.fillRect(100 + 50 * majorScale, 90 + mscnt * 10 + 10 * i, 50, 10);
-		}
-		ctx.fillStyle = "black";
-
-		const w1 = measurePc[i].scale[j][1].toFixed(2);
-
-		if (w1 ==100){
-			ctx.fillText(w1, 100 + 50 * majorScale, 100 + mscnt * 10 + 10 * i);
-		}else if (w1>=10){
-			ctx.fillText(w1, 105 + 50 * majorScale, 100 + mscnt * 10 + 10 * i);
-		}else if (w1<10){
-			ctx.fillText(w1, 110 + 50 * majorScale, 100 + mscnt * 10 + 10 * i);
-		}
-	}
-}
-*/
-
-/*
-estimatedMeasureKeys = measurePc.map(m => ({
-    estKey: m.estKey,
-    estScaleType: m.estScaleType
-}));
-*/
-
 ctx.fillStyle="black";
 ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",100,110+mscnt*20);
 ctx.fillText("Measure",0,120+mscnt*20);
