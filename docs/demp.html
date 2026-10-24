@@ -12329,6 +12329,34 @@ for (const note of scoreData) {
 const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
 
 //========================================================
+// Merge a very short final measure into the previous measure
+//========================================================
+
+const lastMeasureIndex = mscnt - 1;
+const minNotesForKeyEstimation = 3;
+
+if (
+    lastMeasureIndex > 0 &&
+    measurePc[lastMeasureIndex] &&
+    measurePc[lastMeasureIndex].count > 0 &&
+    measurePc[lastMeasureIndex].count < minNotesForKeyEstimation &&
+    measurePc[lastMeasureIndex - 1]
+) {
+    const lastMeasure = measurePc[lastMeasureIndex];
+    const previousMeasure = measurePc[lastMeasureIndex - 1];
+
+    // Merge the final measure's notes into the previous measure.
+    for (let pc = 0; pc < 12; pc++) {
+        previousMeasure.pc[pc] += lastMeasure.pc[pc];
+    }
+
+    previousMeasure.count += lastMeasure.count;
+
+    // Mark the final measure to inherit the previous measure's key.
+    lastMeasure.inheritedFromPrevious = true;
+}
+
+//========================================================
 // Analyze melodic direction by MIDI channel
 //========================================================
 
@@ -13145,6 +13173,56 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
 	}	
 
+}
+
+//========================================================
+// Inherit the key of the previous measure when necessary
+//========================================================
+
+for (let i = 0; i < measurePc.length; i++) {
+
+    if (!measurePc[i]?.inheritedFromPrevious) continue;
+
+    const previous = measurePc[i - 1];
+    const current = measurePc[i];
+
+    if (!previous?.estKey) continue;
+
+    // Inherit the previous measure's key and scale type.
+    current.estKey = previous.estKey;
+    current.estScaleType = previous.estScaleType;
+
+    estimatedMeasureKeys[i] = {
+        ...estimatedMeasureKeys[i - 1]
+    };
+
+    estimatedMeasureLabelTypes[i] =
+        estimatedMeasureLabelTypes[i - 1];
+
+    // Do not let the unreliable original estimate
+    // contribute to the overall key score.
+    current.estKeyPoints = [];
+
+    // Refresh the displayed key labels.
+    const isMinor = current.estKey
+        .split(" / ")
+        .some(key => key.endsWith("m"));
+
+    const displayKey = isMinor && current.estScaleType
+        ? current.estKey + " (" + current.estScaleType + ")"
+        : current.estKey;
+
+    ctx.fillStyle = "white";
+    ctx.fillRect(700, 41 + 10 * i, 400, 10);
+    ctx.fillRect(700, 91 + mscnt * 10 + 10 * i, 400, 10);
+
+    ctx.fillStyle = "black";
+    ctx.fillText(displayKey, 710, 50 + 10 * i);
+    ctx.fillText(
+        displayKey,
+        710,
+        100 + mscnt * 10 + 10 * i
+    );
 }
 
     const points = {};
