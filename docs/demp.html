@@ -12640,8 +12640,8 @@ for (let i = 11; i <= 12; i++) {
 for(let i=0;i<mscnt;i++){
 	for (let j = 0; j < 12; j++) {
         let majorScale = (j+3)%12;	
-
-        if (measurePc[i].scale[j][1] === measurePc[i].bestScore) {
+            if (measurePc[i].bestScale.includes(j)) {
+//        if (measurePc[i].scale[j][1] === measurePc[i].bestScore) {
             ctx.fillStyle = workingColor.pc[majorScale];
 			ctx.fillRect(100 + 50 * majorScale, 90 + mscnt * 10 + 10 * i, 50, 10);
 		}
