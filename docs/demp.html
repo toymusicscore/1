@@ -1260,17 +1260,17 @@ function showTab(tab){
                 <input 
                     type="button"
                     value="⧉ Copy Fingering Auto to Fingering User" 
-                    onclick="saveFingering()">
+                    onclick="copyFingeringAutoToUser()">
 					<br><br>
                 <input 
                     type="button"
                     value="📥 Download Fingering User as CSV" 
-                    onclick="downloadFingeringSaved()">
+                    onclick="downloadFingeringUser()">
 					<br><br>
                 <input 
                     type="button"
-                    value=" 💾 Save MIDI and Fingering User to one SMF" 
-                    onclick="downloadFingeringSaved()">
+                    value=" 💾 Save MIDI and Fingering User as SMF" 
+                    onclick="saveMidiSndFingeringUser()">
 					<br><br>
             `;
 				$("fingerSettingsButton").onclick = function(){
@@ -15625,7 +15625,7 @@ downloadFile(songId+'_Auto_HBN'+fg5n+'n'+fg6n+'r'+fg7n+'.csv', textData);
 
 }
 
-function downloadFingeringSaved(){
+function downloadFingeringUser(){
 
     const songId = val("song1");
     const data = fingeringSets[songId];
@@ -15668,7 +15668,7 @@ function downloadFingeringSaved(){
 
 }
 
-function saveFingering(){
+function copyFingeringAutoToUser(){
 
     const songId = val("song1");
 
