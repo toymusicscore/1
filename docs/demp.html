@@ -12458,6 +12458,13 @@ ctx.fillText("Measure",0,90+mscnt*10);
 ctx.fillText("Count",50,90+mscnt*10);
 ctx.fillText("Estimated Key",700,90+mscnt*10);
 
+for (let i = 0; i < mscnt; i++) {
+    const y = 100 + mscnt * 10 + 30 * i;
+
+    ctx.fillStyle = "black";
+    ctx.fillText(i + 1, i + 1 >= 10 ? 0 : 5, y);
+}
+/*
 for (let i=0; i<mscnt; i++){
 	if (i+1>=10){
 		ctx.fillText(i+1,0,100+mscnt*10+i*10);
@@ -12465,6 +12472,7 @@ for (let i=0; i<mscnt; i++){
 		ctx.fillText(i+1,5,100+mscnt*10+i*10);
 	}
 }
+*/
 
 for(let k=0;k<=11;k++){
 	ctx.fillStyle="black";
@@ -12492,10 +12500,11 @@ for (let i = 0; i < mscnt; i++) {
     }
 	if (measurePc[i].count >= 10){
 	    ctx.fillText(measurePc[i].count, 50, 50 + 10 * i);
-	    ctx.fillText(measurePc[i].count, 50, 100 + mscnt * 10 + 10 * i);
+	    ctx.fillText(measurePc[i].count, 50, 100 + mscnt * 10 + 30 * i);
+        
 	}else {
 	    ctx.fillText(measurePc[i].count, 55, 50 + 10 * i);
-	    ctx.fillText(measurePc[i].count, 55, 100 + mscnt * 10 + 10 * i);
+	    ctx.fillText(measurePc[i].count, 55, 100 + mscnt * 10 + 30 * i);
 	}
 }
 
@@ -12636,6 +12645,94 @@ for (let i = 11; i <= 12; i++) {
 
 }
 
+
+ //========================================================
+ // Show Natural, Harmonic, and Melodic minor scale scores
+ //========================================================
+
+ for (let i = 0; i < mscnt; i++) {
+
+     if (!measurePc[i] || measurePc[i].count === 0) continue;
+
+     const baseY = 90 + mscnt * 10 + 30 * i;
+
+     // Calculate scores for all 12 major scales
+     const majorScores = [];
+
+     for (let root = 0; root < 12; root++) {
+
+         const score = measurePc[i].pc.reduce((sum, count, pc) => {
+             const interval = (pc - root + 12) % 12;
+
+             return sum + (
+                 [0, 2, 4, 5, 7, 9, 11].includes(interval)
+                     ? count
+                     : 0
+             );
+         }, 0);
+
+         majorScores.push(score);
+     }
+
+     const maxMajorScore = Math.max(...majorScores);
+
+     // Paint the best-fitting major scale columns across all 3 rows
+     for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
+
+         if (majorScores[majorRoot] === maxMajorScore) {
+
+             ctx.fillStyle = workingColor.pc[majorRoot];
+
+             ctx.fillRect(
+                 100 + 50 * majorRoot,
+                 baseY,
+                 50,
+                 30
+             );
+         }
+     }
+
+     const rowTypes = ["N", "H", "M"];
+
+     for (let r = 0; r < 3; r++) {
+
+         const y = baseY + 10 * (r + 1);
+
+         ctx.fillStyle = "black";
+         ctx.textAlign = "left";
+         ctx.fillText(rowTypes[r], 25, y);
+
+         for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
+
+             // The relative minor root for this major column
+             const minorRoot = (majorRoot + 9) % 12;
+             const scale = measurePc[i].scale[minorRoot];
+             const info = scale[3];
+
+             const counts = [
+                 scale[0],
+                 info.scaleMemberH,
+                 info.scaleMemberM
+             ];
+
+             const percentage =
+                 counts[r] / measurePc[i].count * 100;
+
+             ctx.fillStyle = "black";
+             ctx.textAlign = "right";
+             ctx.fillText(
+                 percentage.toFixed(2),
+                 145 + 50 * majorRoot,
+                 y
+             );
+         }
+     }
+ }
+
+ ctx.textAlign = "left";
+
+
+ /*
 //========================================================
 // Paint every major scale tied for the best fit
 //========================================================
@@ -12694,7 +12791,7 @@ for (let i = 11; i <= 12; i++) {
             );
         }
     }
-
+*/
 
 ctx.fillStyle="black";
 ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",100,110+mscnt*20);
