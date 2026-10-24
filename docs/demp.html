@@ -12857,6 +12857,23 @@ if (isMelodicMinor) {
     }
 
     measurePc[i].pairs.push(pair);
+
+    if (i === 11) {
+        console.log("Measure 12 candidate:", {
+            root: j,
+            minor: minor.name,
+            major: major.name,
+            scaleType,
+            majorWeight: major.weight,
+            minorWeight: minor.weight,
+            raised6Up,
+            raised7Up,
+            lowered6Down,
+            lowered7Down,
+            selected: pair.selected
+        });
+    }
+
 }
 
 
