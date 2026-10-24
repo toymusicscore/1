@@ -12646,8 +12646,6 @@ for (let i = 0; i < mscnt; i++) {
 
     for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
 
-        let majorScale = (majorRoot+3)%12;	
-
         const majorScore = measurePc[i].pc
             .reduce((sum, count, pc) => {
                 const interval = (pc - majorRoot + 12) % 12;
@@ -12681,7 +12679,7 @@ for (let i = 0; i < mscnt; i++) {
 		
         ctx.fillText(
             w1,
-            110 + 50 * majorScale,
+            110 + 50 * majorRoot,
             100 + mscnt * 10 + 10 * i
         );
 
