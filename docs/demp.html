@@ -177,11 +177,12 @@ demp
 <select id="nl1" name="nl1" onchange="onSettingsChange()">
 	<option value="0"> No Label </option>
 	<option value="1"> DoReMi </option>
-	<option value="4"> C-D-E </option>
-	<option value="7"> Pitch Class </option>
-	<option value="8"> Oct & PC </option>
-	<option value="9"> MIDI Note Num </option>
-	<option value="10"> Note ID </option>
+	<option value="2"> C-D-E </option>
+	<option value="3"> Pitch Class </option>
+	<option value="4"> Oct & PC </option>
+	<option value="5"> MIDI Note Num </option>
+	<option value="6"> Note ID </option>
+	<option value="7"> Fingering SMF</option>
 	<option value="11" selected> Fingering User</option>
 	<option value="12"> Fingering Auto </option>
 	<option value="13"> CSV 1 </option>
@@ -4250,7 +4251,7 @@ function getLabel(midi, n_id, songId, measureIndex){
             ? drmf1[midi % 12]
             : drms1[midi % 12]);
 
-} else if (practiceSettings.noteTextType === 4) {
+} else if (practiceSettings.noteTextType === 2) {
     const specialLabel = getMelodicMinorLabel(
         midi,
         measureIndex,
@@ -4262,42 +4263,24 @@ function getLabel(midi, n_id, songId, measureIndex){
         (labelType === "flat"
             ? engf1[midi % 12]
             : engs1[midi % 12]);
-            /*
-    }else if (practiceSettings.noteTextType === 1){
-
-        nl = labelType === "flat"
-            ? drmf1[midi % 12]
-            : drms1[midi % 12];
-*/
-    }else if (practiceSettings.noteTextType === 2){
-        nl = drms1[midi % 12];
 
     }else if (practiceSettings.noteTextType === 3){
-        nl = drmf1[midi % 12];
-/*
-    }else if (practiceSettings.noteTextType === 4){
-
-        nl = labelType === "flat"
-            ? engf1[midi % 12]
-            : engs1[midi % 12];
-*/
-    }else if (practiceSettings.noteTextType === 5){
         nl = engs1[midi % 12];
 
-    }else if (practiceSettings.noteTextType === 6){
+    }else if (practiceSettings.noteTextType === 4){
         nl = engf1[midi % 12];
 
-    }else if (practiceSettings.noteTextType === 7){
+    }else if (practiceSettings.noteTextType === 5){
         nl = (midi % 12).toString(12);
 
-    }else if (practiceSettings.noteTextType === 8){
+    }else if (practiceSettings.noteTextType === 6){
         nl = Math.floor((midi - 12) / 12)
            + (midi % 12).toString(12);
 
-    }else if (practiceSettings.noteTextType === 9){
+    }else if (practiceSettings.noteTextType === 7){
         nl = midi;
 
-    }else if (practiceSettings.noteTextType === 10){
+    }else if (practiceSettings.noteTextType === 8){
         nl = n_id;
 
     }else if (practiceSettings.noteTextType === 11){
