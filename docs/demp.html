@@ -12673,7 +12673,8 @@ for (let i = 0; i < mscnt; i++) {
 
 		ctx.fillStyle = "black";
 
-		const w1 = measurePc[i].scale[majorRoot][1].toFixed(2);
+        const minorRoot = (majorRoot + 9) % 12;
+        const w1 = measurePc[i].scale[minorRoot][1].toFixed(2);
 
         ctx.textAlign = "right";		
 		
