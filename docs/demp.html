@@ -13138,10 +13138,10 @@ measurePc[i].estScaleType = measurePc[i].pairs
         : estKey;
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
-    const rowIndex = estimatedMeasureKeys[i].estScaleType
-        ? ["N", "H", "M"].indexOf(
-            estimatedMeasureKeys[i].estScaleType
-        )
+    const selected = estimatedMeasureKeys[i];
+
+    const rowIndex = selected && selected.estScaleType
+        ? ["N", "H", "M"].indexOf(selected.estScaleType)
         : 0;
 
     ctx.fillText(
