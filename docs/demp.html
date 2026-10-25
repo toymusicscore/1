@@ -13419,30 +13419,51 @@ for (let i = 0; i < measurePc.length; i++) {
     );
 }
 
-//========================================================
-// Highlight the selected minor scale type in Part 2
-//========================================================
-
+// Highlight the selected scale type in Part 2
 for (let i = 0; i < mscnt; i++) {
 
     const selected = estimatedMeasureKeys[i];
 
-    console.log("Highlight measure", i + 1, selected);
-
-    if (
-        !selected ||
-        selected.rootPc === null 
-//        ||!["N", "H", "M"].includes(selected.estScaleType)
-    ) {
+    if (!selected || !selected.estKey) {
         continue;
     }
 
-    // Column of the relative major key
-    const majorRoot = (selected.rootPc + 3) % 12;
+    let majorRoot;
+    let rowIndex;
 
-    // Selected row: N = 0, H = 1, M = 2
-    const rowIndex = ["N", "H", "M"]
-        .indexOf(selected.estScaleType);
+    if (selected.estKey.endsWith("M")) {
+
+        // Major key: highlight Natural Minor (N)
+        // at the relative minor's column.
+        const tonic = selected.estKey.slice(0, -1);
+
+        majorRoot = engf1.indexOf(tonic);
+
+        if (majorRoot < 0) {
+            majorRoot = engs1.indexOf(tonic);
+        }
+
+        rowIndex = 0; // N
+
+    } else {
+
+        // Minor key: use its relative major column.
+        if (
+            selected.rootPc == null ||
+            !["N", "H", "M"].includes(selected.estScaleType)
+        ) {
+            continue;
+        }
+
+        majorRoot = (selected.rootPc + 3) % 12;
+
+        rowIndex = ["N", "H", "M"]
+            .indexOf(selected.estScaleType);
+    }
+
+    if (majorRoot < 0 || majorRoot > 11) {
+        continue;
+    }
 
     const baseY = 90 + mscnt * 10 + 30 * i;
 
