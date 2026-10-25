@@ -13138,17 +13138,6 @@ measurePc[i].estScaleType = measurePc[i].pairs
         : estKey;
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
-    const selected = estimatedMeasureKeys[i];
-
-    const rowIndex = selected && selected.estScaleType
-        ? ["N", "H", "M"].indexOf(selected.estScaleType)
-        : 0;
-
-    ctx.fillText(
-        displayKey,
-        710,
-        100 + mscnt * 10 + 30 * i + 10 * rowIndex + 8
-    );
 
     const primaryKey = measurePc[i].estKey.split(" / ")[0];
 
@@ -13169,6 +13158,20 @@ measurePc[i].estScaleType = measurePc[i].pairs
             ? primaryMinor.key.root
             : null
     };
+
+    const selected = estimatedMeasureKeys[i];
+
+    const rowIndex = selected.estScaleType
+        ? ["N", "H", "M"].indexOf(selected.estScaleType)
+        : 0;
+
+    ctx.fillText(displayKey, 710, 50 + 10 * i);
+
+    ctx.fillText(
+        displayKey,
+        710,
+        100 + mscnt * 10 + 30 * i + 10 * rowIndex + 8
+    );
 
     estimatedMeasureLabelTypes[i] =
     getAutoLabelType(
