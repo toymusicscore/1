@@ -12676,90 +12676,6 @@ for (let i = 11; i <= 12; i++) {
 
      const maxMajorScore = Math.max(...majorScores);
 
-    //========================================================
-    // Highlight the selected minor scale type (N, H, or M)
-    //========================================================
-
-    for (let i = 0; i < mscnt; i++) {
-
-        if (!measurePc[i] || measurePc[i].count === 0) continue;
-
-        const selectedKey = measurePc[i].estKey;
-        const scaleType = measurePc[i].estScaleType;
-
-        if (!selectedKey || !["N", "H", "M"].includes(scaleType)) {
-            continue;
-        }
-
-        // Extract the minor tonic, e.g. "G" from "Gm"
-        const match = selectedKey.match(/^([A-G](?:#|b)?)m/i);
-        if (!match) continue;
-
-        const minorName = match[1];
-
-        const pitchClassMap = {
-            C: 0, "C#": 1, Db: 1,
-            D: 2, "D#": 3, Eb: 3,
-            E: 4,
-            F: 5, "F#": 6, Gb: 6,
-            G: 7, "G#": 8, Ab: 8,
-            A: 9, "A#": 10, Bb: 10,
-            B: 11, Cb: 11
-        };
-
-        const minorRoot = pitchClassMap[minorName];
-        if (minorRoot === undefined) continue;
-
-        // Relative major is three semitones above the minor tonic
-        const majorRoot = (minorRoot + 3) % 12;
-        const rowIndex = ["N", "H", "M"].indexOf(scaleType);
-
-        const baseY = 90 + mscnt * 10 + 30 * i;
-
-        ctx.fillStyle = workingColor.pc[majorRoot];
-        ctx.fillRect(
-            100 + 50 * majorRoot,
-            baseY + 10 * (rowIndex + 1) - 10,
-            50,
-            10
-        );
-    }
-
-     const rowTypes = ["N", "H", "M"];
-
-     for (let r = 0; r < 3; r++) {
-
-         const y = baseY + 10 * (r + 1);
-
-         ctx.fillStyle = "black";
-         ctx.textAlign = "left";
-         ctx.fillText(rowTypes[r], 25, y);
-
-         for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
-
-             // The relative minor root for this major column
-             const minorRoot = (majorRoot + 9) % 12;
-             const scale = measurePc[i].scale[minorRoot];
-             const info = scale[3];
-
-             const counts = [
-                 scale[0],
-                 info.scaleMemberH,
-                 info.scaleMemberM
-             ];
-
-             const percentage =
-                 counts[r] / measurePc[i].count * 100;
-
-             ctx.fillStyle = "black";
-             ctx.textAlign = "right";
-             ctx.fillText(
-                 percentage.toFixed(2),
-                 145 + 50 * majorRoot,
-                 y
-             );
-         }
-     }
  }
 
  ctx.textAlign = "left";
@@ -13405,6 +13321,44 @@ for (let i = 0; i < measurePc.length; i++) {
         100 + mscnt * 10 + 10 * i
     );
 }
+
+//========================================================
+// Highlight the selected minor scale type in Part 2
+//========================================================
+
+for (let i = 0; i < mscnt; i++) {
+
+    const selected = estimatedMeasureKeys[i];
+
+    if (
+        !selected ||
+        selected.rootPc === null ||
+        !["N", "H", "M"].includes(selected.estScaleType)
+    ) {
+        continue;
+    }
+
+    // Column of the relative major key
+    const majorRoot = (selected.rootPc + 3) % 12;
+
+    // Selected row: N = 0, H = 1, M = 2
+    const rowIndex = ["N", "H", "M"]
+        .indexOf(selected.estScaleType);
+
+    const baseY = 90 + mscnt * 10 + 30 * i;
+
+    ctx.strokeStyle = workingColor.pc[majorRoot];
+    ctx.lineWidth = 3;
+
+    ctx.strokeRect(
+        100 + 50 * majorRoot,
+        baseY + 10 * rowIndex,
+        50,
+        10
+    );
+}
+
+ctx.lineWidth = 1;
 
     const points = {};
 
