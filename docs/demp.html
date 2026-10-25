@@ -12764,6 +12764,19 @@ for (let i = 11; i <= 12; i++) {
 
  ctx.textAlign = "left";
 
+// Draw separator lines between measures
+ctx.beginPath();
+ctx.strokeStyle = "#666";
+ctx.lineWidth = 1;
+
+for (let i = 1; i < mscnt; i++) {
+    const y = 90 + mscnt * 10 + 30 * i;
+    ctx.moveTo(100, y);
+    ctx.lineTo(700, y);
+}
+
+ctx.stroke();
+ctx.lineWidth = 1;
 
  /*
 //========================================================
