@@ -13204,25 +13204,46 @@ measurePc[i].estScaleType = measurePc[i].pairs
         const selectedNames = measurePc[i].keyPoints
             .map(k => k[0]);
 
-        const pairKey = pair.selected
-            .filter(k =>
-                k.point > 0 &&
-                selectedNames.includes(k.key.name)
-            )
-            .map(k => {
-                const name = k.key.name;
+        let pairKey = "";
 
-                if (k.key.mode !== "minor") {
-                    return name;
+        if (measurePc[i].inheritedFromPrevious) {
+
+            // Show only the previous measure's estimated key.
+            if (pair === measurePc[i].pairs[0]) {
+
+                const previous = measurePc[i - 1];
+
+                if (previous?.estKey) {
+                    const key = previous.estKey.split(" / ")[0];
+
+                    pairKey = key.endsWith("m") && previous.estScaleType
+                        ? key + "(" + previous.estScaleType + ")"
+                        : key;
                 }
+            }
 
-                const type = measurePc[i].scale[k.key.root][2];
-                return name + "(" + type + ")";
-            })
-            .filter((name, index, array) =>
-                array.indexOf(name) === index
-            )
-            .join(" / ");
+        } else {
+
+            pairKey = pair.selected
+                .filter(k =>
+                    k.point > 0 &&
+                    selectedNames.includes(k.key.name)
+                )
+                .map(k => {
+                    const name = k.key.name;
+
+                    if (k.key.mode !== "minor") {
+                        return name;
+                    }
+
+                    const type = measurePc[i].scale[k.key.root][2];
+                    return name + "(" + type + ")";
+                })
+                .filter((name, index, array) =>
+                    array.indexOf(name) === index
+                )
+                .join(" / ");
+        }
 
         ctx.fillText(pairKey, 710, ry);
 
