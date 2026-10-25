@@ -13406,6 +13406,44 @@ for (let i = 0; i < measurePc.length; i++) {
     );
 }
 
+//========================================================
+// Highlight the selected minor scale type in Part 2
+//========================================================
+
+for (let i = 0; i < mscnt; i++) {
+
+    const selected = estimatedMeasureKeys[i];
+
+    if (
+        !selected ||
+        selected.rootPc === null ||
+        !["N", "H", "M"].includes(selected.estScaleType)
+    ) {
+        continue;
+    }
+
+    // Column of the relative major key
+    const majorRoot = (selected.rootPc + 3) % 12;
+
+    // Selected row: N = 0, H = 1, M = 2
+    const rowIndex = ["N", "H", "M"]
+        .indexOf(selected.estScaleType);
+
+    const baseY = 90 + mscnt * 10 + 30 * i;
+
+    ctx.strokeStyle = workingColor.pc[majorRoot];
+    ctx.lineWidth = 3;
+
+    ctx.strokeRect(
+        100 + 50 * majorRoot,
+        baseY + 10 * rowIndex,
+        50,
+        10
+    );
+}
+
+ctx.lineWidth = 1;
+
     const points = {};
 
     for (let i = 0; i < measurePc.length; i++) {
