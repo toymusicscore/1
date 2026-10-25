@@ -13138,7 +13138,17 @@ measurePc[i].estScaleType = measurePc[i].pairs
         : estKey;
 
     ctx.fillText(displayKey, 710, 50 + 10 * i);
-    ctx.fillText(displayKey, 710, 100 + mscnt * 10 + 10 * i);
+    const rowIndex = estimatedMeasureKeys[i].estScaleType
+        ? ["N", "H", "M"].indexOf(
+            estimatedMeasureKeys[i].estScaleType
+        )
+        : 0;
+
+    ctx.fillText(
+        displayKey,
+        710,
+        100 + mscnt * 10 + 30 * i + 10 * rowIndex + 8
+    );
 
     const primaryKey = measurePc[i].estKey.split(" / ")[0];
 
