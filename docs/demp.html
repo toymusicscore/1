@@ -13540,6 +13540,44 @@ ctx.lineWidth = 1;
     estimatedKey = measurePc.estKeyPoints[0]?.[0] ?? "";
     estimatedLabelType = getAutoLabelType(estimatedKey);
 
+//========================================================
+// DEBUG: New key estimation
+//========================================================
+
+console.group("KEY TEST - NEW demp-14.html");
+
+console.log("Input summary", {
+    noteCount: scoreData.length,
+    ticksPerMeasure: ticksPerMeasure,
+    measureCount: measurePc.length,
+    estimatedKey: estimatedKey,
+    estimatedLabelType: estimatedLabelType
+});
+
+// Per-measure estimates
+console.log("Per-measure key estimation:");
+console.table(
+    measurePc.map((m, i) => ({
+        measure: i + 1,
+        noteCount: m?.count ?? 0,
+        estimatedKey: m?.estKey ?? "",
+        scaleType: m?.estScaleType ?? "",
+        inherited: m?.inheritedFromPrevious ?? false,
+        scoreCandidates: JSON.stringify(m?.estKeyPoints ?? [])
+    }))
+);
+
+// Overall score ranking
+console.log("Overall key ranking:");
+console.table(
+    measurePc.estKeyPoints.map(([key, point]) => ({
+        key: key,
+        score: Number(point.toFixed(2))
+    }))
+);
+
+console.groupEnd();
+
 	const rowPointStart = Number(mscnt*50)+Number(row*10);
 
 	ctx.fillStyle="black";
