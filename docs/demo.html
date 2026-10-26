@@ -4850,9 +4850,11 @@ function pdf_p(){
 
 
 function keyMeasure() {
-    const rowH = 30;
-    const leftX = 200;
-    const colW = 50;
+
+    //========================================================
+    // 1. Measure settings
+    //========================================================
+
     const ticksPerMeasure = ppq * 4 * bttl / ntvl;
 
     if (!Number.isFinite(ticksPerMeasure) || ticksPerMeasure <= 0) {
@@ -4860,15 +4862,42 @@ function keyMeasure() {
         return;
     }
 
+    const measureCount = Math.max(
+        1,
+        Math.ceil(eott0 / ticksPerMeasure)
+    );
+
+    const rowH = 30;
+    const leftX = 200;
+    const colW = 50;
+
+    const panel1Y = 65;
+    const panel2Y = panel1Y + 55 + measureCount * rowH;
+    const panel3Y = panel2Y + 55 + measureCount * rowH;
+
+    canvas2.width = 1300;
+    canvas2.height = panel3Y + 100 + measureCount * rowH;
+
+    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+    ctx2.font = "20px Arial";
+    ctx2.lineWidth = 1;
+    ctx2.fillStyle = "black";
+
     //========================================================
-    // 1. Group notes by measure
+    // 2. Count pitch classes by measure
+    //    r1: [midi, start, stop, channel, noteId]
     //========================================================
 
-    const notesByMeasure = [];
+    keyrp10_0 = [];
+    keyrp10_1 = [];
+    keyrp10_2 = [];
+    keyrp10_3 = [];
+    keyrp10_4 = [];
+    keyrp10_5 = [];
 
-    for (const note of r1) {
-        const midi = Number(note[0]);
-        const start = Number(note[1]);
+    for (let i = 0; i < r1.length; i++) {
+        const midi = Number(r1[i][0]);
+        const start = Number(r1[i][1]);
 
         if (!Number.isFinite(midi) || !Number.isFinite(start)) {
             continue;
@@ -4876,217 +4905,71 @@ function keyMeasure() {
 
         const measure = Math.floor(start / ticksPerMeasure);
 
-        if (!notesByMeasure[measure]) {
-            notesByMeasure[measure] = {
-                pc: new Array(12).fill(0),
-                count: 0
-            };
+        if (measure >= 0 && measure < measureCount) {
+            keyrp10_0.push([midi % 12, measure]);
         }
-
-        notesByMeasure[measure].pc[midi % 12]++;
-        notesByMeasure[measure].count++;
     }
-
-    const measureCount = Math.max(
-        1,
-        Math.ceil(eott0 / ticksPerMeasure),
-        notesByMeasure.length
-    );
-
-    while (notesByMeasure.length < measureCount) {
-        notesByMeasure.push({
-            pc: new Array(12).fill(0),
-            count: 0
-        });
-    }
-
-    //========================================================
-    // 2. Calculate major-scale scores for each measure
-    //========================================================
-
-    const measureResults = [];
 
     for (let i = 0; i < measureCount; i++) {
-        const m = notesByMeasure[i];
-        const candidates = [];
+        const pc = new Array(12).fill(0);
 
-        if (m.count > 0) {
-            for (let root = 0; root < 12; root++) {
-                let score = 0;
-
-                for (const interval of scaleMjr0) {
-                    score += m.pc[(root + interval) % 12];
-                }
-
-                candidates.push({
-                    root,
-                    score
-                });
+        for (let j = 0; j < keyrp10_0.length; j++) {
+            if (keyrp10_0[j][1] === i) {
+                pc[keyrp10_0[j][0]]++;
             }
         }
 
-        const maxScore = candidates.length
-            ? Math.max(...candidates.map(c => c.score))
-            : 0;
+        const total = pc.reduce((sum, value) => sum + value, 0);
 
-        const bestRoots = candidates
-            .filter(c => c.score === maxScore)
-            .map(c => c.root);
-
-        measureResults.push({
-            measure: i + 1,
-            pc: m.pc,
-            count: m.count,
-            candidates,
-            maxScore,
-            bestRoots,
-            root: bestRoots.length === 1 ? bestRoots[0] : null,
-            key: "Unidentified",
-            majorScore: 0,
-            minorScore: 0,
-            difference: 0
-        });
+        keyrp10_1.push([
+            i,
+            ...pc,
+            total
+        ]);
     }
 
     //========================================================
-    // 3. Resolve ties using adjacent measures
-    //    Prefer a unique neighboring root when it is a candidate
+    // 3. Draw pitch-class proportions
     //========================================================
 
-    for (let i = 1; i < measureCount; i++) {
-        const current = measureResults[i];
-        const previous = measureResults[i - 1];
-
-        if (
-            current.root === null &&
-            previous.root !== null &&
-            current.bestRoots.includes(previous.root)
-        ) {
-            current.root = previous.root;
-        }
-    }
-
-    for (let i = measureCount - 2; i >= 0; i--) {
-        const current = measureResults[i];
-        const next = measureResults[i + 1];
-
-        if (
-            current.root === null &&
-            next.root !== null &&
-            current.bestRoots.includes(next.root)
-        ) {
-            current.root = next.root;
-        }
-    }
-
-    //========================================================
-    // 4. Compare major and relative minor tonic + fifth
-    //========================================================
-
-    for (const m of measureResults) {
-        if (m.root === null || m.count === 0) {
-            continue;
-        }
-
-        const root = m.root;
-        const relativeMinor = (root + 9) % 12;
-
-        m.majorScore =
-            (m.pc[root] + m.pc[(root + 7) % 12])
-            / m.count * 100;
-
-        m.minorScore =
-            (m.pc[relativeMinor] + m.pc[(relativeMinor + 7) % 12])
-            / m.count * 100;
-
-        m.difference = m.majorScore - m.minorScore;
-
-        if (m.difference > 0) {
-            m.key = engf1[root] + " major";
-        } else if (m.difference < 0) {
-            m.key = engMnr1[relativeMinor] + " minor";
-        } else {
-            m.key =
-                engf1[root] + " major/" +
-                engMnr1[relativeMinor] + " minor";
-        }
-    }
-
-    //========================================================
-    // 5. Overall key ranking
-    //    First and last measures are double-weighted
-    //========================================================
-
-    const keyCounts = {};
-
-    for (let i = 0; i < measureCount; i++) {
-        const key = measureResults[i].key;
-        const weight =
-            (i === 0 || i === measureCount - 1) ? 2 : 1;
-
-        keyCounts[key] = (keyCounts[key] || 0) + weight;
-    }
-
-    const keyRanking = Object.entries(keyCounts)
-        .sort((a, b) => b[1] - a[1]);
-
-    const finalKey =
-        keyRanking.length === 1 ||
-        keyRanking[0][1] > keyRanking[1][1]
-            ? keyRanking[0][0]
-            : "Unidentified";
-
-    //========================================================
-    // 6. Draw measure-based display
-    //========================================================
-
-    const panel1Y = 65;
-    const panel2Y = panel1Y + 65 + measureCount * rowH;
-    const panel3Y = panel2Y + 65 + measureCount * rowH;
-
-    canvas2.width = 1300;
-    canvas2.height = panel3Y + 100 + measureCount * rowH;
-
-    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-    ctx2.font = "18px Arial";
-    ctx2.fillStyle = "black";
-
-    function drawPanelLines(y) {
-        for (let i = 0; i <= measureCount; i++) {
-            ctx2.beginPath();
-            ctx2.strokeStyle = "gray";
-            ctx2.moveTo(0, y + 45 + i * rowH);
-            ctx2.lineTo(1100, y + 45 + i * rowH);
-            ctx2.stroke();
-        }
-    }
-
-    // Panel 1: pitch-class proportions
-    ctx2.fillText("Pitch-class proportions by measure", 0, panel1Y);
-    ctx2.fillText("Measure", 70, panel1Y + 35);
-    ctx2.fillText("Total", 850, panel1Y + 35);
+    ctx2.fillText("Pitch-class proportions by measure", 0, 30);
+    ctx2.fillText("Measure", 70, panel1Y);
+    ctx2.fillText("Total", 850, panel1Y);
 
     for (let pc = 0; pc < 12; pc++) {
-        ctx2.fillText(engs1[pc], leftX + colW * pc, panel1Y + 35);
+        ctx2.fillText(engs1[pc], leftX + colW * pc, panel1Y);
     }
 
-    drawPanelLines(panel1Y);
+    for (let i = 0; i <= measureCount; i++) {
+        ctx2.beginPath();
+        ctx2.strokeStyle = "gray";
+        ctx2.moveTo(0, panel1Y + 10 + i * rowH);
+        ctx2.lineTo(1050, panel1Y + 10 + i * rowH);
+        ctx2.stroke();
+    }
 
     for (let i = 0; i < measureCount; i++) {
-        const m = measureResults[i];
-        const y = panel1Y + 45 + i * rowH;
+        const row = keyrp10_1[i];
+        const total = row[13];
+        const y = panel1Y + 10 + i * rowH;
 
         ctx2.fillStyle = "black";
         ctx2.fillText(String(i + 1), 90, y + 22);
 
         for (let pc = 0; pc < 12; pc++) {
-            const pct = m.count
-                ? Math.round(m.pc[pc] / m.count * 100)
+            const count = row[pc + 1];
+            const pct = total > 0
+                ? Math.round(count / total * 100)
                 : 0;
 
-            if (pct > 0) {
+            if (count > 0) {
                 ctx2.fillStyle = col[pc];
-                ctx2.fillRect(leftX + colW * pc, y, colW, rowH);
+                ctx2.fillRect(
+                    leftX + colW * pc,
+                    y,
+                    colW,
+                    rowH
+                );
             }
 
             ctx2.fillStyle = "black";
@@ -5097,37 +4980,143 @@ function keyMeasure() {
             );
         }
 
-        ctx2.fillText(String(m.count), 850, y + 22);
+        ctx2.fillText(String(total), 850, y + 22);
     }
 
-    // Panel 2: major-scale scores
-    ctx2.fillStyle = "black";
-    ctx2.fillText("Major-scale scores by measure", 0, panel2Y);
-    ctx2.fillText("Measure", 70, panel2Y + 35);
-    ctx2.fillText("Best root / ties", 850, panel2Y + 35);
-
-    for (let pc = 0; pc < 12; pc++) {
-        ctx2.fillText(engf1[pc], leftX + colW * pc, panel2Y + 35);
-    }
-
-    drawPanelLines(panel2Y);
+    //========================================================
+    // 4. Calculate major-scale scores
+    //    Keep the original scoring formula
+    //========================================================
 
     for (let i = 0; i < measureCount; i++) {
-        const m = measureResults[i];
-        const y = panel2Y + 45 + i * rowH;
+        for (let j = 0; j < 12; j++) {
+            let score = 0;
+
+            for (let k = 0; k < 12; k++) {
+                if (scaleMjr0.includes((12 - j + k) % 12)) {
+                    score += Number(keyrp10_1[i][k + 1]);
+                }
+            }
+
+            keyrp10_2.push([
+                i,
+                j,
+                score,
+                keyrp10_1[i][13]
+            ]);
+        }
+    }
+
+    //========================================================
+    // 5. Find maximum score and count ties
+    //    Keep the original tie-counting behavior
+    //========================================================
+
+    for (let i = 0; i < measureCount; i++) {
+        let num1 = 0;
+        let num2 = 0;
+        let num3 = 0;
+        let num4 = 0;
+
+        for (let j = 0; j < keyrp10_2.length; j++) {
+            if (
+                i === keyrp10_2[j][0] &&
+                num2 < keyrp10_2[j][2]
+            ) {
+                num1 = keyrp10_2[j][1];
+                num2 = keyrp10_2[j][2];
+                num3 = keyrp10_2[j][3];
+                num4 = 0;
+
+            } else if (
+                i === keyrp10_2[j][0] &&
+                num2 === keyrp10_2[j][2]
+            ) {
+                num1 = keyrp10_2[j][1];
+                num2 = keyrp10_2[j][2];
+                num3 = keyrp10_2[j][3];
+                num4++;
+            }
+        }
+
+        keyrp10_3.push([i, num1, num2, num3, num4]);
+    }
+
+    //========================================================
+    // 6. Resolve tied roots using adjacent measures
+    //    Original priority: previous measure, then next measure
+    //========================================================
+
+    for (let i = 0; i < measureCount; i++) {
+        for (let j = 0; j < keyrp10_2.length; j++) {
+
+            if (
+                i > 0 &&
+                keyrp10_3[i][4] > 0 &&
+                keyrp10_2[j][0] === i &&
+                keyrp10_2[j][2] === keyrp10_3[i][2] &&
+                keyrp10_2[j][1] === keyrp10_3[i - 1][1] &&
+                keyrp10_3[i - 1][4] === 0
+            ) {
+                keyrp10_3[i].splice(1, 1, keyrp10_3[i - 1][1]);
+                keyrp10_3[i].splice(4, 1, 0);
+
+            } else if (
+                i < measureCount - 1 &&
+                keyrp10_3[i][4] > 0 &&
+                keyrp10_2[j][0] === i &&
+                keyrp10_2[j][2] === keyrp10_3[i][2] &&
+                keyrp10_2[j][1] === keyrp10_3[i + 1][1] &&
+                keyrp10_3[i + 1][4] === 0
+            ) {
+                keyrp10_3[i].splice(1, 1, keyrp10_3[i + 1][1]);
+                keyrp10_3[i].splice(4, 1, 0);
+            }
+        }
+    }
+
+    //========================================================
+    // 7. Draw major-scale scores
+    //========================================================
+
+    ctx2.fillStyle = "black";
+    ctx2.fillText("Major-scale scores by measure", 0, panel2Y - 25);
+    ctx2.fillText("Measure", 70, panel2Y + 5);
+    ctx2.fillText("Best roots / ties", 850, panel2Y + 5);
+
+    for (let pc = 0; pc < 12; pc++) {
+        ctx2.fillText(engf1[pc], leftX + colW * pc, panel2Y + 5);
+    }
+
+    for (let i = 0; i <= measureCount; i++) {
+        ctx2.beginPath();
+        ctx2.strokeStyle = "gray";
+        ctx2.moveTo(0, panel2Y + 15 + i * rowH);
+        ctx2.lineTo(1050, panel2Y + 15 + i * rowH);
+        ctx2.stroke();
+    }
+
+    for (let i = 0; i < measureCount; i++) {
+        const result = keyrp10_3[i];
+        const total = result[3];
+        const y = panel2Y + 15 + i * rowH;
 
         ctx2.fillStyle = "black";
         ctx2.fillText(String(i + 1), 90, y + 22);
 
-        for (const candidate of m.candidates) {
-            const pct = m.count
-                ? Math.round(candidate.score / m.count * 100)
+        const bestRoots = [];
+
+        for (let j = 0; j < 12; j++) {
+            const score = keyrp10_2[i * 12 + j][2];
+            const pct = total > 0
+                ? Math.round(score / total * 100)
                 : 0;
 
-            if (candidate.score === m.maxScore) {
-                ctx2.fillStyle = col[candidate.root];
+            if (score === result[2] && total > 0) {
+                bestRoots.push(j);
+                ctx2.fillStyle = col[j];
                 ctx2.fillRect(
-                    leftX + colW * candidate.root,
+                    leftX + colW * j,
                     y,
                     colW,
                     rowH
@@ -5137,76 +5126,195 @@ function keyMeasure() {
             ctx2.fillStyle = "black";
             ctx2.fillText(
                 String(pct),
-                leftX + colW * candidate.root + 5,
+                leftX + colW * j + 5,
                 y + 22
             );
         }
 
-        const rootsText = m.bestRoots.length
-            ? m.bestRoots.map(pc => engf1[pc]).join(" / ")
-            : "No notes";
+        ctx2.fillText(
+            bestRoots.map(pc => engf1[pc]).join(" / "),
+            850,
+            y + 22
+        );
 
-        ctx2.fillText(rootsText, 850, y + 22);
+        if (result[4] > 0) {
+            ctx2.fillText(
+                (result[4] + 1) + " best pairs",
+                1000,
+                y + 22
+            );
+        }
     }
 
-    // Panel 3: major/minor comparison and selected key
-    ctx2.fillStyle = "black";
-    ctx2.fillText("Major / relative-minor comparison", 0, panel3Y);
-    ctx2.fillText("Measure", 70, panel3Y + 35);
-    ctx2.fillText("Major", 200, panel3Y + 35);
-    ctx2.fillText("Minor", 350, panel3Y + 35);
-    ctx2.fillText("Difference", 500, panel3Y + 35);
-    ctx2.fillText("Estimated key", 700, panel3Y + 35);
+    //========================================================
+    // 8. Compare major and relative minor
+    //    Keep the original formula and rounding
+    //========================================================
 
-    drawPanelLines(panel3Y);
+    ctx2.fillStyle = "black";
+    ctx2.fillText(
+        "Comparing the 1st and 5th pitch classes of relative keys",
+        0,
+        panel3Y - 25
+    );
+
+    ctx2.fillText("Measure", 30, panel3Y + 5);
+    ctx2.fillText("Major 1st+5th", 170, panel3Y + 5);
+    ctx2.fillText("Minor 1st+5th", 390, panel3Y + 5);
+    ctx2.fillText("Difference", 610, panel3Y + 5);
+    ctx2.fillText("Estimated key", 810, panel3Y + 5);
+
+    for (let i = 0; i <= measureCount; i++) {
+        ctx2.beginPath();
+        ctx2.strokeStyle = "gray";
+        ctx2.moveTo(0, panel3Y + 15 + i * rowH);
+        ctx2.lineTo(1200, panel3Y + 15 + i * rowH);
+        ctx2.stroke();
+    }
 
     for (let i = 0; i < measureCount; i++) {
-        const m = measureResults[i];
-        const y = panel3Y + 45 + i * rowH;
+        const result = keyrp10_3[i];
+        const row = keyrp10_1[i];
+        const y = panel3Y + 15 + i * rowH;
 
         ctx2.fillStyle = "black";
-        ctx2.fillText(String(i + 1), 90, y + 22);
+        ctx2.fillText(String(i + 1), 50, y + 22);
 
-        if (m.root !== null && m.count > 0) {
-            ctx2.fillText(m.majorScore.toFixed(2), 200, y + 22);
-            ctx2.fillText(m.minorScore.toFixed(2), 350, y + 22);
-            ctx2.fillText(m.difference.toFixed(2), 500, y + 22);
+        if (result[4] > 0 || row[13] === 0) {
+            keyrp10_4.push("Unidentified");
+            ctx2.fillText("Unidentified", 810, y + 22);
+            continue;
         }
 
-        ctx2.fillText(m.key, 700, y + 22);
+        const root = result[1];
+        const total = row[13];
+
+        const majorTonic = Number(row[(root + scaleMjr0[0]) % 12 + 1]);
+        const majorFifth = Number(row[(root + scaleMjr0[4]) % 12 + 1]);
+        const minorRoot = (root + scaleMjr0[5]) % 12;
+        const minorFifth = (root + scaleMjr0[2]) % 12;
+
+        const minorTonicCount = Number(row[minorRoot + 1]);
+        const minorFifthCount = Number(row[minorFifth + 1]);
+
+        const majorPct = ((majorTonic + majorFifth) / total * 100).toFixed(2);
+        const minorPct = ((minorTonicCount + minorFifthCount) / total * 100).toFixed(2);
+
+        const difference = (
+            (majorTonic + majorFifth - minorTonicCount - minorFifthCount)
+            / total * 100
+        ).toFixed(2);
+
+        ctx2.fillText(majorPct, 190, y + 22);
+        ctx2.fillText(minorPct, 410, y + 22);
+        ctx2.fillText(difference, 630, y + 22);
+
+        if (Number(difference) > 0) {
+            keyrp10_4.push(engf1[root] + " major");
+
+        } else if (Number(difference) < 0) {
+            keyrp10_4.push(engMnr1[minorRoot] + " minor");
+
+        } else {
+            keyrp10_4.push(
+                engf1[root] + " major/" +
+                engMnr1[minorRoot] + " minor"
+            );
+        }
     }
 
-    // Overall result
-    const conclusionY = panel3Y + 65 + measureCount * rowH;
+    //========================================================
+    // 9. Resolve multiple relative-key labels
+    //    Keep the original neighboring-label rule
+    //========================================================
+
+    for (let i = 0; i < measureCount; i++) {
+
+        if (
+            i > 0 &&
+            keyrp10_4[i].includes("/") &&
+            keyrp10_4[i].includes(keyrp10_4[i - 1]) &&
+            keyrp10_4[i] !== keyrp10_4[i - 1]
+        ) {
+            keyrp10_4.splice(i, 1, keyrp10_4[i - 1]);
+
+        } else if (
+            i < measureCount - 1 &&
+            keyrp10_4[i].includes("/") &&
+            keyrp10_4[i].includes(keyrp10_4[i + 1]) &&
+            keyrp10_4[i] !== keyrp10_4[i + 1]
+        ) {
+            keyrp10_4.splice(i, 1, keyrp10_4[i + 1]);
+        }
+
+        ctx2.fillStyle = "black";
+        ctx2.fillText(
+            keyrp10_4[i],
+            810,
+            panel3Y + 37 + i * rowH
+        );
+    }
+
+    //========================================================
+    // 10. Overall key ranking
+    //     Double-weight first and last measures
+    //========================================================
+
+    const weightedKeys = [...keyrp10_4];
+
+    if (keyrp10_4.length > 0) {
+        weightedKeys.push(keyrp10_4[0]);
+        weightedKeys.push(keyrp10_4[keyrp10_4.length - 1]);
+    }
+
+    weightedKeys.sort();
+
+    for (let i = 0; i < weightedKeys.length; i++) {
+        if (i === 0 || weightedKeys[i] !== weightedKeys[i - 1]) {
+            keyrp10_5.push([weightedKeys[i], 1]);
+        } else {
+            keyrp10_5.push([
+                weightedKeys[i],
+                keyrp10_5[i - 1][1] + 1
+            ]);
+        }
+    }
+
+    keyrp10_5.sort((a, b) => b[1] - a[1]);
+
+    const finalKey =
+        keyrp10_5.length > 0 &&
+        (
+            keyrp10_5.length === 1 ||
+            keyrp10_5[0][1] > keyrp10_5[1][1]
+        )
+            ? keyrp10_5[0][0]
+            : "Unidentified";
+
+    const rankingY = panel3Y + 45 + measureCount * rowH;
 
     ctx2.fillStyle = "black";
-    ctx2.font = "22px Arial";
-    ctx2.fillText("Overall key: " + finalKey, 0, conclusionY);
-
-    ctx2.font = "18px Arial";
-    ctx2.fillText("Overall key ranking", 0, conclusionY + 35);
+    ctx2.fillText("Overall key ranking", 0, rankingY);
 
     console.table(
-        measureResults.map(m => ({
-            measure: m.measure,
-            noteCount: m.count,
-            bestRoots: m.bestRoots.map(pc => engf1[pc]).join(" / "),
-            selectedRoot: m.root === null ? "" : engf1[m.root],
-            majorScore: m.majorScore.toFixed(2),
-            minorScore: m.minorScore.toFixed(2),
-            difference: m.difference.toFixed(2),
-            estimatedKey: m.key
+        keyrp10_3.map((result, i) => ({
+            measure: i + 1,
+            noteCount: keyrp10_1[i][13],
+            selectedRoot: engf1[result[1]],
+            additionalTies: result[4],
+            estimatedKey: keyrp10_4[i]
         }))
     );
 
     console.table(
-        keyRanking.map(([key, weight]) => ({
+        keyrp10_5.map(([key, weightedMeasureCount]) => ({
             key,
-            weightedMeasureCount: weight
+            weightedMeasureCount
         }))
     );
 
-    console.log("Final key:", finalKey);
+    ctx2.fillText("Final key: " + finalKey, 0, rankingY + 30);
+    console.log("Final old key:", finalKey);
 }
 
 function keyw1(){
