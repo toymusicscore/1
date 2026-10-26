@@ -5250,6 +5250,51 @@ ctx2.fillText(keyrp10_5[0][0] ,810,960+(11)*30);
 }else{
 ctx2.fillText("Unidentified" ,810,960+(11)*30);
 }
+//========================================================
+// DEBUG: Old key estimation
+//========================================================
+
+console.group("KEY TEST - OLD demo.html");
+
+console.log("Input summary", {
+    noteCount: r1.length,
+    endTick: eott0,
+    ppq: ppq,
+    beatsPerBar: bttl,
+    timeSignatureNumerator: ntvl
+});
+
+// 10 time windows: selected root and scale statistics
+console.table(
+    keyrp10_3.map((item, i) => ({
+        window: i + 1,
+        startPercent: i * 10,
+        endPercent: (i + 1) * 10,
+        selectedRootPC: item[1],
+        bestScaleCount: item[2],
+        noteCount: item[3],
+        additionalTies: item[4],
+        estimatedKey: keyrp10_4[i]
+    }))
+);
+
+// Overall key ranking; first and last windows are double-weighted
+console.log("Overall key ranking (keyrp10_5):");
+console.table(
+    keyrp10_5.map(item => ({
+        key: item[0],
+        voteCount: item[1]
+    }))
+);
+
+console.log("Final old key:", 
+    keyrp10_5[0]?.[1] > keyrp10_5[1]?.[1]
+        ? keyrp10_5[0][0]
+        : "Unidentified"
+);
+
+console.groupEnd();
+
 }
 
 function keyw3(){
