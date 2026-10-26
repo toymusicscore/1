@@ -5706,7 +5706,46 @@ for(i=0;i<5;i++){
 	}
 }
 
-//weight double for first & last
+
+/* Weight double for first and last */
+
+const oldKeyVotes = keyrp10_4.slice(0, 10).map(key => {
+    while (Array.isArray(key)) {
+        key = key.length === 1 ? key[0] : key.join(",");
+    }
+    return String(key);
+});
+
+oldKeyVotes.push(oldKeyVotes[0]);
+oldKeyVotes.push(oldKeyVotes[9]);
+
+const oldKeyCounts = {};
+
+for (const key of oldKeyVotes) {
+    oldKeyCounts[key] = (oldKeyCounts[key] || 0) + 1;
+}
+
+keyrp10_5 = Object.entries(oldKeyCounts)
+    .map(([key, voteCount]) => [key, voteCount])
+    .sort((a, b) => b[1] - a[1]);
+
+console.log("Corrected old key ranking:");
+console.table(keyrp10_5.map(([key, voteCount]) => ({
+    key,
+    voteCount
+})));
+
+if (
+    keyrp10_5.length > 1 &&
+    keyrp10_5[0][1] > keyrp10_5[1][1]
+) {
+    ctx2.fillText(keyrp10_5[0][0], 810, 960 + 11 * 30);
+} else {
+    ctx2.fillText("Unidentified", 810, 960 + 11 * 30);
+}
+
+/*
+weight double for first & last
 keyrp10_4.push([keyrp10_4[0]]);
 keyrp10_4.push([keyrp10_4[4]]);
 
@@ -5725,6 +5764,7 @@ ctx2.fillText(keyrp10_5[0][0] ,810,960+(11)*30);
 }else{
 ctx2.fillText("Unidentified" ,810,960+(11)*30);
 }
+*/
 
 }
 
