@@ -5259,37 +5259,46 @@ function keyMeasure() {
     // 10. Overall key ranking
     //     Double-weight first and last measures
     //========================================================
+//========================================================
+// 10. Overall key ranking
+//     Double-weight first and last measures
+//========================================================
 
-    const weightedKeys = [...keyrp10_4];
+const keyCounts = {};
 
-    if (keyrp10_4.length > 0) {
-        weightedKeys.push(keyrp10_4[0]);
-        weightedKeys.push(keyrp10_4[keyrp10_4.length - 1]);
-    }
+for (let i = 0; i < keyrp10_4.length; i++) {
+    const key = keyrp10_4[i];
+    const weight =
+        (i === 0 || i === keyrp10_4.length - 1) ? 2 : 1;
 
-    weightedKeys.sort();
+    keyCounts[key] = (keyCounts[key] || 0) + weight;
+}
 
-    for (let i = 0; i < weightedKeys.length; i++) {
-        if (i === 0 || weightedKeys[i] !== weightedKeys[i - 1]) {
-            keyrp10_5.push([weightedKeys[i], 1]);
-        } else {
-            keyrp10_5.push([
-                weightedKeys[i],
-                keyrp10_5[i - 1][1] + 1
-            ]);
-        }
-    }
+keyrp10_5 = Object.entries(keyCounts)
+    .map(([key, weightedMeasureCount]) => [
+        key,
+        weightedMeasureCount
+    ])
+    .sort((a, b) => b[1] - a[1]);
 
-    keyrp10_5.sort((a, b) => b[1] - a[1]);
+const finalKey =
+    keyrp10_5.length > 0 &&
+    (
+        keyrp10_5.length === 1 ||
+        keyrp10_5[0][1] > keyrp10_5[1][1]
+    )
+        ? keyrp10_5[0][0]
+        : "Unidentified";
 
-    const finalKey =
-        keyrp10_5.length > 0 &&
-        (
-            keyrp10_5.length === 1 ||
-            keyrp10_5[0][1] > keyrp10_5[1][1]
-        )
-            ? keyrp10_5[0][0]
-            : "Unidentified";
+console.table(
+    keyrp10_5.map(([key, weightedMeasureCount]) => ({
+        key,
+        weightedMeasureCount
+    }))
+);
+
+console.log("Final old key:", finalKey);
+
 
     const rankingY = panel3Y + 45 + measureCount * rowH;
 
