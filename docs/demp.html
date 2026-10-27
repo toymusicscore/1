@@ -12490,13 +12490,9 @@ for (let i = 0; i < mscnt; i++) {
 	
         const w0 = measurePc[i].pc[j] / measurePc[i].count * 100;
 
-        if (w0 == 100) {
-            ctx.fillText(w0.toFixed(2), 100 + 50 * j, 50 + 10 * i);
-        } else if (w0 >= 10) {
-            ctx.fillText(w0.toFixed(2), 105 + 50 * j, 50 + 10 * i);
-        } else {
-            ctx.fillText(w0.toFixed(2), 110 + 50 * j, 50 + 10 * i);
-        }
+        ctx.textAlign = "right";
+
+        ctx.fillText(w0.toFixed(2), 120 + 50 * j, 50 + 10 * i);
     }
 	if (measurePc[i].count >= 10){
 	    ctx.fillText(measurePc[i].count, 50, 50 + 10 * i);
@@ -12755,7 +12751,7 @@ for (let i = 11; i <= 12; i++) {
              ctx.textAlign = "right";
              ctx.fillText(
                  percentage.toFixed(2),
-                 145 + 50 * majorRoot,
+                 120 + 50 * majorRoot,
                  y
              );
          }
