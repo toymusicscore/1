@@ -5300,26 +5300,50 @@ console.log("Final old key:", finalKey);
 
     ctx2.fillStyle = "black";
     ctx2.fillText("Overall key ranking", 0, rankingY);
-
-    console.table(
-        keyrp10_3.map((result, i) => ({
-            measure: i + 1,
-            noteCount: keyrp10_1[i][13],
-            selectedRoot: engf1[result[1]],
-            additionalTies: result[4],
-            estimatedKey: keyrp10_4[i]
-        }))
-    );
-
-    console.table(
-        keyrp10_5.map(([key, weightedMeasureCount]) => ({
-            key,
-            weightedMeasureCount
-        }))
-    );
-
     ctx2.fillText("Final key: " + finalKey, 0, rankingY + 30);
-    console.log("Final old key:", finalKey);
+
+    //========================================================
+    // Debug: Inspect measures 12 and 13
+    //========================================================
+    console.log("=== Key estimation: measures 12 and 13 ===");
+
+    console.table(
+        [11, 12].map(i => {
+            const result = keyrp10_3[i];
+            const row = keyrp10_1[i];
+
+            return {
+                measure: i + 1,
+                noteCount: row ? row[13] : null,
+                selectedRoot: result
+                    ? engf1[result[1]]
+                    : null,
+                bestScaleScore: result ? result[2] : null,
+                additionalTies: result ? result[4] : null,
+                estimatedKey: keyrp10_4[i] ?? "Missing"
+            };
+        })
+    );
+
+    console.log("Pitch-class counts for measures 12 and 13:");
+
+    console.table(
+        [11, 12].map(i => {
+            const row = keyrp10_1[i];
+
+            const item = {
+                measure: i + 1,
+                total: row ? row[13] : null
+            };
+
+            for (let pc = 0; pc < 12; pc++) {
+                item[engs1[pc]] = row ? row[pc + 1] : null;
+            }
+
+            return item;
+        })
+    );
+
 }
 
 function keyw1(){
