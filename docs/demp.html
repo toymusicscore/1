@@ -13259,61 +13259,80 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			480,
 			ty
 		);
-	
+
+
         // ===== Actual score added to each key =====
 
-        const majorMinorDiff = majorKey.weight - minorKey.weight;
+        const majorMinorDiff =
+            majorKey.weight - minorKey.weight;
 
-        const estimatedKeys = measurePc[i].estKey.split(" / ");
+        const estimatedKeys =
+            measurePc[i].estKey.split(" / ");
 
-        if (majorMinorDiff > 0 && estimatedKeys.includes(pair.major.name)) {
+        // Use the selected key, regardless of N/H/M.
+        const selectedKey = pair.selected.find(item =>
+            item.point > 0 &&
+            estimatedKeys.includes(item.key.name) &&
+            (
+                item.key.name === pair.major.name ||
+                item.key.name === pair.minor.name
+            )
+        );
 
-            // Major優勢
-            ctx.fillStyle = workingColor.pc[majorKey.root];
+        if (selectedKey && majorMinorDiff !== 0) {
 
-            ctx.fillRect(
-                600 - majorMinorDiff,
-                y,
-                majorMinorDiff,
-                10
-            );
+            const keyName = selectedKey.key.name;
+            const score = Math.abs(majorMinorDiff) *
+                (1 / measurePc[i].bestScale.length);
 
-            ctx.fillStyle = "black";
+            if (selectedKey.key.mode === "major") {
 
-            ctx.fillText(
-                majorMinorDiff.toFixed(2),
-                520,
-                y + 10
-            );
+                ctx.fillStyle =
+                    workingColor.pc[majorKey.root];
+
+                ctx.fillRect(
+                    600 - score,
+                    y,
+                    score,
+                    10
+                );
+
+                ctx.fillStyle = "black";
+
+                ctx.fillText(
+                    score.toFixed(2),
+                    520,
+                    y + 10
+                );
+
+                ctx.fillText("0.00", 680, y + 10);
+
+            } else {
+
+                ctx.fillStyle =
+                    workingColor.pc[minorKey.root];
+
+                ctx.fillRect(
+                    600,
+                    y,
+                    score,
+                    10
+                );
+
+                ctx.fillStyle = "black";
+
+                ctx.fillText("0.00", 520, y + 10);
+
+                ctx.fillText(
+                    score.toFixed(2),
+                    680,
+                    y + 10
+                );
+            }
 
             measurePc[i].estKeyPoints.push([
-                pair.major.name,
-                majorMinorDiff
-            ]);
-                    
-        }else if (majorMinorDiff < 0 && estimatedKeys.includes(pair.minor.name)) {
-
-            // Minor優勢
-            ctx.fillStyle = workingColor.pc[minorKey.root];
-
-            ctx.fillRect(
-                600,
-                y,
-                -majorMinorDiff,
-                10
-            );
-
-            ctx.fillStyle = "black";
-
-            ctx.fillText(
-                (-majorMinorDiff).toFixed(2),
-                680,
-                y + 10
-            );
-
-            measurePc[i].estKeyPoints.push([
-                pair.minor.name,
-                -majorMinorDiff
+                keyName,
+                score
             ]);
 
         } else {
@@ -13325,11 +13344,10 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
         ctx.textAlign = "left";
 
-		row++;
-
 	}	
 
 }
+
 
 //========================================================
 // Inherit the key of the previous measure when necessary
