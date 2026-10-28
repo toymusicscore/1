@@ -12768,66 +12768,6 @@ for (let i = 1; i < mscnt; i++) {
 ctx.stroke();
 ctx.lineWidth = 1;
 
- /*
-//========================================================
-// Paint every major scale tied for the best fit
-//========================================================
-
-    for (let i = 0; i < mscnt; i++) {
-
-        if (!measurePc[i] || measurePc[i].count === 0) continue;
-
-        // Calculate scores for all 12 major scales
-        const majorScores = [];
-
-        for (let root = 0; root < 12; root++) {
-
-            const score = measurePc[i].pc.reduce((sum, count, pc) => {
-                const interval = (pc - root + 12) % 12;
-
-                return sum + (
-                    [0, 2, 4, 5, 7, 9, 11].includes(interval)
-                        ? count
-                        : 0
-                );
-            }, 0);
-
-            majorScores.push(score);
-        }
-
-        const maxMajorScore = Math.max(...majorScores);
-
-        // Paint every major scale tied for the highest score
-        for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
-
-            if (majorScores[majorRoot] === maxMajorScore) {
-
-                ctx.fillStyle = workingColor.pc[majorRoot];
-
-                ctx.fillRect(
-                    100 + 50 * majorRoot,
-                    90 + mscnt * 10 + 10 * i,
-                    50,
-                    10
-                );
-            }
-
-            // Display the original relative-minor score
-            ctx.fillStyle = "black";
-
-            const minorRoot = (majorRoot + 9) % 12;
-            const w1 = measurePc[i].scale[minorRoot][1].toFixed(2);
-
-            ctx.textAlign = "right";
-
-            ctx.fillText(
-                w1,
-                130 + 50 * majorRoot,
-                100 + mscnt * 10 + 10 * i
-            );
-        }
-    }
-*/
 
 ctx.fillStyle="black";
 ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",100,110+mscnt*40);
