@@ -5204,6 +5204,19 @@ function keyMeasure() {
             (majorTonic + majorFifth - minorTonicCount - minorFifthCount)
             / total * 100
         ).toFixed(2);
+		
+if (i === 11 || i === 12) {
+    console.log("Measure", i + 1, {
+        root: engf1[root],
+        majorTonic,
+        majorFifth,
+        minorRoot: engf1[minorRoot],
+        minorTonicCount,
+        minorFifthCount,
+        total,
+        difference
+    });
+}
 
         ctx2.fillText(majorPct, 190, y + 22);
         ctx2.fillText(minorPct, 410, y + 22);
