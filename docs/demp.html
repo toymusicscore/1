@@ -13001,6 +13001,21 @@ measurePc[i].estKeyPoints = [];
 
 for (const pair of measurePc[i].pairs) {
 
+    // ===== Whole-song score: absolute proportions =====
+    // Add both relative major and minor for every scale type.
+    const scalePoint =
+        1 / measurePc[i].bestScale.length;
+
+    measurePc[i].estKeyPoints.push([
+        pair.major.name,
+        pair.major.weight * scalePoint
+    ]);
+
+    measurePc[i].estKeyPoints.push([
+        pair.minor.name,
+        pair.minor.weight * scalePoint
+    ]);
+
     for (const item of pair.selected) {
 
         if (item.point > 0) {
@@ -13020,6 +13035,33 @@ for (const pair of measurePc[i].pairs) {
         }
     }
 }
+
+/*
+measurePc[i].keyPoints = [];
+measurePc[i].estKeyPoints = [];
+
+for (const pair of measurePc[i].pairs) {
+
+    for (const item of pair.selected) {
+
+        if (item.point > 0) {
+
+            measurePc[i].keyPoints.push([
+                item.key.name,
+                item.point
+            ]);
+
+            // First and last measures receive double weight.
+            if (i === 0 || i === mscnt - 1) {
+                measurePc[i].keyPoints.push([
+                    item.key.name,
+                    item.point
+                ]);
+            }
+        }
+    }
+}
+*/
 
 measurePc[i].estKey = measurePc[i].pairs
     .flatMap(pair => pair.selected)
@@ -13329,11 +13371,6 @@ measurePc[i].estScaleType = measurePc[i].pairs
                     y + 10
                 );
             }
-
-            measurePc[i].estKeyPoints.push([
-                keyName,
-                score
-            ]);
 
         } else {
 
