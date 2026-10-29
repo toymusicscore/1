@@ -13072,6 +13072,14 @@ measurePc[i].estKey = measurePc[i].pairs
     )
     .join(" / ");
 
+    // Keep only the selected key for whole-song scoring
+const selectedKeys = measurePc[i].estKey
+    .split(" / ")
+    .filter(Boolean);
+
+measurePc[i].estKeyPoints = measurePc[i].estKeyPoints
+    .filter(([key]) => selectedKeys.includes(key));
+    
 measurePc[i].estScaleType = measurePc[i].pairs
     .flatMap(pair =>
         pair.selected
