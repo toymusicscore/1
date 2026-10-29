@@ -13260,41 +13260,35 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			ty
 		);
 
-        // ===== Accumulate absolute proportions for key estimation =====
 
-        const scalePoint =
-            1 / measurePc[i].bestScale.length;
+        // ===== Actual score added to each key =====
 
-        // H/M: retain the existing rule of selecting the minor key.
-        // N: accumulate both relative major and minor independently.
-        const candidates = pair.scaleType === "N"
-            ? [
-                {
-                    key: majorKey,
-                    score: majorKey.weight * scalePoint
-                },
-                {
-                    key: minorKey,
-                    score: minorKey.weight * scalePoint
-                }
-            ]
-            : [
-                {
-                    key: minorKey,
-                    score: minorKey.weight * scalePoint
-                }
-            ];
+        const majorMinorDiff =
+            majorKey.weight - minorKey.weight;
 
-        // Display the absolute proportion scores.
-        for (const candidate of candidates) {
+        const estimatedKeys =
+            measurePc[i].estKey.split(" / ");
 
-            const key = candidate.key;
-            const score = candidate.score;
+        // Use the selected key, regardless of N/H/M.
+        const selectedKey = pair.selected.find(item =>
+            item.point > 0 &&
+            estimatedKeys.includes(item.key.name) &&
+            (
+                item.key.name === pair.major.name ||
+                item.key.name === pair.minor.name
+            )
+        );
 
-            if (key.mode === "major") {
+        if (selectedKey && majorMinorDiff !== 0) {
+
+            const keyName = selectedKey.key.name;
+            const score = Math.abs(majorMinorDiff) *
+                (1 / measurePc[i].bestScale.length);
+
+            if (selectedKey.key.mode === "major") {
 
                 ctx.fillStyle =
-                    workingColor.pc[key.root];
+                    workingColor.pc[majorKey.root];
 
                 ctx.fillRect(
                     600 - score,
@@ -13311,10 +13305,12 @@ measurePc[i].estScaleType = measurePc[i].pairs
                     y + 10
                 );
 
+                ctx.fillText("0.00", 680, y + 10);
+
             } else {
 
                 ctx.fillStyle =
-                    workingColor.pc[key.root];
+                    workingColor.pc[minorKey.root];
 
                 ctx.fillRect(
                     600,
@@ -13325,6 +13321,8 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
                 ctx.fillStyle = "black";
 
+                ctx.fillText("0.00", 520, y + 10);
+
                 ctx.fillText(
                     score.toFixed(2),
                     680,
@@ -13332,17 +13330,22 @@ measurePc[i].estScaleType = measurePc[i].pairs
                 );
             }
 
-            // Store the score for whole-song aggregation.
             measurePc[i].estKeyPoints.push([
-                key.name,
+                keyName,
                 score
             ]);
+
+        } else {
+
+            ctx.fillStyle = "black";
+            ctx.fillText("0.00", 520, y + 10);
+            ctx.fillText("0.00", 680, y + 10);
         }
 
         ctx.textAlign = "left";
 
         row++;
-
+        
 	}	
 
 }
