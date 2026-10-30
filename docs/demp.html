@@ -13080,6 +13080,9 @@ const selectedKeys = measurePc[i].estKey
 measurePc[i].estKeyPoints = measurePc[i].estKeyPoints
     .filter(([key]) => selectedKeys.includes(key));
     
+// Save scores before filtering
+measurePc[i].allEstKeyPoints = [...measurePc[i].estKeyPoints];
+
 measurePc[i].estScaleType = measurePc[i].pairs
     .flatMap(pair =>
         pair.selected
@@ -13506,9 +13509,33 @@ for (let i = 0; i < mscnt; i++) {
 }
 
 ctx.lineWidth = 1;
+    
+const points = {};
+const allPoints = {};
+const filteredPoints = {};
 
-    const points = {};
+for (let i = 0; i < measurePc.length; i++) {
 
+    const measureWeight =
+        (i === 0 || i === measurePc.length - 1) ? 2 : 1;
+
+    // Before filtering
+    for (const [key, point] of measurePc[i].allEstKeyPoints) {
+        allPoints[key] = (allPoints[key] || 0)
+            + point * measureWeight;
+    }
+
+    // After filtering
+    for (const [key, point] of measurePc[i].estKeyPoints) {
+        filteredPoints[key] = (filteredPoints[key] || 0)
+            + point * measureWeight;
+    }
+}
+
+console.log("Overall ranking before filtering:", allPoints);
+console.log("Overall ranking after filtering:", filteredPoints);
+
+/*
     for (let i = 0; i < measurePc.length; i++) {
 
         const measureWeight =
@@ -13520,7 +13547,7 @@ ctx.lineWidth = 1;
                 (points[key] || 0) + point * measureWeight;
         }
     }
-
+*/
     measurePc.estKeyPoints = Object.entries(points);
 
     measurePc.estKeyPoints.sort((a, b) => b[1] - a[1]);
