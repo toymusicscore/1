@@ -13072,16 +13072,16 @@ measurePc[i].estKey = measurePc[i].pairs
     )
     .join(" / ");
 
-    // Keep only the selected key for whole-song scoring
+// Save scores before filtering
+measurePc[i].allEstKeyPoints = [...measurePc[i].estKeyPoints];
+
+// Keep only the selected key for whole-song scoring
 const selectedKeys = measurePc[i].estKey
     .split(" / ")
     .filter(Boolean);
 
 measurePc[i].estKeyPoints = measurePc[i].estKeyPoints
     .filter(([key]) => selectedKeys.includes(key));
-    
-// Save scores before filtering
-measurePc[i].allEstKeyPoints = [...measurePc[i].estKeyPoints];
 
 measurePc[i].estScaleType = measurePc[i].pairs
     .flatMap(pair =>
@@ -13535,7 +13535,7 @@ for (let i = 0; i < measurePc.length; i++) {
 console.log("Overall ranking before filtering:", allPoints);
 console.log("Overall ranking after filtering:", filteredPoints);
 
-/*
+
     for (let i = 0; i < measurePc.length; i++) {
 
         const measureWeight =
@@ -13547,7 +13547,7 @@ console.log("Overall ranking after filtering:", filteredPoints);
                 (points[key] || 0) + point * measureWeight;
         }
     }
-*/
+
     measurePc.estKeyPoints = Object.entries(points);
 
     measurePc.estKeyPoints.sort((a, b) => b[1] - a[1]);
