@@ -13471,6 +13471,57 @@ function getMelodicMinorMemberCount(notes, root) {
     return memberCount;
 }
 
+function getScaleCoverageCount(notes, root, mode, scaleType) {
+    const usedDegrees = new Set();
+
+    if (mode === 'major' || scaleType === 'N' || scaleType === 'H') {
+        const intervals = mode === 'major'
+            ? majorScaleIntervals
+            : minorScaleIntervals[scaleType];
+
+        for (const note of notes) {
+            const interval = (note.midi % 12 - root + 12) % 12;
+            const degreeIndex = intervals.indexOf(interval);
+
+            if (degreeIndex >= 0) {
+                usedDegrees.add(degreeIndex);
+            }
+        }
+
+        return usedDegrees.size;
+    }
+
+    // Melodic minor: degrees 1-5 are shared. Degrees 6 and 7
+    // depend on the direction of the melodic movement.
+    for (const note of notes) {
+        const interval = (note.midi % 12 - root + 12) % 12;
+        const evidence = noteDirectionEvidence.get(note) || {
+            up: false,
+            down: false
+        };
+        const hasDirection = evidence.up || evidence.down;
+
+        if (interval === 0) usedDegrees.add(0);
+        else if (interval === 2) usedDegrees.add(1);
+        else if (interval === 3) usedDegrees.add(2);
+        else if (interval === 5) usedDegrees.add(3);
+        else if (interval === 7) usedDegrees.add(4);
+        else if (
+            (interval === 8 && (evidence.down || !hasDirection)) ||
+            (interval === 9 && evidence.up)
+        ) {
+            usedDegrees.add(5);
+        } else if (
+            (interval === 10 && (evidence.down || !hasDirection)) ||
+            (interval === 11 && evidence.up)
+        ) {
+            usedDegrees.add(6);
+        }
+    }
+
+    return usedDegrees.size;
+}
+
 // The first and last effective (non-inherited, non-empty) measures
 // receive double weight in the whole-song evaluation.
 const effectiveMeasureIndices = [];
@@ -13549,8 +13600,11 @@ for (let i = 0; i < mscnt; i++) {
 
         const tonicFifthCount =
             current.pc[root] + current.pc[(root + 7) % 12];
-        const scaleRatio = scaleCount / totalNotes;
-        const tonicFifthRatio = tonicFifthCount / totalNotes;
+        const scaleRatio = scaleCount / totalNotes; // O
+        const scaleCoverageCount =
+            getScaleCoverageCount(notes, root, 'major', null);
+        const scaleCoverageRatio = scaleCoverageCount / 7; // S
+        const tonicFifthRatio = tonicFifthCount / totalNotes; // T
 
         candidates.push({
             id: `major:${root}`,
@@ -13560,6 +13614,8 @@ for (let i = 0; i < mscnt; i++) {
             baseName: engf1[root] + 'M',
             label: engf1[root] + 'M',
             scaleRatio,
+            scaleCoverageCount,
+            scaleCoverageRatio,
             tonicFifthCount,
             tonicFifthRatio
         });
@@ -13585,8 +13641,11 @@ for (let i = 0; i < mscnt; i++) {
 
             const tonicFifthCount =
                 current.pc[root] + current.pc[(root + 7) % 12];
-            const scaleRatio = scaleCount / totalNotes;
-            const tonicFifthRatio = tonicFifthCount / totalNotes;
+            const scaleRatio = scaleCount / totalNotes; // O
+            const scaleCoverageCount =
+                getScaleCoverageCount(notes, root, 'minor', scaleType);
+            const scaleCoverageRatio = scaleCoverageCount / 7; // S
+            const tonicFifthRatio = tonicFifthCount / totalNotes; // T
             const baseName = engMnr1[root] + 'm';
 
             candidates.push({
@@ -13597,6 +13656,8 @@ for (let i = 0; i < mscnt; i++) {
                 baseName,
                 label: `${baseName}(${scaleType})`,
                 scaleRatio,
+                scaleCoverageCount,
+                scaleCoverageRatio,
                 tonicFifthCount,
                 tonicFifthRatio
             });
@@ -13608,6 +13669,10 @@ for (let i = 0; i < mscnt; i++) {
                 getMelodicMinorMemberCount(notes, root);
         }
     }
+
+    // Keep the independent S, O, and T values for every candidate key.
+    // The current key-selection procedure below is retained provisionally.
+    current.allCandidateScores = candidates;
 
     const maxScaleRatio = Math.max(
         ...candidates.map(candidate => candidate.scaleRatio)
@@ -13761,7 +13826,7 @@ for (let i = 0; i < mscnt; i++) {
     );
 }
 
-// Show the selected scale ratio (S) and selected key's tonic+fifth ratio (T).
+// Show independent S (scale coverage), O (scale membership), and T (tonic + fifth).
 const perMeasureTableTop = 110 + mscnt * 40;
 const perMeasureSummaryTop = 150 + mscnt * 40 + 10 * row;
 ctx.fillStyle = 'white';
@@ -13773,11 +13838,12 @@ ctx.fillRect(
 );
 ctx.fillStyle = 'black';
 ctx.textAlign = 'left';
-ctx.fillText('Per-measure key evaluation: select maximum S, then evaluate T', 100, perMeasureTableTop + 10);
+ctx.fillText('Per-measure key evaluation: independent S / O / T values', 100, perMeasureTableTop + 10);
 ctx.fillText('Measure', 10, perMeasureTableTop + 20);
 ctx.fillText('Selected key', 70, perMeasureTableTop + 20);
 ctx.fillText('S (%)', 430, perMeasureTableTop + 20);
-ctx.fillText('T (%)', 500, perMeasureTableTop + 20);
+ctx.fillText('O (%)', 500, perMeasureTableTop + 20);
+ctx.fillText('T (%)', 570, perMeasureTableTop + 20);
 
 
 for (let i = 0; i < mscnt; i++) {
@@ -13795,11 +13861,20 @@ for (let i = 0; i < mscnt; i++) {
 
     ctx.fillText(String(i + 1), 10, y);
     ctx.fillText(selectedLabels, 70, y);
-    ctx.fillText((primary.scaleRatio * 100).toFixed(2), 430, y);
+
+    const selectedS = current.selectedCandidates
+        .map(candidate => (candidate.scaleCoverageRatio * 100).toFixed(2))
+        .join(' / ');
+    const selectedO = current.selectedCandidates
+        .map(candidate => (candidate.scaleRatio * 100).toFixed(2))
+        .join(' / ');
     const selectedT = current.selectedCandidates
         .map(candidate => (candidate.tonicFifthRatio * 100).toFixed(2))
         .join(' / ');
-    ctx.fillText(selectedT, 500, y);
+
+    ctx.fillText(selectedS, 430, y);
+    ctx.fillText(selectedO, 500, y);
+    ctx.fillText(selectedT, 570, y);
 }
 
 ctx.textAlign = 'left';
@@ -13913,7 +13988,7 @@ ctx.lineWidth = 1;
         rowPointStart + 210
     );
     ctx.fillText(
-        "Whole-song score = sum of per-measure tonic + fifth ratios.",
+        "Current whole-song score = sum of per-measure T values.",
         300,
         rowPointStart + 220
     );
