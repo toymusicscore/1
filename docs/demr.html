@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-dem
+demr3
 </title>
 <style>
 
@@ -13429,6 +13429,34 @@ for (const note of scoreData) {
     }
 }
 
+function getMelodicMinorCharacteristicEvidence(notes, root) {
+    let raised6Up = false;
+    let raised7Up = false;
+    let natural6Down = false;
+    let natural7Down = false;
+
+    for (const note of notes) {
+        const interval = (note.midi % 12 - root + 12) % 12;
+        const evidence = noteDirectionEvidence.get(note) || {
+            up: false,
+            down: false
+        };
+
+        if (interval === 9 && evidence.up) raised6Up = true;
+        if (interval === 11 && evidence.up) raised7Up = true;
+        if (interval === 8 && evidence.down) natural6Down = true;
+        if (interval === 10 && evidence.down) natural7Down = true;
+    }
+
+    return {
+        raised6Up,
+        raised7Up,
+        natural6Down,
+        natural7Down,
+        isMelodicMinor: raised6Up && raised7Up
+    };
+}
+
 function getMelodicMinorMemberCount(notes, root) {
     let memberCount = 0;
 
@@ -13629,6 +13657,16 @@ for (let i = 0; i < mscnt; i++) {
             let scaleCount = 0;
 
             if (scaleType === 'M') {
+                // M is a candidate only when both characteristic raised
+                // degrees occur in ascending melodic movement:
+                // raised 6th and raised 7th.
+                const melodicEvidence =
+                    getMelodicMinorCharacteristicEvidence(notes, root);
+
+                if (!melodicEvidence.isMelodicMinor) {
+                    continue;
+                }
+
                 scaleCount = getMelodicMinorMemberCount(notes, root);
             } else {
                 const intervals = minorScaleIntervals[scaleType];
