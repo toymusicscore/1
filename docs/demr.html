@@ -13356,7 +13356,9 @@ for (let i = 0; i < measurePc.length; i++) {
 }
 
 //========================================================
-// Recalculate measure keys using S x T for N, H, and M.
+// Select the maximum scale by S first.
+// For Minor(N), compare parallel major/minor by T.
+// Whole-song scoring later sums T by key, merging N/H/M.
 // M uses the direction of every adjacent-note movement
 // containing the target note (start or end).
 //========================================================
@@ -13533,7 +13535,8 @@ for (let i = 0; i < mscnt; i++) {
     const totalNotes = current.count;
     const candidates = [];
 
-    // Evaluate all 12 major keys.
+    // First evaluate scale membership only.
+    // The tonic/fifth ratio is not used to select the scale.
     for (let root = 0; root < 12; root++) {
         let scaleCount = 0;
 
@@ -13557,12 +13560,12 @@ for (let i = 0; i < mscnt; i++) {
             baseName: engf1[root] + 'M',
             label: engf1[root] + 'M',
             scaleRatio,
-            tonicFifthRatio,
-            score: scaleRatio * tonicFifthRatio
+            tonicFifthCount,
+            tonicFifthRatio
         });
     }
 
-    // Evaluate all 12 minor roots independently as N, H, and M.
+    // Evaluate all minor scales (N, H, and M) by scale membership only.
     for (let root = 0; root < 12; root++) {
         for (const scaleType of ['N', 'H', 'M']) {
             let scaleCount = 0;
@@ -13594,25 +13597,105 @@ for (let i = 0; i < mscnt; i++) {
                 baseName,
                 label: `${baseName}(${scaleType})`,
                 scaleRatio,
-                tonicFifthRatio,
-                score: scaleRatio * tonicFifthRatio
+                tonicFifthCount,
+                tonicFifthRatio
             });
         }
 
-        // Update the displayed M membership count using direction-aware notes.
+        // Keep the displayed M membership count direction-aware.
         if (current.scale?.[root]?.[3]) {
             current.scale[root][3].scaleMemberM =
                 getMelodicMinorMemberCount(notes, root);
         }
     }
 
-    current.candidateScores = candidates;
-
-    const maxScore = Math.max(...candidates.map(candidate => candidate.score));
-    const tolerance = 1e-12;
-    current.selectedCandidates = candidates.filter(candidate =>
-        Math.abs(candidate.score - maxScore) <= tolerance
+    const maxScaleRatio = Math.max(
+        ...candidates.map(candidate => candidate.scaleRatio)
     );
+    const tolerance = 1e-12;
+    const maximumScales = candidates.filter(candidate =>
+        Math.abs(candidate.scaleRatio - maxScaleRatio) <= tolerance
+    );
+
+    // If a maximum scale is Minor(N), compare its parallel major/minor
+    // keys using only the tonic + fifth counts.
+    const nPairMajorRoots = new Set(
+        maximumScales
+            .filter(candidate =>
+                candidate.mode === 'minor' && candidate.scaleType === 'N'
+            )
+            .map(candidate => (candidate.root + 3) % 12)
+    );
+
+    const selectedCandidates = [];
+
+    for (const candidate of maximumScales) {
+
+        if (candidate.mode === 'major') {
+            // This major key is handled together with its parallel Minor(N)
+            // candidate when that Minor(N) scale also has the maximum S.
+            if (nPairMajorRoots.has(candidate.root)) continue;
+
+            selectedCandidates.push({
+                ...candidate,
+                score: candidate.tonicFifthRatio
+            });
+            continue;
+        }
+
+        if (candidate.scaleType === 'N') {
+            const majorRoot = (candidate.root + 3) % 12;
+            const majorCandidate = candidates.find(item =>
+                item.mode === 'major' && item.root === majorRoot
+            );
+            const majorCount = majorCandidate?.tonicFifthCount ?? 0;
+            const minorCount = candidate.tonicFifthCount;
+
+            if (majorCount > minorCount) {
+                selectedCandidates.push({
+                    ...majorCandidate,
+                    // S remains the maximum Minor(N) scale ratio.
+                    scaleRatio: candidate.scaleRatio,
+                    score: majorCandidate.tonicFifthRatio
+                });
+            } else if (minorCount > majorCount) {
+                selectedCandidates.push({
+                    ...candidate,
+                    score: candidate.tonicFifthRatio
+                });
+            } else {
+                // If the parallel keys tie, retain both as valid results.
+                selectedCandidates.push({
+                    ...majorCandidate,
+                    scaleRatio: candidate.scaleRatio,
+                    score: majorCandidate.tonicFifthRatio
+                });
+                selectedCandidates.push({
+                    ...candidate,
+                    score: candidate.tonicFifthRatio
+                });
+            }
+            continue;
+        }
+
+        // Minor(H) and Minor(M) are adopted directly.
+        selectedCandidates.push({
+            ...candidate,
+            score: candidate.tonicFifthRatio
+        });
+    }
+
+    // Remove duplicate entries while preserving different N/H/M labels
+    // for the same minor key when more than one scale is tied.
+    current.selectedCandidates = selectedCandidates.filter((candidate, index, array) =>
+        array.findIndex(item =>
+            item.baseName === candidate.baseName &&
+            item.mode === candidate.mode &&
+            item.scaleType === candidate.scaleType
+        ) === index
+    );
+
+    current.candidateScores = current.selectedCandidates;
 
     current.estKey = current.selectedCandidates
         .map(candidate => candidate.baseName)
@@ -13627,7 +13710,7 @@ for (let i = 0; i < mscnt; i++) {
 
     current.estKeyPoints = current.selectedCandidates.map(candidate => [
         candidate.label,
-        candidate.score
+        candidate.tonicFifthRatio
     ]);
 
     // Redraw the M row with direction-aware scale membership values.
@@ -13678,8 +13761,7 @@ for (let i = 0; i < mscnt; i++) {
     );
 }
 
-// Replace the old parallel-key comparison chart with the actual
-// per-measure S, T, and S x T values used by the new decision.
+// Show the selected scale ratio (S) and selected key's tonic+fifth ratio (T).
 const perMeasureTableTop = 110 + mscnt * 40;
 const perMeasureSummaryTop = 150 + mscnt * 40 + 10 * row;
 ctx.fillStyle = 'white';
@@ -13691,12 +13773,12 @@ ctx.fillRect(
 );
 ctx.fillStyle = 'black';
 ctx.textAlign = 'left';
-ctx.fillText('Per-measure key evaluation: E = S x T', 100, perMeasureTableTop + 10);
+ctx.fillText('Per-measure key evaluation: select maximum S, then evaluate T', 100, perMeasureTableTop + 10);
 ctx.fillText('Measure', 10, perMeasureTableTop + 20);
 ctx.fillText('Selected key', 70, perMeasureTableTop + 20);
 ctx.fillText('S (%)', 430, perMeasureTableTop + 20);
 ctx.fillText('T (%)', 500, perMeasureTableTop + 20);
-ctx.fillText('E', 570, perMeasureTableTop + 20);
+
 
 for (let i = 0; i < mscnt; i++) {
     const y = perMeasureTableTop + 30 + 10 * i;
@@ -13714,8 +13796,10 @@ for (let i = 0; i < mscnt; i++) {
     ctx.fillText(String(i + 1), 10, y);
     ctx.fillText(selectedLabels, 70, y);
     ctx.fillText((primary.scaleRatio * 100).toFixed(2), 430, y);
-    ctx.fillText((primary.tonicFifthRatio * 100).toFixed(2), 500, y);
-    ctx.fillText(primary.score.toFixed(4), 570, y);
+    const selectedT = current.selectedCandidates
+        .map(candidate => (candidate.tonicFifthRatio * 100).toFixed(2))
+        .join(' / ');
+    ctx.fillText(selectedT, 500, y);
 }
 
 ctx.textAlign = 'left';
@@ -13786,21 +13870,27 @@ ctx.lineWidth = 1;
     for (const i of effectiveMeasureIndices) {
         const measureWeight =
             (i === firstEffectiveMeasure || i === lastEffectiveMeasure) ? 2 : 1;
+        const countedKeysInMeasure = new Set();
 
-        for (const candidate of measurePc[i].candidateScores || []) {
-            if (!points[candidate.id]) {
-                points[candidate.id] = {
-                    label: candidate.label,
+        for (const candidate of measurePc[i].selectedCandidates || []) {
+            // N, H, and M of the same minor tonic are one key here.
+            const keyId = candidate.baseName;
+            if (countedKeysInMeasure.has(keyId)) continue;
+            countedKeysInMeasure.add(keyId);
+
+            if (!points[keyId]) {
+                points[keyId] = {
+                    label: candidate.baseName,
                     score: 0,
                     baseName: candidate.baseName,
                     mode: candidate.mode,
-                    root: candidate.root,
-                    scaleType: candidate.scaleType
+                    root: candidate.root
                 };
             }
 
-            points[candidate.id].score +=
-                candidate.score * measureWeight;
+            // Whole-song score = sum of per-measure tonic+fifth ratios.
+            points[keyId].score +=
+                candidate.tonicFifthRatio * measureWeight;
         }
     }
 
@@ -13808,114 +13898,59 @@ ctx.lineWidth = 1;
         .map(candidate => [candidate.label, candidate.score, candidate])
         .sort((a, b) => b[1] - a[1]);
 
-    const total = measurePc.estKeyPoints.reduce(
-        (sum, [, point]) => sum + point,
-        0
-    );
-
     const bestWholeSongCandidate = measurePc.estKeyPoints[0]?.[2];
     estimatedKey = bestWholeSongCandidate?.baseName ?? "";
     estimatedLabelType = getAutoLabelType(estimatedKey);
 
-	const rowPointStart = 150 + mscnt * 40 + 10 * row;
+    const rowPointStart = 150 + mscnt * 40 + 10 * row;
 
-	ctx.fillStyle="black";
-	ctx.fillText("Estimated Key",300,rowPointStart);
-	ctx.fillText(val("song1"),300,rowPointStart+10);
-	ctx.fillText("The First and Last Effective Measures Have Double Weight.",300,rowPointStart +210);
-	ctx.fillText("Whole-song score = sum of each measure's S x T score.",300, rowPointStart+220);
+    ctx.fillStyle = "black";
+    ctx.fillText("Estimated Key", 300, rowPointStart);
+    ctx.fillText(val("song1"), 300, rowPointStart + 10);
+    ctx.fillText(
+        "The First and Last Effective Measures Have Double Weight.",
+        300,
+        rowPointStart + 210
+    );
+    ctx.fillText(
+        "Whole-song score = sum of per-measure tonic + fifth ratios.",
+        300,
+        rowPointStart + 220
+    );
 
-	ctx.textAlign = "right";		
-	ctx.fillText("Estimated Key",70,rowPointStart);
-	ctx.fillText("Score",150,rowPointStart);
-	ctx.fillText("Proportion",230,rowPointStart);
-    
+    ctx.textAlign = "right";
+    ctx.fillText("Estimated Key", 70, rowPointStart);
+    ctx.fillText("Score", 180, rowPointStart);
+
+    const maxWholeSongScore = measurePc.estKeyPoints[0]?.[1] ?? 0;
+
     for (let j = 0; j < measurePc.estKeyPoints.length; j++) {
-
         const y = rowPointStart + 10 * (j + 1);
+        const [keyName, score, candidate] = measurePc.estKeyPoints[j];
 
-        if (measurePc.estKeyPoints[j][1] == measurePc.estKeyPoints[0][1]) {
-
+        if (Math.abs(score - maxWholeSongScore) <= 1e-12) {
             ctx.fillStyle = "yellow";
             ctx.fillRect(0, y - 8, 230, 10);
         }
 
         ctx.fillStyle = "black";
+        ctx.fillText(keyName, 70, y);
+        ctx.fillText(score.toFixed(2), 180, y);
 
-        ctx.fillText(
-            measurePc.estKeyPoints[j][0],
-            70,
-            y
-        );
-
-        ctx.fillText(
-            measurePc.estKeyPoints[j][1].toFixed(2),
-            150,
-            y
-        );
-
-        ctx.fillText(
-            (measurePc.estKeyPoints[j][1] / total * 100).toFixed(2) + "%",
-            230,
-            y
-        );
-    }
-
-
-	ctx.textAlign = "left";		
-
-	const cx = 500;      // 中心X
-	const cy = 100 + rowPointStart;
-	const r = 80;        // 半径
-
-	let y = cy - r;
-
-	let startAngle = -Math.PI / 2;   // 12時から開始
-
-	for (let i = 0; i < measurePc.estKeyPoints.length; i++) {
-
-		const ratio = measurePc.estKeyPoints[i][1] / total;
-		const percent = ratio * 100;
-		ctx.fillStyle = "black";
-
-		const endAngle = startAngle + ratio * Math.PI * 2;
-
-        // キー名から色を決定
-        const keyName = measurePc.estKeyPoints[i][0];
-        const candidate = measurePc.estKeyPoints[i][2];
-        const root = candidate.root;
-        const key = keyName;
-
-        let color = workingColor.pc[root];
-
+        // Bar length represents the raw whole-song score, not a share
+        // of the sum of all candidate scores.
+        const barWidth = maxWholeSongScore > 0
+            ? score / maxWholeSongScore * 180
+            : 0;
+        let color = workingColor.pc[candidate.root];
         if (candidate.mode === "minor") {
             color = darkenColor(color, 0.8);
         }
+        ctx.fillStyle = color;
+        ctx.fillRect(260, y - 7, barWidth, 7);
+    }
 
-		ctx.fillStyle = color;
-
-		ctx.beginPath();
-		ctx.moveTo(cx, cy);
-		ctx.arc(cx, cy, r, startAngle, endAngle);
-		ctx.closePath();
-		ctx.fill();
-
-		startAngle = endAngle;
-
-		ctx.fillRect(cx + r + 30, y - 8, 12, 12);
-
-		// 文字
-		ctx.fillStyle = "black";
-		ctx.fillText(
-			`${key} ${percent.toFixed(2)}%`,
-			cx + r + 50,
-			y + 2
-		);
-
-		y += 18;
-
-	}
-
+    ctx.textAlign = "left";
 }
 
 function darkenColor(color, factor) {
