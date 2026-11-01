@@ -13826,17 +13826,85 @@ for (let i = 0; i < mscnt; i++) {
     );
 }
 
-// Show independent S (scale coverage), O (scale membership), and T (tonic + fifth).
+// Show independent S, O, and T for the selected key and its relative key.
 const perMeasureTableTop = 110 + mscnt * 40;
 const perMeasureSummaryTop = 150 + mscnt * 40 + 10 * row;
 ctx.fillStyle = 'white';
 ctx.fillRect(
     0,
     perMeasureTableTop,
-    720,
+    760,
     Math.max(0, perMeasureSummaryTop - perMeasureTableTop - 5)
 );
 ctx.fillStyle = 'black';
+ctx.textAlign = 'left';
+ctx.fillText('Per-measure key evaluation: selected key and relative key', 100, perMeasureTableTop + 10);
+ctx.fillText('Measure', 10, perMeasureTableTop + 20);
+ctx.fillText('Key', 70, perMeasureTableTop + 20);
+ctx.fillText('S (%)', 250, perMeasureTableTop + 20);
+ctx.fillText('O (%)', 310, perMeasureTableTop + 20);
+ctx.fillText('T (%)', 370, perMeasureTableTop + 20);
+ctx.fillText('Relative key', 440, perMeasureTableTop + 20);
+ctx.fillText('S (%)', 590, perMeasureTableTop + 20);
+ctx.fillText('O (%)', 650, perMeasureTableTop + 20);
+ctx.fillText('T (%)', 710, perMeasureTableTop + 20);
+
+for (let i = 0; i < mscnt; i++) {
+    const y = perMeasureTableTop + 30 + 10 * i;
+    const current = measurePc[i];
+
+    if (!current || current.count === 0) continue;
+
+    const primary = current.selectedCandidates?.[0];
+    if (!primary) continue;
+
+    const selectedCandidate = current.selectedCandidates[0];
+    let relativeCandidate = null;
+
+    if (selectedCandidate.mode === 'major') {
+        const relativeMinorRoot = (selectedCandidate.root + 9) % 12;
+        relativeCandidate = current.allCandidateScores?.find(candidate =>
+            candidate.mode === 'minor' &&
+            candidate.root === relativeMinorRoot &&
+            candidate.scaleType === 'N'
+        );
+    } else {
+        const relativeMajorRoot = (selectedCandidate.root + 3) % 12;
+        relativeCandidate = current.allCandidateScores?.find(candidate =>
+            candidate.mode === 'major' &&
+            candidate.root === relativeMajorRoot
+        );
+    }
+
+    ctx.fillText(String(i + 1), 10, y);
+
+    const selectedLabels = current.selectedCandidates
+        .map(candidate => candidate.label)
+        .join(' / ');
+    ctx.fillText(selectedLabels, 70, y);
+
+    const selectedS = current.selectedCandidates
+        .map(candidate => (candidate.scaleCoverageRatio * 100).toFixed(2))
+        .join(' / ');
+    const selectedO = current.selectedCandidates
+        .map(candidate => (candidate.scaleRatio * 100).toFixed(2))
+        .join(' / ');
+    const selectedT = current.selectedCandidates
+        .map(candidate => (candidate.tonicFifthRatio * 100).toFixed(2))
+        .join(' / ');
+
+    ctx.fillText(selectedS, 250, y);
+    ctx.fillText(selectedO, 310, y);
+    ctx.fillText(selectedT, 370, y);
+
+    if (relativeCandidate) {
+        ctx.fillText(relativeCandidate.label, 440, y);
+        ctx.fillText((relativeCandidate.scaleCoverageRatio * 100).toFixed(2), 590, y);
+        ctx.fillText((relativeCandidate.scaleRatio * 100).toFixed(2), 650, y);
+        ctx.fillText((relativeCandidate.tonicFifthRatio * 100).toFixed(2), 710, y);
+    }
+}
+
 ctx.textAlign = 'left';
 ctx.fillText('Per-measure key evaluation: independent S / O / T values', 100, perMeasureTableTop + 10);
 ctx.fillText('Measure', 10, perMeasureTableTop + 20);
