@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr5
+demr6
 </title>
 <style>
 
@@ -13717,27 +13717,24 @@ for (let i = 0; i < mscnt; i++) {
         !cmPitchClasses.has(((note.midi % 12) + 12) % 12)
     );
 
+    // If any note is outside the fixed C-major collection, exclude both
+    // C major and A natural minor before evaluating the remaining candidates.
     const eligibleCandidates = current.hasNonCMScaleNote
-        ? candidates.filter(candidate => !(candidate.mode === 'major' && candidate.root === 0))
+        ? candidates.filter(candidate => !(
+            (candidate.mode === 'major' && candidate.root === 0) ||
+            (candidate.mode === 'minor' && candidate.root === 9 && candidate.scaleType === 'N')
+        ))
         : candidates;
-
-    const maxScaleRatio = Math.max(
-        ...eligibleCandidates.map(candidate => candidate.scaleRatio)
-    );
-    const tolerance = 1e-12;
-    const maximumScales = eligibleCandidates.filter(candidate =>
-        Math.abs(candidate.scaleRatio - maxScaleRatio) <= tolerance
-    );
 
     let selectedCandidates = [];
 
     if (!current.hasNonCMScaleNote) {
         // With no notes outside the C-major collection, compare only
         // C major and A natural minor using T (tonic + fifth ratio).
-        const cmCandidate = candidates.find(candidate =>
+        const cmCandidate = eligibleCandidates.find(candidate =>
             candidate.mode === 'major' && candidate.root === 0
         );
-        const amCandidate = candidates.find(candidate =>
+        const amCandidate = eligibleCandidates.find(candidate =>
             candidate.mode === 'minor' && candidate.root === 9 && candidate.scaleType === 'N'
         );
 
@@ -13756,75 +13753,36 @@ for (let i = 0; i < mscnt; i++) {
             selectedCandidates = current.evaluationCandidates;
         }
     } else {
-        // A pitch outside the C-major collection exists. Use the full
-        // candidate-scale evaluation, including N/H/M and T comparisons.
-    // If a maximum scale is Minor(N), compare its parallel major/minor
-    // keys using only the tonic + fifth counts.
-    const nPairMajorRoots = new Set(
-        maximumScales
-            .filter(candidate =>
-                candidate.mode === 'minor' && candidate.scaleType === 'N'
-            )
-            .map(candidate => (candidate.root + 3) % 12)
-    );
+        // Compare the remaining candidates in the agreed order: O, then S, then T.
+        const tolerance = 1e-12;
 
-    selectedCandidates = [];
+        const maxO = Math.max(...eligibleCandidates.map(candidate => candidate.scaleRatio));
+        const bestO = eligibleCandidates.filter(candidate =>
+            Math.abs(candidate.scaleRatio - maxO) <= tolerance
+        );
 
-    for (const candidate of maximumScales) {
+        const maxS = Math.max(...bestO.map(candidate => candidate.scaleCoverageRatio));
+        const bestOS = bestO.filter(candidate =>
+            Math.abs(candidate.scaleCoverageRatio - maxS) <= tolerance
+        );
 
-        if (candidate.mode === 'major') {
-            // This major key is handled together with its parallel Minor(N)
-            // candidate when that Minor(N) scale also has the maximum S.
-            if (nPairMajorRoots.has(candidate.root)) continue;
+        const maxT = Math.max(...bestOS.map(candidate => candidate.tonicFifthRatio));
+        selectedCandidates = bestOS.filter(candidate =>
+            Math.abs(candidate.tonicFifthRatio - maxT) <= tolerance
+        );
 
-            selectedCandidates.push({
-                ...candidate,
-                score: candidate.tonicFifthRatio
-            });
-            continue;
-        }
-
-        if (candidate.scaleType === 'N') {
-            const majorRoot = (candidate.root + 3) % 12;
-            const majorCandidate = eligibleCandidates.find(item =>
-                item.mode === 'major' && item.root === majorRoot
-            );
-            const majorCount = majorCandidate?.tonicFifthCount ?? 0;
-            const minorCount = candidate.tonicFifthCount;
-
-            if (majorCount > minorCount) {
-                selectedCandidates.push({
-                    ...majorCandidate,
-                    // S remains the maximum Minor(N) scale ratio.
-                    scaleRatio: candidate.scaleRatio,
-                    score: majorCandidate.tonicFifthRatio
-                });
-            } else if (minorCount > majorCount) {
-                selectedCandidates.push({
-                    ...candidate,
-                    score: candidate.tonicFifthRatio
-                });
-            } else {
-                // If the parallel keys tie, retain both as valid results.
-                selectedCandidates.push({
-                    ...majorCandidate,
-                    scaleRatio: candidate.scaleRatio,
-                    score: majorCandidate.tonicFifthRatio
-                });
-                selectedCandidates.push({
-                    ...candidate,
-                    score: candidate.tonicFifthRatio
-                });
-            }
-            continue;
-        }
-
-        // Minor(H) and Minor(M) are adopted directly.
-        selectedCandidates.push({
-            ...candidate,
-            score: candidate.tonicFifthRatio
-        });
-    }
+        // When both H and M satisfy the criteria for the same minor root,
+        // prefer M because its melodic-direction requirements are stricter.
+        const selectedMelodicRoots = new Set(
+            selectedCandidates
+                .filter(candidate => candidate.mode === 'minor' && candidate.scaleType === 'M')
+                .map(candidate => candidate.root)
+        );
+        selectedCandidates = selectedCandidates.filter(candidate => !(
+            candidate.mode === 'minor' &&
+            candidate.scaleType === 'H' &&
+            selectedMelodicRoots.has(candidate.root)
+        ));
 
         current.evaluationCandidates = selectedCandidates;
     }
