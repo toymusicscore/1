@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr3
+demr4
 </title>
 <style>
 
@@ -13550,16 +13550,12 @@ function getScaleCoverageCount(notes, root, mode, scaleType) {
     return usedDegrees.size;
 }
 
-// The first and last effective (non-inherited, non-empty) measures
-// receive double weight in the whole-song evaluation.
+// The first and last non-empty measures receive double weight.
+// Inherited key decisions are included as ordinary measure votes.
 const effectiveMeasureIndices = [];
 
 for (let i = 0; i < mscnt; i++) {
-    if (
-        measurePc[i] &&
-        measurePc[i].count > 0 &&
-        !measurePc[i].inheritedFromPrevious
-    ) {
+    if (measurePc[i] && measurePc[i].count > 0) {
         effectiveMeasureIndices.push(i);
     }
 }
@@ -14059,13 +14055,28 @@ ctx.lineWidth = 1;
     for (const i of effectiveMeasureIndices) {
         const measureWeight =
             (i === firstEffectiveMeasure || i === lastEffectiveMeasure) ? 2 : 1;
-        const countedKeysInMeasure = new Set();
+
+        // Collapse N, H, and M of the same minor tonic before
+        // splitting this measure's vote among its distinct key candidates.
+        const candidatesByKey = new Map();
 
         for (const candidate of measurePc[i].selectedCandidates || []) {
-            // N, H, and M of the same minor tonic are one key here.
             const keyId = candidate.baseName;
-            if (countedKeysInMeasure.has(keyId)) continue;
-            countedKeysInMeasure.add(keyId);
+            if (!candidatesByKey.has(keyId)) {
+                candidatesByKey.set(keyId, candidate);
+            }
+        }
+
+        const measureCandidates = [...candidatesByKey.values()];
+        if (measureCandidates.length === 0) continue;
+
+        // A single candidate receives the full vote.
+        // Multiple candidates share the measure's vote equally.
+        const votePerCandidate =
+            measureWeight / measureCandidates.length;
+
+        for (const candidate of measureCandidates) {
+            const keyId = candidate.baseName;
 
             if (!points[keyId]) {
                 points[keyId] = {
@@ -14077,9 +14088,7 @@ ctx.lineWidth = 1;
                 };
             }
 
-            // Whole-song score = sum of per-measure tonic+fifth ratios.
-            points[keyId].score +=
-                candidate.tonicFifthRatio * measureWeight;
+            points[keyId].score += votePerCandidate;
         }
     }
 
@@ -14103,14 +14112,14 @@ ctx.lineWidth = 1;
         rowPointStart + 210
     );
     ctx.fillText(
-        "Current whole-song score = sum of per-measure T values.",
+        "Whole-song score = weighted votes from per-measure key candidates.",
         300,
         rowPointStart + 220
     );
 
     ctx.textAlign = "right";
     ctx.fillText("Estimated Key", 70, rowPointStart);
-    ctx.fillText("Score", 180, rowPointStart);
+    ctx.fillText("Votes", 180, rowPointStart);
 
     const maxWholeSongScore = measurePc.estKeyPoints[0]?.[1] ?? 0;
 
@@ -14127,8 +14136,7 @@ ctx.lineWidth = 1;
         ctx.fillText(keyName, 70, y);
         ctx.fillText(score.toFixed(2), 180, y);
 
-        // Bar length represents the raw whole-song score, not a share
-        // of the sum of all candidate scores.
+        // Bar length represents the weighted vote total.
         const barWidth = maxWholeSongScore > 0
             ? score / maxWholeSongScore * 180
             : 0;
