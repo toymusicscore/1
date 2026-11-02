@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr16
+demr18
 </title>
 <style>
 
@@ -13044,6 +13044,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
         ? estKey + " (" + scaleType + ")"
         : estKey;
 
+    ctx.textAlign = "left";
     ctx.fillText(displayKey, 710, 50 + 10 * i);
 
     const primaryKey = measurePc[i].estKey.split(" / ")[0];
@@ -13072,8 +13073,10 @@ measurePc[i].estScaleType = measurePc[i].pairs
         ? ["N", "H", "M"].indexOf(selected.estScaleType)
         : 0;
 
+    ctx.textAlign = "left";
     ctx.fillText(displayKey, 710, 50 + 10 * i);
 
+    ctx.textAlign = "left";
     ctx.fillText(
         displayKey,
         710,
@@ -13138,6 +13141,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
                 .join(" / ");
         }
 
+        ctx.textAlign = "left";
         ctx.fillText(pairKey, 710, ry);
 
 		// ===== Major 左側 =====
@@ -13338,7 +13342,9 @@ for (let i = 0; i < measurePc.length; i++) {
     ctx.fillRect(700, 91 + mscnt * 10 + 30 * i, 400, 30);
 
     ctx.fillStyle = "black";
+    ctx.textAlign = "left";
     ctx.fillText(displayKey, 710, 50 + 10 * i);
+    ctx.textAlign = "left";
     ctx.fillText(
         displayKey,
         710,
@@ -13721,7 +13727,7 @@ for (let i = 0; i < mscnt; i++) {
 
     if (!current.hasNonCMScaleNote) {
         // With no notes outside the C-major collection, compare only
-        // C major and A natural minor using T (tonic + fifth ratio).
+        // C major and A natural minor using T (1st + 5th ratio).
         const cmCandidate = eligibleCandidates.find(candidate =>
             candidate.mode === 'major' && candidate.root === 0
         );
@@ -13845,7 +13851,9 @@ for (let i = 0; i < mscnt; i++) {
         30
     );
     ctx.fillStyle = 'black';
+    ctx.textAlign = "left";
     ctx.fillText(displayKey, 710, 50 + 10 * i);
+    ctx.textAlign = "left";
     ctx.fillText(
         displayKey,
         710,
@@ -13949,7 +13957,7 @@ const explanationLines = [
     'Key Estimation Process',
     'S = Scale coverage: distinct scale degrees present / 7 × 100.',
     'O = In-scale note ratio: notes in the candidate scale / all notes × 100.',
-    'T = Tonic + fifth ratio: tonic and fifth notes / all notes × 100.',
+    'T = 1st + 5th ratio: 1st- and 5th-degree notes / all notes × 100.',
     '1. If no note is outside the C-major scale, compare only CM and Am(N) using T.',
     '2. If any note is outside the C-major scale, exclude CM and Am(N).',
     '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
