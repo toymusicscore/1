@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr10
+demr11
 </title>
 <style>
 
@@ -13951,6 +13951,45 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
 ctx.font = previousFont;
 ctx.textAlign = 'left';
 
+// Explain the per-measure metrics and the complete key-estimation process.
+const explanationTop = perMeasureSummaryTop + 24;
+const explanationLineHeight = 18;
+const explanationLines = [
+    'Key Estimation Process',
+    'S = Scale coverage: distinct scale degrees present / 7 × 100.',
+    'O = In-scale note ratio: notes in the candidate scale / all notes × 100.',
+    'T = Tonic + fifth ratio: tonic and fifth notes / all notes × 100.',
+    '1. If no note is outside the C-major scale, compare only CM and Am(N) using T.',
+    '2. If any note is outside the C-major scale, exclude CM and Am(N).',
+    '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
+    '4. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
+    '5. If H and M are both selected for the same minor tonic, prefer M.',
+    'Whole-song estimation',
+    'Each effective measure contributes votes. The first and last effective measures count double.',
+    'If multiple keys are selected for a measure, its vote is divided equally among them.',
+    'N, H, and M forms of the same minor tonic are combined. Inherited measures vote normally.'
+];
+const explanationHeight = explanationLines.length * explanationLineHeight + 12;
+
+ctx.fillStyle = 'white';
+ctx.fillRect(
+    0,
+    explanationTop - 4,
+    1250,
+    explanationHeight
+);
+ctx.font = '13px Arial';
+ctx.fillStyle = 'black';
+ctx.textAlign = 'left';
+for (let lineIndex = 0; lineIndex < explanationLines.length; lineIndex++) {
+    ctx.fillText(
+        explanationLines[lineIndex],
+        10,
+        explanationTop + explanationLineHeight * (lineIndex + 1)
+    );
+}
+ctx.font = previousFont;
+
 // Highlight the selected scale type in Part 2
 for (let i = 0; i < mscnt; i++) {
 
@@ -14062,8 +14101,8 @@ ctx.lineWidth = 1;
     estimatedKey = bestWholeSongCandidate?.baseName ?? "";
     estimatedLabelType = getAutoLabelType(estimatedKey);
 
-    // Keep the whole-song score graph below the per-measure table.
-    const rowPointStart = perMeasureSummaryTop + 40 + 10 * row;
+    // Keep the whole-song score graph below the table and explanation.
+    const rowPointStart = explanationTop + explanationHeight + 30 + 10 * row;
 
     ctx.fillStyle = "black";
     ctx.fillText("Estimated Key", 300, rowPointStart);
