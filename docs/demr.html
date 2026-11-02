@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr20
+demr21
 </title>
 <style>
 
@@ -12650,6 +12650,25 @@ for (let i = 11; i <= 12; i++) {
      }
 
      const maxMajorScore = Math.max(...majorScores);
+
+     // Label each column with its relative major/minor key pair.
+     // The three rows below show the minor-scale scores (N, H, M)
+     // for the minor key in that pair.
+     if (i === 0) {
+         ctx.fillStyle = "black";
+         ctx.textAlign = "center";
+         for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
+             const minorRoot = (majorRoot + 9) % 12;
+             const pairLabel =
+                 engf1[majorRoot] + "M / " + engf1[minorRoot] + "m";
+             ctx.fillText(
+                 pairLabel,
+                 125 + 50 * majorRoot,
+                 baseY - 2
+             );
+         }
+         ctx.textAlign = "left";
+     }
 
      const rowTypes = ["N", "H", "M"];
 
