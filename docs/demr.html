@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr8
+demr9
 </title>
 <style>
 
@@ -13088,53 +13088,6 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			50,
 			ry
 		);
-		// 採用キー
-        // Selected key for this pair
-        const selectedNames = measurePc[i].keyPoints
-            .map(k => k[0]);
-
-        let pairKey = "";
-
-        if (measurePc[i].inheritedFromPrevious) {
-
-            // Show only the previous measure's estimated key.
-            if (pair === measurePc[i].pairs[0]) {
-
-                const previous = measurePc[i - 1];
-
-                if (previous?.estKey) {
-                    const key = previous.estKey.split(" / ")[0];
-
-                    pairKey = key.endsWith("m") && previous.estScaleType
-                        ? key + "(" + previous.estScaleType + ")"
-                        : key;
-                }
-            }
-
-        } else {
-
-            pairKey = pair.selected
-                .filter(k =>
-                    k.point > 0 &&
-                    selectedNames.includes(k.key.name)
-                )
-                .map(k => {
-                    const name = k.key.name;
-
-                    if (k.key.mode !== "minor") {
-                        return name;
-                    }
-
-                    const type = measurePc[i].scale[k.key.root][2];
-                    return name + "(" + type + ")";
-                })
-                .filter((name, index, array) =>
-                    array.indexOf(name) === index
-                )
-                .join(" / ");
-        }
-
-        ctx.fillText(pairKey, 710, ry);
 
 		// ===== Major 左側 =====
 		ctx.textAlign = "right";		
@@ -13850,9 +13803,10 @@ for (let i = 0; i < mscnt; i++) {
 }
 
 // Show every selected candidate on its own row with independent S, O, and T.
-const perMeasureTableTop = 110 + mscnt * 40;
+// Place Part 3 below all rows drawn in Part 2.
+const perMeasureTableTop = 150 + mscnt * 40 + 10 * row;
 const tableRowHeight = 22;
-const tableHeaderHeight = 42;
+const tableHeaderHeight = 58;
 
 const candidateRows = [];
 
@@ -13899,13 +13853,13 @@ ctx.fillText(
     10,
     perMeasureTableTop + 18
 );
-ctx.fillText('Measure', 10, perMeasureTableTop + 36);
-ctx.fillText('Candidate key', 90, perMeasureTableTop + 36);
-ctx.fillText('Parallel key', 260, perMeasureTableTop + 36);
-ctx.fillText('S (%)', 430, perMeasureTableTop + 36);
-ctx.fillText('O (%)', 510, perMeasureTableTop + 36);
-ctx.fillText('T (%)', 590, perMeasureTableTop + 36);
-ctx.fillText('Result', 660, perMeasureTableTop + 36);
+ctx.fillText('Measure', 10, perMeasureTableTop + 42);
+ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
+ctx.fillText('Parallel key', 260, perMeasureTableTop + 42);
+ctx.fillText('S (%)', 430, perMeasureTableTop + 42);
+ctx.fillText('O (%)', 510, perMeasureTableTop + 42);
+ctx.fillText('T (%)', 590, perMeasureTableTop + 42);
+ctx.fillText('Result', 660, perMeasureTableTop + 42);
 
 for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const row = candidateRows[rowIndex];
