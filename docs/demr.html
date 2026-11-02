@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr11
+demr12
 </title>
 <style>
 
@@ -13951,8 +13951,7 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
 ctx.font = previousFont;
 ctx.textAlign = 'left';
 
-// Explain the per-measure metrics and the complete key-estimation process.
-const explanationTop = perMeasureSummaryTop + 24;
+// Prepare the English explanation; it is drawn after Part 5.
 const explanationLineHeight = 18;
 const explanationLines = [
     'Key Estimation Process',
@@ -13970,25 +13969,6 @@ const explanationLines = [
     'N, H, and M forms of the same minor tonic are combined. Inherited measures vote normally.'
 ];
 const explanationHeight = explanationLines.length * explanationLineHeight + 12;
-
-ctx.fillStyle = 'white';
-ctx.fillRect(
-    0,
-    explanationTop - 4,
-    1250,
-    explanationHeight
-);
-ctx.font = '13px Arial';
-ctx.fillStyle = 'black';
-ctx.textAlign = 'left';
-for (let lineIndex = 0; lineIndex < explanationLines.length; lineIndex++) {
-    ctx.fillText(
-        explanationLines[lineIndex],
-        10,
-        explanationTop + explanationLineHeight * (lineIndex + 1)
-    );
-}
-ctx.font = previousFont;
 
 // Highlight the selected scale type in Part 2
 for (let i = 0; i < mscnt; i++) {
@@ -14101,22 +14081,12 @@ ctx.lineWidth = 1;
     estimatedKey = bestWholeSongCandidate?.baseName ?? "";
     estimatedLabelType = getAutoLabelType(estimatedKey);
 
-    // Keep the whole-song score graph below the table and explanation.
-    const rowPointStart = explanationTop + explanationHeight + 30 + 10 * row;
+    // Part 5: whole-song key and weighted-vote chart.
+    const rowPointStart = perMeasureSummaryTop + 24 + 30 + 10 * row;
 
     ctx.fillStyle = "black";
     ctx.fillText("Estimated Key", 300, rowPointStart);
     ctx.fillText(val("song1"), 300, rowPointStart + 10);
-    ctx.fillText(
-        "The First and Last Effective Measures Have Double Weight.",
-        300,
-        rowPointStart + 210
-    );
-    ctx.fillText(
-        "Whole-song score = weighted votes from per-measure key candidates.",
-        300,
-        rowPointStart + 220
-    );
 
     ctx.textAlign = "right";
     ctx.fillText("Estimated Key", 70, rowPointStart);
@@ -14150,6 +14120,27 @@ ctx.lineWidth = 1;
     }
 
     ctx.textAlign = "left";
+
+    // Draw the updated explanation immediately after Part 5.
+    const explanationTop = rowPointStart + Math.max(
+        240,
+        (measurePc.estKeyPoints.length + 1) * 10
+    ) + 24;
+
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, explanationTop - 4, 1250, explanationHeight);
+    ctx.font = '13px Arial';
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'left';
+    for (let lineIndex = 0; lineIndex < explanationLines.length; lineIndex++) {
+        ctx.fillText(
+            explanationLines[lineIndex],
+            10,
+            explanationTop + explanationLineHeight * (lineIndex + 1)
+        );
+    }
+    ctx.font = previousFont;
+    ctx.textAlign = 'left';
 }
 
 function darkenColor(color, factor) {
