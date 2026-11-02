@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp
+demr15
 </title>
 <style>
 
@@ -14074,7 +14074,7 @@ ctx.lineWidth = 1;
     estimatedLabelType = getAutoLabelType(estimatedKey);
 
     // Part 5: whole-song key and weighted-vote chart.
-    const rowPointStart = perMeasureSummaryTop + 24 + 30 + 10 * row;
+    const rowPointStart = perMeasureSummaryTop + 16;
 
     ctx.fillStyle = "black";
     ctx.fillText("Estimated Key", 300, rowPointStart);
@@ -14114,10 +14114,8 @@ ctx.lineWidth = 1;
     ctx.textAlign = "left";
 
     // Draw the updated explanation immediately after Part 5.
-    const explanationTop = rowPointStart + Math.max(
-        240,
-        (measurePc.estKeyPoints.length + 1) * 10
-    ) + 24;
+    const explanationTop = rowPointStart +
+        Math.max(30, (measurePc.estKeyPoints.length + 1) * 10) + 12;
 
     ctx.fillStyle = 'white';
     ctx.fillRect(0, explanationTop - 4, 1250, explanationHeight);
