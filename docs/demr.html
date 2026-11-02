@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr4
+demr5
 </title>
 <style>
 
@@ -13710,19 +13710,23 @@ for (let i = 0; i < mscnt; i++) {
     // The current key-selection procedure below is retained provisionally.
     current.allCandidateScores = candidates;
 
-    const maxScaleRatio = Math.max(
-        ...candidates.map(candidate => candidate.scaleRatio)
-    );
-    const tolerance = 1e-12;
-    const maximumScales = candidates.filter(candidate =>
-        Math.abs(candidate.scaleRatio - maxScaleRatio) <= tolerance
-    );
-
-    // Check every measure against the fixed C-major pitch collection.
-    // CM scale: C, D, E, F, G, A, B. Any other pitch class is outside CM.
+    // Check every measure against the fixed C-major pitch collection first.
+    // CM must remain excluded from all later comparisons when an outside note exists.
     const cmPitchClasses = new Set([0, 2, 4, 5, 7, 9, 11]);
     current.hasNonCMScaleNote = notes.some(note =>
         !cmPitchClasses.has(((note.midi % 12) + 12) % 12)
+    );
+
+    const eligibleCandidates = current.hasNonCMScaleNote
+        ? candidates.filter(candidate => !(candidate.mode === 'major' && candidate.root === 0))
+        : candidates;
+
+    const maxScaleRatio = Math.max(
+        ...eligibleCandidates.map(candidate => candidate.scaleRatio)
+    );
+    const tolerance = 1e-12;
+    const maximumScales = eligibleCandidates.filter(candidate =>
+        Math.abs(candidate.scaleRatio - maxScaleRatio) <= tolerance
     );
 
     let selectedCandidates = [];
@@ -13782,7 +13786,7 @@ for (let i = 0; i < mscnt; i++) {
 
         if (candidate.scaleType === 'N') {
             const majorRoot = (candidate.root + 3) % 12;
-            const majorCandidate = candidates.find(item =>
+            const majorCandidate = eligibleCandidates.find(item =>
                 item.mode === 'major' && item.root === majorRoot
             );
             const majorCount = majorCandidate?.tonicFifthCount ?? 0;
