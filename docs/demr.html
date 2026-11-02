@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr9
+demr10
 </title>
 <style>
 
@@ -12766,6 +12766,26 @@ ctx.lineWidth = 1;
 */
 
 
+
+ctx.fillStyle = "black";
+ctx.textAlign = "left";
+ctx.fillText(
+    "Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",
+    100,
+    110 + mscnt * 40
+);
+ctx.fillText("Measure", 0, 120 + mscnt * 40);
+ctx.fillText("Major", 50, 110 + mscnt * 40);
+ctx.fillText("Scale", 50, 120 + mscnt * 40);
+
+ctx.textAlign = "right";
+ctx.fillText("Major 1st+5th", 220, 120 + mscnt * 40);
+ctx.fillText("Minor 1st+5th", 480, 120 + mscnt * 40);
+ctx.fillText("Major", 520, 120 + mscnt * 40);
+ctx.fillText("Minor", 680, 120 + mscnt * 40);
+ctx.textAlign = "left";
+ctx.fillText("Estimated Key", 700, 120 + mscnt * 40);
+
 let row = 0;
 
 for (let i = 0; i < mscnt; i++) {
@@ -13088,6 +13108,45 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			50,
 			ry
 		);
+
+        // Selected key for this pair
+        const selectedNames = measurePc[i].keyPoints
+            .map(k => k[0]);
+
+        let pairKey = "";
+
+        if (measurePc[i].inheritedFromPrevious) {
+            // Show only the previous measure's estimated key.
+            if (pair === measurePc[i].pairs[0]) {
+                const previous = measurePc[i - 1];
+                if (previous?.estKey) {
+                    const key = previous.estKey.split(" / ")[0];
+                    pairKey = key.endsWith("m") && previous.estScaleType
+                        ? key + "(" + previous.estScaleType + ")"
+                        : key;
+                }
+            }
+        } else {
+            pairKey = pair.selected
+                .filter(k =>
+                    k.point > 0 &&
+                    selectedNames.includes(k.key.name)
+                )
+                .map(k => {
+                    const name = k.key.name;
+                    if (k.key.mode !== "minor") {
+                        return name;
+                    }
+                    const type = measurePc[i].scale[k.key.root][2];
+                    return name + "(" + type + ")";
+                })
+                .filter((name, index, array) =>
+                    array.indexOf(name) === index
+                )
+                .join(" / ");
+        }
+
+        ctx.fillText(pairKey, 710, ry);
 
 		// ===== Major 左側 =====
 		ctx.textAlign = "right";		
@@ -14007,6 +14066,7 @@ ctx.lineWidth = 1;
     const rowPointStart = perMeasureSummaryTop + 40 + 10 * row;
 
     ctx.fillStyle = "black";
+    ctx.fillText("Estimated Key", 300, rowPointStart);
     ctx.fillText(val("song1"), 300, rowPointStart + 10);
     ctx.fillText(
         "The First and Last Effective Measures Have Double Weight.",
@@ -14020,6 +14080,7 @@ ctx.lineWidth = 1;
     );
 
     ctx.textAlign = "right";
+    ctx.fillText("Estimated Key", 70, rowPointStart);
     ctx.fillText("Votes", 180, rowPointStart);
 
     const maxWholeSongScore = measurePc.estKeyPoints[0]?.[1] ?? 0;
