@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr30
+demr31
 </title>
 <style>
 
@@ -13610,13 +13610,16 @@ for (let i = 0; i < mscnt; i++) {
             }
         }
 
-        const tonicFifthCount =
-            current.pc[root] + current.pc[(root + 7) % 12];
+        const tonicCount = current.pc[root];
+        const fifthCount = current.pc[(root + 7) % 12];
+        const tonicFifthCount = tonicCount + fifthCount;
         const scaleRatio = scaleCount / totalNotes; // O
         const scaleCoverageCount =
             getScaleCoverageCount(notes, root, 'major', null);
         const scaleCoverageRatio = scaleCoverageCount / 7; // S
-        const tonicFifthRatio = tonicFifthCount / totalNotes; // T
+        const tonicRatio = tonicCount / totalNotes; // T1
+        const fifthRatio = fifthCount / totalNotes; // T5
+        const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
 
         candidates.push({
             id: `major:${root}`,
@@ -13628,7 +13631,11 @@ for (let i = 0; i < mscnt; i++) {
             scaleRatio,
             scaleCoverageCount,
             scaleCoverageRatio,
+            tonicCount,
+            fifthCount,
             tonicFifthCount,
+            tonicRatio,
+            fifthRatio,
             tonicFifthRatio
         });
     }
@@ -13661,13 +13668,16 @@ for (let i = 0; i < mscnt; i++) {
                 }
             }
 
-            const tonicFifthCount =
-                current.pc[root] + current.pc[(root + 7) % 12];
+            const tonicCount = current.pc[root];
+            const fifthCount = current.pc[(root + 7) % 12];
+            const tonicFifthCount = tonicCount + fifthCount;
             const scaleRatio = scaleCount / totalNotes; // O
             const scaleCoverageCount =
                 getScaleCoverageCount(notes, root, 'minor', scaleType);
             const scaleCoverageRatio = scaleCoverageCount / 7; // S
-            const tonicFifthRatio = tonicFifthCount / totalNotes; // T
+            const tonicRatio = tonicCount / totalNotes; // T1
+            const fifthRatio = fifthCount / totalNotes; // T5
+            const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
             const baseName = engMnr1[root] + 'm';
 
             candidates.push({
@@ -13953,7 +13963,7 @@ ctx.fillStyle = 'white';
 ctx.fillRect(
     0,
     perMeasureTableTop,
-    700,
+    900,
     Math.max(0, perMeasureSummaryTop - perMeasureTableTop)
 );
 
@@ -13970,10 +13980,12 @@ ctx.fillText(
 ctx.fillText('Measure', 10, perMeasureTableTop + 42);
 ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
 ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
-ctx.fillText('S (%)', 430, perMeasureTableTop + 42);
-ctx.fillText('O (%)', 510, perMeasureTableTop + 42);
-ctx.fillText('T (%)', 590, perMeasureTableTop + 42);
-ctx.fillText('Result', 660, perMeasureTableTop + 42);
+ctx.fillText('S (%)', 390, perMeasureTableTop + 42);
+ctx.fillText('O (%)', 460, perMeasureTableTop + 42);
+ctx.fillText('T1 (%)', 530, perMeasureTableTop + 42);
+ctx.fillText('T5 (%)', 600, perMeasureTableTop + 42);
+ctx.fillText('T (%)', 670, perMeasureTableTop + 42);
+ctx.fillText('Result', 750, perMeasureTableTop + 42);
 
 for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const row = candidateRows[rowIndex];
@@ -13987,20 +13999,30 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     ctx.fillText(row.parallelKey, 260, y);
     ctx.fillText(
         (candidate.scaleCoverageRatio * 100).toFixed(2),
-        430,
+        390,
         y
     );
     ctx.fillText(
         (candidate.scaleRatio * 100).toFixed(2),
-        510,
+        460,
+        y
+    );
+    ctx.fillText(
+        (candidate.tonicRatio * 100).toFixed(2),
+        530,
+        y
+    );
+    ctx.fillText(
+        (candidate.fifthRatio * 100).toFixed(2),
+        600,
         y
     );
     ctx.fillText(
         (candidate.tonicFifthRatio * 100).toFixed(2),
-        590,
+        670,
         y
     );
-    ctx.fillText(row.isSelected ? 'Selected' : '', 660, y);
+    ctx.fillText(row.isSelected ? 'Selected' : '', 750, y);
 }
 
 ctx.font = previousFont;
@@ -14012,7 +14034,9 @@ const explanationLines = [
     'Key Estimation Process',
     'S = Scale coverage: distinct scale degrees present / 7 × 100.',
     'O = In-scale note ratio: notes in the candidate scale / all notes × 100.',
-    'T = 1st + 5th ratio: 1st- and 5th-degree notes / all notes × 100.',
+    'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
+    'T5 = fifth ratio: 5th-degree notes / all notes × 100.',
+    'T = T1 + T5: combined 1st- and 5th-degree ratio.',
     '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
     '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
     '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
@@ -14228,7 +14252,6 @@ ctx.lineWidth = 1;
 
 // Match the page's scrollable area to the enlarged key-estimation canvas.
 $("htmlArea").style.height = canvas.height + "px";
-
 
 function darkenColor(color, factor) {
 
