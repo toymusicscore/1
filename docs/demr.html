@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr24
+demr25
 </title>
 <style>
 
@@ -12690,19 +12690,8 @@ for (let i = 11; i <= 12; i++) {
 
  ctx.textAlign = "left";
 
-// Draw separator lines between measures
-ctx.beginPath();
-ctx.strokeStyle = "#666";
-ctx.lineWidth = 1;
-
-for (let i = 1; i < mscnt; i++) {
-    const y = 90 + mscnt * 10 + 30 * i;
-    ctx.moveTo(100, y);
-    ctx.lineTo(700, y);
-}
-
-ctx.stroke();
-ctx.lineWidth = 1;
+// Measure separator lines are drawn after the M-row values below,
+// so that each line appears in the gap between complete N/H/M groups.
 
  /*
 //========================================================
@@ -13813,13 +13802,26 @@ for (let i = 0; i < mscnt; i++) {
         const percentage = mCount / current.count * 100;
         const x = 145 + 50 * majorRoot;
 
+        // Clear the full score cell before redrawing to avoid tiny remnants
+        // appearing immediately after the numeric value.
         ctx.fillStyle = 'white';
-        ctx.fillRect(x - 45, mRowY - 9, 48, 10);
+        ctx.fillRect(x - 48, mRowY - 10, 50, 12);
         ctx.fillStyle = 'black';
         ctx.textAlign = 'right';
         ctx.fillText(percentage.toFixed(2), x, mRowY);
     }
     ctx.textAlign = 'left';
+
+    // Draw a horizontal separator in the gap after this measure's N/H/M rows.
+    if (i < mscnt - 1) {
+        const separatorY = mRowY + 5;
+        ctx.beginPath();
+        ctx.strokeStyle = '#999';
+        ctx.lineWidth = 1;
+        ctx.moveTo(20, separatorY);
+        ctx.lineTo(700, separatorY);
+        ctx.stroke();
+    }
 
     const primary = current.selectedCandidates[0];
     estimatedMeasureKeys[i] = {
