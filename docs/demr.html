@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr27
+demr28
 </title>
 <style>
 
@@ -12459,7 +12459,7 @@ ctx.fillText("Count",50,90+mscnt*10);
 ctx.fillText("Estimated Key",700,90+mscnt*10);
 
 for (let i = 0; i < mscnt; i++) {
-    const y = 100 + mscnt * 10 + 38 * i;
+    const y = 100 + mscnt * 10 + 46 * i;
 
     ctx.fillStyle = "black";
     ctx.fillText(i + 1, i + 1 >= 10 ? 0 : 5, y);
@@ -12500,11 +12500,11 @@ for (let i = 0; i < mscnt; i++) {
     }
 	if (measurePc[i].count >= 10){
 	    ctx.fillText(measurePc[i].count, 50, 50 + 10 * i);
-	    ctx.fillText(measurePc[i].count, 50, 100 + mscnt * 10 + 38 * i);
+	    ctx.fillText(measurePc[i].count, 50, 100 + mscnt * 10 + 46 * i);
         
 	}else {
 	    ctx.fillText(measurePc[i].count, 55, 50 + 10 * i);
-	    ctx.fillText(measurePc[i].count, 55, 100 + mscnt * 10 + 38 * i);
+	    ctx.fillText(measurePc[i].count, 55, 100 + mscnt * 10 + 46 * i);
 	}
 }
 
@@ -12629,7 +12629,7 @@ for (let i = 11; i <= 12; i++) {
 
      if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-     const baseY = 90 + mscnt * 10 + 38 * i;
+     const baseY = 90 + mscnt * 10 + 46 * i;
 
      // Calculate scores for all 12 major scales
      const majorScores = [];
@@ -12761,17 +12761,17 @@ ctx.textAlign = "left";
 ctx.fillText(
     "Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",
     100,
-    110 + mscnt * 40
+    110 + mscnt * 48
 );
-ctx.fillText("Measure", 0, 120 + mscnt * 40);
+ctx.fillText("Measure", 0, 120 + mscnt * 48);
 
 ctx.textAlign = "right";
-ctx.fillText("Major 1st+5th", 220, 120 + mscnt * 40);
-ctx.fillText("Minor 1st+5th", 480, 120 + mscnt * 40);
-ctx.fillText("Major", 520, 120 + mscnt * 40);
-ctx.fillText("Minor", 680, 120 + mscnt * 40);
+ctx.fillText("Major 1st+5th", 220, 120 + mscnt * 48);
+ctx.fillText("Minor 1st+5th", 480, 120 + mscnt * 48);
+ctx.fillText("Major", 520, 120 + mscnt * 48);
+ctx.fillText("Minor", 680, 120 + mscnt * 48);
 ctx.textAlign = "left";
-ctx.fillText("Estimated Key", 700, 120 + mscnt * 40);
+ctx.fillText("Estimated Key", 700, 120 + mscnt * 48);
 
 let row = 0;
 
@@ -13069,7 +13069,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
     ctx.fillText(
         displayKey,
         710,
-        90 + mscnt * 10 + 38 * i + 10 * rowIndex + 8
+        90 + mscnt * 10 + 46 * i + 10 * rowIndex + 8
     );
 
     estimatedMeasureLabelTypes[i] =
@@ -13082,7 +13082,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		const majorKey = pair.major;
 		const minorKey = pair.minor;
 
-		const y = 120 + mscnt * 40 + 10 * row;
+		const y = 120 + mscnt * 48 + 10 * row;
 		const ry = y + 10;
 
 		ctx.textAlign = "right";		
@@ -13328,7 +13328,7 @@ for (let i = 0; i < measurePc.length; i++) {
 
     ctx.fillStyle = "white";
     ctx.fillRect(700, 41 + 10 * i, 400, 10);
-    ctx.fillRect(700, 91 + mscnt * 10 + 38 * i, 400, 30);
+    ctx.fillRect(700, 91 + mscnt * 10 + 46 * i, 400, 30);
 
     ctx.fillStyle = "black";
     ctx.textAlign = "left";
@@ -13337,7 +13337,7 @@ for (let i = 0; i < measurePc.length; i++) {
     ctx.fillText(
         displayKey,
         710,
-        100 + mscnt * 10 + 38 * i + 10
+        100 + mscnt * 10 + 46 * i + 10
     );
 }
 
@@ -13579,7 +13579,7 @@ for (let i = 0; i < mscnt; i++) {
             ctx.fillRect(700, 41 + 10 * i, 500, 10);
             ctx.fillRect(
                 700,
-                91 + mscnt * 10 + 38 * i,
+                91 + mscnt * 10 + 46 * i,
                 500,
                 30
             );
@@ -13588,7 +13588,7 @@ for (let i = 0; i < mscnt; i++) {
             ctx.fillText(
                 inheritedDisplay,
                 710,
-                100 + mscnt * 10 + 38 * i + 10
+                100 + mscnt * 10 + 46 * i + 10
             );
         }
         continue;
@@ -13821,7 +13821,7 @@ for (let i = 0; i < mscnt; i++) {
     ]);
 
     // Redraw the M row with direction-aware scale membership values.
-    const mRowY = 90 + mscnt * 10 + 38 * i + 30;
+    const mRowY = 90 + mscnt * 10 + 46 * i + 30;
     for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
         const minorRoot = (majorRoot + 9) % 12;
         const mCount = current.scale[minorRoot][3].scaleMemberM;
@@ -13869,7 +13869,7 @@ for (let i = 0; i < mscnt; i++) {
     ctx.fillRect(700, 41 + 10 * i, 500, 10);
     ctx.fillRect(
         700,
-        91 + mscnt * 10 + 38 * i,
+        91 + mscnt * 10 + 46 * i,
         500,
         30
     );
@@ -13880,7 +13880,7 @@ for (let i = 0; i < mscnt; i++) {
     ctx.fillText(
         displayKey,
         710,
-        100 + mscnt * 10 + 38 * i + 10
+        100 + mscnt * 10 + 46 * i + 10
     );
 }
 
@@ -13902,7 +13902,7 @@ for (let i = 0; i < mscnt; i++) {
             })
             .map(candidate => candidate.label);
 
-        const y = 120 + mscnt * 40 + 8 * mscnt + 10 * part3RowIndex;
+        const y = 120 + mscnt * 48 + 8 * mscnt + 10 * part3RowIndex;
         ctx.fillStyle = 'white';
         ctx.fillRect(700, y, 500, 12);
         ctx.fillStyle = 'black';
@@ -13918,7 +13918,7 @@ for (let i = 0; i < mscnt; i++) {
 
 // Show every selected candidate on its own row with independent S, O, and T.
 // Place Part 3 below all rows drawn in Part 2.
-const perMeasureTableTop = 150 + mscnt * 40 + 8 * mscnt + 10 * row;
+const perMeasureTableTop = 150 + mscnt * 48 + 10 * row;
 const tableRowHeight = 22;
 const tableHeaderHeight = 58;
 
@@ -14071,7 +14071,7 @@ for (let i = 0; i < mscnt; i++) {
         continue;
     }
 
-    const baseY = 91 + mscnt * 10 + 38 * i;
+    const baseY = 91 + mscnt * 10 + 46 * i;
 
     ctx.strokeStyle = workingColor.pc[majorRoot];
     ctx.lineWidth = 1;
