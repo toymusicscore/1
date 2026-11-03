@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr33
+demr34
 </title>
 <style>
 
@@ -12766,6 +12766,7 @@ ctx.fillText(
     part3BaseY
 );
 ctx.fillText("Measure", 0, part3BaseY + 10);
+ctx.fillText("Candidate key pair", 90, part3BaseY + 10);
 
 ctx.textAlign = "right";
 ctx.fillText("Major 1st+5th", 220, part3BaseY + 10);
@@ -13088,12 +13089,18 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		const ry = y + 10;
 
 		ctx.textAlign = "right";		
-		// 小節番号（最初のペアだけ表示）
-		if (pair === measurePc[i].pairs[0]) {	
+		// Measure number (shown only for the first pair).
+		if (pair === measurePc[i].pairs[0]) {
 			ctx.fillText(i + 1, 10, ry);
 		}
 
-		// Major scale name display removed.
+        // Show the major key / relative minor pair in Part 3's second column.
+        ctx.textAlign = "left";
+        ctx.fillText(
+            pair.major.name + " / " + pair.minor.name,
+            90,
+            ry
+        );
 
         // Selected key for this pair
         const selectedNames = measurePc[i].keyPoints
@@ -13979,16 +13986,17 @@ ctx.fillStyle = 'black';
 ctx.textAlign = 'left';
 
 ctx.fillText(
-    'Per-measure key evaluation: compared candidates and relative keys',
+    'Per-measure key evaluation: candidate keys and relative keys',
     10,
     perMeasureTableTop + 18
 );
 ctx.fillText('Measure', 10, perMeasureTableTop + 42);
-ctx.fillText('Candidate key (Major / Relative minor)', 90, perMeasureTableTop + 42);
-ctx.fillText('S (%)', 350, perMeasureTableTop + 42);
-ctx.fillText('O (%)', 430, perMeasureTableTop + 42);
-ctx.fillText('T1 (%)', 510, perMeasureTableTop + 42);
-ctx.fillText('T5 (%)', 590, perMeasureTableTop + 42);
+ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
+ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
+ctx.fillText('S (%)', 390, perMeasureTableTop + 42);
+ctx.fillText('O (%)', 460, perMeasureTableTop + 42);
+ctx.fillText('T1 (%)', 530, perMeasureTableTop + 42);
+ctx.fillText('T5 (%)', 600, perMeasureTableTop + 42);
 ctx.fillText('T (%)', 670, perMeasureTableTop + 42);
 ctx.fillText('Result', 750, perMeasureTableTop + 42);
 
@@ -14007,10 +14015,11 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
         engf1[majorRoot] + 'M / ' + engMnr1[minorRoot] + 'm';
 
     ctx.fillText(String(row.measure), 10, y);
-    ctx.fillText(candidatePairLabel, 90, y);
+    ctx.fillText(candidate.label, 90, y);
+    ctx.fillText(row.parallelKey, 260, y);
     ctx.fillText(
         (candidate.scaleCoverageRatio * 100).toFixed(2),
-        350,
+        390,
         y
     );
     ctx.fillText(
