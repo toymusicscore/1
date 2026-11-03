@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr25
+demr26
 </title>
 <style>
 
@@ -12459,7 +12459,7 @@ ctx.fillText("Count",50,90+mscnt*10);
 ctx.fillText("Estimated Key",700,90+mscnt*10);
 
 for (let i = 0; i < mscnt; i++) {
-    const y = 100 + mscnt * 10 + 30 * i;
+    const y = 100 + mscnt * 10 + 38 * i;
 
     ctx.fillStyle = "black";
     ctx.fillText(i + 1, i + 1 >= 10 ? 0 : 5, y);
@@ -12500,11 +12500,11 @@ for (let i = 0; i < mscnt; i++) {
     }
 	if (measurePc[i].count >= 10){
 	    ctx.fillText(measurePc[i].count, 50, 50 + 10 * i);
-	    ctx.fillText(measurePc[i].count, 50, 100 + mscnt * 10 + 30 * i);
+	    ctx.fillText(measurePc[i].count, 50, 100 + mscnt * 10 + 38 * i);
         
 	}else {
 	    ctx.fillText(measurePc[i].count, 55, 50 + 10 * i);
-	    ctx.fillText(measurePc[i].count, 55, 100 + mscnt * 10 + 30 * i);
+	    ctx.fillText(measurePc[i].count, 55, 100 + mscnt * 10 + 38 * i);
 	}
 }
 
@@ -12629,7 +12629,7 @@ for (let i = 11; i <= 12; i++) {
 
      if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-     const baseY = 90 + mscnt * 10 + 30 * i;
+     const baseY = 90 + mscnt * 10 + 38 * i;
 
      // Calculate scores for all 12 major scales
      const majorScores = [];
@@ -13069,7 +13069,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
     ctx.fillText(
         displayKey,
         710,
-        90 + mscnt * 10 + 30 * i + 10 * rowIndex + 8
+        90 + mscnt * 10 + 38 * i + 10 * rowIndex + 8
     );
 
     estimatedMeasureLabelTypes[i] =
@@ -13224,7 +13224,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
         const estimatedKeys = measurePc[i].estKey.split(" / ");
 
-        if (majorMinorDiff > 0 && estimatedKeys.includes(pair.major.name)) {
+        if (majorMinorDiff > 0) {
 
             // Major優勢
             ctx.fillStyle = workingColor.pc[majorKey.root];
@@ -13249,7 +13249,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
                 majorMinorDiff
             ]);
                     
-        }else if (majorMinorDiff < 0 && estimatedKeys.includes(pair.minor.name)) {
+        } else if (majorMinorDiff < 0) {
 
             // Minor優勢
             ctx.fillStyle = workingColor.pc[minorKey.root];
@@ -13328,7 +13328,7 @@ for (let i = 0; i < measurePc.length; i++) {
 
     ctx.fillStyle = "white";
     ctx.fillRect(700, 41 + 10 * i, 400, 10);
-    ctx.fillRect(700, 91 + mscnt * 10 + 30 * i, 400, 30);
+    ctx.fillRect(700, 91 + mscnt * 10 + 38 * i, 400, 30);
 
     ctx.fillStyle = "black";
     ctx.textAlign = "left";
@@ -13337,7 +13337,7 @@ for (let i = 0; i < measurePc.length; i++) {
     ctx.fillText(
         displayKey,
         710,
-        100 + mscnt * 10 + 30 * i + 10
+        100 + mscnt * 10 + 38 * i + 10
     );
 }
 
@@ -13579,7 +13579,7 @@ for (let i = 0; i < mscnt; i++) {
             ctx.fillRect(700, 41 + 10 * i, 500, 10);
             ctx.fillRect(
                 700,
-                91 + mscnt * 10 + 30 * i,
+                91 + mscnt * 10 + 38 * i,
                 500,
                 30
             );
@@ -13588,7 +13588,7 @@ for (let i = 0; i < mscnt; i++) {
             ctx.fillText(
                 inheritedDisplay,
                 710,
-                100 + mscnt * 10 + 30 * i + 10
+                100 + mscnt * 10 + 38 * i + 10
             );
         }
         continue;
@@ -13767,6 +13767,32 @@ for (let i = 0; i < mscnt; i++) {
         current.evaluationCandidates = selectedCandidates;
     }
 
+    // Keep the CM / Am(N) comparison visible in Part 3 as a reference pair,
+    // even when another candidate wins the full O/S/T evaluation.
+    const cmReference = eligibleCandidates.find(candidate =>
+        candidate.mode === 'major' && candidate.root === 0
+    );
+    const amReference = eligibleCandidates.find(candidate =>
+        candidate.mode === 'minor' && candidate.root === 9 && candidate.scaleType === 'N'
+    );
+    current.evaluationCandidates = [
+        ...(current.evaluationCandidates || []),
+        cmReference,
+        amReference
+    ].filter(Boolean).filter((candidate, index, array) =>
+        array.findIndex(item => item.id === candidate.id) === index
+    );
+
+    // If an unusual or incomplete measure produced no winner, use the direct
+    // CM / Am(N) 1st + 5th comparison so Estimated Key is never left blank.
+    if (selectedCandidates.length === 0 && cmReference && amReference) {
+        selectedCandidates = [
+            cmReference.tonicFifthRatio >= amReference.tonicFifthRatio
+                ? cmReference
+                : amReference
+        ];
+    }
+
     // Remove duplicate entries while preserving different N/H/M labels.
     current.selectedCandidates = selectedCandidates.filter((candidate, index, array) =>
         array.findIndex(item =>
@@ -13795,7 +13821,7 @@ for (let i = 0; i < mscnt; i++) {
     ]);
 
     // Redraw the M row with direction-aware scale membership values.
-    const mRowY = 90 + mscnt * 10 + 30 * i + 30;
+    const mRowY = 90 + mscnt * 10 + 38 * i + 30;
     for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
         const minorRoot = (majorRoot + 9) % 12;
         const mCount = current.scale[minorRoot][3].scaleMemberM;
@@ -13814,7 +13840,7 @@ for (let i = 0; i < mscnt; i++) {
 
     // Draw a horizontal separator in the gap after this measure's N/H/M rows.
     if (i < mscnt - 1) {
-        const separatorY = mRowY + 5;
+        const separatorY = mRowY + 8;
         ctx.beginPath();
         ctx.strokeStyle = '#999';
         ctx.lineWidth = 1;
@@ -13824,6 +13850,7 @@ for (let i = 0; i < mscnt; i++) {
     }
 
     const primary = current.selectedCandidates[0];
+    if (!primary) continue;
     estimatedMeasureKeys[i] = {
         estKey: primary.baseName,
         estScaleType: primary.scaleType,
@@ -13842,7 +13869,7 @@ for (let i = 0; i < mscnt; i++) {
     ctx.fillRect(700, 41 + 10 * i, 500, 10);
     ctx.fillRect(
         700,
-        91 + mscnt * 10 + 30 * i,
+        91 + mscnt * 10 + 38 * i,
         500,
         30
     );
@@ -13853,8 +13880,40 @@ for (let i = 0; i < mscnt; i++) {
     ctx.fillText(
         displayKey,
         710,
-        100 + mscnt * 10 + 30 * i + 10
+        100 + mscnt * 10 + 38 * i + 10
     );
+}
+
+// Refresh the Estimated Key column in the Part 3 comparison rows.
+// The earlier drawing pass used the previous keyPoints array, so it could
+// leave this column blank after the newer O/S/T evaluation was applied.
+let part3RowIndex = 0;
+for (let i = 0; i < mscnt; i++) {
+    const current = measurePc[i];
+    if (!current || current.count === 0) continue;
+
+    for (const pair of (current.pairs || [])) {
+        const matchingKeys = (current.selectedCandidates || [])
+            .filter(candidate => {
+                const relativeMinorRoot = candidate.mode === 'major'
+                    ? (candidate.root + 9) % 12
+                    : candidate.root;
+                return relativeMinorRoot === pair.minor.root;
+            })
+            .map(candidate => candidate.label);
+
+        const y = 120 + mscnt * 40 + 10 * part3RowIndex;
+        ctx.fillStyle = 'white';
+        ctx.fillRect(700, y, 500, 12);
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'left';
+        ctx.fillText(
+            [...new Set(matchingKeys)].join(' / '),
+            710,
+            y + 10
+        );
+        part3RowIndex++;
+    }
 }
 
 // Show every selected candidate on its own row with independent S, O, and T.
@@ -14012,7 +14071,7 @@ for (let i = 0; i < mscnt; i++) {
         continue;
     }
 
-    const baseY = 91 + mscnt * 10 + 30 * i;
+    const baseY = 91 + mscnt * 10 + 38 * i;
 
     ctx.strokeStyle = workingColor.pc[majorRoot];
     ctx.lineWidth = 1;
