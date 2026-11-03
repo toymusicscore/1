@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr31
+demr32
 </title>
 <style>
 
@@ -13978,12 +13978,11 @@ ctx.fillText(
     perMeasureTableTop + 18
 );
 ctx.fillText('Measure', 10, perMeasureTableTop + 42);
-ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
-ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
-ctx.fillText('S (%)', 390, perMeasureTableTop + 42);
-ctx.fillText('O (%)', 460, perMeasureTableTop + 42);
-ctx.fillText('T1 (%)', 530, perMeasureTableTop + 42);
-ctx.fillText('T5 (%)', 600, perMeasureTableTop + 42);
+ctx.fillText('Candidate key / Relative minor', 90, perMeasureTableTop + 42);
+ctx.fillText('S (%)', 350, perMeasureTableTop + 42);
+ctx.fillText('O (%)', 430, perMeasureTableTop + 42);
+ctx.fillText('T1 (%)', 510, perMeasureTableTop + 42);
+ctx.fillText('T5 (%)', 590, perMeasureTableTop + 42);
 ctx.fillText('T (%)', 670, perMeasureTableTop + 42);
 ctx.fillText('Result', 750, perMeasureTableTop + 42);
 
@@ -13994,27 +13993,33 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
         perMeasureTableTop + tableHeaderHeight +
         tableRowHeight * rowIndex;
 
+    const majorRoot = candidate.mode === 'major'
+        ? candidate.root
+        : (candidate.root + 3) % 12;
+    const minorRoot = (majorRoot + 9) % 12;
+    const candidatePairLabel =
+        engf1[majorRoot] + 'M / ' + engMnr1[minorRoot] + 'm';
+
     ctx.fillText(String(row.measure), 10, y);
-    ctx.fillText(candidate.label, 90, y);
-    ctx.fillText(row.parallelKey, 260, y);
+    ctx.fillText(candidatePairLabel, 90, y);
     ctx.fillText(
         (candidate.scaleCoverageRatio * 100).toFixed(2),
-        390,
+        350,
         y
     );
     ctx.fillText(
         (candidate.scaleRatio * 100).toFixed(2),
-        460,
+        430,
         y
     );
     ctx.fillText(
         (candidate.tonicRatio * 100).toFixed(2),
-        530,
+        510,
         y
     );
     ctx.fillText(
         (candidate.fifthRatio * 100).toFixed(2),
-        600,
+        590,
         y
     );
     ctx.fillText(
@@ -14079,63 +14084,49 @@ for (const line of explanationLines) {
 ctx.font = explanationFont;
 const explanationHeight = wrappedExplanationLines.length * explanationLineHeight + 12;
 
-// Highlight the selected scale type in Part 2
+// Highlight every selected candidate in Part 2, including all tied keys.
 for (let i = 0; i < mscnt; i++) {
 
-    const selected = estimatedMeasureKeys[i];
+    const selectedCandidates = measurePc[i]?.selectedCandidates || [];
+    const highlightedCells = new Set();
 
-    if (!selected || !selected.estKey) {
-        continue;
-    }
+    for (const candidate of selectedCandidates) {
+        let majorRoot;
+        let rowIndex;
 
-    let majorRoot;
-    let rowIndex;
-
-    if (selected.estKey.endsWith("M")) {
-
-        // Major key: highlight Natural Minor (N)
-        // at the relative minor's column.
-        const tonic = selected.estKey.slice(0, -1);
-
-        majorRoot = engf1.indexOf(tonic);
-
-        if (majorRoot < 0) {
-            majorRoot = engs1.indexOf(tonic);
+        if (candidate.mode === 'major') {
+            // A major candidate is shown in the N row of its own column.
+            majorRoot = candidate.root;
+            rowIndex = 0;
+        } else {
+            // A minor candidate is shown in the row for its N/H/M type
+            // under its relative-major column.
+            majorRoot = (candidate.root + 3) % 12;
+            rowIndex = ['N', 'H', 'M'].indexOf(candidate.scaleType);
         }
 
-        rowIndex = 0; // N
-
-    } else {
-
-        // Minor key: use its relative major column.
         if (
-            selected.rootPc == null ||
-            !["N", "H", "M"].includes(selected.estScaleType)
+            majorRoot < 0 || majorRoot > 11 ||
+            rowIndex < 0 || rowIndex > 2
         ) {
             continue;
         }
 
-        majorRoot = (selected.rootPc + 3) % 12;
+        const cellKey = majorRoot + ':' + rowIndex;
+        if (highlightedCells.has(cellKey)) continue;
+        highlightedCells.add(cellKey);
 
-        rowIndex = ["N", "H", "M"]
-            .indexOf(selected.estScaleType);
+        const baseY = 91 + mscnt * 10 + 46 * i;
+
+        ctx.strokeStyle = workingColor.pc[majorRoot];
+        ctx.lineWidth = 1;
+        ctx.strokeRect(
+            100 + 50 * majorRoot,
+            baseY + 10 * rowIndex,
+            50,
+            10
+        );
     }
-
-    if (majorRoot < 0 || majorRoot > 11) {
-        continue;
-    }
-
-    const baseY = 91 + mscnt * 10 + 46 * i;
-
-    ctx.strokeStyle = workingColor.pc[majorRoot];
-    ctx.lineWidth = 1;
-
-    ctx.strokeRect(
-        100 + 50 * majorRoot,
-        baseY + 10 * rowIndex,
-        50,
-        10
-    );
 }
 
 ctx.lineWidth = 1;
