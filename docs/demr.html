@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr28
+demr29
 </title>
 <style>
 
@@ -14023,7 +14023,37 @@ const explanationLines = [
     'If multiple keys are selected for a measure, its vote is divided equally among them.',
     'N, H, and M forms of the same minor tonic are combined. Inherited measures vote normally.'
 ];
-const explanationHeight = explanationLines.length * explanationLineHeight + 12;
+// Wrap long explanation sentences so they remain fully visible within the canvas.
+const explanationFont = ctx.font;
+ctx.font = '13px Arial';
+const explanationMaxWidth = 1220;
+const wrappedExplanationLines = [];
+
+for (const line of explanationLines) {
+    if (line === 'Key Estimation Process' || line === 'Whole-song estimation') {
+        wrappedExplanationLines.push(line);
+        continue;
+    }
+
+    const words = line.split(' ');
+    let wrappedLine = '';
+
+    for (const word of words) {
+        const testLine = wrappedLine ? wrappedLine + ' ' + word : word;
+
+        if (wrappedLine && ctx.measureText(testLine).width > explanationMaxWidth) {
+            wrappedExplanationLines.push(wrappedLine);
+            wrappedLine = word;
+        } else {
+            wrappedLine = testLine;
+        }
+    }
+
+    if (wrappedLine) wrappedExplanationLines.push(wrappedLine);
+}
+
+ctx.font = explanationFont;
+const explanationHeight = wrappedExplanationLines.length * explanationLineHeight + 12;
 
 // Highlight the selected scale type in Part 2
 for (let i = 0; i < mscnt; i++) {
@@ -14185,9 +14215,9 @@ ctx.lineWidth = 1;
     ctx.font = '13px Arial';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
-    for (let lineIndex = 0; lineIndex < explanationLines.length; lineIndex++) {
+    for (let lineIndex = 0; lineIndex < wrappedExplanationLines.length; lineIndex++) {
         ctx.fillText(
-            explanationLines[lineIndex],
+            wrappedExplanationLines[lineIndex],
             10,
             explanationTop + explanationLineHeight * (lineIndex + 1)
         );
