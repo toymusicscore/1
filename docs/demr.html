@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr23
+demr24
 </title>
 <style>
 
@@ -12451,7 +12451,7 @@ for (const note of scoreData) {
 }
 
 ctx.fillStyle="black";
-ctx.fillText("Proportions of keys and the best key candidates in time windows",100,60+mscnt*10);
+ctx.fillText("Proportions of keys and the best relative keys in time windows",100,60+mscnt*10);
 ctx.fillText("Major",50,70+mscnt*10);
 ctx.fillText("Minor",50,80+mscnt*10);
 ctx.fillText("Measure",0,90+mscnt*10);
@@ -12651,8 +12651,6 @@ for (let i = 11; i <= 12; i++) {
 
      const maxMajorScore = Math.max(...majorScores);
 
-     // Part 3 uses the relative major/minor pair as the row label below.
-
      const rowTypes = ["N", "H", "M"];
 
      for (let r = 0; r < 3; r++) {
@@ -12772,15 +12770,15 @@ ctx.lineWidth = 1;
 ctx.fillStyle = "black";
 ctx.textAlign = "left";
 ctx.fillText(
-    "Comparing total proportions of the 1st + 5th degree notes of the best key candidates",
+    "Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",
     100,
     110 + mscnt * 40
 );
 ctx.fillText("Measure", 0, 120 + mscnt * 40);
 
 ctx.textAlign = "right";
-ctx.fillText("Major 1st + 5th", 220, 120 + mscnt * 40);
-ctx.fillText("Minor 1st + 5th", 480, 120 + mscnt * 40);
+ctx.fillText("Major 1st+5th", 220, 120 + mscnt * 40);
+ctx.fillText("Minor 1st+5th", 480, 120 + mscnt * 40);
 ctx.fillText("Major", 520, 120 + mscnt * 40);
 ctx.fillText("Minor", 680, 120 + mscnt * 40);
 ctx.textAlign = "left";
@@ -13104,14 +13102,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			ctx.fillText(i + 1, 10, ry);
 		}
 
-        // Relative major/minor pair label in the second column.
-        ctx.textAlign = "left";
-        ctx.fillStyle = "black";
-        ctx.fillText(
-            engf1[majorKey.root] + "M / " + engf1[minorKey.root] + "m",
-            38,
-            ry
-        );
+		// Major scale name display removed.
 
         // Selected key for this pair
         const selectedNames = measurePc[i].keyPoints
@@ -13716,21 +13707,15 @@ for (let i = 0; i < mscnt; i++) {
     // The current key-selection procedure below is retained provisionally.
     current.allCandidateScores = candidates;
 
-    // Check every measure against the fixed C-major pitch collection first.
-    // CM must remain excluded from all later comparisons when an outside note exists.
+    // Check whether the measure contains any note outside the fixed C-major collection.
+    // This flag determines the comparison procedure only; it never excludes a key.
     const cmPitchClasses = new Set([0, 2, 4, 5, 7, 9, 11]);
     current.hasNonCMScaleNote = notes.some(note =>
         !cmPitchClasses.has(((note.midi % 12) + 12) % 12)
     );
 
-    // If any note is outside the fixed C-major collection, exclude both
-    // C major and A natural minor before evaluating the remaining candidates.
-    const eligibleCandidates = current.hasNonCMScaleNote
-        ? candidates.filter(candidate => !(
-            (candidate.mode === 'major' && candidate.root === 0) ||
-            (candidate.mode === 'minor' && candidate.root === 9 && candidate.scaleType === 'N')
-        ))
-        : candidates;
+    // Keep every candidate, including CM and Am(N), in the evaluation.
+    const eligibleCandidates = candidates;
 
     let selectedCandidates = [];
 
@@ -13917,13 +13902,13 @@ ctx.fillStyle = 'black';
 ctx.textAlign = 'left';
 
 ctx.fillText(
-    'Per-measure key evaluation: comparison of key candidates',
+    'Per-measure key evaluation: compared candidates and relative keys',
     10,
     perMeasureTableTop + 18
 );
 ctx.fillText('Measure', 10, perMeasureTableTop + 42);
 ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
-ctx.fillText('Comparison key', 260, perMeasureTableTop + 42);
+ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
 ctx.fillText('S (%)', 430, perMeasureTableTop + 42);
 ctx.fillText('O (%)', 510, perMeasureTableTop + 42);
 ctx.fillText('T (%)', 590, perMeasureTableTop + 42);
@@ -13967,8 +13952,8 @@ const explanationLines = [
     'S = Scale coverage: distinct scale degrees present / 7 × 100.',
     'O = In-scale note ratio: notes in the candidate scale / all notes × 100.',
     'T = 1st + 5th ratio: 1st- and 5th-degree notes / all notes × 100.',
-    '1. If no note is outside the C-major scale, compare only CM and Am(N) using T.',
-    '2. If any note is outside the C-major scale, exclude CM and Am(N).',
+    '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
+    '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
     '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
     '4. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
     '5. If H and M are both selected for the same minor tonic, prefer M.',
