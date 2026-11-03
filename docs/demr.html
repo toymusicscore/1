@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr32
+demr33
 </title>
 <style>
 
@@ -12758,20 +12758,22 @@ for (let i = 11; i <= 12; i++) {
 
 ctx.fillStyle = "black";
 ctx.textAlign = "left";
+const part3BaseY = 130 + mscnt * 56;
+
 ctx.fillText(
     "Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",
     100,
-    110 + mscnt * 48
+    part3BaseY
 );
-ctx.fillText("Measure", 0, 120 + mscnt * 48);
+ctx.fillText("Measure", 0, part3BaseY + 10);
 
 ctx.textAlign = "right";
-ctx.fillText("Major 1st+5th", 220, 120 + mscnt * 48);
-ctx.fillText("Minor 1st+5th", 480, 120 + mscnt * 48);
-ctx.fillText("Major", 520, 120 + mscnt * 48);
-ctx.fillText("Minor", 680, 120 + mscnt * 48);
+ctx.fillText("Major 1st+5th", 220, part3BaseY + 10);
+ctx.fillText("Minor 1st+5th", 480, part3BaseY + 10);
+ctx.fillText("Major", 520, part3BaseY + 10);
+ctx.fillText("Minor", 680, part3BaseY + 10);
 ctx.textAlign = "left";
-ctx.fillText("Estimated Key", 700, 120 + mscnt * 48);
+ctx.fillText("Estimated Key", 700, part3BaseY + 10);
 
 let row = 0;
 
@@ -13082,7 +13084,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		const majorKey = pair.major;
 		const minorKey = pair.minor;
 
-		const y = 120 + mscnt * 48 + 10 * row;
+		const y = part3BaseY + 10 + 10 * row;
 		const ry = y + 10;
 
 		ctx.textAlign = "right";		
@@ -13912,7 +13914,7 @@ for (let i = 0; i < mscnt; i++) {
             })
             .map(candidate => candidate.label);
 
-        const y = 120 + mscnt * 48 + 8 * mscnt + 10 * part3RowIndex;
+        const y = part3BaseY + 10 + 10 * part3RowIndex;
         ctx.fillStyle = 'white';
         ctx.fillRect(700, y, 500, 12);
         ctx.fillStyle = 'black';
@@ -13928,7 +13930,7 @@ for (let i = 0; i < mscnt; i++) {
 
 // Show every selected candidate on its own row with independent S, O, and T.
 // Place Part 3 below all rows drawn in Part 2.
-const perMeasureTableTop = 150 + mscnt * 48 + 10 * row;
+const perMeasureTableTop = part3BaseY + 40 + 10 * row;
 const tableRowHeight = 22;
 const tableHeaderHeight = 58;
 
@@ -13938,7 +13940,11 @@ for (let i = 0; i < mscnt; i++) {
     const current = measurePc[i];
     if (!current || current.count === 0) continue;
 
-    for (const candidate of (current.evaluationCandidates || current.selectedCandidates || [])) {
+    const displayCandidates = current.evaluationCandidates?.length
+        ? current.evaluationCandidates
+        : (current.selectedCandidates || []);
+
+    for (const candidate of displayCandidates) {
         const isSelected = (current.selectedCandidates || []).some(selected =>
             selected.id === candidate.id
         );
@@ -13978,7 +13984,7 @@ ctx.fillText(
     perMeasureTableTop + 18
 );
 ctx.fillText('Measure', 10, perMeasureTableTop + 42);
-ctx.fillText('Candidate key / Relative minor', 90, perMeasureTableTop + 42);
+ctx.fillText('Candidate key (Major / Relative minor)', 90, perMeasureTableTop + 42);
 ctx.fillText('S (%)', 350, perMeasureTableTop + 42);
 ctx.fillText('O (%)', 430, perMeasureTableTop + 42);
 ctx.fillText('T1 (%)', 510, perMeasureTableTop + 42);
