@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr39
+demr40
 </title>
 <style>
 
@@ -13424,6 +13424,43 @@ for (const note of scoreData) {
     }
 }
 
+function getMinorDegreeEvidence(notes, root) {
+    const result = {
+        sixthNatural: 0,
+        sixthRaised: 0,
+        seventhNatural: 0,
+        seventhRaised: 0,
+        sixthRaisedUp: 0,
+        sixthNaturalDown: 0,
+        seventhRaisedUp: 0,
+        seventhNaturalDown: 0
+    };
+
+    for (const note of notes) {
+        const interval = (note.midi % 12 - root + 12) % 12;
+        const evidence = noteDirectionEvidence.get(note) || {
+            up: false,
+            down: false
+        };
+
+        if (interval === 8) {
+            result.sixthNatural++;
+            if (evidence.down) result.sixthNaturalDown++;
+        } else if (interval === 9) {
+            result.sixthRaised++;
+            if (evidence.up) result.sixthRaisedUp++;
+        } else if (interval === 10) {
+            result.seventhNatural++;
+            if (evidence.down) result.seventhNaturalDown++;
+        } else if (interval === 11) {
+            result.seventhRaised++;
+            if (evidence.up) result.seventhRaisedUp++;
+        }
+    }
+
+    return result;
+}
+
 function getMelodicMinorCharacteristicEvidence(notes, root) {
     let raised6Up = false;
     let raised7Up = false;
@@ -13688,6 +13725,7 @@ for (let i = 0; i < mscnt; i++) {
             const fifthRatio = fifthCount / totalNotes; // T5
             const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
             const baseName = engMnr1[root] + 'm';
+            const degreeEvidence = getMinorDegreeEvidence(notes, root);
 
             candidates.push({
                 id: `minor:${root}:${scaleType}`,
@@ -13704,7 +13742,15 @@ for (let i = 0; i < mscnt; i++) {
                 tonicFifthCount,
                 tonicRatio,
                 fifthRatio,
-                tonicFifthRatio
+                tonicFifthRatio,
+                sixthNaturalRatio: degreeEvidence.sixthNatural / totalNotes,
+                sixthRaisedRatio: degreeEvidence.sixthRaised / totalNotes,
+                seventhNaturalRatio: degreeEvidence.seventhNatural / totalNotes,
+                seventhRaisedRatio: degreeEvidence.seventhRaised / totalNotes,
+                sixthRaisedUpRatio: degreeEvidence.sixthRaisedUp / totalNotes,
+                sixthNaturalDownRatio: degreeEvidence.sixthNaturalDown / totalNotes,
+                seventhRaisedUpRatio: degreeEvidence.seventhRaisedUp / totalNotes,
+                seventhNaturalDownRatio: degreeEvidence.seventhNaturalDown / totalNotes
             });
         }
 
@@ -13980,7 +14026,7 @@ ctx.fillStyle = 'white';
 ctx.fillRect(
     0,
     perMeasureTableTop,
-    900,
+    1300,
     Math.max(0, perMeasureSummaryTop - perMeasureTableTop)
 );
 
@@ -14002,7 +14048,15 @@ ctx.fillText('O (%)', 460, perMeasureTableTop + 42);
 ctx.fillText('T1 (%)', 530, perMeasureTableTop + 42);
 ctx.fillText('T5 (%)', 600, perMeasureTableTop + 42);
 ctx.fillText('T (%)', 670, perMeasureTableTop + 42);
-ctx.fillText('Result', 750, perMeasureTableTop + 42);
+ctx.fillText('Result', 740, perMeasureTableTop + 42);
+ctx.fillText('6th N (%)', 790, perMeasureTableTop + 42);
+ctx.fillText('6th # (%)', 850, perMeasureTableTop + 42);
+ctx.fillText('7th N (%)', 910, perMeasureTableTop + 42);
+ctx.fillText('7th # (%)', 970, perMeasureTableTop + 42);
+ctx.fillText('6th # Up (%)', 1030, perMeasureTableTop + 42);
+ctx.fillText('6th N Down (%)', 1090, perMeasureTableTop + 42);
+ctx.fillText('7th # Up (%)', 1160, perMeasureTableTop + 42);
+ctx.fillText('7th N Down (%)', 1220, perMeasureTableTop + 42);
 
 for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const row = candidateRows[rowIndex];
@@ -14046,7 +14100,30 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
         670,
         y
     );
-    ctx.fillText(row.isSelected ? 'Selected' : '', 750, y);
+    ctx.fillText(row.isSelected ? 'Selected' : '', 740, y);
+
+    // Natural/raised minor degrees and their characteristic directions.
+    // All ratios use the total note count in this measure as denominator.
+    const degreeValues = candidate.mode === 'minor'
+        ? [
+            candidate.sixthNaturalRatio,
+            candidate.sixthRaisedRatio,
+            candidate.seventhNaturalRatio,
+            candidate.seventhRaisedRatio,
+            candidate.sixthRaisedUpRatio,
+            candidate.sixthNaturalDownRatio,
+            candidate.seventhRaisedUpRatio,
+            candidate.seventhNaturalDownRatio
+        ]
+        : null;
+    const degreeX = [790, 850, 910, 970, 1030, 1090, 1160, 1220];
+
+    for (let degreeIndex = 0; degreeIndex < degreeX.length; degreeIndex++) {
+        const value = degreeValues
+            ? (degreeValues[degreeIndex] * 100).toFixed(2)
+            : '-';
+        ctx.fillText(value, degreeX[degreeIndex], y);
+    }
 }
 
 ctx.font = previousFont;
@@ -14061,6 +14138,8 @@ const explanationLines = [
     'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
     'T5 = fifth ratio: 5th-degree notes / all notes × 100.',
     'T = T1 + T5: combined 1st- and 5th-degree ratio.',
+    '6th N / # and 7th N / # = natural / raised minor 6th and 7th note ratios, divided by all notes in the measure.',
+    '6th # Up and 7th # Up = raised 6th / 7th notes with upward melodic evidence; 6th N Down and 7th N Down = natural notes with downward evidence.',
     '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
     '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
     '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
