@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr44
+demr45
 </title>
 <style>
 
@@ -13505,11 +13505,9 @@ function getMelodicMinorMemberCount(notes, root) {
             continue;
         }
 
-        // If no direction can be inferred, use the natural-minor form.
-        const hasDirection = evidence.up || evidence.down;
-
-        // Sixth: natural on descent (or unknown direction), raised on ascent.
-        if (interval === 8 && (evidence.down || !hasDirection)) {
+        // Sixth: natural only on confirmed descent; raised only on ascent.
+        // Notes with unknown direction are not counted in the M scale.
+        if (interval === 8 && evidence.down) {
             memberCount++;
             continue;
         }
@@ -13518,8 +13516,8 @@ function getMelodicMinorMemberCount(notes, root) {
             continue;
         }
 
-        // Seventh: natural on descent (or unknown direction), raised on ascent.
-        if (interval === 10 && (evidence.down || !hasDirection)) {
+        // Seventh: natural only on confirmed descent; raised only on ascent.
+        if (interval === 10 && evidence.down) {
             memberCount++;
             continue;
         }
