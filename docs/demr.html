@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr51
+demr52
 </title>
 <style>
 
@@ -14156,12 +14156,15 @@ ctx.fillText(
 ctx.fillText('Measure', 10, perMeasureTableTop + 42);
 ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
 ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
-ctx.fillText('S', 380, perMeasureTableTop + 42);
-ctx.fillText('O', 460, perMeasureTableTop + 42);
-ctx.fillText('T1', 530, perMeasureTableTop + 42);
-ctx.fillText('T5', 600, perMeasureTableTop + 42);
-ctx.fillText('T', 670, perMeasureTableTop + 42);
-ctx.fillText('S', 740, perMeasureTableTop + 42);
+
+// Right-align all numeric columns. Move the scale-coverage S column
+// 20px to the left to give the following columns clearer spacing.
+ctx.textAlign = 'right';
+ctx.fillText('S', 400, perMeasureTableTop + 42);
+ctx.fillText('O', 490, perMeasureTableTop + 42);
+ctx.fillText('T1', 570, perMeasureTableTop + 42);
+ctx.fillText('T5', 650, perMeasureTableTop + 42);
+ctx.fillText('T', 730, perMeasureTableTop + 42);
 ctx.fillText('6th N', 790, perMeasureTableTop + 42);
 ctx.fillText('6th #', 850, perMeasureTableTop + 42);
 ctx.fillText('7th N', 910, perMeasureTableTop + 42);
@@ -14170,6 +14173,8 @@ ctx.fillText('6th # Up', 1030, perMeasureTableTop + 42);
 ctx.fillText('6th N Dn', 1090, perMeasureTableTop + 42);
 ctx.fillText('7th # Up', 1160, perMeasureTableTop + 42);
 ctx.fillText('7th N Dn', 1220, perMeasureTableTop + 42);
+ctx.textAlign = 'left';
+ctx.fillText('S', 740, perMeasureTableTop + 42);
 
 for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const row = candidateRows[rowIndex];
@@ -14199,31 +14204,33 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     ctx.fillText(String(row.measure), 10, y);
     ctx.fillText(candidate.label, 90, y);
     ctx.fillText(row.parallelKey, 260, y);
+    ctx.textAlign = 'right';
     ctx.fillText(
         (candidate.scaleCoverageRatio * 100).toFixed(2),
-        380,
+        400,
         y
     );
     ctx.fillText(
         (candidate.scaleRatio * 100).toFixed(2),
-        430,
+        490,
         y
     );
     ctx.fillText(
         (candidate.tonicRatio * 100).toFixed(2),
-        510,
+        570,
         y
     );
     ctx.fillText(
         (candidate.fifthRatio * 100).toFixed(2),
-        590,
+        650,
         y
     );
     ctx.fillText(
         (candidate.tonicFifthRatio * 100).toFixed(2),
-        670,
+        730,
         y
     );
+    ctx.textAlign = 'left';
     ctx.fillText(row.isSelected ? 'S' : '', 740, y);
 
     // Natural/raised minor degrees and their characteristic directions.
@@ -14242,12 +14249,14 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
         : null;
     const degreeX = [790, 850, 910, 970, 1030, 1090, 1160, 1220];
 
+    ctx.textAlign = 'right';
     for (let degreeIndex = 0; degreeIndex < degreeX.length; degreeIndex++) {
         const value = degreeValues
             ? (degreeValues[degreeIndex] * 100).toFixed(2)
             : '-';
         ctx.fillText(value, degreeX[degreeIndex], y);
     }
+    ctx.textAlign = 'left';
 }
 
 ctx.font = previousFont;
