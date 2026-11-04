@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr45
+demr46
 </title>
 <style>
 
@@ -13834,31 +13834,12 @@ for (let i = 0; i < mscnt; i++) {
         current.evaluationCandidates = selectedCandidates;
     }
 
-    // Keep the CM / Am(N) comparison visible in Part 3 as a reference pair,
-    // even when another candidate wins the full O/S/T evaluation.
-    const cmReference = eligibleCandidates.find(candidate =>
-        candidate.mode === 'major' && candidate.root === 0
-    );
-    const amReference = eligibleCandidates.find(candidate =>
-        candidate.mode === 'minor' && candidate.root === 9 && candidate.scaleType === 'N'
-    );
-    current.evaluationCandidates = [
-        ...(current.evaluationCandidates || []),
-        cmReference,
-        amReference
-    ].filter(Boolean).filter((candidate, index, array) =>
-        array.findIndex(item => item.id === candidate.id) === index
-    );
-
-    // If an unusual or incomplete measure produced no winner, use the direct
-    // CM / Am(N) 1st + 5th comparison so Estimated Key is never left blank.
-    if (selectedCandidates.length === 0 && cmReference && amReference) {
-        selectedCandidates = [
-            cmReference.tonicFifthRatio >= amReference.tonicFifthRatio
-                ? cmReference
-                : amReference
-        ];
-    }
+    // Part 3 displays only candidates that participate in the actual
+    // key evaluation. Do not append CM / Am(N) as a reference-only pair.
+    current.evaluationCandidates = (current.evaluationCandidates || [])
+        .filter((candidate, index, array) =>
+            array.findIndex(item => item.id === candidate.id) === index
+        );
 
     // Remove duplicate entries while preserving different N/H/M labels.
     current.selectedCandidates = selectedCandidates.filter((candidate, index, array) =>
