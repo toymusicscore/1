@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr48
+demr49
 </title>
 <style>
 
@@ -13530,7 +13530,10 @@ function getMelodicMinorMemberCount(notes, root) {
 }
 
 function getScaleCoverageCount(notes, root, mode, scaleType) {
-    const usedDegrees = new Set();
+    // Count distinct pitch classes in this measure that belong to the
+    // candidate scale. The denominator is the number of distinct pitch
+    // classes actually present in the measure, not the seven scale degrees.
+    const inScalePitchClasses = new Set();
 
     if (mode === 'major' || scaleType === 'N' || scaleType === 'H') {
         const intervals = mode === 'major'
@@ -13539,45 +13542,38 @@ function getScaleCoverageCount(notes, root, mode, scaleType) {
 
         for (const note of notes) {
             const interval = (note.midi % 12 - root + 12) % 12;
-            const degreeIndex = intervals.indexOf(interval);
-
-            if (degreeIndex >= 0) {
-                usedDegrees.add(degreeIndex);
+            if (intervals.includes(interval)) {
+                inScalePitchClasses.add(note.midi % 12);
             }
         }
 
-        return usedDegrees.size;
+        return inScalePitchClasses.size;
     }
 
-    // Melodic minor: degrees 1-5 are shared. Degrees 6 and 7
-    // depend on the direction of the melodic movement.
+    // Melodic minor: degrees 1-5 are shared. The 6th and 7th
+    // are counted only when their direction is compatible with M.
     for (const note of notes) {
-        const interval = (note.midi % 12 - root + 12) % 12;
+        const pitchClass = note.midi % 12;
+        const interval = (pitchClass - root + 12) % 12;
         const evidence = noteDirectionEvidence.get(note) || {
             up: false,
             down: false
         };
         const hasDirection = evidence.up || evidence.down;
 
-        if (interval === 0) usedDegrees.add(0);
-        else if (interval === 2) usedDegrees.add(1);
-        else if (interval === 3) usedDegrees.add(2);
-        else if (interval === 5) usedDegrees.add(3);
-        else if (interval === 7) usedDegrees.add(4);
-        else if (
-            (interval === 8 && (evidence.down || !hasDirection)) ||
-            (interval === 9 && evidence.up)
-        ) {
-            usedDegrees.add(5);
+        if ([0, 2, 3, 5, 7].includes(interval)) {
+            inScalePitchClasses.add(pitchClass);
         } else if (
+            (interval === 8 && (evidence.down || !hasDirection)) ||
+            (interval === 9 && evidence.up) ||
             (interval === 10 && (evidence.down || !hasDirection)) ||
             (interval === 11 && evidence.up)
         ) {
-            usedDegrees.add(6);
+            inScalePitchClasses.add(pitchClass);
         }
     }
 
-    return usedDegrees.size;
+    return inScalePitchClasses.size;
 }
 
 // The first and last non-empty measures receive double weight.
@@ -13660,7 +13656,10 @@ for (let i = 0; i < mscnt; i++) {
         const scaleRatio = scaleCount / totalNotes; // O
         const scaleCoverageCount =
             getScaleCoverageCount(notes, root, 'major', null);
-        const scaleCoverageRatio = scaleCoverageCount / 7; // S
+        const distinctPitchClassCount = new Set(notes.map(note => note.midi % 12)).size;
+        const scaleCoverageRatio = distinctPitchClassCount
+            ? scaleCoverageCount / distinctPitchClassCount
+            : 0; // S
         const tonicRatio = tonicCount / totalNotes; // T1
         const fifthRatio = fifthCount / totalNotes; // T5
         const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
@@ -13718,7 +13717,10 @@ for (let i = 0; i < mscnt; i++) {
             const scaleRatio = scaleCount / totalNotes; // O
             const scaleCoverageCount =
                 getScaleCoverageCount(notes, root, 'minor', scaleType);
-            const scaleCoverageRatio = scaleCoverageCount / 7; // S
+            const distinctPitchClassCount = new Set(notes.map(note => note.midi % 12)).size;
+            const scaleCoverageRatio = distinctPitchClassCount
+                ? scaleCoverageCount / distinctPitchClassCount
+                : 0; // S
             const tonicRatio = tonicCount / totalNotes; // T1
             const fifthRatio = fifthCount / totalNotes; // T5
             const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
@@ -14258,7 +14260,7 @@ const explanationLineHeight = 18;
 const explanationLines = [
     'Key Estimation Process',
     'Result S = Selected: this key candidate is selected for the measure.',
-    'S = Scale coverage: distinct scale degrees present / 7 × 100.',
+    'S = Pitch-class coverage: distinct pitch classes in the candidate scale / distinct pitch classes present in the measure × 100.',
     'O = In-scale note ratio: notes in the candidate scale / all notes × 100.',
     'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
     'T5 = fifth ratio: 5th-degree notes / all notes × 100.',
