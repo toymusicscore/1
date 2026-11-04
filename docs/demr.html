@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr43
+demr44
 </title>
 <style>
 
@@ -13953,37 +13953,159 @@ for (let i = 0; i < mscnt; i++) {
     );
 }
 
-// Refresh the Estimated Key column in the Part 3 comparison rows.
-// The earlier drawing pass used the previous keyPoints array, so it could
-// leave this column blank after the newer O/S/T evaluation was applied.
-let part3RowIndex = 0;
+// Rebuild Part 3 comparison rows from the same candidates used by
+// the current O/S/T evaluation. This keeps the displayed key pairs
+// consistent with the actual estimation candidates.
+const oldPart3RowCount = row;
+const part3DisplayRows = [];
+
 for (let i = 0; i < mscnt; i++) {
     const current = measurePc[i];
     if (!current || current.count === 0) continue;
 
-    for (const pair of (current.pairs || [])) {
-        const matchingKeys = (current.selectedCandidates || [])
-            .filter(candidate => {
-                const relativeMinorRoot = candidate.mode === 'major'
-                    ? (candidate.root + 9) % 12
-                    : candidate.root;
-                return relativeMinorRoot === pair.minor.root;
-            })
-            .map(candidate => candidate.label);
+    const candidates = current.evaluationCandidates?.length
+        ? current.evaluationCandidates
+        : (current.selectedCandidates || []);
 
-        const y = part3BaseY + 10 + 10 * part3RowIndex;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(700, y, 500, 12);
-        ctx.fillStyle = 'black';
-        ctx.textAlign = 'left';
-        ctx.fillText(
-            [...new Set(matchingKeys)].join(' / '),
-            710,
-            y + 10
-        );
-        part3RowIndex++;
+    const pairMap = new Map();
+
+    for (const candidate of candidates) {
+        const majorRoot = candidate.mode === "major"
+            ? candidate.root
+            : (candidate.root + 3) % 12;
+        const minorRoot = candidate.mode === "minor"
+            ? candidate.root
+            : (candidate.root + 9) % 12;
+        const pairId = majorRoot + ":" + minorRoot;
+
+        if (!pairMap.has(pairId)) {
+            const major = {
+                root: majorRoot,
+                name: engf1[majorRoot] + "M",
+                weight1: current.pc[majorRoot] / current.count * 100,
+                weight5: current.pc[(majorRoot + 7) % 12] / current.count * 100
+            };
+            major.weight = major.weight1 + major.weight5;
+
+            const minor = {
+                root: minorRoot,
+                name: engMnr1[minorRoot] + "m",
+                weight1: current.pc[minorRoot] / current.count * 100,
+                weight5: current.pc[(minorRoot + 7) % 12] / current.count * 100
+            };
+            minor.weight = minor.weight1 + minor.weight5;
+
+            pairMap.set(pairId, { major, minor });
+        }
+    }
+
+    for (const pair of pairMap.values()) {
+        const selectedLabels = (current.selectedCandidates || [])
+            .filter(candidate => {
+                const candidateMajorRoot = candidate.mode === "major"
+                    ? candidate.root
+                    : (candidate.root + 3) % 12;
+                const candidateMinorRoot = candidate.mode === "minor"
+                    ? candidate.root
+                    : (candidate.root + 9) % 12;
+                return candidateMajorRoot === pair.major.root &&
+                    candidateMinorRoot === pair.minor.root;
+            })
+            .map(candidate => candidate.label)
+            .filter((label, index, labels) => labels.indexOf(label) === index);
+
+        let estimatedLabel = selectedLabels.join(" / ");
+        if (current.inheritedFromPrevious && !estimatedLabel) {
+            const previous = measurePc[i - 1];
+            if (previous?.estKey) {
+                const inheritedKey = previous.estKey.split(" / ")[0];
+                estimatedLabel = inheritedKey.endsWith("m") && previous.estScaleType
+                    ? inheritedKey + "(" + previous.estScaleType + ")"
+                    : inheritedKey;
+            }
+        }
+
+        part3DisplayRows.push({
+            measureIndex: i,
+            major: pair.major,
+            minor: pair.minor,
+            estimatedLabel
+        });
     }
 }
+
+// Clear the old Part 3 rows before drawing the rebuilt rows.
+ctx.fillStyle = "white";
+ctx.fillRect(
+    0,
+    part3BaseY + 11,
+    1300,
+    Math.max(oldPart3RowCount, part3DisplayRows.length) * 10 + 4
+);
+
+let rebuiltRow = 0;
+let previousMeasureIndex = -1;
+
+for (const displayRow of part3DisplayRows) {
+    const { measureIndex, major, minor, estimatedLabel } = displayRow;
+    const y = part3BaseY + 10 + 10 * rebuiltRow;
+    const textY = y + 10;
+
+    ctx.textAlign = "right";
+    if (measureIndex !== previousMeasureIndex) {
+        ctx.fillStyle = "black";
+        ctx.fillText(measureIndex + 1, 10, textY);
+        previousMeasureIndex = measureIndex;
+    }
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "black";
+    ctx.fillText(major.name + " / " + minor.name, 55, textY);
+    ctx.fillText(estimatedLabel, 710, textY);
+
+    // Major key: 5th on the left, tonic on the right.
+    ctx.fillStyle = workingColor.pc[(major.root + 7) % 12];
+    ctx.fillRect(300 - major.weight, y, major.weight5, 10);
+    ctx.fillStyle = workingColor.pc[major.root];
+    ctx.fillRect(300 - major.weight1, y, major.weight1, 10);
+
+    // Relative minor key: tonic followed by its 5th.
+    ctx.fillStyle = workingColor.pc[minor.root];
+    ctx.fillRect(300, y, minor.weight1, 10);
+    ctx.fillStyle = workingColor.pc[(minor.root + 7) % 12];
+    ctx.fillRect(300 + minor.weight1, y, minor.weight5, 10);
+
+    ctx.fillStyle = "black";
+    ctx.textAlign = "right";
+    ctx.fillText(major.weight1.toFixed(2), 130, textY);
+    ctx.fillText("+" + major.weight5.toFixed(2), 170, textY);
+    ctx.fillText("= " + major.weight.toFixed(2), 220, textY);
+    ctx.fillText(minor.weight1.toFixed(2), 390, textY);
+    ctx.fillText("+" + minor.weight5.toFixed(2), 430, textY);
+    ctx.fillText("= " + minor.weight.toFixed(2), 480, textY);
+
+    const difference = major.weight - minor.weight;
+    if (difference > 0) {
+        ctx.fillStyle = workingColor.pc[major.root];
+        ctx.fillRect(600 - difference, y, difference, 10);
+        ctx.fillStyle = "black";
+        ctx.fillText(difference.toFixed(2), 520, textY);
+    } else if (difference < 0) {
+        ctx.fillStyle = workingColor.pc[minor.root];
+        ctx.fillRect(600, y, -difference, 10);
+        ctx.fillStyle = "black";
+        ctx.fillText((-difference).toFixed(2), 680, textY);
+    } else {
+        ctx.fillStyle = "black";
+        ctx.fillText("0.00", 520, textY);
+        ctx.fillText("0.00", 680, textY);
+    }
+
+    rebuiltRow++;
+}
+
+row = rebuiltRow;
+ctx.textAlign = "left";
 
 // Show every selected candidate on its own row with independent S, O, and T.
 // Place Part 3 below all rows drawn in Part 2.
