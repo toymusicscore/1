@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr47
+demr48
 </title>
 <style>
 
@@ -14181,13 +14181,11 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     if (rowIndex > 0 &&
         row.measure !== candidateRows[rowIndex - 1].measure) {
         const separatorY = y - 4;
+        // Use a filled rectangle instead of a stroked path so the
+        // separator remains clearly visible on the canvas at any scale.
         ctx.save();
-        ctx.strokeStyle = '#888';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(8, separatorY);
-        ctx.lineTo(1285, separatorY);
-        ctx.stroke();
+        ctx.fillStyle = '#555';
+        ctx.fillRect(8, separatorY, 1277, 2);
         ctx.restore();
     }
 
