@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr50
+demr51
 </title>
 <style>
 
@@ -14180,9 +14180,9 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
 
     if (rowIndex > 0 &&
         row.measure !== candidateRows[rowIndex - 1].measure) {
-        const separatorY = y - 4;
-        // Use a filled rectangle instead of a stroked path so the
-        // separator remains clearly visible on the canvas at any scale.
+        const separatorY = y - 20;
+        // Center the separator in the vertical gap between measure groups,
+        // clear of both the preceding and following row labels.
         ctx.save();
         ctx.fillStyle = '#555';
         ctx.fillRect(8, separatorY, 1277, 2);
