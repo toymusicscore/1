@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr46
+demr47
 </title>
 <style>
 
@@ -14119,9 +14119,21 @@ for (let i = 0; i < mscnt; i++) {
     }
 }
 
+// Add a small gap and separator whenever the measure changes.
+const candidateRowOffsets = [];
+let candidateRowsHeight = 0;
+for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
+    if (rowIndex > 0 &&
+        candidateRows[rowIndex].measure !== candidateRows[rowIndex - 1].measure) {
+        candidateRowsHeight += 8;
+    }
+    candidateRowOffsets.push(candidateRowsHeight);
+    candidateRowsHeight += tableRowHeight;
+}
+
 const perMeasureSummaryTop =
     perMeasureTableTop + tableHeaderHeight +
-    candidateRows.length * tableRowHeight + 8;
+    candidateRowsHeight + 8;
 
 ctx.fillStyle = 'white';
 ctx.fillRect(
@@ -14164,7 +14176,20 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const candidate = row.candidate;
     const y =
         perMeasureTableTop + tableHeaderHeight +
-        tableRowHeight * rowIndex;
+        candidateRowOffsets[rowIndex];
+
+    if (rowIndex > 0 &&
+        row.measure !== candidateRows[rowIndex - 1].measure) {
+        const separatorY = y - 4;
+        ctx.save();
+        ctx.strokeStyle = '#888';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(8, separatorY);
+        ctx.lineTo(1285, separatorY);
+        ctx.stroke();
+        ctx.restore();
+    }
 
     const majorRoot = candidate.mode === 'major'
         ? candidate.root
