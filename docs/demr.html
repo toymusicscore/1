@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr53-2
+demr54
 </title>
 <style>
 
@@ -12290,10 +12290,6 @@ function keyEstimation(){
     estimatedMeasureKeys = [];
 
     canvas.width = 1300;
-    // Reserve enough vertical space for long works and measures with
-    // multiple candidate rows in Part 4, Part 5, and the explanation.
-    canvas.height = Math.max(4000, 3000 + mscnt * 180);
-
     let measurePc = [];
 
     estimatedMeasureLabelTypes = [];
@@ -12329,6 +12325,11 @@ for (const note of scoreData) {
 }
 
 const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
+
+// Reserve enough vertical space for long works and measures with
+// multiple candidate rows in Part 4, Part 5, and the explanation.
+canvas.height = Math.max(4000, 3000 + mscnt * 180);
+
 
 //========================================================
 // Merge a very short final measure into the previous measure
