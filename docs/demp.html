@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp59
+demr31
 </title>
 <style>
 
@@ -14146,24 +14146,23 @@ ctx.fillText('Measure', 10, perMeasureTableTop + 42);
 ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
 ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
 
-// Right-align all numeric columns. Move the scale-coverage S column
-// 20px to the left to give the following columns clearer spacing.
+// Use explicit metric names and keep MK clear of the minor-degree columns.
 ctx.textAlign = 'right';
 ctx.fillText('PC', 400, perMeasureTableTop + 42);
 ctx.fillText('SM', 490, perMeasureTableTop + 42);
 ctx.fillText('T1', 570, perMeasureTableTop + 42);
 ctx.fillText('D5', 650, perMeasureTableTop + 42);
 ctx.fillText('T1+D5', 730, perMeasureTableTop + 42);
-ctx.fillText('6th N', 830, perMeasureTableTop + 42);
-ctx.fillText('6th #', 890, perMeasureTableTop + 42);
-ctx.fillText('7th N', 950, perMeasureTableTop + 42);
-ctx.fillText('7th #', 1010, perMeasureTableTop + 42);
-ctx.fillText('6th # Up', 1070, perMeasureTableTop + 42);
-ctx.fillText('6th N Dn', 1130, perMeasureTableTop + 42);
-ctx.fillText('7th # Up', 1200, perMeasureTableTop + 42);
-ctx.fillText('7th N Dn', 1260, perMeasureTableTop + 42);
+ctx.fillText('6th N', 850, perMeasureTableTop + 42);
+ctx.fillText('6th #', 910, perMeasureTableTop + 42);
+ctx.fillText('7th N', 970, perMeasureTableTop + 42);
+ctx.fillText('7th #', 1030, perMeasureTableTop + 42);
+ctx.fillText('6th # Up', 1090, perMeasureTableTop + 42);
+ctx.fillText('6th N Dn', 1150, perMeasureTableTop + 42);
+ctx.fillText('7th # Up', 1220, perMeasureTableTop + 42);
+ctx.fillText('7th N Dn', 1280, perMeasureTableTop + 42);
 ctx.textAlign = 'left';
-ctx.fillText('MK', 790, perMeasureTableTop + 42);
+ctx.fillText('MK', 770, perMeasureTableTop + 42);
 
 for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const row = candidateRows[rowIndex];
@@ -14220,7 +14219,7 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
         y
     );
     ctx.textAlign = 'left';
-    ctx.fillText(row.isSelected ? 'S' : '', 790, y);
+    ctx.fillText(row.isSelected ? 'S' : '', 770, y);
 
     // Natural/raised minor degrees and their characteristic directions.
     // All ratios use the total note count in this measure as denominator.
@@ -14236,7 +14235,7 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
             candidate.seventhNaturalDownRatio
         ]
         : null;
-    const degreeX = [830, 890, 950, 1010, 1070, 1130, 1200, 1260];
+    const degreeX = [850, 910, 970, 1030, 1090, 1150, 1220, 1280];
 
     ctx.textAlign = 'right';
     for (let degreeIndex = 0; degreeIndex < degreeX.length; degreeIndex++) {
@@ -14255,12 +14254,12 @@ ctx.textAlign = 'left';
 const explanationLineHeight = 18;
 const explanationLines = [
     'Key Estimation Process',
-    'Result S = Selected: this key candidate is selected for the measure.',
-    'S = Scale coverage: distinct scale degrees present / 7 × 100.',
-    'O = In-scale note ratio: notes in the candidate scale / all notes × 100.',
+    'MK = Measure Key: this candidate is selected for the measure.',
+    'PC = Pitch-class coverage: distinct scale pitch classes present / 7 × 100.',
+    'SM = Scale-member ratio: notes belonging to the candidate scale / all notes × 100.',
     'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
-    'T5 = fifth ratio: 5th-degree notes / all notes × 100.',
-    'T = T1 + T5: combined 1st- and 5th-degree ratio.',
+    'D5 = dominant ratio: 5th-degree notes / all notes × 100.',
+    'T1+D5 = combined 1st- and 5th-degree ratio.',
     '6th N / 6th # = natural / raised 6th-degree note ratios; 7th N / 7th # = natural / raised 7th-degree note ratios.',
     '6th # Up / 7th # Up = raised 6th / 7th notes with ascending melodic evidence.',
     '6th N Dn / 7th N Dn = natural 6th / 7th notes with descending melodic evidence.',
@@ -14274,8 +14273,8 @@ const explanationLines = [
     'The whole song is analyzed directly from all notes in scoreData; per-measure candidates are not used.',
     'Global SM = notes belonging to each of the 12 major scales / all notes in the song × 100.',
     'The 12 major scales are compared by Global SM; ties prefer fewer key-signature accidentals.',
-    'For each major scale, the table shows its relative minor and that minor key’s Global T1, D5 and T1+D5.',
-    'Global T1 = relative-minor tonic notes / all notes; Global D5 = relative-minor fifth notes / all notes.',
+    'For each of the 12 major keys, the table shows major T1, D5 and T1+D5, plus the same three values for its relative minor.',
+    'T1 = tonic notes / all notes; D5 = fifth notes / all notes; T1+D5 = their sum. Values are calculated separately for the major and minor tonic.',
     'This table is a comparison display, not yet a final minor-mode (N/H/M) decision.'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
@@ -14393,10 +14392,16 @@ ctx.lineWidth = 1;
             ? inScaleCount / globalNoteCount
             : 0;
         const minorRoot = (majorRoot + 9) % 12;
-        const globalT1 = globalNoteCount > 0
+        const majorT1 = globalNoteCount > 0
+            ? globalPc[majorRoot] / globalNoteCount
+            : 0;
+        const majorD5 = globalNoteCount > 0
+            ? globalPc[(majorRoot + 7) % 12] / globalNoteCount
+            : 0;
+        const minorT1 = globalNoteCount > 0
             ? globalPc[minorRoot] / globalNoteCount
             : 0;
-        const globalD5 = globalNoteCount > 0
+        const minorD5 = globalNoteCount > 0
             ? globalPc[(minorRoot + 7) % 12] / globalNoteCount
             : 0;
 
@@ -14414,9 +14419,12 @@ ctx.lineWidth = 1;
             inScaleCount,
             outsideCount: globalNoteCount - inScaleCount,
             globalSM,
-            globalT1,
-            globalD5,
-            globalT: globalT1 + globalD5,
+            majorT1,
+            majorD5,
+            majorT: majorT1 + majorD5,
+            minorT1,
+            minorD5,
+            minorT: minorT1 + minorD5,
             accidentals: keySignatureAccidentals[majorRoot]
         });
     }
@@ -14463,22 +14471,25 @@ ctx.lineWidth = 1;
         rowPointStart + 20
     );
     ctx.fillText(
-        'Relative-minor T1, D5 and T1+D5 are shown beside each major-scale SM for comparison.',
+        'Both each major key and its relative minor are shown with T1, D5 and T1+D5.',
         10,
         rowPointStart + 38
     );
 
     ctx.font = '12px Arial';
     ctx.textAlign = 'left';
-    ctx.fillText('Major key', 20, globalTableTop);
+    ctx.fillText('Major key', 12, globalTableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Scale Member (%)', 220, globalTableTop);
+    ctx.fillText('SM (%)', 205, globalTableTop);
+    ctx.fillText('Major T1 (%)', 330, globalTableTop);
+    ctx.fillText('Major D5 (%)', 445, globalTableTop);
+    ctx.fillText('Major T1+D5 (%)', 575, globalTableTop);
     ctx.textAlign = 'left';
-    ctx.fillText('Relative minor', 270, globalTableTop);
+    ctx.fillText('Relative minor', 600, globalTableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('T1 (%)', 430, globalTableTop);
-    ctx.fillText('D5 (%)', 530, globalTableTop);
-    ctx.fillText('T1+D5 (%)', 650, globalTableTop);
+    ctx.fillText('Minor T1 (%)', 790, globalTableTop);
+    ctx.fillText('Minor D5 (%)', 910, globalTableTop);
+    ctx.fillText('Minor T1+D5 (%)', 1060, globalTableTop);
 
     // Sort only by major-scale SM, highest first. Keep all 12 rows visible.
     globalMajorCandidates.sort((a, b) =>
@@ -14496,20 +14507,23 @@ ctx.lineWidth = 1;
 
         if (isSignatureCandidate) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 660, 13);
+            ctx.fillRect(8, y - 10, 1065, 13);
         }
 
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
-        ctx.fillText(candidate.majorName, 20, y);
+        ctx.fillText(candidate.majorName, 12, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.globalSM * 100).toFixed(2), 220, y);
+        ctx.fillText((candidate.globalSM * 100).toFixed(2), 205, y);
+        ctx.fillText((candidate.majorT1 * 100).toFixed(2), 330, y);
+        ctx.fillText((candidate.majorD5 * 100).toFixed(2), 445, y);
+        ctx.fillText((candidate.majorT * 100).toFixed(2), 575, y);
         ctx.textAlign = 'left';
-        ctx.fillText(candidate.minorName, 270, y);
+        ctx.fillText(candidate.minorName, 600, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.globalT1 * 100).toFixed(2), 430, y);
-        ctx.fillText((candidate.globalD5 * 100).toFixed(2), 530, y);
-        ctx.fillText((candidate.globalT * 100).toFixed(2), 650, y);
+        ctx.fillText((candidate.minorT1 * 100).toFixed(2), 790, y);
+        ctx.fillText((candidate.minorD5 * 100).toFixed(2), 910, y);
+        ctx.fillText((candidate.minorT * 100).toFixed(2), 1060, y);
     }
 
     ctx.textAlign = 'left';
