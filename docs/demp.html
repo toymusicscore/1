@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp55
+demp56
 </title>
 <style>
 
@@ -12290,8 +12290,6 @@ function keyEstimation(){
     estimatedMeasureKeys = [];
 
     canvas.width = 1300;
-    canvas.height = 4000;
-
     let measurePc = [];
 
     estimatedMeasureLabelTypes = [];
@@ -12328,8 +12326,10 @@ for (const note of scoreData) {
 
 const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
 
-// Reserve enough vertical space before any drawing takes place.
+// Reserve enough vertical space for long works and measures with
+// multiple candidate rows in Part 4, Part 5, and the explanation.
 canvas.height = Math.max(4000, 3000 + mscnt * 180);
+
 
 //========================================================
 // Merge a very short final measure into the previous measure
@@ -13354,9 +13354,9 @@ for (let i = 0; i < measurePc.length; i++) {
 }
 
 //========================================================
-// Select the maximum scale by S first.
+// Select the maximum scale by SM (scale-member note ratio) first.
 // For Minor(N), compare parallel major/minor by T.
-// Whole-song estimation is calculated independently from all notes.
+// Whole-song estimation analyzes the complete note set directly, independently of measure selections.
 // M uses the direction of every adjacent-note movement
 // containing the target note (start or end).
 //========================================================
@@ -13583,6 +13583,7 @@ function getScaleCoverageCount(notes, root, mode, scaleType) {
     return usedDegrees.size;
 }
 
+
 for (let i = 0; i < mscnt; i++) {
     const current = measurePc[i];
     if (!current || current.count === 0) continue;
@@ -13646,13 +13647,13 @@ for (let i = 0; i < mscnt; i++) {
         const tonicCount = current.pc[root];
         const fifthCount = current.pc[(root + 7) % 12];
         const tonicFifthCount = tonicCount + fifthCount;
-        const scaleRatio = scaleCount / totalNotes; // O
+        const scaleRatio = scaleCount / totalNotes; // SM
         const scaleCoverageCount =
             getScaleCoverageCount(notes, root, 'major', null);
-        const scaleCoverageRatio = scaleCoverageCount / 7; // S
+        const scaleCoverageRatio = scaleCoverageCount / 7; // PC
         const tonicRatio = tonicCount / totalNotes; // T1
-        const fifthRatio = fifthCount / totalNotes; // T5
-        const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
+        const fifthRatio = fifthCount / totalNotes; // D5
+        const tonicFifthRatio = tonicRatio + fifthRatio; // T1 + D5
 
         candidates.push({
             id: `major:${root}`,
@@ -13704,13 +13705,13 @@ for (let i = 0; i < mscnt; i++) {
             const tonicCount = current.pc[root];
             const fifthCount = current.pc[(root + 7) % 12];
             const tonicFifthCount = tonicCount + fifthCount;
-            const scaleRatio = scaleCount / totalNotes; // O
+            const scaleRatio = scaleCount / totalNotes; // SM
             const scaleCoverageCount =
                 getScaleCoverageCount(notes, root, 'minor', scaleType);
-            const scaleCoverageRatio = scaleCoverageCount / 7; // S
+            const scaleCoverageRatio = scaleCoverageCount / 7; // PC
             const tonicRatio = tonicCount / totalNotes; // T1
-            const fifthRatio = fifthCount / totalNotes; // T5
-            const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
+            const fifthRatio = fifthCount / totalNotes; // D5
+            const tonicFifthRatio = tonicRatio + fifthRatio; // T1 + D5
             const baseName = engMnr1[root] + 'm';
             const degreeEvidence = getMinorDegreeEvidence(notes, root);
 
@@ -13748,7 +13749,7 @@ for (let i = 0; i < mscnt; i++) {
         }
     }
 
-    // Keep the independent S, O, and T values for every candidate key.
+    // Keep the independent PC, SM, and tonic/dominant values for every candidate key.
     // The current key-selection procedure below is retained provisionally.
     current.allCandidateScores = candidates;
 
@@ -13789,7 +13790,7 @@ for (let i = 0; i < mscnt; i++) {
             selectedCandidates = current.evaluationCandidates;
         }
     } else {
-        // Compare the remaining candidates in the agreed order: O, then S, then T.
+        // Compare the remaining candidates in the agreed order: SM, then PC, then T1+D5.
         const tolerance = 1e-12;
 
         const maxO = Math.max(...eligibleCandidates.map(candidate => candidate.scaleRatio));
@@ -13922,7 +13923,7 @@ for (let i = 0; i < mscnt; i++) {
 }
 
 // Rebuild Part 3 comparison rows from the same candidates used by
-// the current O/S/T evaluation. This keeps the displayed key pairs
+// the current PC/SM/T1+D5 evaluation. This keeps the displayed key pairs
 // consistent with the actual estimation candidates.
 const oldPart3RowCount = row;
 const part3DisplayRows = [];
@@ -14075,7 +14076,7 @@ for (const displayRow of part3DisplayRows) {
 row = rebuiltRow;
 ctx.textAlign = "left";
 
-// Show every selected candidate on its own row with independent S, O, and T.
+// Show every selected candidate on its own row with independent PC, SM, and T1+D5.
 // Place Part 3 below all rows drawn in Part 2.
 const perMeasureTableTop = part3BaseY + 40 + 10 * row;
 const tableRowHeight = 22;
@@ -14146,14 +14147,13 @@ ctx.fillText('Measure', 10, perMeasureTableTop + 42);
 ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
 ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
 
-// Right-align all numeric columns. Move the scale-coverage S column
-// 20px to the left to give the following columns clearer spacing.
+// Right-align all numeric columns.
 ctx.textAlign = 'right';
-ctx.fillText('S', 400, perMeasureTableTop + 42);
-ctx.fillText('O', 490, perMeasureTableTop + 42);
+ctx.fillText('PC', 400, perMeasureTableTop + 42);
+ctx.fillText('SM', 490, perMeasureTableTop + 42);
 ctx.fillText('T1', 570, perMeasureTableTop + 42);
-ctx.fillText('T5', 650, perMeasureTableTop + 42);
-ctx.fillText('T', 730, perMeasureTableTop + 42);
+ctx.fillText('D5', 650, perMeasureTableTop + 42);
+ctx.fillText('T1+D5', 730, perMeasureTableTop + 42);
 ctx.fillText('6th N', 790, perMeasureTableTop + 42);
 ctx.fillText('6th #', 850, perMeasureTableTop + 42);
 ctx.fillText('7th N', 910, perMeasureTableTop + 42);
@@ -14163,7 +14163,7 @@ ctx.fillText('6th N Dn', 1090, perMeasureTableTop + 42);
 ctx.fillText('7th # Up', 1160, perMeasureTableTop + 42);
 ctx.fillText('7th N Dn', 1220, perMeasureTableTop + 42);
 ctx.textAlign = 'left';
-ctx.fillText('S', 740, perMeasureTableTop + 42);
+ctx.fillText('MK', 760, perMeasureTableTop + 42);
 
 for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const row = candidateRows[rowIndex];
@@ -14220,7 +14220,7 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
         y
     );
     ctx.textAlign = 'left';
-    ctx.fillText(row.isSelected ? 'S' : '', 740, y);
+    ctx.fillText(row.isSelected ? '✓' : '', 760, y);
 
     // Natural/raised minor degrees and their characteristic directions.
     // All ratios use the total note count in this measure as denominator.
@@ -14255,27 +14255,26 @@ ctx.textAlign = 'left';
 const explanationLineHeight = 18;
 const explanationLines = [
     'Key Estimation Process',
-    'Result S = Selected: this key candidate is selected for the measure.',
-    'S = Scale coverage: distinct scale degrees present / 7 × 100.',
-    'O = In-scale note ratio: notes in the candidate scale / all notes × 100.',
-    'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
-    'T5 = fifth ratio: 5th-degree notes / all notes × 100.',
-    'T = T1 + T5: combined 1st- and 5th-degree ratio.',
+    'PC = Pitch-Class Coverage: distinct scale pitch classes present / 7 × 100.',
+    'SM = Scale-Member Note Ratio: notes belonging to the candidate scale / all notes in the measure × 100.',
+    'MK = Measure Key Selection: a check mark indicates that the candidate is selected for the measure.',
+    'T1 = Tonic ratio: 1st-degree notes / all notes in the measure × 100.',
+    'D5 = Dominant ratio: 5th-degree notes / all notes in the measure × 100.',
+    'T1+D5 = combined ratio of tonic and dominant notes.',
     '6th N / 6th # = natural / raised 6th-degree note ratios; 7th N / 7th # = natural / raised 7th-degree note ratios.',
     '6th # Up / 7th # Up = raised 6th / 7th notes with ascending melodic evidence.',
     '6th N Dn / 7th N Dn = natural 6th / 7th notes with descending melodic evidence.',
-    'All six degree ratios are calculated using the total number of notes in the measure as the denominator.',
-    '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
+    'All degree ratios use the total number of notes in the measure as the denominator.',
+    '1. If no note is outside the C-major scale, compare CM and Am(N) using T1+D5.',
     '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
-    '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
+    '3. Rank the remaining candidates by SM (highest), then PC (highest), then T1+D5 (highest). Keep ties.',
     '4. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
-    'The whole song is analyzed directly from all notes in scoreData; per-measure candidates are not used.',
-    'Global O = notes belonging to a major scale / all notes in the song × 100.',
-    'The key-signature candidate is selected by the highest Global O; ties prefer fewer key-signature accidentals.',
-    'Global T1 = tonic notes / all notes × 100; Global T5 = fifth notes / all notes × 100.',
-    'Global T = Global T1 + Global T5. The highest Global T indicates the strongest tonic/fifth center; it does not determine major or minor mode.'
+    'All notes in the song are analyzed together, independently of the per-measure key selections.',
+    'The 12 major scales are compared by SM; ties prefer the key signature with fewer accidentals.',
+    'T1, D5, and T1+D5 are calculated directly from the complete song for each major-key candidate.',
+    'The selected major key is compared with its relative minor using T1+D5 to estimate the overall tonal center.'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14357,187 +14356,170 @@ for (let i = 0; i < mscnt; i++) {
 ctx.lineWidth = 1;
 
     //========================================================
-    // Part 5: independent whole-song estimation
-    // Use every note in scoreData directly. Do not use measure
-    // candidates, measure votes, or first/last-measure weights.
+    // Whole-song estimation: analyze all notes directly.
+    // This is independent of the per-measure key selections above.
     //========================================================
-
-    const globalPc = new Array(12).fill(0);
+    const globalPcCounts = new Array(12).fill(0);
     let globalNoteCount = 0;
 
     for (const note of scoreData) {
         const pc = ((note.midi % 12) + 12) % 12;
-        globalPc[pc]++;
+        globalPcCounts[pc]++;
         globalNoteCount++;
     }
 
     const globalMajorCandidates = [];
-    const keySignatureAccidentals = [
-        0, 5, 2, 3, 4, 1, 6, 1, 4, 3, 2, 5
-    ];
+    const globalMajorIntervals = [0, 2, 4, 5, 7, 9, 11];
+    const keySignatureAccidentalCounts = {
+        CM: 0, GM: 1, DM: 2, AM: 3, EM: 4, BM: 5,
+        'F#M': 6, 'C#M': 7,
+        FM: 1, BbM: 2, EbM: 3, AbM: 4, DbM: 5, GbM: 6, CbM: 7
+    };
 
     for (let root = 0; root < 12; root++) {
-        let inScaleCount = 0;
+        let scaleNoteCount = 0;
+        let pitchClassCount = 0;
 
         for (let pc = 0; pc < 12; pc++) {
             const interval = (pc - root + 12) % 12;
-            if (majorScaleIntervals.includes(interval)) {
-                inScaleCount += globalPc[pc];
+            if (globalMajorIntervals.includes(interval)) {
+                scaleNoteCount += globalPcCounts[pc];
+                if (globalPcCounts[pc] > 0) pitchClassCount++;
             }
         }
 
-        const tonicCount = globalPc[root];
-        const fifthCount = globalPc[(root + 7) % 12];
-        const outsideCount = globalNoteCount - inScaleCount;
-
-        const globalO = globalNoteCount > 0
-            ? inScaleCount / globalNoteCount
-            : 0;
-        const globalT1 = globalNoteCount > 0
-            ? tonicCount / globalNoteCount
-            : 0;
-        const globalT5 = globalNoteCount > 0
-            ? fifthCount / globalNoteCount
-            : 0;
-
-        const sharpName = engs1[root] + 'M';
-        const flatName = engf1[root] + 'M';
-        const labelType = getAutoLabelType(flatName);
-        const keyName = labelType === 'flat' ? flatName : sharpName;
+        const tonicCount = globalPcCounts[root];
+        const dominantCount = globalPcCounts[(root + 7) % 12];
+        const tonicRatio = globalNoteCount > 0
+            ? tonicCount / globalNoteCount : 0;
+        const dominantRatio = globalNoteCount > 0
+            ? dominantCount / globalNoteCount : 0;
+        const baseName = engf1[root] + 'M';
 
         globalMajorCandidates.push({
             root,
-            keyName,
-            inScaleCount,
-            outsideCount,
-            globalO,
-            globalT1,
-            globalT5,
-            globalT: globalT1 + globalT5,
-            accidentals: keySignatureAccidentals[root]
+            baseName,
+            pitchClassCoverage: pitchClassCount / 7,
+            scaleMemberRatio: globalNoteCount > 0
+                ? scaleNoteCount / globalNoteCount : 0,
+            tonicRatio,
+            dominantRatio,
+            tonicDominantRatio: tonicRatio + dominantRatio,
+            outsideNoteCount: globalNoteCount - scaleNoteCount,
+            accidentalCount: keySignatureAccidentalCounts[baseName] ?? 7
         });
     }
 
-    const maxGlobalO = Math.max(
-        0,
-        ...globalMajorCandidates.map(candidate => candidate.globalO)
+    globalMajorCandidates.sort((a, b) =>
+        b.scaleMemberRatio - a.scaleMemberRatio ||
+        a.accidentalCount - b.accidentalCount ||
+        b.tonicDominantRatio - a.tonicDominantRatio
     );
 
-    const maxOKeys = globalMajorCandidates.filter(candidate =>
-        Math.abs(candidate.globalO - maxGlobalO) < 1e-12
+    const bestGlobalSM = globalMajorCandidates[0]?.scaleMemberRatio ?? 0;
+    const smTies = globalMajorCandidates.filter(candidate =>
+        Math.abs(candidate.scaleMemberRatio - bestGlobalSM) <= 1e-12
     );
-
-    const minAccidentals = maxOKeys.length
-        ? Math.min(...maxOKeys.map(candidate => candidate.accidentals))
+    const fewestAccidentals = smTies.length
+        ? Math.min(...smTies.map(candidate => candidate.accidentalCount))
         : 0;
-
-    const globalKeySignatureCandidates = maxOKeys.filter(candidate =>
-        candidate.accidentals === minAccidentals
+    const selectedGlobalKeys = smTies.filter(candidate =>
+        candidate.accidentalCount === fewestAccidentals
     );
 
-    const bestGlobalT = Math.max(
-        0,
-        ...globalMajorCandidates.map(candidate => candidate.globalT)
-    );
+    // Keep all tied key-signature candidates. Use the first only for
+    // the app's existing accidental-spelling preference.
+    const bestGlobalKey = selectedGlobalKeys[0] || globalMajorCandidates[0];
+    estimatedKey = bestGlobalKey?.baseName ?? '';
+    estimatedLabelType = getAutoLabelType(estimatedKey);
 
-    const globalTonicCandidates = globalMajorCandidates.filter(candidate =>
-        Math.abs(candidate.globalT - bestGlobalT) < 1e-12
-    );
+    // Compare the selected major key with its relative minor using
+    // the same whole-song T1+D5 measure.
+    const relativeMinorRoot = (bestGlobalKey.root + 9) % 12;
+    const relativeMinorT1 = globalNoteCount > 0
+        ? globalPcCounts[relativeMinorRoot] / globalNoteCount : 0;
+    const relativeMinorD5 = globalNoteCount > 0
+        ? globalPcCounts[(relativeMinorRoot + 7) % 12] / globalNoteCount : 0;
+    const relativeMinorT = relativeMinorT1 + relativeMinorD5;
+    const majorT = bestGlobalKey.tonicDominantRatio;
+    const overallTonalCenter = relativeMinorT > majorT
+        ? engMnr1[relativeMinorRoot] + 'm'
+        : bestGlobalKey.baseName;
 
-    // Use the Global O winner for note spelling throughout the app.
-    const selectedSignature = globalKeySignatureCandidates[0];
-    estimatedKey = selectedSignature?.keyName ?? '';
-    estimatedLabelType = selectedSignature
-        ? getAutoLabelType(selectedSignature.keyName)
-        : 'sharp';
-
+    // Part 5: direct whole-song analysis, not a vote of measure results.
     const rowPointStart = perMeasureSummaryTop + 16;
-    const globalTableTop = rowPointStart + 58;
-    const globalRowHeight = 15;
-
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
-    ctx.font = '14px Arial';
-    ctx.fillText('Whole-song estimation (all notes in scoreData)', 10, rowPointStart);
-
-    const signatureText = globalKeySignatureCandidates
-        .map(candidate => candidate.keyName)
-        .join(' / ');
-    const tonicText = globalTonicCandidates
-        .map(candidate => candidate.keyName.replace(/M$/, ''))
-        .join(' / ');
-
-    ctx.font = '13px Arial';
+    ctx.fillText('Whole-song estimation (all notes analyzed directly)', 10, rowPointStart);
     ctx.fillText(
-        'Key-signature candidate (highest Global O): ' +
-        signatureText + '  (' + (maxGlobalO * 100).toFixed(2) + '%)',
+        'Key signature candidate: ' + selectedGlobalKeys.map(candidate => candidate.baseName).join(' / '),
         10,
-        rowPointStart + 20
+        rowPointStart + 22
     );
     ctx.fillText(
-        'Strongest tonic/fifth center (highest Global T): ' +
-        tonicText + '  (' + (bestGlobalT * 100).toFixed(2) + '%)',
+        'Overall tonal center (major / relative minor by T1+D5): ' + overallTonalCenter,
         10,
-        rowPointStart + 38
+        rowPointStart + 42
     );
 
-    ctx.font = '12px Arial';
+    const globalTableTop = rowPointStart + 66;
+    ctx.textAlign = 'left';
     ctx.fillText('Key', 20, globalTableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Global O (%)', 170, globalTableTop);
-    ctx.fillText('Outside', 245, globalTableTop);
-    ctx.fillText('T1 (%)', 330, globalTableTop);
-    ctx.fillText('T5 (%)', 410, globalTableTop);
-    ctx.fillText('T (%)', 490, globalTableTop);
-    ctx.textAlign = 'left';
+    ctx.fillText('PC', 220, globalTableTop);
+    ctx.fillText('SM', 350, globalTableTop);
+    ctx.fillText('T1', 470, globalTableTop);
+    ctx.fillText('D5', 590, globalTableTop);
+    ctx.fillText('T1+D5', 730, globalTableTop);
+    ctx.fillText('Outside notes', 900, globalTableTop);
+    ctx.fillText('Key-signature accidentals', 1190, globalTableTop);
 
-    globalMajorCandidates.sort((a, b) =>
-        b.globalO - a.globalO ||
-        a.accidentals - b.accidentals ||
-        b.globalT - a.globalT
-    );
+    for (let j = 0; j < globalMajorCandidates.length; j++) {
+        const candidate = globalMajorCandidates[j];
+        const y = globalTableTop + 18 * (j + 1);
+        const isSelected = selectedGlobalKeys.some(selected =>
+            selected.root === candidate.root
+        );
 
-    for (let i = 0; i < globalMajorCandidates.length; i++) {
-        const candidate = globalMajorCandidates[i];
-        const y = globalTableTop + globalRowHeight * (i + 1);
-        const isSignatureCandidate = globalKeySignatureCandidates.includes(candidate);
-        const isTonicCandidate = globalTonicCandidates.includes(candidate);
-
-        if (isSignatureCandidate) {
-            ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 11, 510, 14);
-        }
-        if (isTonicCandidate) {
-            ctx.strokeStyle = '#3977a8';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(8, y - 11, 510, 14);
+        if (isSelected) {
+            ctx.fillStyle = '#fff2a8';
+            ctx.fillRect(8, y - 13, 1210, 17);
         }
 
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
-        ctx.fillText(candidate.keyName, 20, y);
+        ctx.fillText(candidate.baseName, 20, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.globalO * 100).toFixed(2), 170, y);
-        ctx.fillText(String(candidate.outsideCount), 245, y);
-        ctx.fillText((candidate.globalT1 * 100).toFixed(2), 330, y);
-        ctx.fillText((candidate.globalT5 * 100).toFixed(2), 410, y);
-        ctx.fillText((candidate.globalT * 100).toFixed(2), 490, y);
+        ctx.fillText((candidate.pitchClassCoverage * 100).toFixed(2), 220, y);
+        ctx.fillText((candidate.scaleMemberRatio * 100).toFixed(2), 350, y);
+        ctx.fillText((candidate.tonicRatio * 100).toFixed(2), 470, y);
+        ctx.fillText((candidate.dominantRatio * 100).toFixed(2), 590, y);
+        ctx.fillText((candidate.tonicDominantRatio * 100).toFixed(2), 730, y);
+        ctx.fillText(String(candidate.outsideNoteCount), 900, y);
+        ctx.fillText(String(candidate.accidentalCount), 1190, y);
     }
 
+    // The major/minor tonic comparison is shown separately so that
+    // key signature and tonal center are not conflated.
+    const minorCompareY = globalTableTop + 18 * 14;
     ctx.textAlign = 'left';
-    ctx.font = '11px Arial';
-    ctx.fillStyle = '#555';
     ctx.fillText(
-        'Yellow = key-signature candidate (Global O); blue outline = strongest tonic/fifth center (Global T).',
-        10,
-        globalTableTop + globalRowHeight * 13 + 2
+        bestGlobalKey.baseName + ' T1+D5: ' + (majorT * 100).toFixed(2) + '%',
+        20,
+        minorCompareY
     );
+    ctx.fillText(
+        engMnr1[relativeMinorRoot] + 'm T1+D5: ' + (relativeMinorT * 100).toFixed(2) + '%',
+        300,
+        minorCompareY
+    );
+    ctx.textAlign = 'left';
 
-    // Draw the explanation immediately after the whole-song table.
-    const explanationTop = globalTableTop + globalRowHeight * 14 + 12;
+    // Draw the updated explanation immediately after Part 5.
+    const explanationTop = minorCompareY + 24;
 
     ctx.fillStyle = 'white';
-    ctx.fillRect(0, explanationTop - 4, 1290, explanationHeight);
+    ctx.fillRect(0, explanationTop - 4, 1250, explanationHeight);
     ctx.font = '13px Arial';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
@@ -14550,7 +14532,6 @@ ctx.lineWidth = 1;
     }
     ctx.font = previousFont;
     ctx.textAlign = 'left';
-
 }
 
 // Match the page's scrollable area to the enlarged key-estimation canvas.
