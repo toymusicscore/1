@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp68
+demp69
 </title>
 <style>
 
@@ -14436,27 +14436,32 @@ ctx.lineWidth = 1;
     }
 
     const part5KeyCandidates = [];
-    for (const [keyId, key] of part5Votes) {
-        const majorRoot = key.mode === 'major'
-            ? key.root
-            : (key.root + 3) % 12;
+    for (const [keyId, votes] of part5Votes) {
+        // keyId is stored as "M:root" or "m:root"; the Map value is the vote total.
+        const [modeCode, rootText] = keyId.split(':');
+        const mode = modeCode === 'm' ? 'minor' : 'major';
+        const root = Number(rootText);
+        const majorRoot = mode === 'major'
+            ? root
+            : (root + 3) % 12;
+
         const sharpMajorName = engs1[majorRoot] + 'M';
         const flatMajorName = engf1[majorRoot] + 'M';
         const majorName = getAutoLabelType(flatMajorName) === 'flat'
             ? flatMajorName
             : sharpMajorName;
-        const keyName = key.mode === 'major'
+        const keyName = mode === 'major'
             ? majorName
-            : engMnr1[key.root] + 'm';
+            : engMnr1[root] + 'm';
 
         part5KeyCandidates.push({
             keyId,
             keyName,
             keySignature: formatPart5KeySignature(majorRoot, majorName),
             bkc: calculateBlackKeyCoverage(majorRoot, majorName),
-            votes: key.votes || part5Votes.get(keyId),
+            votes,
             percentage: part5EligibleMeasures > 0
-                ? part5Votes.get(keyId) / part5EligibleMeasures
+                ? votes / part5EligibleMeasures
                 : 0,
             accidentals: part5KeySignatureAccidentals[majorRoot]
         });
