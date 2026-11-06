@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp
+demp55
 </title>
 <style>
 
@@ -12290,7 +12290,7 @@ function keyEstimation(){
     estimatedMeasureKeys = [];
 
     canvas.width = 1300;
-    canvas.height = 3000;
+    canvas.height = 4000;
 
     let measurePc = [];
 
@@ -12327,6 +12327,9 @@ for (const note of scoreData) {
 }
 
 const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
+
+// Reserve enough vertical space before any drawing takes place.
+canvas.height = Math.max(4000, 3000 + mscnt * 180);
 
 //========================================================
 // Merge a very short final measure into the previous measure
@@ -12459,7 +12462,7 @@ ctx.fillText("Count",50,90+mscnt*10);
 ctx.fillText("Estimated Key",700,90+mscnt*10);
 
 for (let i = 0; i < mscnt; i++) {
-    const y = 100 + mscnt * 10 + 30 * i;
+    const y = 100 + mscnt * 10 + 46 * i;
 
     ctx.fillStyle = "black";
     ctx.fillText(i + 1, i + 1 >= 10 ? 0 : 5, y);
@@ -12490,12 +12493,22 @@ for (let i = 0; i < mscnt; i++) {
 	
         const w0 = measurePc[i].pc[j] / measurePc[i].count * 100;
 
-        ctx.textAlign = "right";
-
-        ctx.fillText(w0.toFixed(2), 140 + 50 * j, 50 + 10 * i);
+        if (w0 == 100) {
+            ctx.fillText(w0.toFixed(2), 100 + 50 * j, 50 + 10 * i);
+        } else if (w0 >= 10) {
+            ctx.fillText(w0.toFixed(2), 105 + 50 * j, 50 + 10 * i);
+        } else {
+            ctx.fillText(w0.toFixed(2), 110 + 50 * j, 50 + 10 * i);
+        }
     }
-	    ctx.fillText(measurePc[i].count, 70, 50 + 10 * i);
-	    ctx.fillText(measurePc[i].count, 70, 100 + mscnt * 10 + 30 * i);
+	if (measurePc[i].count >= 10){
+	    ctx.fillText(measurePc[i].count, 50, 50 + 10 * i);
+	    ctx.fillText(measurePc[i].count, 50, 100 + mscnt * 10 + 46 * i);
+        
+	}else {
+	    ctx.fillText(measurePc[i].count, 55, 50 + 10 * i);
+	    ctx.fillText(measurePc[i].count, 55, 100 + mscnt * 10 + 46 * i);
+	}
 }
 
 for (let i = 0; i < mscnt; i++) {
@@ -12575,51 +12588,26 @@ for (let i = 0; i < mscnt; i++) {
     measurePc[i].bestScale = [];
 
     let maxNaturalScore = -1;
-    let maxMinorScore = -1;
 
-    // Find the best Natural score and the best H/M score
+    // Select parallel-key pairs using Natural minor only.
+    // H/M is evaluated only after the major/minor comparison.
     for (let j = 0; j < 12; j++) {
-
-        const scale = measurePc[i].scale[j];
-        const info = scale[3];
 
         maxNaturalScore = Math.max(
             maxNaturalScore,
-            scale[0]
-        );
-
-        maxMinorScore = Math.max(
-            maxMinorScore,
-            info.scaleMemberH,
-            info.scaleMemberM
+            measurePc[i].scale[j][0]
         );
     }
 
-    // Use H/M only when it exceeds the best Natural score
-    const useMinorScale =
-        maxMinorScore > maxNaturalScore;
-
-    const maxScore = useMinorScale
-        ? maxMinorScore
-        : maxNaturalScore;
-
-    // Keep all candidates with the maximum score
+    // Keep all Natural-minor candidates tied for the maximum score.
     for (let j = 0; j < 12; j++) {
 
-        const scale = measurePc[i].scale[j];
-        const info = scale[3];
-
-        const score = useMinorScale
-            ? Math.max(
-                info.scaleMemberH,
-                info.scaleMemberM
-            )
-            : scale[0];
-
-        if (score === maxScore) {
+        if (measurePc[i].scale[j][0] === maxNaturalScore) {
             measurePc[i].bestScale.push(j);
         }
     }
+
+    const maxScore = maxNaturalScore;
 
     // Store the score as a percentage
     measurePc[i].bestScore =
@@ -12644,7 +12632,7 @@ for (let i = 11; i <= 12; i++) {
 
      if (!measurePc[i] || measurePc[i].count === 0) continue;
 
-     const baseY = 90 + mscnt * 10 + 30 * i;
+     const baseY = 90 + mscnt * 10 + 46 * i;
 
      // Calculate scores for all 12 major scales
      const majorScores = [];
@@ -12665,55 +12653,6 @@ for (let i = 11; i <= 12; i++) {
      }
 
      const maxMajorScore = Math.max(...majorScores);
-
-    //========================================================
-    // Highlight the selected minor scale type (N, H, or M)
-    //========================================================
-
-    for (let i = 0; i < mscnt; i++) {
-
-        if (!measurePc[i] || measurePc[i].count === 0) continue;
-
-        const selectedKey = measurePc[i].estKey;
-        const scaleType = measurePc[i].estScaleType;
-
-        if (!selectedKey || !["N", "H", "M"].includes(scaleType)) {
-            continue;
-        }
-
-        // Extract the minor tonic, e.g. "G" from "Gm"
-        const match = selectedKey.match(/^([A-G](?:#|b)?)m/i);
-        if (!match) continue;
-
-        const minorName = match[1];
-
-        const pitchClassMap = {
-            C: 0, "C#": 1, Db: 1,
-            D: 2, "D#": 3, Eb: 3,
-            E: 4,
-            F: 5, "F#": 6, Gb: 6,
-            G: 7, "G#": 8, Ab: 8,
-            A: 9, "A#": 10, Bb: 10,
-            B: 11, Cb: 11
-        };
-
-        const minorRoot = pitchClassMap[minorName];
-        if (minorRoot === undefined) continue;
-
-        // Relative major is three semitones above the minor tonic
-        const majorRoot = (minorRoot + 3) % 12;
-        const rowIndex = ["N", "H", "M"].indexOf(scaleType);
-
-        const baseY = 90 + mscnt * 10 + 30 * i;
-
-        ctx.fillStyle = workingColor.pc[majorRoot];
-        ctx.fillRect(
-            100 + 50 * majorRoot,
-            baseY + 10 * (rowIndex + 1) - 10,
-            50,
-            10
-        );
-    }
 
      const rowTypes = ["N", "H", "M"];
 
@@ -12745,7 +12684,7 @@ for (let i = 11; i <= 12; i++) {
              ctx.textAlign = "right";
              ctx.fillText(
                  percentage.toFixed(2),
-                 140 + 50 * majorRoot,
+                 145 + 50 * majorRoot,
                  y
              );
          }
@@ -12754,34 +12693,91 @@ for (let i = 11; i <= 12; i++) {
 
  ctx.textAlign = "left";
 
-// Draw separator lines between measures
-ctx.beginPath();
-ctx.strokeStyle = "#666";
-ctx.lineWidth = 1;
+// Measure separator lines are drawn after the M-row values below,
+// so that each line appears in the gap between complete N/H/M groups.
 
-for (let i = 1; i < mscnt; i++) {
-    const y = 90 + mscnt * 10 + 30 * i;
-    ctx.moveTo(100, y);
-    ctx.lineTo(700, y);
-}
+ /*
+//========================================================
+// Paint every major scale tied for the best fit
+//========================================================
 
-ctx.stroke();
-ctx.lineWidth = 1;
+    for (let i = 0; i < mscnt; i++) {
+
+        if (!measurePc[i] || measurePc[i].count === 0) continue;
+
+        // Calculate scores for all 12 major scales
+        const majorScores = [];
+
+        for (let root = 0; root < 12; root++) {
+
+            const score = measurePc[i].pc.reduce((sum, count, pc) => {
+                const interval = (pc - root + 12) % 12;
+
+                return sum + (
+                    [0, 2, 4, 5, 7, 9, 11].includes(interval)
+                        ? count
+                        : 0
+                );
+            }, 0);
+
+            majorScores.push(score);
+        }
+
+        const maxMajorScore = Math.max(...majorScores);
+
+        // Paint every major scale tied for the highest score
+        for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
+
+            if (majorScores[majorRoot] === maxMajorScore) {
+
+                ctx.fillStyle = workingColor.pc[majorRoot];
+
+                ctx.fillRect(
+                    100 + 50 * majorRoot,
+                    90 + mscnt * 10 + 10 * i,
+                    50,
+                    10
+                );
+            }
+
+            // Display the original relative-minor score
+            ctx.fillStyle = "black";
+
+            const minorRoot = (majorRoot + 9) % 12;
+            const w1 = measurePc[i].scale[minorRoot][1].toFixed(2);
+
+            ctx.textAlign = "right";
+
+            ctx.fillText(
+                w1,
+                130 + 50 * majorRoot,
+                100 + mscnt * 10 + 10 * i
+            );
+        }
+    }
+*/
 
 
-ctx.fillStyle="black";
-ctx.fillText("Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",100,110+mscnt*40);
-ctx.fillText("Measure",0,120+mscnt*40);
-ctx.fillText("Major",50,110+mscnt*40);
-ctx.fillText("Scale",50,120+mscnt*40);
 
-ctx.textAlign = "right";		
-ctx.fillText("Major 1st+5th",220,120+mscnt*40);
-ctx.fillText("Minor 1st+5th",480,120+mscnt*40);
-ctx.fillText("Major",520,120+mscnt*40);
-ctx.fillText("Minor",680,120+mscnt*40);
-ctx.textAlign = "left";		
-ctx.fillText("Estimated Key",700,120+mscnt*40);
+ctx.fillStyle = "black";
+ctx.textAlign = "left";
+const part3BaseY = 130 + mscnt * 56;
+
+ctx.fillText(
+    "Comparing total proportions of the 1st and the 5th pitch classes of the best relative keys",
+    100,
+    part3BaseY
+);
+ctx.fillText("Measure", 0, part3BaseY + 10);
+ctx.fillText("Key pair", 65, part3BaseY + 10);
+
+ctx.textAlign = "right";
+ctx.fillText("Major 1st+5th", 220, part3BaseY + 10);
+ctx.fillText("Minor 1st+5th", 480, part3BaseY + 10);
+ctx.fillText("Major", 520, part3BaseY + 10);
+ctx.fillText("Minor", 680, part3BaseY + 10);
+ctx.textAlign = "left";
+ctx.fillText("Estimated Key", 700, part3BaseY + 10);
 
 let row = 0;
 
@@ -12793,8 +12789,8 @@ for (let i = 0; i < mscnt; i++) {
 
     const scalePoint = 1 / measurePc[i].bestScale.length;
 
-    if (i === 21) {
-        console.log("Measure 22 bestScale roots:", measurePc[i].bestScale);
+    if (i === 11) {
+        console.log("Measure 12 bestScale roots:", measurePc[i].bestScale);
     }
 
     for (const j of measurePc[i].bestScale) {
@@ -12829,83 +12825,9 @@ for (let i = 0; i < mscnt; i++) {
             scaleType: "N"
         };
 
-    const scale = measurePc[i].scale[j];
-    const info = scale[3];
-
-
-    let scaleType = "N";
-    let raised6Up = 0;
-    let raised7Up = 0;
-    let lowered6Down = 0;
-    let lowered7Down = 0;
-
-    for (const note of directionalNotes) {
-
-        // Count movements that end in this measure.
-        if (note.currMeasure !== i) continue;
-
-        const prevInterval =
-            (note.prevMidi % 12 - j + 12) % 12;
-
-        const currInterval =
-            (note.currMidi % 12 - j + 12) % 12;
-
-        if (note.direction === 1) {
-
-            // Count raised degrees at either end of an ascending movement.
-            if (prevInterval === 9 || currInterval === 9) {
-                raised6Up++;
-            }
-
-            if (prevInterval === 11 || currInterval === 11) {
-                raised7Up++;
-            }
-
-        } else {
-
-            // Count lowered degrees at the start of a descending movement.
-            if (prevInterval === 8) lowered6Down++;
-            if (prevInterval === 10) lowered7Down++;
-        }
-
-    }
-
-// Melodic minor: raised 6th and 7th ascending,
-// and at least one lowered degree descending.
-const isMelodicMinor =
-    raised6Up > 0 &&
-    raised7Up > 0 &&
-    (
-        lowered6Down > 0 ||
-        lowered7Down > 0
-    );
-
-if (isMelodicMinor) {
-
-    scaleType = "M";
-
-} else if (
-    info.specialMemberH7 > 0 &&
-    info.scaleMemberH >= scale[0]
-) {
-
-    scaleType = "H";
-}
-
-    scale[2] = scaleType;
-
-    pair.scaleType = scaleType;
-
-    // H/M: select minor directly.
-    // N: compare major and minor.
-    if (scaleType === "H" || scaleType === "M") {
-
-        pair.selected.push({
-            key: minor,
-            point: scalePoint
-        });
-
-    } else if (major.weight > minor.weight) {
+    // First compare the Natural parallel keys.
+    // H/M classification is intentionally postponed.
+    if (major.weight > minor.weight) {
 
         pair.selected.push({
             key: major,
@@ -12935,22 +12857,6 @@ if (isMelodicMinor) {
 
     measurePc[i].pairs.push(pair);
 
-    if (i === 21) {
-        console.log("Measure 22 candidate:", {
-            root: j,
-            minor: minor.name,
-            major: major.name,
-            scaleType,
-            majorWeight: major.weight,
-            minorWeight: minor.weight,
-            raised6Up,
-            raised7Up,
-            lowered6Down,
-            lowered7Down,
-            selected: pair.selected
-        });
-    }
-
 }
 
 
@@ -12974,8 +12880,6 @@ if (isMelodicMinor) {
         .reduce((max, item) => Math.max(max, item.point), -1);
 
     for (const pair of measurePc[i].pairs) {
-        if (pair.scaleType !== "N") continue;
-
         for (const item of pair.selected) {
             if (
                 item.point > 0 &&
@@ -12993,6 +12897,74 @@ if (isMelodicMinor) {
     }
 
 //========================================================
+// After the parallel-key comparison, classify selected minor keys.
+//========================================================
+
+    for (const pair of measurePc[i].pairs) {
+
+        const selectedMinor = pair.selected.some(item =>
+            item.point > 0 && item.key.mode === "minor"
+        );
+
+        if (!selectedMinor) continue;
+
+        const root = pair.minor.root;
+        const scale = measurePc[i].scale[root];
+        const info = scale[3];
+
+        let raised6Up = 0;
+        let raised7Up = 0;
+        let lowered6Down = 0;
+        let lowered7Down = 0;
+
+        for (const note of directionalNotes) {
+
+            if (note.currMeasure !== i) continue;
+
+            const prevInterval =
+                (note.prevMidi % 12 - root + 12) % 12;
+
+            const currInterval =
+                (note.currMidi % 12 - root + 12) % 12;
+
+            if (note.direction === 1) {
+
+                if (prevInterval === 9 || currInterval === 9) {
+                    raised6Up++;
+                }
+
+                if (prevInterval === 11 || currInterval === 11) {
+                    raised7Up++;
+                }
+
+            } else {
+
+                if (prevInterval === 8) lowered6Down++;
+                if (prevInterval === 10) lowered7Down++;
+            }
+        }
+
+        const isMelodicMinor =
+            raised6Up > 0 &&
+            raised7Up > 0 &&
+            (lowered6Down > 0 || lowered7Down > 0);
+
+        let scaleType = "N";
+
+        if (isMelodicMinor) {
+            scaleType = "M";
+        } else if (
+            info.specialMemberH7 > 0 &&
+            info.scaleMemberH >= scale[0]
+        ) {
+            scaleType = "H";
+        }
+
+        scale[2] = scaleType;
+        pair.scaleType = scaleType;
+    }
+
+//========================================================
 // Build keyPoints and estKey
 //========================================================
 
@@ -13001,21 +12973,6 @@ measurePc[i].estKeyPoints = [];
 
 for (const pair of measurePc[i].pairs) {
 
-    // ===== Whole-song score: absolute proportions =====
-    // Add both relative major and minor for every scale type.
-    const scalePoint =
-        1 / measurePc[i].bestScale.length;
-
-    measurePc[i].estKeyPoints.push([
-        pair.major.name,
-        pair.major.weight * scalePoint
-    ]);
-
-    measurePc[i].estKeyPoints.push([
-        pair.minor.name,
-        pair.minor.weight * scalePoint
-    ]);
-
     for (const item of pair.selected) {
 
         if (item.point > 0) {
@@ -13035,33 +12992,6 @@ for (const pair of measurePc[i].pairs) {
         }
     }
 }
-
-/*
-measurePc[i].keyPoints = [];
-measurePc[i].estKeyPoints = [];
-
-for (const pair of measurePc[i].pairs) {
-
-    for (const item of pair.selected) {
-
-        if (item.point > 0) {
-
-            measurePc[i].keyPoints.push([
-                item.key.name,
-                item.point
-            ]);
-
-            // First and last measures receive double weight.
-            if (i === 0 || i === mscnt - 1) {
-                measurePc[i].keyPoints.push([
-                    item.key.name,
-                    item.point
-                ]);
-            }
-        }
-    }
-}
-*/
 
 measurePc[i].estKey = measurePc[i].pairs
     .flatMap(pair => pair.selected)
@@ -13071,17 +13001,6 @@ measurePc[i].estKey = measurePc[i].pairs
         array.indexOf(name) === index
     )
     .join(" / ");
-
-// Save scores before filtering
-measurePc[i].allEstKeyPoints = [...measurePc[i].estKeyPoints];
-
-// Keep only the selected key for whole-song scoring
-const selectedKeys = measurePc[i].estKey
-    .split(" / ")
-    .filter(Boolean);
-
-measurePc[i].estKeyPoints = measurePc[i].estKeyPoints
-    .filter(([key]) => selectedKeys.includes(key));
 
 measurePc[i].estScaleType = measurePc[i].pairs
     .flatMap(pair =>
@@ -13120,6 +13039,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
         ? estKey + " (" + scaleType + ")"
         : estKey;
 
+    ctx.textAlign = "left";
     ctx.fillText(displayKey, 710, 50 + 10 * i);
 
     const primaryKey = measurePc[i].estKey.split(" / ")[0];
@@ -13148,10 +13068,14 @@ measurePc[i].estScaleType = measurePc[i].pairs
         ? ["N", "H", "M"].indexOf(selected.estScaleType)
         : 0;
 
+    ctx.textAlign = "left";
+    ctx.fillText(displayKey, 710, 50 + 10 * i);
+
+    ctx.textAlign = "left";
     ctx.fillText(
         displayKey,
         710,
-        90 + mscnt * 10 + 30 * i + 10 * rowIndex + 8
+        90 + mscnt * 10 + 46 * i + 10 * rowIndex + 8
     );
 
     estimatedMeasureLabelTypes[i] =
@@ -13164,23 +13088,23 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		const majorKey = pair.major;
 		const minorKey = pair.minor;
 
-		const y = 120 + mscnt * 40 + 10 * row;
+		const y = part3BaseY + 10 + 10 * row;
 		const ry = y + 10;
 
 		ctx.textAlign = "right";		
-		// 小節番号（最初のペアだけ表示）
-		if (pair === measurePc[i].pairs[0]) {	
+		// Measure number (shown only for the first pair).
+		if (pair === measurePc[i].pairs[0]) {
 			ctx.fillText(i + 1, 10, ry);
 		}
 
-		// major scale
-		ctx.textAlign = "left";		
-		ctx.fillText(
-			pair.major.name,
-			50,
-			ry
-		);
-		// 採用キー
+        // Show the major key / relative minor pair in Part 3's second column.
+        ctx.textAlign = "left";
+        ctx.fillText(
+            pair.major.name + " / " + pair.minor.name,
+            55,
+            ry
+        );
+
         // Selected key for this pair
         const selectedNames = measurePc[i].keyPoints
             .map(k => k[0]);
@@ -13188,23 +13112,17 @@ measurePc[i].estScaleType = measurePc[i].pairs
         let pairKey = "";
 
         if (measurePc[i].inheritedFromPrevious) {
-
             // Show only the previous measure's estimated key.
             if (pair === measurePc[i].pairs[0]) {
-
                 const previous = measurePc[i - 1];
-
                 if (previous?.estKey) {
                     const key = previous.estKey.split(" / ")[0];
-
                     pairKey = key.endsWith("m") && previous.estScaleType
                         ? key + "(" + previous.estScaleType + ")"
                         : key;
                 }
             }
-
         } else {
-
             pairKey = pair.selected
                 .filter(k =>
                     k.point > 0 &&
@@ -13212,11 +13130,9 @@ measurePc[i].estScaleType = measurePc[i].pairs
                 )
                 .map(k => {
                     const name = k.key.name;
-
                     if (k.key.mode !== "minor") {
                         return name;
                     }
-
                     const type = measurePc[i].scale[k.key.root][2];
                     return name + "(" + type + ")";
                 })
@@ -13226,6 +13142,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
                 .join(" / ");
         }
 
+        ctx.textAlign = "left";
         ctx.fillText(pairKey, 710, ry);
 
 		// ===== Major 左側 =====
@@ -13312,76 +13229,62 @@ measurePc[i].estScaleType = measurePc[i].pairs
 			480,
 			ty
 		);
-
-
+	
         // ===== Actual score added to each key =====
 
-        const majorMinorDiff =
-            majorKey.weight - minorKey.weight;
+        const majorMinorDiff = majorKey.weight - minorKey.weight;
 
-        const estimatedKeys =
-            measurePc[i].estKey.split(" / ");
+        const estimatedKeys = measurePc[i].estKey.split(" / ");
 
-        // Use the selected key, regardless of N/H/M.
-        const selectedKey = pair.selected.find(item =>
-            item.point > 0 &&
-            estimatedKeys.includes(item.key.name) &&
-            (
-                item.key.name === pair.major.name ||
-                item.key.name === pair.minor.name
-            )
-        );
+        if (majorMinorDiff > 0) {
 
-        if (selectedKey && majorMinorDiff !== 0) {
+            // Major優勢
+            ctx.fillStyle = workingColor.pc[majorKey.root];
 
-            const keyName = selectedKey.key.name;
-            const score = Math.abs(majorMinorDiff) *
-                (1 / measurePc[i].bestScale.length);
+            ctx.fillRect(
+                600 - majorMinorDiff,
+                y,
+                majorMinorDiff,
+                10
+            );
 
-            if (selectedKey.key.mode === "major") {
+            ctx.fillStyle = "black";
 
-                ctx.fillStyle =
-                    workingColor.pc[majorKey.root];
+            ctx.fillText(
+                majorMinorDiff.toFixed(2),
+                520,
+                y + 10
+            );
 
-                ctx.fillRect(
-                    600 - score,
-                    y,
-                    score,
-                    10
-                );
+            measurePc[i].estKeyPoints.push([
+                pair.major.name,
+                majorMinorDiff
+            ]);
+                    
+        } else if (majorMinorDiff < 0) {
 
-                ctx.fillStyle = "black";
+            // Minor優勢
+            ctx.fillStyle = workingColor.pc[minorKey.root];
 
-                ctx.fillText(
-                    score.toFixed(2),
-                    520,
-                    y + 10
-                );
+            ctx.fillRect(
+                600,
+                y,
+                -majorMinorDiff,
+                10
+            );
 
-                ctx.fillText("0.00", 680, y + 10);
+            ctx.fillStyle = "black";
 
-            } else {
+            ctx.fillText(
+                (-majorMinorDiff).toFixed(2),
+                680,
+                y + 10
+            );
 
-                ctx.fillStyle =
-                    workingColor.pc[minorKey.root];
-
-                ctx.fillRect(
-                    600,
-                    y,
-                    score,
-                    10
-                );
-
-                ctx.fillStyle = "black";
-
-                ctx.fillText("0.00", 520, y + 10);
-
-                ctx.fillText(
-                    score.toFixed(2),
-                    680,
-                    y + 10
-                );
-            }
+            measurePc[i].estKeyPoints.push([
+                pair.minor.name,
+                -majorMinorDiff
+            ]);
 
         } else {
 
@@ -13392,12 +13295,11 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
         ctx.textAlign = "left";
 
-        row++;
-        
+		row++;
+
 	}	
 
 }
-
 
 //========================================================
 // Inherit the key of the previous measure when necessary
@@ -13438,272 +13340,1221 @@ for (let i = 0; i < measurePc.length; i++) {
 
     ctx.fillStyle = "white";
     ctx.fillRect(700, 41 + 10 * i, 400, 10);
-    ctx.fillRect(700, 91 + mscnt * 10 + 30 * i, 400, 30);
+    ctx.fillRect(700, 91 + mscnt * 10 + 46 * i, 400, 30);
 
     ctx.fillStyle = "black";
+    ctx.textAlign = "left";
     ctx.fillText(displayKey, 710, 50 + 10 * i);
+    ctx.textAlign = "left";
     ctx.fillText(
         displayKey,
         710,
-        100 + mscnt * 10 + 30 * i + 10
+        100 + mscnt * 10 + 46 * i + 10
     );
 }
 
-// Highlight the selected scale type in Part 2
+//========================================================
+// Select the maximum scale by S first.
+// For Minor(N), compare parallel major/minor by T.
+// Whole-song estimation is calculated independently from all notes.
+// M uses the direction of every adjacent-note movement
+// containing the target note (start or end).
+//========================================================
+
+const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];
+const minorScaleIntervals = {
+    N: scaleMnrN,
+    H: scaleMnrH
+};
+
+// Record upward/downward evidence for each actual note.
+// A note can have both flags at a turning point.
+const noteDirectionEvidence = new Map();
+const movementChannels = {};
+
+for (const note of scoreData) {
+    if (!movementChannels[note.channel]) {
+        movementChannels[note.channel] = [];
+    }
+    movementChannels[note.channel].push(note);
+}
+
+function addNoteDirectionEvidence(note, direction) {
+    if (!noteDirectionEvidence.has(note)) {
+        noteDirectionEvidence.set(note, { up: false, down: false });
+    }
+
+    const evidence = noteDirectionEvidence.get(note);
+    if (direction === 1) evidence.up = true;
+    if (direction === -1) evidence.down = true;
+}
+
+for (const channel in movementChannels) {
+    const notes = movementChannels[channel]
+        .slice()
+        .sort((a, b) => a.start - b.start || a.midi - b.midi);
+
+    for (let n = 1; n < notes.length; n++) {
+        const prev = notes[n - 1];
+        const curr = notes[n];
+
+        // Simultaneous notes do not define melodic direction.
+        if (prev.start === curr.start) continue;
+        if (prev.midi === curr.midi) continue;
+
+        const direction = curr.midi > prev.midi ? 1 : -1;
+
+        // Both the starting note and ending note are included.
+        addNoteDirectionEvidence(prev, direction);
+        addNoteDirectionEvidence(curr, direction);
+    }
+}
+
+const notesByMeasureForKey = Array.from(
+    { length: mscnt },
+    () => []
+);
+
+for (const note of scoreData) {
+    let measureIndex = Math.floor(note.start / ticksPerMeasure);
+    // Notes from a merged short final measure belong to the previous
+    // effective measure for scale-membership evaluation as well.
+    if (measurePc[measureIndex]?.inheritedFromPrevious) {
+        measureIndex--;
+    }
+    if (notesByMeasureForKey[measureIndex]) {
+        notesByMeasureForKey[measureIndex].push(note);
+    }
+}
+
+function getMinorDegreeEvidence(notes, root) {
+    const result = {
+        sixthNatural: 0,
+        sixthRaised: 0,
+        seventhNatural: 0,
+        seventhRaised: 0,
+        sixthRaisedUp: 0,
+        sixthNaturalDown: 0,
+        seventhRaisedUp: 0,
+        seventhNaturalDown: 0
+    };
+
+    for (const note of notes) {
+        const interval = (note.midi % 12 - root + 12) % 12;
+        const evidence = noteDirectionEvidence.get(note) || {
+            up: false,
+            down: false
+        };
+
+        if (interval === 8) {
+            result.sixthNatural++;
+            if (evidence.down) result.sixthNaturalDown++;
+        } else if (interval === 9) {
+            result.sixthRaised++;
+            if (evidence.up) result.sixthRaisedUp++;
+        } else if (interval === 10) {
+            result.seventhNatural++;
+            if (evidence.down) result.seventhNaturalDown++;
+        } else if (interval === 11) {
+            result.seventhRaised++;
+            if (evidence.up) result.seventhRaisedUp++;
+        }
+    }
+
+    return result;
+}
+
+function getMelodicMinorCharacteristicEvidence(notes, root) {
+    let raised6Up = false;
+    let raised7Up = false;
+    let natural6Down = false;
+    let natural7Down = false;
+
+    for (const note of notes) {
+        const interval = (note.midi % 12 - root + 12) % 12;
+        const evidence = noteDirectionEvidence.get(note) || {
+            up: false,
+            down: false
+        };
+
+        if (interval === 9 && evidence.up) raised6Up = true;
+        if (interval === 11 && evidence.up) raised7Up = true;
+        if (interval === 8 && evidence.down) natural6Down = true;
+        if (interval === 10 && evidence.down) natural7Down = true;
+    }
+
+    return {
+        raised6Up,
+        raised7Up,
+        natural6Down,
+        natural7Down,
+        isMelodicMinor: raised6Up && raised7Up
+    };
+}
+
+function getMelodicMinorMemberCount(notes, root) {
+    let memberCount = 0;
+
+    for (const note of notes) {
+        const interval = (note.midi % 12 - root + 12) % 12;
+        const evidence = noteDirectionEvidence.get(note) || {
+            up: false,
+            down: false
+        };
+
+        // Notes common to both melodic-minor forms.
+        if ([0, 2, 3, 5, 7].includes(interval)) {
+            memberCount++;
+            continue;
+        }
+
+        // Sixth: natural only on confirmed descent; raised only on ascent.
+        // Notes with unknown direction are not counted in the M scale.
+        if (interval === 8 && evidence.down) {
+            memberCount++;
+            continue;
+        }
+        if (interval === 9 && evidence.up) {
+            memberCount++;
+            continue;
+        }
+
+        // Seventh: natural only on confirmed descent; raised only on ascent.
+        if (interval === 10 && evidence.down) {
+            memberCount++;
+            continue;
+        }
+        if (interval === 11 && evidence.up) {
+            memberCount++;
+        }
+    }
+
+    return memberCount;
+}
+
+function getScaleCoverageCount(notes, root, mode, scaleType) {
+    const usedDegrees = new Set();
+
+    if (mode === 'major' || scaleType === 'N' || scaleType === 'H') {
+        const intervals = mode === 'major'
+            ? majorScaleIntervals
+            : minorScaleIntervals[scaleType];
+
+        for (const note of notes) {
+            const interval = (note.midi % 12 - root + 12) % 12;
+            const degreeIndex = intervals.indexOf(interval);
+
+            if (degreeIndex >= 0) {
+                usedDegrees.add(degreeIndex);
+            }
+        }
+
+        return usedDegrees.size;
+    }
+
+    // Melodic minor: degrees 1-5 are shared. Degrees 6 and 7
+    // depend on the direction of the melodic movement.
+    for (const note of notes) {
+        const interval = (note.midi % 12 - root + 12) % 12;
+        const evidence = noteDirectionEvidence.get(note) || {
+            up: false,
+            down: false
+        };
+        const hasDirection = evidence.up || evidence.down;
+
+        if (interval === 0) usedDegrees.add(0);
+        else if (interval === 2) usedDegrees.add(1);
+        else if (interval === 3) usedDegrees.add(2);
+        else if (interval === 5) usedDegrees.add(3);
+        else if (interval === 7) usedDegrees.add(4);
+        else if (
+            (interval === 8 && (evidence.down || !hasDirection)) ||
+            (interval === 9 && evidence.up)
+        ) {
+            usedDegrees.add(5);
+        } else if (
+            (interval === 10 && (evidence.down || !hasDirection)) ||
+            (interval === 11 && evidence.up)
+        ) {
+            usedDegrees.add(6);
+        }
+    }
+
+    return usedDegrees.size;
+}
+
 for (let i = 0; i < mscnt; i++) {
+    const current = measurePc[i];
+    if (!current || current.count === 0) continue;
 
-    const selected = estimatedMeasureKeys[i];
+    if (current.inheritedFromPrevious) {
+        const previous = measurePc[i - 1];
+        if (previous?.selectedCandidates) {
+            current.selectedCandidates = previous.selectedCandidates;
+            current.evaluationCandidates = previous.evaluationCandidates || previous.selectedCandidates;
+            current.hasNonCMScaleNote = previous.hasNonCMScaleNote;
+            current.candidateScores = [];
+            current.estKey = previous.estKey;
+            current.estScaleType = previous.estScaleType;
+            current.estKeyPoints = [];
 
-    if (!selected || !selected.estKey) {
+            estimatedMeasureKeys[i] = {
+                ...estimatedMeasureKeys[i - 1]
+            };
+            estimatedMeasureLabelTypes[i] =
+                estimatedMeasureLabelTypes[i - 1];
+
+            const inheritedDisplay = current.selectedCandidates
+                .map(candidate => candidate.label)
+                .join(' / ');
+
+            ctx.fillStyle = 'white';
+            ctx.fillRect(700, 41 + 10 * i, 500, 10);
+            ctx.fillRect(
+                700,
+                91 + mscnt * 10 + 46 * i,
+                500,
+                30
+            );
+            ctx.fillStyle = 'black';
+            ctx.fillText(inheritedDisplay, 710, 50 + 10 * i);
+            ctx.fillText(
+                inheritedDisplay,
+                710,
+                100 + mscnt * 10 + 46 * i + 10
+            );
+        }
         continue;
     }
 
-    let majorRoot;
-    let rowIndex;
+    const notes = notesByMeasureForKey[i] || [];
+    const totalNotes = current.count;
+    const candidates = [];
 
-    if (selected.estKey.endsWith("M")) {
+    // First evaluate scale membership only.
+    // The tonic/fifth ratio is not used to select the scale.
+    for (let root = 0; root < 12; root++) {
+        let scaleCount = 0;
 
-        // Major key: highlight Natural Minor (N)
-        // at the relative minor's column.
-        const tonic = selected.estKey.slice(0, -1);
-
-        majorRoot = engf1.indexOf(tonic);
-
-        if (majorRoot < 0) {
-            majorRoot = engs1.indexOf(tonic);
+        for (let pc = 0; pc < 12; pc++) {
+            const interval = (pc - root + 12) % 12;
+            if (majorScaleIntervals.includes(interval)) {
+                scaleCount += current.pc[pc];
+            }
         }
 
-        rowIndex = 0; // N
+        const tonicCount = current.pc[root];
+        const fifthCount = current.pc[(root + 7) % 12];
+        const tonicFifthCount = tonicCount + fifthCount;
+        const scaleRatio = scaleCount / totalNotes; // O
+        const scaleCoverageCount =
+            getScaleCoverageCount(notes, root, 'major', null);
+        const scaleCoverageRatio = scaleCoverageCount / 7; // S
+        const tonicRatio = tonicCount / totalNotes; // T1
+        const fifthRatio = fifthCount / totalNotes; // T5
+        const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
 
+        candidates.push({
+            id: `major:${root}`,
+            mode: 'major',
+            root,
+            scaleType: null,
+            baseName: engf1[root] + 'M',
+            label: engf1[root] + 'M',
+            scaleRatio,
+            scaleCoverageCount,
+            scaleCoverageRatio,
+            tonicCount,
+            fifthCount,
+            tonicFifthCount,
+            tonicRatio,
+            fifthRatio,
+            tonicFifthRatio
+        });
+    }
+
+    // Evaluate all minor scales (N, H, and M) by scale membership only.
+    for (let root = 0; root < 12; root++) {
+        for (const scaleType of ['N', 'H', 'M']) {
+            let scaleCount = 0;
+
+            if (scaleType === 'M') {
+                // M is a candidate only when both characteristic raised
+                // degrees occur in ascending melodic movement:
+                // raised 6th and raised 7th.
+                const melodicEvidence =
+                    getMelodicMinorCharacteristicEvidence(notes, root);
+
+                if (!melodicEvidence.isMelodicMinor) {
+                    continue;
+                }
+
+                scaleCount = getMelodicMinorMemberCount(notes, root);
+            } else {
+                const intervals = minorScaleIntervals[scaleType];
+
+                for (let pc = 0; pc < 12; pc++) {
+                    const interval = (pc - root + 12) % 12;
+                    if (intervals.includes(interval)) {
+                        scaleCount += current.pc[pc];
+                    }
+                }
+            }
+
+            const tonicCount = current.pc[root];
+            const fifthCount = current.pc[(root + 7) % 12];
+            const tonicFifthCount = tonicCount + fifthCount;
+            const scaleRatio = scaleCount / totalNotes; // O
+            const scaleCoverageCount =
+                getScaleCoverageCount(notes, root, 'minor', scaleType);
+            const scaleCoverageRatio = scaleCoverageCount / 7; // S
+            const tonicRatio = tonicCount / totalNotes; // T1
+            const fifthRatio = fifthCount / totalNotes; // T5
+            const tonicFifthRatio = tonicRatio + fifthRatio; // T = T1 + T5
+            const baseName = engMnr1[root] + 'm';
+            const degreeEvidence = getMinorDegreeEvidence(notes, root);
+
+            candidates.push({
+                id: `minor:${root}:${scaleType}`,
+                mode: 'minor',
+                root,
+                scaleType,
+                baseName,
+                label: `${baseName}(${scaleType})`,
+                scaleRatio,
+                scaleCoverageCount,
+                scaleCoverageRatio,
+                tonicCount,
+                fifthCount,
+                tonicFifthCount,
+                tonicRatio,
+                fifthRatio,
+                tonicFifthRatio,
+                sixthNaturalRatio: degreeEvidence.sixthNatural / totalNotes,
+                sixthRaisedRatio: degreeEvidence.sixthRaised / totalNotes,
+                seventhNaturalRatio: degreeEvidence.seventhNatural / totalNotes,
+                seventhRaisedRatio: degreeEvidence.seventhRaised / totalNotes,
+                sixthRaisedUpRatio: degreeEvidence.sixthRaisedUp / totalNotes,
+                sixthNaturalDownRatio: degreeEvidence.sixthNaturalDown / totalNotes,
+                seventhRaisedUpRatio: degreeEvidence.seventhRaisedUp / totalNotes,
+                seventhNaturalDownRatio: degreeEvidence.seventhNaturalDown / totalNotes
+            });
+        }
+
+        // Keep the displayed M membership count direction-aware.
+        if (current.scale?.[root]?.[3]) {
+            current.scale[root][3].scaleMemberM =
+                getMelodicMinorMemberCount(notes, root);
+        }
+    }
+
+    // Keep the independent S, O, and T values for every candidate key.
+    // The current key-selection procedure below is retained provisionally.
+    current.allCandidateScores = candidates;
+
+    // Check whether the measure contains any note outside the fixed C-major collection.
+    // This flag determines the comparison procedure only; it never excludes a key.
+    const cmPitchClasses = new Set([0, 2, 4, 5, 7, 9, 11]);
+    current.hasNonCMScaleNote = notes.some(note =>
+        !cmPitchClasses.has(((note.midi % 12) + 12) % 12)
+    );
+
+    // Keep every candidate, including CM and Am(N), in the evaluation.
+    const eligibleCandidates = candidates;
+
+    let selectedCandidates = [];
+
+    if (!current.hasNonCMScaleNote) {
+        // With no notes outside the C-major collection, compare only
+        // C major and A natural minor using T (1st + 5th ratio).
+        const cmCandidate = eligibleCandidates.find(candidate =>
+            candidate.mode === 'major' && candidate.root === 0
+        );
+        const amCandidate = eligibleCandidates.find(candidate =>
+            candidate.mode === 'minor' && candidate.root === 9 && candidate.scaleType === 'N'
+        );
+
+        current.evaluationCandidates = [cmCandidate, amCandidate].filter(Boolean);
+
+        if (cmCandidate && amCandidate) {
+            if (cmCandidate.tonicFifthRatio > amCandidate.tonicFifthRatio) {
+                selectedCandidates = [cmCandidate];
+            } else if (amCandidate.tonicFifthRatio > cmCandidate.tonicFifthRatio) {
+                selectedCandidates = [amCandidate];
+            } else {
+                // Keep both when T is tied; this measure remains ambiguous.
+                selectedCandidates = [cmCandidate, amCandidate];
+            }
+        } else {
+            selectedCandidates = current.evaluationCandidates;
+        }
     } else {
+        // Compare the remaining candidates in the agreed order: O, then S, then T.
+        const tolerance = 1e-12;
 
-        // Minor key: use its relative major column.
+        const maxO = Math.max(...eligibleCandidates.map(candidate => candidate.scaleRatio));
+        const bestO = eligibleCandidates.filter(candidate =>
+            Math.abs(candidate.scaleRatio - maxO) <= tolerance
+        );
+
+        const maxS = Math.max(...bestO.map(candidate => candidate.scaleCoverageRatio));
+        const bestOS = bestO.filter(candidate =>
+            Math.abs(candidate.scaleCoverageRatio - maxS) <= tolerance
+        );
+
+        const maxT = Math.max(...bestOS.map(candidate => candidate.tonicFifthRatio));
+        selectedCandidates = bestOS.filter(candidate =>
+            Math.abs(candidate.tonicFifthRatio - maxT) <= tolerance
+        );
+
+        // When both H and M satisfy the criteria for the same minor root,
+        // prefer M because its melodic-direction requirements are stricter.
+        const selectedMelodicRoots = new Set(
+            selectedCandidates
+                .filter(candidate => candidate.mode === 'minor' && candidate.scaleType === 'M')
+                .map(candidate => candidate.root)
+        );
+        selectedCandidates = selectedCandidates.filter(candidate => !(
+            candidate.mode === 'minor' &&
+            candidate.scaleType === 'H' &&
+            selectedMelodicRoots.has(candidate.root)
+        ));
+
+        current.evaluationCandidates = selectedCandidates;
+    }
+
+    // Part 3 displays only candidates that participate in the actual
+    // key evaluation. Do not append CM / Am(N) as a reference-only pair.
+    current.evaluationCandidates = (current.evaluationCandidates || [])
+        .filter((candidate, index, array) =>
+            array.findIndex(item => item.id === candidate.id) === index
+        );
+
+    // Remove duplicate entries while preserving different N/H/M labels.
+    current.selectedCandidates = selectedCandidates.filter((candidate, index, array) =>
+        array.findIndex(item =>
+            item.baseName === candidate.baseName &&
+            item.mode === candidate.mode &&
+            item.scaleType === candidate.scaleType
+        ) === index
+    );
+
+    current.candidateScores = current.selectedCandidates;
+
+    current.estKey = current.selectedCandidates
+        .map(candidate => candidate.baseName)
+        .filter((name, index, array) => array.indexOf(name) === index)
+        .join(' / ');
+
+    current.estScaleType = current.selectedCandidates
+        .filter(candidate => candidate.mode === 'minor')
+        .map(candidate => candidate.scaleType)
+        .filter((type, index, array) => array.indexOf(type) === index)
+        .join(' / ');
+
+    current.estKeyPoints = current.selectedCandidates.map(candidate => [
+        candidate.label,
+        candidate.tonicFifthRatio
+    ]);
+
+    // Redraw the M row with direction-aware scale membership values.
+    const mRowY = 90 + mscnt * 10 + 46 * i + 30;
+    for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
+        const minorRoot = (majorRoot + 9) % 12;
+        const mCount = current.scale[minorRoot][3].scaleMemberM;
+        const percentage = mCount / current.count * 100;
+        const x = 145 + 50 * majorRoot;
+
+        // Clear the full score cell before redrawing to avoid tiny remnants
+        // appearing immediately after the numeric value.
+        ctx.fillStyle = 'white';
+        ctx.fillRect(x - 48, mRowY - 10, 50, 12);
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'right';
+        ctx.fillText(percentage.toFixed(2), x, mRowY);
+    }
+    ctx.textAlign = 'left';
+
+    // Draw a horizontal separator in the gap after this measure's N/H/M rows.
+    if (i < mscnt - 1) {
+        const separatorY = mRowY + 8;
+        ctx.beginPath();
+        ctx.strokeStyle = '#999';
+        ctx.lineWidth = 1;
+        ctx.moveTo(20, separatorY);
+        ctx.lineTo(700, separatorY);
+        ctx.stroke();
+    }
+
+    const primary = current.selectedCandidates[0];
+    if (!primary) continue;
+    estimatedMeasureKeys[i] = {
+        estKey: primary.baseName,
+        estScaleType: primary.scaleType,
+        rootPc: primary.root,
+        mode: primary.mode
+    };
+
+    estimatedMeasureLabelTypes[i] = getAutoLabelType(primary.baseName);
+
+    const displayKey = current.selectedCandidates
+        .map(candidate => candidate.label)
+        .join(' / ');
+
+    // Refresh the two measure-key labels with the new evaluation.
+    ctx.fillStyle = 'white';
+    ctx.fillRect(700, 41 + 10 * i, 500, 10);
+    ctx.fillRect(
+        700,
+        91 + mscnt * 10 + 46 * i,
+        500,
+        30
+    );
+    ctx.fillStyle = 'black';
+    ctx.textAlign = "left";
+    ctx.fillText(displayKey, 710, 50 + 10 * i);
+    ctx.textAlign = "left";
+    ctx.fillText(
+        displayKey,
+        710,
+        100 + mscnt * 10 + 46 * i + 10
+    );
+}
+
+// Rebuild Part 3 comparison rows from the same candidates used by
+// the current O/S/T evaluation. This keeps the displayed key pairs
+// consistent with the actual estimation candidates.
+const oldPart3RowCount = row;
+const part3DisplayRows = [];
+
+for (let i = 0; i < mscnt; i++) {
+    const current = measurePc[i];
+    if (!current || current.count === 0) continue;
+
+    const candidates = current.evaluationCandidates?.length
+        ? current.evaluationCandidates
+        : (current.selectedCandidates || []);
+
+    const pairMap = new Map();
+
+    for (const candidate of candidates) {
+        const majorRoot = candidate.mode === "major"
+            ? candidate.root
+            : (candidate.root + 3) % 12;
+        const minorRoot = candidate.mode === "minor"
+            ? candidate.root
+            : (candidate.root + 9) % 12;
+        const pairId = majorRoot + ":" + minorRoot;
+
+        if (!pairMap.has(pairId)) {
+            const major = {
+                root: majorRoot,
+                name: engf1[majorRoot] + "M",
+                weight1: current.pc[majorRoot] / current.count * 100,
+                weight5: current.pc[(majorRoot + 7) % 12] / current.count * 100
+            };
+            major.weight = major.weight1 + major.weight5;
+
+            const minor = {
+                root: minorRoot,
+                name: engMnr1[minorRoot] + "m",
+                weight1: current.pc[minorRoot] / current.count * 100,
+                weight5: current.pc[(minorRoot + 7) % 12] / current.count * 100
+            };
+            minor.weight = minor.weight1 + minor.weight5;
+
+            pairMap.set(pairId, { major, minor });
+        }
+    }
+
+    for (const pair of pairMap.values()) {
+        const selectedLabels = (current.selectedCandidates || [])
+            .filter(candidate => {
+                const candidateMajorRoot = candidate.mode === "major"
+                    ? candidate.root
+                    : (candidate.root + 3) % 12;
+                const candidateMinorRoot = candidate.mode === "minor"
+                    ? candidate.root
+                    : (candidate.root + 9) % 12;
+                return candidateMajorRoot === pair.major.root &&
+                    candidateMinorRoot === pair.minor.root;
+            })
+            .map(candidate => candidate.label)
+            .filter((label, index, labels) => labels.indexOf(label) === index);
+
+        let estimatedLabel = selectedLabels.join(" / ");
+        if (current.inheritedFromPrevious && !estimatedLabel) {
+            const previous = measurePc[i - 1];
+            if (previous?.estKey) {
+                const inheritedKey = previous.estKey.split(" / ")[0];
+                estimatedLabel = inheritedKey.endsWith("m") && previous.estScaleType
+                    ? inheritedKey + "(" + previous.estScaleType + ")"
+                    : inheritedKey;
+            }
+        }
+
+        part3DisplayRows.push({
+            measureIndex: i,
+            major: pair.major,
+            minor: pair.minor,
+            estimatedLabel
+        });
+    }
+}
+
+// Clear the old Part 3 rows before drawing the rebuilt rows.
+ctx.fillStyle = "white";
+ctx.fillRect(
+    0,
+    part3BaseY + 11,
+    1300,
+    Math.max(oldPart3RowCount, part3DisplayRows.length) * 10 + 4
+);
+
+let rebuiltRow = 0;
+let previousMeasureIndex = -1;
+
+for (const displayRow of part3DisplayRows) {
+    const { measureIndex, major, minor, estimatedLabel } = displayRow;
+    const y = part3BaseY + 10 + 10 * rebuiltRow;
+    const textY = y + 10;
+
+    ctx.textAlign = "right";
+    if (measureIndex !== previousMeasureIndex) {
+        ctx.fillStyle = "black";
+        ctx.fillText(measureIndex + 1, 10, textY);
+        previousMeasureIndex = measureIndex;
+    }
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "black";
+    ctx.fillText(major.name + " / " + minor.name, 55, textY);
+    ctx.fillText(estimatedLabel, 710, textY);
+
+    // Major key: 5th on the left, tonic on the right.
+    ctx.fillStyle = workingColor.pc[(major.root + 7) % 12];
+    ctx.fillRect(300 - major.weight, y, major.weight5, 10);
+    ctx.fillStyle = workingColor.pc[major.root];
+    ctx.fillRect(300 - major.weight1, y, major.weight1, 10);
+
+    // Relative minor key: tonic followed by its 5th.
+    ctx.fillStyle = workingColor.pc[minor.root];
+    ctx.fillRect(300, y, minor.weight1, 10);
+    ctx.fillStyle = workingColor.pc[(minor.root + 7) % 12];
+    ctx.fillRect(300 + minor.weight1, y, minor.weight5, 10);
+
+    ctx.fillStyle = "black";
+    ctx.textAlign = "right";
+    ctx.fillText(major.weight1.toFixed(2), 130, textY);
+    ctx.fillText("+" + major.weight5.toFixed(2), 170, textY);
+    ctx.fillText("= " + major.weight.toFixed(2), 220, textY);
+    ctx.fillText(minor.weight1.toFixed(2), 390, textY);
+    ctx.fillText("+" + minor.weight5.toFixed(2), 430, textY);
+    ctx.fillText("= " + minor.weight.toFixed(2), 480, textY);
+
+    const difference = major.weight - minor.weight;
+    if (difference > 0) {
+        ctx.fillStyle = workingColor.pc[major.root];
+        ctx.fillRect(600 - difference, y, difference, 10);
+        ctx.fillStyle = "black";
+        ctx.fillText(difference.toFixed(2), 520, textY);
+    } else if (difference < 0) {
+        ctx.fillStyle = workingColor.pc[minor.root];
+        ctx.fillRect(600, y, -difference, 10);
+        ctx.fillStyle = "black";
+        ctx.fillText((-difference).toFixed(2), 680, textY);
+    } else {
+        ctx.fillStyle = "black";
+        ctx.fillText("0.00", 520, textY);
+        ctx.fillText("0.00", 680, textY);
+    }
+
+    rebuiltRow++;
+}
+
+row = rebuiltRow;
+ctx.textAlign = "left";
+
+// Show every selected candidate on its own row with independent S, O, and T.
+// Place Part 3 below all rows drawn in Part 2.
+const perMeasureTableTop = part3BaseY + 40 + 10 * row;
+const tableRowHeight = 22;
+const tableHeaderHeight = 58;
+
+const candidateRows = [];
+
+for (let i = 0; i < mscnt; i++) {
+    const current = measurePc[i];
+    if (!current || current.count === 0) continue;
+
+    const displayCandidates = current.evaluationCandidates?.length
+        ? current.evaluationCandidates
+        : (current.selectedCandidates || []);
+
+    for (const candidate of displayCandidates) {
+        const isSelected = (current.selectedCandidates || []).some(selected =>
+            selected.id === candidate.id
+        );
+        const parallelKey = candidate.mode === 'major'
+            ? engMnr1[(candidate.root + 9) % 12] + 'm'
+            : engf1[(candidate.root + 3) % 12] + 'M';
+
+        candidateRows.push({
+            measure: i + 1,
+            candidate,
+            parallelKey,
+            isSelected
+        });
+    }
+}
+
+// Add a small gap and separator whenever the measure changes.
+const candidateRowOffsets = [];
+let candidateRowsHeight = 0;
+for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
+    if (rowIndex > 0 &&
+        candidateRows[rowIndex].measure !== candidateRows[rowIndex - 1].measure) {
+        candidateRowsHeight += 8;
+    }
+    candidateRowOffsets.push(candidateRowsHeight);
+    candidateRowsHeight += tableRowHeight;
+}
+
+const perMeasureSummaryTop =
+    perMeasureTableTop + tableHeaderHeight +
+    candidateRowsHeight + 8;
+
+ctx.fillStyle = 'white';
+ctx.fillRect(
+    0,
+    perMeasureTableTop,
+    1300,
+    Math.max(0, perMeasureSummaryTop - perMeasureTableTop)
+);
+
+const previousFont = ctx.font;
+ctx.font = '14px Arial';
+ctx.fillStyle = 'black';
+ctx.textAlign = 'left';
+
+ctx.fillText(
+    'Per-measure key evaluation: candidate keys and relative keys',
+    10,
+    perMeasureTableTop + 18
+);
+ctx.fillText('Measure', 10, perMeasureTableTop + 42);
+ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
+ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
+
+// Right-align all numeric columns. Move the scale-coverage S column
+// 20px to the left to give the following columns clearer spacing.
+ctx.textAlign = 'right';
+ctx.fillText('S', 400, perMeasureTableTop + 42);
+ctx.fillText('O', 490, perMeasureTableTop + 42);
+ctx.fillText('T1', 570, perMeasureTableTop + 42);
+ctx.fillText('T5', 650, perMeasureTableTop + 42);
+ctx.fillText('T', 730, perMeasureTableTop + 42);
+ctx.fillText('6th N', 790, perMeasureTableTop + 42);
+ctx.fillText('6th #', 850, perMeasureTableTop + 42);
+ctx.fillText('7th N', 910, perMeasureTableTop + 42);
+ctx.fillText('7th #', 970, perMeasureTableTop + 42);
+ctx.fillText('6th # Up', 1030, perMeasureTableTop + 42);
+ctx.fillText('6th N Dn', 1090, perMeasureTableTop + 42);
+ctx.fillText('7th # Up', 1160, perMeasureTableTop + 42);
+ctx.fillText('7th N Dn', 1220, perMeasureTableTop + 42);
+ctx.textAlign = 'left';
+ctx.fillText('S', 740, perMeasureTableTop + 42);
+
+for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
+    const row = candidateRows[rowIndex];
+    const candidate = row.candidate;
+    const y =
+        perMeasureTableTop + tableHeaderHeight +
+        candidateRowOffsets[rowIndex];
+
+    if (rowIndex > 0 &&
+        row.measure !== candidateRows[rowIndex - 1].measure) {
+        const separatorY = y - 20;
+        // Center the separator in the vertical gap between measure groups,
+        // clear of both the preceding and following row labels.
+        ctx.save();
+        ctx.fillStyle = '#555';
+        ctx.fillRect(8, separatorY, 1277, 2);
+        ctx.restore();
+    }
+
+    const majorRoot = candidate.mode === 'major'
+        ? candidate.root
+        : (candidate.root + 3) % 12;
+    const minorRoot = (majorRoot + 9) % 12;
+    const candidatePairLabel =
+        engf1[majorRoot] + 'M / ' + engMnr1[minorRoot] + 'm';
+
+    ctx.fillText(String(row.measure), 10, y);
+    ctx.fillText(candidate.label, 90, y);
+    ctx.fillText(row.parallelKey, 260, y);
+    ctx.textAlign = 'right';
+    ctx.fillText(
+        (candidate.scaleCoverageRatio * 100).toFixed(2),
+        400,
+        y
+    );
+    ctx.fillText(
+        (candidate.scaleRatio * 100).toFixed(2),
+        490,
+        y
+    );
+    ctx.fillText(
+        (candidate.tonicRatio * 100).toFixed(2),
+        570,
+        y
+    );
+    ctx.fillText(
+        (candidate.fifthRatio * 100).toFixed(2),
+        650,
+        y
+    );
+    ctx.fillText(
+        (candidate.tonicFifthRatio * 100).toFixed(2),
+        730,
+        y
+    );
+    ctx.textAlign = 'left';
+    ctx.fillText(row.isSelected ? 'S' : '', 740, y);
+
+    // Natural/raised minor degrees and their characteristic directions.
+    // All ratios use the total note count in this measure as denominator.
+    const degreeValues = candidate.mode === 'minor'
+        ? [
+            candidate.sixthNaturalRatio,
+            candidate.sixthRaisedRatio,
+            candidate.seventhNaturalRatio,
+            candidate.seventhRaisedRatio,
+            candidate.sixthRaisedUpRatio,
+            candidate.sixthNaturalDownRatio,
+            candidate.seventhRaisedUpRatio,
+            candidate.seventhNaturalDownRatio
+        ]
+        : null;
+    const degreeX = [790, 850, 910, 970, 1030, 1090, 1160, 1220];
+
+    ctx.textAlign = 'right';
+    for (let degreeIndex = 0; degreeIndex < degreeX.length; degreeIndex++) {
+        const value = degreeValues
+            ? (degreeValues[degreeIndex] * 100).toFixed(2)
+            : '-';
+        ctx.fillText(value, degreeX[degreeIndex], y);
+    }
+    ctx.textAlign = 'left';
+}
+
+ctx.font = previousFont;
+ctx.textAlign = 'left';
+
+// Prepare the English explanation; it is drawn after Part 5.
+const explanationLineHeight = 18;
+const explanationLines = [
+    'Key Estimation Process',
+    'Result S = Selected: this key candidate is selected for the measure.',
+    'S = Scale coverage: distinct scale degrees present / 7 × 100.',
+    'O = In-scale note ratio: notes in the candidate scale / all notes × 100.',
+    'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
+    'T5 = fifth ratio: 5th-degree notes / all notes × 100.',
+    'T = T1 + T5: combined 1st- and 5th-degree ratio.',
+    '6th N / 6th # = natural / raised 6th-degree note ratios; 7th N / 7th # = natural / raised 7th-degree note ratios.',
+    '6th # Up / 7th # Up = raised 6th / 7th notes with ascending melodic evidence.',
+    '6th N Dn / 7th N Dn = natural 6th / 7th notes with descending melodic evidence.',
+    'All six degree ratios are calculated using the total number of notes in the measure as the denominator.',
+    '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
+    '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
+    '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
+    '4. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
+    '5. If H and M are both selected for the same minor tonic, prefer M.',
+    'Whole-song estimation',
+    'The whole song is analyzed directly from all notes in scoreData; per-measure candidates are not used.',
+    'Global O = notes belonging to a major scale / all notes in the song × 100.',
+    'The key-signature candidate is selected by the highest Global O; ties prefer fewer key-signature accidentals.',
+    'Global T1 = tonic notes / all notes × 100; Global T5 = fifth notes / all notes × 100.',
+    'Global T = Global T1 + Global T5. The highest Global T indicates the strongest tonic/fifth center; it does not determine major or minor mode.'
+];
+// Wrap long explanation sentences so they remain fully visible within the canvas.
+const explanationFont = ctx.font;
+ctx.font = '13px Arial';
+const explanationMaxWidth = 1220;
+const wrappedExplanationLines = [];
+
+for (const line of explanationLines) {
+    if (line === 'Key Estimation Process' || line === 'Whole-song estimation') {
+        wrappedExplanationLines.push(line);
+        continue;
+    }
+
+    const words = line.split(' ');
+    let wrappedLine = '';
+
+    for (const word of words) {
+        const testLine = wrappedLine ? wrappedLine + ' ' + word : word;
+
+        if (wrappedLine && ctx.measureText(testLine).width > explanationMaxWidth) {
+            wrappedExplanationLines.push(wrappedLine);
+            wrappedLine = word;
+        } else {
+            wrappedLine = testLine;
+        }
+    }
+
+    if (wrappedLine) wrappedExplanationLines.push(wrappedLine);
+}
+
+ctx.font = explanationFont;
+const explanationHeight = wrappedExplanationLines.length * explanationLineHeight + 12;
+
+// Highlight every selected candidate in Part 2, including all tied keys.
+for (let i = 0; i < mscnt; i++) {
+
+    const selectedCandidates = measurePc[i]?.selectedCandidates || [];
+    const highlightedCells = new Set();
+
+    for (const candidate of selectedCandidates) {
+        let majorRoot;
+        let rowIndex;
+
+        if (candidate.mode === 'major') {
+            // A major candidate is shown in the N row of its own column.
+            majorRoot = candidate.root;
+            rowIndex = 0;
+        } else {
+            // A minor candidate is shown in the row for its N/H/M type
+            // under its relative-major column.
+            majorRoot = (candidate.root + 3) % 12;
+            rowIndex = ['N', 'H', 'M'].indexOf(candidate.scaleType);
+        }
+
         if (
-            selected.rootPc == null ||
-            !["N", "H", "M"].includes(selected.estScaleType)
+            majorRoot < 0 || majorRoot > 11 ||
+            rowIndex < 0 || rowIndex > 2
         ) {
             continue;
         }
 
-        majorRoot = (selected.rootPc + 3) % 12;
+        const cellKey = majorRoot + ':' + rowIndex;
+        if (highlightedCells.has(cellKey)) continue;
+        highlightedCells.add(cellKey);
 
-        rowIndex = ["N", "H", "M"]
-            .indexOf(selected.estScaleType);
+        const baseY = 91 + mscnt * 10 + 46 * i;
+
+        ctx.strokeStyle = workingColor.pc[majorRoot];
+        ctx.lineWidth = 1;
+        ctx.strokeRect(
+            100 + 50 * majorRoot,
+            baseY + 10 * rowIndex,
+            50,
+            10
+        );
     }
-
-    if (majorRoot < 0 || majorRoot > 11) {
-        continue;
-    }
-
-    const baseY = 91 + mscnt * 10 + 30 * i;
-
-    ctx.strokeStyle = workingColor.pc[majorRoot];
-    ctx.lineWidth = 1;
-
-    ctx.strokeRect(
-        100 + 50 * majorRoot,
-        baseY + 10 * rowIndex,
-        50,
-        10
-    );
 }
 
 ctx.lineWidth = 1;
-    
-const points = {};
-const allPoints = {};
-const filteredPoints = {};
 
-for (let i = 0; i < measurePc.length; i++) {
+    //========================================================
+    // Part 5: independent whole-song estimation
+    // Use every note in scoreData directly. Do not use measure
+    // candidates, measure votes, or first/last-measure weights.
+    //========================================================
 
-    const measureWeight =
-        (i === 0 || i === measurePc.length - 1) ? 2 : 1;
+    const globalPc = new Array(12).fill(0);
+    let globalNoteCount = 0;
 
-    // Before filtering
-    for (const [key, point] of measurePc[i].allEstKeyPoints) {
-        allPoints[key] = (allPoints[key] || 0)
-            + point * measureWeight;
+    for (const note of scoreData) {
+        const pc = ((note.midi % 12) + 12) % 12;
+        globalPc[pc]++;
+        globalNoteCount++;
     }
 
-    // After filtering
-for (const [key, point] of measurePc[i].allEstKeyPoints) {
-            filteredPoints[key] = (filteredPoints[key] || 0)
-            + point * measureWeight;
-    }
-}
+    const globalMajorCandidates = [];
+    const keySignatureAccidentals = [
+        0, 5, 2, 3, 4, 1, 6, 1, 4, 3, 2, 5
+    ];
 
-console.log("Overall ranking before filtering:", allPoints);
-console.log("Overall ranking after filtering:", filteredPoints);
+    for (let root = 0; root < 12; root++) {
+        let inScaleCount = 0;
 
-
-    for (let i = 0; i < measurePc.length; i++) {
-
-        const measureWeight =
-            (i === 0 || i === measurePc.length - 1) ? 2 : 1;
-
-        for (const [key, point] of measurePc[i].estKeyPoints) {
-
-            points[key] =
-                (points[key] || 0) + point * measureWeight;
+        for (let pc = 0; pc < 12; pc++) {
+            const interval = (pc - root + 12) % 12;
+            if (majorScaleIntervals.includes(interval)) {
+                inScaleCount += globalPc[pc];
+            }
         }
+
+        const tonicCount = globalPc[root];
+        const fifthCount = globalPc[(root + 7) % 12];
+        const outsideCount = globalNoteCount - inScaleCount;
+
+        const globalO = globalNoteCount > 0
+            ? inScaleCount / globalNoteCount
+            : 0;
+        const globalT1 = globalNoteCount > 0
+            ? tonicCount / globalNoteCount
+            : 0;
+        const globalT5 = globalNoteCount > 0
+            ? fifthCount / globalNoteCount
+            : 0;
+
+        const sharpName = engs1[root] + 'M';
+        const flatName = engf1[root] + 'M';
+        const labelType = getAutoLabelType(flatName);
+        const keyName = labelType === 'flat' ? flatName : sharpName;
+
+        globalMajorCandidates.push({
+            root,
+            keyName,
+            inScaleCount,
+            outsideCount,
+            globalO,
+            globalT1,
+            globalT5,
+            globalT: globalT1 + globalT5,
+            accidentals: keySignatureAccidentals[root]
+        });
     }
 
-    measurePc.estKeyPoints = Object.entries(points);
-
-    measurePc.estKeyPoints.sort((a, b) => b[1] - a[1]);
-
-    const total = measurePc.estKeyPoints.reduce(
-        (sum, [, point]) => sum + point,
-        0
+    const maxGlobalO = Math.max(
+        0,
+        ...globalMajorCandidates.map(candidate => candidate.globalO)
     );
 
-    estimatedKey = measurePc.estKeyPoints[0]?.[0] ?? "";
-    estimatedLabelType = getAutoLabelType(estimatedKey);
+    const maxOKeys = globalMajorCandidates.filter(candidate =>
+        Math.abs(candidate.globalO - maxGlobalO) < 1e-12
+    );
 
-//========================================================
-// DEBUG: New key estimation
-//========================================================
+    const minAccidentals = maxOKeys.length
+        ? Math.min(...maxOKeys.map(candidate => candidate.accidentals))
+        : 0;
 
-console.group("KEY TEST - NEW demp-14.html");
+    const globalKeySignatureCandidates = maxOKeys.filter(candidate =>
+        candidate.accidentals === minAccidentals
+    );
 
-console.log("Input summary", {
-    noteCount: scoreData.length,
-    ticksPerMeasure: ticksPerMeasure,
-    measureCount: measurePc.length,
-    estimatedKey: estimatedKey,
-    estimatedLabelType: estimatedLabelType
-});
+    const bestGlobalT = Math.max(
+        0,
+        ...globalMajorCandidates.map(candidate => candidate.globalT)
+    );
 
-// Per-measure estimates
-console.log("Per-measure key estimation:");
-console.table(
-    measurePc.map((m, i) => ({
-        measure: i + 1,
-        noteCount: m?.count ?? 0,
-        estimatedKey: m?.estKey ?? "",
-        scaleType: m?.estScaleType ?? "",
-        inherited: m?.inheritedFromPrevious ?? false,
-        scoreCandidates: JSON.stringify(m?.estKeyPoints ?? [])
-    }))
-);
+    const globalTonicCandidates = globalMajorCandidates.filter(candidate =>
+        Math.abs(candidate.globalT - bestGlobalT) < 1e-12
+    );
 
-// Overall score ranking
-console.log("Overall key ranking:");
-console.table(
-    measurePc.estKeyPoints.map(([key, point]) => ({
-        key: key,
-        score: Number(point.toFixed(2))
-    }))
-);
+    // Use the Global O winner for note spelling throughout the app.
+    const selectedSignature = globalKeySignatureCandidates[0];
+    estimatedKey = selectedSignature?.keyName ?? '';
+    estimatedLabelType = selectedSignature
+        ? getAutoLabelType(selectedSignature.keyName)
+        : 'sharp';
 
-console.groupEnd();
+    const rowPointStart = perMeasureSummaryTop + 16;
+    const globalTableTop = rowPointStart + 58;
+    const globalRowHeight = 15;
 
-	const rowPointStart = Number(mscnt*50)+Number(row*10);
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'left';
+    ctx.font = '14px Arial';
+    ctx.fillText('Whole-song estimation (all notes in scoreData)', 10, rowPointStart);
 
-	ctx.fillStyle="black";
-	ctx.fillText("Estimated Key",300,rowPointStart);
-	ctx.fillText(val("song1"),300,rowPointStart+10);
-	ctx.fillText("The First and Last Measures Have Double Weight.",300,rowPointStart +210);
-	ctx.fillText("If Multiple Scales Are Estimated for a Measure, the Score Is Divided Equally Among Them.",300, rowPointStart+220);
+    const signatureText = globalKeySignatureCandidates
+        .map(candidate => candidate.keyName)
+        .join(' / ');
+    const tonicText = globalTonicCandidates
+        .map(candidate => candidate.keyName.replace(/M$/, ''))
+        .join(' / ');
 
-	ctx.textAlign = "right";		
-	ctx.fillText("Estimated Key",70,rowPointStart);
-	ctx.fillText("Score",150,rowPointStart);
-	ctx.fillText("Proportion",230,rowPointStart);
-    
-    for (let j = 0; j < measurePc.estKeyPoints.length; j++) {
+    ctx.font = '13px Arial';
+    ctx.fillText(
+        'Key-signature candidate (highest Global O): ' +
+        signatureText + '  (' + (maxGlobalO * 100).toFixed(2) + '%)',
+        10,
+        rowPointStart + 20
+    );
+    ctx.fillText(
+        'Strongest tonic/fifth center (highest Global T): ' +
+        tonicText + '  (' + (bestGlobalT * 100).toFixed(2) + '%)',
+        10,
+        rowPointStart + 38
+    );
 
-        const y = rowPointStart + 10 * (j + 1);
+    ctx.font = '12px Arial';
+    ctx.fillText('Key', 20, globalTableTop);
+    ctx.textAlign = 'right';
+    ctx.fillText('Global O (%)', 170, globalTableTop);
+    ctx.fillText('Outside', 245, globalTableTop);
+    ctx.fillText('T1 (%)', 330, globalTableTop);
+    ctx.fillText('T5 (%)', 410, globalTableTop);
+    ctx.fillText('T (%)', 490, globalTableTop);
+    ctx.textAlign = 'left';
 
-        if (measurePc.estKeyPoints[j][1] == measurePc.estKeyPoints[0][1]) {
+    globalMajorCandidates.sort((a, b) =>
+        b.globalO - a.globalO ||
+        a.accidentals - b.accidentals ||
+        b.globalT - a.globalT
+    );
 
-            ctx.fillStyle = "yellow";
-            ctx.fillRect(0, y - 8, 230, 10);
+    for (let i = 0; i < globalMajorCandidates.length; i++) {
+        const candidate = globalMajorCandidates[i];
+        const y = globalTableTop + globalRowHeight * (i + 1);
+        const isSignatureCandidate = globalKeySignatureCandidates.includes(candidate);
+        const isTonicCandidate = globalTonicCandidates.includes(candidate);
+
+        if (isSignatureCandidate) {
+            ctx.fillStyle = '#fff2b2';
+            ctx.fillRect(8, y - 11, 510, 14);
+        }
+        if (isTonicCandidate) {
+            ctx.strokeStyle = '#3977a8';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(8, y - 11, 510, 14);
         }
 
-        ctx.fillStyle = "black";
-
-        ctx.fillText(
-            measurePc.estKeyPoints[j][0],
-            70,
-            y
-        );
-
-        ctx.fillText(
-            measurePc.estKeyPoints[j][1].toFixed(2),
-            150,
-            y
-        );
-
-        ctx.fillText(
-            (measurePc.estKeyPoints[j][1] / total * 100).toFixed(2) + "%",
-            230,
-            y
-        );
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'left';
+        ctx.fillText(candidate.keyName, 20, y);
+        ctx.textAlign = 'right';
+        ctx.fillText((candidate.globalO * 100).toFixed(2), 170, y);
+        ctx.fillText(String(candidate.outsideCount), 245, y);
+        ctx.fillText((candidate.globalT1 * 100).toFixed(2), 330, y);
+        ctx.fillText((candidate.globalT5 * 100).toFixed(2), 410, y);
+        ctx.fillText((candidate.globalT * 100).toFixed(2), 490, y);
     }
 
+    ctx.textAlign = 'left';
+    ctx.font = '11px Arial';
+    ctx.fillStyle = '#555';
+    ctx.fillText(
+        'Yellow = key-signature candidate (Global O); blue outline = strongest tonic/fifth center (Global T).',
+        10,
+        globalTableTop + globalRowHeight * 13 + 2
+    );
 
-	ctx.textAlign = "left";		
+    // Draw the explanation immediately after the whole-song table.
+    const explanationTop = globalTableTop + globalRowHeight * 14 + 12;
 
-	const cx = 500;      // 中心X
-	const cy = 100 + rowPointStart;
-	const r = 80;        // 半径
-
-	let y = cy - r;
-
-	let startAngle = -Math.PI / 2;   // 12時から開始
-
-	for (let i = 0; i < measurePc.estKeyPoints.length; i++) {
-
-		const ratio = measurePc.estKeyPoints[i][1] / total;
-		const percent = ratio * 100;
-		ctx.fillStyle = "black";
-
-		const endAngle = startAngle + ratio * Math.PI * 2;
-
-        // キー名から色を決定
-        const keyName = measurePc.estKeyPoints[i][0];
-        let root;
-
-        if (keyName.endsWith("M")) {
-            root = engf1.indexOf(keyName.slice(0, -1));
-        } else {
-            root = engMnr1.indexOf(keyName.slice(0, -1));
-        }
-
-        const key = keyName;
-
-        let color = workingColor.pc[root];
-
-        if (key.endsWith("m")) {
-            color = darkenColor(color, 0.8);
-        }
-
-		ctx.fillStyle = color;
-
-		ctx.beginPath();
-		ctx.moveTo(cx, cy);
-		ctx.arc(cx, cy, r, startAngle, endAngle);
-		ctx.closePath();
-		ctx.fill();
-
-		startAngle = endAngle;
-
-		ctx.fillRect(cx + r + 30, y - 8, 12, 12);
-
-		// 文字
-		ctx.fillStyle = "black";
-		ctx.fillText(
-			`${key} ${percent.toFixed(2)}%`,
-			cx + r + 50,
-			y + 2
-		);
-
-		y += 18;
-
-	}
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, explanationTop - 4, 1290, explanationHeight);
+    ctx.font = '13px Arial';
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'left';
+    for (let lineIndex = 0; lineIndex < wrappedExplanationLines.length; lineIndex++) {
+        ctx.fillText(
+            wrappedExplanationLines[lineIndex],
+            10,
+            explanationTop + explanationLineHeight * (lineIndex + 1)
+        );
+    }
+    ctx.font = previousFont;
+    ctx.textAlign = 'left';
 
 }
+
+// Match the page's scrollable area to the enlarged key-estimation canvas.
+$("htmlArea").style.height = canvas.height + "px";
 
 function darkenColor(color, factor) {
 
