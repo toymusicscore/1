@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp67
+demp68
 </title>
 <style>
 
@@ -14356,6 +14356,9 @@ for (let i = 0; i < mscnt; i++) {
 ctx.lineWidth = 1;
 
 
+    // Part 5 ends here; Part 6 uses this position outside the Part 5 block.
+    let part5SectionBottom = 0;
+
     {
     // Shared Black Key Coverage (BKC) data for Parts 5 and 6.
     // BKC counts only black-key pitch classes covered by the candidate key signature.
@@ -14527,6 +14530,8 @@ ctx.lineWidth = 1;
         part5TableTop + part5RowHeight * (part5KeyCandidates.length + 1) + 2
     );
 
+    part5SectionBottom =
+        part5TableTop + part5RowHeight * (part5KeyCandidates.length + 2) + 30;
     }
 
     {
@@ -14658,9 +14663,8 @@ ctx.lineWidth = 1;
     // Part 6 is a comparison index only; Part 5 remains responsible
     // for the key-signature estimate used by the rest of the app.
 
-    const part6RowPointStart = part5TableTop +
-        part5RowHeight * (part5KeyCandidates.length + 2) + 30;
-    const part6TableTop = part6RowPointStart + 58;
+    const part6RowPointStart = part5SectionBottom;
+    const part6TableTop = part6RowPointStart + 76;
     const part6RowHeight = 15;
 
     ctx.fillStyle = 'black';
@@ -14676,9 +14680,13 @@ ctx.lineWidth = 1;
     );
     ctx.fillText(
         'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).',
-    'BKC = black-key notes covered by the candidate key signature / all black-key notes in the song × 100.',
         10,
         part6RowPointStart + 38
+    );
+    ctx.fillText(
+        'BKC = black-key notes covered by the candidate key signature / all black-key notes in the song × 100.',
+        10,
+        part6RowPointStart + 56
     );
 
     ctx.font = '12px Arial';
