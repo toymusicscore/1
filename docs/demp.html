@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp64
+demp65
 </title>
 <style>
 
@@ -14376,6 +14376,15 @@ ctx.lineWidth = 1;
     const part5KeySignatureAccidentals = [
         0, 5, 2, 3, 4, 1, 6, 1, 4, 3, 2, 5
     ];
+    const sharpOrder = 'FCGDAEB';
+    const flatOrder = 'BEADGCF';
+    function formatKeySignature(majorRoot, majorName) {
+        const count = part5KeySignatureAccidentals[majorRoot];
+        if (count === 0) return '—';
+        const isFlat = majorName.includes('b');
+        return (isFlat ? 'b' : '#') +
+            (isFlat ? flatOrder : sharpOrder).slice(0, count);
+    }
 
     // Stage 1: compare the 12 major scales by Scale Member (SM).
     // Stage 2: for each major key, show the tonic/fifth ratios of
@@ -14426,6 +14435,7 @@ ctx.lineWidth = 1;
             minorT1,
             minorD5,
             minorT: minorT1 + minorD5,
+            keySignature: formatKeySignature(majorRoot, majorName),
             accidentals: part5KeySignatureAccidentals[majorRoot]
         });
     }
@@ -14480,17 +14490,18 @@ ctx.lineWidth = 1;
     ctx.font = '12px Arial';
     ctx.textAlign = 'left';
     ctx.fillText('Major key', 12, part5TableTop);
+    ctx.fillText('Signature', 100, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('SM (%)', 205, part5TableTop);
-    ctx.fillText('Major T1 (%)', 330, part5TableTop);
-    ctx.fillText('Major D5 (%)', 445, part5TableTop);
-    ctx.fillText('Major T1+D5 (%)', 575, part5TableTop);
+    ctx.fillText('SM (%)', 245, part5TableTop);
+    ctx.fillText('Major T1 (%)', 365, part5TableTop);
+    ctx.fillText('Major D5 (%)', 480, part5TableTop);
+    ctx.fillText('Major T1+D5 (%)', 610, part5TableTop);
     ctx.textAlign = 'left';
-    ctx.fillText('Relative minor', 600, part5TableTop);
+    ctx.fillText('Relative minor', 635, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Minor T1 (%)', 790, part5TableTop);
-    ctx.fillText('Minor D5 (%)', 910, part5TableTop);
-    ctx.fillText('Minor T1+D5 (%)', 1060, part5TableTop);
+    ctx.fillText('Minor T1 (%)', 825, part5TableTop);
+    ctx.fillText('Minor D5 (%)', 945, part5TableTop);
+    ctx.fillText('Minor T1+D5 (%)', 1095, part5TableTop);
 
     // Sort only by major-scale SM, highest first. Keep all 12 rows visible.
     part5GlobalMajorCandidates.sort((a, b) =>
@@ -14508,23 +14519,24 @@ ctx.lineWidth = 1;
 
         if (isSignatureCandidate) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 1065, 13);
+            ctx.fillRect(8, y - 10, 1110, 13);
         }
 
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
         ctx.fillText(candidate.majorName, 12, y);
+        ctx.fillText(candidate.keySignature, 100, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.globalSM * 100).toFixed(2), 205, y);
-        ctx.fillText((candidate.majorT1 * 100).toFixed(2), 330, y);
-        ctx.fillText((candidate.majorD5 * 100).toFixed(2), 445, y);
-        ctx.fillText((candidate.majorT * 100).toFixed(2), 575, y);
+        ctx.fillText((candidate.globalSM * 100).toFixed(2), 245, y);
+        ctx.fillText((candidate.majorT1 * 100).toFixed(2), 365, y);
+        ctx.fillText((candidate.majorD5 * 100).toFixed(2), 480, y);
+        ctx.fillText((candidate.majorT * 100).toFixed(2), 610, y);
         ctx.textAlign = 'left';
-        ctx.fillText(candidate.minorName, 600, y);
+        ctx.fillText(candidate.minorName, 635, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.minorT1 * 100).toFixed(2), 790, y);
-        ctx.fillText((candidate.minorD5 * 100).toFixed(2), 910, y);
-        ctx.fillText((candidate.minorT * 100).toFixed(2), 1060, y);
+        ctx.fillText((candidate.minorT1 * 100).toFixed(2), 825, y);
+        ctx.fillText((candidate.minorD5 * 100).toFixed(2), 945, y);
+        ctx.fillText((candidate.minorT * 100).toFixed(2), 1095, y);
     }
 
     ctx.textAlign = 'left';
@@ -14559,6 +14571,15 @@ ctx.lineWidth = 1;
     const keySignatureAccidentals = [
         0, 5, 2, 3, 4, 1, 6, 1, 4, 3, 2, 5
     ];
+    const sharpOrder = 'FCGDAEB';
+    const flatOrder = 'BEADGCF';
+    function formatKeySignature(majorRoot, majorName) {
+        const count = keySignatureAccidentals[majorRoot];
+        if (count === 0) return '—';
+        const isFlat = majorName.includes('b');
+        return (isFlat ? 'b' : '#') +
+            (isFlat ? flatOrder : sharpOrder).slice(0, count);
+    }
 
     for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
         let inScaleCount = 0;
@@ -14621,6 +14642,7 @@ ctx.lineWidth = 1;
 
         globalKeyCandidates.push({
             keyName: candidate.majorName,
+            keySignature: formatKeySignature(candidate.majorRoot, candidate.majorName),
             majorRoot: candidate.majorRoot,
             mode: 'major',
             globalSM: candidate.globalSM,
@@ -14632,6 +14654,7 @@ ctx.lineWidth = 1;
 
         globalKeyCandidates.push({
             keyName: candidate.minorName,
+            keySignature: formatKeySignature(candidate.majorRoot, candidate.majorName),
             majorRoot: candidate.majorRoot,
             mode: 'minor',
             globalSM: candidate.globalSM,
@@ -14679,14 +14702,15 @@ ctx.lineWidth = 1;
     ctx.font = '12px Arial';
     ctx.textAlign = 'left';
     ctx.fillText('Key', 12, part6TableTop);
+    ctx.fillText('Signature', 100, part6TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('SM (%)', 230, part6TableTop);
-    ctx.fillText('T1 (%)', 340, part6TableTop);
-    ctx.fillText('D5 (%)', 440, part6TableTop);
-    ctx.fillText('T1+D5 (%)', 565, part6TableTop);
-    ctx.fillText('K (%)', 680, part6TableTop);
+    ctx.fillText('SM (%)', 280, part6TableTop);
+    ctx.fillText('T1 (%)', 390, part6TableTop);
+    ctx.fillText('D5 (%)', 490, part6TableTop);
+    ctx.fillText('T1+D5 (%)', 615, part6TableTop);
+    ctx.fillText('K (%)', 730, part6TableTop);
     ctx.textAlign = 'left';
-    ctx.fillText('WK', 735, part6TableTop);
+    ctx.fillText('WK', 785, part6TableTop);
 
     for (let i = 0; i < globalKeyCandidates.length; i++) {
         const candidate = globalKeyCandidates[i];
@@ -14695,21 +14719,22 @@ ctx.lineWidth = 1;
 
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 790, 13);
+            ctx.fillRect(8, y - 10, 850, 13);
         }
 
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
         ctx.fillText(candidate.keyName, 12, y);
+        ctx.fillText(candidate.keySignature, 100, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.globalSM * 100).toFixed(2), 230, y);
-        ctx.fillText((candidate.t1 * 100).toFixed(2), 340, y);
-        ctx.fillText((candidate.d5 * 100).toFixed(2), 440, y);
-        ctx.fillText((candidate.t * 100).toFixed(2), 565, y);
-        ctx.fillText((candidate.k * 100).toFixed(2), 680, y);
+        ctx.fillText((candidate.globalSM * 100).toFixed(2), 280, y);
+        ctx.fillText((candidate.t1 * 100).toFixed(2), 390, y);
+        ctx.fillText((candidate.d5 * 100).toFixed(2), 490, y);
+        ctx.fillText((candidate.t * 100).toFixed(2), 615, y);
+        ctx.fillText((candidate.k * 100).toFixed(2), 730, y);
         ctx.textAlign = 'left';
         if (isSelected) {
-            ctx.fillText('S', 735, y);
+            ctx.fillText('S', 785, y);
         }
     }
 
