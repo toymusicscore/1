@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr31
+demp61
 </title>
 <style>
 
@@ -14272,10 +14272,10 @@ const explanationLines = [
     'Whole-song estimation',
     'The whole song is analyzed directly from all notes in scoreData; per-measure candidates are not used.',
     'Global SM = notes belonging to each of the 12 major scales / all notes in the song × 100.',
-    'The 12 major scales are compared by Global SM; ties prefer fewer key-signature accidentals.',
-    'For each of the 12 major keys, the table shows major T1, D5 and T1+D5, plus the same three values for its relative minor.',
-    'T1 = tonic notes / all notes; D5 = fifth notes / all notes; T1+D5 = their sum. Values are calculated separately for the major and minor tonic.',
-    'This table is a comparison display, not yet a final minor-mode (N/H/M) decision.'
+    'Rows are sorted by Global SM (highest first), then by the higher T1+D5 of the major/relative-minor pair.',
+    'For the scale with the highest Global SM, compare major T1+D5 and relative-minor T1+D5.',
+    'WK = Whole Song Key. S marks the major or relative-minor key with the higher T1+D5 within the highest-SM scale.',
+    'T1+D5 = (tonic notes + fifth notes) / all notes in the song × 100.'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14357,9 +14357,9 @@ for (let i = 0; i < mscnt; i++) {
 ctx.lineWidth = 1;
 
     //========================================================
-    // Part 5: independent whole-song estimation
-    // Use every note in scoreData directly. Do not use measure
-    // candidates, measure votes, or first/last-measure weights.
+    // Part 5: Whole Song Key (WK)
+    // Rank major-scale candidates by Global SM, then compare
+    // the major and relative-minor tonic/fifth ratios.
     //========================================================
 
     const globalPc = new Array(12).fill(0);
@@ -14376,9 +14376,6 @@ ctx.lineWidth = 1;
         0, 5, 2, 3, 4, 1, 6, 1, 4, 3, 2, 5
     ];
 
-    // Stage 1: compare the 12 major scales by Scale Member (SM).
-    // Stage 2: for each major key, show the tonic/fifth ratios of
-    // its relative minor. Do not rank N/H/M candidates at this stage.
     for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
         let inScaleCount = 0;
         for (let pc = 0; pc < 12; pc++) {
@@ -14425,6 +14422,7 @@ ctx.lineWidth = 1;
             minorT1,
             minorD5,
             minorT: minorT1 + minorD5,
+            pairMaxT: Math.max(majorT1 + majorD5, minorT1 + minorD5),
             accidentals: keySignatureAccidentals[majorRoot]
         });
     }
@@ -14433,17 +14431,37 @@ ctx.lineWidth = 1;
         0,
         ...globalMajorCandidates.map(candidate => candidate.globalSM)
     );
-    const maxSMKeys = globalMajorCandidates.filter(candidate =>
+    const maxSMCandidates = globalMajorCandidates.filter(candidate =>
         Math.abs(candidate.globalSM - maxGlobalSM) < 1e-12
     );
-    const minAccidentals = maxSMKeys.length
-        ? Math.min(...maxSMKeys.map(candidate => candidate.accidentals))
+
+    // WK is selected only among the major/minor pair(s) with the
+    // highest Global SM. Within that scale, the higher T1+D5 wins.
+    let wholeSongKeyCandidate = null;
+    let wholeSongKeyMode = '';
+    let wholeSongKeyT = -1;
+
+    for (const candidate of maxSMCandidates) {
+        if (candidate.majorT > wholeSongKeyT) {
+            wholeSongKeyCandidate = candidate;
+            wholeSongKeyMode = 'major';
+            wholeSongKeyT = candidate.majorT;
+        }
+        if (candidate.minorT > wholeSongKeyT) {
+            wholeSongKeyCandidate = candidate;
+            wholeSongKeyMode = 'minor';
+            wholeSongKeyT = candidate.minorT;
+        }
+    }
+
+    // Keep the existing key-signature estimate based on Global SM.
+    // If Global SM is tied, prefer fewer key-signature accidentals.
+    const minAccidentals = maxSMCandidates.length
+        ? Math.min(...maxSMCandidates.map(candidate => candidate.accidentals))
         : 0;
-    const globalKeySignatureCandidates = maxSMKeys.filter(candidate =>
+    const globalKeySignatureCandidates = maxSMCandidates.filter(candidate =>
         candidate.accidentals === minAccidentals
     );
-
-    // Keep the key-signature spelling based on the highest major-scale SM.
     const selectedSignature = globalKeySignatureCandidates[0];
     estimatedKey = selectedSignature?.majorName ?? '';
     estimatedLabelType = selectedSignature
@@ -14457,21 +14475,16 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Whole-song estimation (all notes in scoreData)', 10, rowPointStart);
-
-    const signatureText = globalKeySignatureCandidates
-        .map(candidate => candidate.majorName)
-        .join(' / ');
+    ctx.fillText('Part 5: Whole Song Key (WK)', 10, rowPointStart);
 
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Key-signature candidate (highest Global SM among 12 major scales): ' +
-        signatureText + '  (' + (maxGlobalSM * 100).toFixed(2) + '%)',
+        'Scale Member (SM) is ranked first. For the highest-SM scale, compare major and relative-minor T1+D5.',
         10,
         rowPointStart + 20
     );
     ctx.fillText(
-        'Both each major key and its relative minor are shown with T1, D5 and T1+D5.',
+        'S = Whole Song Key (WK): the major or relative-minor key with the higher T1+D5 within the highest-SM scale.',
         10,
         rowPointStart + 38
     );
@@ -14481,19 +14494,18 @@ ctx.lineWidth = 1;
     ctx.fillText('Major key', 12, globalTableTop);
     ctx.textAlign = 'right';
     ctx.fillText('SM (%)', 205, globalTableTop);
-    ctx.fillText('Major T1 (%)', 330, globalTableTop);
-    ctx.fillText('Major D5 (%)', 445, globalTableTop);
-    ctx.fillText('Major T1+D5 (%)', 575, globalTableTop);
+    ctx.fillText('T1+D5 (%)', 390, globalTableTop);
     ctx.textAlign = 'left';
-    ctx.fillText('Relative minor', 600, globalTableTop);
+    ctx.fillText('Relative minor', 440, globalTableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Minor T1 (%)', 790, globalTableTop);
-    ctx.fillText('Minor D5 (%)', 910, globalTableTop);
-    ctx.fillText('Minor T1+D5 (%)', 1060, globalTableTop);
+    ctx.fillText('T1+D5 (%)', 700, globalTableTop);
+    ctx.textAlign = 'left';
+    ctx.fillText('WK', 755, globalTableTop);
 
-    // Sort only by major-scale SM, highest first. Keep all 12 rows visible.
+    // Sort by Global SM first, then by the higher T1+D5 in each pair.
     globalMajorCandidates.sort((a, b) =>
         b.globalSM - a.globalSM ||
+        b.pairMaxT - a.pairMaxT ||
         a.accidentals - b.accidentals ||
         a.majorRoot - b.majorRoot
     );
@@ -14501,43 +14513,60 @@ ctx.lineWidth = 1;
     for (let i = 0; i < globalMajorCandidates.length; i++) {
         const candidate = globalMajorCandidates[i];
         const y = globalTableTop + globalRowHeight * (i + 1);
-        const isSignatureCandidate = globalKeySignatureCandidates.some(item =>
-            item.majorRoot === candidate.majorRoot
-        );
+        const isHighestSM = Math.abs(candidate.globalSM - maxGlobalSM) < 1e-12;
+        const isSelectedMajor =
+            candidate.majorRoot === wholeSongKeyCandidate?.majorRoot &&
+            wholeSongKeyMode === 'major';
+        const isSelectedMinor =
+            candidate.majorRoot === wholeSongKeyCandidate?.majorRoot &&
+            wholeSongKeyMode === 'minor';
 
-        if (isSignatureCandidate) {
+        if (isHighestSM) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 1065, 13);
+            ctx.fillRect(8, y - 10, 790, 13);
         }
 
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
-        ctx.fillText(candidate.majorName, 12, y);
+        ctx.fillText(candidate.majorName + (isSelectedMajor ? '  S' : ''), 12, y);
         ctx.textAlign = 'right';
         ctx.fillText((candidate.globalSM * 100).toFixed(2), 205, y);
-        ctx.fillText((candidate.majorT1 * 100).toFixed(2), 330, y);
-        ctx.fillText((candidate.majorD5 * 100).toFixed(2), 445, y);
-        ctx.fillText((candidate.majorT * 100).toFixed(2), 575, y);
+        ctx.fillText((candidate.majorT * 100).toFixed(2), 390, y);
         ctx.textAlign = 'left';
-        ctx.fillText(candidate.minorName, 600, y);
+        ctx.fillText(candidate.minorName + (isSelectedMinor ? '  S' : ''), 440, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.minorT1 * 100).toFixed(2), 790, y);
-        ctx.fillText((candidate.minorD5 * 100).toFixed(2), 910, y);
-        ctx.fillText((candidate.minorT * 100).toFixed(2), 1060, y);
+        ctx.fillText((candidate.minorT * 100).toFixed(2), 700, y);
+        ctx.textAlign = 'left';
+        if (isSelectedMajor) {
+            ctx.fillText('S', 755, y);
+        } else if (isSelectedMinor) {
+            ctx.fillText('S', 755, y);
+        }
     }
 
     ctx.textAlign = 'left';
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'Yellow = major-scale key-signature candidate (highest Scale Member).',
+        'Yellow = highest Global SM scale candidate(s); S = selected Whole Song Key (WK).',
         10,
         globalTableTop + globalRowHeight * 13 + 2
     );
 
     // Draw the explanation immediately after the whole-song table.
-    const explanationTop = globalTableTop + globalRowHeight * (globalMajorCandidates.length + 2) + 12;
+    const explanationTop =
+        globalTableTop +
+        globalRowHeight * (globalMajorCandidates.length + 2) + 12;
 
+    ctx.textAlign = 'left';
+    ctx.font = '11px Arial';
+    ctx.fillStyle = '#555';
+
+    ctx.fillText(
+        'Yellow = selected Whole Song Key (WK).',
+        10,
+        explanationTop
+    );
     ctx.fillStyle = 'white';
     ctx.fillRect(0, explanationTop - 4, 1290, explanationHeight);
     ctx.font = '13px Arial';
