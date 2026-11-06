@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp61
+demp62
 </title>
 <style>
 
@@ -14489,58 +14489,62 @@ ctx.lineWidth = 1;
         rowPointStart + 38
     );
 
-    ctx.font = '12px Arial';
-    ctx.textAlign = 'left';
-    ctx.fillText('Major key', 12, globalTableTop);
-    ctx.textAlign = 'right';
-    ctx.fillText('SM (%)', 205, globalTableTop);
-    ctx.fillText('T1+D5 (%)', 390, globalTableTop);
-    ctx.textAlign = 'left';
-    ctx.fillText('Relative minor', 440, globalTableTop);
-    ctx.textAlign = 'right';
-    ctx.fillText('T1+D5 (%)', 700, globalTableTop);
-    ctx.textAlign = 'left';
-    ctx.fillText('WK', 755, globalTableTop);
+    // Build one unified list: major and relative-minor keys share the same columns.
+    const wholeSongRows = [];
+    for (const candidate of globalMajorCandidates) {
+        wholeSongRows.push({
+            keyName: candidate.majorName,
+            globalSM: candidate.globalSM,
+            tonicFifth: candidate.majorT,
+            majorRoot: candidate.majorRoot,
+            mode: 'major',
+            accidentals: candidate.accidentals
+        });
+        wholeSongRows.push({
+            keyName: candidate.minorName + '(N)',
+            globalSM: candidate.globalSM,
+            tonicFifth: candidate.minorT,
+            majorRoot: candidate.majorRoot,
+            mode: 'minor',
+            accidentals: candidate.accidentals
+        });
+    }
 
-    // Sort by Global SM first, then by the higher T1+D5 in each pair.
-    globalMajorCandidates.sort((a, b) =>
+    // Sort all major and minor candidates together.
+    wholeSongRows.sort((a, b) =>
         b.globalSM - a.globalSM ||
-        b.pairMaxT - a.pairMaxT ||
+        b.tonicFifth - a.tonicFifth ||
         a.accidentals - b.accidentals ||
-        a.majorRoot - b.majorRoot
+        a.keyName.localeCompare(b.keyName)
     );
 
-    for (let i = 0; i < globalMajorCandidates.length; i++) {
-        const candidate = globalMajorCandidates[i];
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Key', 12, globalTableTop);
+    ctx.textAlign = 'right';
+    ctx.fillText('SM (%)', 300, globalTableTop);
+    ctx.fillText('T1+D5 (%)', 500, globalTableTop);
+
+    for (let i = 0; i < wholeSongRows.length; i++) {
+        const row = wholeSongRows[i];
         const y = globalTableTop + globalRowHeight * (i + 1);
-        const isHighestSM = Math.abs(candidate.globalSM - maxGlobalSM) < 1e-12;
-        const isSelectedMajor =
-            candidate.majorRoot === wholeSongKeyCandidate?.majorRoot &&
-            wholeSongKeyMode === 'major';
-        const isSelectedMinor =
-            candidate.majorRoot === wholeSongKeyCandidate?.majorRoot &&
-            wholeSongKeyMode === 'minor';
+        const isHighestSM = Math.abs(row.globalSM - maxGlobalSM) < 1e-12;
+        const isSelected =
+            row.majorRoot === wholeSongKeyCandidate?.majorRoot &&
+            row.mode === wholeSongKeyMode;
 
         if (isHighestSM) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 790, 13);
+            ctx.fillRect(8, y - 10, 510, 13);
         }
 
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
-        ctx.fillText(candidate.majorName + (isSelectedMajor ? '  S' : ''), 12, y);
+        ctx.fillText(row.keyName + (isSelected ? '  S' : ''), 12, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.globalSM * 100).toFixed(2), 205, y);
-        ctx.fillText((candidate.majorT * 100).toFixed(2), 390, y);
-        ctx.textAlign = 'left';
-        ctx.fillText(candidate.minorName + (isSelectedMinor ? '  S' : ''), 440, y);
-        ctx.textAlign = 'right';
-        ctx.fillText((candidate.minorT * 100).toFixed(2), 700, y);
-        ctx.textAlign = 'left';
-        if (isSelectedMajor) {
-            ctx.fillText('S', 755, y);
-        } else if (isSelectedMinor) {
-            ctx.fillText('S', 755, y);
+        ctx.fillText((row.globalSM * 100).toFixed(2), 300, y);
+        ctx.fillText((row.tonicFifth * 100).toFixed(2), 500, y);
+        if (isSelected) {
         }
     }
 
@@ -14548,25 +14552,14 @@ ctx.lineWidth = 1;
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'Yellow = highest Global SM scale candidate(s); S = selected Whole Song Key (WK).',
+        'Yellow = highest Global SM candidate(s); S = selected Whole Song Key (WK).',
         10,
-        globalTableTop + globalRowHeight * 13 + 2
+        globalTableTop + globalRowHeight * (wholeSongRows.length + 1) + 2
     );
 
     // Draw the explanation immediately after the whole-song table.
-    const explanationTop =
-        globalTableTop +
-        globalRowHeight * (globalMajorCandidates.length + 2) + 12;
+    const explanationTop = globalTableTop + globalRowHeight * (wholeSongRows.length + 2) + 12;
 
-    ctx.textAlign = 'left';
-    ctx.font = '11px Arial';
-    ctx.fillStyle = '#555';
-
-    ctx.fillText(
-        'Yellow = selected Whole Song Key (WK).',
-        10,
-        explanationTop
-    );
     ctx.fillStyle = 'white';
     ctx.fillRect(0, explanationTop - 4, 1290, explanationHeight);
     ctx.font = '13px Arial';
