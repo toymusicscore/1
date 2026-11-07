@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp86
+demp87
 </title>
 <style>
 
@@ -14328,7 +14328,7 @@ const explanationLines = [
     '6. Opening pickup: if the first measure is incomplete, combine its notes with the following complete measure and evaluate them as one key-analysis unit. This combination applies only to key estimation; score measure numbering, measure boundaries and playback positions remain unchanged.',
     'Whole-song estimation',
     'Part 5: Aggregate the selected measure keys by key-analysis unit; tied candidates share each unit vote equally.',
-    'Part 5: Calculate K for each key-analysis unit, then aggregate the results; the first and last units receive double weight.',
+    'Part 5: For each unit, exclude candidates with zero tonic notes when another candidate has at least one tonic note; then aggregate K. The first and last units receive double weight.',
     'Part 6: As a reference, calculate SM, T1, D5, T1+D5 and K for each key using all notes in the entire song.',
     'Part 6: Compare this whole-song calculation with Part 5, which aggregates the individual key-analysis units. Part 6 does not determine the app\'s key-signature estimate.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
@@ -14469,6 +14469,8 @@ ctx.lineWidth = 1;
         part5EligibleMeasures++;
         part5TotalWeight += measureWeight;
 
+        const measureCandidates = [];
+
         for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
             let inScaleCount = 0;
             for (const interval of majorScaleIntervals) {
@@ -14494,26 +14496,41 @@ ctx.lineWidth = 1;
                     keyId: 'M:' + majorRoot,
                     keyName: majorName,
                     majorRoot,
+                    tonicCount: current.pc[majorRoot],
                     k: sm * (majorT1 + majorD5)
                 },
                 {
                     keyId: 'm:' + minorRoot,
                     keyName: minorName,
                     majorRoot,
+                    tonicCount: current.pc[minorRoot],
                     k: sm * (minorT1 + minorD5)
                 }
             ];
 
-            for (const candidate of candidates) {
-                const existing = part5Scores.get(candidate.keyId) || {
-                    keyId: candidate.keyId,
-                    keyName: candidate.keyName,
-                    majorRoot: candidate.majorRoot,
-                    weightedK: 0
-                };
-                existing.weightedK += candidate.k * measureWeight;
-                part5Scores.set(candidate.keyId, existing);
-            }
+            measureCandidates.push(...candidates);
+        }
+
+        // Part 5 test: across all candidates for this measure, exclude every
+        // candidate whose tonic (1st degree) does not occur, provided at least
+        // one candidate has a tonic. This prevents support from the 5th degree
+        // alone. If no candidate has a tonic, retain the original candidate set.
+        const candidatesWithTonic = measureCandidates.filter(
+            candidate => candidate.tonicCount > 0
+        );
+        const eligibleCandidates = candidatesWithTonic.length > 0
+            ? candidatesWithTonic
+            : measureCandidates;
+
+        for (const candidate of eligibleCandidates) {
+            const existing = part5Scores.get(candidate.keyId) || {
+                keyId: candidate.keyId,
+                keyName: candidate.keyName,
+                majorRoot: candidate.majorRoot,
+                weightedK: 0
+            };
+            existing.weightedK += candidate.k * measureWeight;
+            part5Scores.set(candidate.keyId, existing);
         }
     }
 
