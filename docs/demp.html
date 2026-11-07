@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp80
+demp81
 </title>
 <style>
 
@@ -9218,7 +9218,9 @@ function lineScore(tick){
             (m >= measureOffsetTicks &&
              (m - measureOffsetTicks) % ticksPerMeasure === 0);
 		if(isMeasureLine && inVisibleRange){
-			let vmn0=getMeasureIndex(m)+1;
+            const vmn0 = measureOffsetTicks > 0
+                ? getMeasureIndex(m)
+                : getMeasureIndex(m) + 1;
             const lineY = 2*my + (measurePosition % measuresPerScreen) * szy / measuresPerScreen;
 			ctx.beginPath();
 			ctx.moveTo(0,lineY);
@@ -9232,8 +9234,10 @@ function lineScore(tick){
 				ctx.fillStyle = workingColor.text[0];
 				ctx.font = "25px Arial";
 			}
-			ctx.textAlign = "left";
-			ctx.fillText(vmn0,0,2*my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+            ctx.textAlign = "left";
+            if (vmn0 > 0) {
+                ctx.fillText(vmn0,0,2*my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+            }
 		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			ctx.beginPath();
             const beatY = 2*my + (measurePosition % measuresPerScreen) * szy / measuresPerScreen;
@@ -12456,11 +12460,13 @@ ctx.fillText("Measure",0,40);
 ctx.fillText("Estimated Key",700,40);
 
 for(let i=0; i<mscnt; i++){
-	if (i+1>=10){
-		ctx.fillText(i+1, 0, 50+i*10);
-	}else{	
-		ctx.fillText(i+1, 5, 50+i*10);
-	}
+    if (measureOffsetTicks > 0 && i === 0) continue;
+    const displayMeasure = measureOffsetTicks > 0 ? i : i + 1;
+    if (displayMeasure >= 10){
+        ctx.fillText(displayMeasure, 0, 50+i*10);
+    } else {
+        ctx.fillText(displayMeasure, 5, 50+i*10);
+    }
 }
 
 for(let k=0;k<=11;k++){
@@ -12488,10 +12494,12 @@ ctx.fillText("Count",50,90+mscnt*10);
 ctx.fillText("Estimated Key",700,90+mscnt*10);
 
 for (let i = 0; i < mscnt; i++) {
+    if (measureOffsetTicks > 0 && i === 0) continue;
+    const displayMeasure = measureOffsetTicks > 0 ? i : i + 1;
     const y = 100 + mscnt * 10 + 46 * i;
 
     ctx.fillStyle = "black";
-    ctx.fillText(i + 1, i + 1 >= 10 ? 0 : 5, y);
+    ctx.fillText(displayMeasure, displayMeasure >= 10 ? 0 : 5, y);
 }
 /*
 for (let i=0; i<mscnt; i++){
@@ -13120,7 +13128,7 @@ measurePc[i].estScaleType = measurePc[i].pairs
 		ctx.textAlign = "right";		
 		// Measure number (shown only for the first pair).
 		if (pair === measurePc[i].pairs[0]) {
-			ctx.fillText(i + 1, 10, ry);
+			ctx.fillText(measureOffsetTicks > 0 ? i : i + 1, 10, ry);
 		}
 
         // Show the major key / relative minor pair in Part 3's second column.
@@ -13898,7 +13906,7 @@ for (let i = 0; i < mscnt; i++) {
 
         part3DisplayRows.push({
             measureIndex: i,
-            measureLabel: current.combinedWithNext ? '1–2' : String(i + 1),
+            measureLabel: current.combinedWithNext ? '1' : String(measureOffsetTicks > 0 ? i : i + 1),
             major: pair.major,
             minor: pair.minor,
             estimatedLabel
@@ -14004,7 +14012,7 @@ for (let i = 0; i < mscnt; i++) {
             : engf1[(candidate.root + 3) % 12] + 'M';
 
         candidateRows.push({
-            measure: current.combinedWithNext ? '1–2' : String(i + 1),
+            measure: current.combinedWithNext ? '1' : String(measureOffsetTicks > 0 ? i : i + 1),
             candidate,
             parallelKey,
             isSelected
