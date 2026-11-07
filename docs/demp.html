@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp74
+demp75
 </title>
 <style>
 
@@ -14240,7 +14240,7 @@ const explanationLines = [
     'Part 5: Evaluate each measure using K; the first and last non-empty measures receive double weight.',
     'Part 6: List each major and minor key in one Key column and compare SM, T1, D5, T1+D5 and K.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
-    'K = SM × (T1+D5) × T1. The key with the highest K is selected as the Whole Song Key (WK).'
+    'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14396,13 +14396,13 @@ ctx.lineWidth = 1;
                     keyId: 'M:' + majorRoot,
                     keyName: majorName,
                     majorRoot,
-                    k: sm * (majorT1 + majorD5) * majorT1
+                    k: sm * (majorT1 + majorD5)
                 },
                 {
                     keyId: 'm:' + minorRoot,
                     keyName: minorName,
                     majorRoot,
-                    k: sm * (minorT1 + minorD5) * minorT1
+                    k: sm * (minorT1 + minorD5)
                 }
             ];
 
@@ -14587,7 +14587,7 @@ ctx.lineWidth = 1;
     }
 
     // Build one row per major or relative-minor key.
-    // K combines scale membership, tonic/fifth emphasis, and tonic ratio.
+    // K combines scale membership and tonic/fifth emphasis.
     const globalKeyCandidates = [];
 
     for (const candidate of globalMajorCandidates) {
@@ -14603,7 +14603,7 @@ ctx.lineWidth = 1;
             t1: candidate.majorT1,
             d5: candidate.majorD5,
             t: majorT,
-            k: candidate.globalSM * majorT * candidate.majorT1
+            k: candidate.globalSM * majorT
         });
 
         globalKeyCandidates.push({
@@ -14615,7 +14615,7 @@ ctx.lineWidth = 1;
             t1: candidate.minorT1,
             d5: candidate.minorD5,
             t: minorT,
-            k: candidate.globalSM * minorT * candidate.minorT1
+            k: candidate.globalSM * minorT
         });
     }
 
@@ -14648,7 +14648,7 @@ ctx.lineWidth = 1;
         part6RowPointStart + 20
     );
     ctx.fillText(
-        'K = SM × (T1+D5) × T1. The key with the highest K is selected as the Whole Song Key (WK).',
+        'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).',
         10,
         part6RowPointStart + 38
     );
@@ -14690,7 +14690,7 @@ ctx.lineWidth = 1;
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'K = SM × (T1+D5) × T1. Candidates are sorted by K in descending order.',
+        'K = SM × (T1+D5). Candidates are sorted by K in descending order.',
         10,
         part6TableTop + part6RowHeight * (globalKeyCandidates.length + 1) + 2
     );
