@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp70
+demp71
 </title>
 <style>
 
@@ -14271,10 +14271,10 @@ const explanationLines = [
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
-    'Part 5: Combine N/H/M for each minor tonic and rank keys by weighted measure votes.',
-    'Part 6: List each major and minor key in one Key column and show SM, T1, D5, T1+D5, K, and R.',
+    'Part 5: Combine N/H/M for each minor tonic and rank keys by weighted measure votes; BKC shows black-key coverage.',
+    'Part 6: List each major and minor key in one Key column and show SM, T1, D5, T1+D5 and BKC.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
-    'K = SM × (T1+D5). R = tonic count / average count of the other six pitch classes in the candidate scale; R is comparison-only.'
+    'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14356,7 +14356,38 @@ for (let i = 0; i < mscnt; i++) {
 ctx.lineWidth = 1;
 
 
+    // Part 5 ends here; Part 6 uses this position outside the Part 5 block.
+    let part5SectionBottom = 0;
+
     {
+    // Shared Black Key Coverage (BKC) data for Parts 5 and 6.
+    // BKC counts only black-key pitch classes covered by the candidate key signature.
+    const blackKeyPitchClasses = new Set([1, 3, 6, 8, 10]);
+    const blackKeyPcCounts = new Array(12).fill(0);
+    for (const note of scoreData) {
+        const pc = ((note.midi % 12) + 12) % 12;
+        if (blackKeyPitchClasses.has(pc)) blackKeyPcCounts[pc]++;
+    }
+    const blackKeyNoteCount = blackKeyPcCounts.reduce((sum, count) => sum + count, 0);
+
+    function calculateBlackKeyCoverage(majorRoot, majorName) {
+        if (blackKeyNoteCount === 0) return 0;
+        const accidentalCount = [0, 5, 2, 3, 4, 1, 6, 1, 4, 3, 2, 5][majorRoot];
+        const isFlat = majorName.includes('b');
+        const order = isFlat
+            ? ['B', 'E', 'A', 'D', 'G', 'C', 'F']
+            : ['F', 'C', 'G', 'D', 'A', 'E', 'B'];
+        const naturalPc = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+        const covered = new Set();
+        for (const letter of order.slice(0, accidentalCount)) {
+            const pc = (naturalPc[letter] + (isFlat ? 11 : 1)) % 12;
+            if (blackKeyPitchClasses.has(pc)) covered.add(pc);
+        }
+        let coveredCount = 0;
+        for (const pc of covered) coveredCount += blackKeyPcCounts[pc];
+        return coveredCount / blackKeyNoteCount;
+    }
+
     //========================================================
     // Part 5: whole-song key estimation by aggregating measure results.
     // Tied selected candidates share one measure vote equally.
@@ -14405,26 +14436,32 @@ ctx.lineWidth = 1;
     }
 
     const part5KeyCandidates = [];
-    for (const [keyId, key] of part5Votes) {
-        const majorRoot = key.mode === 'major'
-            ? key.root
-            : (key.root + 3) % 12;
+    for (const [keyId, votes] of part5Votes) {
+        // keyId is stored as "M:root" or "m:root"; the Map value is the vote total.
+        const [modeCode, rootText] = keyId.split(':');
+        const mode = modeCode === 'm' ? 'minor' : 'major';
+        const root = Number(rootText);
+        const majorRoot = mode === 'major'
+            ? root
+            : (root + 3) % 12;
+
         const sharpMajorName = engs1[majorRoot] + 'M';
         const flatMajorName = engf1[majorRoot] + 'M';
         const majorName = getAutoLabelType(flatMajorName) === 'flat'
             ? flatMajorName
             : sharpMajorName;
-        const keyName = key.mode === 'major'
+        const keyName = mode === 'major'
             ? majorName
-            : engMnr1[key.root] + 'm';
+            : engMnr1[root] + 'm';
 
         part5KeyCandidates.push({
             keyId,
             keyName,
             keySignature: formatPart5KeySignature(majorRoot, majorName),
-            votes: key.votes || part5Votes.get(keyId),
+            bkc: calculateBlackKeyCoverage(majorRoot, majorName),
+            votes,
             percentage: part5EligibleMeasures > 0
-                ? part5Votes.get(keyId) / part5EligibleMeasures
+                ? votes / part5EligibleMeasures
                 : 0,
             accidentals: part5KeySignatureAccidentals[majorRoot]
         });
@@ -14469,6 +14506,7 @@ ctx.lineWidth = 1;
     ctx.textAlign = 'right';
     ctx.fillText('Votes', 300, part5TableTop);
     ctx.fillText('Measures (%)', 430, part5TableTop);
+    ctx.fillText('BKC (%)', 550, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
         const candidate = part5KeyCandidates[i];
@@ -14476,7 +14514,7 @@ ctx.lineWidth = 1;
         const isSelected = i === 0;
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 440, 13);
+            ctx.fillRect(8, y - 10, 570, 13);
         }
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
@@ -14485,6 +14523,7 @@ ctx.lineWidth = 1;
         ctx.textAlign = 'right';
         ctx.fillText(candidate.votes.toFixed(2), 300, y);
         ctx.fillText((candidate.percentage * 100).toFixed(2), 430, y);
+        ctx.fillText((candidate.bkc * 100).toFixed(2), 550, y);
     }
 
     ctx.textAlign = 'left';
@@ -14496,6 +14535,8 @@ ctx.lineWidth = 1;
         part5TableTop + part5RowHeight * (part5KeyCandidates.length + 1) + 2
     );
 
+    part5SectionBottom =
+        part5TableTop + part5RowHeight * (part5KeyCandidates.length + 2) + 30;
     }
 
     {
@@ -14579,6 +14620,21 @@ ctx.lineWidth = 1;
         });
     }
 
+    // R = tonic count / mean count of the other six notes in the
+    // corresponding major-scale pitch-class set. Relative major/minor
+    // share the same seven notes, but use different tonics.
+    function calculateTonicDominanceRatio(pcCounts, scaleRoot, tonicRoot) {
+        let otherSixCount = 0;
+        for (const interval of majorScaleIntervals) {
+            const pc = (scaleRoot + interval) % 12;
+            if (pc !== tonicRoot) otherSixCount += pcCounts[pc];
+        }
+        const otherSixMean = otherSixCount / 6;
+        return otherSixMean > 0
+            ? pcCounts[tonicRoot] / otherSixMean
+            : null;
+    }
+
     // Build one row per major or relative-minor key.
     // K combines scale membership and tonic/fifth emphasis.
     const globalKeyCandidates = [];
@@ -14587,30 +14643,18 @@ ctx.lineWidth = 1;
         const majorT = candidate.majorT;
         const minorT = candidate.minorT;
 
-        const majorOtherScaleAverage = (
-            candidate.inScaleCount - globalPc[candidate.majorRoot]
-        ) / 6;
-        const majorR = majorOtherScaleAverage > 0
-            ? globalPc[candidate.majorRoot] / majorOtherScaleAverage
-            : null;
-        const minorOtherScaleAverage = (
-            candidate.inScaleCount - globalPc[candidate.minorRoot]
-        ) / 6;
-        const minorR = minorOtherScaleAverage > 0
-            ? globalPc[candidate.minorRoot] / minorOtherScaleAverage
-            : null;
-
         globalKeyCandidates.push({
             keyName: candidate.majorName,
             keySignature: formatKeySignature(candidate.majorRoot, candidate.majorName),
             majorRoot: candidate.majorRoot,
             mode: 'major',
             globalSM: candidate.globalSM,
+            bkc: calculateBlackKeyCoverage(candidate.majorRoot, candidate.majorName),
             t1: candidate.majorT1,
             d5: candidate.majorD5,
             t: majorT,
-            k: candidate.globalSM * majorT,
-            r: majorR
+            r: calculateTonicDominanceRatio(globalPc, candidate.majorRoot, candidate.majorRoot),
+            k: candidate.globalSM * majorT
         });
 
         globalKeyCandidates.push({
@@ -14619,11 +14663,12 @@ ctx.lineWidth = 1;
             majorRoot: candidate.majorRoot,
             mode: 'minor',
             globalSM: candidate.globalSM,
+            bkc: calculateBlackKeyCoverage(candidate.majorRoot, candidate.majorName),
             t1: candidate.minorT1,
             d5: candidate.minorD5,
             t: minorT,
-            k: candidate.globalSM * minorT,
-            r: minorR
+            r: calculateTonicDominanceRatio(globalPc, candidate.majorRoot, candidate.minorRoot),
+            k: candidate.globalSM * minorT
         });
     }
 
@@ -14640,26 +14685,30 @@ ctx.lineWidth = 1;
     // Part 6 is a comparison index only; Part 5 remains responsible
     // for the key-signature estimate used by the rest of the app.
 
-    const part6RowPointStart = part5TableTop +
-        part5RowHeight * (part5KeyCandidates.length + 2) + 30;
-    const part6TableTop = part6RowPointStart + 58;
+    const part6RowPointStart = part5SectionBottom;
+    const part6TableTop = part6RowPointStart + 76;
     const part6RowHeight = 15;
 
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 6: Whole Song Key comparison', 10, part6RowPointStart);
+    ctx.fillText('Part 6: Whole Song Key (WK)', 10, part6RowPointStart);
 
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each major and minor key is listed in one Key column. SM, T1, D5, T1+D5, K, and R are shown separately.',
+        'Each major and minor key is listed in one Key column. SM, T1, D5, T1+D5, BKC and tonic dominance R are compared.',
         10,
         part6RowPointStart + 20
     );
     ctx.fillText(
-        'K = SM × (T1+D5). R = tonic count / average count of the other six pitch classes in the candidate scale. R is for comparison only.',
+        'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).',
         10,
         part6RowPointStart + 38
+    );
+    ctx.fillText(
+        'R = tonic count / mean count of the other six scale notes. R is for comparison only and does not affect K.',
+        10,
+        part6RowPointStart + 56
     );
 
     ctx.font = '12px Arial';
@@ -14667,12 +14716,13 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, part6TableTop);
     ctx.fillText('Signature', 100, part6TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('SM (%)', 280, part6TableTop);
-    ctx.fillText('T1 (%)', 390, part6TableTop);
-    ctx.fillText('D5 (%)', 490, part6TableTop);
-    ctx.fillText('T1+D5 (%)', 615, part6TableTop);
-    ctx.fillText('K (%)', 730, part6TableTop);
-    ctx.fillText('R', 830, part6TableTop);
+    ctx.fillText('SM (%)', 260, part6TableTop);
+    ctx.fillText('T1 (%)', 350, part6TableTop);
+    ctx.fillText('D5 (%)', 440, part6TableTop);
+    ctx.fillText('T1+D5 (%)', 540, part6TableTop);
+    ctx.fillText('K (%)', 630, part6TableTop);
+    ctx.fillText('BKC (%)', 740, part6TableTop);
+    ctx.fillText('R', 850, part6TableTop);
 
     for (let i = 0; i < globalKeyCandidates.length; i++) {
         const candidate = globalKeyCandidates[i];
@@ -14681,7 +14731,7 @@ ctx.lineWidth = 1;
 
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 870, 13);
+            ctx.fillRect(8, y - 10, 890, 13);
         }
 
         ctx.fillStyle = 'black';
@@ -14689,23 +14739,20 @@ ctx.lineWidth = 1;
         ctx.fillText(candidate.keyName, 12, y);
         ctx.fillText(candidate.keySignature, 100, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.globalSM * 100).toFixed(2), 280, y);
-        ctx.fillText((candidate.t1 * 100).toFixed(2), 390, y);
-        ctx.fillText((candidate.d5 * 100).toFixed(2), 490, y);
-        ctx.fillText((candidate.t * 100).toFixed(2), 615, y);
-        ctx.fillText((candidate.k * 100).toFixed(2), 730, y);
-        ctx.fillText(
-            candidate.r === null ? '-' : candidate.r.toFixed(2),
-            830,
-            y
-        );
+        ctx.fillText((candidate.globalSM * 100).toFixed(2), 260, y);
+        ctx.fillText((candidate.t1 * 100).toFixed(2), 350, y);
+        ctx.fillText((candidate.d5 * 100).toFixed(2), 440, y);
+        ctx.fillText((candidate.t * 100).toFixed(2), 540, y);
+        ctx.fillText((candidate.k * 100).toFixed(2), 630, y);
+        ctx.fillText((candidate.bkc * 100).toFixed(2), 740, y);
+        ctx.fillText(candidate.r === null ? '-' : candidate.r.toFixed(2), 850, y);
     }
 
     ctx.textAlign = 'left';
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'K = SM × (T1+D5). R = tonic count / average count of the other six pitch classes in the candidate scale. R does not affect sorting.',
+        'K = SM × (T1+D5). R = tonic count / average count of the other six scale notes; R does not affect sorting.',
         10,
         part6TableTop + part6RowHeight * (globalKeyCandidates.length + 1) + 2
     );
