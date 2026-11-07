@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp77
+demp78
 </title>
 <style>
 
@@ -2486,6 +2486,7 @@ let f110=[];
 let f111=[];
 let rst=0;
 let ticksPerMeasure = 1920;
+let measureOffsetTicks = 0;
 let pedalData = [];
 let pedalState = false;
 let enablePlaybackSound = true;
@@ -2928,6 +2929,12 @@ function initializeScoreSystem(){
 		timeSignatureDenominator
 	);
 
+    measureOffsetTicks = detectOpeningMeasureOffset(
+        scoreMain,
+        songLengthTicks,
+        ticksPerMeasure
+    );
+
 	hands = splitHands(scoreMain);
 
 	scoreRight = hands.right;
@@ -2986,6 +2993,59 @@ function calcTicksPerMeasure(
            4 *
            beatsPerMeasure /
            timeSignatureDenominator;
+}
+
+// Detect a short opening measure only when the MIDI timing provides
+// consistent evidence: the song ends on a regular bar boundary after
+// an offset, the first notes begin at tick 0, a note ends at the offset,
+// and another note begins exactly there. Otherwise keep standard bars.
+function detectOpeningMeasureOffset(notes, totalTicks, barTicks) {
+    if (!notes.length || !barTicks || totalTicks <= 0) return 0;
+
+    const offset = totalTicks % barTicks;
+    if (offset <= 0 || offset >= barTicks) return 0;
+
+    let firstStart = Infinity;
+    let lastStop = 0;
+    let notesBeforeOffset = 0;
+    let endsAtOffset = false;
+    let startsAtOffset = false;
+
+    for (const note of notes) {
+        if (note.start < firstStart) firstStart = note.start;
+        if (note.stop > lastStop) lastStop = note.stop;
+        if (note.start < offset) notesBeforeOffset++;
+        if (note.stop === offset) endsAtOffset = true;
+        if (note.start === offset) startsAtOffset = true;
+    }
+
+    // Conservative fallback: do not infer a pickup from duration alone.
+    if (firstStart !== 0 || notesBeforeOffset < 2 ||
+        !endsAtOffset || !startsAtOffset || lastStop !== totalTicks) {
+        return 0;
+    }
+
+    return offset;
+}
+
+function getMeasureIndex(tick) {
+    if (!measureOffsetTicks) {
+        return Math.floor(tick / ticksPerMeasure);
+    }
+    if (tick < measureOffsetTicks) return 0;
+    return 1 + Math.floor((tick - measureOffsetTicks) / ticksPerMeasure);
+}
+
+function getMeasurePosition(tick) {
+    if (!measureOffsetTicks) return tick / ticksPerMeasure;
+    if (tick < measureOffsetTicks) return tick / ticksPerMeasure;
+    return 1 + (tick - measureOffsetTicks) / ticksPerMeasure;
+}
+
+function getMeasureStartTick(measureNumber) {
+    if (measureNumber <= 1) return 0;
+    if (!measureOffsetTicks) return (measureNumber - 1) * ticksPerMeasure;
+    return measureOffsetTicks + (measureNumber - 2) * ticksPerMeasure;
 }
 
 
@@ -4009,7 +4069,7 @@ function loopPlayback(){
         return;
     }
 
-    setVal("x_targetMeasure", Math.floor(tick / ticksPerMeasure) + 1);
+    setVal("x_targetMeasure", getMeasureIndex(tick) + 1);
 
     renderPlayBack(tick);
 
@@ -4337,11 +4397,11 @@ function getLabelReverse(midi, n_id){
 }
 
 function getVisibleLength(start, stop, tick){
-    return (
-        stop >= tick + measuresPerScreen*ticksPerMeasure*3/4
-        ? (tick + measuresPerScreen*ticksPerMeasure*3/4 - start)/ticksPerMeasure
-        : (stop - start)/ticksPerMeasure
-    );
+    const startPosition = getMeasurePosition(start);
+    const stopPosition = getMeasurePosition(stop);
+    const tickPosition = getMeasurePosition(tick);
+    const visibleEnd = tickPosition + measuresPerScreen * 3 / 4;
+    return Math.max(0, Math.min(stopPosition, visibleEnd) - startPosition);
 }
 
 function getViewInfo(){
@@ -9132,9 +9192,11 @@ function lineScore(tick){
 	}
 
 	if (tick<songLengthTicks){
+        const tickPosition = getMeasurePosition(tick);
+        const tickY = 2*my + (tickPosition % measuresPerScreen) * szy / measuresPerScreen;
 		ctx.beginPath();
-		ctx.moveTo(0,2*my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-		ctx.lineTo(szx,2*my+tick%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+		ctx.moveTo(0, tickY);
+		ctx.lineTo(szx, tickY);
 		ctx.strokeStyle=workingColor.line[5];
 		ctx.stroke();
 	} else {
@@ -9148,11 +9210,19 @@ function lineScore(tick){
 	ctx.stroke();
 
 	for(let m=0;m<songLengthTicks;m=m+ticksPerQuarterNote/timeSignatureDenominator*4){
-		if(m%(ticksPerMeasure)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
-			let vmn0=m/ticksPerMeasure+1;
+        const measurePosition = getMeasurePosition(m);
+        const tickPosition = getMeasurePosition(tick);
+        const inVisibleRange = measurePosition >= tickPosition &&
+            measurePosition < tickPosition + measuresPerScreen;
+        const isMeasureLine = m === 0 ||
+            (m >= measureOffsetTicks &&
+             (m - measureOffsetTicks) % ticksPerMeasure === 0);
+		if(isMeasureLine && inVisibleRange){
+			let vmn0=getMeasureIndex(m)+1;
+            const lineY = 2*my + (measurePosition % measuresPerScreen) * szy / measuresPerScreen;
 			ctx.beginPath();
-			ctx.moveTo(0,2*my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-			ctx.lineTo(mx+szk,2*my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+			ctx.moveTo(0,lineY);
+			ctx.lineTo(mx+szk,lineY);
 			ctx.strokeStyle=workingColor.line[3];
 			ctx.stroke();
 			if(vmn0 === highlightMeasure){
@@ -9166,8 +9236,9 @@ function lineScore(tick){
 			ctx.fillText(vmn0,0,2*my+25+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
 		}else if(m%(ticksPerQuarterNote/timeSignatureDenominator*4)===0 && m>=tick && m<(tick+measuresPerScreen*ticksPerMeasure)){
 			ctx.beginPath();
-			ctx.moveTo(mx,2*my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
-			ctx.lineTo(mx+szk,2*my+m%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure));
+            const beatY = 2*my + (measurePosition % measuresPerScreen) * szy / measuresPerScreen;
+			ctx.moveTo(mx,beatY);
+			ctx.lineTo(mx+szk,beatY);
 			ctx.strokeStyle=workingColor.line[4];
 			ctx.stroke();
 			}
@@ -9180,8 +9251,8 @@ function lineScore(tick){
 		let track = view.scoreViewData[i].track;
 		let channel = view.scoreViewData[i].channel;
 		let n_id = view.scoreViewData[i].n_id;
-		const dt = (start-tick)/ticksPerMeasure;
-		const dp = (stop-tick)/ticksPerMeasure;
+        const dt = getMeasurePosition(start) - getMeasurePosition(tick);
+        const dp = getMeasurePosition(stop) - getMeasurePosition(tick);
 		const gt = getVisibleLength(
 			start,
 			stop,
@@ -9214,7 +9285,7 @@ function lineScore(tick){
 		if (dp >=0 && dt < measuresPerScreen*3/4){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
-			const y = 2*my+start%(measuresPerScreen*ticksPerMeasure)*szy/(measuresPerScreen*ticksPerMeasure);
+            const y = 2*my + (getMeasurePosition(start) % measuresPerScreen) * szy / measuresPerScreen;
 			if (!isFinite(x0) || !isFinite(y) || !isFinite(gt)){
 					continue;
 				}
@@ -9326,7 +9397,7 @@ function lineScore(tick){
 			}
 		}
 
-        const measureIndex = Math.floor(start / ticksPerMeasure);
+        const measureIndex = getMeasureIndex(start);
         const nl = getLabel(midi, n_id, songId, measureIndex);
                 if (nl !== ""){
 //				ctx.fillStyle=workingColor.text[1];
@@ -9880,9 +9951,7 @@ function createPedalGraphData(){
 		data.push({
 			cc: p.cc,			
 			measure:
-				Math.floor(
-					p.start / ticksPerMeasure
-				) + 1,
+				getMeasureIndex(p.start) + 1,
 			tick: p.start,
 			pedalValue: p.value
 		});
@@ -9940,14 +10009,10 @@ function updateAnalysisData(){
         );
 
 	firstMeasure =
-		Math.floor(
-			firstTick / ticksPerMeasure
-		) + 1;
+		getMeasureIndex(firstTick) + 1;
 
 	lastMeasure =
-		Math.floor(
-			lastTick / ticksPerMeasure
-		) + 1;
+		getMeasureIndex(lastTick) + 1;
 
 }
 
@@ -10283,9 +10348,7 @@ function drawPedalGraph(
 			cc: p.cc,
 
 			measure:
-				Math.floor(
-					p.start / ticksPerMeasure
-				) + 1,
+				getMeasureIndex(p.start) + 1,
 
 			tick: p.start,
 
@@ -10327,10 +10390,7 @@ function drawPedalGraph(
 
 	ctx.fillStyle = "black";
 
-	const totalMeasures =
-		Math.ceil(
-			maxTick / ticksPerMeasure
-		);
+	const totalMeasures = getMeasureIndex(maxTick) + 1;
 
 	for(
 		let m = 1;
@@ -10338,8 +10398,7 @@ function drawPedalGraph(
 		m++
 	){
 
-		const tick =
-			(m - 1) * ticksPerMeasure;
+		const tick = getMeasureStartTick(m);
 
 		const x =
 			mx +
@@ -11488,77 +11547,77 @@ function getDurationTimeString(ms){
 //
 
 function updateMeasurePosition(){
-	const targetMeasure = num("x_targetMeasure");
-	
-	highlightMeasure = targetMeasure;
-
-	pauseTick =
-		(targetMeasure - 1)
-		* ticksPerMeasure;
-
-	showSelectedView();
+    const targetMeasure = num("x_targetMeasure");
+    highlightMeasure = targetMeasure;
+    pauseTick = getMeasureStartTick(targetMeasure);
+    showSelectedView();
 }
 
 function goToFirstMeasure(){
-	audioContext.resume();
+    audioContext.resume();
     pauseTick = 0;
-	setVal("x_targetMeasure", 1);
+    setVal("x_targetMeasure", 1);
     showSelectedView();
 }
 
 function goToLastMeasure(){
-    pauseTick=Math.floor(songLengthTicks/ticksPerMeasure-1)*ticksPerMeasure;
-	setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
+    const lastMeasure = Math.max(1, getMeasureIndex(Math.max(0, songLengthTicks - 1)) + 1);
+    pauseTick = getMeasureStartTick(lastMeasure);
+    setVal("x_targetMeasure", lastMeasure);
     showSelectedView();
 }
 
 function goBackOneMeasure(){
-    if((num("x_targetMeasure")-1)*ticksPerMeasure>0){
-        pauseTick=(num("x_targetMeasure")-2)*ticksPerMeasure;
-		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
-		nextIndex = -1;
-		prevTick = pauseTick;
-		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
-    }else{
-        goToFirstMeasure();	
+    const targetMeasure = num("x_targetMeasure");
+    if (targetMeasure > 1) {
+        pauseTick = getMeasureStartTick(targetMeasure - 1);
+        playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
+        nextIndex = -1;
+        prevTick = pauseTick;
+        setVal("x_targetMeasure", targetMeasure - 1);
+    } else {
+        goToFirstMeasure();
     }
     showSelectedView();
 }
 
 function goBackOnePage(){
-    if((num("x_targetMeasure")-1-measuresPerScreen)*ticksPerMeasure>0){
-        pauseTick=(num("x_targetMeasure")-1-measuresPerScreen)*ticksPerMeasure;
-		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
-		nextIndex = -1;
-		prevTick = pauseTick;
-		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
-    }else{
-        goToFirstMeasure();	
-    }
+    const targetMeasure = num("x_targetMeasure");
+    const nextMeasure = Math.max(1, targetMeasure - measuresPerScreen);
+    pauseTick = getMeasureStartTick(nextMeasure);
+    playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
+    nextIndex = -1;
+    prevTick = pauseTick;
+    setVal("x_targetMeasure", nextMeasure);
     showSelectedView();
 }
 
 function goForwardOneMeasure(){
-    if(num("x_targetMeasure")*ticksPerMeasure<songLengthTicks){
-        pauseTick=num("x_targetMeasure")*ticksPerMeasure;
-		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
-		nextIndex = -1;
-		prevTick = pauseTick;
-		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
-     }
+    const targetMeasure = num("x_targetMeasure");
+    const nextMeasure = targetMeasure + 1;
+    const nextTick = getMeasureStartTick(nextMeasure);
+    if (nextTick < songLengthTicks) {
+        pauseTick = nextTick;
+        playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
+        nextIndex = -1;
+        prevTick = pauseTick;
+        setVal("x_targetMeasure", nextMeasure);
+    }
     showSelectedView();
 }
 
-
 function goForwardOnePage(){
-    if((num("x_targetMeasure")-1+measuresPerScreen)*ticksPerMeasure<songLengthTicks){
-        pauseTick=(num("x_targetMeasure")-1+measuresPerScreen)*ticksPerMeasure;
-		playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
-		nextIndex = -1;
-		prevTick = pauseTick;
-		setVal("x_targetMeasure", Math.floor(pauseTick/ticksPerMeasure)+1);
-    }else{
-        goToLastMeasure();	
+    const targetMeasure = num("x_targetMeasure");
+    const nextMeasure = targetMeasure + measuresPerScreen;
+    const nextTick = getMeasureStartTick(nextMeasure);
+    if (nextTick < songLengthTicks) {
+        pauseTick = nextTick;
+        playbackOffsetTime = audioContext.currentTime - (pauseTick / ticksPerSecond);
+        nextIndex = -1;
+        prevTick = pauseTick;
+        setVal("x_targetMeasure", nextMeasure);
+    } else {
+        goToLastMeasure();
     }
     showSelectedView();
 }
@@ -12298,8 +12357,7 @@ function keyEstimation(){
 
     for (const note of scoreData) {
 
-        const measure =
-            Math.floor(note.start / ticksPerMeasure);
+        const measure = getMeasureIndex(note.start);
 
         const pc = note.midi % 12;
 
@@ -12326,7 +12384,7 @@ for (const note of scoreData) {
     }
 }
 
-const mscnt = Math.floor(lastStart / ticksPerMeasure) + 1;
+const mscnt = getMeasureIndex(lastStart) + 1;
 
 // Reserve enough vertical space before any drawing takes place.
 canvas.height = Math.max(4000, 3000 + mscnt * 180);
@@ -12394,12 +12452,8 @@ for (const channel in notesByChannel) {
         directionalNotes.push({
             prevMidi: prev.midi,
             currMidi: curr.midi,
-            prevMeasure: Math.floor(
-                prev.start / ticksPerMeasure
-            ),
-            currMeasure: Math.floor(
-                curr.start / ticksPerMeasure
-            ),
+            prevMeasure: getMeasureIndex(prev.start),
+            currMeasure: getMeasureIndex(curr.start),
             direction: curr.midi > prev.midi ? 1 : -1,
             channel: Number(channel)
         });
@@ -12446,7 +12500,7 @@ for(let k=0;k<=11;k++){
 
 for (const note of scoreData) {
 
-	const y = Math.floor(40 + note.start / ticksPerMeasure * 10);
+	const y = Math.floor(40 + getMeasurePosition(note.start) * 10);
     const pc = note.midi % 12;
 	ctx.fillStyle=workingColor.pc[pc];
 	ctx.fillRect(100 + Number(pc * 50), y, 50, 1);
@@ -13416,7 +13470,7 @@ const notesByMeasureForKey = Array.from(
 );
 
 for (const note of scoreData) {
-    let measureIndex = Math.floor(note.start / ticksPerMeasure);
+    let measureIndex = getMeasureIndex(note.start);
     // Notes from a merged short final measure belong to the previous
     // effective measure for scale-membership evaluation as well.
     if (measurePc[measureIndex]?.inheritedFromPrevious) {
