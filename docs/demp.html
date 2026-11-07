@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp73
+demp74
 </title>
 <style>
 
@@ -13592,7 +13592,6 @@ for (let i = 0; i < mscnt; i++) {
         if (previous?.selectedCandidates) {
             current.selectedCandidates = previous.selectedCandidates;
             current.evaluationCandidates = previous.evaluationCandidates || previous.selectedCandidates;
-            current.hasNonCMScaleNote = previous.hasNonCMScaleNote;
             current.candidateScores = [];
             current.estKey = previous.estKey;
             current.estScaleType = previous.estScaleType;
@@ -13752,76 +13751,43 @@ for (let i = 0; i < mscnt; i++) {
     // The current key-selection procedure below is retained provisionally.
     current.allCandidateScores = candidates;
 
-    // Check whether the measure contains any note outside the fixed C-major collection.
-    // This flag determines the comparison procedure only; it never excludes a key.
-    const cmPitchClasses = new Set([0, 2, 4, 5, 7, 9, 11]);
-    current.hasNonCMScaleNote = notes.some(note =>
-        !cmPitchClasses.has(((note.midi % 12) + 12) % 12)
-    );
-
-    // Keep every candidate, including CM and Am(N), in the evaluation.
+    // Evaluate every candidate key using the same criteria, regardless of
+    // whether the measure contains notes outside the C-major collection.
     const eligibleCandidates = candidates;
-
     let selectedCandidates = [];
 
-    if (!current.hasNonCMScaleNote) {
-        // With no notes outside the C-major collection, compare only
-        // C major and A natural minor using T (1st + 5th ratio).
-        const cmCandidate = eligibleCandidates.find(candidate =>
-            candidate.mode === 'major' && candidate.root === 0
-        );
-        const amCandidate = eligibleCandidates.find(candidate =>
-            candidate.mode === 'minor' && candidate.root === 9 && candidate.scaleType === 'N'
-        );
+    // Compare candidates in the agreed order: O, then S, then T.
+    const tolerance = 1e-12;
 
-        current.evaluationCandidates = [cmCandidate, amCandidate].filter(Boolean);
+    const maxO = Math.max(...eligibleCandidates.map(candidate => candidate.scaleRatio));
+    const bestO = eligibleCandidates.filter(candidate =>
+        Math.abs(candidate.scaleRatio - maxO) <= tolerance
+    );
 
-        if (cmCandidate && amCandidate) {
-            if (cmCandidate.tonicFifthRatio > amCandidate.tonicFifthRatio) {
-                selectedCandidates = [cmCandidate];
-            } else if (amCandidate.tonicFifthRatio > cmCandidate.tonicFifthRatio) {
-                selectedCandidates = [amCandidate];
-            } else {
-                // Keep both when T is tied; this measure remains ambiguous.
-                selectedCandidates = [cmCandidate, amCandidate];
-            }
-        } else {
-            selectedCandidates = current.evaluationCandidates;
-        }
-    } else {
-        // Compare the remaining candidates in the agreed order: O, then S, then T.
-        const tolerance = 1e-12;
+    const maxS = Math.max(...bestO.map(candidate => candidate.scaleCoverageRatio));
+    const bestOS = bestO.filter(candidate =>
+        Math.abs(candidate.scaleCoverageRatio - maxS) <= tolerance
+    );
 
-        const maxO = Math.max(...eligibleCandidates.map(candidate => candidate.scaleRatio));
-        const bestO = eligibleCandidates.filter(candidate =>
-            Math.abs(candidate.scaleRatio - maxO) <= tolerance
-        );
+    const maxT = Math.max(...bestOS.map(candidate => candidate.tonicFifthRatio));
+    selectedCandidates = bestOS.filter(candidate =>
+        Math.abs(candidate.tonicFifthRatio - maxT) <= tolerance
+    );
 
-        const maxS = Math.max(...bestO.map(candidate => candidate.scaleCoverageRatio));
-        const bestOS = bestO.filter(candidate =>
-            Math.abs(candidate.scaleCoverageRatio - maxS) <= tolerance
-        );
+    // When both H and M satisfy the criteria for the same minor root,
+    // prefer M because its melodic-direction requirements are stricter.
+    const selectedMelodicRoots = new Set(
+        selectedCandidates
+            .filter(candidate => candidate.mode === 'minor' && candidate.scaleType === 'M')
+            .map(candidate => candidate.root)
+    );
+    selectedCandidates = selectedCandidates.filter(candidate => !(
+        candidate.mode === 'minor' &&
+        candidate.scaleType === 'H' &&
+        selectedMelodicRoots.has(candidate.root)
+    ));
 
-        const maxT = Math.max(...bestOS.map(candidate => candidate.tonicFifthRatio));
-        selectedCandidates = bestOS.filter(candidate =>
-            Math.abs(candidate.tonicFifthRatio - maxT) <= tolerance
-        );
-
-        // When both H and M satisfy the criteria for the same minor root,
-        // prefer M because its melodic-direction requirements are stricter.
-        const selectedMelodicRoots = new Set(
-            selectedCandidates
-                .filter(candidate => candidate.mode === 'minor' && candidate.scaleType === 'M')
-                .map(candidate => candidate.root)
-        );
-        selectedCandidates = selectedCandidates.filter(candidate => !(
-            candidate.mode === 'minor' &&
-            candidate.scaleType === 'H' &&
-            selectedMelodicRoots.has(candidate.root)
-        ));
-
-        current.evaluationCandidates = selectedCandidates;
-    }
+    current.evaluationCandidates = selectedCandidates;
 
     // Part 3 displays only candidates that participate in the actual
     // key evaluation. Do not append CM / Am(N) as a reference-only pair.
@@ -14271,8 +14237,8 @@ const explanationLines = [
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
-    'Part 5: Combine N/H/M for each minor tonic and rank keys by weighted measure votes; BKC shows black-key coverage.',
-    'Part 6: List each major and minor key in one Key column and show SM, T1, D5, T1+D5 and BKC.',
+    'Part 5: Evaluate each measure using K; the first and last non-empty measures receive double weight.',
+    'Part 6: List each major and minor key in one Key column and compare SM, T1, D5, T1+D5 and K.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
     'K = SM × (T1+D5) × T1. The key with the highest K is selected as the Whole Song Key (WK).'
 ];
@@ -14360,34 +14326,6 @@ ctx.lineWidth = 1;
     let part5SectionBottom = 0;
 
     {
-    // Shared Black Key Coverage (BKC) data for Parts 5 and 6.
-    // BKC counts only black-key pitch classes covered by the candidate key signature.
-    const blackKeyPitchClasses = new Set([1, 3, 6, 8, 10]);
-    const blackKeyPcCounts = new Array(12).fill(0);
-    for (const note of scoreData) {
-        const pc = ((note.midi % 12) + 12) % 12;
-        if (blackKeyPitchClasses.has(pc)) blackKeyPcCounts[pc]++;
-    }
-    const blackKeyNoteCount = blackKeyPcCounts.reduce((sum, count) => sum + count, 0);
-
-    function calculateBlackKeyCoverage(majorRoot, majorName) {
-        if (blackKeyNoteCount === 0) return 0;
-        const accidentalCount = [0, 5, 2, 3, 4, 1, 6, 1, 4, 3, 2, 5][majorRoot];
-        const isFlat = majorName.includes('b');
-        const order = isFlat
-            ? ['B', 'E', 'A', 'D', 'G', 'C', 'F']
-            : ['F', 'C', 'G', 'D', 'A', 'E', 'B'];
-        const naturalPc = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
-        const covered = new Set();
-        for (const letter of order.slice(0, accidentalCount)) {
-            const pc = (naturalPc[letter] + (isFlat ? 11 : 1)) % 12;
-            if (blackKeyPitchClasses.has(pc)) covered.add(pc);
-        }
-        let coveredCount = 0;
-        for (const pc of covered) coveredCount += blackKeyPcCounts[pc];
-        return coveredCount / blackKeyNoteCount;
-    }
-
     //========================================================
     // Part 5: whole-song key estimation by aggregating measure K scores.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
@@ -14491,7 +14429,6 @@ ctx.lineWidth = 1;
         part5KeyCandidates.push({
             keyName: candidate.keyName,
             keySignature: formatPart5KeySignature(candidate.majorRoot, displayMajorName),
-            bkc: calculateBlackKeyCoverage(candidate.majorRoot, displayMajorName),
             weightedK: candidate.weightedK,
             averageK: part5TotalWeight > 0
                 ? candidate.weightedK / part5TotalWeight
@@ -14538,7 +14475,6 @@ ctx.lineWidth = 1;
     ctx.fillText('Signature', 120, part5TableTop);
     ctx.textAlign = 'right';
     ctx.fillText('Weighted K (%)', 430, part5TableTop);
-    ctx.fillText('BKC (%)', 550, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
         const candidate = part5KeyCandidates[i];
@@ -14546,7 +14482,7 @@ ctx.lineWidth = 1;
         const isSelected = i === 0;
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 570, 13);
+            ctx.fillRect(8, y - 10, 450, 13);
         }
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
@@ -14554,7 +14490,6 @@ ctx.lineWidth = 1;
         ctx.fillText(candidate.keySignature, 120, y);
         ctx.textAlign = 'right';
         ctx.fillText((candidate.averageK * 100).toFixed(2), 430, y);
-        ctx.fillText((candidate.bkc * 100).toFixed(2), 550, y);
     }
 
     ctx.textAlign = 'left';
@@ -14665,7 +14600,6 @@ ctx.lineWidth = 1;
             majorRoot: candidate.majorRoot,
             mode: 'major',
             globalSM: candidate.globalSM,
-            bkc: calculateBlackKeyCoverage(candidate.majorRoot, candidate.majorName),
             t1: candidate.majorT1,
             d5: candidate.majorD5,
             t: majorT,
@@ -14678,7 +14612,6 @@ ctx.lineWidth = 1;
             majorRoot: candidate.majorRoot,
             mode: 'minor',
             globalSM: candidate.globalSM,
-            bkc: calculateBlackKeyCoverage(candidate.majorRoot, candidate.majorName),
             t1: candidate.minorT1,
             d5: candidate.minorD5,
             t: minorT,
@@ -14710,7 +14643,7 @@ ctx.lineWidth = 1;
 
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each major and minor key is listed in one Key column. SM, T1, D5, T1+D5 and BKC are compared.',
+        'Each major and minor key is listed in one Key column. SM, T1, D5, T1+D5 and K are compared.',
         10,
         part6RowPointStart + 20
     );
@@ -14730,7 +14663,6 @@ ctx.lineWidth = 1;
     ctx.fillText('D5 (%)', 440, part6TableTop);
     ctx.fillText('T1+D5 (%)', 540, part6TableTop);
     ctx.fillText('K (%)', 630, part6TableTop);
-    ctx.fillText('BKC (%)', 740, part6TableTop);
 
     for (let i = 0; i < globalKeyCandidates.length; i++) {
         const candidate = globalKeyCandidates[i];
@@ -14739,7 +14671,7 @@ ctx.lineWidth = 1;
 
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 890, 13);
+            ctx.fillRect(8, y - 10, 660, 13);
         }
 
         ctx.fillStyle = 'black';
@@ -14752,7 +14684,6 @@ ctx.lineWidth = 1;
         ctx.fillText((candidate.d5 * 100).toFixed(2), 440, y);
         ctx.fillText((candidate.t * 100).toFixed(2), 540, y);
         ctx.fillText((candidate.k * 100).toFixed(2), 630, y);
-        ctx.fillText((candidate.bkc * 100).toFixed(2), 740, y);
     }
 
     ctx.textAlign = 'left';
