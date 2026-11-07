@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp71
+demp72
 </title>
 <style>
 
@@ -14274,7 +14274,7 @@ const explanationLines = [
     'Part 5: Combine N/H/M for each minor tonic and rank keys by weighted measure votes; BKC shows black-key coverage.',
     'Part 6: List each major and minor key in one Key column and show SM, T1, D5, T1+D5 and BKC.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
-    'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).'
+    'K = SM × (T1+D5) × T1. The key with the highest K is selected as the Whole Song Key (WK).'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14620,23 +14620,8 @@ ctx.lineWidth = 1;
         });
     }
 
-    // R = tonic count / mean count of the other six notes in the
-    // corresponding major-scale pitch-class set. Relative major/minor
-    // share the same seven notes, but use different tonics.
-    function calculateTonicDominanceRatio(pcCounts, scaleRoot, tonicRoot) {
-        let otherSixCount = 0;
-        for (const interval of majorScaleIntervals) {
-            const pc = (scaleRoot + interval) % 12;
-            if (pc !== tonicRoot) otherSixCount += pcCounts[pc];
-        }
-        const otherSixMean = otherSixCount / 6;
-        return otherSixMean > 0
-            ? pcCounts[tonicRoot] / otherSixMean
-            : null;
-    }
-
     // Build one row per major or relative-minor key.
-    // K combines scale membership and tonic/fifth emphasis.
+    // K combines scale membership, tonic/fifth emphasis, and tonic ratio.
     const globalKeyCandidates = [];
 
     for (const candidate of globalMajorCandidates) {
@@ -14653,8 +14638,7 @@ ctx.lineWidth = 1;
             t1: candidate.majorT1,
             d5: candidate.majorD5,
             t: majorT,
-            r: calculateTonicDominanceRatio(globalPc, candidate.majorRoot, candidate.majorRoot),
-            k: candidate.globalSM * majorT
+            k: candidate.globalSM * majorT * candidate.majorT1
         });
 
         globalKeyCandidates.push({
@@ -14667,8 +14651,7 @@ ctx.lineWidth = 1;
             t1: candidate.minorT1,
             d5: candidate.minorD5,
             t: minorT,
-            r: calculateTonicDominanceRatio(globalPc, candidate.majorRoot, candidate.minorRoot),
-            k: candidate.globalSM * minorT
+            k: candidate.globalSM * minorT * candidate.minorT1
         });
     }
 
@@ -14686,7 +14669,7 @@ ctx.lineWidth = 1;
     // for the key-signature estimate used by the rest of the app.
 
     const part6RowPointStart = part5SectionBottom;
-    const part6TableTop = part6RowPointStart + 76;
+    const part6TableTop = part6RowPointStart + 62;
     const part6RowHeight = 15;
 
     ctx.fillStyle = 'black';
@@ -14696,19 +14679,14 @@ ctx.lineWidth = 1;
 
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each major and minor key is listed in one Key column. SM, T1, D5, T1+D5, BKC and tonic dominance R are compared.',
+        'Each major and minor key is listed in one Key column. SM, T1, D5, T1+D5 and BKC are compared.',
         10,
         part6RowPointStart + 20
     );
     ctx.fillText(
-        'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).',
+        'K = SM × (T1+D5) × T1. The key with the highest K is selected as the Whole Song Key (WK).',
         10,
         part6RowPointStart + 38
-    );
-    ctx.fillText(
-        'R = tonic count / mean count of the other six scale notes. R is for comparison only and does not affect K.',
-        10,
-        part6RowPointStart + 56
     );
 
     ctx.font = '12px Arial';
@@ -14722,7 +14700,6 @@ ctx.lineWidth = 1;
     ctx.fillText('T1+D5 (%)', 540, part6TableTop);
     ctx.fillText('K (%)', 630, part6TableTop);
     ctx.fillText('BKC (%)', 740, part6TableTop);
-    ctx.fillText('R', 850, part6TableTop);
 
     for (let i = 0; i < globalKeyCandidates.length; i++) {
         const candidate = globalKeyCandidates[i];
@@ -14745,14 +14722,13 @@ ctx.lineWidth = 1;
         ctx.fillText((candidate.t * 100).toFixed(2), 540, y);
         ctx.fillText((candidate.k * 100).toFixed(2), 630, y);
         ctx.fillText((candidate.bkc * 100).toFixed(2), 740, y);
-        ctx.fillText(candidate.r === null ? '-' : candidate.r.toFixed(2), 850, y);
     }
 
     ctx.textAlign = 'left';
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'K = SM × (T1+D5). R = tonic count / average count of the other six scale notes; R does not affect sorting.',
+        'K = SM × (T1+D5) × T1. Candidates are sorted by K in descending order.',
         10,
         part6TableTop + part6RowHeight * (globalKeyCandidates.length + 1) + 2
     );
