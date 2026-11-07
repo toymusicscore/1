@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp91
+demp92
 </title>
 <style>
 
@@ -13662,23 +13662,14 @@ for (let i = 0; i < mscnt; i++) {
     // Keep SM and T1+D5 values for every candidate key.
     current.allCandidateScores = candidates;
 
-    // When multiple key candidates are possible, remove candidates whose
-    // tonic (1st-degree) pitch class does not occur in this measure, provided
-    // at least one candidate has a tonic note. If every candidate has zero
-    // tonic notes, retain the original set as a safe fallback.
-    const candidatesWithTonic = candidates.filter(candidate =>
-        candidate.tonicCount > 0
-    );
-    const eligibleCandidates = candidatesWithTonic.length > 0
-        ? candidatesWithTonic
-        : candidates;
+    // Do not exclude candidates when their tonic (1st-degree) note is absent.
+    // A tonic may be implied by the harmonic context even when it does not
+    // occur in the measure itself. Compare every candidate by SM, then T1+D5.
     let selectedCandidates = [];
-
-    // Compare eligible candidates by SM, then T1+D5.
     const tolerance = 1e-12;
 
-    const maxSM = Math.max(...eligibleCandidates.map(candidate => candidate.scaleRatio));
-    const bestSM = eligibleCandidates.filter(candidate =>
+    const maxSM = Math.max(...candidates.map(candidate => candidate.scaleRatio));
+    const bestSM = candidates.filter(candidate =>
         Math.abs(candidate.scaleRatio - maxSM) <= tolerance
     );
 
@@ -14256,8 +14247,7 @@ const explanationLines = [
     '6th # Up / 7th # Up = raised 6th / 7th notes with ascending melodic evidence.',
     '6th N Dn / 7th N Dn = natural 6th / 7th notes with descending melodic evidence.',
     'All six degree ratios are calculated using the total number of notes in the key-analysis unit as the denominator.',
-    '1. Remove candidates with zero tonic notes when at least one candidate has a tonic note.',
-    '2. Rank the remaining candidates by SM (highest), then T1+D5 (highest). Keep ties.',
+    '1. Rank all candidates by SM (highest), then T1+D5 (highest). Keep ties, even when the tonic note is absent.',
     '3. A harmonic-minor (H) candidate requires its raised 7th-degree note to appear; otherwise use natural minor (N).',
     '4. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
     '5. If H and M are both selected for the same minor tonic, prefer M.',
@@ -14265,9 +14255,9 @@ const explanationLines = [
     '   In this special case only, use the preceding measure\'s unambiguous major/minor mode to choose major or minor (e.g. preceding GM + final D notes = DM).',
     '7. Opening pickup: if the first measure is incomplete, combine its notes with the following complete measure and evaluate them as one key-analysis unit. This combination applies only to key estimation; score measure numbering, measure boundaries and playback positions remain unchanged.',
     'Whole-song estimation',
-    'For each measure, when multiple candidates are possible, exclude candidates with zero tonic notes if at least one candidate has a tonic; if all have zero tonic notes, retain the original set.',
+    'Do not exclude a candidate merely because its tonic note is absent from that measure; harmonic context may imply the tonic.',
     'Part 5: Aggregate the selected measure keys by key-analysis unit; tied candidates share each unit vote equally.',
-    'Part 5: For each unit, exclude candidates with zero tonic notes when another candidate has at least one tonic note; then aggregate K. The first and last units receive double weight.',
+    'Part 5: Aggregate K for the selected candidates of each unit. The first and last units receive double weight.',
     'Part 6: As a reference, calculate SM, T1, D5, T1+D5 and K for each key using all notes in the entire song.',
     'Part 6: Compare this whole-song calculation with Part 5, which aggregates the individual key-analysis units. Part 6 does not determine the app\'s key-signature estimate.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
