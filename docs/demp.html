@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp76
+demp77
 </title>
 <style>
 
@@ -14492,22 +14492,13 @@ ctx.lineWidth = 1;
         ctx.fillText((candidate.averageK * 100).toFixed(2), 430, y);
     }
 
-    ctx.textAlign = 'left';
-    ctx.font = '11px Arial';
-    ctx.fillStyle = '#555';
-    ctx.fillText(
-        'S = highest weighted average K across measures; the first and last measures count twice.',
-        10,
-        part5TableTop + part5RowHeight * (part5KeyCandidates.length + 1) + 2
-    );
-
     part5SectionBottom =
-        part5TableTop + part5RowHeight * (part5KeyCandidates.length + 2) + 30;
+        part5TableTop + part5RowHeight * (part5KeyCandidates.length + 1) + 24;
     }
 
     {
     //========================================================
-    // Part 6: Whole Song Key (WK)
+    // Part 6: Reference
     // Rank major-scale candidates by Global SM, then compare
     // the major and relative-minor tonic/fifth ratios.
     //========================================================
@@ -14619,7 +14610,7 @@ ctx.lineWidth = 1;
         });
     }
 
-    // The key with the highest combined index K becomes the WK.
+    // Sort reference candidates by the combined index K.
     globalKeyCandidates.sort((a, b) =>
         b.k - a.k ||
         b.globalSM - a.globalSM ||
@@ -14629,7 +14620,7 @@ ctx.lineWidth = 1;
     );
 
     const wholeSongKeyCandidate = globalKeyCandidates[0] || null;
-    // Part 6 is a comparison index only; Part 5 remains responsible
+    // Part 6 is a reference comparison only; Part 5 remains responsible
     // for the key-signature estimate used by the rest of the app.
 
     const part6RowPointStart = part5SectionBottom;
@@ -14639,7 +14630,7 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 6: Whole Song Key (WK)', 10, part6RowPointStart);
+    ctx.fillText('Part 6: Reference', 10, part6RowPointStart);
 
     ctx.font = '13px Arial';
     ctx.fillText(
@@ -14648,7 +14639,7 @@ ctx.lineWidth = 1;
         part6RowPointStart + 20
     );
     ctx.fillText(
-        'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).',
+        'K = SM × (T1+D5). Candidates are sorted by K in descending order for reference.',
         10,
         part6RowPointStart + 38
     );
