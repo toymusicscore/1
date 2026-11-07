@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp79
+demp80
 </title>
 <style>
 
@@ -13383,6 +13383,30 @@ for (const note of scoreData) {
     }
 }
 
+// Treat an incomplete opening pickup and the following complete measure
+// as one key-evaluation unit. Keep the physical MIDI measure boundaries
+// unchanged for the score display and playback.
+if (
+    measureOffsetTicks > 0 &&
+    measurePc[0]?.count > 0 &&
+    measurePc[1]?.count > 0
+) {
+    const openingMeasure = measurePc[0];
+    const followingMeasure = measurePc[1];
+
+    for (let pc = 0; pc < 12; pc++) {
+        openingMeasure.pc[pc] += followingMeasure.pc[pc];
+    }
+    openingMeasure.count += followingMeasure.count;
+    openingMeasure.combinedWithNext = true;
+    followingMeasure.keyGroupDuplicate = true;
+
+    notesByMeasureForKey[0] = [
+        ...notesByMeasureForKey[0],
+        ...notesByMeasureForKey[1]
+    ];
+}
+
 function getMinorDegreeEvidence(notes, root) {
     const result = {
         sixthNatural: 0,
@@ -13541,7 +13565,7 @@ function getScaleCoverageCount(notes, root, mode, scaleType) {
 
 for (let i = 0; i < mscnt; i++) {
     const current = measurePc[i];
-    if (!current || current.count === 0) continue;
+    if (!current || current.count === 0 || current.keyGroupDuplicate) continue;
 
     const notes = notesByMeasureForKey[i] || [];
     const totalNotes = current.count;
@@ -13658,7 +13682,7 @@ for (let i = 0; i < mscnt; i++) {
         }
 
         // Keep the displayed M membership count direction-aware.
-        if (current.scale?.[root]?.[3]) {
+        if (!current.combinedWithNext && current.scale?.[root]?.[3]) {
             current.scale[root][3].scaleMemberM =
                 getMelodicMinorMemberCount(notes, root);
         }
@@ -13780,6 +13804,11 @@ for (let i = 0; i < mscnt; i++) {
 
     estimatedMeasureLabelTypes[i] = getAutoLabelType(primary.baseName);
 
+    if (current.combinedWithNext) {
+        estimatedMeasureKeys[i + 1] = { ...estimatedMeasureKeys[i] };
+        estimatedMeasureLabelTypes[i + 1] = estimatedMeasureLabelTypes[i];
+    }
+
     const displayKey = current.selectedCandidates
         .map(candidate => candidate.label)
         .join(' / ');
@@ -13812,7 +13841,7 @@ const part3DisplayRows = [];
 
 for (let i = 0; i < mscnt; i++) {
     const current = measurePc[i];
-    if (!current || current.count === 0) continue;
+    if (!current || current.count === 0 || current.keyGroupDuplicate) continue;
 
     const candidates = current.evaluationCandidates?.length
         ? current.evaluationCandidates
@@ -13869,6 +13898,7 @@ for (let i = 0; i < mscnt; i++) {
 
         part3DisplayRows.push({
             measureIndex: i,
+            measureLabel: current.combinedWithNext ? '1–2' : String(i + 1),
             major: pair.major,
             minor: pair.minor,
             estimatedLabel
@@ -13886,18 +13916,18 @@ ctx.fillRect(
 );
 
 let rebuiltRow = 0;
-let previousMeasureIndex = -1;
+let previousMeasureIndex = '';
 
 for (const displayRow of part3DisplayRows) {
-    const { measureIndex, major, minor, estimatedLabel } = displayRow;
+    const { measureLabel, major, minor, estimatedLabel } = displayRow;
     const y = part3BaseY + 10 + 10 * rebuiltRow;
     const textY = y + 10;
 
     ctx.textAlign = "right";
-    if (measureIndex !== previousMeasureIndex) {
+    if (measureLabel !== previousMeasureIndex) {
         ctx.fillStyle = "black";
-        ctx.fillText(measureIndex + 1, 10, textY);
-        previousMeasureIndex = measureIndex;
+        ctx.fillText(measureLabel, 10, textY);
+        previousMeasureIndex = measureLabel;
     }
 
     ctx.textAlign = "left";
@@ -13959,7 +13989,7 @@ const candidateRows = [];
 
 for (let i = 0; i < mscnt; i++) {
     const current = measurePc[i];
-    if (!current || current.count === 0) continue;
+    if (!current || current.count === 0 || current.keyGroupDuplicate) continue;
 
     const displayCandidates = current.evaluationCandidates?.length
         ? current.evaluationCandidates
@@ -13974,7 +14004,7 @@ for (let i = 0; i < mscnt; i++) {
             : engf1[(candidate.root + 3) % 12] + 'M';
 
         candidateRows.push({
-            measure: i + 1,
+            measure: current.combinedWithNext ? '1–2' : String(i + 1),
             candidate,
             parallelKey,
             isSelected
@@ -14012,7 +14042,7 @@ ctx.fillStyle = 'black';
 ctx.textAlign = 'left';
 
 ctx.fillText(
-    'Per-measure key evaluation: candidate keys and relative keys',
+    'Key-analysis units: candidate keys and relative keys (opening pickup combined)',
     10,
     perMeasureTableTop + 18
 );
@@ -14137,15 +14167,16 @@ const explanationLines = [
     '6th N / 6th # = natural / raised 6th-degree note ratios; 7th N / 7th # = natural / raised 7th-degree note ratios.',
     '6th # Up / 7th # Up = raised 6th / 7th notes with ascending melodic evidence.',
     '6th N Dn / 7th N Dn = natural 6th / 7th notes with descending melodic evidence.',
-    'All six degree ratios are calculated using the total number of notes in the measure as the denominator.',
+    'All six degree ratios are calculated using the total number of notes in the key-analysis unit as the denominator.',
+    'Opening pickup: if the first measure is incomplete, combine it with the following complete measure for key evaluation.',
     '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
     '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
     '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
     '4. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
-    'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
-    'Part 5: Evaluate each measure using K; the first and last non-empty measures receive double weight.',
+    'Part 5: Aggregate selected keys by key-analysis unit; tied candidates share each unit vote equally.',
+    'Part 5: Evaluate each key-analysis unit using K; the first and last units receive double weight.',
     'Part 6: List each major and minor key in one Key column and compare SM, T1, D5, T1+D5 and K.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
     'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).'
@@ -14184,6 +14215,8 @@ const explanationHeight = wrappedExplanationLines.length * explanationLineHeight
 
 // Highlight every selected candidate in Part 2, including all tied keys.
 for (let i = 0; i < mscnt; i++) {
+
+    if (measurePc[i]?.keyGroupDuplicate) continue;
 
     const selectedCandidates = measurePc[i]?.selectedCandidates || [];
     const highlightedCells = new Set();
@@ -14260,11 +14293,15 @@ ctx.lineWidth = 1;
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
     const part5FirstMeasure = measurePc.findIndex(
-        measure => measure && measure.count > 0
+        measure => measure && measure.count > 0 && !measure.keyGroupDuplicate
     );
     let part5LastMeasure = -1;
     for (let i = measurePc.length - 1; i >= 0; i--) {
-        if (measurePc[i] && measurePc[i].count > 0) {
+        if (
+            measurePc[i] &&
+            measurePc[i].count > 0 &&
+            !measurePc[i].keyGroupDuplicate
+        ) {
             part5LastMeasure = i;
             break;
         }
@@ -14272,7 +14309,7 @@ ctx.lineWidth = 1;
 
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
         const current = measurePc[measureIndex];
-        if (!current || current.count === 0) continue;
+        if (!current || current.count === 0 || current.keyGroupDuplicate) continue;
 
         const measureWeight =
             (measureIndex === part5FirstMeasure || measureIndex === part5LastMeasure) ? 2 : 1;
@@ -14364,10 +14401,10 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 5: Whole-song key estimation by measure K', 10, part5RowPointStart);
+    ctx.fillText('Part 5: Whole-song key estimation by key-analysis unit K', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each measure evaluates all major and relative-minor keys using the Part 6 K formula. First and last measures have double weight.',
+        'Each key-analysis unit evaluates all major and relative-minor keys using the Part 6 K formula. First and last units have double weight.',
         10,
         part5RowPointStart + 20
     );
