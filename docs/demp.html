@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp75
+demp76
 </title>
 <style>
 
@@ -14114,7 +14114,7 @@ ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
 
 // Use explicit metric names and keep MK clear of the minor-degree columns.
 ctx.textAlign = 'right';
-ctx.fillText('PC', 400, perMeasureTableTop + 42);
+ctx.fillText('K', 400, perMeasureTableTop + 42);
 ctx.fillText('SM', 490, perMeasureTableTop + 42);
 ctx.fillText('T1', 570, perMeasureTableTop + 42);
 ctx.fillText('D5', 650, perMeasureTableTop + 42);
@@ -14160,7 +14160,7 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     ctx.fillText(row.parallelKey, 260, y);
     ctx.textAlign = 'right';
     ctx.fillText(
-        (candidate.scaleCoverageRatio * 100).toFixed(2),
+        (candidate.scaleRatio * candidate.tonicFifthRatio * 100).toFixed(2),
         400,
         y
     );
@@ -14221,7 +14221,7 @@ const explanationLineHeight = 18;
 const explanationLines = [
     'Key Estimation Process',
     'MK = Measure Key: this candidate is selected for the measure.',
-    'PC = Pitch-class coverage: distinct scale pitch classes present / 7 × 100.',
+    'K = SM × (T1+D5): scale-member ratio multiplied by the combined tonic and fifth ratio.',
     'SM = Scale-member ratio: notes belonging to the candidate scale / all notes × 100.',
     'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
     'D5 = dominant ratio: 5th-degree notes / all notes × 100.',
