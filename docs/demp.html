@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp88
+demp89
 </title>
 <style>
 
@@ -14361,8 +14361,8 @@ ctx.lineWidth = 1;
 
     {
     //========================================================
-    // Part 5: whole-song key estimation by aggregating measure K scores.
-    // Every measure evaluates all 12 major and 12 relative-minor keys.
+    // Part 5: whole-song key estimation.
+    // Rank by weighted-average SM first, then weighted-average T1+D5.
     // The first and last non-empty measures receive double weight.
     //========================================================
 
@@ -14379,9 +14379,10 @@ ctx.lineWidth = 1;
             (isFlat ? part5FlatOrder : part5SharpOrder).slice(0, count);
     }
 
-    // Evaluate all 24 major / relative-minor candidates in every measure
-    // with the same K formula used in Part 6. The first and last measures
-    // receive double weight in the whole-song aggregation.
+    // Aggregate only the candidates actually selected by the per-measure
+    // estimator. This keeps the whole-song result consistent with the
+    // displayed measure-by-measure decisions.
+    // The first and last non-empty measures receive double weight.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
@@ -14404,73 +14405,36 @@ ctx.lineWidth = 1;
         const current = measurePc[measureIndex];
         if (!current || current.count === 0 || current.keyGroupDuplicate) continue;
 
+        const selectedCandidates = current.selectedCandidates || [];
+        if (selectedCandidates.length === 0) continue;
+
         const measureWeight =
             (measureIndex === part5FirstMeasure || measureIndex === part5LastMeasure) ? 2 : 1;
         part5EligibleMeasures++;
         part5TotalWeight += measureWeight;
 
-        const measureCandidates = [];
+        for (const selected of selectedCandidates) {
+            const keyId = selected.mode === 'major'
+                ? 'M:' + selected.root
+                : 'm:' + selected.root;
+            const keyName = selected.mode === 'major'
+                ? selected.baseName
+                : selected.baseName;
+            const majorRoot = selected.mode === 'major'
+                ? selected.root
+                : (selected.root + 3) % 12;
 
-        for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
-            let inScaleCount = 0;
-            for (const interval of majorScaleIntervals) {
-                inScaleCount += current.pc[(majorRoot + interval) % 12];
-            }
-            const sm = inScaleCount / current.count;
-
-            const minorRoot = (majorRoot + 9) % 12;
-            const majorT1 = current.pc[majorRoot] / current.count;
-            const majorD5 = current.pc[(majorRoot + 7) % 12] / current.count;
-            const minorT1 = current.pc[minorRoot] / current.count;
-            const minorD5 = current.pc[(minorRoot + 7) % 12] / current.count;
-
-            const sharpMajorName = engs1[majorRoot] + 'M';
-            const flatMajorName = engf1[majorRoot] + 'M';
-            const majorName = getAutoLabelType(flatMajorName) === 'flat'
-                ? flatMajorName
-                : sharpMajorName;
-            const minorName = engMnr1[minorRoot] + 'm';
-
-            const candidates = [
-                {
-                    keyId: 'M:' + majorRoot,
-                    keyName: majorName,
-                    majorRoot,
-                    tonicCount: current.pc[majorRoot],
-                    k: sm * (majorT1 + majorD5)
-                },
-                {
-                    keyId: 'm:' + minorRoot,
-                    keyName: minorName,
-                    majorRoot,
-                    tonicCount: current.pc[minorRoot],
-                    k: sm * (minorT1 + minorD5)
-                }
-            ];
-
-            measureCandidates.push(...candidates);
-        }
-
-        // Part 5 test: across all candidates for this measure, exclude every
-        // candidate whose tonic (1st degree) does not occur, provided at least
-        // one candidate has a tonic. This prevents support from the 5th degree
-        // alone. If no candidate has a tonic, retain the original candidate set.
-        const candidatesWithTonic = measureCandidates.filter(
-            candidate => candidate.tonicCount > 0
-        );
-        const eligibleCandidates = candidatesWithTonic.length > 0
-            ? candidatesWithTonic
-            : measureCandidates;
-
-        for (const candidate of eligibleCandidates) {
-            const existing = part5Scores.get(candidate.keyId) || {
-                keyId: candidate.keyId,
-                keyName: candidate.keyName,
-                majorRoot: candidate.majorRoot,
-                weightedK: 0
+            const existing = part5Scores.get(keyId) || {
+                keyId,
+                keyName,
+                majorRoot,
+                weightedSM: 0,
+                weightedT1D5: 0
             };
-            existing.weightedK += candidate.k * measureWeight;
-            part5Scores.set(candidate.keyId, existing);
+
+            existing.weightedSM += selected.scaleRatio * measureWeight;
+            existing.weightedT1D5 += selected.tonicFifthRatio * measureWeight;
+            part5Scores.set(keyId, existing);
         }
     }
 
@@ -14484,16 +14448,21 @@ ctx.lineWidth = 1;
         part5KeyCandidates.push({
             keyName: candidate.keyName,
             keySignature: formatPart5KeySignature(candidate.majorRoot, displayMajorName),
-            weightedK: candidate.weightedK,
-            averageK: part5TotalWeight > 0
-                ? candidate.weightedK / part5TotalWeight
+            weightedSM: candidate.weightedSM,
+            averageSM: part5TotalWeight > 0
+                ? candidate.weightedSM / part5TotalWeight
+                : 0,
+            weightedT1D5: candidate.weightedT1D5,
+            averageT1D5: part5TotalWeight > 0
+                ? candidate.weightedT1D5 / part5TotalWeight
                 : 0,
             accidentals: part5KeySignatureAccidentals[candidate.majorRoot]
         });
     }
 
     part5KeyCandidates.sort((a, b) =>
-        b.weightedK - a.weightedK ||
+        b.averageSM - a.averageSM ||
+        b.averageT1D5 - a.averageT1D5 ||
         a.accidentals - b.accidentals ||
         a.keyName.localeCompare(b.keyName)
     );
@@ -14511,15 +14480,15 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 5: Whole-song key estimation by key-analysis unit K', 10, part5RowPointStart);
+    ctx.fillText('Part 5: Whole-song key estimation by SM, then T1+D5', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each key-analysis unit evaluates all major and relative-minor keys using the Part 6 K formula. First and last units have double weight.',
+        'Only selected per-measure keys are aggregated. SM is ranked first; T1+D5 breaks ties. First and last units have double weight.',
         10,
         part5RowPointStart + 20
     );
     ctx.fillText(
-        'Eligible measures: ' + part5EligibleMeasures + '. Weighted K (%) = sum of (measure K × weight) / total weight × 100.',
+        'Eligible measures: ' + part5EligibleMeasures + '. Unselected candidates do not contribute to the whole-song result.',
         10,
         part5RowPointStart + 38
     );
@@ -14529,7 +14498,8 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, part5TableTop);
     ctx.fillText('Signature', 120, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Weighted K (%)', 430, part5TableTop);
+    ctx.fillText('Weighted SM (%)', 330, part5TableTop);
+    ctx.fillText('Weighted T1+D5 (%)', 485, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
         const candidate = part5KeyCandidates[i];
@@ -14537,14 +14507,15 @@ ctx.lineWidth = 1;
         const isSelected = i === 0;
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 450, 13);
+            ctx.fillRect(8, y - 10, 500, 13);
         }
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
         ctx.fillText(candidate.keyName, 12, y);
         ctx.fillText(candidate.keySignature, 120, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.averageK * 100).toFixed(2), 430, y);
+        ctx.fillText((candidate.averageSM * 100).toFixed(2), 330, y);
+        ctx.fillText((candidate.averageT1D5 * 100).toFixed(2), 485, y);
     }
 
     part5SectionBottom =
