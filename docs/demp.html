@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp78
+demp79
 </title>
 <style>
 
@@ -12390,34 +12390,6 @@ const mscnt = getMeasureIndex(lastStart) + 1;
 canvas.height = Math.max(4000, 3000 + mscnt * 180);
 
 //========================================================
-// Merge a very short final measure into the previous measure
-//========================================================
-
-const lastMeasureIndex = mscnt - 1;
-const minNotesForKeyEstimation = 3;
-
-if (
-    lastMeasureIndex > 0 &&
-    measurePc[lastMeasureIndex] &&
-    measurePc[lastMeasureIndex].count > 0 &&
-    measurePc[lastMeasureIndex].count < minNotesForKeyEstimation &&
-    measurePc[lastMeasureIndex - 1]
-) {
-    const lastMeasure = measurePc[lastMeasureIndex];
-    const previousMeasure = measurePc[lastMeasureIndex - 1];
-
-    // Merge the final measure's notes into the previous measure.
-    for (let pc = 0; pc < 12; pc++) {
-        previousMeasure.pc[pc] += lastMeasure.pc[pc];
-    }
-
-    previousMeasure.count += lastMeasure.count;
-
-    // Mark the final measure to inherit the previous measure's key.
-    lastMeasure.inheritedFromPrevious = true;
-}
-
-//========================================================
 // Analyze melodic direction by MIDI channel
 //========================================================
 
@@ -13165,36 +13137,23 @@ measurePc[i].estScaleType = measurePc[i].pairs
 
         let pairKey = "";
 
-        if (measurePc[i].inheritedFromPrevious) {
-            // Show only the previous measure's estimated key.
-            if (pair === measurePc[i].pairs[0]) {
-                const previous = measurePc[i - 1];
-                if (previous?.estKey) {
-                    const key = previous.estKey.split(" / ")[0];
-                    pairKey = key.endsWith("m") && previous.estScaleType
-                        ? key + "(" + previous.estScaleType + ")"
-                        : key;
+        pairKey = pair.selected
+            .filter(k =>
+                k.point > 0 &&
+                selectedNames.includes(k.key.name)
+            )
+            .map(k => {
+                const name = k.key.name;
+                if (k.key.mode !== "minor") {
+                    return name;
                 }
-            }
-        } else {
-            pairKey = pair.selected
-                .filter(k =>
-                    k.point > 0 &&
-                    selectedNames.includes(k.key.name)
-                )
-                .map(k => {
-                    const name = k.key.name;
-                    if (k.key.mode !== "minor") {
-                        return name;
-                    }
-                    const type = measurePc[i].scale[k.key.root][2];
-                    return name + "(" + type + ")";
-                })
-                .filter((name, index, array) =>
-                    array.indexOf(name) === index
-                )
-                .join(" / ");
-        }
+                const type = measurePc[i].scale[k.key.root][2];
+                return name + "(" + type + ")";
+            })
+            .filter((name, index, array) =>
+                array.indexOf(name) === index
+            )
+            .join(" / ");
 
         ctx.textAlign = "left";
         ctx.fillText(pairKey, 710, ry);
@@ -13356,58 +13315,6 @@ measurePc[i].estScaleType = measurePc[i].pairs
 }
 
 //========================================================
-// Inherit the key of the previous measure when necessary
-//========================================================
-
-for (let i = 0; i < measurePc.length; i++) {
-
-    if (!measurePc[i]?.inheritedFromPrevious) continue;
-
-    const previous = measurePc[i - 1];
-    const current = measurePc[i];
-
-    if (!previous?.estKey) continue;
-
-    // Inherit the previous measure's key and scale type.
-    current.estKey = previous.estKey;
-    current.estScaleType = previous.estScaleType;
-
-    estimatedMeasureKeys[i] = {
-        ...estimatedMeasureKeys[i - 1]
-    };
-
-    estimatedMeasureLabelTypes[i] =
-        estimatedMeasureLabelTypes[i - 1];
-
-    // Do not let the unreliable original estimate
-    // contribute to the overall key score.
-    current.estKeyPoints = [];
-
-    // Refresh the displayed key labels.
-    const isMinor = current.estKey
-        .split(" / ")
-        .some(key => key.endsWith("m"));
-
-    const displayKey = isMinor && current.estScaleType
-        ? current.estKey + " (" + current.estScaleType + ")"
-        : current.estKey;
-
-    ctx.fillStyle = "white";
-    ctx.fillRect(700, 41 + 10 * i, 400, 10);
-    ctx.fillRect(700, 91 + mscnt * 10 + 46 * i, 400, 30);
-
-    ctx.fillStyle = "black";
-    ctx.textAlign = "left";
-    ctx.fillText(displayKey, 710, 50 + 10 * i);
-    ctx.textAlign = "left";
-    ctx.fillText(
-        displayKey,
-        710,
-        100 + mscnt * 10 + 46 * i + 10
-    );
-}
-
-//========================================================
 // Select the maximum scale by S first.
 // For Minor(N), compare parallel major/minor by T.
 // Whole-song estimation is calculated independently from all notes.
@@ -13470,12 +13377,7 @@ const notesByMeasureForKey = Array.from(
 );
 
 for (const note of scoreData) {
-    let measureIndex = getMeasureIndex(note.start);
-    // Notes from a merged short final measure belong to the previous
-    // effective measure for scale-membership evaluation as well.
-    if (measurePc[measureIndex]?.inheritedFromPrevious) {
-        measureIndex--;
-    }
+    const measureIndex = getMeasureIndex(note.start);
     if (notesByMeasureForKey[measureIndex]) {
         notesByMeasureForKey[measureIndex].push(note);
     }
@@ -13640,45 +13542,6 @@ function getScaleCoverageCount(notes, root, mode, scaleType) {
 for (let i = 0; i < mscnt; i++) {
     const current = measurePc[i];
     if (!current || current.count === 0) continue;
-
-    if (current.inheritedFromPrevious) {
-        const previous = measurePc[i - 1];
-        if (previous?.selectedCandidates) {
-            current.selectedCandidates = previous.selectedCandidates;
-            current.evaluationCandidates = previous.evaluationCandidates || previous.selectedCandidates;
-            current.candidateScores = [];
-            current.estKey = previous.estKey;
-            current.estScaleType = previous.estScaleType;
-            current.estKeyPoints = [];
-
-            estimatedMeasureKeys[i] = {
-                ...estimatedMeasureKeys[i - 1]
-            };
-            estimatedMeasureLabelTypes[i] =
-                estimatedMeasureLabelTypes[i - 1];
-
-            const inheritedDisplay = current.selectedCandidates
-                .map(candidate => candidate.label)
-                .join(' / ');
-
-            ctx.fillStyle = 'white';
-            ctx.fillRect(700, 41 + 10 * i, 500, 10);
-            ctx.fillRect(
-                700,
-                91 + mscnt * 10 + 46 * i,
-                500,
-                30
-            );
-            ctx.fillStyle = 'black';
-            ctx.fillText(inheritedDisplay, 710, 50 + 10 * i);
-            ctx.fillText(
-                inheritedDisplay,
-                710,
-                100 + mscnt * 10 + 46 * i + 10
-            );
-        }
-        continue;
-    }
 
     const notes = notesByMeasureForKey[i] || [];
     const totalNotes = current.count;
@@ -14002,16 +13865,7 @@ for (let i = 0; i < mscnt; i++) {
             .map(candidate => candidate.label)
             .filter((label, index, labels) => labels.indexOf(label) === index);
 
-        let estimatedLabel = selectedLabels.join(" / ");
-        if (current.inheritedFromPrevious && !estimatedLabel) {
-            const previous = measurePc[i - 1];
-            if (previous?.estKey) {
-                const inheritedKey = previous.estKey.split(" / ")[0];
-                estimatedLabel = inheritedKey.endsWith("m") && previous.estScaleType
-                    ? inheritedKey + "(" + previous.estScaleType + ")"
-                    : inheritedKey;
-            }
-        }
+        const estimatedLabel = selectedLabels.join(" / ");
 
         part3DisplayRows.push({
             measureIndex: i,
