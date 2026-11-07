@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp83
+demp84
 </title>
 <style>
 
@@ -13626,6 +13626,16 @@ for (let i = 0; i < mscnt; i++) {
         for (const scaleType of ['N', 'H', 'M']) {
             let scaleCount = 0;
 
+            // Harmonic minor (H) is considered only when its characteristic
+            // raised seventh is actually present in this key-analysis unit.
+            // Without that note, retain natural minor (N) as the candidate.
+            if (
+                scaleType === 'H' &&
+                current.pc[(root + 11) % 12] === 0
+            ) {
+                continue;
+            }
+
             if (scaleType === 'M') {
                 // M is a candidate only when both characteristic raised
                 // degrees occur in ascending melodic movement:
@@ -13725,6 +13735,7 @@ for (let i = 0; i < mscnt; i++) {
 
     // When both H and M satisfy the criteria for the same minor root,
     // prefer M because its melodic-direction requirements are stricter.
+    // H itself is eligible only when the raised seventh is present.
     const selectedMelodicRoots = new Set(
         selectedCandidates
             .filter(candidate => candidate.mode === 'minor' && candidate.scaleType === 'M')
@@ -14298,9 +14309,10 @@ const explanationLines = [
     '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
     '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
     '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
-    '4. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
-    '5. If H and M are both selected for the same minor tonic, prefer M.',
-    '6. Final-measure exception: if the final measure contains only one pitch class repeated in different octaves, use that pitch class as the tonic.',
+    '4. A harmonic-minor (H) candidate requires its raised 7th-degree note to appear; otherwise use natural minor (N).',
+    '5. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
+    '6. If H and M are both selected for the same minor tonic, prefer M.',
+    '7. Final-measure exception: if the final measure contains only one pitch class repeated in different octaves, use that pitch class as the tonic.',
     '   In this special case only, use the preceding measure\'s unambiguous major/minor mode to choose major or minor (e.g. preceding GM + final D notes = DM).',
     'Whole-song estimation',
     'Part 5: Aggregate the selected measure keys by key-analysis unit; tied candidates share each unit vote equally.',
