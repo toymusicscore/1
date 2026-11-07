@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp81
+demp82
 </title>
 <style>
 
@@ -13839,6 +13839,123 @@ for (let i = 0; i < mscnt; i++) {
         710,
         100 + mscnt * 10 + 46 * i + 10
     );
+}
+
+// Special handling for a terminal measure that contains only one
+// pitch class repeated across different octaves. In this case, use the
+// preceding non-empty measure's estimated mode as auxiliary evidence,
+// while taking the terminal pitch class as the tonic.
+let terminalMeasureIndex = -1;
+for (let i = mscnt - 1; i >= 0; i--) {
+    if (
+        measurePc[i] &&
+        measurePc[i].count > 0 &&
+        !measurePc[i].keyGroupDuplicate
+    ) {
+        terminalMeasureIndex = i;
+        break;
+    }
+}
+
+if (terminalMeasureIndex >= 0) {
+    const terminalNotes = notesByMeasureForKey[terminalMeasureIndex] || [];
+    const terminalMidiValues = [...new Set(terminalNotes.map(note => note.midi))];
+    const terminalPitchClasses = [...new Set(terminalNotes.map(note => note.midi % 12))];
+
+    const isSinglePitchClassAcrossOctaves =
+        terminalNotes.length >= 2 &&
+        terminalPitchClasses.length === 1 &&
+        terminalMidiValues.length >= 2;
+
+    let precedingMeasureIndex = -1;
+    for (let i = terminalMeasureIndex - 1; i >= 0; i--) {
+        if (
+            measurePc[i] &&
+            measurePc[i].count > 0 &&
+            !measurePc[i].keyGroupDuplicate
+        ) {
+            precedingMeasureIndex = i;
+            break;
+        }
+    }
+
+    if (isSinglePitchClassAcrossOctaves && precedingMeasureIndex >= 0) {
+        const precedingCandidates =
+            measurePc[precedingMeasureIndex].selectedCandidates || [];
+        const precedingModes = [...new Set(
+            precedingCandidates.map(candidate => candidate.mode)
+        )];
+
+        // Apply the rule only when the preceding measure gives an
+        // unambiguous major/minor mode.
+        if (precedingModes.length === 1) {
+            const terminalRoot = terminalPitchClasses[0];
+            const inferredMode = precedingModes[0];
+            const allCandidates =
+                measurePc[terminalMeasureIndex].allCandidateScores || [];
+
+            let inferredCandidate = null;
+            if (inferredMode === 'major') {
+                inferredCandidate = allCandidates.find(candidate =>
+                    candidate.mode === 'major' && candidate.root === terminalRoot
+                ) || null;
+            } else {
+                const precedingMinorTypes = [...new Set(
+                    precedingCandidates
+                        .filter(candidate => candidate.mode === 'minor')
+                        .map(candidate => candidate.scaleType)
+                )];
+                inferredCandidate = allCandidates.find(candidate =>
+                    candidate.mode === 'minor' &&
+                    candidate.root === terminalRoot &&
+                    precedingMinorTypes.includes(candidate.scaleType)
+                ) || allCandidates.find(candidate =>
+                    candidate.mode === 'minor' &&
+                    candidate.root === terminalRoot
+                ) || null;
+            }
+
+            if (inferredCandidate) {
+                const terminalMeasure = measurePc[terminalMeasureIndex];
+                terminalMeasure.selectedCandidates = [inferredCandidate];
+                terminalMeasure.evaluationCandidates = [inferredCandidate];
+                terminalMeasure.candidateScores = [inferredCandidate];
+                terminalMeasure.estKey = inferredCandidate.baseName;
+                terminalMeasure.estScaleType = inferredCandidate.scaleType || '';
+                terminalMeasure.estKeyPoints = [[
+                    inferredCandidate.label,
+                    inferredCandidate.tonicFifthRatio
+                ]];
+
+                estimatedMeasureKeys[terminalMeasureIndex] = {
+                    estKey: inferredCandidate.baseName,
+                    estScaleType: inferredCandidate.scaleType,
+                    rootPc: inferredCandidate.root,
+                    mode: inferredCandidate.mode
+                };
+                estimatedMeasureLabelTypes[terminalMeasureIndex] =
+                    getAutoLabelType(inferredCandidate.baseName);
+
+                const displayKey = inferredCandidate.label;
+                ctx.fillStyle = 'white';
+                ctx.fillRect(700, 41 + 10 * terminalMeasureIndex, 500, 10);
+                ctx.fillRect(
+                    700,
+                    91 + mscnt * 10 + 46 * terminalMeasureIndex,
+                    500,
+                    30
+                );
+                ctx.fillStyle = 'black';
+                ctx.textAlign = 'left';
+                ctx.fillText(displayKey, 710, 50 + 10 * terminalMeasureIndex);
+                ctx.fillText(
+                    displayKey,
+                    710,
+                    100 + mscnt * 10 + 46 * terminalMeasureIndex + 10
+                );
+            }
+        }
+    }
 }
 
 // Rebuild Part 3 comparison rows from the same candidates used by
