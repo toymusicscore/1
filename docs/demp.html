@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp89
+demp90
 </title>
 <style>
 
@@ -184,8 +184,7 @@ demp89
     <option value="bwv798">bach-sinfonia-12</option>
     <option value="bwv799">bach-sinfonia-13</option>
     <option value="bwv800">bach-sinfonia-14</option>
-    <option value="bwv801">bach-sinfonia-15</option>
-    <option value="K545-1">K545-1</option>
+    <option value="bwv801">bach-sinfonia-15</option>    <option value="K545-1">K545-1</option>
     <option value="debussy_Arabesque_1">debussy_Arabesque_1</option>
 </select>
 
@@ -14379,9 +14378,8 @@ ctx.lineWidth = 1;
             (isFlat ? part5FlatOrder : part5SharpOrder).slice(0, count);
     }
 
-    // Aggregate only the candidates actually selected by the per-measure
-    // estimator. This keeps the whole-song result consistent with the
-    // displayed measure-by-measure decisions.
+    // Aggregate the per-measure K values of the candidates actually selected
+    // by the per-measure estimator. K = SM * (T1 + D5).
     // The first and last non-empty measures receive double weight.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
@@ -14417,23 +14415,19 @@ ctx.lineWidth = 1;
             const keyId = selected.mode === 'major'
                 ? 'M:' + selected.root
                 : 'm:' + selected.root;
-            const keyName = selected.mode === 'major'
-                ? selected.baseName
-                : selected.baseName;
+            const keyName = selected.baseName;
             const majorRoot = selected.mode === 'major'
                 ? selected.root
                 : (selected.root + 3) % 12;
+            const k = selected.scaleRatio * selected.tonicFifthRatio;
 
             const existing = part5Scores.get(keyId) || {
                 keyId,
                 keyName,
                 majorRoot,
-                weightedSM: 0,
-                weightedT1D5: 0
+                weightedK: 0
             };
-
-            existing.weightedSM += selected.scaleRatio * measureWeight;
-            existing.weightedT1D5 += selected.tonicFifthRatio * measureWeight;
+            existing.weightedK += k * measureWeight;
             part5Scores.set(keyId, existing);
         }
     }
@@ -14448,21 +14442,16 @@ ctx.lineWidth = 1;
         part5KeyCandidates.push({
             keyName: candidate.keyName,
             keySignature: formatPart5KeySignature(candidate.majorRoot, displayMajorName),
-            weightedSM: candidate.weightedSM,
-            averageSM: part5TotalWeight > 0
-                ? candidate.weightedSM / part5TotalWeight
-                : 0,
-            weightedT1D5: candidate.weightedT1D5,
-            averageT1D5: part5TotalWeight > 0
-                ? candidate.weightedT1D5 / part5TotalWeight
+            weightedK: candidate.weightedK,
+            averageK: part5TotalWeight > 0
+                ? candidate.weightedK / part5TotalWeight
                 : 0,
             accidentals: part5KeySignatureAccidentals[candidate.majorRoot]
         });
     }
 
     part5KeyCandidates.sort((a, b) =>
-        b.averageSM - a.averageSM ||
-        b.averageT1D5 - a.averageT1D5 ||
+        b.averageK - a.averageK ||
         a.accidentals - b.accidentals ||
         a.keyName.localeCompare(b.keyName)
     );
@@ -14480,10 +14469,10 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 5: Whole-song key estimation by SM, then T1+D5', 10, part5RowPointStart);
+    ctx.fillText('Part 5: Whole-song key estimation by weighted K', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Only selected per-measure keys are aggregated. SM is ranked first; T1+D5 breaks ties. First and last units have double weight.',
+        'Only selected per-measure keys are aggregated. K = SM × (T1+D5). First and last units have double weight.',
         10,
         part5RowPointStart + 20
     );
