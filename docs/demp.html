@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp90
+demp91
 </title>
 <style>
 
@@ -14360,9 +14360,9 @@ ctx.lineWidth = 1;
 
     {
     //========================================================
-    // Part 5: whole-song key estimation.
-    // Rank by weighted-average SM first, then weighted-average T1+D5.
-    // The first and last non-empty measures receive double weight.
+    // Part 5: whole-song key estimation by weighted K.
+    // K = SM * (T1 + D5). The first and last non-empty measures
+    // receive double weight.
     //========================================================
 
     const part5KeySignatureAccidentals = [
@@ -14487,8 +14487,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, part5TableTop);
     ctx.fillText('Signature', 120, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Weighted SM (%)', 330, part5TableTop);
-    ctx.fillText('Weighted T1+D5 (%)', 485, part5TableTop);
+    ctx.fillText('Weighted K (%)', 330, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
         const candidate = part5KeyCandidates[i];
@@ -14503,8 +14502,7 @@ ctx.lineWidth = 1;
         ctx.fillText(candidate.keyName, 12, y);
         ctx.fillText(candidate.keySignature, 120, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.averageSM * 100).toFixed(2), 330, y);
-        ctx.fillText((candidate.averageT1D5 * 100).toFixed(2), 485, y);
+        ctx.fillText((candidate.averageK * 100).toFixed(2), 330, y);
     }
 
     part5SectionBottom =
