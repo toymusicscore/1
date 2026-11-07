@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp72
+demp73
 </title>
 <style>
 
@@ -14389,9 +14389,9 @@ ctx.lineWidth = 1;
     }
 
     //========================================================
-    // Part 5: whole-song key estimation by aggregating measure results.
-    // Tied selected candidates share one measure vote equally.
-    // N/H/M variants of the same minor tonic are combined.
+    // Part 5: whole-song key estimation by aggregating measure K scores.
+    // Every measure evaluates all 12 major and 12 relative-minor keys.
+    // The first and last non-empty measures receive double weight.
     //========================================================
 
     const part5KeySignatureAccidentals = [
@@ -14407,68 +14407,101 @@ ctx.lineWidth = 1;
             (isFlat ? part5FlatOrder : part5SharpOrder).slice(0, count);
     }
 
-    const part5Votes = new Map();
+    // Evaluate all 24 major / relative-minor candidates in every measure
+    // with the same K formula used in Part 6. The first and last measures
+    // receive double weight in the whole-song aggregation.
+    const part5Scores = new Map();
     let part5EligibleMeasures = 0;
+    let part5TotalWeight = 0;
+    const part5FirstMeasure = measurePc.findIndex(
+        measure => measure && measure.count > 0
+    );
+    let part5LastMeasure = -1;
+    for (let i = measurePc.length - 1; i >= 0; i--) {
+        if (measurePc[i] && measurePc[i].count > 0) {
+            part5LastMeasure = i;
+            break;
+        }
+    }
 
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
         const current = measurePc[measureIndex];
         if (!current || current.count === 0) continue;
 
-        const selected = current.selectedCandidates || [];
-        if (selected.length === 0) continue;
-
-        // Collapse N/H/M variants and duplicate entries before splitting the vote.
-        const measureKeys = new Map();
-        for (const candidate of selected) {
-            const isMinor = candidate.mode === 'minor';
-            const root = ((candidate.root % 12) + 12) % 12;
-            const keyId = (isMinor ? 'm:' : 'M:') + root;
-            measureKeys.set(keyId, { root, mode: isMinor ? 'minor' : 'major' });
-        }
-
-        if (measureKeys.size === 0) continue;
+        const measureWeight =
+            (measureIndex === part5FirstMeasure || measureIndex === part5LastMeasure) ? 2 : 1;
         part5EligibleMeasures++;
-        const vote = 1 / measureKeys.size;
+        part5TotalWeight += measureWeight;
 
-        for (const [keyId, key] of measureKeys) {
-            part5Votes.set(keyId, (part5Votes.get(keyId) || 0) + vote);
+        for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
+            let inScaleCount = 0;
+            for (const interval of majorScaleIntervals) {
+                inScaleCount += current.pc[(majorRoot + interval) % 12];
+            }
+            const sm = inScaleCount / current.count;
+
+            const minorRoot = (majorRoot + 9) % 12;
+            const majorT1 = current.pc[majorRoot] / current.count;
+            const majorD5 = current.pc[(majorRoot + 7) % 12] / current.count;
+            const minorT1 = current.pc[minorRoot] / current.count;
+            const minorD5 = current.pc[(minorRoot + 7) % 12] / current.count;
+
+            const sharpMajorName = engs1[majorRoot] + 'M';
+            const flatMajorName = engf1[majorRoot] + 'M';
+            const majorName = getAutoLabelType(flatMajorName) === 'flat'
+                ? flatMajorName
+                : sharpMajorName;
+            const minorName = engMnr1[minorRoot] + 'm';
+
+            const candidates = [
+                {
+                    keyId: 'M:' + majorRoot,
+                    keyName: majorName,
+                    majorRoot,
+                    k: sm * (majorT1 + majorD5) * majorT1
+                },
+                {
+                    keyId: 'm:' + minorRoot,
+                    keyName: minorName,
+                    majorRoot,
+                    k: sm * (minorT1 + minorD5) * minorT1
+                }
+            ];
+
+            for (const candidate of candidates) {
+                const existing = part5Scores.get(candidate.keyId) || {
+                    keyId: candidate.keyId,
+                    keyName: candidate.keyName,
+                    majorRoot: candidate.majorRoot,
+                    weightedK: 0
+                };
+                existing.weightedK += candidate.k * measureWeight;
+                part5Scores.set(candidate.keyId, existing);
+            }
         }
     }
 
     const part5KeyCandidates = [];
-    for (const [keyId, votes] of part5Votes) {
-        // keyId is stored as "M:root" or "m:root"; the Map value is the vote total.
-        const [modeCode, rootText] = keyId.split(':');
-        const mode = modeCode === 'm' ? 'minor' : 'major';
-        const root = Number(rootText);
-        const majorRoot = mode === 'major'
-            ? root
-            : (root + 3) % 12;
-
-        const sharpMajorName = engs1[majorRoot] + 'M';
-        const flatMajorName = engf1[majorRoot] + 'M';
-        const majorName = getAutoLabelType(flatMajorName) === 'flat'
+    for (const candidate of part5Scores.values()) {
+        const majorName = engs1[candidate.majorRoot] + 'M';
+        const flatMajorName = engf1[candidate.majorRoot] + 'M';
+        const displayMajorName = getAutoLabelType(flatMajorName) === 'flat'
             ? flatMajorName
-            : sharpMajorName;
-        const keyName = mode === 'major'
-            ? majorName
-            : engMnr1[root] + 'm';
-
+            : majorName;
         part5KeyCandidates.push({
-            keyId,
-            keyName,
-            keySignature: formatPart5KeySignature(majorRoot, majorName),
-            bkc: calculateBlackKeyCoverage(majorRoot, majorName),
-            votes,
-            percentage: part5EligibleMeasures > 0
-                ? votes / part5EligibleMeasures
+            keyName: candidate.keyName,
+            keySignature: formatPart5KeySignature(candidate.majorRoot, displayMajorName),
+            bkc: calculateBlackKeyCoverage(candidate.majorRoot, displayMajorName),
+            weightedK: candidate.weightedK,
+            averageK: part5TotalWeight > 0
+                ? candidate.weightedK / part5TotalWeight
                 : 0,
-            accidentals: part5KeySignatureAccidentals[majorRoot]
+            accidentals: part5KeySignatureAccidentals[candidate.majorRoot]
         });
     }
 
     part5KeyCandidates.sort((a, b) =>
-        b.votes - a.votes ||
+        b.weightedK - a.weightedK ||
         a.accidentals - b.accidentals ||
         a.keyName.localeCompare(b.keyName)
     );
@@ -14486,15 +14519,15 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 5: Whole-song key estimation by measure votes', 10, part5RowPointStart);
+    ctx.fillText('Part 5: Whole-song key estimation by measure K', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each measure contributes one vote; tied selected keys share that vote equally. N/H/M are combined for each minor tonic.',
+        'Each measure evaluates all major and relative-minor keys using the Part 6 K formula. First and last measures have double weight.',
         10,
         part5RowPointStart + 20
     );
     ctx.fillText(
-        'Eligible measures: ' + part5EligibleMeasures + '. Percent = weighted votes / eligible measures × 100.',
+        'Eligible measures: ' + part5EligibleMeasures + '. Weighted K (%) = sum of (measure K × weight) / total weight × 100.',
         10,
         part5RowPointStart + 38
     );
@@ -14504,8 +14537,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, part5TableTop);
     ctx.fillText('Signature', 120, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Votes', 300, part5TableTop);
-    ctx.fillText('Measures (%)', 430, part5TableTop);
+    ctx.fillText('Weighted K (%)', 430, part5TableTop);
     ctx.fillText('BKC (%)', 550, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
@@ -14521,8 +14553,7 @@ ctx.lineWidth = 1;
         ctx.fillText(candidate.keyName, 12, y);
         ctx.fillText(candidate.keySignature, 120, y);
         ctx.textAlign = 'right';
-        ctx.fillText(candidate.votes.toFixed(2), 300, y);
-        ctx.fillText((candidate.percentage * 100).toFixed(2), 430, y);
+        ctx.fillText((candidate.averageK * 100).toFixed(2), 430, y);
         ctx.fillText((candidate.bkc * 100).toFixed(2), 550, y);
     }
 
@@ -14530,7 +14561,7 @@ ctx.lineWidth = 1;
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'S = highest aggregate measure-vote result.',
+        'S = highest weighted average K across measures; the first and last measures count twice.',
         10,
         part5TableTop + part5RowHeight * (part5KeyCandidates.length + 1) + 2
     );
