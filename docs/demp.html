@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr95
+demr96
 </title>
 <style>
 
@@ -184,7 +184,8 @@ demr95
     <option value="bwv798">bach-sinfonia-12</option>
     <option value="bwv799">bach-sinfonia-13</option>
     <option value="bwv800">bach-sinfonia-14</option>
-    <option value="bwv801">bach-sinfonia-15</option>    <option value="K545-1">K545-1</option>
+    <option value="bwv801">bach-sinfonia-15</option>
+    <option value="K545-1">K545-1</option>
     <option value="debussy_Arabesque_1">debussy_Arabesque_1</option>
 </select>
 
@@ -14166,13 +14167,12 @@ ctx.fillText('Measure', 10, perMeasureTableTop + 42);
 ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
 ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
 
-// Use explicit metric names and keep MK clear of the minor-degree columns.
+// Show the agreed metrics only: SM first, then T1, D5, and T1+D5.
 ctx.textAlign = 'right';
-ctx.fillText('K', 400, perMeasureTableTop + 42);
-ctx.fillText('SM', 490, perMeasureTableTop + 42);
-ctx.fillText('T1', 570, perMeasureTableTop + 42);
-ctx.fillText('D5', 650, perMeasureTableTop + 42);
-ctx.fillText('T1+D5', 730, perMeasureTableTop + 42);
+ctx.fillText('SM', 400, perMeasureTableTop + 42);
+ctx.fillText('T1', 480, perMeasureTableTop + 42);
+ctx.fillText('D5', 560, perMeasureTableTop + 42);
+ctx.fillText('T1+D5', 640, perMeasureTableTop + 42);
 ctx.fillText('6th N', 850, perMeasureTableTop + 42);
 ctx.fillText('6th #', 910, perMeasureTableTop + 42);
 ctx.fillText('7th N', 970, perMeasureTableTop + 42);
@@ -14182,7 +14182,7 @@ ctx.fillText('6th N Dn', 1150, perMeasureTableTop + 42);
 ctx.fillText('7th # Up', 1220, perMeasureTableTop + 42);
 ctx.fillText('7th N Dn', 1280, perMeasureTableTop + 42);
 ctx.textAlign = 'left';
-ctx.fillText('MK', 770, perMeasureTableTop + 42);
+ctx.fillText('MK', 680, perMeasureTableTop + 42);
 
 for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const row = candidateRows[rowIndex];
@@ -14214,32 +14214,27 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     ctx.fillText(row.parallelKey, 260, y);
     ctx.textAlign = 'right';
     ctx.fillText(
-        (candidate.scaleRatio * candidate.tonicFifthRatio * 100).toFixed(2),
+        (candidate.scaleRatio * 100).toFixed(2),
         400,
         y
     );
     ctx.fillText(
-        (candidate.scaleRatio * 100).toFixed(2),
-        490,
-        y
-    );
-    ctx.fillText(
         (candidate.tonicRatio * 100).toFixed(2),
-        570,
+        480,
         y
     );
     ctx.fillText(
         (candidate.fifthRatio * 100).toFixed(2),
-        650,
+        560,
         y
     );
     ctx.fillText(
         (candidate.tonicFifthRatio * 100).toFixed(2),
-        730,
+        640,
         y
     );
     ctx.textAlign = 'left';
-    ctx.fillText(row.isSelected ? 'S' : '', 770, y);
+    ctx.fillText(row.isSelected ? 'S' : '', 680, y);
 
     // Natural/raised minor degrees and their characteristic directions.
     // All ratios use the total note count in this measure as denominator.
@@ -14275,7 +14270,6 @@ const explanationLineHeight = 18;
 const explanationLines = [
     'Key Estimation Process',
     'MK = Measure Key: this candidate is selected for the measure.',
-    'K is shown only in the per-measure detail table; it is not used in Part 5 or Part 6.',
     'SM = Scale-member ratio: notes belonging to the candidate scale / all notes × 100.',
     'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
     'D5 = dominant ratio: 5th-degree notes / all notes × 100.',
