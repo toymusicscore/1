@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr94
+demr95
 </title>
 <style>
 
@@ -184,8 +184,7 @@ demr94
     <option value="bwv798">bach-sinfonia-12</option>
     <option value="bwv799">bach-sinfonia-13</option>
     <option value="bwv800">bach-sinfonia-14</option>
-    <option value="bwv801">bach-sinfonia-15</option>
-    <option value="K545-1">K545-1</option>
+    <option value="bwv801">bach-sinfonia-15</option>    <option value="K545-1">K545-1</option>
     <option value="debussy_Arabesque_1">debussy_Arabesque_1</option>
 </select>
 
@@ -14276,7 +14275,7 @@ const explanationLineHeight = 18;
 const explanationLines = [
     'Key Estimation Process',
     'MK = Measure Key: this candidate is selected for the measure.',
-    'K = SM × (T1+D5): scale-member ratio multiplied by the combined tonic and fifth ratio.',
+    'K is shown only in the per-measure detail table; it is not used in Part 5 or Part 6.',
     'SM = Scale-member ratio: notes belonging to the candidate scale / all notes × 100.',
     'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
     'D5 = dominant ratio: 5th-degree notes / all notes × 100.',
@@ -14292,10 +14291,10 @@ const explanationLines = [
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
-    'Part 5: Evaluate each measure using K; the first and last non-empty measures receive double weight.',
-    'Part 6: List each major and minor key in one Key column and compare SM, T1, D5, T1+D5 and K.',
+    'Part 5: Aggregate per-measure SM and T1+D5 separately; the first and last non-empty measures receive double weight.',
+    'Part 6: Aggregate all notes across the song and rank candidates by SM, then T1+D5.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
-    'K = SM × (T1+D5). The key with the highest K is selected as the Whole Song Key (WK).'
+    'For both Part 5 and Part 6, T1+D5 is a tie-breaker only; SM has priority.'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14382,7 +14381,7 @@ ctx.lineWidth = 1;
 
     {
     //========================================================
-    // Part 5: whole-song key estimation by aggregating measure K scores.
+    // Part 5: whole-song key estimation by aggregating measure SM and T1+D5.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
     // The first and last non-empty measures receive double weight.
     //========================================================
@@ -14400,9 +14399,9 @@ ctx.lineWidth = 1;
             (isFlat ? part5FlatOrder : part5SharpOrder).slice(0, count);
     }
 
-    // Evaluate all 24 major / relative-minor candidates in every measure
-    // with the same K formula used in Part 6. The first and last measures
-    // receive double weight in the whole-song aggregation.
+    // Evaluate all 24 major / relative-minor candidates in every measure.
+    // Aggregate SM and T1+D5 separately; do not calculate or use K.
+    // The first and last non-empty measures receive double weight.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
@@ -14451,13 +14450,15 @@ ctx.lineWidth = 1;
                     keyId: 'M:' + majorRoot,
                     keyName: majorName,
                     majorRoot,
-                    k: sm * (majorT1 + majorD5)
+                    sm,
+                    tonicFifth: majorT1 + majorD5
                 },
                 {
                     keyId: 'm:' + minorRoot,
                     keyName: minorName,
                     majorRoot,
-                    k: sm * (minorT1 + minorD5)
+                    sm,
+                    tonicFifth: minorT1 + minorD5
                 }
             ];
 
@@ -14466,9 +14467,11 @@ ctx.lineWidth = 1;
                     keyId: candidate.keyId,
                     keyName: candidate.keyName,
                     majorRoot: candidate.majorRoot,
-                    weightedK: 0
+                    weightedSM: 0,
+                    weightedTonicFifth: 0
                 };
-                existing.weightedK += candidate.k * measureWeight;
+                existing.weightedSM += candidate.sm * measureWeight;
+                existing.weightedTonicFifth += candidate.tonicFifth * measureWeight;
                 part5Scores.set(candidate.keyId, existing);
             }
         }
@@ -14484,19 +14487,26 @@ ctx.lineWidth = 1;
         part5KeyCandidates.push({
             keyName: candidate.keyName,
             keySignature: formatPart5KeySignature(candidate.majorRoot, displayMajorName),
-            weightedK: candidate.weightedK,
-            averageK: part5TotalWeight > 0
-                ? candidate.weightedK / part5TotalWeight
+            weightedSM: candidate.weightedSM,
+            weightedTonicFifth: candidate.weightedTonicFifth,
+            averageSM: part5TotalWeight > 0
+                ? candidate.weightedSM / part5TotalWeight
+                : 0,
+            averageTonicFifth: part5TotalWeight > 0
+                ? candidate.weightedTonicFifth / part5TotalWeight
                 : 0,
             accidentals: part5KeySignatureAccidentals[candidate.majorRoot]
         });
     }
 
-    part5KeyCandidates.sort((a, b) =>
-        b.weightedK - a.weightedK ||
-        a.accidentals - b.accidentals ||
-        a.keyName.localeCompare(b.keyName)
-    );
+    const part5Tolerance = 1e-12;
+    part5KeyCandidates.sort((a, b) => {
+        const smDifference = b.weightedSM - a.weightedSM;
+        if (Math.abs(smDifference) > part5Tolerance) return smDifference;
+        const tonicFifthDifference = b.weightedTonicFifth - a.weightedTonicFifth;
+        if (Math.abs(tonicFifthDifference) > part5Tolerance) return tonicFifthDifference;
+        return a.accidentals - b.accidentals || a.keyName.localeCompare(b.keyName);
+    });
 
     const part5SelectedKey = part5KeyCandidates[0] || null;
     estimatedKey = part5SelectedKey?.keyName ?? '';
@@ -14511,15 +14521,15 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 5: Whole-song key estimation by measure K', 10, part5RowPointStart);
+    ctx.fillText('Part 5: Whole-song key estimation by measure-based SM', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each measure evaluates all major and relative-minor keys using the Part 6 K formula. First and last measures have double weight.',
+        'SM is aggregated across measures; T1+D5 is used only to break SM ties. First and last measures have double weight.',
         10,
         part5RowPointStart + 20
     );
     ctx.fillText(
-        'Eligible measures: ' + part5EligibleMeasures + '. Weighted K (%) = sum of (measure K × weight) / total weight × 100.',
+        'Eligible measures: ' + part5EligibleMeasures + '. Rank by weighted SM, then weighted T1+D5 (both divided by total weight).',
         10,
         part5RowPointStart + 38
     );
@@ -14534,7 +14544,8 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, part5TableTop);
     ctx.fillText('Signature', 120, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Weighted K (%)', 430, part5TableTop);
+    ctx.fillText('Weighted SM (%)', 300, part5TableTop);
+    ctx.fillText('Weighted T1+D5 (%)', 470, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
         const candidate = part5KeyCandidates[i];
@@ -14542,14 +14553,15 @@ ctx.lineWidth = 1;
         const isSelected = i === 0;
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 450, 13);
+            ctx.fillRect(8, y - 10, 500, 13);
         }
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
         ctx.fillText(candidate.keyName, 12, y);
         ctx.fillText(candidate.keySignature, 120, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.averageK * 100).toFixed(2), 430, y);
+        ctx.fillText((candidate.averageSM * 100).toFixed(2), 300, y);
+        ctx.fillText((candidate.averageTonicFifth * 100).toFixed(2), 470, y);
     }
 
     part5SectionBottom =
@@ -14638,7 +14650,7 @@ ctx.lineWidth = 1;
     }
 
     // Build one row per major or relative-minor key.
-    // K combines scale membership and tonic/fifth emphasis.
+    // Keep SM and tonic/fifth values separate for lexicographic ranking.
     const globalKeyCandidates = [];
 
     for (const candidate of globalMajorCandidates) {
@@ -14653,8 +14665,7 @@ ctx.lineWidth = 1;
             globalSM: candidate.globalSM,
             t1: candidate.majorT1,
             d5: candidate.majorD5,
-            t: majorT,
-            k: candidate.globalSM * majorT
+            t: majorT
         });
 
         globalKeyCandidates.push({
@@ -14665,19 +14676,19 @@ ctx.lineWidth = 1;
             globalSM: candidate.globalSM,
             t1: candidate.minorT1,
             d5: candidate.minorD5,
-            t: minorT,
-            k: candidate.globalSM * minorT
+            t: minorT
         });
     }
 
-    // Sort reference candidates by the combined index K.
-    globalKeyCandidates.sort((a, b) =>
-        b.k - a.k ||
-        b.globalSM - a.globalSM ||
-        b.t - a.t ||
-        a.majorRoot - b.majorRoot ||
-        (a.mode === 'major' ? -1 : 1)
-    );
+    // Rank by SM first; use T1+D5 only when SM is tied.
+    const part6Tolerance = 1e-12;
+    globalKeyCandidates.sort((a, b) => {
+        const smDifference = b.globalSM - a.globalSM;
+        if (Math.abs(smDifference) > part6Tolerance) return smDifference;
+        const tonicFifthDifference = b.t - a.t;
+        if (Math.abs(tonicFifthDifference) > part6Tolerance) return tonicFifthDifference;
+        return a.majorRoot - b.majorRoot || (a.mode === 'major' ? -1 : 1);
+    });
 
     const wholeSongKeyCandidate = globalKeyCandidates[0] || null;
     // Part 6 is a reference comparison only; Part 5 remains responsible
@@ -14694,12 +14705,12 @@ ctx.lineWidth = 1;
 
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each major and minor key is listed in one Key column. SM, T1, D5, T1+D5 and K are compared.',
+        'Each major and minor key is listed in one Key column. Candidates are ranked by SM, then T1+D5.',
         10,
         part6RowPointStart + 20
     );
     ctx.fillText(
-        'K = SM × (T1+D5). Candidates are sorted by K in descending order for reference.',
+        'T1+D5 is used only to break ties between candidates with the same SM.',
         10,
         part6RowPointStart + 38
     );
@@ -14713,7 +14724,6 @@ ctx.lineWidth = 1;
     ctx.fillText('T1 (%)', 350, part6TableTop);
     ctx.fillText('D5 (%)', 440, part6TableTop);
     ctx.fillText('T1+D5 (%)', 540, part6TableTop);
-    ctx.fillText('K (%)', 630, part6TableTop);
 
     for (let i = 0; i < globalKeyCandidates.length; i++) {
         const candidate = globalKeyCandidates[i];
@@ -14722,7 +14732,7 @@ ctx.lineWidth = 1;
 
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 660, 13);
+            ctx.fillRect(8, y - 10, 570, 13);
         }
 
         ctx.fillStyle = 'black';
@@ -14734,14 +14744,13 @@ ctx.lineWidth = 1;
         ctx.fillText((candidate.t1 * 100).toFixed(2), 350, y);
         ctx.fillText((candidate.d5 * 100).toFixed(2), 440, y);
         ctx.fillText((candidate.t * 100).toFixed(2), 540, y);
-        ctx.fillText((candidate.k * 100).toFixed(2), 630, y);
     }
 
     ctx.textAlign = 'left';
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'K = SM × (T1+D5). Candidates are sorted by K in descending order.',
+        'Candidates are sorted by SM (descending), then T1+D5 (descending).',
         10,
         part6TableTop + part6RowHeight * (globalKeyCandidates.length + 1) + 2
     );
