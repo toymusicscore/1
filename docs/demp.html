@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr97
+demr98
 </title>
 <style>
 
@@ -14167,12 +14167,13 @@ ctx.fillText('Measure', 10, perMeasureTableTop + 42);
 ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
 ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
 
-// Show the agreed metrics only: SM first, then T1, D5, and T1+D5.
+// Show K together with its component metrics.
 ctx.textAlign = 'right';
-ctx.fillText('SM', 400, perMeasureTableTop + 42);
-ctx.fillText('T1', 480, perMeasureTableTop + 42);
-ctx.fillText('D5', 560, perMeasureTableTop + 42);
-ctx.fillText('T1+D5', 640, perMeasureTableTop + 42);
+ctx.fillText('K', 400, perMeasureTableTop + 42);
+ctx.fillText('SM', 490, perMeasureTableTop + 42);
+ctx.fillText('T1', 570, perMeasureTableTop + 42);
+ctx.fillText('D5', 650, perMeasureTableTop + 42);
+ctx.fillText('T1+D5', 730, perMeasureTableTop + 42);
 ctx.fillText('6th N', 850, perMeasureTableTop + 42);
 ctx.fillText('6th #', 910, perMeasureTableTop + 42);
 ctx.fillText('7th N', 970, perMeasureTableTop + 42);
@@ -14182,7 +14183,7 @@ ctx.fillText('6th N Dn', 1150, perMeasureTableTop + 42);
 ctx.fillText('7th # Up', 1220, perMeasureTableTop + 42);
 ctx.fillText('7th N Dn', 1280, perMeasureTableTop + 42);
 ctx.textAlign = 'left';
-ctx.fillText('MK', 680, perMeasureTableTop + 42);
+ctx.fillText('MK', 770, perMeasureTableTop + 42);
 
 for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     const row = candidateRows[rowIndex];
@@ -14214,27 +14215,32 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     ctx.fillText(row.parallelKey, 260, y);
     ctx.textAlign = 'right';
     ctx.fillText(
-        (candidate.scaleRatio * 100).toFixed(2),
+        (candidate.scaleRatio * candidate.tonicFifthRatio * 100).toFixed(2),
         400,
         y
     );
     ctx.fillText(
+        (candidate.scaleRatio * 100).toFixed(2),
+        490,
+        y
+    );
+    ctx.fillText(
         (candidate.tonicRatio * 100).toFixed(2),
-        480,
+        570,
         y
     );
     ctx.fillText(
         (candidate.fifthRatio * 100).toFixed(2),
-        560,
+        650,
         y
     );
     ctx.fillText(
         (candidate.tonicFifthRatio * 100).toFixed(2),
-        640,
+        730,
         y
     );
     ctx.textAlign = 'left';
-    ctx.fillText(row.isSelected ? 'S' : '', 680, y);
+    ctx.fillText(row.isSelected ? 'S' : '', 770, y);
 
     // Natural/raised minor degrees and their characteristic directions.
     // All ratios use the total note count in this measure as denominator.
@@ -14274,6 +14280,7 @@ const explanationLines = [
     'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
     'D5 = dominant ratio: 5th-degree notes / all notes × 100.',
     'T1+D5 = combined 1st- and 5th-degree ratio.',
+    'K = SM × (T1+D5).',
     '6th N / 6th # = natural / raised 6th-degree note ratios; 7th N / 7th # = natural / raised 7th-degree note ratios.',
     '6th # Up / 7th # Up = raised 6th / 7th notes with ascending melodic evidence.',
     '6th N Dn / 7th N Dn = natural 6th / 7th notes with descending melodic evidence.',
@@ -14285,10 +14292,10 @@ const explanationLines = [
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
-    'Part 5: Aggregate per-measure SM and T1+D5 separately; the first and last non-empty measures receive double weight.',
-    'Part 6: Aggregate all notes across the song and rank candidates by SM, then T1+D5.',
+    'Part 5: Aggregate per-measure K = SM × (T1+D5); the first and last non-empty measures receive double weight.',
+    'Part 6: Aggregate all notes across the song; select maximum SM, then maximum T1+D5 among those candidates.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
-    'For both Part 5 and Part 6, T1+D5 is a tie-breaker only; SM has priority.'
+    'Part 5 ranks by K. Part 6 ranks by SM first, then T1+D5.'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14375,7 +14382,7 @@ ctx.lineWidth = 1;
 
     {
     //========================================================
-    // Part 5: whole-song key estimation by aggregating measure SM and T1+D5.
+    // Part 5: whole-song key estimation by aggregating per-measure K.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
     // The first and last non-empty measures receive double weight.
     //========================================================
@@ -14388,13 +14395,13 @@ ctx.lineWidth = 1;
     function formatPart5KeySignature(majorRoot, majorName) {
         const count = part5KeySignatureAccidentals[majorRoot];
         if (count === 0) return '—';
-        const isFlat = majorName.includes('b');
+        const isFlat = getAutoLabelType(majorName) === 'flat';
         return (isFlat ? 'b' : '#') +
             (isFlat ? part5FlatOrder : part5SharpOrder).slice(0, count);
     }
 
     // Evaluate all 24 major / relative-minor candidates in every measure.
-    // Aggregate SM and T1+D5 separately; do not calculate or use K.
+    // Aggregate per-measure K = SM × (T1+D5).
     // The first and last non-empty measures receive double weight.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
@@ -14461,9 +14468,11 @@ ctx.lineWidth = 1;
                     keyId: candidate.keyId,
                     keyName: candidate.keyName,
                     majorRoot: candidate.majorRoot,
+                    weightedK: 0,
                     weightedSM: 0,
                     weightedTonicFifth: 0
                 };
+                existing.weightedK += candidate.sm * candidate.tonicFifth * measureWeight;
                 existing.weightedSM += candidate.sm * measureWeight;
                 existing.weightedTonicFifth += candidate.tonicFifth * measureWeight;
                 part5Scores.set(candidate.keyId, existing);
@@ -14481,8 +14490,12 @@ ctx.lineWidth = 1;
         part5KeyCandidates.push({
             keyName: candidate.keyName,
             keySignature: formatPart5KeySignature(candidate.majorRoot, displayMajorName),
+            weightedK: candidate.weightedK,
             weightedSM: candidate.weightedSM,
             weightedTonicFifth: candidate.weightedTonicFifth,
+            averageK: part5TotalWeight > 0
+                ? candidate.weightedK / part5TotalWeight
+                : 0,
             averageSM: part5TotalWeight > 0
                 ? candidate.weightedSM / part5TotalWeight
                 : 0,
@@ -14495,6 +14508,8 @@ ctx.lineWidth = 1;
 
     const part5Tolerance = 1e-12;
     part5KeyCandidates.sort((a, b) => {
+        const kDifference = b.weightedK - a.weightedK;
+        if (Math.abs(kDifference) > part5Tolerance) return kDifference;
         const tonicFifthDifference = b.weightedTonicFifth - a.weightedTonicFifth;
         if (Math.abs(tonicFifthDifference) > part5Tolerance) return tonicFifthDifference;
         const smDifference = b.weightedSM - a.weightedSM;
@@ -14515,15 +14530,15 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 5: Whole-song key estimation by measure-based T1+D5', 10, part5RowPointStart);
+    ctx.fillText('Part 5: Whole-song key estimation by measure-based K', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'T1+D5 is aggregated across measures and used for ranking; SM is the secondary criterion. First and last measures have double weight.',
+        'K = SM × (T1+D5) is aggregated across measures. First and last measures have double weight.',
         10,
         part5RowPointStart + 20
     );
     ctx.fillText(
-        'Eligible measures: ' + part5EligibleMeasures + '. Rank by weighted T1+D5, then weighted SM (both divided by total weight).',
+        'Eligible measures: ' + part5EligibleMeasures + '. Rank by weighted K (divided by total weight).',
         10,
         part5RowPointStart + 38
     );
@@ -14538,8 +14553,9 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, part5TableTop);
     ctx.fillText('Signature', 120, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Weighted SM (%)', 300, part5TableTop);
-    ctx.fillText('Weighted T1+D5 (%)', 470, part5TableTop);
+    ctx.fillText('Weighted K (×100)', 250, part5TableTop);
+    ctx.fillText('Weighted SM (%)', 370, part5TableTop);
+    ctx.fillText('Weighted T1+D5 (%)', 500, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
         const candidate = part5KeyCandidates[i];
@@ -14547,15 +14563,16 @@ ctx.lineWidth = 1;
         const isSelected = i === 0;
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 500, 13);
+            ctx.fillRect(8, y - 10, 550, 13);
         }
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
         ctx.fillText(candidate.keyName, 12, y);
         ctx.fillText(candidate.keySignature, 120, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.averageSM * 100).toFixed(2), 300, y);
-        ctx.fillText((candidate.averageTonicFifth * 100).toFixed(2), 470, y);
+        ctx.fillText((candidate.averageK * 100).toFixed(2), 250, y);
+        ctx.fillText((candidate.averageSM * 100).toFixed(2), 370, y);
+        ctx.fillText((candidate.averageTonicFifth * 100).toFixed(2), 500, y);
     }
 
     part5SectionBottom =
@@ -14587,7 +14604,7 @@ ctx.lineWidth = 1;
     function formatKeySignature(majorRoot, majorName) {
         const count = keySignatureAccidentals[majorRoot];
         if (count === 0) return '—';
-        const isFlat = majorName.includes('b');
+        const isFlat = getAutoLabelType(majorName) === 'flat';
         return (isFlat ? 'b' : '#') +
             (isFlat ? flatOrder : sharpOrder).slice(0, count);
     }
@@ -14674,7 +14691,7 @@ ctx.lineWidth = 1;
         });
     }
 
-    // Rank by SM first; use T1+D5 only when SM is tied.
+    // First select candidates with maximum SM; then compare T1+D5.
     const part6Tolerance = 1e-12;
     globalKeyCandidates.sort((a, b) => {
         const smDifference = b.globalSM - a.globalSM;
@@ -14704,7 +14721,7 @@ ctx.lineWidth = 1;
         part6RowPointStart + 20
     );
     ctx.fillText(
-        'T1+D5 is used only to break ties between candidates with the same SM.',
+        'T1+D5 is used only to break ties between candidates with the same maximum SM.',
         10,
         part6RowPointStart + 38
     );
