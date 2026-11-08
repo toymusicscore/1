@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr93
+demr94
 </title>
 <style>
 
@@ -2349,7 +2349,7 @@ let currentHand = HANDS.BOTH;
 let parsedData ="";
 
 let midiData;
-let midiKeySignatureDisplay = '調号イベントなし（♯♭なし：CM / Am）';
+let midiKeySignatureDisplay = 'No key-signature event (no sharps or flats: C major / A minor)';
 
 let vmn0=0;
 let ticksPerQuarterNote=0;
@@ -2896,57 +2896,49 @@ const TRACK = Object.freeze({
     RECORD: 3
 });
 
-function getMidiKeySignatureDisplay(midi) {
-    const pitchClassByName = {
-        C: 0, 'B#': 0,
-        'C#': 1, Db: 1,
-        D: 2,
-        'D#': 3, Eb: 3,
-        E: 4, Fb: 4,
-        F: 5, 'E#': 5,
-        'F#': 6, Gb: 6,
-        G: 7,
-        'G#': 8, Ab: 8,
-        A: 9,
-        'A#': 10, Bb: 10,
-        B: 11, Cb: 11
-    };
-    const signatureByMajorRoot = {
-        0: { symbol: '♯♭なし', pair: 'CM / Am' },
-        1: { symbol: '♭5', pair: 'DbM / Bbm' },
-        2: { symbol: '♯2', pair: 'DM / Bm' },
-        3: { symbol: '♭3', pair: 'EbM / Cm' },
-        4: { symbol: '♯4', pair: 'EM / C#m' },
-        5: { symbol: '♭1', pair: 'FM / Dm' },
-        6: { symbol: '♭6', pair: 'GbM / Ebm' },
-        7: { symbol: '♯1', pair: 'GM / Em' },
-        8: { symbol: '♭4', pair: 'AbM / Fm' },
-        9: { symbol: '♯3', pair: 'AM / F#m' },
-        10: { symbol: '♭2', pair: 'BbM / Gm' },
-        11: { symbol: '♯5', pair: 'BM / G#m' }
+function getMidiKeySignatureDisplay(midiBytes) {
+    // Read the MIDI Key Signature meta-event directly from the original bytes.
+    // FF 59 02 is followed by signed sf (-7..+7) and mi (0=major, 1=minor).
+    const signatureBySf = {
+        '-7': '7 flats (Cb major / Ab minor)',
+        '-6': '6 flats (Gb major / Eb minor)',
+        '-5': '5 flats (Db major / Bb minor)',
+        '-4': '4 flats (Ab major / F minor)',
+        '-3': '3 flats (Eb major / C minor)',
+        '-2': '2 flats (Bb major / G minor)',
+        '-1': '1 flat (F major / D minor)',
+        '0': 'No sharps or flats (C major / A minor)',
+        '1': '1 sharp (G major / E minor)',
+        '2': '2 sharps (D major / B minor)',
+        '3': '3 sharps (A major / F-sharp minor)',
+        '4': '4 sharps (E major / C-sharp minor)',
+        '5': '5 sharps (B major / G-sharp minor)',
+        '6': '6 sharps (F-sharp major / D-sharp minor)',
+        '7': '7 sharps (C-sharp major / A-sharp minor)'
     };
 
-    for (const track of (midi?.tracks || [])) {
-        for (const event of (track || [])) {
-            if (event?.type !== 'keySignature') continue;
-            const eventKey = String(event.key || 'C');
-            const pitchClass = pitchClassByName[eventKey];
-            if (pitchClass === undefined) continue;
-            const isMinor = String(event.scale || 'major').toLowerCase() === 'minor';
-            const majorRoot = isMinor ? (pitchClass + 3) % 12 : pitchClass;
-            const signature = signatureByMajorRoot[majorRoot];
-            return signature.symbol + '（' + signature.pair + '）';
+    const bytes = midiBytes instanceof Uint8Array
+        ? midiBytes
+        : new Uint8Array(midiBytes || []);
+
+    for (let i = 0; i + 4 < bytes.length; i++) {
+        if (bytes[i] !== 0xFF || bytes[i + 1] !== 0x59 || bytes[i + 2] !== 0x02) {
+            continue;
         }
+        let sf = bytes[i + 3];
+        if (sf > 127) sf -= 256;
+        if (sf < -7 || sf > 7) continue;
+        return signatureBySf[String(sf)] || 'Unrecognized key signature';
     }
 
-    return '調号イベントなし（♯♭なし：CM / Am）';
+    return 'No key-signature event (no sharps or flats: C major / A minor)';
 }
 
 function initializeScoreSystem(){
 
 	rawMidi =
 		parseMidi(midiData);
-    midiKeySignatureDisplay = getMidiKeySignatureDisplay(rawMidi);
+    midiKeySignatureDisplay = getMidiKeySignatureDisplay(midiData);
 
 	const scoreAll = createScoreDataFromTracks(rawMidi);
 
