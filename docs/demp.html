@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr98
+demr31
 </title>
 <style>
 
@@ -14553,9 +14553,9 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, part5TableTop);
     ctx.fillText('Signature', 120, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Weighted K (×100)', 250, part5TableTop);
-    ctx.fillText('Weighted SM (%)', 370, part5TableTop);
-    ctx.fillText('Weighted T1+D5 (%)', 500, part5TableTop);
+    ctx.fillText('Weighted K (×100)', 280, part5TableTop);
+    ctx.fillText('Weighted SM (%)', 400, part5TableTop);
+    ctx.fillText('Weighted T1+D5 (%)', 530, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
         const candidate = part5KeyCandidates[i];
@@ -14563,16 +14563,16 @@ ctx.lineWidth = 1;
         const isSelected = i === 0;
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 550, 13);
+            ctx.fillRect(8, y - 10, 580, 13);
         }
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
         ctx.fillText(candidate.keyName, 12, y);
         ctx.fillText(candidate.keySignature, 120, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.averageK * 100).toFixed(2), 250, y);
-        ctx.fillText((candidate.averageSM * 100).toFixed(2), 370, y);
-        ctx.fillText((candidate.averageTonicFifth * 100).toFixed(2), 500, y);
+        ctx.fillText((candidate.averageK * 100).toFixed(2), 280, y);
+        ctx.fillText((candidate.averageSM * 100).toFixed(2), 400, y);
+        ctx.fillText((candidate.averageTonicFifth * 100).toFixed(2), 530, y);
     }
 
     part5SectionBottom =
