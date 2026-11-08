@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demr96
+demr98
 </title>
 <style>
 
@@ -14495,10 +14495,10 @@ ctx.lineWidth = 1;
 
     const part5Tolerance = 1e-12;
     part5KeyCandidates.sort((a, b) => {
-        const smDifference = b.weightedSM - a.weightedSM;
-        if (Math.abs(smDifference) > part5Tolerance) return smDifference;
         const tonicFifthDifference = b.weightedTonicFifth - a.weightedTonicFifth;
         if (Math.abs(tonicFifthDifference) > part5Tolerance) return tonicFifthDifference;
+        const smDifference = b.weightedSM - a.weightedSM;
+        if (Math.abs(smDifference) > part5Tolerance) return smDifference;
         return a.accidentals - b.accidentals || a.keyName.localeCompare(b.keyName);
     });
 
@@ -14515,15 +14515,15 @@ ctx.lineWidth = 1;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'left';
     ctx.font = '14px Arial';
-    ctx.fillText('Part 5: Whole-song key estimation by measure-based SM', 10, part5RowPointStart);
+    ctx.fillText('Part 5: Whole-song key estimation by measure-based T1+D5', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'SM is aggregated across measures; T1+D5 is used only to break SM ties. First and last measures have double weight.',
+        'T1+D5 is aggregated across measures and used for ranking; SM is the secondary criterion. First and last measures have double weight.',
         10,
         part5RowPointStart + 20
     );
     ctx.fillText(
-        'Eligible measures: ' + part5EligibleMeasures + '. Rank by weighted SM, then weighted T1+D5 (both divided by total weight).',
+        'Eligible measures: ' + part5EligibleMeasures + '. Rank by weighted T1+D5, then weighted SM (both divided by total weight).',
         10,
         part5RowPointStart + 38
     );
