@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp99
+demp100
 </title>
 <style>
 
@@ -14575,8 +14575,100 @@ ctx.lineWidth = 1;
         ctx.fillText((candidate.averageTonicFifth * 100).toFixed(2), 530, y);
     }
 
-    part5SectionBottom =
-        part5TableTop + part5RowHeight * (part5KeyCandidates.length + 1) + 24;
+    // Patent-based comparison: one vote per eligible measure; the first
+    // and last non-empty measures each receive two votes. If a measure has
+    // tied selected keys, split that measure's vote equally so it remains
+    // exactly one (or two) votes in total.
+    const patentVoteScores = new Map();
+    for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
+        const current = measurePc[measureIndex];
+        if (!current || current.count === 0) continue;
+
+        const weight =
+            (measureIndex === part5FirstMeasure || measureIndex === part5LastMeasure) ? 2 : 1;
+        const selected = current.selectedCandidates || [];
+        const distinctKeys = new Map();
+        for (const candidate of selected) {
+            const keyName = candidate.baseName;
+            if (!keyName) continue;
+            const majorRoot = candidate.mode === 'minor'
+                ? (candidate.root + 3) % 12
+                : candidate.root;
+            if (!distinctKeys.has(keyName)) {
+                const majorName = engs1[majorRoot] + 'M';
+                const flatMajorName = engf1[majorRoot] + 'M';
+                const displayMajorName = getAutoLabelType(flatMajorName) === 'flat'
+                    ? flatMajorName
+                    : majorName;
+                distinctKeys.set(keyName, {
+                    keyName,
+                    majorRoot,
+                    keySignature: formatPart5KeySignature(majorRoot, displayMajorName)
+                });
+            }
+        }
+
+        const tiedKeys = Array.from(distinctKeys.values());
+        if (tiedKeys.length === 0) continue;
+        const votePerKey = weight / tiedKeys.length;
+        for (const key of tiedKeys) {
+            const existing = patentVoteScores.get(key.keyName) || {
+                ...key,
+                votes: 0
+            };
+            existing.votes += votePerKey;
+            patentVoteScores.set(key.keyName, existing);
+        }
+    }
+
+    const patentVoteCandidates = Array.from(patentVoteScores.values());
+    patentVoteCandidates.sort((a, b) =>
+        b.votes - a.votes || a.keyName.localeCompare(b.keyName)
+    );
+
+    const patentVoteTop = part5TableTop +
+        part5RowHeight * (part5KeyCandidates.length + 1) + 34;
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'left';
+    ctx.font = '14px Arial';
+    ctx.fillText('Part 5 Reference: Patent-based measure voting', 10, patentVoteTop);
+    ctx.font = '13px Arial';
+    ctx.fillText(
+        'One vote per measure; the first and last non-empty measures receive two votes each.',
+        10,
+        patentVoteTop + 19
+    );
+    ctx.fillText(
+        'Tied keys in a measure share that measure’s vote equally. Total votes: ' +
+            patentVoteCandidates.reduce((sum, item) => sum + item.votes, 0).toFixed(2),
+        10,
+        patentVoteTop + 37
+    );
+
+    const patentVoteTableTop = patentVoteTop + 57;
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Key', 12, patentVoteTableTop);
+    ctx.fillText('Signature', 120, patentVoteTableTop);
+    ctx.textAlign = 'right';
+    ctx.fillText('Weighted votes', 280, patentVoteTableTop);
+    for (let i = 0; i < patentVoteCandidates.length; i++) {
+        const candidate = patentVoteCandidates[i];
+        const y = patentVoteTableTop + part5RowHeight * (i + 1);
+        if (i === 0) {
+            ctx.fillStyle = '#fff2b2';
+            ctx.fillRect(8, y - 10, 300, 13);
+        }
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'left';
+        ctx.fillText(candidate.keyName, 12, y);
+        ctx.fillText(candidate.keySignature, 120, y);
+        ctx.textAlign = 'right';
+        ctx.fillText(candidate.votes.toFixed(2), 280, y);
+    }
+
+    part5SectionBottom = patentVoteTableTop +
+        part5RowHeight * (patentVoteCandidates.length + 1) + 24;
     }
 
     {
