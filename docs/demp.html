@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp110
+demp111
 </title>
 <style>
 
@@ -14566,17 +14566,20 @@ ctx.lineWidth = 1;
         ctx.fillText((candidate.averageK * 100).toFixed(2), 700, y);
     }
 
-    // Patent-based comparison: one vote per eligible measure; the first
-    // and last non-empty measures each receive two votes. If a measure has
-    // tied selected keys, split that measure's vote equally so it remains
-    // exactly one (or two) votes in total.
+    // Patent-based comparison: apply the same 40:60 distribution as Part 5.
+    // The last non-empty measure receives 60%; all other eligible measures
+    // share 40% equally. If a measure has tied selected keys, split its
+    // weight equally among those keys.
     const patentVoteScores = new Map();
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
         const current = measurePc[measureIndex];
         if (!current || current.count === 0) continue;
 
-        const weight =
-            (measureIndex === part5FirstMeasure || measureIndex === part5LastMeasure) ? 2 : 1;
+        const weight = part5EligibleMeasures === 1
+            ? 100
+            : measureIndex === part5LastMeasure
+                ? 60
+                : 40 / (part5EligibleMeasures - 1);
         const selected = current.selectedCandidates || [];
         const distinctKeys = new Map();
         for (const candidate of selected) {
@@ -14625,7 +14628,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Part 5 Reference: Patent-based measure voting', 10, patentVoteTop);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'One vote per measure; the first and last non-empty measures receive two votes each.',
+        'Last measure: 60%; all other eligible measures share 40% equally.',
         10,
         patentVoteTop + 19
     );
@@ -14642,7 +14645,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, patentVoteTableTop);
     ctx.fillText('Signature', 120, patentVoteTableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Weighted votes', 280, patentVoteTableTop);
+    ctx.fillText('Weighted votes (%)', 280, patentVoteTableTop);
     for (let i = 0; i < patentVoteCandidates.length; i++) {
         const candidate = patentVoteCandidates[i];
         const y = patentVoteTableTop + part5RowHeight * (i + 1);
