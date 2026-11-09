@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp107
+demp108
 </title>
 <style>
 
@@ -14276,7 +14276,7 @@ const explanationLines = [
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
-    'Part 5: Aggregate per-measure K1 = SM × P5; the first measure receives double weight and the last receives quadruple weight.',
+    'Part 5: Aggregate per-measure K1 = SM × P5; the first measure receives 5%, middle measures share 45%, and the last measure receives 50%.',
     'Part 6: Aggregate all notes across the song; select maximum SM, then rank those candidates by P5.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
     'Part 5 ranks by K1; Part 6 ranks by SM first, then P5.'
@@ -14368,7 +14368,7 @@ ctx.lineWidth = 1;
     //========================================================
     // Part 5: whole-song key estimation by aggregating per-measure K.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
-    // The first measure receives 10%, middle measures share 40%, and the last measure receives 50%.
+    // The first measure receives 5%, middle measures share 45%, and the last measure receives 50%.
     //========================================================
 
     const part5KeySignatureAccidentals = [
@@ -14385,8 +14385,8 @@ ctx.lineWidth = 1;
     }
 
     // Evaluate all 24 major / relative-minor candidates in every measure.
-    // Aggregate per-measure K1 = SM × P5 using a 10:40:50 distribution:
-    // first measure 10%, middle measures share 40%, and last measure 50%.
+    // Aggregate per-measure K1 = SM × P5 using a 5:45:50 distribution:
+    // first measure 5%, middle measures share 45%, and last measure 50%.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
@@ -14400,7 +14400,7 @@ ctx.lineWidth = 1;
     const part5FirstMeasure = part5EligibleMeasureIndices[0] ?? -1;
     const part5LastMeasure = part5EligibleMeasureIndices[part5EligibleMeasures - 1] ?? -1;
     const part5MiddleWeight = part5EligibleMeasures > 2
-        ? 40 / (part5EligibleMeasures - 2)
+        ? 45 / (part5EligibleMeasures - 2)
         : 0;
 
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
@@ -14411,9 +14411,9 @@ ctx.lineWidth = 1;
         if (part5EligibleMeasures === 1) {
             measureWeight = 100;
         } else if (part5EligibleMeasures === 2) {
-            measureWeight = measureIndex === part5FirstMeasure ? 20 : 80;
+            measureWeight = measureIndex === part5FirstMeasure ? 10 : 90;
         } else if (measureIndex === part5FirstMeasure) {
-            measureWeight = 10;
+            measureWeight = 5;
         } else if (measureIndex === part5LastMeasure) {
             measureWeight = 50;
         } else {
