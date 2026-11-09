@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp102
+demp103
 </title>
 <style>
 
@@ -13699,7 +13699,6 @@ for (let i = 0; i < mscnt; i++) {
 
         const tonicCount = current.pc[root];
         const fifthCount = current.pc[(root + 7) % 12];
-        const fourthCount = current.pc[(root + 5) % 12];
         const tonicFifthCount = tonicCount + fifthCount;
         const scaleRatio = scaleCount / totalNotes; // O
         const scaleCoverageCount =
@@ -13707,9 +13706,7 @@ for (let i = 0; i < mscnt; i++) {
         const scaleCoverageRatio = scaleCoverageCount / 7; // S
         const tonicRatio = tonicCount / totalNotes; // T1
         const fifthRatio = fifthCount / totalNotes; // D5
-        const fourthRatio = fourthCount / totalNotes; // Perfect-fourth note ratio
         const tonicFifthRatio = tonicRatio + fifthRatio; // P5 = T1 + D5
-        const tonicFourthRatio = tonicRatio + fourthRatio; // P4 = T1 + perfect fourth
 
         candidates.push({
             id: `major:${root}`,
@@ -13723,13 +13720,10 @@ for (let i = 0; i < mscnt; i++) {
             scaleCoverageRatio,
             tonicCount,
             fifthCount,
-            fourthCount,
             tonicFifthCount,
             tonicRatio,
             fifthRatio,
-            fourthRatio,
-            tonicFifthRatio,
-            tonicFourthRatio
+            tonicFifthRatio
         });
     }
 
@@ -13763,7 +13757,6 @@ for (let i = 0; i < mscnt; i++) {
 
             const tonicCount = current.pc[root];
             const fifthCount = current.pc[(root + 7) % 12];
-            const fourthCount = current.pc[(root + 5) % 12];
             const tonicFifthCount = tonicCount + fifthCount;
             const scaleRatio = scaleCount / totalNotes; // O
             const scaleCoverageCount =
@@ -13771,9 +13764,7 @@ for (let i = 0; i < mscnt; i++) {
             const scaleCoverageRatio = scaleCoverageCount / 7; // S
             const tonicRatio = tonicCount / totalNotes; // T1
             const fifthRatio = fifthCount / totalNotes; // D5
-            const fourthRatio = fourthCount / totalNotes; // Perfect-fourth note ratio
             const tonicFifthRatio = tonicRatio + fifthRatio; // P5 = T1 + D5
-            const tonicFourthRatio = tonicRatio + fourthRatio; // P4 = T1 + perfect fourth
             const baseName = engMnr1[root] + 'm';
             const degreeEvidence = getMinorDegreeEvidence(notes, root);
 
@@ -13789,14 +13780,11 @@ for (let i = 0; i < mscnt; i++) {
                 scaleCoverageRatio,
                 tonicCount,
                 fifthCount,
-                fourthCount,
                 tonicFifthCount,
                 tonicRatio,
                 fifthRatio,
-                fourthRatio,
                 tonicFifthRatio,
-                tonicFourthRatio,
-                sixthNaturalRatio: degreeEvidence.sixthNatural / totalNotes,
+                    sixthNaturalRatio: degreeEvidence.sixthNatural / totalNotes,
                 sixthRaisedRatio: degreeEvidence.sixthRaised / totalNotes,
                 seventhNaturalRatio: degreeEvidence.seventhNatural / totalNotes,
                 seventhRaisedRatio: degreeEvidence.seventhRaised / totalNotes,
@@ -14179,15 +14167,13 @@ ctx.fillText('Measure', 10, perMeasureTableTop + 42);
 ctx.fillText('Candidate key', 90, perMeasureTableTop + 42);
 ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
 
-// Show K together with its component metrics.
+// Show K1 together with its component metrics.
 ctx.textAlign = 'right';
 ctx.fillText('K1', 360, perMeasureTableTop + 42);
-ctx.fillText('K3', 425, perMeasureTableTop + 42);
-ctx.fillText('SM', 490, perMeasureTableTop + 42);
-ctx.fillText('T1', 550, perMeasureTableTop + 42);
-ctx.fillText('D5', 610, perMeasureTableTop + 42);
-ctx.fillText('P5', 675, perMeasureTableTop + 42);
-ctx.fillText('P4', 740, perMeasureTableTop + 42);
+ctx.fillText('SM', 425, perMeasureTableTop + 42);
+ctx.fillText('T1', 490, perMeasureTableTop + 42);
+ctx.fillText('D5', 555, perMeasureTableTop + 42);
+ctx.fillText('P5', 620, perMeasureTableTop + 42);
 ctx.fillText('6th N', 850, perMeasureTableTop + 42);
 ctx.fillText('6th #', 910, perMeasureTableTop + 42);
 ctx.fillText('7th N', 970, perMeasureTableTop + 42);
@@ -14233,36 +14219,10 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
         360,
         y
     );
-    ctx.fillText(
-        (candidate.scaleRatio * candidate.tonicFifthRatio * candidate.tonicFourthRatio * 100).toFixed(2),
-        425,
-        y
-    );
-    ctx.fillText(
-        (candidate.scaleRatio * 100).toFixed(2),
-        490,
-        y
-    );
-    ctx.fillText(
-        (candidate.tonicRatio * 100).toFixed(2),
-        550,
-        y
-    );
-    ctx.fillText(
-        (candidate.fifthRatio * 100).toFixed(2),
-        610,
-        y
-    );
-    ctx.fillText(
-        (candidate.tonicFifthRatio * 100).toFixed(2),
-        675,
-        y
-    );
-    ctx.fillText(
-        (candidate.tonicFourthRatio * 100).toFixed(2),
-        740,
-        y
-    );
+    ctx.fillText((candidate.scaleRatio * 100).toFixed(2), 425, y);
+    ctx.fillText((candidate.tonicRatio * 100).toFixed(2), 490, y);
+    ctx.fillText((candidate.fifthRatio * 100).toFixed(2), 555, y);
+    ctx.fillText((candidate.tonicFifthRatio * 100).toFixed(2), 620, y);
     ctx.textAlign = 'left';
     ctx.fillText(row.isSelected ? 'S' : '', 785, y);
 
@@ -14304,8 +14264,7 @@ const explanationLines = [
     'T1 = tonic ratio: 1st-degree notes / all notes × 100.',
     'D5 = dominant ratio: 5th-degree notes / all notes × 100.',
     'P5 = T1 + D5: combined tonic and perfect-fifth note ratio.',
-    'P4 = T1 + perfect-fourth note ratio.',
-    'K1 = SM × P5. K3 = SM × P5 × P4.',
+    'K1 = SM × P5.',
     '6th N / 6th # = natural / raised 6th-degree note ratios; 7th N / 7th # = natural / raised 7th-degree note ratios.',
     '6th # Up / 7th # Up = raised 6th / 7th notes with ascending melodic evidence.',
     '6th N Dn / 7th N Dn = natural 6th / 7th notes with descending melodic evidence.',
@@ -14318,9 +14277,9 @@ const explanationLines = [
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
     'Part 5: Aggregate per-measure K1 = SM × P5; the first measure receives double weight and the last receives quadruple weight.',
-    'Part 6: Aggregate all notes across the song; select maximum SM, then rank those candidates by K3.',
+    'Part 6: Aggregate all notes across the song; select maximum SM, then rank those candidates by P5.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
-    'P4 uses tonic and perfect-fourth notes. Part 5 ranks by K1; Part 6 ranks by SM first, then K3.'
+    'Part 5 ranks by K1; Part 6 ranks by SM first, then P5.'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14700,8 +14659,7 @@ ctx.lineWidth = 1;
     {
     //========================================================
     // Part 6: Reference
-    // Rank major-scale candidates by Global SM, then compare
-    // K3 for the major and relative-minor candidates.
+    // Rank candidates by Global SM, then compare P5.
     //========================================================
 
     const globalPc = new Array(12).fill(0);
@@ -14746,22 +14704,14 @@ ctx.lineWidth = 1;
         const majorD5 = globalNoteCount > 0
             ? globalPc[(majorRoot + 7) % 12] / globalNoteCount
             : 0;
-        const majorP4Note = globalNoteCount > 0
-            ? globalPc[(majorRoot + 5) % 12] / globalNoteCount
-            : 0;
         const majorP5 = majorT1 + majorD5;
-        const majorP4 = majorT1 + majorP4Note;
         const minorT1 = globalNoteCount > 0
             ? globalPc[minorRoot] / globalNoteCount
             : 0;
         const minorD5 = globalNoteCount > 0
             ? globalPc[(minorRoot + 7) % 12] / globalNoteCount
             : 0;
-        const minorP4Note = globalNoteCount > 0
-            ? globalPc[(minorRoot + 5) % 12] / globalNoteCount
-            : 0;
         const minorP5 = minorT1 + minorD5;
-        const minorP4 = minorT1 + minorP4Note;
 
         const sharpMajorName = engs1[majorRoot] + 'M';
         const flatMajorName = engf1[majorRoot] + 'M';
@@ -14780,13 +14730,9 @@ ctx.lineWidth = 1;
             majorT1,
             majorD5,
             majorP5,
-            majorP4,
-            majorK3: globalSM * majorP5 * majorP4,
             minorT1,
             minorD5,
             minorP5,
-            minorP4,
-            minorK3: globalSM * minorP5 * minorP4,
             majorT: majorP5,
             minorT: minorP5,
             pairMaxT: Math.max(majorP5, minorP5),
@@ -14795,7 +14741,7 @@ ctx.lineWidth = 1;
     }
 
     // Build one row per major or relative-minor key.
-    // Keep SM and K3 values separate for lexicographic ranking.
+    // Keep SM and P5 values separate for lexicographic ranking.
     const globalKeyCandidates = [];
 
     for (const candidate of globalMajorCandidates) {
@@ -14811,8 +14757,6 @@ ctx.lineWidth = 1;
             t1: candidate.majorT1,
             d5: candidate.majorD5,
             p5: candidate.majorP5,
-            p4: candidate.majorP4,
-            k3: candidate.majorK3,
             t: majorT
         });
 
@@ -14825,19 +14769,17 @@ ctx.lineWidth = 1;
             t1: candidate.minorT1,
             d5: candidate.minorD5,
             p5: candidate.minorP5,
-            p4: candidate.minorP4,
-            k3: candidate.minorK3,
             t: minorT
         });
     }
 
-    // First select candidates with maximum SM; then rank them by K3.
+    // First select candidates with maximum SM; then rank them by P5.
     const part6Tolerance = 1e-12;
     globalKeyCandidates.sort((a, b) => {
         const smDifference = b.globalSM - a.globalSM;
         if (Math.abs(smDifference) > part6Tolerance) return smDifference;
-        const k3Difference = b.k3 - a.k3;
-        if (Math.abs(k3Difference) > part6Tolerance) return k3Difference;
+        const p5Difference = b.p5 - a.p5;
+        if (Math.abs(p5Difference) > part6Tolerance) return p5Difference;
         return a.majorRoot - b.majorRoot || (a.mode === 'major' ? -1 : 1);
     });
 
@@ -14856,16 +14798,10 @@ ctx.lineWidth = 1;
 
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each major and minor key is listed in one Key column. Candidates are ranked by SM, then K3.',
+        'Each major and minor key is listed in one Key column. Candidates are ranked by SM, then P5.',
         10,
         part6RowPointStart + 20
     );
-    ctx.fillText(
-        'K3 = SM × P5 × P4; it ranks candidates with the same maximum SM.',
-        10,
-        part6RowPointStart + 38
-    );
-
     ctx.font = '12px Arial';
     ctx.textAlign = 'left';
     ctx.fillText('Key', 12, part6TableTop);
@@ -14875,8 +14811,6 @@ ctx.lineWidth = 1;
     ctx.fillText('T1 (%)', 350, part6TableTop);
     ctx.fillText('D5 (%)', 440, part6TableTop);
     ctx.fillText('P5 (%)', 530, part6TableTop);
-    ctx.fillText('P4 (%)', 620, part6TableTop);
-    ctx.fillText('K3', 710, part6TableTop);
 
     for (let i = 0; i < globalKeyCandidates.length; i++) {
         const candidate = globalKeyCandidates[i];
@@ -14885,7 +14819,7 @@ ctx.lineWidth = 1;
 
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 740, 13);
+            ctx.fillRect(8, y - 10, 560, 13);
         }
 
         ctx.fillStyle = 'black';
@@ -14897,15 +14831,13 @@ ctx.lineWidth = 1;
         ctx.fillText((candidate.t1 * 100).toFixed(2), 350, y);
         ctx.fillText((candidate.d5 * 100).toFixed(2), 440, y);
         ctx.fillText((candidate.p5 * 100).toFixed(2), 530, y);
-        ctx.fillText((candidate.p4 * 100).toFixed(2), 620, y);
-        ctx.fillText((candidate.k3 * 100).toFixed(2), 710, y);
     }
 
     ctx.textAlign = 'left';
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'Candidates are sorted by SM (descending), then K3 (descending).',
+        'Candidates are sorted by SM (descending), then P5 (descending).',
         10,
         part6TableTop + part6RowHeight * (globalKeyCandidates.length + 1) + 2
     );
