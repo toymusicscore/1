@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp111
+demp112
 </title>
 <style>
 
@@ -14276,7 +14276,7 @@ const explanationLines = [
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
-    'Part 5: Aggregate per-measure K1 = SM × P5; the last measure receives 60%, and all other eligible measures share 40% equally.',
+    'Part 5: Aggregate per-measure K1 = SM × P5; the last measure receives 40%, and all other eligible measures share 60% equally.',
     'Part 6: Aggregate all notes across the song; select maximum SM, then rank those candidates by P5.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
     'Part 5 ranks by K1; Part 6 ranks by SM first, then P5.'
@@ -14368,7 +14368,7 @@ ctx.lineWidth = 1;
     //========================================================
     // Part 5: whole-song key estimation by aggregating per-measure K.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
-    // The last measure receives 60%, and all other measures share 40% equally.
+    // The last measure receives 40%, and all other measures share 60% equally.
     //========================================================
 
     const part5KeySignatureAccidentals = [
@@ -14385,8 +14385,8 @@ ctx.lineWidth = 1;
     }
 
     // Evaluate all 24 major / relative-minor candidates in every measure.
-    // Aggregate per-measure K1 = SM × P5 using a 40:60 distribution:
-    // the last measure receives 60%, and all other measures share 40% equally.
+    // Aggregate per-measure K1 = SM × P5 using a 60:40 distribution:
+    // the last measure receives 40%, and all other measures share 60% equally.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
@@ -14400,7 +14400,7 @@ ctx.lineWidth = 1;
     const part5FirstMeasure = part5EligibleMeasureIndices[0] ?? -1;
     const part5LastMeasure = part5EligibleMeasureIndices[part5EligibleMeasures - 1] ?? -1;
     const part5OtherWeight = part5EligibleMeasures > 1
-        ? 40 / (part5EligibleMeasures - 1)
+        ? 60 / (part5EligibleMeasures - 1)
         : 0;
 
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
@@ -14411,7 +14411,7 @@ ctx.lineWidth = 1;
         if (part5EligibleMeasures === 1) {
             measureWeight = 100;
         } else if (measureIndex === part5LastMeasure) {
-            measureWeight = 60;
+            measureWeight = 40;
         } else {
             measureWeight = part5OtherWeight;
         }
@@ -14524,7 +14524,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Part 5: Whole-song key estimation by measure-based K1', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'K1 = SM × P5; last measure 60%, all other eligible measures share 40% equally.',
+        'K1 = SM × P5; last measure 40%, all other eligible measures share 60% equally.',
         10,
         part5RowPointStart + 20
     );
@@ -14566,9 +14566,9 @@ ctx.lineWidth = 1;
         ctx.fillText((candidate.averageK * 100).toFixed(2), 700, y);
     }
 
-    // Patent-based comparison: apply the same 40:60 distribution as Part 5.
-    // The last non-empty measure receives 60%; all other eligible measures
-    // share 40% equally. If a measure has tied selected keys, split its
+    // Patent-based comparison: apply the same 60:40 distribution as Part 5.
+    // The last non-empty measure receives 40%; all other eligible measures
+    // share 60% equally. If a measure has tied selected keys, split its
     // weight equally among those keys.
     const patentVoteScores = new Map();
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
@@ -14578,8 +14578,8 @@ ctx.lineWidth = 1;
         const weight = part5EligibleMeasures === 1
             ? 100
             : measureIndex === part5LastMeasure
-                ? 60
-                : 40 / (part5EligibleMeasures - 1);
+                ? 40
+                : 60 / (part5EligibleMeasures - 1);
         const selected = current.selectedCandidates || [];
         const distinctKeys = new Map();
         for (const candidate of selected) {
@@ -14628,7 +14628,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Part 5 Reference: Patent-based measure voting', 10, patentVoteTop);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Last measure: 60%; all other eligible measures share 40% equally.',
+        'Last measure: 40%; all other eligible measures share 60% equally.',
         10,
         patentVoteTop + 19
     );
