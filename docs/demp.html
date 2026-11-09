@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp106
+demp107
 </title>
 <style>
 
@@ -14368,7 +14368,7 @@ ctx.lineWidth = 1;
     //========================================================
     // Part 5: whole-song key estimation by aggregating per-measure K.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
-    // The first measure receives 10%, middle measures share 50%, and the last measure receives 40%.
+    // The first measure receives 10%, middle measures share 40%, and the last measure receives 50%.
     //========================================================
 
     const part5KeySignatureAccidentals = [
@@ -14385,8 +14385,8 @@ ctx.lineWidth = 1;
     }
 
     // Evaluate all 24 major / relative-minor candidates in every measure.
-    // Aggregate per-measure K1 = SM × P5 using a 10:50:40 distribution:
-    // first measure 10%, middle measures share 50%, and last measure 40%.
+    // Aggregate per-measure K1 = SM × P5 using a 10:40:50 distribution:
+    // first measure 10%, middle measures share 40%, and last measure 50%.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
@@ -14400,7 +14400,7 @@ ctx.lineWidth = 1;
     const part5FirstMeasure = part5EligibleMeasureIndices[0] ?? -1;
     const part5LastMeasure = part5EligibleMeasureIndices[part5EligibleMeasures - 1] ?? -1;
     const part5MiddleWeight = part5EligibleMeasures > 2
-        ? 50 / (part5EligibleMeasures - 2)
+        ? 40 / (part5EligibleMeasures - 2)
         : 0;
 
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
@@ -14415,7 +14415,7 @@ ctx.lineWidth = 1;
         } else if (measureIndex === part5FirstMeasure) {
             measureWeight = 10;
         } else if (measureIndex === part5LastMeasure) {
-            measureWeight = 40;
+            measureWeight = 50;
         } else {
             measureWeight = part5MiddleWeight;
         }
