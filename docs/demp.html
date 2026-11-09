@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp104
+demp105
 </title>
 <style>
 
@@ -14385,30 +14385,40 @@ ctx.lineWidth = 1;
     }
 
     // Evaluate all 24 major / relative-minor candidates in every measure.
-    // Aggregate per-measure K1 = SM × P5.
-    // The first measure receives double weight; the last measure receives quadruple weight.
+    // Aggregate per-measure K1 = SM × P5 using a 20:50:30 distribution:
+    // first measure 20%, middle measures share 50%, and last measure 30%.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
-    const part5FirstMeasure = measurePc.findIndex(
-        measure => measure && measure.count > 0
-    );
-    let part5LastMeasure = -1;
-    for (let i = measurePc.length - 1; i >= 0; i--) {
+    const part5EligibleMeasureIndices = [];
+    for (let i = 0; i < mscnt; i++) {
         if (measurePc[i] && measurePc[i].count > 0) {
-            part5LastMeasure = i;
-            break;
+            part5EligibleMeasureIndices.push(i);
         }
     }
+    part5EligibleMeasures = part5EligibleMeasureIndices.length;
+    const part5FirstMeasure = part5EligibleMeasureIndices[0] ?? -1;
+    const part5LastMeasure = part5EligibleMeasureIndices[part5EligibleMeasures - 1] ?? -1;
+    const part5MiddleWeight = part5EligibleMeasures > 2
+        ? 50 / (part5EligibleMeasures - 2)
+        : 0;
 
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
         const current = measurePc[measureIndex];
         if (!current || current.count === 0) continue;
 
-        const measureWeight =
-            measureIndex === part5LastMeasure ? 4 :
-            measureIndex === part5FirstMeasure ? 2 : 1;
-        part5EligibleMeasures++;
+        let measureWeight;
+        if (part5EligibleMeasures === 1) {
+            measureWeight = 100;
+        } else if (part5EligibleMeasures === 2) {
+            measureWeight = measureIndex === part5FirstMeasure ? 40 : 60;
+        } else if (measureIndex === part5FirstMeasure) {
+            measureWeight = 20;
+        } else if (measureIndex === part5LastMeasure) {
+            measureWeight = 30;
+        } else {
+            measureWeight = part5MiddleWeight;
+        }
         part5TotalWeight += measureWeight;
 
         for (let majorRoot = 0; majorRoot < 12; majorRoot++) {
@@ -14518,7 +14528,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Part 5: Whole-song key estimation by measure-based K1', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'K1 = SM × P5 is aggregated across measures. First measure ×2; last measure ×4.',
+        'K1 = SM × P5; first measure 20%, middle measures 50% total, last measure 30%.',
         10,
         part5RowPointStart + 20
     );
