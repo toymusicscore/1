@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp108
+demp109
 </title>
 <style>
 
@@ -14368,7 +14368,7 @@ ctx.lineWidth = 1;
     //========================================================
     // Part 5: whole-song key estimation by aggregating per-measure K.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
-    // The first measure receives 5%, middle measures share 45%, and the last measure receives 50%.
+    // The last measure receives 50%, and all other measures share 50% equally.
     //========================================================
 
     const part5KeySignatureAccidentals = [
@@ -14385,8 +14385,8 @@ ctx.lineWidth = 1;
     }
 
     // Evaluate all 24 major / relative-minor candidates in every measure.
-    // Aggregate per-measure K1 = SM × P5 using a 5:45:50 distribution:
-    // first measure 5%, middle measures share 45%, and last measure 50%.
+    // Aggregate per-measure K1 = SM × P5 using a 50:50 distribution:
+    // the last measure receives 50%, and all other measures share 50% equally.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
@@ -14399,8 +14399,8 @@ ctx.lineWidth = 1;
     part5EligibleMeasures = part5EligibleMeasureIndices.length;
     const part5FirstMeasure = part5EligibleMeasureIndices[0] ?? -1;
     const part5LastMeasure = part5EligibleMeasureIndices[part5EligibleMeasures - 1] ?? -1;
-    const part5MiddleWeight = part5EligibleMeasures > 2
-        ? 45 / (part5EligibleMeasures - 2)
+    const part5OtherWeight = part5EligibleMeasures > 1
+        ? 50 / (part5EligibleMeasures - 1)
         : 0;
 
     for (let measureIndex = 0; measureIndex < mscnt; measureIndex++) {
@@ -14410,14 +14410,10 @@ ctx.lineWidth = 1;
         let measureWeight;
         if (part5EligibleMeasures === 1) {
             measureWeight = 100;
-        } else if (part5EligibleMeasures === 2) {
-            measureWeight = measureIndex === part5FirstMeasure ? 10 : 90;
-        } else if (measureIndex === part5FirstMeasure) {
-            measureWeight = 5;
         } else if (measureIndex === part5LastMeasure) {
             measureWeight = 50;
         } else {
-            measureWeight = part5MiddleWeight;
+            measureWeight = part5OtherWeight;
         }
         part5TotalWeight += measureWeight;
 
