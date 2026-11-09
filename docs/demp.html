@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp105
+demp106
 </title>
 <style>
 
@@ -14368,7 +14368,7 @@ ctx.lineWidth = 1;
     //========================================================
     // Part 5: whole-song key estimation by aggregating per-measure K.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
-    // The first non-empty measure receives double weight; the last receives quadruple weight.
+    // The first measure receives 10%, middle measures share 50%, and the last measure receives 40%.
     //========================================================
 
     const part5KeySignatureAccidentals = [
@@ -14385,8 +14385,8 @@ ctx.lineWidth = 1;
     }
 
     // Evaluate all 24 major / relative-minor candidates in every measure.
-    // Aggregate per-measure K1 = SM × P5 using a 20:50:30 distribution:
-    // first measure 20%, middle measures share 50%, and last measure 30%.
+    // Aggregate per-measure K1 = SM × P5 using a 10:50:40 distribution:
+    // first measure 10%, middle measures share 50%, and last measure 40%.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
@@ -14411,11 +14411,11 @@ ctx.lineWidth = 1;
         if (part5EligibleMeasures === 1) {
             measureWeight = 100;
         } else if (part5EligibleMeasures === 2) {
-            measureWeight = measureIndex === part5FirstMeasure ? 40 : 60;
+            measureWeight = measureIndex === part5FirstMeasure ? 20 : 80;
         } else if (measureIndex === part5FirstMeasure) {
-            measureWeight = 20;
+            measureWeight = 10;
         } else if (measureIndex === part5LastMeasure) {
-            measureWeight = 30;
+            measureWeight = 40;
         } else {
             measureWeight = part5MiddleWeight;
         }
@@ -14528,7 +14528,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Part 5: Whole-song key estimation by measure-based K1', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'K1 = SM × P5; first measure 20%, middle measures 50% total, last measure 30%.',
+        'K1 = SM × P5; first measure 10%, middle measures 50% total, last measure 40%.',
         10,
         part5RowPointStart + 20
     );
