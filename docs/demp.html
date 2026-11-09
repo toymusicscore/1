@@ -14169,7 +14169,7 @@ ctx.fillText('Relative key', 260, perMeasureTableTop + 42);
 
 // Show K1 together with its component metrics.
 ctx.textAlign = 'right';
-ctx.fillText('K1', 360, perMeasureTableTop + 42);
+ctx.fillText('K1', 700, perMeasureTableTop + 42);
 ctx.fillText('SM', 425, perMeasureTableTop + 42);
 ctx.fillText('T1', 490, perMeasureTableTop + 42);
 ctx.fillText('D5', 555, perMeasureTableTop + 42);
@@ -14216,7 +14216,7 @@ for (let rowIndex = 0; rowIndex < candidateRows.length; rowIndex++) {
     ctx.textAlign = 'right';
     ctx.fillText(
         (candidate.scaleRatio * candidate.tonicFifthRatio * 100).toFixed(2),
-        360,
+        700,
         y
     );
     ctx.fillText((candidate.scaleRatio * 100).toFixed(2), 425, y);
@@ -14538,9 +14538,9 @@ ctx.lineWidth = 1;
     ctx.fillText('Key', 12, part5TableTop);
     ctx.fillText('Signature', 120, part5TableTop);
     ctx.textAlign = 'right';
-    ctx.fillText('Weighted K (×100)', 280, part5TableTop);
     ctx.fillText('Weighted SM (%)', 400, part5TableTop);
     ctx.fillText('Weighted P5 (%)', 530, part5TableTop);
+    ctx.fillText('Weighted K1 (×100)', 700, part5TableTop);
 
     for (let i = 0; i < part5KeyCandidates.length; i++) {
         const candidate = part5KeyCandidates[i];
@@ -14548,16 +14548,16 @@ ctx.lineWidth = 1;
         const isSelected = i === 0;
         if (isSelected) {
             ctx.fillStyle = '#fff2b2';
-            ctx.fillRect(8, y - 10, 580, 13);
+            ctx.fillRect(8, y - 10, 730, 13);
         }
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
         ctx.fillText(candidate.keyName, 12, y);
         ctx.fillText(candidate.keySignature, 120, y);
         ctx.textAlign = 'right';
-        ctx.fillText((candidate.averageK * 100).toFixed(2), 280, y);
         ctx.fillText((candidate.averageSM * 100).toFixed(2), 400, y);
         ctx.fillText((candidate.averageTonicFifth * 100).toFixed(2), 530, y);
+        ctx.fillText((candidate.averageK * 100).toFixed(2), 700, y);
     }
 
     // Patent-based comparison: one vote per eligible measure; the first
