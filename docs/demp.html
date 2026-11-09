@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp100
+demr31
 </title>
 <style>
 
@@ -14292,7 +14292,7 @@ const explanationLines = [
     '5. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
-    'Part 5: Aggregate per-measure K = SM × (T1+D5); the first and last non-empty measures receive double weight.',
+    'Part 5: Aggregate per-measure K = SM × (T1+D5); the first measure receives double weight and the last receives quadruple weight.',
     'Part 6: Aggregate all notes across the song; select maximum SM, then maximum T1+D5 among those candidates.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
     'Part 5 ranks by K. Part 6 ranks by SM first, then T1+D5.'
@@ -14384,7 +14384,7 @@ ctx.lineWidth = 1;
     //========================================================
     // Part 5: whole-song key estimation by aggregating per-measure K.
     // Every measure evaluates all 12 major and 12 relative-minor keys.
-    // The first and last non-empty measures receive double weight.
+    // The first non-empty measure receives double weight; the last receives quadruple weight.
     //========================================================
 
     const part5KeySignatureAccidentals = [
@@ -14402,7 +14402,7 @@ ctx.lineWidth = 1;
 
     // Evaluate all 24 major / relative-minor candidates in every measure.
     // Aggregate per-measure K = SM × (T1+D5).
-    // The first and last non-empty measures receive double weight.
+    // The first measure receives double weight; the last measure receives quadruple weight.
     const part5Scores = new Map();
     let part5EligibleMeasures = 0;
     let part5TotalWeight = 0;
@@ -14422,7 +14422,8 @@ ctx.lineWidth = 1;
         if (!current || current.count === 0) continue;
 
         const measureWeight =
-            (measureIndex === part5FirstMeasure || measureIndex === part5LastMeasure) ? 2 : 1;
+            measureIndex === part5LastMeasure ? 4 :
+            measureIndex === part5FirstMeasure ? 2 : 1;
         part5EligibleMeasures++;
         part5TotalWeight += measureWeight;
 
@@ -14533,7 +14534,7 @@ ctx.lineWidth = 1;
     ctx.fillText('Part 5: Whole-song key estimation by measure-based K', 10, part5RowPointStart);
     ctx.font = '13px Arial';
     ctx.fillText(
-        'K = SM × (T1+D5) is aggregated across measures. First and last measures have double weight.',
+        'K = SM × (T1+D5) is aggregated across measures. First measure ×2; last measure ×4.',
         10,
         part5RowPointStart + 20
     );
