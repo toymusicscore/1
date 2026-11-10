@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp113
+demp114
 </title>
 <style>
 
@@ -13701,9 +13701,6 @@ for (let i = 0; i < mscnt; i++) {
         const fifthCount = current.pc[(root + 7) % 12];
         const tonicFifthCount = tonicCount + fifthCount;
         const scaleRatio = scaleCount / totalNotes; // O
-        const scaleCoverageCount =
-            getScaleCoverageCount(notes, root, 'major', null);
-        const scaleCoverageRatio = scaleCoverageCount / 7; // S
         const tonicRatio = tonicCount / totalNotes; // T1
         const fifthRatio = fifthCount / totalNotes; // D5
         const tonicFifthRatio = tonicRatio + fifthRatio; // P5 = T1 + D5
@@ -13716,8 +13713,6 @@ for (let i = 0; i < mscnt; i++) {
             baseName: engf1[root] + 'M',
             label: engf1[root] + 'M',
             scaleRatio,
-            scaleCoverageCount,
-            scaleCoverageRatio,
             tonicCount,
             fifthCount,
             tonicFifthCount,
@@ -13759,9 +13754,6 @@ for (let i = 0; i < mscnt; i++) {
             const fifthCount = current.pc[(root + 7) % 12];
             const tonicFifthCount = tonicCount + fifthCount;
             const scaleRatio = scaleCount / totalNotes; // O
-            const scaleCoverageCount =
-                getScaleCoverageCount(notes, root, 'minor', scaleType);
-            const scaleCoverageRatio = scaleCoverageCount / 7; // S
             const tonicRatio = tonicCount / totalNotes; // T1
             const fifthRatio = fifthCount / totalNotes; // D5
             const tonicFifthRatio = tonicRatio + fifthRatio; // P5 = T1 + D5
@@ -13776,8 +13768,6 @@ for (let i = 0; i < mscnt; i++) {
                 baseName,
                 label: `${baseName}(${scaleType})`,
                 scaleRatio,
-                scaleCoverageCount,
-                scaleCoverageRatio,
                 tonicCount,
                 fifthCount,
                 tonicFifthCount,
@@ -13802,8 +13792,8 @@ for (let i = 0; i < mscnt; i++) {
         }
     }
 
-    // Keep the independent S, O, and T values for every candidate key.
-    // The current key-selection procedure below is retained provisionally.
+    // Keep the candidate metrics used by the key-selection procedure.
+    // S (scale pitch-class coverage) has been removed from estimation.
     current.allCandidateScores = candidates;
 
     // Evaluate every candidate key using the same criteria, regardless of
@@ -13811,7 +13801,9 @@ for (let i = 0; i < mscnt; i++) {
     const eligibleCandidates = candidates;
     let selectedCandidates = [];
 
-    // Compare candidates in the agreed order: O, then S, then T.
+    // Compare candidates by O, then P5.
+    // Use T1 only as the final tie-breaker when both are equal.
+    // T1 is not multiplied into any of the existing scores.
     const tolerance = 1e-12;
 
     const maxO = Math.max(...eligibleCandidates.map(candidate => candidate.scaleRatio));
@@ -13819,14 +13811,14 @@ for (let i = 0; i < mscnt; i++) {
         Math.abs(candidate.scaleRatio - maxO) <= tolerance
     );
 
-    const maxS = Math.max(...bestO.map(candidate => candidate.scaleCoverageRatio));
-    const bestOS = bestO.filter(candidate =>
-        Math.abs(candidate.scaleCoverageRatio - maxS) <= tolerance
+    const maxP5 = Math.max(...bestO.map(candidate => candidate.tonicFifthRatio));
+    const bestOP5 = bestO.filter(candidate =>
+        Math.abs(candidate.tonicFifthRatio - maxP5) <= tolerance
     );
 
-    const maxT = Math.max(...bestOS.map(candidate => candidate.tonicFifthRatio));
-    selectedCandidates = bestOS.filter(candidate =>
-        Math.abs(candidate.tonicFifthRatio - maxT) <= tolerance
+    const maxT1 = Math.max(...bestOP5.map(candidate => candidate.tonicRatio));
+    selectedCandidates = bestOP5.filter(candidate =>
+        Math.abs(candidate.tonicRatio - maxT1) <= tolerance
     );
 
     // When both H and M satisfy the criteria for the same minor root,
@@ -14271,15 +14263,17 @@ const explanationLines = [
     'All six degree ratios are calculated using the total number of notes in the measure as the denominator.',
     '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
     '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
-    '3. Rank the remaining candidates by O (highest), then S (highest), then T (highest). Keep ties.',
-    '4. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
-    '5. If H and M are both selected for the same minor tonic, prefer M.',
+    '3. Rank candidates by O (highest), then P5 = T1 + D5 (highest).',
+    '4. If O and P5 are tied, use T1 (tonic ratio) as the final tie-breaker. Do not multiply the main score by T1.',
+    '5. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
+    '6. If H and M are both selected for the same minor tonic, prefer M.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
     'Part 5: Aggregate per-measure K1 = SM × P5; first and last eligible measures receive double weight.',
     'Part 6: Aggregate all notes across the song; select maximum SM, then rank those candidates by P5.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
-    'Part 5 ranks by K1; Part 6 ranks by SM first, then P5.'
+    'Part 5 ranks by K1, then P5, then SM; T1 is the final tie-breaker.',
+    'Part 6 ranks by SM, then P5; T1 is the final tie-breaker.'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
@@ -14446,6 +14440,7 @@ ctx.lineWidth = 1;
                     keyName: majorName,
                     majorRoot,
                     sm,
+                    tonic: majorT1,
                     tonicFifth: majorT1 + majorD5
                 },
                 {
@@ -14453,6 +14448,7 @@ ctx.lineWidth = 1;
                     keyName: minorName,
                     majorRoot,
                     sm,
+                    tonic: minorT1,
                     tonicFifth: minorT1 + minorD5
                 }
             ];
@@ -14464,11 +14460,13 @@ ctx.lineWidth = 1;
                     majorRoot: candidate.majorRoot,
                     weightedK: 0,
                     weightedSM: 0,
-                    weightedTonicFifth: 0
+                    weightedTonicFifth: 0,
+                    weightedT1: 0
                 };
                 existing.weightedK += candidate.sm * candidate.tonicFifth * measureWeight;
                 existing.weightedSM += candidate.sm * measureWeight;
                 existing.weightedTonicFifth += candidate.tonicFifth * measureWeight;
+                existing.weightedT1 += candidate.tonic * measureWeight;
                 part5Scores.set(candidate.keyId, existing);
             }
         }
@@ -14487,6 +14485,7 @@ ctx.lineWidth = 1;
             weightedK: candidate.weightedK,
             weightedSM: candidate.weightedSM,
             weightedTonicFifth: candidate.weightedTonicFifth,
+            weightedT1: candidate.weightedT1,
             averageK: part5TotalWeight > 0
                 ? candidate.weightedK / part5TotalWeight
                 : 0,
@@ -14495,6 +14494,9 @@ ctx.lineWidth = 1;
                 : 0,
             averageTonicFifth: part5TotalWeight > 0
                 ? candidate.weightedTonicFifth / part5TotalWeight
+                : 0,
+            averageT1: part5TotalWeight > 0
+                ? candidate.weightedT1 / part5TotalWeight
                 : 0,
             accidentals: part5KeySignatureAccidentals[candidate.majorRoot]
         });
@@ -14508,6 +14510,8 @@ ctx.lineWidth = 1;
         if (Math.abs(tonicFifthDifference) > part5Tolerance) return tonicFifthDifference;
         const smDifference = b.weightedSM - a.weightedSM;
         if (Math.abs(smDifference) > part5Tolerance) return smDifference;
+        const t1Difference = b.weightedT1 - a.weightedT1;
+        if (Math.abs(t1Difference) > part5Tolerance) return t1Difference;
         return a.accidentals - b.accidentals || a.keyName.localeCompare(b.keyName);
     });
 
@@ -14603,6 +14607,7 @@ ctx.lineWidth = 1;
                 distinctKeys.set(keyName, {
                     keyName,
                     majorRoot,
+                    tonicRatio: candidate.tonicRatio,
                     keySignature: formatPart5KeySignature(majorRoot, displayMajorName)
                 });
             }
@@ -14614,17 +14619,23 @@ ctx.lineWidth = 1;
         for (const key of tiedKeys) {
             const existing = patentVoteScores.get(key.keyName) || {
                 ...key,
-                votes: 0
+                votes: 0,
+                weightedT1: 0
             };
             existing.votes += votePerKey;
+            existing.weightedT1 += key.tonicRatio * weight;
             patentVoteScores.set(key.keyName, existing);
         }
     }
 
     const patentVoteCandidates = Array.from(patentVoteScores.values());
-    patentVoteCandidates.sort((a, b) =>
-        b.votes - a.votes || a.keyName.localeCompare(b.keyName)
-    );
+    patentVoteCandidates.sort((a, b) => {
+        const voteDifference = b.votes - a.votes;
+        if (Math.abs(voteDifference) > 1e-12) return voteDifference;
+        const t1Difference = b.weightedT1 - a.weightedT1;
+        if (Math.abs(t1Difference) > 1e-12) return t1Difference;
+        return a.keyName.localeCompare(b.keyName);
+    });
 
     const patentVoteTop = part5TableTop +
         part5RowHeight * (part5KeyCandidates.length + 1) + 34;
@@ -14639,7 +14650,7 @@ ctx.lineWidth = 1;
         patentVoteTop + 19
     );
     ctx.fillText(
-        'Tied keys in a measure share that measure’s vote equally. Total votes: ' +
+        'Tied keys in a measure share that measure’s vote equally; tied totals are resolved by weighted T1. Total votes: ' +
             patentVoteCandidates.reduce((sum, item) => sum + item.votes, 0).toFixed(2),
         10,
         patentVoteTop + 37
@@ -14795,6 +14806,8 @@ ctx.lineWidth = 1;
         if (Math.abs(smDifference) > part6Tolerance) return smDifference;
         const p5Difference = b.p5 - a.p5;
         if (Math.abs(p5Difference) > part6Tolerance) return p5Difference;
+        const t1Difference = b.t1 - a.t1;
+        if (Math.abs(t1Difference) > part6Tolerance) return t1Difference;
         return a.majorRoot - b.majorRoot || (a.mode === 'major' ? -1 : 1);
     });
 
@@ -14813,7 +14826,7 @@ ctx.lineWidth = 1;
 
     ctx.font = '13px Arial';
     ctx.fillText(
-        'Each major and minor key is listed in one Key column. Candidates are ranked by SM, then P5.',
+        'Each major and minor key is listed in one Key column. Candidates are ranked by SM, then P5, then T1 only for a remaining tie.',
         10,
         part6RowPointStart + 20
     );
@@ -14852,7 +14865,7 @@ ctx.lineWidth = 1;
     ctx.font = '11px Arial';
     ctx.fillStyle = '#555';
     ctx.fillText(
-        'Candidates are sorted by SM (descending), then P5 (descending).',
+        'Candidates are sorted by SM, then P5, then T1 only when the preceding values are tied.',
         10,
         part6TableTop + part6RowHeight * (globalKeyCandidates.length + 1) + 2
     );
