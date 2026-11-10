@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp114
+demp115
 </title>
 <style>
 
@@ -13934,8 +13934,79 @@ for (let i = 0; i < mscnt; i++) {
     );
 }
 
+// If the final measure contains only one pitch class, use the
+// previous measure's key to resolve its otherwise ambiguous mode.
+// Apply this only when the previous key has the same tonic.
+const finalMeasureIndex = mscnt - 1;
+if (finalMeasureIndex > 0) {
+    const finalMeasure = measurePc[finalMeasureIndex];
+    const previousMeasure = measurePc[finalMeasureIndex - 1];
+
+    if (finalMeasure && previousMeasure && finalMeasure.count > 0) {
+        const finalPitchClasses = [];
+        for (let pc = 0; pc < 12; pc++) {
+            if (finalMeasure.pc[pc] > 0) finalPitchClasses.push(pc);
+        }
+
+        const previousCandidates = previousMeasure.selectedCandidates || [];
+        const previousPrimary = previousCandidates[0];
+
+        if (
+            finalPitchClasses.length === 1 &&
+            previousPrimary &&
+            previousPrimary.root === finalPitchClasses[0]
+        ) {
+            const inheritedCandidates = previousCandidates.filter(candidate =>
+                candidate.root === finalPitchClasses[0]
+            );
+
+            if (inheritedCandidates.length > 0) {
+                finalMeasure.selectedCandidates = inheritedCandidates.map(candidate => ({
+                    ...candidate
+                }));
+                finalMeasure.evaluationCandidates = finalMeasure.selectedCandidates;
+                finalMeasure.candidateScores = [];
+                finalMeasure.estKey = previousMeasure.estKey;
+                finalMeasure.estScaleType = previousMeasure.estScaleType;
+                finalMeasure.estKeyPoints = [];
+                finalMeasure.inheritedFinalModeFromPrevious = true;
+
+                const inheritedPrimary = finalMeasure.selectedCandidates[0];
+                estimatedMeasureKeys[finalMeasureIndex] = {
+                    estKey: inheritedPrimary.baseName,
+                    estScaleType: inheritedPrimary.scaleType,
+                    rootPc: inheritedPrimary.root,
+                    mode: inheritedPrimary.mode
+                };
+                estimatedMeasureLabelTypes[finalMeasureIndex] =
+                    estimatedMeasureLabelTypes[finalMeasureIndex - 1];
+
+                const inheritedDisplay = finalMeasure.selectedCandidates
+                    .map(candidate => candidate.label)
+                    .join(' / ');
+                ctx.fillStyle = 'white';
+                ctx.fillRect(700, 41 + 10 * finalMeasureIndex, 500, 10);
+                ctx.fillRect(
+                    700,
+                    91 + mscnt * 10 + 46 * finalMeasureIndex,
+                    500,
+                    30
+                );
+                ctx.fillStyle = 'black';
+                ctx.textAlign = 'left';
+                ctx.fillText(inheritedDisplay, 710, 50 + 10 * finalMeasureIndex);
+                ctx.fillText(
+                    inheritedDisplay,
+                    710,
+                    100 + mscnt * 10 + 46 * finalMeasureIndex + 10
+                );
+            }
+        }
+    }
+}
+
 // Rebuild Part 3 comparison rows from the same candidates used by
-// the current O/S/T evaluation. This keeps the displayed key pairs
+// the current O/P5/T1 evaluation. This keeps the displayed key pairs
 // consistent with the actual estimation candidates.
 const oldPart3RowCount = row;
 const part3DisplayRows = [];
@@ -14264,16 +14335,17 @@ const explanationLines = [
     '1. If no note is outside the C-major scale, compare CM and Am(N) using T.',
     '2. If any note is outside the C-major scale, evaluate all candidates; do not exclude CM or Am(N).',
     '3. Rank candidates by O (highest), then P5 = T1 + D5 (highest).',
-    '4. If O and P5 are tied, use T1 (tonic ratio) as the final tie-breaker. Do not multiply the main score by T1.',
+    '4. If O and P5 are tied, select the candidate with the highest T1 (tonic ratio). T1 is only a final tie-breaker; it is not multiplied into the main score.',
     '5. A melodic-minor (M) candidate requires ascending evidence for both its raised 6th and raised 7th.',
     '6. If H and M are both selected for the same minor tonic, prefer M.',
+    '7. If the final measure contains only one pitch class, use the previous measure to resolve its mode when the tonic matches; inherit the previous measure’s key and mode.',
     'Whole-song estimation',
     'Part 5: Aggregate per-measure selected keys; tied candidates share each measure vote equally.',
     'Part 5: Aggregate per-measure K1 = SM × P5; first and last eligible measures receive double weight.',
     'Part 6: Aggregate all notes across the song; select maximum SM, then rank those candidates by P5.',
     'T1 = tonic notes / all notes in the song × 100; D5 = fifth notes / all notes in the song × 100.',
-    'Part 5 ranks by K1, then P5, then SM; T1 is the final tie-breaker.',
-    'Part 6 ranks by SM, then P5; T1 is the final tie-breaker.'
+    'Part 5 ranks by K1, then P5, then SM; if these are tied, the candidate with the highest T1 is selected.',
+    'Part 6 ranks by SM, then P5; if these are tied, the candidate with the highest T1 is selected.'
 ];
 // Wrap long explanation sentences so they remain fully visible within the canvas.
 const explanationFont = ctx.font;
