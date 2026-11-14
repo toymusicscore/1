@@ -12384,7 +12384,9 @@ function stage12BuildSegments() {
     const notesByTick = new Map();
 
     // A candidate remains valid only while every note in the complete onset
-    // group belongs to its scale. Only major and natural-minor scales are used.
+    // group belongs to its exact major, natural-minor, harmonic-minor,
+    // or melodic-minor scale.
+
     // Any out-of-scale note ends the current segment immediately before its
     // onset group.
     function groupFitsCandidate(candidate, group) {
@@ -12636,7 +12638,11 @@ function keyEstimationStage12() {
     ctx.fillText("Stage 2: compare note counts of tonic + fifth for each surviving key candidate. A tie is left unresolved.", 12, 66);
     ctx.fillText("Bar range: The integer part is the bar number; the decimal part shows the position within that bar (0.00 = beginning, 0.50 = halfway).", 12, 86);
     ctx.fillText("Segment boundary: Start is inclusive and End is exclusive. A boundary position belongs to the next segment.", 12, 104);
-    ctx.fillText("Onset groups: All notes starting at the same time form one group. Each simultaneous group counts once, regardless of the number of notes.", 12, 122);
+    ctx.fillText(
+        "Onset groups: All notes starting at the same time form one group for Stage 1. Stage 2 counts individual notes.",
+        12,
+        122
+    );
 
     const headerY = 148;
     ctx.font = "bold 12px Arial";
