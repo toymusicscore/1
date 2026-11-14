@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp124
+demp125
 </title>
 <style>
 
@@ -12388,30 +12388,11 @@ function stage12BuildSegments() {
     // Any out-of-scale note ends the current segment immediately before its
     // onset group.
     function groupFitsCandidate(candidate, group) {
-        if (candidate.mode === "major") {
-            return group.pitchClasses.every(pc =>
-                candidate.pitchClassSet.has(pc)
-            );
-        }
-
-        // Minor candidates share the same basic scale family.
-        // Raised 6th and raised 7th are allowed as characteristic notes.
-        const root = candidate.root;
-
-        const allowedPitchClasses = new Set([
-            root,
-            (root + 2) % 12,
-            (root + 3) % 12,
-            (root + 5) % 12,
-            (root + 7) % 12,
-            (root + 8) % 12,
-            (root + 9) % 12,
-            (root + 10) % 12,
-            (root + 11) % 12
-        ]);
-
-        return group.pitchClasses.every(pc =>
-            allowedPitchClasses.has(pc)
+    // Strict scale compatibility.
+    // Every pitch class in the onset group must belong
+    // to the candidate's exact scale.
+        return group.pitchClasses.every(pitchClass =>
+            candidate.pitchClassSet.has(pitchClass)
         );
     }
 
