@@ -12451,7 +12451,15 @@ function stage12BuildSegments() {
 
     function closeSegment(segment, group) {
         segment.endTick = group.tick;
-        segment.endTrigger = group.notes.map(note => ({
+
+        // Show only notes that are outside every surviving candidate scale.
+        segment.endTrigger = group.notes.filter(note => {
+            const pc = ((Number(note.midi) % 12) + 12) % 12;
+
+            return segment.candidates.every(candidate =>
+                !candidate.pitchClassSet.has(pc)
+            );
+        }).map(note => ({
             midi: Number(note.midi),
             track: note.track,
             channel: note.channel
