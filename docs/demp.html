@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp126
+demp127
 </title>
 <style>
 
@@ -12462,23 +12462,32 @@ function stage12BuildSegments() {
             continue;
         }
 
-        // An onset group that cannot fit any surviving scale closes the old segment
-        // immediately before this group. The whole simultaneous group starts the next.
+        // Check whether the complete onset group fits
+        // any surviving candidate of the current segment.
         const nextCandidates = current.candidates.filter(candidate =>
             groupFitsCandidate(candidate, group)
         );
 
         if (current.unresolved || nextCandidates.length === 0) {
+            // Close the previous segment.
             closeSegment(current, group);
             segments.push(current);
+
+            // Start a completely new segment.
+            // Do not reuse candidates from the previous segment.
             current = startSegment(group);
+            continue;
         }
 
+        // Continue the current segment.
         current.candidates = nextCandidates;
         current.onsetGroupCount++;
         current.noteCount += group.notes.length;
 
-        for (const pc of group.pitchClasses) current.pitchClasses.add(pc);
+        for (const pc of group.pitchClasses) {
+            current.pitchClasses.add(pc);
+        }
+
         for (const note of group.notes) {
             const pc = ((Number(note.midi) % 12) + 12) % 12;
             current.pcCounts[pc]++;
