@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp119
+demp120
 </title>
 <style>
 
@@ -12553,11 +12553,30 @@ function stage12BuildSegments() {
 }
 
 function stage12EvaluateSegment(segment) {
-    // Group N/H/M minor variants under one minor-key candidate. Their tonic and
-    // fifth are identical, so the Stage 2 count comparison is the same.
+    // H and M are not valid interpretations merely because their expanded
+    // pitch collections fit. Their characteristic raised degrees must actually
+    // occur within this segment: H needs raised 7th; M needs raised 6th AND 7th.
+    const eligibleCandidates = segment.candidates.filter(scale => {
+        if (scale.mode !== "minor") return true;
+
+        const raisedSixth = (scale.root + 9) % 12;
+        const raisedSeventh = (scale.root + 11) % 12;
+
+        if (scale.type === "H") {
+            return segment.pcCounts[raisedSeventh] > 0;
+        }
+        if (scale.type === "M") {
+            return segment.pcCounts[raisedSixth] > 0 &&
+                   segment.pcCounts[raisedSeventh] > 0;
+        }
+        return true;
+    });
+
+    // Group only the eligible N/H/M variants under one minor-key candidate.
+    // Their tonic and fifth are identical, so Stage 2 compares the same counts.
     const keyMap = new Map();
 
-    for (const scale of segment.candidates) {
+    for (const scale of eligibleCandidates) {
         const id = scale.mode + ":" + scale.root;
         if (!keyMap.has(id)) {
             const fifth = (scale.root + 7) % 12;
@@ -12584,7 +12603,7 @@ function stage12EvaluateSegment(segment) {
 
     const scaleLabels = [];
     const labelMap = new Map();
-    for (const scale of segment.candidates) {
+    for (const scale of eligibleCandidates) {
         const id = scale.mode + ":" + scale.root;
         if (!labelMap.has(id)) labelMap.set(id, { name: stage12KeyName(scale.root, scale.mode), types: new Set() });
         if (scale.mode === "minor") labelMap.get(id).types.add(scale.type);
@@ -12629,7 +12648,7 @@ function keyEstimationStage12() {
     ctx.fillText("Two-stage scale-change and key estimation", 12, 26);
 
     ctx.font = "12px Arial";
-    ctx.fillText("Stage 1: strict scale membership; melodic minor accepts natural 6th/7th on descent and raised 6th/7th on ascent.", 12, 48);
+    ctx.fillText("Stage 1: scale compatibility; H requires raised 7th, M requires raised 6th and raised 7th within the segment.", 12, 48);
     ctx.fillText("Stage 2: compare note counts of tonic + fifth for each surviving key candidate. A tie is left unresolved.", 12, 66);
     ctx.fillText("Bar range: The integer part is the bar number; the decimal part shows the position within that bar (0.00 = beginning, 0.50 = halfway).", 12, 86);
     ctx.fillText("Segment boundary: Start is inclusive and End is exclusive. A boundary position belongs to the next segment.", 12, 104);
