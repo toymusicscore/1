@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp120
+demp121
 </title>
 <style>
 
@@ -12495,8 +12495,15 @@ function stage12BuildSegments() {
             counts[pc]++;
         }
 
+        // A new segment starts with a complete candidate reset. At this point,
+        // use only pitch-class membership of the boundary onset group to build
+        // the new candidate set. Do not infer the tonic from a single note, and
+        // do not apply melodic-direction / feature-tone sequencing rules while
+        // initializing. Subsequent onset groups narrow this full candidate set.
         const candidates = allCandidates.filter(candidate =>
-            groupFitsCandidate(candidate, group, null)
+            group.pitchClasses.every(pitchClass =>
+                candidate.pitchClassSet.has(pitchClass)
+            )
         );
 
         return {
