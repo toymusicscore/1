@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp116
+demp117
 </title>
 <style>
 
@@ -12536,7 +12536,8 @@ function keyEstimationStage12() {
         Math.max(max, Number(note.start) || 0), 0);
 
     canvas.width = 1800;
-    canvas.height = Math.max(240, 100 + segments.length * 42);
+    // Extra space accommodates the explanatory lines above the results table.
+    canvas.height = Math.max(300, 200 + segments.length * 42);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
@@ -12547,8 +12548,11 @@ function keyEstimationStage12() {
     ctx.font = "12px Arial";
     ctx.fillText("Stage 1: strict scale membership; a boundary is created at the first onset group outside all surviving scales.", 12, 48);
     ctx.fillText("Stage 2: compare note counts of tonic + fifth for each surviving key candidate. A tie is left unresolved.", 12, 66);
+    ctx.fillText("Bar range: The integer part is the bar number; the decimal part shows the position within that bar (0.00 = beginning, 0.50 = halfway).", 12, 86);
+    ctx.fillText("Segment boundary: Start is inclusive and End is exclusive. A boundary position belongs to the next segment.", 12, 104);
+    ctx.fillText("Onset groups: All notes starting at the same time form one group. Each simultaneous group counts once, regardless of the number of notes.", 12, 122);
 
-    const headerY = 92;
+    const headerY = 148;
     ctx.font = "bold 12px Arial";
     ctx.fillText("Segment", 12, headerY);
     ctx.fillText("Bar range", 90, headerY);
@@ -12559,7 +12563,7 @@ function keyEstimationStage12() {
     for (let i = 0; i < segments.length; i++) {
         const segment = segments[i];
         const result = stage12EvaluateSegment(segment);
-        const y = 116 + i * 42;
+        const y = 172 + i * 42;
         const startBar = segment.startTick / ticksPerMeasure + 1;
         const endBar = segment.endTick / ticksPerMeasure + 1;
         const barText = startBar.toFixed(2) + "–" + endBar.toFixed(2);
@@ -12621,7 +12625,7 @@ function keyEstimationStage12() {
 
     if (segments.length === 0) {
         ctx.font = "14px Arial";
-        ctx.fillText("No MIDI note events were found.", 12, 116);
+        ctx.fillText("No MIDI note events were found.", 12, 172);
     }
 }
 
