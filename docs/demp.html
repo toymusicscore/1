@@ -12447,6 +12447,15 @@ function stage12BuildSegments() {
         };
     }
 
+    function closeSegment(segment, group) {
+        segment.endTick = group.tick;
+        segment.endTrigger = group.notes.map(note => ({
+            midi: Number(note.midi),
+            track: note.track,
+            channel: note.channel
+        }));
+    }
+
     for (const group of onsetGroups) {
         if (!current) {
             current = startSegment(group);
@@ -12460,10 +12469,9 @@ function stage12BuildSegments() {
         );
 
         if (current.unresolved || nextCandidates.length === 0) {
-            current.endTick = group.tick;
+            closeSegment(current, group);
             segments.push(current);
             current = startSegment(group);
-            continue;
         }
 
         current.candidates = nextCandidates;
@@ -12486,6 +12494,23 @@ function stage12BuildSegments() {
     }
 
     return segments;
+}
+
+function stage12FormatEndTrigger(segment) {
+    if (!segment.endTrigger) return "End of song";
+
+    return segment.endTrigger.map(note => {
+        const midi = note.midi;
+        const pc = ((midi % 12) + 12) % 12;
+        const octave = Math.floor(midi / 12) - 1;
+        const name = engs1[pc] + octave;
+
+        const hand = note.channel !== undefined
+            ? "Ch" + note.channel
+            : "";
+
+        return name + (hand ? " (" + hand + ")" : "");
+    }).join(", ");
 }
 
 function stage12EvaluateSegment(segment) {
@@ -12608,8 +12633,9 @@ function keyEstimationStage12() {
     ctx.font = "bold 12px Arial";
     ctx.fillText("Segment", 12, headerY);
     ctx.fillText("Bar range", 90, headerY);
-    ctx.fillText("Onset groups", 190, headerY);
-    ctx.fillText("Stage 1: surviving scale candidates", 310, headerY);
+    ctx.fillText("End trigger", 190, headerY);
+    ctx.fillText("Onset groups", 290, headerY);
+    ctx.fillText("Stage 1: surviving scale candidates", 410, headerY);
     ctx.fillText("Stage 2: tonic + fifth counts", 1110, headerY);
 
     for (let i = 0; i < segments.length; i++) {
@@ -12624,12 +12650,17 @@ function keyEstimationStage12() {
         ctx.fillStyle = "black";
         ctx.fillText(String(i + 1), 20, y);
         ctx.fillText(barText, 90, y);
-        ctx.fillText(String(segment.onsetGroupCount), 205, y);
+        ctx.fillText(
+            stage12FormatEndTrigger(segment),
+            190,
+            y
+        );
+        ctx.fillText(String(segment.onsetGroupCount), 305, y);
 
         const candidateText = segment.unresolved
             ? "No 7-note candidate fits this simultaneous onset group"
             : result.scaleLabels.join(", ");
-        ctx.fillText(candidateText, 310, y, 770);
+        ctx.fillText(candidateText, 410, y, 770);
 
         let scoreText = "";
         if (segment.unresolved) {
