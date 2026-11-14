@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp115
+demp116
 </title>
 <style>
 
@@ -170,21 +170,6 @@ demp115
     <option value="bach-invention-13">bwv784-bach-invention-13</option>
     <option value="bach-invention-14">bwv785-bach-invention-14</option>
     <option value="bach-invention-15">bwv786-bach-invention-15</option>
-    <option value="bwv787">bach-sinfonia-1</option>
-    <option value="bwv788">bach-sinfonia-2</option>
-    <option value="bwv789">bach-sinfonia-3</option>
-    <option value="bwv790">bach-sinfonia-4</option>
-    <option value="bwv791">bach-sinfonia-5</option>
-    <option value="bwv792">bach-sinfonia-6</option>
-    <option value="bwv793">bach-sinfonia-7</option>
-    <option value="bwv794">bach-sinfonia-8</option>
-    <option value="bwv795">bach-sinfonia-9</option>
-    <option value="bwv796">bach-sinfonia-10</option>
-    <option value="bwv797">bach-sinfonia-11</option>
-    <option value="bwv798">bach-sinfonia-12</option>
-    <option value="bwv799">bach-sinfonia-13</option>
-    <option value="bwv800">bach-sinfonia-14</option>
-    <option value="bwv801">bach-sinfonia-15</option>
     <option value="K545-1">K545-1</option>
     <option value="debussy_Arabesque_1">debussy_Arabesque_1</option>
 </select>
@@ -12340,7 +12325,296 @@ function showKeyEstimation() {
 
 let estimatedMeasureLabelTypes = [];
 
-function keyEstimation(){
+function buildStage12ScaleCandidates() {
+    const definitions = [
+        { mode: "major", type: "M", intervals: [0, 2, 4, 5, 7, 9, 11] },
+        { mode: "minor", type: "N", intervals: [0, 2, 3, 5, 7, 8, 10] },
+        { mode: "minor", type: "H", intervals: [0, 2, 3, 5, 7, 8, 11] },
+        { mode: "minor", type: "M", intervals: [0, 2, 3, 5, 7, 9, 11] }
+    ];
+
+    const candidates = [];
+
+    for (const definition of definitions) {
+        for (let root = 0; root < 12; root++) {
+            const pitchClasses = definition.intervals
+                .map(interval => (root + interval) % 12)
+                .sort((a, b) => a - b);
+
+            candidates.push({
+                root,
+                mode: definition.mode,
+                type: definition.type,
+                pitchClasses,
+                pitchClassSet: new Set(pitchClasses),
+                signature: pitchClasses.join(",")
+            });
+        }
+    }
+
+    return candidates;
+}
+
+function stage12KeyName(root, mode) {
+    const flatRoots = [1, 3, 6, 8, 10];
+    const rootName = mode === "minor"
+        ? engMnr1[root]
+        : (flatRoots.includes(root) ? engf1[root] : engs1[root]);
+
+    return mode === "minor" ? rootName + "m" : rootName + "M";
+}
+
+function stage12BuildSegments() {
+    const allCandidates = buildStage12ScaleCandidates();
+    const notesByTick = new Map();
+
+    // Merge both hands and all tracks. Notes at the same tick form one onset group.
+    for (const note of scoreData) {
+        const tick = Number(note.start);
+        if (!Number.isFinite(tick) || !Number.isFinite(Number(note.midi))) continue;
+
+        if (!notesByTick.has(tick)) notesByTick.set(tick, []);
+        notesByTick.get(tick).push(note);
+    }
+
+    const onsetGroups = Array.from(notesByTick.entries())
+        .map(([tick, notes]) => ({
+            tick,
+            notes,
+            pitchClasses: Array.from(new Set(
+                notes.map(note => ((Number(note.midi) % 12) + 12) % 12)
+            ))
+        }))
+        .sort((a, b) => a.tick - b.tick);
+
+    const segments = [];
+    let current = null;
+
+    function startSegment(group) {
+        const candidates = allCandidates.filter(candidate =>
+            group.pitchClasses.every(pc => candidate.pitchClassSet.has(pc))
+        );
+
+        const counts = new Array(12).fill(0);
+        for (const note of group.notes) {
+            const pc = ((Number(note.midi) % 12) + 12) % 12;
+            counts[pc]++;
+        }
+
+        return {
+            startTick: group.tick,
+            endTick: null,
+            onsetGroupCount: 1,
+            noteCount: group.notes.length,
+            pitchClasses: new Set(group.pitchClasses),
+            pcCounts: counts,
+            candidates,
+            unresolved: candidates.length === 0
+        };
+    }
+
+    for (const group of onsetGroups) {
+        if (!current) {
+            current = startSegment(group);
+            continue;
+        }
+
+        // An onset group that cannot fit any surviving scale closes the old segment
+        // immediately before this group. The whole simultaneous group starts the next.
+        const nextCandidates = current.candidates.filter(candidate =>
+            group.pitchClasses.every(pc => candidate.pitchClassSet.has(pc))
+        );
+
+        if (current.unresolved || nextCandidates.length === 0) {
+            current.endTick = group.tick;
+            segments.push(current);
+            current = startSegment(group);
+            continue;
+        }
+
+        current.candidates = nextCandidates;
+        current.onsetGroupCount++;
+        current.noteCount += group.notes.length;
+
+        for (const pc of group.pitchClasses) current.pitchClasses.add(pc);
+        for (const note of group.notes) {
+            const pc = ((Number(note.midi) % 12) + 12) % 12;
+            current.pcCounts[pc]++;
+        }
+    }
+
+    if (current) {
+        const lastTick = onsetGroups.length
+            ? onsetGroups[onsetGroups.length - 1].tick
+            : current.startTick;
+        current.endTick = Math.max(lastTick + 1, current.startTick + 1);
+        segments.push(current);
+    }
+
+    return segments;
+}
+
+function stage12EvaluateSegment(segment) {
+    // Group N/H/M minor variants under one minor-key candidate. Their tonic and
+    // fifth are identical, so the Stage 2 count comparison is the same.
+    const keyMap = new Map();
+
+    for (const scale of segment.candidates) {
+        const id = scale.mode + ":" + scale.root;
+        if (!keyMap.has(id)) {
+            const fifth = (scale.root + 7) % 12;
+            keyMap.set(id, {
+                root: scale.root,
+                fifth,
+                mode: scale.mode,
+                types: new Set(),
+                tonicCount: segment.pcCounts[scale.root],
+                fifthCount: segment.pcCounts[fifth],
+                score: segment.pcCounts[scale.root] + segment.pcCounts[fifth]
+            });
+        }
+        if (scale.mode === "minor") keyMap.get(id).types.add(scale.type);
+    }
+
+    const keyCandidates = Array.from(keyMap.values()).map(item => ({
+        ...item,
+        types: Array.from(item.types).sort(),
+        name: stage12KeyName(item.root, item.mode)
+    })).sort((a, b) =>
+        b.score - a.score || a.name.localeCompare(b.name)
+    );
+
+    const scaleLabels = [];
+    const labelMap = new Map();
+    for (const scale of segment.candidates) {
+        const id = scale.mode + ":" + scale.root;
+        if (!labelMap.has(id)) labelMap.set(id, { name: stage12KeyName(scale.root, scale.mode), types: new Set() });
+        if (scale.mode === "minor") labelMap.get(id).types.add(scale.type);
+    }
+    for (const item of labelMap.values()) {
+        const typeText = item.types.size ? "(" + Array.from(item.types).sort().join("/") + ")" : "";
+        scaleLabels.push(item.name + typeText);
+    }
+    scaleLabels.sort();
+
+    let selected = null;
+    let tied = false;
+    if (keyCandidates.length === 1) {
+        selected = keyCandidates[0];
+    } else if (keyCandidates.length > 1) {
+        if (keyCandidates[0].score > keyCandidates[1].score) {
+            selected = keyCandidates[0];
+        } else if (keyCandidates[0].score === keyCandidates[1].score) {
+            tied = true;
+        }
+    }
+
+    return { keyCandidates, scaleLabels, selected, tied };
+}
+
+function keyEstimationStage12() {
+    estimatedMeasureKeys = [];
+    estimatedMeasureLabelTypes = [];
+
+    const segments = stage12BuildSegments();
+    const maxTick = scoreData.reduce((max, note) =>
+        Math.max(max, Number(note.start) || 0), 0);
+
+    canvas.width = 1800;
+    canvas.height = Math.max(240, 100 + segments.length * 42);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+    ctx.textAlign = "left";
+    ctx.font = "bold 18px Arial";
+    ctx.fillText("Two-stage scale-change and key estimation", 12, 26);
+
+    ctx.font = "12px Arial";
+    ctx.fillText("Stage 1: strict scale membership; a boundary is created at the first onset group outside all surviving scales.", 12, 48);
+    ctx.fillText("Stage 2: compare note counts of tonic + fifth for each surviving key candidate. A tie is left unresolved.", 12, 66);
+
+    const headerY = 92;
+    ctx.font = "bold 12px Arial";
+    ctx.fillText("Segment", 12, headerY);
+    ctx.fillText("Bar range", 90, headerY);
+    ctx.fillText("Onset groups", 190, headerY);
+    ctx.fillText("Stage 1: surviving scale candidates", 310, headerY);
+    ctx.fillText("Stage 2: tonic + fifth counts", 1110, headerY);
+
+    for (let i = 0; i < segments.length; i++) {
+        const segment = segments[i];
+        const result = stage12EvaluateSegment(segment);
+        const y = 116 + i * 42;
+        const startBar = segment.startTick / ticksPerMeasure + 1;
+        const endBar = segment.endTick / ticksPerMeasure + 1;
+        const barText = startBar.toFixed(2) + "–" + endBar.toFixed(2);
+
+        ctx.font = "12px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText(String(i + 1), 20, y);
+        ctx.fillText(barText, 90, y);
+        ctx.fillText(String(segment.onsetGroupCount), 205, y);
+
+        const candidateText = segment.unresolved
+            ? "No 7-note candidate fits this simultaneous onset group"
+            : result.scaleLabels.join(", ");
+        ctx.fillText(candidateText, 310, y, 770);
+
+        let scoreText = "";
+        if (segment.unresolved) {
+            scoreText = "Unresolved scale group";
+        } else if (result.keyCandidates.length === 0) {
+            scoreText = "No key candidate";
+        } else {
+            scoreText = result.keyCandidates.slice(0, 7).map(item =>
+                item.name + " " + item.tonicCount + "+" + item.fifthCount + "=" + item.score
+            ).join(" | ");
+            if (result.keyCandidates.length > 7) scoreText += " | …";
+            if (result.selected) {
+                scoreText += "  → " + result.selected.name;
+            } else if (result.tied) {
+                scoreText += "  → Tie / hold";
+            }
+        }
+        ctx.fillText(scoreText, 1110, y, 675);
+
+        ctx.strokeStyle = "#dddddd";
+        ctx.beginPath();
+        ctx.moveTo(10, y + 13);
+        ctx.lineTo(1790, y + 13);
+        ctx.stroke();
+
+        // Keep the existing piano-roll note-label support aligned with the new
+        // segment result, without using measure boundaries for Stage 1 detection.
+        if (result.selected) {
+            const firstMeasure = Math.floor(segment.startTick / ticksPerMeasure);
+            const lastMeasure = Math.floor(Math.max(segment.startTick, segment.endTick - 1) / ticksPerMeasure);
+            const minorType = result.selected.mode === "minor" && result.selected.types.length === 1
+                ? result.selected.types[0]
+                : null;
+            const keyName = result.selected.name;
+            for (let measure = firstMeasure; measure <= lastMeasure; measure++) {
+                estimatedMeasureKeys[measure] = {
+                    estKey: keyName,
+                    estScaleType: minorType,
+                    rootPc: result.selected.root
+                };
+                estimatedMeasureLabelTypes[measure] = getAutoLabelType(keyName);
+            }
+        }
+    }
+
+    if (segments.length === 0) {
+        ctx.font = "14px Arial";
+        ctx.fillText("No MIDI note events were found.", 12, 116);
+    }
+}
+
+function keyEstimation() {
+    keyEstimationStage12();
+}
+
+function keyEstimationLegacy(){
 
     estimatedMeasureKeys = [];
 
