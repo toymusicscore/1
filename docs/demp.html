@@ -12341,14 +12341,11 @@ function showKeyEstimation() {
 let estimatedMeasureLabelTypes = [];
 
 function buildStage12ScaleCandidates() {
+    // For this test, use major and natural-minor scales only.
+    // Harmonic-minor (H) and melodic-minor (M) candidates are disabled.
     const definitions = [
         { mode: "major", type: "M", intervals: [0, 2, 4, 5, 7, 9, 11] },
-        { mode: "minor", type: "N", intervals: [0, 2, 3, 5, 7, 8, 10] },
-        { mode: "minor", type: "H", intervals: [0, 2, 3, 5, 7, 8, 11] },
-        // Melodic minor provisionally accepts both natural and raised forms
-        // of degrees 6 and 7. It is confirmed only when BOTH raised 6th and
-        // raised 7th occur in the segment, regardless of their order.
-        { mode: "minor", type: "M", intervals: [0, 2, 3, 5, 7, 8, 9, 10, 11] }
+        { mode: "minor", type: "N", intervals: [0, 2, 3, 5, 7, 8, 10] }
     ];
 
     const candidates = [];
@@ -12387,11 +12384,9 @@ function stage12BuildSegments() {
     const notesByTick = new Map();
 
     // A candidate remains valid only while every note in the complete onset
-    // group belongs to its scale. For melodic minor, both natural and raised
-    // forms of degrees 6 and 7 are provisionally accepted here. The M label is
-    // confirmed later only if raised 6th AND raised 7th both occur in the
-    // segment. Their order is irrelevant. Any other out-of-scale note ends
-    // the current segment immediately before its onset group.
+    // group belongs to its scale. Only major and natural-minor scales are used.
+    // Any out-of-scale note ends the current segment immediately before its
+    // onset group.
     function groupFitsCandidate(candidate, group) {
         return group.pitchClasses.every(pitchClass =>
             candidate.pitchClassSet.has(pitchClass)
@@ -12491,29 +12486,11 @@ function stage12BuildSegments() {
 }
 
 function stage12EvaluateSegment(segment) {
-    // H and M are not valid interpretations merely because their provisional
-    // pitch collections fit. Their characteristic raised degrees must actually
-    // occur within this segment: H needs raised 7th; M needs raised 6th AND 7th,
-    // in either order. If raised 6th occurs alone, M remains provisional and
-    // is not displayed as a confirmed M candidate.
-    const eligibleCandidates = segment.candidates.filter(scale => {
-        if (scale.mode !== "minor") return true;
+    // H and melodic-minor candidates are disabled for this test.
+    // Evaluate only the surviving major and natural-minor candidates.
+    const eligibleCandidates = segment.candidates;
 
-        const raisedSixth = (scale.root + 9) % 12;
-        const raisedSeventh = (scale.root + 11) % 12;
-
-        if (scale.type === "H") {
-            return segment.pcCounts[raisedSeventh] > 0;
-        }
-        if (scale.type === "M") {
-            return segment.pcCounts[raisedSixth] > 0 &&
-                   segment.pcCounts[raisedSeventh] > 0;
-        }
-        return true;
-    });
-
-    // Group only the eligible N/H/M variants under one minor-key candidate.
-    // Their tonic and fifth are identical, so Stage 2 compares the same counts.
+    // Stage 2 compares the surviving major and natural-minor candidates.
     const keyMap = new Map();
 
     for (const scale of eligibleCandidates) {
