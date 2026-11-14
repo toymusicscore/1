@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp121
+demp122
 </title>
 <style>
 
@@ -12345,8 +12345,9 @@ function buildStage12ScaleCandidates() {
         { mode: "major", type: "M", intervals: [0, 2, 4, 5, 7, 9, 11] },
         { mode: "minor", type: "N", intervals: [0, 2, 3, 5, 7, 8, 10] },
         { mode: "minor", type: "H", intervals: [0, 2, 3, 5, 7, 8, 11] },
-        // Melodic minor accepts both natural and raised forms of degrees 6 and 7.
-        // The valid form for each note is decided from its melodic direction below.
+        // Melodic minor provisionally accepts both natural and raised forms
+        // of degrees 6 and 7. It is confirmed only when BOTH raised 6th and
+        // raised 7th occur in the segment, regardless of their order.
         { mode: "minor", type: "M", intervals: [0, 2, 3, 5, 7, 8, 9, 10, 11] }
     ];
 
@@ -12385,85 +12386,16 @@ function stage12BuildSegments() {
     const allCandidates = buildStage12ScaleCandidates();
     const notesByTick = new Map();
 
-    // Determine melodic direction independently for each MIDI channel/part.
-    // Both the starting and ending notes of each movement receive its direction.
-    const directionEvidence = new Map();
-    const notesByChannel = new Map();
-
-    for (const note of scoreData) {
-        const channel = note.channel ?? 0;
-        if (!notesByChannel.has(channel)) notesByChannel.set(channel, []);
-        notesByChannel.get(channel).push(note);
-    }
-
-    function addDirectionEvidence(note, direction) {
-        if (!directionEvidence.has(note)) {
-            directionEvidence.set(note, { up: false, down: false });
-        }
-        const evidence = directionEvidence.get(note);
-        if (direction > 0) evidence.up = true;
-        if (direction < 0) evidence.down = true;
-    }
-
-    for (const channelNotes of notesByChannel.values()) {
-        const ordered = channelNotes.slice().sort((a, b) =>
-            Number(a.start) - Number(b.start) || Number(a.midi) - Number(b.midi)
+    // A candidate remains valid only while every note in the complete onset
+    // group belongs to its scale. For melodic minor, both natural and raised
+    // forms of degrees 6 and 7 are provisionally accepted here. The M label is
+    // confirmed later only if raised 6th AND raised 7th both occur in the
+    // segment. Their order is irrelevant. Any other out-of-scale note ends
+    // the current segment immediately before its onset group.
+    function groupFitsCandidate(candidate, group) {
+        return group.pitchClasses.every(pitchClass =>
+            candidate.pitchClassSet.has(pitchClass)
         );
-
-        for (let i = 1; i < ordered.length; i++) {
-            const previous = ordered[i - 1];
-            const current = ordered[i];
-            if (Number(previous.start) === Number(current.start)) continue;
-            if (Number(previous.midi) === Number(current.midi)) continue;
-
-            const direction = Number(current.midi) > Number(previous.midi) ? 1 : -1;
-            addDirectionEvidence(previous, direction);
-            addDirectionEvidence(current, direction);
-        }
-    }
-
-    // Test a complete onset group against a candidate. For melodic minor,
-    // natural 6th/7th degrees are accepted on descent and raised 6th/7th
-    // degrees are accepted on ascent. If direction is not yet known, retain
-    // either form rather than prematurely eliminating the candidate.
-    function groupFitsCandidate(candidate, group, priorPcCounts = null) {
-        for (const note of group.notes) {
-            const pitchClass = ((Number(note.midi) % 12) + 12) % 12;
-            const interval = (pitchClass - candidate.root + 12) % 12;
-
-            if (candidate.mode !== "minor" || candidate.type !== "M") {
-                if (!candidate.pitchClassSet.has(pitchClass)) return false;
-                continue;
-            }
-
-            if ([0, 2, 3, 5, 7].includes(interval)) continue;
-
-            const evidence = directionEvidence.get(note) || { up: false, down: false };
-            const directionUnknown = !evidence.up && !evidence.down;
-
-            if (interval === 8 || interval === 10) {
-                if (evidence.down || directionUnknown) continue;
-                return false;
-            }
-            if (interval === 9) {
-                // Raised 6th may be held provisionally while waiting for the
-                // raised 7th that confirms melodic minor.
-                if (evidence.up || directionUnknown) continue;
-                return false;
-            }
-            if (interval === 11) {
-                // Do not accept a raised 7th as melodic minor unless the raised
-                // 6th has already appeared in this segment (or in this onset group).
-                const raisedSixth = (candidate.root + 9) % 12;
-                const raisedSixthSeen =
-                    (priorPcCounts && priorPcCounts[raisedSixth] > 0) ||
-                    group.pitchClasses.includes(raisedSixth);
-                if (raisedSixthSeen && (evidence.up || directionUnknown)) continue;
-                return false;
-            }
-            return false;
-        }
-        return true;
     }
 
     // Merge both hands and all tracks. Notes at the same tick form one onset group.
@@ -12497,9 +12429,8 @@ function stage12BuildSegments() {
 
         // A new segment starts with a complete candidate reset. At this point,
         // use only pitch-class membership of the boundary onset group to build
-        // the new candidate set. Do not infer the tonic from a single note, and
-        // do not apply melodic-direction / feature-tone sequencing rules while
-        // initializing. Subsequent onset groups narrow this full candidate set.
+        // the new candidate set. Do not infer the tonic from a single note.
+        // Subsequent onset groups narrow this full candidate set.
         const candidates = allCandidates.filter(candidate =>
             group.pitchClasses.every(pitchClass =>
                 candidate.pitchClassSet.has(pitchClass)
@@ -12527,7 +12458,7 @@ function stage12BuildSegments() {
         // An onset group that cannot fit any surviving scale closes the old segment
         // immediately before this group. The whole simultaneous group starts the next.
         const nextCandidates = current.candidates.filter(candidate =>
-            groupFitsCandidate(candidate, group, current.pcCounts)
+            groupFitsCandidate(candidate, group)
         );
 
         if (current.unresolved || nextCandidates.length === 0) {
@@ -12560,9 +12491,11 @@ function stage12BuildSegments() {
 }
 
 function stage12EvaluateSegment(segment) {
-    // H and M are not valid interpretations merely because their expanded
+    // H and M are not valid interpretations merely because their provisional
     // pitch collections fit. Their characteristic raised degrees must actually
-    // occur within this segment: H needs raised 7th; M needs raised 6th AND 7th.
+    // occur within this segment: H needs raised 7th; M needs raised 6th AND 7th,
+    // in either order. If raised 6th occurs alone, M remains provisional and
+    // is not displayed as a confirmed M candidate.
     const eligibleCandidates = segment.candidates.filter(scale => {
         if (scale.mode !== "minor") return true;
 
