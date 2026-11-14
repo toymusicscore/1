@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp123
+demp124
 </title>
 <style>
 
@@ -12341,11 +12341,11 @@ function showKeyEstimation() {
 let estimatedMeasureLabelTypes = [];
 
 function buildStage12ScaleCandidates() {
-    // For this test, use major and natural-minor scales only.
-    // Harmonic-minor (H) and melodic-minor (M) candidates are disabled.
     const definitions = [
         { mode: "major", type: "M", intervals: [0, 2, 4, 5, 7, 9, 11] },
-        { mode: "minor", type: "N", intervals: [0, 2, 3, 5, 7, 8, 10] }
+        { mode: "minor", type: "N", intervals: [0, 2, 3, 5, 7, 8, 10] },
+        { mode: "minor", type: "H", intervals: [0, 2, 3, 5, 7, 8, 11] },
+        { mode: "minor", type: "M", intervals: [0, 2, 3, 5, 7, 9, 11] }
     ];
 
     const candidates = [];
@@ -12388,8 +12388,30 @@ function stage12BuildSegments() {
     // Any out-of-scale note ends the current segment immediately before its
     // onset group.
     function groupFitsCandidate(candidate, group) {
-        return group.pitchClasses.every(pitchClass =>
-            candidate.pitchClassSet.has(pitchClass)
+        if (candidate.mode === "major") {
+            return group.pitchClasses.every(pc =>
+                candidate.pitchClassSet.has(pc)
+            );
+        }
+
+        // Minor candidates share the same basic scale family.
+        // Raised 6th and raised 7th are allowed as characteristic notes.
+        const root = candidate.root;
+
+        const allowedPitchClasses = new Set([
+            root,
+            (root + 2) % 12,
+            (root + 3) % 12,
+            (root + 5) % 12,
+            (root + 7) % 12,
+            (root + 8) % 12,
+            (root + 9) % 12,
+            (root + 10) % 12,
+            (root + 11) % 12
+        ]);
+
+        return group.pitchClasses.every(pc =>
+            allowedPitchClasses.has(pc)
         );
     }
 
@@ -12486,28 +12508,52 @@ function stage12BuildSegments() {
 }
 
 function stage12EvaluateSegment(segment) {
-    // H and melodic-minor candidates are disabled for this test.
-    // Evaluate only the surviving major and natural-minor candidates.
-    const eligibleCandidates = segment.candidates;
-
-    // Stage 2 compares the surviving major and natural-minor candidates.
     const keyMap = new Map();
 
-    for (const scale of eligibleCandidates) {
+    for (const scale of segment.candidates) {
         const id = scale.mode + ":" + scale.root;
+
         if (!keyMap.has(id)) {
-            const fifth = (scale.root + 7) % 12;
+            const root = scale.root;
+            const fifth = (root + 7) % 12;
+
             keyMap.set(id, {
-                root: scale.root,
+                root,
                 fifth,
                 mode: scale.mode,
                 types: new Set(),
-                tonicCount: segment.pcCounts[scale.root],
+                tonicCount: segment.pcCounts[root],
                 fifthCount: segment.pcCounts[fifth],
-                score: segment.pcCounts[scale.root] + segment.pcCounts[fifth]
+                score:
+                    segment.pcCounts[root] +
+                    segment.pcCounts[fifth]
             });
         }
-        if (scale.mode === "minor") keyMap.get(id).types.add(scale.type);
+
+        if (scale.mode === "major") {
+            keyMap.get(id).types.add("M");
+        }
+    }
+
+    // Determine minor type from characteristic notes.
+    for (const item of keyMap.values()) {
+        if (item.mode !== "minor") continue;
+
+        const root = item.root;
+
+        const raised6th = (root + 9) % 12;
+        const raised7th = (root + 11) % 12;
+
+        const hasRaised6th = segment.pcCounts[raised6th] > 0;
+        const hasRaised7th = segment.pcCounts[raised7th] > 0;
+
+        if (hasRaised6th && hasRaised7th) {
+            item.types.add("M");
+        } else if (hasRaised7th) {
+            item.types.add("H");
+        } else {
+            item.types.add("N");
+        }
     }
 
     const keyCandidates = Array.from(keyMap.values()).map(item => ({
@@ -12515,24 +12561,25 @@ function stage12EvaluateSegment(segment) {
         types: Array.from(item.types).sort(),
         name: stage12KeyName(item.root, item.mode)
     })).sort((a, b) =>
-        b.score - a.score || a.name.localeCompare(b.name)
+        b.score - a.score ||
+        a.name.localeCompare(b.name)
     );
 
     const scaleLabels = [];
-    const labelMap = new Map();
-    for (const scale of eligibleCandidates) {
-        const id = scale.mode + ":" + scale.root;
-        if (!labelMap.has(id)) labelMap.set(id, { name: stage12KeyName(scale.root, scale.mode), types: new Set() });
-        if (scale.mode === "minor") labelMap.get(id).types.add(scale.type);
-    }
-    for (const item of labelMap.values()) {
-        const typeText = item.types.size ? "(" + Array.from(item.types).sort().join("/") + ")" : "";
+
+    for (const item of keyCandidates) {
+        const typeText = item.mode === "minor"
+            ? "(" + item.types.join("/") + ")"
+            : "";
+
         scaleLabels.push(item.name + typeText);
     }
+
     scaleLabels.sort();
 
     let selected = null;
     let tied = false;
+
     if (keyCandidates.length === 1) {
         selected = keyCandidates[0];
     } else if (keyCandidates.length > 1) {
@@ -12543,7 +12590,12 @@ function stage12EvaluateSegment(segment) {
         }
     }
 
-    return { keyCandidates, scaleLabels, selected, tied };
+    return {
+        keyCandidates,
+        scaleLabels,
+        selected,
+        tied
+    };
 }
 
 function keyEstimationStage12() {
