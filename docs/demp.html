@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp118
+demp119
 </title>
 <style>
 
@@ -12426,7 +12426,7 @@ function stage12BuildSegments() {
     // natural 6th/7th degrees are accepted on descent and raised 6th/7th
     // degrees are accepted on ascent. If direction is not yet known, retain
     // either form rather than prematurely eliminating the candidate.
-    function groupFitsCandidate(candidate, group) {
+    function groupFitsCandidate(candidate, group, priorPcCounts = null) {
         for (const note of group.notes) {
             const pitchClass = ((Number(note.midi) % 12) + 12) % 12;
             const interval = (pitchClass - candidate.root + 12) % 12;
@@ -12445,8 +12445,20 @@ function stage12BuildSegments() {
                 if (evidence.down || directionUnknown) continue;
                 return false;
             }
-            if (interval === 9 || interval === 11) {
+            if (interval === 9) {
+                // Raised 6th may be held provisionally while waiting for the
+                // raised 7th that confirms melodic minor.
                 if (evidence.up || directionUnknown) continue;
+                return false;
+            }
+            if (interval === 11) {
+                // Do not accept a raised 7th as melodic minor unless the raised
+                // 6th has already appeared in this segment (or in this onset group).
+                const raisedSixth = (candidate.root + 9) % 12;
+                const raisedSixthSeen =
+                    (priorPcCounts && priorPcCounts[raisedSixth] > 0) ||
+                    group.pitchClasses.includes(raisedSixth);
+                if (raisedSixthSeen && (evidence.up || directionUnknown)) continue;
                 return false;
             }
             return false;
@@ -12477,15 +12489,15 @@ function stage12BuildSegments() {
     let current = null;
 
     function startSegment(group) {
-        const candidates = allCandidates.filter(candidate =>
-            groupFitsCandidate(candidate, group)
-        );
-
         const counts = new Array(12).fill(0);
         for (const note of group.notes) {
             const pc = ((Number(note.midi) % 12) + 12) % 12;
             counts[pc]++;
         }
+
+        const candidates = allCandidates.filter(candidate =>
+            groupFitsCandidate(candidate, group, null)
+        );
 
         return {
             startTick: group.tick,
@@ -12508,7 +12520,7 @@ function stage12BuildSegments() {
         // An onset group that cannot fit any surviving scale closes the old segment
         // immediately before this group. The whole simultaneous group starts the next.
         const nextCandidates = current.candidates.filter(candidate =>
-            groupFitsCandidate(candidate, group)
+            groupFitsCandidate(candidate, group, current.pcCounts)
         );
 
         if (current.unresolved || nextCandidates.length === 0) {
