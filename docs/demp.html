@@ -12583,26 +12583,26 @@ function stage12BuildSegments() {
         newSegment.startTick = boundaryTick;
         newSegment.modulationTick = boundaryTick;
 
-        // Store the last group outside the new scale.
-        if (startIndex > 0) {
-            const triggerGroup = oldSegment.groups[startIndex - 1];
+// Store the last group outside the new scale.
+if (startIndex > 0 && oldSegment.groups[startIndex - 1]) {
+    const triggerGroup = oldSegment.groups[startIndex - 1];
 
-            newSegment.startTriggerTick = triggerGroup.tick;
+    newSegment.startTriggerTick = triggerGroup.tick;
 
-            newSegment.startTrigger = triggerGroup.notes
-                .filter(note => {
-                    const pc = getPitchClass(note);
+    newSegment.startTrigger = triggerGroup.notes
+        .filter(note => {
+            const pc = getPitchClass(note);
 
-                    return candidates.every(candidate =>
-                        !candidate.pitchClassSet.has(pc)
-                    );
-                })
-                .map(note => ({
-                    midi: Number(note.midi),
-                    track: note.track,
-                    channel: note.channel
-                }));
-        }
+            return candidates.every(candidate =>
+                !candidate.pitchClassSet.has(pc)
+            );
+        })
+        .map(note => ({
+            midi: Number(note.midi),
+            track: note.track,
+            channel: note.channel
+        }));
+}
 /*
         // Store the actual start trigger.
         if (startTriggerGroup) {
