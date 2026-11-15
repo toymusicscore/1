@@ -12664,7 +12664,7 @@ function stage12FormatEndTrigger(segment) {
 
     const tick = segment.endTriggerTick;
     const position = Number.isFinite(tick)
-        ? (tick / ticksPerMeasure).toFixed(2)
+        ? (tick / ticksPerMeasure +1).toFixed(2)
         : "";
 
     const notes = segment.endTrigger.map(note => {
