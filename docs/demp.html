@@ -12571,11 +12571,19 @@ function stage12BuildSegments() {
 
             newSegment.startTriggerTick = triggerGroup.tick;
 
-            newSegment.startTrigger = triggerGroup.notes.map(note => ({
-                midi: Number(note.midi),
-                track: note.track,
-                channel: note.channel
-            }));
+            newSegment.startTrigger = triggerGroup.notes
+                .filter(note => {
+                    const pc = getPitchClass(note);
+
+                    return newSegment.candidates.every(candidate =>
+                        !candidate.pitchClassSet.has(pc)
+                    );
+                })
+                .map(note => ({
+                    midi: Number(note.midi),
+                    track: note.track,
+                    channel: note.channel
+                }));
         }
 
         return newSegment;
