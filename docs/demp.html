@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp129
+demp130
 </title>
 <style>
 
@@ -12465,6 +12465,7 @@ function stage12BuildSegments() {
             candidates,
             unresolved: candidates.length === 0,
             groups: groups.slice(),
+            startTrigger: [],
             endTrigger: [],
             modulationTick: null
         };
@@ -12558,6 +12559,17 @@ function stage12BuildSegments() {
             triggerGroup.tick
         );
 
+        // Store the note group that determines the new segment start.
+        if (startIndex > 0) {
+            const triggerGroup = oldSegment.groups[startIndex - 1];
+
+            newSegment.startTrigger = triggerGroup.notes.map(note => ({
+                midi: Number(note.midi),
+                track: note.track,
+                channel: note.channel
+            }));
+        }
+
         return newSegment;
     }
 
@@ -12603,143 +12615,22 @@ function stage12BuildSegments() {
     return segments;
 }
 
-/*
-function stage12BuildSegments() {
-    const allCandidates = buildStage12ScaleCandidates();
-    const notesByTick = new Map();
+function stage12FormatStartTrigger(segment) {
+    if (!segment.startTrigger) return "Start of song";
 
-    // A candidate remains valid only while every note in the complete onset
-    // group belongs to its exact major, natural-minor, harmonic-minor,
-    // or melodic-minor scale.
+    return segment.startTrigger.map(note => {
+        const midi = note.midi;
+        const pc = ((midi % 12) + 12) % 12;
+        const octave = Math.floor(midi / 12) - 1;
+        const name = engs1[pc] + octave;
 
-    // Any out-of-scale note ends the current segment immediately before its
-    // onset group.
-    function groupFitsCandidate(candidate, group) {
-    // Strict scale compatibility.
-    // Every pitch class in the onset group must belong
-    // to the candidate's exact scale.
-        return group.pitchClasses.every(pitchClass =>
-            candidate.pitchClassSet.has(pitchClass)
-        );
-    }
+        const hand = note.channel !== undefined
+            ? "Ch" + note.channel
+            : "";
 
-    // Merge both hands and all tracks. Notes at the same tick form one onset group.
-    for (const note of scoreData) {
-        const tick = Number(note.start);
-        if (!Number.isFinite(tick) || !Number.isFinite(Number(note.midi))) continue;
-
-        if (!notesByTick.has(tick)) notesByTick.set(tick, []);
-        notesByTick.get(tick).push(note);
-    }
-
-    const onsetGroups = Array.from(notesByTick.entries())
-        .map(([tick, notes]) => ({
-            tick,
-            notes,
-            pitchClasses: Array.from(new Set(
-                notes.map(note => ((Number(note.midi) % 12) + 12) % 12)
-            ))
-        }))
-        .sort((a, b) => a.tick - b.tick);
-
-    const segments = [];
-    let current = null;
-
-    function startSegment(group) {
-        const counts = new Array(12).fill(0);
-        for (const note of group.notes) {
-            const pc = ((Number(note.midi) % 12) + 12) % 12;
-            counts[pc]++;
-        }
-
-        // A new segment starts with a complete candidate reset. At this point,
-        // use only pitch-class membership of the boundary onset group to build
-        // the new candidate set. Do not infer the tonic from a single note.
-        // Subsequent onset groups narrow this full candidate set.
-        const candidates = allCandidates.filter(candidate =>
-            group.pitchClasses.every(pitchClass =>
-                candidate.pitchClassSet.has(pitchClass)
-            )
-        );
-
-        return {
-            startTick: group.tick,
-            endTick: null,
-            onsetGroupCount: 1,
-            noteCount: group.notes.length,
-            pitchClasses: new Set(group.pitchClasses),
-            pcCounts: counts,
-            candidates,
-            unresolved: candidates.length === 0
-        };
-    }
-
-    function closeSegment(segment, group) {
-        segment.endTick = group.tick;
-
-        // Show only notes that are outside every surviving candidate scale.
-        segment.endTrigger = group.notes.filter(note => {
-            const pc = ((Number(note.midi) % 12) + 12) % 12;
-
-            return segment.candidates.every(candidate =>
-                !candidate.pitchClassSet.has(pc)
-            );
-        }).map(note => ({
-            midi: Number(note.midi),
-            track: note.track,
-            channel: note.channel
-        }));
-    }
-
-    for (const group of onsetGroups) {
-        if (!current) {
-            current = startSegment(group);
-            continue;
-        }
-
-        // Check whether the complete onset group fits
-        // any surviving candidate of the current segment.
-        const nextCandidates = current.candidates.filter(candidate =>
-            groupFitsCandidate(candidate, group)
-        );
-
-        if (current.unresolved || nextCandidates.length === 0) {
-            // Close the previous segment.
-            closeSegment(current, group);
-            segments.push(current);
-
-            // Start a completely new segment.
-            // Do not reuse candidates from the previous segment.
-            current = startSegment(group);
-            continue;
-        }
-
-        // Continue the current segment.
-        current.candidates = nextCandidates;
-        current.onsetGroupCount++;
-        current.noteCount += group.notes.length;
-
-        for (const pc of group.pitchClasses) {
-            current.pitchClasses.add(pc);
-        }
-
-        for (const note of group.notes) {
-            const pc = ((Number(note.midi) % 12) + 12) % 12;
-            current.pcCounts[pc]++;
-        }
-    }
-
-    if (current) {
-        const lastTick = onsetGroups.length
-            ? onsetGroups[onsetGroups.length - 1].tick
-            : current.startTick;
-        current.endTick = Math.max(lastTick + 1, current.startTick + 1);
-        segments.push(current);
-    }
-
-    return segments;
+        return name + (hand ? " (" + hand + ")" : "");
+    }).join(", ");
 }
-*/
 
 function stage12FormatEndTrigger(segment) {
     if (!segment.endTrigger) return "End of song";
@@ -12757,6 +12648,7 @@ function stage12FormatEndTrigger(segment) {
         return name + (hand ? " (" + hand + ")" : "");
     }).join(", ");
 }
+
 
 function stage12EvaluateSegment(segment) {
     const keyMap = new Map();
@@ -12882,9 +12774,10 @@ function keyEstimationStage12() {
     ctx.font = "bold 12px Arial";
     ctx.fillText("Segment", 12, headerY);
     ctx.fillText("Bar range", 90, headerY);
-    ctx.fillText("End trigger", 190, headerY);
-    ctx.fillText("Onset groups", 340, headerY);
-    ctx.fillText("Stage 1: surviving scale candidates", 460, headerY);
+    ctx.fillText("Start trigger", 190, headerY);
+    ctx.fillText("End trigger", 290, headerY);
+    ctx.fillText("Onset groups", 440, headerY);
+    ctx.fillText("Stage 1: surviving scale candidates", 560, headerY);
     ctx.fillText("Stage 2: tonic + fifth counts", 1110, headerY);
 
     for (let i = 0; i < segments.length; i++) {
@@ -12900,16 +12793,21 @@ function keyEstimationStage12() {
         ctx.fillText(String(i + 1), 20, y);
         ctx.fillText(barText, 90, y);
         ctx.fillText(
-            stage12FormatEndTrigger(segment),
+            stage12FormatStartTrigger(segment),
             190,
             y
         );
-        ctx.fillText(String(segment.onsetGroupCount), 355, y);
+        ctx.fillText(
+            stage12FormatEndTrigger(segment),
+            290,
+            y
+        );
+        ctx.fillText(String(segment.onsetGroupCount), 455, y);
 
         const candidateText = segment.unresolved
             ? "No 7-note candidate fits this simultaneous onset group"
             : result.scaleLabels.join(", ");
-        ctx.fillText(candidateText, 460, y, 770);
+        ctx.fillText(candidateText, 560, y, 770);
 
         let scoreText = "";
         if (segment.unresolved) {
