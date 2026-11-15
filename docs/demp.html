@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp133
+demp134
 </title>
 <style>
 
@@ -12638,8 +12638,8 @@ function stage12FormatStartTrigger(segment) {
 
     const tick = segment.startTriggerTick;
     const position = Number.isFinite(tick)
-        ? (tick / ticksPerMeasure).toFixed(2)
-        : "";
+    ? (tick / ticksPerMeasure + 1).toFixed(2)
+    : "";
 
     const notes = segment.startTrigger.map(note => {
         const midi = note.midi;
