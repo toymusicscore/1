@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp136
+demp137
 </title>
 <style>
 
@@ -12398,6 +12398,7 @@ function stage12BuildSegments() {
     // Notes at the same tick form one onset group.
     for (const note of scoreData) {
         const tick = Number(note.start);
+
         if (!Number.isFinite(tick) ||
             !Number.isFinite(Number(note.midi))) {
             continue;
@@ -12406,6 +12407,7 @@ function stage12BuildSegments() {
         if (!notesByTick.has(tick)) {
             notesByTick.set(tick, []);
         }
+
         notesByTick.get(tick).push(note);
     }
 
@@ -12421,20 +12423,6 @@ function stage12BuildSegments() {
 
     const segments = [];
     let current = null;
-
-    function addGroupData(segment, group) {
-        segment.onsetGroupCount++;
-        segment.noteCount += group.notes.length;
-        segment.groups.push(group);
-
-        for (const pc of group.pitchClasses) {
-            segment.pitchClasses.add(pc);
-        }
-
-        for (const note of group.notes) {
-            segment.pcCounts[getPitchClass(note)]++;
-        }
-    }
 
     function createSegment(groups, candidates) {
         const firstGroup = groups[0];
@@ -12496,28 +12484,23 @@ function stage12BuildSegments() {
         }));
     }
 
-    // Find a measure boundary inside the overlap interval.
-    // This assumes measure boundaries are multiples of ticksPerMeasure.
+    // Find the latest quarter-note boundary in the interval.
     function findBeatBoundary(startTick, endTick) {
-    const ticksPerBeat = ticksPerQuarterNote;
+        const ticksPerBeat = ticksPerQuarterNote;
 
-    const first = Math.ceil(startTick / ticksPerBeat);
-    const last = Math.floor(endTick / ticksPerBeat);
+        const first = Math.ceil(startTick / ticksPerBeat);
+        const last = Math.floor(endTick / ticksPerBeat);
 
-    if (first > last) return null;
+        if (first > last) return null;
 
-    return last * ticksPerBeat;
+        return last * ticksPerBeat;
     }
 
-    // Find the earliest suffix of the old segment that is compatible
-    // with the new scale candidates.
-    function createNewSegmentWithOverlap(oldSegment, triggerGroup) {
+    function createNewSegment(oldSegment, triggerGroup) {
         const triggerCandidates = allCandidates.filter(candidate =>
             groupFitsCandidate(candidate, triggerGroup)
         );
 
-        // If the trigger group cannot identify any candidate,
-        // start the new segment at the trigger group.
         if (triggerCandidates.length === 0) {
             return startSegment(triggerGroup);
         }
@@ -12525,8 +12508,7 @@ function stage12BuildSegments() {
         let candidates = triggerCandidates;
         let startIndex = oldSegment.groups.length;
 
-        // Search backward from the old segment's end.
-        // Stop when adding an earlier group eliminates every candidate.
+        // Find the earliest compatible suffix of the old segment.
         for (let i = oldSegment.groups.length - 1; i >= 0; i--) {
             const nextCandidates = candidates.filter(candidate =>
                 groupFitsCandidate(candidate, oldSegment.groups[i])
@@ -12540,40 +12522,76 @@ function stage12BuildSegments() {
             startIndex = i;
         }
 
-        const overlappingGroups = oldSegment.groups
-            .slice(startIndex)
-            .concat(triggerGroup);
+        // The last group outside the new scale determines
+        // the beginning of the transition interval.
+        let startTriggerGroup = null;
 
-        const newSegment = createSegment(
-            overlappingGroups,
-            candidates
-        );
+        if (startIndex > 0) {
+            startTriggerGroup = oldSegment.groups[startIndex - 1];
+        }
 
-        // The overlap starts at the first group included in the new segment.
-        // If a measure boundary exists before the old scale ends,
-        // record it as the estimated modulation position.
-        newSegment.modulationTick = findBeatBoundary(
-            newSegment.startTick,
+        const transitionStartTick = startTriggerGroup
+            ? startTriggerGroup.tick
+            : triggerGroup.tick;
+
+        // Select the latest beat boundary between the two triggers.
+        let boundaryTick = findBeatBoundary(
+            transitionStartTick,
             triggerGroup.tick
         );
 
-        // Use the estimated modulation position as the new segment start.
-        if (newSegment.modulationTick !== null) {
-            newSegment.startTick = newSegment.modulationTick;
-            oldSegment.endTick = newSegment.modulationTick;
+        // If no beat boundary exists, use the first compatible onset.
+        if (boundaryTick === null) {
+            boundaryTick = startIndex < oldSegment.groups.length
+                ? oldSegment.groups[startIndex].tick
+                : triggerGroup.tick;
         }
 
-        // Store the note group that determines the new segment start.
-        if (startIndex > 0) {
-            const triggerGroup = oldSegment.groups[startIndex - 1];
+        // Split the old segment at the selected boundary.
+        const oldGroups = oldSegment.groups.filter(group =>
+            group.tick < boundaryTick
+        );
 
-            newSegment.startTriggerTick = triggerGroup.tick;
+        const newGroups = oldSegment.groups.filter(group =>
+            group.tick >= boundaryTick
+        );
 
-            newSegment.startTrigger = triggerGroup.notes
+        newGroups.push(triggerGroup);
+
+        // Rebuild the old segment data without duplicated notes.
+        if (oldGroups.length > 0) {
+            const rebuiltOld = createSegment(
+                oldGroups,
+                oldSegment.candidates
+            );
+
+            const originalStartTick = oldSegment.startTick;
+            const endTrigger = oldSegment.endTrigger;
+            const endTriggerTick = oldSegment.endTriggerTick;
+
+            Object.assign(oldSegment, rebuiltOld);
+
+            oldSegment.startTick = originalStartTick;
+            oldSegment.endTick = boundaryTick;
+            oldSegment.endTrigger = endTrigger;
+            oldSegment.endTriggerTick = endTriggerTick;
+        }
+
+        // Create the new segment using only notes at or after the boundary.
+        const newSegment = createSegment(newGroups, candidates);
+
+        newSegment.startTick = boundaryTick;
+        newSegment.modulationTick = boundaryTick;
+
+        // Store the actual start trigger.
+        if (startTriggerGroup) {
+            newSegment.startTriggerTick = startTriggerGroup.tick;
+
+            newSegment.startTrigger = startTriggerGroup.notes
                 .filter(note => {
                     const pc = getPitchClass(note);
 
-                    return newSegment.candidates.every(candidate =>
+                    return candidates.every(candidate =>
                         !candidate.pitchClassSet.has(pc)
                     );
                 })
@@ -12598,19 +12616,30 @@ function stage12BuildSegments() {
         );
 
         if (current.unresolved || nextCandidates.length === 0) {
-            // The old scale ends at the current trigger group.
             closeSegment(current, group);
-            segments.push(current);
 
-            // Start the new scale earlier if the preceding groups
-            // are compatible with the new scale candidates.
-            current = createNewSegmentWithOverlap(current, group);
+            current = createNewSegment(current, group);
+            segments.push(current === null ? null : null);
+
+            // The previous segment has already been split.
+            // Keep the old segment before the new one.
+            // (The old segment is stored below.)
             continue;
         }
 
-        // Continue the current segment.
         current.candidates = nextCandidates;
-        addGroupData(current, group);
+
+        current.onsetGroupCount++;
+        current.noteCount += group.notes.length;
+        current.groups.push(group);
+
+        for (const pc of group.pitchClasses) {
+            current.pitchClasses.add(pc);
+        }
+
+        for (const note of group.notes) {
+            current.pcCounts[getPitchClass(note)]++;
+        }
     }
 
     if (current) {
