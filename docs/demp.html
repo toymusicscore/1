@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp132
+demp133
 </title>
 <style>
 
@@ -12569,6 +12569,8 @@ function stage12BuildSegments() {
         if (startIndex > 0) {
             const triggerGroup = oldSegment.groups[startIndex - 1];
 
+            newSegment.startTriggerTick = triggerGroup.tick;
+
             newSegment.startTrigger = triggerGroup.notes.map(note => ({
                 midi: Number(note.midi),
                 track: note.track,
@@ -12622,9 +12624,16 @@ function stage12BuildSegments() {
 }
 
 function stage12FormatStartTrigger(segment) {
-    if (!segment.startTrigger) return "Start of song";
+    if (!segment.startTrigger || segment.startTrigger.length === 0) {
+        return "Start of song";
+    }
 
-    return segment.startTrigger.map(note => {
+    const tick = segment.startTriggerTick;
+    const position = Number.isFinite(tick)
+        ? (tick / ticksPerMeasure).toFixed(2)
+        : "";
+
+    const notes = segment.startTrigger.map(note => {
         const midi = note.midi;
         const pc = ((midi % 12) + 12) % 12;
         const octave = Math.floor(midi / 12) - 1;
@@ -12636,12 +12645,21 @@ function stage12FormatStartTrigger(segment) {
 
         return name + (hand ? " (" + hand + ")" : "");
     }).join(", ");
+
+    return (position ? position + ": " : "") + notes;
 }
 
 function stage12FormatEndTrigger(segment) {
-    if (!segment.endTrigger) return "End of song";
+    if (!segment.endTrigger || segment.endTrigger.length === 0) {
+        return "End of song";
+    }
 
-    return segment.endTrigger.map(note => {
+    const tick = segment.endTriggerTick;
+    const position = Number.isFinite(tick)
+        ? (tick / ticksPerMeasure).toFixed(2)
+        : "";
+
+    const notes = segment.endTrigger.map(note => {
         const midi = note.midi;
         const pc = ((midi % 12) + 12) % 12;
         const octave = Math.floor(midi / 12) - 1;
@@ -12653,8 +12671,9 @@ function stage12FormatEndTrigger(segment) {
 
         return name + (hand ? " (" + hand + ")" : "");
     }).join(", ");
-}
 
+    return (position ? position + ": " : "") + notes;
+}
 
 function stage12EvaluateSegment(segment) {
     const keyMap = new Map();
