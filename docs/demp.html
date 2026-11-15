@@ -12534,6 +12534,9 @@ function stage12BuildSegments() {
             ? startTriggerGroup.tick
             : triggerGroup.tick;
 
+        // Save the start trigger before splitting the old segment.
+        const savedStartTriggerGroup = startTriggerGroup;
+
         // Select the latest beat boundary between the two triggers.
         let boundaryTick = findBeatBoundary(
             transitionStartTick,
@@ -12583,7 +12586,25 @@ function stage12BuildSegments() {
         newSegment.startTick = boundaryTick;
         newSegment.modulationTick = boundaryTick;
 
-// Store the last group outside the new scale.
+// Store the actual start trigger.
+if (savedStartTriggerGroup) {
+    newSegment.startTriggerTick = savedStartTriggerGroup.tick;
+
+    newSegment.startTrigger = savedStartTriggerGroup.notes
+        .filter(note => {
+            const pc = getPitchClass(note);
+
+            return candidates.every(candidate =>
+                !candidate.pitchClassSet.has(pc)
+            );
+        })
+        .map(note => ({
+            midi: Number(note.midi),
+            track: note.track,
+            channel: note.channel
+        }));
+}
+/*
 if (startIndex > 0 && oldSegment.groups[startIndex - 1]) {
     const triggerGroup = oldSegment.groups[startIndex - 1];
 
@@ -12603,7 +12624,7 @@ if (startIndex > 0 && oldSegment.groups[startIndex - 1]) {
             channel: note.channel
         }));
 }
-/*
+
         // Store the actual start trigger.
         if (startTriggerGroup) {
             newSegment.startTriggerTick = startTriggerGroup.tick;
