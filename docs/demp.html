@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp128
+demp129
 </title>
 <style>
 
@@ -12379,6 +12379,231 @@ function stage12KeyName(root, mode) {
     return mode === "minor" ? rootName + "m" : rootName + "M";
 }
 
+
+function stage12BuildSegments() {
+    const allCandidates = buildStage12ScaleCandidates();
+    const notesByTick = new Map();
+
+    function groupFitsCandidate(candidate, group) {
+        return group.pitchClasses.every(pitchClass =>
+            candidate.pitchClassSet.has(pitchClass)
+        );
+    }
+
+    function getPitchClass(note) {
+        return ((Number(note.midi) % 12) + 12) % 12;
+    }
+
+    // Merge both hands and all tracks.
+    // Notes at the same tick form one onset group.
+    for (const note of scoreData) {
+        const tick = Number(note.start);
+        if (!Number.isFinite(tick) ||
+            !Number.isFinite(Number(note.midi))) {
+            continue;
+        }
+
+        if (!notesByTick.has(tick)) {
+            notesByTick.set(tick, []);
+        }
+        notesByTick.get(tick).push(note);
+    }
+
+    const onsetGroups = Array.from(notesByTick.entries())
+        .map(([tick, notes]) => ({
+            tick,
+            notes,
+            pitchClasses: Array.from(new Set(
+                notes.map(getPitchClass)
+            ))
+        }))
+        .sort((a, b) => a.tick - b.tick);
+
+    const segments = [];
+    let current = null;
+
+    function addGroupData(segment, group) {
+        segment.onsetGroupCount++;
+        segment.noteCount += group.notes.length;
+        segment.groups.push(group);
+
+        for (const pc of group.pitchClasses) {
+            segment.pitchClasses.add(pc);
+        }
+
+        for (const note of group.notes) {
+            segment.pcCounts[getPitchClass(note)]++;
+        }
+    }
+
+    function createSegment(groups, candidates) {
+        const firstGroup = groups[0];
+        const counts = new Array(12).fill(0);
+        const pitchClasses = new Set();
+
+        let noteCount = 0;
+
+        for (const group of groups) {
+            noteCount += group.notes.length;
+
+            for (const pc of group.pitchClasses) {
+                pitchClasses.add(pc);
+            }
+
+            for (const note of group.notes) {
+                counts[getPitchClass(note)]++;
+            }
+        }
+
+        return {
+            startTick: firstGroup.tick,
+            endTick: null,
+            onsetGroupCount: groups.length,
+            noteCount,
+            pitchClasses,
+            pcCounts: counts,
+            candidates,
+            unresolved: candidates.length === 0,
+            groups: groups.slice(),
+            endTrigger: [],
+            modulationTick: null
+        };
+    }
+
+    function startSegment(group) {
+        const candidates = allCandidates.filter(candidate =>
+            groupFitsCandidate(candidate, group)
+        );
+
+        return createSegment([group], candidates);
+    }
+
+    function closeSegment(segment, group) {
+        segment.endTick = group.tick;
+
+        // Show notes outside every surviving candidate scale.
+        segment.endTrigger = group.notes.filter(note => {
+            const pc = getPitchClass(note);
+
+            return segment.candidates.every(candidate =>
+                !candidate.pitchClassSet.has(pc)
+            );
+        }).map(note => ({
+            midi: Number(note.midi),
+            track: note.track,
+            channel: note.channel
+        }));
+    }
+
+    // Find a measure boundary inside the overlap interval.
+    // This assumes measure boundaries are multiples of ticksPerMeasure.
+    function findMeasureBoundary(startTick, endTick) {
+        const measureTicks = Number(ticksPerMeasure);
+
+        if (!Number.isFinite(measureTicks) || measureTicks <= 0) {
+            return null;
+        }
+
+        const boundaryIndex = Math.ceil(startTick / measureTicks);
+        const boundaryTick = boundaryIndex * measureTicks;
+
+        return boundaryTick <= endTick ? boundaryTick : null;
+    }
+
+    // Find the earliest suffix of the old segment that is compatible
+    // with the new scale candidates.
+    function createNewSegmentWithOverlap(oldSegment, triggerGroup) {
+        const triggerCandidates = allCandidates.filter(candidate =>
+            groupFitsCandidate(candidate, triggerGroup)
+        );
+
+        // If the trigger group cannot identify any candidate,
+        // start the new segment at the trigger group.
+        if (triggerCandidates.length === 0) {
+            return startSegment(triggerGroup);
+        }
+
+        let candidates = triggerCandidates;
+        let startIndex = oldSegment.groups.length;
+
+        // Search backward from the old segment's end.
+        // Stop when adding an earlier group eliminates every candidate.
+        for (let i = oldSegment.groups.length - 1; i >= 0; i--) {
+            const nextCandidates = candidates.filter(candidate =>
+                groupFitsCandidate(candidate, oldSegment.groups[i])
+            );
+
+            if (nextCandidates.length === 0) {
+                break;
+            }
+
+            candidates = nextCandidates;
+            startIndex = i;
+        }
+
+        const overlappingGroups = oldSegment.groups
+            .slice(startIndex)
+            .concat(triggerGroup);
+
+        const newSegment = createSegment(
+            overlappingGroups,
+            candidates
+        );
+
+        // The overlap starts at the first group included in the new segment.
+        // If a measure boundary exists before the old scale ends,
+        // record it as the estimated modulation position.
+        newSegment.modulationTick = findMeasureBoundary(
+            newSegment.startTick,
+            triggerGroup.tick
+        );
+
+        return newSegment;
+    }
+
+    for (const group of onsetGroups) {
+        if (!current) {
+            current = startSegment(group);
+            continue;
+        }
+
+        const nextCandidates = current.candidates.filter(candidate =>
+            groupFitsCandidate(candidate, group)
+        );
+
+        if (current.unresolved || nextCandidates.length === 0) {
+            // The old scale ends at the current trigger group.
+            closeSegment(current, group);
+            segments.push(current);
+
+            // Start the new scale earlier if the preceding groups
+            // are compatible with the new scale candidates.
+            current = createNewSegmentWithOverlap(current, group);
+            continue;
+        }
+
+        // Continue the current segment.
+        current.candidates = nextCandidates;
+        addGroupData(current, group);
+    }
+
+    if (current) {
+        const lastTick = onsetGroups.length
+            ? onsetGroups[onsetGroups.length - 1].tick
+            : current.startTick;
+
+        current.endTick = Math.max(
+            lastTick + 1,
+            current.startTick + 1
+        );
+
+        segments.push(current);
+    }
+
+    return segments;
+}
+
+/*
 function stage12BuildSegments() {
     const allCandidates = buildStage12ScaleCandidates();
     const notesByTick = new Map();
@@ -12514,6 +12739,7 @@ function stage12BuildSegments() {
 
     return segments;
 }
+*/
 
 function stage12FormatEndTrigger(segment) {
     if (!segment.endTrigger) return "End of song";
