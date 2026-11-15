@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp131
+demp132
 </title>
 <style>
 
@@ -12481,8 +12481,8 @@ function stage12BuildSegments() {
 
     function closeSegment(segment, group) {
         segment.endTick = group.tick;
+        segment.endTriggerTick = group.tick;
 
-        // Show notes outside every surviving candidate scale.
         segment.endTrigger = group.notes.filter(note => {
             const pc = getPitchClass(note);
 
