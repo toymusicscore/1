@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp135
+demp136
 </title>
 <style>
 
@@ -12498,17 +12498,15 @@ function stage12BuildSegments() {
 
     // Find a measure boundary inside the overlap interval.
     // This assumes measure boundaries are multiples of ticksPerMeasure.
-    function findMeasureBoundary(startTick, endTick) {
-        const measureTicks = Number(ticksPerMeasure);
+    function findBeatBoundary(startTick, endTick) {
+    const ticksPerBeat = ticksPerQuarterNote;
 
-        if (!Number.isFinite(measureTicks) || measureTicks <= 0) {
-            return null;
-        }
+    const first = Math.ceil(startTick / ticksPerBeat);
+    const last = Math.floor(endTick / ticksPerBeat);
 
-        const boundaryIndex = Math.ceil(startTick / measureTicks);
-        const boundaryTick = boundaryIndex * measureTicks;
+    if (first > last) return null;
 
-        return boundaryTick <= endTick ? boundaryTick : null;
+    return last * ticksPerBeat;
     }
 
     // Find the earliest suffix of the old segment that is compatible
@@ -12554,7 +12552,7 @@ function stage12BuildSegments() {
         // The overlap starts at the first group included in the new segment.
         // If a measure boundary exists before the old scale ends,
         // record it as the estimated modulation position.
-        newSegment.modulationTick = findMeasureBoundary(
+        newSegment.modulationTick = findBeatBoundary(
             newSegment.startTick,
             triggerGroup.tick
         );
