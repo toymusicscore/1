@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp130
+demp131
 </title>
 <style>
 
@@ -12558,6 +12558,12 @@ function stage12BuildSegments() {
             newSegment.startTick,
             triggerGroup.tick
         );
+
+        // Use the estimated modulation position as the new segment start.
+        if (newSegment.modulationTick !== null) {
+            newSegment.startTick = newSegment.modulationTick;
+            oldSegment.endTick = newSegment.modulationTick;
+        }
 
         // Store the note group that determines the new segment start.
         if (startIndex > 0) {
