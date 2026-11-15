@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp137
+demp138
 </title>
 <style>
 
@@ -12618,12 +12618,12 @@ function stage12BuildSegments() {
         if (current.unresolved || nextCandidates.length === 0) {
             closeSegment(current, group);
 
-            current = createNewSegment(current, group);
-            segments.push(current === null ? null : null);
+            const oldSegment = current;
+            const newSegment = createNewSegment(oldSegment, group);
 
-            // The previous segment has already been split.
-            // Keep the old segment before the new one.
-            // (The old segment is stored below.)
+            segments.push(oldSegment);
+            current = newSegment;
+
             continue;
         }
 
