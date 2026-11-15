@@ -12585,6 +12585,12 @@ function stage12BuildSegments() {
 
         newSegment.startTick = boundaryTick;
         newSegment.modulationTick = boundaryTick;
+console.log("Start Trigger Check", {
+    startIndex,
+    groupCount: oldSegment.groups.length,
+    startTriggerTick: savedStartTriggerGroup?.tick,
+    candidateCount: candidates.length
+});
 
 // Store the actual start trigger.
 if (savedStartTriggerGroup) {
@@ -12604,6 +12610,10 @@ if (savedStartTriggerGroup) {
             channel: note.channel
         }));
 }
+console.log("Start Trigger Result", {
+    tick: newSegment.startTriggerTick,
+    notes: newSegment.startTrigger
+});
 /*
 if (startIndex > 0 && oldSegment.groups[startIndex - 1]) {
     const triggerGroup = oldSegment.groups[startIndex - 1];
