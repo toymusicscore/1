@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp141
+demp142
 </title>
 <style>
 
@@ -12597,13 +12597,6 @@ if (savedStartTriggerGroup) {
     newSegment.startTriggerTick = savedStartTriggerGroup.tick;
 
     newSegment.startTrigger = savedStartTriggerGroup.notes
-        .filter(note => {
-            const pc = getPitchClass(note);
-
-            return candidates.every(candidate =>
-                !candidate.pitchClassSet.has(pc)
-            );
-        })
         .map(note => ({
             midi: Number(note.midi),
             track: note.track,
@@ -12654,12 +12647,6 @@ if (startIndex > 0 && oldSegment.groups[startIndex - 1]) {
                 }));
         }
 */
-console.log("Final Segment Triggers", segments.map((segment, index) => ({
-    segment: index + 1,
-    startTick: segment.startTick,
-    startTriggerTick: segment.startTriggerTick,
-    startTrigger: segment.startTrigger
-})));
         return newSegment;
     }
 
@@ -12712,6 +12699,12 @@ console.log("Final Segment Triggers", segments.map((segment, index) => ({
 
         segments.push(current);
     }
+console.log("Final Segment Triggers", segments.map((segment, index) => ({
+    segment: index + 1,
+    startTick: segment.startTick,
+    startTriggerTick: segment.startTriggerTick,
+    startTrigger: segment.startTrigger
+})));
 
     return segments;
 }
