@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp147
+demp148
 </title>
 <style>
 
@@ -12394,6 +12394,39 @@ function stage12BuildSegments() {
         return ((Number(note.midi) % 12) + 12) % 12;
     }
 
+    function isAmMelodicDescendingException(candidate, group, groups, index) {
+        if (
+            candidate.mode !== "minor" ||
+            candidate.type !== "M" ||
+            candidate.root !== 9
+        ) {
+            return false;
+        }
+
+        const targetPcs = [5, 7]; // F, G
+
+        // Only apply to F or G.
+        if (!group.pitchClasses.some(pc => targetPcs.includes(pc))) {
+            return false;
+        }
+
+        // Get two onset groups before and after the target.
+        if (index < 2 || index + 2 >= groups.length) {
+            return false;
+        }
+
+        const fiveGroups = groups.slice(index - 2, index + 3);
+
+        // Use the average MIDI pitch of each onset group.
+        const pitches = fiveGroups.map(g => {
+            const midis = g.notes.map(note => Number(note.midi));
+            return midis.reduce((sum, midi) => sum + midi, 0) / midis.length;
+        });
+
+        // Compare the overall direction of the five groups.
+        return pitches[4] < pitches[0];
+    }
+
     // Merge both hands and all tracks.
     // Notes at the same tick form one onset group.
     for (const note of scoreData) {
@@ -12510,8 +12543,16 @@ function stage12BuildSegments() {
 
         // Find the earliest compatible suffix of the old segment.
         for (let i = oldSegment.groups.length - 1; i >= 0; i--) {
-            const nextCandidates = candidates.filter(candidate =>
-                groupFitsCandidate(candidate, oldSegment.groups[i])
+            const groupIndex = onsetGroups.indexOf(group);
+
+            const nextCandidates = current.candidates.filter(candidate =>
+                groupFitsCandidate(candidate, group) ||
+                isAmMelodicDescendingException(
+                    candidate,
+                    group,
+                    onsetGroups,
+                    groupIndex
+                )
             );
 
             if (nextCandidates.length === 0) {
