@@ -12619,46 +12619,7 @@ console.log("Start Trigger Group Detail", {
     savedNotes: newSegment.startTrigger
 });
 
-/*
-if (startIndex > 0 && oldSegment.groups[startIndex - 1]) {
-    const triggerGroup = oldSegment.groups[startIndex - 1];
 
-    newSegment.startTriggerTick = triggerGroup.tick;
-
-    newSegment.startTrigger = triggerGroup.notes
-        .filter(note => {
-            const pc = getPitchClass(note);
-
-            return candidates.every(candidate =>
-                !candidate.pitchClassSet.has(pc)
-            );
-        })
-        .map(note => ({
-            midi: Number(note.midi),
-            track: note.track,
-            channel: note.channel
-        }));
-}
-
-        // Store the actual start trigger.
-        if (startTriggerGroup) {
-            newSegment.startTriggerTick = startTriggerGroup.tick;
-
-            newSegment.startTrigger = startTriggerGroup.notes
-                .filter(note => {
-                    const pc = getPitchClass(note);
-
-                    return candidates.every(candidate =>
-                        !candidate.pitchClassSet.has(pc)
-                    );
-                })
-                .map(note => ({
-                    midi: Number(note.midi),
-                    track: note.track,
-                    channel: note.channel
-                }));
-        }
-*/
         return newSegment;
     }
 
