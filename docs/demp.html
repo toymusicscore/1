@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp153
+demp154
 </title>
 <style>
 
@@ -12394,6 +12394,49 @@ function stage12BuildSegments() {
         return ((Number(note.midi) % 12) + 12) % 12;
     }
 
+
+function isMelodicMinorDescendingException(candidate, group, groups, index) {
+    if (
+        candidate.mode !== "minor" ||
+        candidate.type !== "M"
+    ) {
+        return false;
+    }
+
+    // Lowered 6th and 7th degrees of melodic minor.
+    const targetPcs = [
+        (candidate.root + 8) % 12,
+        (candidate.root + 10) % 12
+    ];
+
+    // Only apply to the lowered 6th or 7th.
+    if (!group.pitchClasses.some(pc => targetPcs.includes(pc))) {
+        return false;
+    }
+
+    // Get two onset groups before and after the target.
+    if (index < 2 || index + 2 >= groups.length) {
+        return false;
+    }
+
+    const fiveGroups = groups.slice(index - 2, index + 3);
+
+    // Use the average MIDI pitch of each onset group.
+    const pitches = fiveGroups.map(g => {
+        const midis = g.notes.map(note => Number(note.midi));
+        return midis.reduce((sum, midi) => sum + midi, 0) / midis.length;
+    });
+
+    // Compare the overall direction of the five groups.
+        const firstAverage = (pitches[0] + pitches[1]) / 2;
+        const lastAverage = (pitches[3] + pitches[4]) / 2;
+
+        return lastAverage < firstAverage;
+
+        //    return pitches[4] < pitches[0];
+}
+
+/*
     function isAmMelodicDescendingException(candidate, group, groups, index) {
         if (
             candidate.mode !== "minor" ||
@@ -12424,8 +12467,15 @@ function stage12BuildSegments() {
         });
 
         // Compare the overall direction of the five groups.
-        return pitches[4] < pitches[0];
+
+        const firstAverage = (pitches[0] + pitches[1]) / 2;
+        const lastAverage = (pitches[3] + pitches[4]) / 2;
+
+        return lastAverage < firstAverage;
+
+//        return pitches[4] < pitches[0];
     }
+*/
 
     // Merge both hands and all tracks.
     // Notes at the same tick form one onset group.
