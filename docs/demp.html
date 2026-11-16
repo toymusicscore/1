@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp152
+demp153
 </title>
 <style>
 
@@ -12667,7 +12667,13 @@ if (savedStartTriggerGroup) {
             track: note.track,
             channel: note.channel
         }));
+
+} else if (startIndex === 0) {
+    // Inherit the original segment's start trigger.
+    newSegment.startTrigger = oldSegment.startTrigger;
+    newSegment.startTriggerTick = oldSegment.startTriggerTick;
 }
+
 console.log("Start Trigger Result", {
     tick: newSegment.startTriggerTick,
     notes: newSegment.startTrigger
