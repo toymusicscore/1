@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp161
+demp162
 </title>
 <style>
 
@@ -12604,13 +12604,7 @@ function stage12BuildSegments() {
             const groupIndex = onsetGroups.indexOf(group);
 
             const nextCandidates = candidates.filter(candidate =>
-                groupFitsCandidate(candidate, group) ||
-                isMelodicMinorDescendingException(
-                    candidate,
-                    group,
-                    onsetGroups,
-                    groupIndex
-                )
+                groupFitsCandidate(candidate, group)
             );
 
             if (nextCandidates.length === 0) {
