@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp143
+demp144
 </title>
 <style>
 
@@ -12572,7 +12572,15 @@ function stage12BuildSegments() {
             const endTrigger = oldSegment.endTrigger;
             const endTriggerTick = oldSegment.endTriggerTick;
 
+            const originalStartTrigger = oldSegment.startTrigger;
+            const originalStartTriggerTick = oldSegment.startTriggerTick;
+            const originalModulationTick = oldSegment.modulationTick;
+
             Object.assign(oldSegment, rebuiltOld);
+
+            oldSegment.startTrigger = originalStartTrigger;
+            oldSegment.startTriggerTick = originalStartTriggerTick;
+            oldSegment.modulationTick = originalModulationTick;
 
             oldSegment.startTick = originalStartTick;
             oldSegment.endTick = boundaryTick;
