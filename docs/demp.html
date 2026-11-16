@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp154
+demp155
 </title>
 <style>
 
@@ -12436,46 +12436,117 @@ function isMelodicMinorDescendingException(candidate, group, groups, index) {
         //    return pitches[4] < pitches[0];
 }
 
-/*
-    function isAmMelodicDescendingException(candidate, group, groups, index) {
-        if (
-            candidate.mode !== "minor" ||
-            candidate.type !== "M" ||
-            candidate.root !== 9
-        ) {
-            return false;
-        }
 
-        const targetPcs = [5, 7]; // F, G
-
-        // Only apply to F or G.
-        if (!group.pitchClasses.some(pc => targetPcs.includes(pc))) {
-            return false;
-        }
-
-        // Get two onset groups before and after the target.
-        if (index < 2 || index + 2 >= groups.length) {
-            return false;
-        }
-
-        const fiveGroups = groups.slice(index - 2, index + 3);
-
-        // Use the average MIDI pitch of each onset group.
-        const pitches = fiveGroups.map(g => {
-            const midis = g.notes.map(note => Number(note.midi));
-            return midis.reduce((sum, midi) => sum + midi, 0) / midis.length;
-        });
-
-        // Compare the overall direction of the five groups.
-
-        const firstAverage = (pitches[0] + pitches[1]) / 2;
-        const lastAverage = (pitches[3] + pitches[4]) / 2;
-
-        return lastAverage < firstAverage;
-
-//        return pitches[4] < pitches[0];
+function isMelodicMinorDescendingException(candidate, group, groups, index) {
+    if (
+        candidate.mode !== "minor" ||
+        candidate.type !== "M"
+    ) {
+        return false;
     }
-*/
+
+    // Lowered 6th and 7th degrees of melodic minor.
+    const targetPcs = [
+        (candidate.root + 8) % 12,
+        (candidate.root + 10) % 12
+    ];
+
+    // Find target notes in the current onset group.
+    const targetNotes = group.notes.filter(note =>
+        targetPcs.includes(getPitchClass(note))
+    );
+
+    if (targetNotes.length === 0) {
+        return false;
+    }
+
+    // Evaluate each track containing a target note.
+    const targetTracks = [...new Set(
+        targetNotes.map(note => note.track)
+    )];
+
+    for (const track of targetTracks) {
+        const trackTargetNotes = targetNotes.filter(
+            note => note.track === track
+        );
+
+        const targetAverage =
+            trackTargetNotes.reduce(
+                (sum, note) => sum + Number(note.midi), 0
+            ) / trackTargetNotes.length;
+
+        // Collect up to two preceding groups on the same track.
+        const before = [];
+
+        for (let i = index - 1; i >= 0 && before.length < 2; i--) {
+            const trackNotes = groups[i].notes.filter(
+                note => note.track === track
+            );
+
+            if (trackNotes.length > 0) {
+                before.push(
+                    trackNotes.reduce(
+                        (sum, note) => sum + Number(note.midi), 0
+                    ) / trackNotes.length
+                );
+            }
+        }
+
+        // Collect up to two following groups on the same track.
+        const after = [];
+
+        for (let i = index + 1; i < groups.length && after.length < 2; i++) {
+            const trackNotes = groups[i].notes.filter(
+                note => note.track === track
+            );
+
+            if (trackNotes.length > 0) {
+                after.push(
+                    trackNotes.reduce(
+                        (sum, note) => sum + Number(note.midi), 0
+                    ) / trackNotes.length
+                );
+            }
+        }
+
+        // No direction can be determined.
+        if (before.length === 0 && after.length === 0) {
+            continue;
+        }
+
+        let isDescending = false;
+
+        if (before.length > 0 && after.length > 0) {
+            const beforeAverage =
+                before.reduce((sum, pitch) => sum + pitch, 0) / before.length;
+
+            const afterAverage =
+                after.reduce((sum, pitch) => sum + pitch, 0) / after.length;
+
+            isDescending = afterAverage < beforeAverage;
+
+        } else if (before.length > 0) {
+            const beforeAverage =
+                before.reduce((sum, pitch) => sum + pitch, 0) / before.length;
+
+            isDescending = targetAverage < beforeAverage;
+
+        } else {
+            const afterAverage =
+                after.reduce((sum, pitch) => sum + pitch, 0) / after.length;
+
+            isDescending = afterAverage < targetAverage;
+        }
+
+        if (isDescending) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
 
     // Merge both hands and all tracks.
     // Notes at the same tick form one onset group.
@@ -12598,7 +12669,7 @@ function isMelodicMinorDescendingException(candidate, group, groups, index) {
 
             const nextCandidates = candidates.filter(candidate =>
                 groupFitsCandidate(candidate, group) ||
-                isAmMelodicDescendingException(
+                isMelodicMinorDescendingException(
                     candidate,
                     group,
                     onsetGroups,
