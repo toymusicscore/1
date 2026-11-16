@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp142
+demp143
 </title>
 <style>
 
@@ -12536,6 +12536,7 @@ function stage12BuildSegments() {
 
         // Save the start trigger before splitting the old segment.
         const savedStartTriggerGroup = startTriggerGroup;
+console.log("Saved Start Trigger", newSegment.startTrigger);
 
         // Select the latest beat boundary between the two triggers.
         let boundaryTick = findBeatBoundary(
@@ -12607,6 +12608,18 @@ console.log("Start Trigger Result", {
     tick: newSegment.startTriggerTick,
     notes: newSegment.startTrigger
 });
+
+console.log("Start Trigger Group Detail", {
+    startIndex,
+    triggerTick: savedStartTriggerGroup?.tick,
+    triggerNotes: savedStartTriggerGroup?.notes?.map(note => ({
+        midi: note.midi,
+        track: note.track,
+        channel: note.channel
+    })),
+    savedNotes: newSegment.startTrigger
+});
+
 /*
 if (startIndex > 0 && oldSegment.groups[startIndex - 1]) {
     const triggerGroup = oldSegment.groups[startIndex - 1];
