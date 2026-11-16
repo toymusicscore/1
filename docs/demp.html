@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp155
+demp156
 </title>
 <style>
 
@@ -12810,7 +12810,17 @@ console.log("Start Trigger Group Detail", {
     })),
     savedNotes: newSegment.startTrigger
 });
-
+console.log("Melodic exception check", {
+    candidate: candidate.name,
+    tick: group.tick,
+    pitchClasses: group.pitchClasses,
+    result: isMelodicMinorDescendingException(
+        candidate,
+        group,
+        onsetGroups,
+        groupIndex
+    )
+});
 
         return newSegment;
     }
