@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp160
+demp161
 </title>
 <style>
 
@@ -12755,8 +12755,16 @@ console.log("Start Trigger Group Detail", {
             continue;
         }
 
+        const groupIndex = onsetGroups.indexOf(group);
+
         const nextCandidates = current.candidates.filter(candidate =>
-            groupFitsCandidate(candidate, group)
+            groupFitsCandidate(candidate, group) ||
+            isMelodicMinorDescendingException(
+                candidate,
+                group,
+                onsetGroups,
+                groupIndex
+            )
         );
 
         if (current.unresolved || nextCandidates.length === 0) {
