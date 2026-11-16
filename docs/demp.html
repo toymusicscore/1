@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp144
+demp145
 </title>
 <style>
 
@@ -12605,6 +12605,11 @@ if (savedStartTriggerGroup) {
     newSegment.startTriggerTick = savedStartTriggerGroup.tick;
 
     newSegment.startTrigger = savedStartTriggerGroup.notes
+        .filter(note =>
+            !candidates.some(candidate =>
+                groupFitsCandidate(candidate, { notes: [note] })
+            )
+        )
         .map(note => ({
             midi: Number(note.midi),
             track: note.track,
