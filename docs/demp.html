@@ -12872,9 +12872,9 @@ function keyEstimationStage12() {
     ctx.fillText("Segment", 12, headerY);
     ctx.fillText("Bar range", 90, headerY);
     ctx.fillText("Start trigger", 190, headerY);
-    ctx.fillText("End trigger", 290, headerY);
-    ctx.fillText("Onset groups", 440, headerY);
-    ctx.fillText("Stage 1: surviving scale candidates", 560, headerY);
+    ctx.fillText("End trigger", 390, headerY);
+    ctx.fillText("Onset groups", 490, headerY);
+    ctx.fillText("Stage 1: surviving scale candidates", 590, headerY);
     ctx.fillText("Stage 2: tonic + fifth counts", 1110, headerY);
 
     for (let i = 0; i < segments.length; i++) {
@@ -12896,15 +12896,15 @@ function keyEstimationStage12() {
         );
         ctx.fillText(
             stage12FormatEndTrigger(segment),
-            290,
+            390,
             y
         );
-        ctx.fillText(String(segment.onsetGroupCount), 455, y);
+        ctx.fillText(String(segment.onsetGroupCount), 490, y);
 
         const candidateText = segment.unresolved
             ? "No 7-note candidate fits this simultaneous onset group"
             : result.scaleLabels.join(", ");
-        ctx.fillText(candidateText, 560, y, 770);
+        ctx.fillText(candidateText, 590, y, 770);
 
         let scoreText = "";
         if (segment.unresolved) {
