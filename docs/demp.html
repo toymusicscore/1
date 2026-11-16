@@ -12809,13 +12809,6 @@ console.log("Final Segment Triggers", segments.map((segment, index) => ({
     startTriggerTick: segment.startTriggerTick,
     startTrigger: segment.startTrigger
 })));
-console.log("Segment 9 Evaluation", {
-    startTick: segment.startTick,
-    endTick: segment.endTick,
-    pitchClasses: [...segment.pitchClasses],
-    pcCounts: segment.pcCounts,
-    candidates: segment.candidates
-});
 
     return segments;
 }
@@ -12873,7 +12866,15 @@ function stage12FormatEndTrigger(segment) {
 }
 
 function stage12EvaluateSegment(segment) {
-    const keyMap = new Map();
+console.log("Segment 9 Evaluation", {
+    startTick: segment.startTick,
+    endTick: segment.endTick,
+    pitchClasses: [...segment.pitchClasses],
+    pcCounts: segment.pcCounts,
+    candidates: segment.candidates
+});
+
+const keyMap = new Map();
 
     for (const scale of segment.candidates) {
         const id = scale.mode + ":" + scale.root;
