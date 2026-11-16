@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp150
+demp151
 </title>
 <style>
 
@@ -12538,10 +12538,6 @@ function stage12BuildSegments() {
             return startSegment(triggerGroup);
         }
 
-        if (oldGroups.length === 0) {
-            oldSegment.groups = [];
-        }
-
         let candidates = triggerCandidates;
         let startIndex = oldSegment.groups.length;
 
@@ -12604,6 +12600,10 @@ function stage12BuildSegments() {
         const newGroups = oldSegment.groups.filter(group =>
             group.tick >= boundaryTick
         );
+
+        if (oldGroups.length === 0) {
+            oldSegment.groups = [];
+        }
 
         newGroups.push(triggerGroup);
 
