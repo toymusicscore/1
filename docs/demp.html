@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp146
+demp147
 </title>
 <style>
 
@@ -12872,12 +12872,12 @@ function keyEstimationStage12() {
     const headerY = 148;
     ctx.font = "bold 12px Arial";
     ctx.fillText("Segment", 12, headerY);
-    ctx.fillText("Bar range", 90, headerY);
-    ctx.fillText("Start trigger", 190, headerY);
-    ctx.fillText("End trigger", 390, headerY);
-    ctx.fillText("Onset groups", 490, headerY);
-    ctx.fillText("Stage 1: surviving scale candidates", 590, headerY);
-    ctx.fillText("Stage 2: tonic + fifth counts", 1110, headerY);
+    ctx.fillText("Bar range", 100, headerY);
+    ctx.fillText("Start trigger", 200, headerY);
+    ctx.fillText("End trigger", 400, headerY);
+    ctx.fillText("Onset groups", 600, headerY);
+    ctx.fillText("Stage 1: surviving scale candidates", 700, headerY);
+    ctx.fillText("Stage 2: tonic + fifth counts", 1000, headerY);
 
     for (let i = 0; i < segments.length; i++) {
         const segment = segments[i];
@@ -12890,23 +12890,23 @@ function keyEstimationStage12() {
         ctx.font = "12px Arial";
         ctx.fillStyle = "black";
         ctx.fillText(String(i + 1), 20, y);
-        ctx.fillText(barText, 90, y);
+        ctx.fillText(barText, 100, y);
         ctx.fillText(
             stage12FormatStartTrigger(segment),
-            190,
+            200,
             y
         );
         ctx.fillText(
             stage12FormatEndTrigger(segment),
-            390,
+            400,
             y
         );
-        ctx.fillText(String(segment.onsetGroupCount), 490, y);
+        ctx.fillText(String(segment.onsetGroupCount), 600, y);
 
         const candidateText = segment.unresolved
             ? "No 7-note candidate fits this simultaneous onset group"
             : result.scaleLabels.join(", ");
-        ctx.fillText(candidateText, 590, y, 770);
+        ctx.fillText(candidateText, 700, y, 770);
 
         let scoreText = "";
         if (segment.unresolved) {
@@ -12924,7 +12924,7 @@ function keyEstimationStage12() {
                 scoreText += "  → Tie / hold";
             }
         }
-        ctx.fillText(scoreText, 1110, y, 675);
+        ctx.fillText(scoreText, 1000, y, 675);
 
         ctx.strokeStyle = "#dddddd";
         ctx.beginPath();
