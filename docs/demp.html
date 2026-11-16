@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp151
+demp152
 </title>
 <style>
 
@@ -12642,6 +12642,10 @@ function stage12BuildSegments() {
 console.log("Start Trigger Check", {
     startIndex,
     groupCount: oldSegment.groups.length,
+    firstGroupTick: oldSegment.groups[0]?.tick,
+    lastGroupTick: oldSegment.groups[oldSegment.groups.length - 1]?.tick,
+    triggerTick: triggerGroup.tick,
+    boundaryTick,
     startTriggerTick: savedStartTriggerGroup?.tick,
     candidateCount: candidates.length
 });
