@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp145
+demp146
 </title>
 <style>
 
@@ -12605,11 +12605,13 @@ if (savedStartTriggerGroup) {
     newSegment.startTriggerTick = savedStartTriggerGroup.tick;
 
     newSegment.startTrigger = savedStartTriggerGroup.notes
-        .filter(note =>
-            !candidates.some(candidate =>
-                groupFitsCandidate(candidate, { notes: [note] })
-            )
-        )
+        .filter(note => {
+            const pitchClass = Number(note.midi) % 12;
+
+            return !candidates.some(candidate =>
+                candidate.pitchClassSet.has(pitchClass)
+            );
+        })
         .map(note => ({
             midi: Number(note.midi),
             track: note.track,
@@ -12909,7 +12911,7 @@ function keyEstimationStage12() {
         let scoreText = "";
         if (segment.unresolved) {
             scoreText = "Unresolved scale group";
-        } else if (result.keyCandidates.length === 0) {
+        } else if (result.keyCandidates.length === 0) {groupFitsCandidate
             scoreText = "No key candidate";
         } else {
             scoreText = result.keyCandidates.slice(0, 7).map(item =>
