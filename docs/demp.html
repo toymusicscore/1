@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp164
+demp165
 </title>
 <style>
 
@@ -12484,6 +12484,66 @@ function stage12BuildSegments() {
         return false;
     }
 
+    // Check whether both raised 6th and raised 7th
+    // occur within the candidate's continuous segment.
+    function hasMelodicMinorEvidenceInCandidateRun(
+        candidate,
+        currentGroups,
+        group,
+        groups,
+        index
+    ) {
+        if (
+            candidate.mode !== "minor" ||
+            candidate.type !== "M"
+        ) {
+            return false;
+        }
+
+        const raised6th = (candidate.root + 9) % 12;
+        const raised7th = (candidate.root + 11) % 12;
+
+        // Include the groups already accepted in the current segment
+        // and the group currently being evaluated.
+        const candidateRunGroups = [
+            ...currentGroups,
+            group
+        ];
+
+        // Look ahead while the candidate remains compatible.
+        for (let i = index + 1; i < groups.length; i++) {
+            const futureGroup = groups[i];
+
+            const fits =
+                groupFitsCandidate(candidate, futureGroup);
+
+            const descendingException =
+                !fits &&
+                isMelodicMinorDescendingException(
+                    candidate,
+                    futureGroup,
+                    groups,
+                    i
+                );
+
+            if (!fits && !descendingException) {
+                break;
+            }
+
+            candidateRunGroups.push(futureGroup);
+        }
+
+        const hasRaised6th = candidateRunGroups.some(
+            group => group.pitchClasses.includes(raised6th)
+        );
+
+        const hasRaised7th = candidateRunGroups.some(
+            group => group.pitchClasses.includes(raised7th)
+        );
+
+        return hasRaised6th && hasRaised7th;
+    }
+
     // Merge both hands and all tracks.
     // Notes at the same tick form one onset group.
     for (const note of scoreData) {
@@ -12753,11 +12813,20 @@ console.log("Start Trigger Group Detail", {
 
         const nextCandidates = current.candidates.filter(candidate =>
             groupFitsCandidate(candidate, group) ||
-            isMelodicMinorDescendingException(
-                candidate,
-                group,
-                onsetGroups,
-                groupIndex
+            (
+                isMelodicMinorDescendingException(
+                    candidate,
+                    group,
+                    onsetGroups,
+                    groupIndex
+                ) &&
+                hasMelodicMinorEvidenceInCandidateRun(
+                    candidate,
+                    current.groups,
+                    group,
+                    onsetGroups,
+                    groupIndex
+                )
             )
         );
 
