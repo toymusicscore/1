@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp163
+demp164
 </title>
 <style>
 
@@ -12871,7 +12871,10 @@ console.log("Segment 9 Evaluation", {
     endTick: segment.endTick,
     pitchClasses: [...segment.pitchClasses],
     pcCounts: segment.pcCounts,
-    candidates: segment.candidates
+candidates: segment.candidates.map(c => ({
+    ...c,
+    pitchClassSet: [...c.pitchClassSet]
+}))
 });
 
 const keyMap = new Map();
