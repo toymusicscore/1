@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp166
+demp167
 </title>
 <style>
 
@@ -13218,14 +13218,25 @@ function keyEstimationStage12() {
                 lastDifference: trend.lastDifference
             });
 
-            console.table(trend.points.map(point => ({
-                bar: (point.tick / ticksPerMeasure + 1).toFixed(2),
-                major: point.majorMA.toFixed(3),
-                minor: point.minorMA.toFixed(3),
-                difference: point.difference.toFixed(3),
-                majorCount: point.majorCount,
-                minorCount: point.minorCount
-            })));
+            console.log(
+                "Relative Key Trend Points",
+                JSON.stringify(
+                    trend.points.map(point => ({
+                        tick: point.tick,
+                        bar: Number(
+                            (point.tick / ticksPerMeasure + 1).toFixed(2)
+                        ),
+                        majorMA: Number(point.majorMA.toFixed(3)),
+                        minorMA: Number(point.minorMA.toFixed(3)),
+                        difference: Number(point.difference.toFixed(3)),
+                        majorCount: point.majorCount,
+                        minorCount: point.minorCount
+                    })),
+                    null,
+                    2
+                )
+            );
+
         }
 
         const y = 172 + i * 42;
