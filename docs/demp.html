@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp173
+demp174
 </title>
 <style>
 
@@ -13063,7 +13063,7 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
                 majorValue,
                 minorValue,
 
-                difference: minorValue - majorValue,
+                difference: majorValue - minorValue,
 
                 majorTonicCount: beat.majorTonicCount,
                 majorFifthCount: beat.majorFifthCount,
@@ -13555,7 +13555,7 @@ function keyEstimationStage12() {
         ctx.font = "11px Arial";
 
         ctx.fillText(
-            "Difference: minor - major (percentage points)",
+            "Difference: major - minor (percentage points)",
             12,
             diffTitleY
         );
@@ -13594,8 +13594,8 @@ function keyEstimationStage12() {
             // Positive: minor tonic color.
             // Negative: major tonic color.
             ctx.fillStyle = value > 0
-                ? col[trend.minorRoot]
-                : col[trend.majorRoot];
+                ? col[trend.majorRoot]
+                : col[trend.minorRoot];
 
             if (value > 0) {
                 ctx.fillRect(
