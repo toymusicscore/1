@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp182
+demp183
 </title>
 <style>
 
@@ -13884,7 +13884,9 @@ function keyEstimationStage12() {
             ctx.setLineDash([5, 3]);
 
             ctx.beginPath();
-            ctx.moveTo(x, chartTop - 5);
+            // Start below the Difference title.
+            ctx.moveTo(x, diffTitleY + 8);
+            // Stop above the Beat / Bar labels.
             ctx.lineTo(x, diffBottom);
             ctx.stroke();
 
