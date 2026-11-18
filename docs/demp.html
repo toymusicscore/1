@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp177
+demp178
 </title>
 <style>
 
@@ -12971,6 +12971,25 @@ console.log("Start Trigger Group Detail", {
                     expandedGroups,
                     originalCandidates
                 );
+
+            console.log("Backward Expansion Details", {
+                segment: segmentIndex + 1,
+                addedTick: precedingGroup.tick,
+
+                previousCandidates: target.candidates.map(c => ({
+                    root: c.root,
+                    mode: c.mode,
+                    type: c.type
+                })),
+
+                addedNotes: precedingGroup.notes,
+
+                remainingCandidates: expandedCandidates.map(c => ({
+                    root: c.root,
+                    mode: c.mode,
+                    type: c.type
+                }))
+            });
 
             if (expandedCandidates.length === 0) {
                 console.log("Backward Expansion Stopped", {
