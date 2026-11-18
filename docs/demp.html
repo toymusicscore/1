@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp179
+demp180
 </title>
 <style>
 
@@ -12883,42 +12883,43 @@ console.log("Start Trigger Group Detail", {
     function evaluateBackwardGroups(groups, candidatePool) {
         if (groups.length === 0) return [];
 
-        let candidates = candidatePool.filter(candidate =>
-            groupFitsCandidate(candidate, groups[0])
-        );
+        const candidates = candidatePool.filter(candidate => {
 
-        const acceptedGroups = [groups[0]];
-
-        for (let i = 1; i < groups.length; i++) {
-            const group = groups[i];
-            const groupIndex = onsetGroups.indexOf(group);
-
-            const nextCandidates = candidates.filter(candidate =>
-                groupFitsCandidate(candidate, group) ||
-                (
-                    isMelodicMinorDescendingException(
-                        candidate,
-                        group,
-                        onsetGroups,
-                        groupIndex
-                    ) &&
-                    hasMelodicMinorEvidenceInCandidateRun(
-                        candidate,
-                        acceptedGroups,
-                        group,
-                        onsetGroups,
-                        groupIndex
-                    )
-                )
-            );
-
-            if (nextCandidates.length === 0) {
-                return [];
+            if (candidate.mode !== "minor" || candidate.type !== "M") {
+                return groups.every(group =>
+                    groupFitsCandidate(candidate, group)
+                );
             }
 
-            candidates = nextCandidates;
-            acceptedGroups.push(group);
-        }
+            const raised6th = (candidate.root + 9) % 12;
+            const raised7th = (candidate.root + 11) % 12;
+
+            // Check melodic-minor ascending evidence
+            // across the entire expanded segment.
+            const hasRaised6th = groups.some(group =>
+                group.pitchClasses.includes(raised6th)
+            );
+
+            const hasRaised7th = groups.some(group =>
+                group.pitchClasses.includes(raised7th)
+            );
+
+            if (!hasRaised6th || !hasRaised7th) {
+                return false;
+            }
+
+            // Check every group using the normal scale
+            // or the descending-form exception.
+            return groups.every((group, index) =>
+                groupFitsCandidate(candidate, group) ||
+                isMelodicMinorDescendingException(
+                    candidate,
+                    group,
+                    onsetGroups,
+                    onsetGroups.indexOf(group)
+                )
+            );
+        });
 
         return candidates;
     }
