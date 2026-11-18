@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp168
+demp167
 </title>
 <style>
 
@@ -13053,148 +13053,115 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
     return trends;
 }
 
+function stage12EvaluateSegment(segment) {
+console.log("Segment 9 Evaluation", {
+    startTick: segment.startTick,
+    endTick: segment.endTick,
+    pitchClasses: [...segment.pitchClasses],
+    pcCounts: segment.pcCounts,
+candidates: segment.candidates.map(c => ({
+    ...c,
+    pitchClassSet: [...c.pitchClassSet]
+}))
+});
 
-// Analyze tonic and fifth proportions of relative major/minor keys per beat.
-function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
-    const groups = segment.groups || [];
-    const trends = [];
+const keyMap = new Map();
 
-    const majorCandidates = keyCandidates.filter(
-        item => item.mode === "major"
-    );
+    for (const scale of segment.candidates) {
+        const id = scale.mode + ":" + scale.root;
 
-    const minorCandidates = keyCandidates.filter(
-        item => item.mode === "minor"
-    );
+        if (!keyMap.has(id)) {
+            const root = scale.root;
+            const fifth = (root + 7) % 12;
 
-    for (const major of majorCandidates) {
-        // Relative minor is three semitones below the major tonic.
-        const relativeMinorRoot = (major.root + 9) % 12;
-
-        const minor = minorCandidates.find(
-            item => item.root === relativeMinorRoot
-        );
-
-        if (!minor) continue;
-
-        const majorTonic = major.root;
-        const majorFifth = (major.root + 7) % 12;
-
-        const minorTonic = minor.root;
-        const minorFifth = (minor.root + 7) % 12;
-
-        // Aggregate onset groups into quarter-note beats.
-        const beatMap = new Map();
-
-        for (const group of groups) {
-            const beatIndex = Math.floor(
-                group.tick / ticksPerQuarterNote
-            );
-
-            if (!beatMap.has(beatIndex)) {
-                beatMap.set(beatIndex, {
-                    beatIndex,
-                    noteCount: 0,
-                    majorTonicCount: 0,
-                    majorFifthCount: 0,
-                    minorTonicCount: 0,
-                    minorFifthCount: 0
-                });
-            }
-
-            const beat = beatMap.get(beatIndex);
-
-            for (const note of group.notes || []) {
-                const pc =
-                    ((Number(note.midi) % 12) + 12) % 12;
-
-                beat.noteCount++;
-
-                if (pc === majorTonic) {
-                    beat.majorTonicCount++;
-                }
-
-                if (pc === majorFifth) {
-                    beat.majorFifthCount++;
-                }
-
-                if (pc === minorTonic) {
-                    beat.minorTonicCount++;
-                }
-
-                if (pc === minorFifth) {
-                    beat.minorFifthCount++;
-                }
-            }
-        }
-
-        const points = [];
-
-        const sortedBeats = Array.from(beatMap.values())
-            .sort((a, b) => a.beatIndex - b.beatIndex);
-
-        for (const beat of sortedBeats) {
-            if (beat.noteCount === 0) continue;
-
-            const denominator = beat.noteCount;
-
-            // Individual tonic and fifth proportions (%).
-            const majorTonicValue =
-                beat.majorTonicCount / denominator * 100;
-
-            const majorFifthValue =
-                beat.majorFifthCount / denominator * 100;
-
-            const minorTonicValue =
-                beat.minorTonicCount / denominator * 100;
-
-            const minorFifthValue =
-                beat.minorFifthCount / denominator * 100;
-
-            // Combined tonic + fifth proportions (%).
-            const majorValue =
-                majorTonicValue + majorFifthValue;
-
-            const minorValue =
-                minorTonicValue + minorFifthValue;
-
-            points.push({
-                beatIndex: beat.beatIndex,
-                beatNumber: beat.beatIndex + 1,
-                tick: beat.beatIndex * ticksPerQuarterNote,
-
-                majorTonicValue,
-                majorFifthValue,
-                minorTonicValue,
-                minorFifthValue,
-
-                majorValue,
-                minorValue,
-
-                // Positive: relative minor is stronger.
-                // Negative: relative major is stronger.
-                difference: minorValue - majorValue,
-
-                majorTonicCount: beat.majorTonicCount,
-                majorFifthCount: beat.majorFifthCount,
-                minorTonicCount: beat.minorTonicCount,
-                minorFifthCount: beat.minorFifthCount,
-                noteCount: denominator
+            keyMap.set(id, {
+                root,
+                fifth,
+                mode: scale.mode,
+                types: new Set(),
+                tonicCount: segment.pcCounts[root],
+                fifthCount: segment.pcCounts[fifth],
+                score:
+                    segment.pcCounts[root] +
+                    segment.pcCounts[fifth]
             });
         }
 
-        if (points.length === 0) continue;
-
-        trends.push({
-            majorName: major.name,
-            minorName: minor.name,
-            points,
-            firstDifference: points[0].difference,
-            lastDifference: points[points.length - 1].difference
-        });
+        if (scale.mode === "major") {
+            keyMap.get(id).types.add("M");
+        }
     }
 
-    return trends;
+    // Determine minor type from characteristic notes.
+    for (const item of keyMap.values()) {
+        if (item.mode !== "minor") continue;
+
+        const root = item.root;
+
+        const raised6th = (root + 9) % 12;
+        const raised7th = (root + 11) % 12;
+
+        const hasRaised6th = segment.pcCounts[raised6th] > 0;
+        const hasRaised7th = segment.pcCounts[raised7th] > 0;
+
+        if (hasRaised6th && hasRaised7th) {
+            item.types.add("M");
+        } else if (hasRaised7th) {
+            item.types.add("H");
+        } else {
+            item.types.add("N");
+        }
+    }
+
+    const keyCandidates = Array.from(keyMap.values()).map(item => ({
+        ...item,
+        types: Array.from(item.types).sort(),
+        name: stage12KeyName(item.root, item.mode)
+    })).sort((a, b) =>
+        b.score - a.score ||
+        a.name.localeCompare(b.name)
+    );
+
+    // Analyze relative major/minor key transitions.
+    const relativeKeyTrends =
+        stage12AnalyzeRelativeKeyTrends(
+            segment,
+            keyCandidates
+        );
+
+    const scaleLabels = [];
+
+    for (const item of keyCandidates) {
+        const typeText = item.mode === "minor"
+            ? "(" + item.types.join("/") + ")"
+            : "";
+
+        scaleLabels.push(item.name + typeText);
+    }
+
+    scaleLabels.sort();
+
+    let selected = null;
+    let tied = false;
+
+    if (keyCandidates.length === 1) {
+        selected = keyCandidates[0];
+    } else if (keyCandidates.length > 1) {
+        if (keyCandidates[0].score > keyCandidates[1].score) {
+            selected = keyCandidates[0];
+        } else if (keyCandidates[0].score === keyCandidates[1].score) {
+            tied = true;
+        }
+    }
+
+
+    return {
+        keyCandidates,
+        scaleLabels,
+        selected,
+        tied,
+        relativeKeyTrends
+    };
 }
 
 function keyEstimationStage12() {
