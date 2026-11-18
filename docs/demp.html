@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp180
+demp181
 </title>
 <style>
 
@@ -12975,8 +12975,19 @@ console.log("Start Trigger Group Detail", {
 console.warn("### BACKWARD DETAILS ###", {
     segment: segmentIndex + 1,
     addedTick: precedingGroup.tick,
+
     previousCount: target.candidates.length,
+
+    addedPitchClasses: precedingGroup.pitchClasses,
+
+    addedMidiNotes: precedingGroup.notes.map(note => ({
+        midi: note.midi,
+        pitchClass: getPitchClass(note),
+        track: note.track
+    })),
+
     addedNotes: precedingGroup.notes,
+
     remainingCount: expandedCandidates.length
 });
             console.log("Backward Expansion Details", {
