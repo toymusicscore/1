@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp169
+demp170
 </title>
 <style>
 
@@ -13236,13 +13236,12 @@ function keyEstimationStage12() {
         const segment = segments[i];
         const result = stage12EvaluateSegment(segment);
 
-        // Display relative-key moving-average analysis.
+        // Display beat-by-beat relative-key analysis.
         for (const trend of result.relativeKeyTrends) {
             console.log("Relative Key Trend", {
                 segment: i + 1,
                 major: trend.majorName,
                 minor: trend.minorName,
-                windowSize: trend.windowSize,
                 firstDifference: trend.firstDifference,
                 lastDifference: trend.lastDifference
             });
@@ -13252,20 +13251,40 @@ function keyEstimationStage12() {
                 JSON.stringify(
                     trend.points.map(point => ({
                         tick: point.tick,
+                        beat: point.beatNumber,
                         bar: Number(
                             (point.tick / ticksPerMeasure + 1).toFixed(2)
                         ),
-                        majorMA: Number(point.majorMA.toFixed(3)),
-                        minorMA: Number(point.minorMA.toFixed(3)),
-                        difference: Number(point.difference.toFixed(3)),
-                        majorCount: point.majorCount,
-                        minorCount: point.minorCount
+
+                        majorTonic: Number(
+                            point.majorTonicValue.toFixed(2)
+                        ),
+                        majorFifth: Number(
+                            point.majorFifthValue.toFixed(2)
+                        ),
+                        minorTonic: Number(
+                            point.minorTonicValue.toFixed(2)
+                        ),
+                        minorFifth: Number(
+                            point.minorFifthValue.toFixed(2)
+                        ),
+
+                        majorTotal: Number(
+                            point.majorValue.toFixed(2)
+                        ),
+                        minorTotal: Number(
+                            point.minorValue.toFixed(2)
+                        ),
+                        difference: Number(
+                            point.difference.toFixed(2)
+                        ),
+
+                        noteCount: point.noteCount
                     })),
                     null,
                     2
                 )
             );
-
         }
 
         const y = 172 + i * 42;
