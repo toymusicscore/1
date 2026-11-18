@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp165
+demp166
 </title>
 <style>
 
@@ -12934,6 +12934,125 @@ function stage12FormatEndTrigger(segment) {
     return (position ? position + ": " : "") + notes;
 }
 
+
+const STAGE12_RELATIVE_KEY_WINDOW_GROUPS = 8;
+
+// Analyze the tonic + fifth trend of relative major/minor keys.
+function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
+    const groups = segment.groups || [];
+    const trends = [];
+
+    const majorCandidates = keyCandidates.filter(
+        item => item.mode === "major"
+    );
+
+    const minorCandidates = keyCandidates.filter(
+        item => item.mode === "minor"
+    );
+
+    for (const major of majorCandidates) {
+        // Relative minor is three semitones below the major tonic.
+        const relativeMinorRoot = (major.root + 9) % 12;
+
+        const minor = minorCandidates.find(
+            item => item.root === relativeMinorRoot
+        );
+
+        if (!minor) continue;
+
+        const majorTonic = major.root;
+        const majorFifth = (major.root + 7) % 12;
+
+        const minorTonic = minor.root;
+        const minorFifth = (minor.root + 7) % 12;
+
+        const points = [];
+
+        // Calculate tonic + fifth values at each onset group.
+        for (const group of groups) {
+            let majorCount = 0;
+            let minorCount = 0;
+            let noteCount = 0;
+
+            for (const note of group.notes) {
+                const pc = ((Number(note.midi) % 12) + 12) % 12;
+
+                noteCount++;
+
+                if (
+                    pc === majorTonic ||
+                    pc === majorFifth
+                ) {
+                    majorCount++;
+                }
+
+                if (
+                    pc === minorTonic ||
+                    pc === minorFifth
+                ) {
+                    minorCount++;
+                }
+            }
+
+            if (noteCount === 0) continue;
+
+            points.push({
+                tick: group.tick,
+
+                // Normalize by the number of notes in the onset group.
+                majorValue: majorCount / noteCount,
+                minorValue: minorCount / noteCount,
+
+                majorCount,
+                minorCount,
+                noteCount
+            });
+        }
+
+        // Calculate trailing moving averages.
+        for (let i = 0; i < points.length; i++) {
+            const start = Math.max(
+                0,
+                i - STAGE12_RELATIVE_KEY_WINDOW_GROUPS + 1
+            );
+
+            const window = points.slice(start, i + 1);
+
+            const majorMA =
+                window.reduce(
+                    (sum, point) => sum + point.majorValue,
+                    0
+                ) / window.length;
+
+            const minorMA =
+                window.reduce(
+                    (sum, point) => sum + point.minorValue,
+                    0
+                ) / window.length;
+
+            points[i].majorMA = majorMA;
+            points[i].minorMA = minorMA;
+
+            // Positive: relative minor is stronger.
+            // Negative: relative major is stronger.
+            points[i].difference = minorMA - majorMA;
+        }
+
+        if (points.length === 0) continue;
+
+        trends.push({
+            majorName: major.name,
+            minorName: minor.name,
+            windowSize: STAGE12_RELATIVE_KEY_WINDOW_GROUPS,
+            points,
+            firstDifference: points[0].difference,
+            lastDifference: points[points.length - 1].difference
+        });
+    }
+
+    return trends;
+}
+
 function stage12EvaluateSegment(segment) {
 console.log("Segment 9 Evaluation", {
     startTick: segment.startTick,
@@ -13003,6 +13122,13 @@ const keyMap = new Map();
         a.name.localeCompare(b.name)
     );
 
+    // Analyze relative major/minor key transitions.
+    const relativeKeyTrends =
+        stage12AnalyzeRelativeKeyTrends(
+            segment,
+            keyCandidates
+        );
+
     const scaleLabels = [];
 
     for (const item of keyCandidates) {
@@ -13028,11 +13154,13 @@ const keyMap = new Map();
         }
     }
 
+
     return {
         keyCandidates,
         scaleLabels,
         selected,
-        tied
+        tied,
+        relativeKeyTrends
     };
 }
 
@@ -13078,6 +13206,28 @@ function keyEstimationStage12() {
     for (let i = 0; i < segments.length; i++) {
         const segment = segments[i];
         const result = stage12EvaluateSegment(segment);
+
+        // Display relative-key moving-average analysis.
+        for (const trend of result.relativeKeyTrends) {
+            console.log("Relative Key Trend", {
+                segment: i + 1,
+                major: trend.majorName,
+                minor: trend.minorName,
+                windowSize: trend.windowSize,
+                firstDifference: trend.firstDifference,
+                lastDifference: trend.lastDifference
+            });
+
+            console.table(trend.points.map(point => ({
+                bar: (point.tick / ticksPerMeasure + 1).toFixed(2),
+                major: point.majorMA.toFixed(3),
+                minor: point.minorMA.toFixed(3),
+                difference: point.difference.toFixed(3),
+                majorCount: point.majorCount,
+                minorCount: point.minorCount
+            })));
+        }
+
         const y = 172 + i * 42;
         const startBar = segment.startTick / ticksPerMeasure + 1;
         const endBar = segment.endTick / ticksPerMeasure + 1;
