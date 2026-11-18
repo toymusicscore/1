@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp174
+demp175
 </title>
 <style>
 
@@ -12872,7 +12872,245 @@ console.log("Start Trigger Group Detail", {
 
         segments.push(current);
     }
-console.log("Final Segment Triggers", segments.map((segment, index) => ({
+
+
+    // Re-evaluate ambiguous segments by expanding backward
+    // one onset group at a time.
+    function evaluateCandidatesForGroups(groups, candidatePool) {
+        if (groups.length === 0) return [];
+
+        let candidates = candidatePool.filter(candidate =>
+            groupFitsCandidate(candidate, groups[0])
+        );
+
+        const acceptedGroups = [groups[0]];
+
+        for (let i = 1; i < groups.length; i++) {
+            const group = groups[i];
+            const groupIndex = onsetGroups.indexOf(group);
+
+            const nextCandidates = candidates.filter(candidate =>
+                groupFitsCandidate(candidate, group) ||
+                (
+                    isMelodicMinorDescendingException(
+                        candidate,
+                        group,
+                        onsetGroups,
+                        groupIndex
+                    ) &&
+                    hasMelodicMinorEvidenceInCandidateRun(
+                        candidate,
+                        acceptedGroups,
+                        group,
+                        onsetGroups,
+                        groupIndex
+                    )
+                )
+            );
+
+            if (nextCandidates.length === 0) {
+                return [];
+            }
+
+            candidates = nextCandidates;
+            acceptedGroups.push(group);
+        }
+
+        return candidates;
+    }
+
+    // Rebuild segment statistics after changing its groups.
+    function rebuildSegmentData(segment, groups, candidates) {
+        const counts = new Array(12).fill(0);
+        const pitchClasses = new Set();
+
+        let noteCount = 0;
+
+        for (const group of groups) {
+            noteCount += group.notes.length;
+
+            for (const pc of group.pitchClasses) {
+                pitchClasses.add(pc);
+            }
+
+            for (const note of group.notes) {
+                counts[getPitchClass(note)]++;
+            }
+        }
+
+        segment.startTick = groups[0].tick;
+        segment.onsetGroupCount = groups.length;
+        segment.noteCount = noteCount;
+        segment.pitchClasses = pitchClasses;
+        segment.pcCounts = counts;
+        segment.candidates = candidates;
+        segment.unresolved = candidates.length === 0;
+        segment.groups = groups.slice();
+    }
+
+    // Expand ambiguous segments backward.
+    let segmentIndex = 1;
+
+    while (segmentIndex < segments.length) {
+        let targetIndex = segmentIndex;
+        let target = segments[targetIndex];
+
+        // No backward expansion is needed for a unique candidate.
+        if (target.candidates.length <= 1) {
+            segmentIndex++;
+            continue;
+        }
+
+        while (
+            targetIndex > 0 &&
+            target.candidates.length > 1
+        ) {
+            const previous = segments[targetIndex - 1];
+
+            while (
+                previous.groups.length > 0 &&
+                target.candidates.length > 1
+            ) {
+                // Take exactly one preceding onset group.
+                const group =
+                    previous.groups[previous.groups.length - 1];
+
+                const expandedGroups = [
+                    group,
+                    ...target.groups
+                ];
+
+                // Re-evaluate the expanded target segment.
+                const nextCandidates =
+                    evaluateCandidatesForGroups(
+                        expandedGroups,
+                        target.candidates
+                    );
+
+                // Do not move a group if no candidate remains.
+                if (nextCandidates.length === 0) {
+                    break;
+                }
+
+                const remainingPreviousGroups =
+                    previous.groups.slice(0, -1);
+
+                // Re-evaluate the remaining previous segment.
+                const previousCandidates =
+                    remainingPreviousGroups.length > 0
+                        ? evaluateCandidatesForGroups(
+                            remainingPreviousGroups,
+                            allCandidates
+                        )
+                        : [];
+
+                if (
+                    remainingPreviousGroups.length > 0 &&
+                    previousCandidates.length === 0
+                ) {
+                    break;
+                }
+
+                // Move the onset group to the target segment.
+                rebuildSegmentData(
+                    target,
+                    expandedGroups,
+                    nextCandidates
+                );
+
+                if (remainingPreviousGroups.length > 0) {
+                    rebuildSegmentData(
+                        previous,
+                        remainingPreviousGroups,
+                        previousCandidates
+                    );
+                } else {
+                    previous.groups = [];
+                }
+
+                target.modulationTick = target.startTick;
+            }
+
+            // If the previous segment has become empty,
+            // remove it and continue searching farther backward.
+            if (previous.groups.length === 0) {
+                target.startTrigger =
+                    previous.startTrigger.slice();
+
+                target.startTriggerTick =
+                    previous.startTriggerTick;
+
+                segments.splice(targetIndex - 1, 1);
+
+                targetIndex--;
+                continue;
+            }
+
+            // Update the boundary between the two segments.
+            if (target.groups.length > 0) {
+                const boundaryGroup = target.groups[0];
+
+                previous.endTick = target.startTick;
+                previous.endTriggerTick = boundaryGroup.tick;
+
+                previous.endTrigger = boundaryGroup.notes
+                    .filter(note => {
+                        const pc = getPitchClass(note);
+
+                        return previous.candidates.every(candidate =>
+                            !candidate.pitchClassSet.has(pc)
+                        );
+                    })
+                    .map(note => ({
+                        midi: Number(note.midi),
+                        track: note.track,
+                        channel: note.channel
+                    }));
+
+                const precedingGroup =
+                    previous.groups[previous.groups.length - 1];
+
+                target.startTriggerTick = precedingGroup.tick;
+
+                target.startTrigger = precedingGroup.notes
+                    .filter(note => {
+                        const pc = getPitchClass(note);
+
+                        return target.candidates.every(candidate =>
+                            !candidate.pitchClassSet.has(pc)
+                        );
+                    })
+                    .map(note => ({
+                        midi: Number(note.midi),
+                        track: note.track,
+                        channel: note.channel
+                    }));
+            }
+
+            break;
+        }
+
+        // Continue with the next segment.
+        segmentIndex = targetIndex + 1;
+    }
+
+    console.log("Backward Segment Expansion", segments.map(
+        (segment, index) => ({
+            segment: index + 1,
+            startTick: segment.startTick,
+            endTick: segment.endTick,
+            onsetGroupCount: segment.onsetGroupCount,
+            noteCount: segment.noteCount,
+            candidateCount: segment.candidates.length,
+            candidates: segment.candidates.map(c => ({
+                root: c.root,
+                mode: c.mode,
+                type: c.type
+            }))
+        })
+    ));
+
+    console.log("Final Segment Triggers", segments.map((segment, index) => ({
     segment: index + 1,
     startTick: segment.startTick,
     startTriggerTick: segment.startTriggerTick,
