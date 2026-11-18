@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp171
+demp172
 </title>
 <style>
 
@@ -12937,36 +12937,45 @@ function stage12FormatEndTrigger(segment) {
 
 const STAGE12_RELATIVE_KEY_WINDOW_GROUPS = 8;
 
-// Analyze the tonic + fifth trend of relative major/minor keys.
-
 // Analyze tonic and fifth proportions of relative major/minor keys per beat.
 function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
     const groups = segment.groups || [];
     const trends = [];
 
-    const majorCandidates = keyCandidates.filter(
-        item => item.mode === "major"
-    );
+    // Create relative major/minor pairs from either surviving candidate.
+    // The relative major is always based on the natural-minor relationship.
+    const pairMap = new Map();
 
-    const minorCandidates = keyCandidates.filter(
-        item => item.mode === "minor"
-    );
+    for (const candidate of keyCandidates) {
+        let majorRoot;
+        let minorRoot;
 
-    for (const major of majorCandidates) {
-        // Relative minor is three semitones below the major tonic.
-        const relativeMinorRoot = (major.root + 9) % 12;
+        if (candidate.mode === "major") {
+            majorRoot = candidate.root;
+            minorRoot = (majorRoot + 9) % 12;
+        } else if (candidate.mode === "minor") {
+            minorRoot = candidate.root;
+            majorRoot = (minorRoot + 3) % 12;
+        } else {
+            continue;
+        }
 
-        const minor = minorCandidates.find(
-            item => item.root === relativeMinorRoot
-        );
+        const pairId = majorRoot + ":" + minorRoot;
 
-        if (!minor) continue;
+        if (!pairMap.has(pairId)) {
+            pairMap.set(pairId, {
+                majorRoot,
+                minorRoot
+            });
+        }
+    }
 
-        const majorTonic = major.root;
-        const majorFifth = (major.root + 7) % 12;
+    for (const pair of pairMap.values()) {
+        const majorTonic = pair.majorRoot;
+        const majorFifth = (pair.majorRoot + 7) % 12;
 
-        const minorTonic = minor.root;
-        const minorFifth = (minor.root + 7) % 12;
+        const minorTonic = pair.minorRoot;
+        const minorFifth = (pair.minorRoot + 7) % 12;
 
         // Aggregate onset groups into quarter-note beats.
         const beatMap = new Map();
@@ -13023,7 +13032,6 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
 
             const denominator = beat.noteCount;
 
-            // Individual tonic and fifth proportions (%).
             const majorTonicValue =
                 beat.majorTonicCount / denominator * 100;
 
@@ -13036,7 +13044,6 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
             const minorFifthValue =
                 beat.minorFifthCount / denominator * 100;
 
-            // Combined tonic + fifth proportions (%).
             const majorValue =
                 majorTonicValue + majorFifthValue;
 
@@ -13056,8 +13063,6 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
                 majorValue,
                 minorValue,
 
-                // Positive: relative minor is stronger.
-                // Negative: relative major is stronger.
                 difference: minorValue - majorValue,
 
                 majorTonicCount: beat.majorTonicCount,
@@ -13071,8 +13076,8 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
         if (points.length === 0) continue;
 
         trends.push({
-            majorName: major.name,
-            minorName: minor.name,
+            majorName: stage12KeyName(pair.majorRoot, "major"),
+            minorName: stage12KeyName(pair.minorRoot, "minor"),
             points,
             firstDifference: points[0].difference,
             lastDifference: points[points.length - 1].difference
