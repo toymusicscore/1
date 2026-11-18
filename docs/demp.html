@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp170
+demp171
 </title>
 <style>
 
@@ -13203,7 +13203,10 @@ function keyEstimationStage12() {
 
     canvas.width = 1800;
     // Extra space accommodates the explanatory lines above the results table.
-    canvas.height = Math.max(300, 200 + segments.length * 42);
+    canvas.height = Math.max(
+        300,
+        200 + segments.length * 42 + segments.length * 270
+    );
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
@@ -13232,12 +13235,18 @@ function keyEstimationStage12() {
     ctx.fillText("Stage 1: surviving scale candidates", 700, headerY);
     ctx.fillText("Stage 2: tonic + fifth counts", 1000, headerY);
 
+    const relativeKeyGraphItems = [];
+
     for (let i = 0; i < segments.length; i++) {
         const segment = segments[i];
         const result = stage12EvaluateSegment(segment);
 
         // Display beat-by-beat relative-key analysis.
         for (const trend of result.relativeKeyTrends) {
+            relativeKeyGraphItems.push({
+                segment: i + 1,
+                trend
+            });
             console.log("Relative Key Trend", {
                 segment: i + 1,
                 major: trend.majorName,
@@ -13355,6 +13364,218 @@ function keyEstimationStage12() {
                 estimatedMeasureLabelTypes[measure] = getAutoLabelType(keyName);
             }
         }
+    }
+
+    // Draw relative major/minor key graphs.
+    const graphTop = 172 + segments.length * 42 + 30;
+    const graphHeight = 250;
+
+    for (let g = 0; g < relativeKeyGraphItems.length; g++) {
+        const item = relativeKeyGraphItems[g];
+        const trend = item.trend;
+        const points = trend.points;
+
+        if (points.length === 0) continue;
+
+        const top = graphTop + g * graphHeight;
+
+        const left = 100;
+        const right = 1740;
+        const plotWidth = right - left;
+
+        ctx.fillStyle = "black";
+        ctx.font = "bold 14px Arial";
+        ctx.textAlign = "left";
+
+        ctx.fillText(
+            "Segment " + item.segment + ": " +
+            trend.minorName + " / " + trend.majorName,
+            12,
+            top
+        );
+
+        // --------------------------------
+        // Upper graph: stacked proportions
+        // --------------------------------
+
+        const chartTop = top + 25;
+        const chartHeight = 85;
+        const chartBottom = chartTop + chartHeight;
+
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Tonic + fifth proportions (%)", 12, chartTop + 5);
+
+        // Y-axis grid.
+        for (let v = 0; v <= 100; v += 25) {
+            const y = chartBottom - v / 100 * chartHeight;
+
+            ctx.strokeStyle = "#dddddd";
+            ctx.beginPath();
+            ctx.moveTo(left, y);
+            ctx.lineTo(right, y);
+            ctx.stroke();
+
+            ctx.fillStyle = "black";
+            ctx.textAlign = "right";
+            ctx.fillText(String(v), left - 8, y + 4);
+        }
+
+        const minBeat = Math.min(...points.map(p => p.beatIndex));
+        const maxBeat = Math.max(...points.map(p => p.beatIndex));
+        const beatRange = Math.max(1, maxBeat - minBeat);
+
+        const barWidth = Math.max(
+            3,
+            Math.min(18, plotWidth / points.length * 0.55)
+        );
+
+        for (const point of points) {
+            const x = left +
+                (point.beatIndex - minBeat) / beatRange * plotWidth;
+
+            let currentY = chartBottom;
+
+            const series = [
+                {
+                    value: point.majorTonicValue,
+                    color: "#4472C4"
+                },
+                {
+                    value: point.majorFifthValue,
+                    color: "#70AD47"
+                },
+                {
+                    value: point.minorTonicValue,
+                    color: "#ED7D31"
+                },
+                {
+                    value: point.minorFifthValue,
+                    color: "#A5A5A5"
+                }
+            ];
+
+            for (const s of series) {
+                const h = s.value / 100 * chartHeight;
+
+                if (h > 0) {
+                    ctx.fillStyle = s.color;
+                    ctx.fillRect(
+                        x - barWidth / 2,
+                        currentY - h,
+                        barWidth,
+                        h
+                    );
+                }
+
+                currentY -= h;
+            }
+
+            ctx.fillStyle = "black";
+            ctx.textAlign = "center";
+            ctx.font = "10px Arial";
+            ctx.fillText(
+                String(point.beatNumber),
+                x,
+                chartBottom + 12
+            );
+        }
+
+        // Legend.
+        const legendY = chartTop + 5;
+
+        const legends = [
+            ["Major tonic", "#4472C4"],
+            ["Major fifth", "#70AD47"],
+            ["Minor tonic", "#ED7D31"],
+            ["Minor fifth", "#A5A5A5"]
+        ];
+
+        let legendX = 260;
+
+        ctx.font = "11px Arial";
+        ctx.textAlign = "left";
+
+        for (const legend of legends) {
+            ctx.fillStyle = legend[1];
+            ctx.fillRect(legendX, legendY - 9, 10, 10);
+
+            ctx.fillStyle = "black";
+            ctx.fillText(legend[0], legendX + 14, legendY);
+
+            legendX += 125;
+        }
+
+        // --------------------------------
+        // Lower graph: minor - major
+        // --------------------------------
+
+        const diffTop = chartBottom + 35;
+        const diffHeight = 65;
+        const diffBottom = diffTop + diffHeight;
+        const centerY = diffTop + diffHeight / 2;
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "left";
+        ctx.font = "11px Arial";
+        ctx.fillText(
+            "Difference: minor - major (percentage points)",
+            12,
+            diffTop + 5
+        );
+
+        // Difference range: -100 to +100.
+        for (let v = -100; v <= 100; v += 50) {
+            const y = centerY - v / 100 * (diffHeight / 2);
+
+            ctx.strokeStyle = v === 0 ? "#555555" : "#dddddd";
+            ctx.beginPath();
+            ctx.moveTo(left, y);
+            ctx.lineTo(right, y);
+            ctx.stroke();
+
+            ctx.fillStyle = "black";
+            ctx.textAlign = "right";
+            ctx.fillText(String(v), left - 8, y + 4);
+        }
+
+        // Difference line.
+        ctx.strokeStyle = "#7030A0";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+
+        points.forEach((point, index) => {
+            const x = left +
+                (point.beatIndex - minBeat) / beatRange * plotWidth;
+
+            const y = centerY -
+                point.difference / 100 * (diffHeight / 2);
+
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        });
+
+        ctx.stroke();
+
+        // Difference points.
+        ctx.fillStyle = "#7030A0";
+
+        for (const point of points) {
+            const x = left +
+                (point.beatIndex - minBeat) / beatRange * plotWidth;
+
+            const y = centerY -
+                point.difference / 100 * (diffHeight / 2);
+
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        ctx.lineWidth = 1;
     }
 
     if (segments.length === 0) {
