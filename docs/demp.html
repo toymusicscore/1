@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp176
+demp177
 </title>
 <style>
 
@@ -12877,6 +12877,9 @@ console.log("Start Trigger Group Detail", {
     // Re-evaluate ambiguous segments by expanding backward.
     // Previous segments must remain completely unchanged.
 
+    // Re-evaluate ambiguous segments by expanding backward.
+    // Only candidate results are updated. Segment data remains unchanged.
+
     function evaluateBackwardGroups(groups, candidatePool) {
         if (groups.length === 0) return [];
 
@@ -12920,7 +12923,7 @@ console.log("Start Trigger Group Detail", {
         return candidates;
     }
 
-    // Expand each ambiguous segment backward.
+    // Expand ambiguous segments backward for candidate refinement.
     for (let segmentIndex = 1;
          segmentIndex < segments.length;
          segmentIndex++) {
@@ -12938,11 +12941,10 @@ console.log("Start Trigger Group Detail", {
         let firstGroupIndex =
             onsetGroups.indexOf(target.groups[0]);
 
-        if (firstGroupIndex <= 0) {
-            continue;
-        }
+        if (firstGroupIndex <= 0) continue;
 
         const originalCandidates = target.candidates.slice();
+        let backwardGroups = target.groups.slice();
 
         console.log("Backward Expansion Start", {
             segment: segmentIndex + 1,
@@ -12961,7 +12963,7 @@ console.log("Start Trigger Group Detail", {
 
             const expandedGroups = [
                 precedingGroup,
-                ...target.groups
+                ...backwardGroups
             ];
 
             const expandedCandidates =
@@ -12970,7 +12972,6 @@ console.log("Start Trigger Group Detail", {
                     originalCandidates
                 );
 
-            // Stop if the expanded range has no valid candidate.
             if (expandedCandidates.length === 0) {
                 console.log("Backward Expansion Stopped", {
                     tick: precedingGroup.tick,
@@ -12979,42 +12980,18 @@ console.log("Start Trigger Group Detail", {
                 break;
             }
 
-            // Update ONLY the target segment.
-            target.groups = expandedGroups;
-            target.startTick = precedingGroup.tick;
-            target.onsetGroupCount = expandedGroups.length;
-
-            target.noteCount = expandedGroups.reduce(
-                (sum, group) => sum + group.notes.length,
-                0
-            );
-
-            target.pitchClasses = new Set(
-                expandedGroups.flatMap(
-                    group => group.pitchClasses
-                )
-            );
-
-            target.pcCounts = new Array(12).fill(0);
-
-            for (const group of expandedGroups) {
-                for (const note of group.notes) {
-                    target.pcCounts[getPitchClass(note)]++;
-                }
-            }
-
+            // Update candidates only.
             target.candidates = expandedCandidates;
             target.unresolved = false;
-            target.modulationTick = target.startTick;
 
+            backwardGroups = expandedGroups;
             firstGroupIndex--;
 
             console.log("Backward Expansion Step", {
                 segment: segmentIndex + 1,
-                startTick: target.startTick,
-                endTick: target.endTick,
-                onsetGroupCount: target.onsetGroupCount,
-                noteCount: target.noteCount,
+                addedTick: precedingGroup.tick,
+                originalStartTick: target.startTick,
+                originalEndTick: target.endTick,
                 candidateCount: target.candidates.length,
                 candidates: target.candidates.map(c => ({
                     root: c.root,
