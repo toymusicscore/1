@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp175
+demp176
 </title>
 <style>
 
@@ -12874,9 +12874,10 @@ console.log("Start Trigger Group Detail", {
     }
 
 
-    // Re-evaluate ambiguous segments by expanding backward
-    // one onset group at a time.
-    function evaluateCandidatesForGroups(groups, candidatePool) {
+    // Re-evaluate ambiguous segments by expanding backward.
+    // Previous segments must remain completely unchanged.
+
+    function evaluateBackwardGroups(groups, candidatePool) {
         if (groups.length === 0) return [];
 
         let candidates = candidatePool.filter(candidate =>
@@ -12919,179 +12920,119 @@ console.log("Start Trigger Group Detail", {
         return candidates;
     }
 
-    // Rebuild segment statistics after changing its groups.
-    function rebuildSegmentData(segment, groups, candidates) {
-        const counts = new Array(12).fill(0);
-        const pitchClasses = new Set();
+    // Expand each ambiguous segment backward.
+    for (let segmentIndex = 1;
+         segmentIndex < segments.length;
+         segmentIndex++) {
 
-        let noteCount = 0;
+        const target = segments[segmentIndex];
 
-        for (const group of groups) {
-            noteCount += group.notes.length;
-
-            for (const pc of group.pitchClasses) {
-                pitchClasses.add(pc);
-            }
-
-            for (const note of group.notes) {
-                counts[getPitchClass(note)]++;
-            }
-        }
-
-        segment.startTick = groups[0].tick;
-        segment.onsetGroupCount = groups.length;
-        segment.noteCount = noteCount;
-        segment.pitchClasses = pitchClasses;
-        segment.pcCounts = counts;
-        segment.candidates = candidates;
-        segment.unresolved = candidates.length === 0;
-        segment.groups = groups.slice();
-    }
-
-    // Expand ambiguous segments backward.
-    let segmentIndex = 1;
-
-    while (segmentIndex < segments.length) {
-        let targetIndex = segmentIndex;
-        let target = segments[targetIndex];
-
-        // No backward expansion is needed for a unique candidate.
-        if (target.candidates.length <= 1) {
-            segmentIndex++;
+        if (
+            !target.groups ||
+            target.groups.length === 0 ||
+            target.candidates.length <= 1
+        ) {
             continue;
         }
 
-        while (
-            targetIndex > 0 &&
-            target.candidates.length > 1
-        ) {
-            const previous = segments[targetIndex - 1];
+        let firstGroupIndex =
+            onsetGroups.indexOf(target.groups[0]);
 
-            while (
-                previous.groups.length > 0 &&
-                target.candidates.length > 1
-            ) {
-                // Take exactly one preceding onset group.
-                const group =
-                    previous.groups[previous.groups.length - 1];
-
-                const expandedGroups = [
-                    group,
-                    ...target.groups
-                ];
-
-                // Re-evaluate the expanded target segment.
-                const nextCandidates =
-                    evaluateCandidatesForGroups(
-                        expandedGroups,
-                        target.candidates
-                    );
-
-                // Do not move a group if no candidate remains.
-                if (nextCandidates.length === 0) {
-                    break;
-                }
-
-                const remainingPreviousGroups =
-                    previous.groups.slice(0, -1);
-
-                // Re-evaluate the remaining previous segment.
-                const previousCandidates =
-                    remainingPreviousGroups.length > 0
-                        ? evaluateCandidatesForGroups(
-                            remainingPreviousGroups,
-                            allCandidates
-                        )
-                        : [];
-
-                if (
-                    remainingPreviousGroups.length > 0 &&
-                    previousCandidates.length === 0
-                ) {
-                    break;
-                }
-
-                // Move the onset group to the target segment.
-                rebuildSegmentData(
-                    target,
-                    expandedGroups,
-                    nextCandidates
-                );
-
-                if (remainingPreviousGroups.length > 0) {
-                    rebuildSegmentData(
-                        previous,
-                        remainingPreviousGroups,
-                        previousCandidates
-                    );
-                } else {
-                    previous.groups = [];
-                }
-
-                target.modulationTick = target.startTick;
-            }
-
-            // If the previous segment has become empty,
-            // remove it and continue searching farther backward.
-            if (previous.groups.length === 0) {
-                target.startTrigger =
-                    previous.startTrigger.slice();
-
-                target.startTriggerTick =
-                    previous.startTriggerTick;
-
-                segments.splice(targetIndex - 1, 1);
-
-                targetIndex--;
-                continue;
-            }
-
-            // Update the boundary between the two segments.
-            if (target.groups.length > 0) {
-                const boundaryGroup = target.groups[0];
-
-                previous.endTick = target.startTick;
-                previous.endTriggerTick = boundaryGroup.tick;
-
-                previous.endTrigger = boundaryGroup.notes
-                    .filter(note => {
-                        const pc = getPitchClass(note);
-
-                        return previous.candidates.every(candidate =>
-                            !candidate.pitchClassSet.has(pc)
-                        );
-                    })
-                    .map(note => ({
-                        midi: Number(note.midi),
-                        track: note.track,
-                        channel: note.channel
-                    }));
-
-                const precedingGroup =
-                    previous.groups[previous.groups.length - 1];
-
-                target.startTriggerTick = precedingGroup.tick;
-
-                target.startTrigger = precedingGroup.notes
-                    .filter(note => {
-                        const pc = getPitchClass(note);
-
-                        return target.candidates.every(candidate =>
-                            !candidate.pitchClassSet.has(pc)
-                        );
-                    })
-                    .map(note => ({
-                        midi: Number(note.midi),
-                        track: note.track,
-                        channel: note.channel
-                    }));
-            }
-
-            break;
+        if (firstGroupIndex <= 0) {
+            continue;
         }
 
-        // Continue with the next segment.
-        segmentIndex = targetIndex + 1;
+        const originalCandidates = target.candidates.slice();
+
+        console.log("Backward Expansion Start", {
+            segment: segmentIndex + 1,
+            startTick: target.startTick,
+            endTick: target.endTick,
+            candidateCount: originalCandidates.length
+        });
+
+        // Add one preceding onset group at a time.
+        while (
+            firstGroupIndex > 0 &&
+            target.candidates.length > 1
+        ) {
+            const precedingGroup =
+                onsetGroups[firstGroupIndex - 1];
+
+            const expandedGroups = [
+                precedingGroup,
+                ...target.groups
+            ];
+
+            const expandedCandidates =
+                evaluateBackwardGroups(
+                    expandedGroups,
+                    originalCandidates
+                );
+
+            // Stop if the expanded range has no valid candidate.
+            if (expandedCandidates.length === 0) {
+                console.log("Backward Expansion Stopped", {
+                    tick: precedingGroup.tick,
+                    reason: "No valid candidates"
+                });
+                break;
+            }
+
+            // Update ONLY the target segment.
+            target.groups = expandedGroups;
+            target.startTick = precedingGroup.tick;
+            target.onsetGroupCount = expandedGroups.length;
+
+            target.noteCount = expandedGroups.reduce(
+                (sum, group) => sum + group.notes.length,
+                0
+            );
+
+            target.pitchClasses = new Set(
+                expandedGroups.flatMap(
+                    group => group.pitchClasses
+                )
+            );
+
+            target.pcCounts = new Array(12).fill(0);
+
+            for (const group of expandedGroups) {
+                for (const note of group.notes) {
+                    target.pcCounts[getPitchClass(note)]++;
+                }
+            }
+
+            target.candidates = expandedCandidates;
+            target.unresolved = false;
+            target.modulationTick = target.startTick;
+
+            firstGroupIndex--;
+
+            console.log("Backward Expansion Step", {
+                segment: segmentIndex + 1,
+                startTick: target.startTick,
+                endTick: target.endTick,
+                onsetGroupCount: target.onsetGroupCount,
+                noteCount: target.noteCount,
+                candidateCount: target.candidates.length,
+                candidates: target.candidates.map(c => ({
+                    root: c.root,
+                    mode: c.mode,
+                    type: c.type
+                }))
+            });
+
+            if (target.candidates.length === 1) {
+                console.log("Backward Expansion Completed", {
+                    segment: segmentIndex + 1,
+                    selected: target.candidates[0],
+                    startTick: target.startTick,
+                    endTick: target.endTick
+                });
+                break;
+            }
+        }
     }
 
     console.log("Backward Segment Expansion", segments.map(
