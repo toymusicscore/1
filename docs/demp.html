@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp183
+demp184
 </title>
 <style>
 
@@ -12662,15 +12662,15 @@ function stage12BuildSegments() {
         for (let i = oldSegment.groups.length - 1; i >= 0; i--) {
             const group = oldSegment.groups[i];
             const groupIndex = onsetGroups.indexOf(group);
-
-            const nextCandidates = candidates.filter(candidate =>
-                groupFitsCandidate(candidate, group)
-            );
+            const nextCandidates = evaluateCandidates(expandedNotes);
 
             if (nextCandidates.length === 0) {
+                // Reject this expansion.
+                // Keep the candidates from the previous step.
                 break;
             }
 
+            // Accept the expansion.
             candidates = nextCandidates;
             startIndex = i;
         }
