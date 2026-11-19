@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp199
+demp200
 </title>
 <style>
 
@@ -12384,6 +12384,21 @@ function stage12BuildSegments() {
     const allCandidates = buildStage12ScaleCandidates();
     const notesByTick = new Map();
 
+    function isRelativeKeyPair(candidates) {
+        if (candidates.length !== 2) return false;
+
+        const [a, b] = candidates;
+
+        if (a.mode === b.mode) return false;
+
+        const major = a.mode === "major" ? a : b;
+        const minor = a.mode === "minor" ? a : b;
+
+        return (
+            minor.root === (major.root + 9) % 12
+        );
+    }
+
     function groupFitsCandidate(candidate, group) {
         return group.pitchClasses.every(pitchClass =>
             candidate.pitchClassSet.has(pitchClass)
@@ -13052,7 +13067,8 @@ if (segmentIndex + 1 === 22) {
         // Add one preceding onset group at a time.
         while (
             firstGroupIndex > 0 &&
-            target.candidates.length > 1
+            target.candidates.length > 1 &&
+            !isRelativeKeyPair(target.candidates)
         ) {
             const precedingGroup =
                 onsetGroups[firstGroupIndex - 1];
