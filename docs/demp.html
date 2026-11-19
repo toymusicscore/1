@@ -12990,7 +12990,16 @@ console.log("Start Trigger Group Detail", {
         ) {
             continue;
         }
-
+if (segmentIndex + 1 === 22) {
+    console.log("Backward Segment 22 Start Trigger Check", {
+        startTick: target.startTick,
+        startTriggerTick: target.startTriggerTick,
+        startTrigger: target.startTrigger,
+        startGroup: target.groups.find(
+            group => group.tick === target.startTriggerTick
+        )
+    });
+}
         let firstGroupIndex =
             onsetGroups.indexOf(target.groups[0]);
 
