@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp190
+demp191
 </title>
 <style>
 
@@ -12702,6 +12702,26 @@ function stage12BuildSegments() {
                 ? oldSegment.groups[startIndex].tick
                 : triggerGroup.tick;
         }
+
+console.log("Segment Split Check", {
+    startIndex,
+    boundaryTick,
+    savedStartTriggerTick: savedStartTriggerGroup?.tick,
+    savedStartTriggerNotes: savedStartTriggerGroup?.notes?.map(note => ({
+        midi: note.midi,
+        track: note.track
+    })),
+    newGroupTicks: oldSegment.groups
+        .filter(group => group.tick >= boundaryTick)
+        .map(group => ({
+            tick: group.tick,
+            notes: group.notes.map(note => ({
+                midi: note.midi,
+                track: note.track
+            }))
+        })),
+    candidateCount: candidates.length
+});
 
         // Split the old segment at the selected boundary.
         const oldGroups = oldSegment.groups.filter(group =>
