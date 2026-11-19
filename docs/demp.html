@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp191
+demp192
 </title>
 <style>
 
@@ -12899,82 +12899,111 @@ console.log("Start Trigger Group Detail", {
 
     // Re-evaluate ambiguous segments by expanding backward.
     // Only candidate results are updated. Segment data remains unchanged.
-    function evaluateBackwardGroups(groups, candidatePool) {
-        if (groups.length === 0) return [];
 
-        const candidates = candidatePool.filter(candidate => {
+function evaluateBackwardGroups(groups, candidatePool) {
+    if (groups.length === 0) return [];
 
-            // Major, Natural Minor, and Harmonic Minor:
-            // Keep the existing evaluation rule unchanged.
-            if (candidate.mode !== "minor" || candidate.type !== "M") {
-                return groups.every(group =>
-                    groupFitsCandidate(candidate, group)
-                );
+    // Major, Natural Minor, and Harmonic Minor:
+    // Evaluate each pitch class independently.
+    let candidates = candidatePool.filter(candidate =>
+        candidate.mode !== "minor" || candidate.type !== "M"
+    );
+
+    for (const group of groups) {
+        const pitchClasses = [
+            ...new Set(group.notes.map(getPitchClass))
+        ];
+
+        let bestCandidates = candidates;
+        let bestCount = candidates.length;
+
+        for (const pitchClass of pitchClasses) {
+
+            const matchingCandidates = candidates.filter(candidate =>
+                candidate.pitchClassSet.has(pitchClass)
+            );
+
+            // Ignore pitch classes that match no candidates.
+            if (matchingCandidates.length === 0) {
+                continue;
             }
 
-            const raised6th = (candidate.root + 9) % 12;
-            const raised7th = (candidate.root + 11) % 12;
+            // Select the pitch class that narrows candidates most.
+            if (matchingCandidates.length < bestCount) {
+                bestCandidates = matchingCandidates;
+                bestCount = matchingCandidates.length;
+            }
+        }
 
-            // Evaluate each hand independently.
-            const tracks = [...new Set(
-                groups.flatMap(group =>
-                    group.notes.map(note => note.track)
-                )
-            )];
-
-            return tracks.some(track => {
-
-                // Create groups containing notes from this hand only.
-                const handGroups = groups
-                    .map(group => {
-                        const notes = group.notes.filter(
-                            note => note.track === track
-                        );
-
-                        return {
-                            ...group,
-                            notes,
-                            pitchClasses: [
-                                ...new Set(notes.map(getPitchClass))
-                            ]
-                        };
-                    })
-                    .filter(group => group.notes.length > 0);
-
-                if (handGroups.length === 0) {
-                    return false;
-                }
-
-                // Both raised 6th and raised 7th must be found
-                // in the same hand.
-                const hasRaised6th = handGroups.some(group =>
-                    group.pitchClasses.includes(raised6th)
-                );
-
-                const hasRaised7th = handGroups.some(group =>
-                    group.pitchClasses.includes(raised7th)
-                );
-
-                if (!hasRaised6th || !hasRaised7th) {
-                    return false;
-                }
-
-                // Evaluate this hand using the normal scale
-                // or the descending-form exception.
-                return handGroups.every((group, index) =>
-                    groupFitsCandidate(candidate, group) ||
-                    isMelodicMinorDescendingException(
-                        candidate,
-                        group,
-                        handGroups,
-                        index
-                    )
-                );
-            });
-        });
-
-        return candidates;
+        candidates = bestCandidates;
     }
+
+    // Keep the existing Melodic Minor evaluation unchanged.
+    const melodicMinorCandidates = candidatePool.filter(candidate => {
+        if (candidate.mode !== "minor" || candidate.type !== "M") {
+            return false;
+        }
+
+        const raised6th = (candidate.root + 9) % 12;
+        const raised7th = (candidate.root + 11) % 12;
+
+        const tracks = [...new Set(
+            groups.flatMap(group =>
+                group.notes.map(note => note.track)
+            )
+        )];
+
+        return tracks.some(track => {
+            const handGroups = groups
+                .map(group => {
+                    const notes = group.notes.filter(
+                        note => note.track === track
+                    );
+
+                    return {
+                        ...group,
+                        notes,
+                        pitchClasses: [
+                            ...new Set(notes.map(getPitchClass))
+                        ]
+                    };
+                })
+                .filter(group => group.notes.length > 0);
+
+            if (handGroups.length === 0) {
+                return false;
+            }
+
+            const hasRaised6th = handGroups.some(group =>
+                group.pitchClasses.includes(raised6th)
+            );
+
+            const hasRaised7th = handGroups.some(group =>
+                group.pitchClasses.includes(raised7th)
+            );
+
+            if (!hasRaised6th || !hasRaised7th) {
+                return false;
+            }
+
+            return handGroups.every((group, index) =>
+                groupFitsCandidate(candidate, group) ||
+                isMelodicMinorDescendingException(
+                    candidate,
+                    group,
+                    handGroups,
+                    index
+                )
+            );
+        });
+    });
+
+    return [
+        ...candidates,
+        ...melodicMinorCandidates
+    ];
+}
+
 
     // Expand ambiguous segments backward for candidate refinement.
     for (let segmentIndex = 1;
