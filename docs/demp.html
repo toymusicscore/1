@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp188
+demp189
 </title>
 <style>
 
@@ -12879,84 +12879,77 @@ console.log("Start Trigger Group Detail", {
 
     // Re-evaluate ambiguous segments by expanding backward.
     // Only candidate results are updated. Segment data remains unchanged.
-
     function evaluateBackwardGroups(groups, candidatePool) {
         if (groups.length === 0) return [];
 
         const candidates = candidatePool.filter(candidate => {
 
+            // Major, Natural Minor, and Harmonic Minor:
+            // Keep the existing evaluation rule unchanged.
             if (candidate.mode !== "minor" || candidate.type !== "M") {
-                return groups.every((group, index) => {
-                    const fits = groupFitsCandidate(candidate, group);
-
-                    if (!fits) {
-                        console.log("Backward Candidate Rejected", {
-                            root: candidate.root,
-                            mode: candidate.mode,
-                            type: candidate.type,
-                            groupIndex: index,
-                            tick: group.tick,
-                            pitchClasses: group.pitchClasses,
-                            candidatePitchClasses: [...candidate.pitchClassSet]
-                        });
-                    }
-
-                    return fits;
-                });
+                return groups.every(group =>
+                    groupFitsCandidate(candidate, group)
+                );
             }
 
             const raised6th = (candidate.root + 9) % 12;
             const raised7th = (candidate.root + 11) % 12;
 
-            // Check melodic-minor ascending evidence
-            // across the entire expanded segment.
-            const hasRaised6th = groups.some(group =>
-                group.pitchClasses.includes(raised6th)
-            );
+            // Evaluate each hand independently.
+            const tracks = [...new Set(
+                groups.flatMap(group =>
+                    group.notes.map(note => note.track)
+                )
+            )];
 
-            const hasRaised7th = groups.some(group =>
-                group.pitchClasses.includes(raised7th)
-            );
+            return tracks.some(track => {
 
-            if (!hasRaised6th || !hasRaised7th) {
-                console.log("Backward Melodic Minor Rejected", {
-                    root: candidate.root,
-                    raised6th,
-                    raised7th,
-                    hasRaised6th,
-                    hasRaised7th,
-                    groups: groups.map(group => ({
-                        tick: group.tick,
-                        pitchClasses: group.pitchClasses
-                    }))
-                });
+                // Create groups containing notes from this hand only.
+                const handGroups = groups
+                    .map(group => {
+                        const notes = group.notes.filter(
+                            note => note.track === track
+                        );
 
-                return false;
-            }
+                        return {
+                            ...group,
+                            notes,
+                            pitchClasses: [
+                                ...new Set(notes.map(getPitchClass))
+                            ]
+                        };
+                    })
+                    .filter(group => group.notes.length > 0);
 
-            // Check every group using the normal scale
-            // or the descending-form exception.
-            return groups.every((group, index) => {
-                const normalFit = groupFitsCandidate(candidate, group);
-
-                const descendingFit = isMelodicMinorDescendingException(
-                    candidate,
-                    group,
-                    onsetGroups,
-                    onsetGroups.indexOf(group)
-                );
-
-                if (!normalFit && !descendingFit) {
-                    console.log("Backward Melodic Minor Group Rejected", {
-                        root: candidate.root,
-                        tick: group.tick,
-                        pitchClasses: group.pitchClasses,
-                        normalFit,
-                        descendingFit
-                    });
+                if (handGroups.length === 0) {
+                    return false;
                 }
 
-                return normalFit || descendingFit;
+                // Both raised 6th and raised 7th must be found
+                // in the same hand.
+                const hasRaised6th = handGroups.some(group =>
+                    group.pitchClasses.includes(raised6th)
+                );
+
+                const hasRaised7th = handGroups.some(group =>
+                    group.pitchClasses.includes(raised7th)
+                );
+
+                if (!hasRaised6th || !hasRaised7th) {
+                    return false;
+                }
+
+                // Evaluate this hand using the normal scale
+                // or the descending-form exception.
+                return handGroups.every((group, index) =>
+                    groupFitsCandidate(candidate, group) ||
+                    isMelodicMinorDescendingException(
+                        candidate,
+                        group,
+                        handGroups,
+                        index
+                    )
+                );
             });
         });
 
