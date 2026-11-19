@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp194
+demp195
 </title>
 <style>
 
@@ -13975,7 +13975,24 @@ function keyEstimationStage12() {
         for (const segment of segments) {
             if (segment.startTick <= 0) continue;
 
-            const x = xForTick(segment.startTick);
+            // Find the previous graph point.
+            const previousPoint = graphPoints
+                .map(item => item.point)
+                .filter(point => point.tick < segment.startTick)
+                .reduce(
+                    (previous, point) =>
+                        !previous || point.tick > previous.tick
+                            ? point
+                            : previous,
+                    null
+                );
+
+            // Place the boundary halfway between the two points.
+            const boundaryTick = previousPoint
+                ? (previousPoint.tick + segment.startTick) / 2
+                : segment.startTick;
+
+            const x = xForTick(boundaryTick);
 
             ctx.save();
 
