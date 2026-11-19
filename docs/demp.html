@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp197
+demp198
 </title>
 <style>
 
@@ -13054,11 +13054,12 @@ if (segmentIndex + 1 === 22) {
             const precedingGroup =
                 onsetGroups[firstGroupIndex - 1];
 
-            const expandedGroups = [
-                precedingGroup,
-                ...backwardGroups
-            ];
+const expandedGroups = [
+    precedingGroup,
+    ...backwardGroups
+];
 
+const previousCandidates = target.candidates.slice();
 
 const expandedCandidates =
     evaluateBackwardGroups(
@@ -13067,24 +13068,36 @@ const expandedCandidates =
     );
 
 if (segmentIndex + 1 === 16) {
-const candidatesChanged =
-    previousCandidates.length !== remainingCandidates.length ||
-    previousCandidates.some((candidate, index) =>
-        candidate.root !== remainingCandidates[index]?.root ||
-        candidate.mode !== remainingCandidates[index]?.mode ||
-        candidate.type !== remainingCandidates[index]?.type
-    );
+    const previousSignature = previousCandidates
+        .map(c => `${c.root}:${c.mode}:${c.type}`)
+        .sort()
+        .join("|");
 
-if (candidatesChanged) {
-    console.log("Backward Expansion Details", {
-        segment: segment.index,
-        addedTick,
-        addedPitchClasses,
-        previousCandidates,
-        remainingCandidates
-    });
+    const newSignature = expandedCandidates
+        .map(c => `${c.root}:${c.mode}:${c.type}`)
+        .sort()
+        .join("|");
+
+    if (previousSignature !== newSignature) {
+        console.log("Backward Expansion Changed", {
+            segment: segmentIndex + 1,
+            addedTick: precedingGroup.tick,
+            addedPitchClasses: precedingGroup.pitchClasses,
+            previousCandidates: previousCandidates.map(c => ({
+                root: c.root,
+                mode: c.mode,
+                type: c.type
+            })),
+            remainingCandidates: expandedCandidates.map(c => ({
+                root: c.root,
+                mode: c.mode,
+                type: c.type
+            }))
+        });
+    }
 }
-}
+
+
 /*
 if (segmentIndex + 1 === 16) {
     console.log("Backward Expansion Final", {
