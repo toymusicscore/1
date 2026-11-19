@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp204
+demp205
 </title>
 <style>
 
@@ -13531,7 +13531,6 @@ const keyMap = new Map();
 }
 
 function keyEstimationStage12() {
-    console.log("keyEstimationStage12 START");
 
     estimatedMeasureKeys = [];
     estimatedMeasureLabelTypes = [];
@@ -13548,6 +13547,7 @@ function keyEstimationStage12() {
         pitch: note.pitch
     }))
 );
+/*
 console.log("First graph point", relativeKeyGraphItems
     .flatMap(item => item.trend.points)
     .sort((a, b) => a.tick - b.tick)
@@ -13557,7 +13557,7 @@ console.log("First graph point", relativeKeyGraphItems
         beatNumber: point.beatNumber
     }))
 );
-
+*/
     const maxTick = scoreData.reduce((max, note) =>
         Math.max(max, Number(note.start) || 0), 0);
 
@@ -13763,6 +13763,14 @@ console.log("First graph point", relativeKeyGraphItems
     graphPoints.sort((a, b) =>
         a.point.tick - b.point.tick
     );
+
+console.log("First graph point", graphPoints
+    .slice(0, 5)
+    .map(item => ({
+        tick: item.point.tick,
+        beatNumber: item.point.beatNumber
+    }))
+);
 
     if (graphPoints.length > 0) {
         const timelineEndTick = Math.max(
