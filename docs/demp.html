@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp195
+demp196
 </title>
 <style>
 
@@ -13065,26 +13065,25 @@ const expandedCandidates =
     );
 
 if (segmentIndex + 1 === 16) {
+const candidatesChanged =
+    previousCandidates.length !== remainingCandidates.length ||
+    previousCandidates.some((candidate, index) =>
+        candidate.root !== remainingCandidates[index]?.root ||
+        candidate.mode !== remainingCandidates[index]?.mode ||
+        candidate.type !== remainingCandidates[index]?.type
+    );
+
+if (candidatesChanged) {
     console.log("Backward Expansion Details", {
-        segment: segmentIndex + 1,
-        addedTick: precedingGroup.tick,
-
-        previousCandidates: target.candidates.map(c => ({
-            root: c.root,
-            mode: c.mode,
-            type: c.type
-        })),
-
-        addedPitchClasses: precedingGroup.pitchClasses,
-
-        remainingCandidates: expandedCandidates.map(c => ({
-            root: c.root,
-            mode: c.mode,
-            type: c.type
-        }))
+        segment: segment.index,
+        addedTick,
+        addedPitchClasses,
+        previousCandidates,
+        remainingCandidates
     });
 }
-
+}
+/*
 if (segmentIndex + 1 === 16) {
     console.log("Backward Expansion Final", {
         segment: segmentIndex + 1,
@@ -13095,7 +13094,7 @@ if (segmentIndex + 1 === 16) {
         }))
     });
 }
-
+*/
 /*
             if (expandedCandidates.length === 0) {
                 console.log("Backward Expansion Stopped", {
