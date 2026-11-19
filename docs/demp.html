@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp209
+demp210
 </title>
 <style>
 
@@ -13773,12 +13773,23 @@ console.log("Graph tick positions", graphPoints
         }
 
         // Draw each beat as a diverging stacked bar.
-        for (const item of graphPoints) {
-            const point = item.point;
-            const trend = item.trend;
+for (const item of graphPoints) {
+    const point = item.point;
+    const trend = item.trend;
 
-            const x = xForTick(point.tick);
+    const x = xForTick(point.tick);
 
+    // Set bar width according to the next onset point.
+    const nextPoint = trend.points.find(
+        next => next.tick > point.tick
+    );
+
+    const pointBarWidth = Math.max(
+        2,
+        nextPoint
+            ? xForTick(nextPoint.tick) - x
+            : barWidth
+    );
             // Major tonic and fifth: positive.
             let positiveY = centerY;
 
@@ -13800,9 +13811,9 @@ console.log("Graph tick positions", graphPoints
                     ctx.fillStyle = col[s.pc];
 
                     ctx.fillRect(
-                        x - barWidth / 2,
+                        x,
                         positiveY - h,
-                        barWidth,
+                        pointBarWidth,
                         h
                     );
                 }
@@ -13831,9 +13842,9 @@ console.log("Graph tick positions", graphPoints
                     ctx.fillStyle = col[s.pc];
 
                     ctx.fillRect(
-                        x - barWidth / 2,
+                        x,
                         negativeY,
-                        barWidth,
+                        pointBarWidth,
                         h
                     );
                 }
@@ -13883,13 +13894,25 @@ console.log("Graph tick positions", graphPoints
         }
 
         // Draw difference bars.
-        for (const item of graphPoints) {
-            const point = item.point;
-            const trend = item.trend;
+            for (const item of graphPoints) {
+                const point = item.point;
+                const trend = item.trend;
 
-            const x = xForTick(point.tick);
-            const value = point.difference;
+                const x = xForTick(point.tick);
 
+                const nextPoint = trend.points.find(
+                    next => next.tick > point.tick
+                );
+
+                const pointBarWidth = Math.max(
+                    2,
+                    nextPoint
+                        ? xForTick(nextPoint.tick) - x
+                        : barWidth
+                );
+
+                const value = point.difference;
+                
             if (value === 0) continue;
 
             const h =
@@ -13903,16 +13926,16 @@ console.log("Graph tick positions", graphPoints
 
             if (value > 0) {
                 ctx.fillRect(
-                    x - barWidth / 2,
+                    x,
                     diffCenterY - h,
-                    barWidth,
+                    pointBarWidth,
                     h
                 );
             } else {
                 ctx.fillRect(
-                    x - barWidth / 2,
+                    x,
                     diffCenterY,
-                    barWidth,
+                    pointBarWidth,
                     h
                 );
             }
