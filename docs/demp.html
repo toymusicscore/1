@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp210
+demp211
 </title>
 <style>
 
@@ -13771,17 +13771,6 @@ for (const item of graphPoints) {
 
     const x = xForTick(point.tick);
 
-    // Set bar width according to the next onset point.
-    const nextPoint = trend.points.find(
-        next => next.tick > point.tick
-    );
-
-    const pointBarWidth = Math.max(
-        2,
-        nextPoint
-            ? xForTick(nextPoint.tick) - x
-            : barWidth
-    );
             // Major tonic and fifth: positive.
             let positiveY = centerY;
 
@@ -13803,9 +13792,9 @@ for (const item of graphPoints) {
                     ctx.fillStyle = col[s.pc];
 
                     ctx.fillRect(
-                        x,
+                        x - barWidth / 2,
                         positiveY - h,
-                        pointBarWidth,
+                        barWidth,
                         h
                     );
                 }
@@ -13834,9 +13823,9 @@ for (const item of graphPoints) {
                     ctx.fillStyle = col[s.pc];
 
                     ctx.fillRect(
-                        x,
-                        negativeY,
-                        pointBarWidth,
+                        x - barWidth / 2,
+                        negativeY - h,
+                        barWidth,
                         h
                     );
                 }
@@ -13891,18 +13880,6 @@ for (const item of graphPoints) {
                 const trend = item.trend;
 
                 const x = xForTick(point.tick);
-
-                const nextPoint = trend.points.find(
-                    next => next.tick > point.tick
-                );
-
-                const pointBarWidth = Math.max(
-                    2,
-                    nextPoint
-                        ? xForTick(nextPoint.tick) - x
-                        : barWidth
-                );
-
                 const value = point.difference;
                 
             if (value === 0) continue;
@@ -13918,16 +13895,16 @@ for (const item of graphPoints) {
 
             if (value > 0) {
                 ctx.fillRect(
-                    x,
+                    x - barWidth / 2,
                     diffCenterY - h,
-                    pointBarWidth,
+                    barWidth,
                     h
                 );
             } else {
                 ctx.fillRect(
-                    x,
+                    x - barWidth / 2,
                     diffCenterY,
-                    pointBarWidth,
+                    barWidth,
                     h
                 );
             }
