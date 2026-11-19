@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp201
+demp202
 </title>
 <style>
 
@@ -13544,6 +13544,15 @@ function keyEstimationStage12() {
         start: note.start,
         duration: note.duration,
         pitch: note.pitch
+    }))
+);
+console.log("First graph point", relativeKeyGraphItems
+    .flatMap(item => item.trend.points)
+    .sort((a, b) => a.tick - b.tick)
+    .slice(0, 5)
+    .map(point => ({
+        tick: point.tick,
+        beatNumber: point.beatNumber
     }))
 );
 
