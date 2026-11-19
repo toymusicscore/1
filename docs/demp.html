@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp192
+demp193
 </title>
 <style>
 
@@ -13089,11 +13089,41 @@ console.log("Backward Candidate Fit Check", {
     }))
 });
 
-            const expandedCandidates =
-                evaluateBackwardGroups(
-                    expandedGroups,
-                    originalCandidates
-                );
+const expandedCandidates =
+    evaluateBackwardGroups(
+        expandedGroups,
+        originalCandidates
+    );
+
+// Debug: inspect individual pitch-class matching.
+if (segmentIndex + 1 === 16) {
+    console.log("Backward Pitch Class Analysis", {
+        segment: segmentIndex + 1,
+        addedTick: precedingGroup.tick,
+
+        notes: precedingGroup.notes.map(note => ({
+            midi: note.midi,
+            pitchClass: getPitchClass(note),
+            track: note.track
+        })),
+
+        pitchClassMatches: [
+            ...new Set(precedingGroup.notes.map(getPitchClass))
+        ].map(pitchClass => ({
+            pitchClass,
+            matchingCandidates: originalCandidates
+                .filter(candidate =>
+                    candidate.pitchClassSet.has(pitchClass)
+                )
+                .map(candidate => ({
+                    root: candidate.root,
+                    mode: candidate.mode,
+                    type: candidate.type
+                }))
+        }))
+    });
+}
+
 console.warn("### BACKWARD DETAILS ###", {
     segment: segmentIndex + 1,
     addedTick: precedingGroup.tick,
