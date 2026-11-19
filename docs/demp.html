@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp186
+demp187
 </title>
 <style>
 
@@ -12886,9 +12886,23 @@ console.log("Start Trigger Group Detail", {
         const candidates = candidatePool.filter(candidate => {
 
             if (candidate.mode !== "minor" || candidate.type !== "M") {
-                return groups.every(group =>
-                    groupFitsCandidate(candidate, group)
-                );
+                return groups.every((group, index) => {
+                    const fits = groupFitsCandidate(candidate, group);
+
+                    if (!fits) {
+                        console.log("Backward Candidate Rejected", {
+                            root: candidate.root,
+                            mode: candidate.mode,
+                            type: candidate.type,
+                            groupIndex: index,
+                            tick: group.tick,
+                            pitchClasses: group.pitchClasses,
+                            candidatePitchClasses: [...candidate.pitchClassSet]
+                        });
+                    }
+
+                    return fits;
+                });
             }
 
             const raised6th = (candidate.root + 9) % 12;
