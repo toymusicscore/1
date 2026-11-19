@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp213
+demp214
 </title>
 <style>
 
@@ -13816,7 +13816,15 @@ for (const item of graphPoints) {
                     pc: (trend.majorRoot + 7) % 12
                 }
             ];
-
+console.log("Major bar check", {
+    tick: point.tick,
+    majorName: trend.majorName,
+    minorName: trend.minorName,
+    tonic: point.majorTonicValue,
+    fifth: point.majorFifthValue,
+    tonicColor: col[trend.majorRoot],
+    fifthColor: col[(trend.majorRoot + 7) % 12]
+});
             for (const s of majorSeries) {
                 const h = s.value / 100 * halfHeight;
 
@@ -13847,7 +13855,15 @@ for (const item of graphPoints) {
                     pc: (trend.minorRoot + 7) % 12
                 }
             ];
-
+console.log("Minor bar check", {
+    tick: point.tick,
+    majorName: trend.majorName,
+    minorName: trend.minorName,
+    tonic: point.minorTonicValue,
+    fifth: point.minorFifthValue,
+    tonicColor: col[trend.minorRoot],
+    fifthColor: col[(trend.minorRoot + 7) % 12]
+});
             for (const s of minorSeries) {
                 const h = s.value / 100 * halfHeight;
 
