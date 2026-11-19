@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp187
+demp188
 </title>
 <style>
 
@@ -12919,20 +12919,45 @@ console.log("Start Trigger Group Detail", {
             );
 
             if (!hasRaised6th || !hasRaised7th) {
+                console.log("Backward Melodic Minor Rejected", {
+                    root: candidate.root,
+                    raised6th,
+                    raised7th,
+                    hasRaised6th,
+                    hasRaised7th,
+                    groups: groups.map(group => ({
+                        tick: group.tick,
+                        pitchClasses: group.pitchClasses
+                    }))
+                });
+
                 return false;
             }
 
             // Check every group using the normal scale
             // or the descending-form exception.
-            return groups.every((group, index) =>
-                groupFitsCandidate(candidate, group) ||
-                isMelodicMinorDescendingException(
+            return groups.every((group, index) => {
+                const normalFit = groupFitsCandidate(candidate, group);
+
+                const descendingFit = isMelodicMinorDescendingException(
                     candidate,
                     group,
                     onsetGroups,
                     onsetGroups.indexOf(group)
-                )
-            );
+                );
+
+                if (!normalFit && !descendingFit) {
+                    console.log("Backward Melodic Minor Group Rejected", {
+                        root: candidate.root,
+                        tick: group.tick,
+                        pitchClasses: group.pitchClasses,
+                        normalFit,
+                        descendingFit
+                    });
+                }
+
+                return normalFit || descendingFit;
+            });
         });
 
         return candidates;
