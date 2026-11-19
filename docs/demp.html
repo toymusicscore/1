@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp185
+demp186
 </title>
 <style>
 
@@ -13009,11 +13009,21 @@ console.warn("### BACKWARD DETAILS ###", {
                 }))
             });
 
+
             if (expandedCandidates.length === 0) {
                 console.log("Backward Expansion Stopped", {
+                    segment: segmentIndex + 1,
                     tick: precedingGroup.tick,
-                    reason: "No valid candidates"
+                    reason: "No valid candidates",
+                    retainedCandidates: target.candidates.map(c => ({
+                        root: c.root,
+                        mode: c.mode,
+                        type: c.type
+                    }))
                 });
+
+                // Reject this backward expansion.
+                // Keep the candidates from the previous valid step.
                 break;
             }
 
