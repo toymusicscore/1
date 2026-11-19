@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp207
+demp208
 </title>
 <style>
 
@@ -13542,17 +13542,6 @@ function keyEstimationStage12() {
     estimatedMeasureLabelTypes = [];
 
     const segments = stage12BuildSegments();
-
-    console.log("Initial MIDI notes", scoreData
-    .slice()
-    .sort((a, b) => Number(a.start) - Number(b.start))
-    .slice(0, 5)
-    .map(note => ({
-        start: note.start,
-        duration: note.duration,
-        pitch: note.pitch
-    }))
-);
     const maxTick = scoreData.reduce((max, note) =>
         Math.max(max, Number(note.start) || 0), 0);
 
@@ -13602,56 +13591,6 @@ function keyEstimationStage12() {
                 segment: i + 1,
                 trend
             });
-/*
-            console.log("Relative Key Trend", {
-                segment: i + 1,
-                major: trend.majorName,
-                minor: trend.minorName,
-                firstDifference: trend.firstDifference,
-                lastDifference: trend.lastDifference
-            });
-*/
-/*
-            console.log(
-                "Relative Key Trend Points",
-                JSON.stringify(
-                    trend.points.map(point => ({
-                        tick: point.tick,
-                        beat: point.beatNumber,
-                        bar: Number(
-                            (point.tick / ticksPerMeasure + 1).toFixed(2)
-                        ),
-
-                        majorTonic: Number(
-                            point.majorTonicValue.toFixed(2)
-                        ),
-                        majorFifth: Number(
-                            point.majorFifthValue.toFixed(2)
-                        ),
-                        minorTonic: Number(
-                            point.minorTonicValue.toFixed(2)
-                        ),
-                        minorFifth: Number(
-                            point.minorFifthValue.toFixed(2)
-                        ),
-
-                        majorTotal: Number(
-                            point.majorValue.toFixed(2)
-                        ),
-                        minorTotal: Number(
-                            point.minorValue.toFixed(2)
-                        ),
-                        difference: Number(
-                            point.difference.toFixed(2)
-                        ),
-
-                        noteCount: point.noteCount
-                    })),
-                    null,
-                    2
-                )
-            );
-*/
         }
 
         const y = 172 + i * 42;
@@ -13758,18 +13697,6 @@ function keyEstimationStage12() {
     graphPoints.sort((a, b) =>
         a.point.tick - b.point.tick
     );
-
-console.log("First graph point", graphPoints
-    .slice(0, 3)
-    .map(item => ({
-        tick: item.point.tick,
-        beatNumber: item.point.beatNumber,
-        noteCount: item.point.noteCount,
-        majorValue: item.point.majorValue,
-        minorValue: item.point.minorValue,
-        difference: item.point.difference
-    }))
-);
 
     if (graphPoints.length > 0) {
         const timelineEndTick = Math.max(
