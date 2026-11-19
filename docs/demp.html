@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp196
+demp197
 </title>
 <style>
 
@@ -13019,6 +13019,7 @@ function evaluateBackwardGroups(groups, candidatePool) {
         ) {
             continue;
         }
+/*
 if (segmentIndex + 1 === 22) {
     console.log("Backward Segment 22 Start Trigger Check", {
         startTick: target.startTick,
@@ -13029,6 +13030,7 @@ if (segmentIndex + 1 === 22) {
         )
     });
 }
+*/
         let firstGroupIndex =
             onsetGroups.indexOf(target.groups[0]);
 
@@ -13036,14 +13038,14 @@ if (segmentIndex + 1 === 22) {
 
         const originalCandidates = target.candidates.slice();
         let backwardGroups = target.groups.slice();
-
+/*
         console.log("Backward Expansion Start", {
             segment: segmentIndex + 1,
             startTick: target.startTick,
             endTick: target.endTick,
             candidateCount: originalCandidates.length
         });
-
+*/
         // Add one preceding onset group at a time.
         while (
             firstGroupIndex > 0 &&
@@ -13385,6 +13387,7 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
 }
 
 function stage12EvaluateSegment(segment) {
+    /*
 console.log("Segment 9 Evaluation", {
     startTick: segment.startTick,
     endTick: segment.endTick,
@@ -13395,7 +13398,7 @@ candidates: segment.candidates.map(c => ({
     pitchClassSet: [...c.pitchClassSet]
 }))
 });
-
+*/
 const keyMap = new Map();
 
     for (const scale of segment.candidates) {
@@ -13549,6 +13552,7 @@ function keyEstimationStage12() {
                 segment: i + 1,
                 trend
             });
+/*
             console.log("Relative Key Trend", {
                 segment: i + 1,
                 major: trend.majorName,
@@ -13556,7 +13560,8 @@ function keyEstimationStage12() {
                 firstDifference: trend.firstDifference,
                 lastDifference: trend.lastDifference
             });
-
+*/
+/*
             console.log(
                 "Relative Key Trend Points",
                 JSON.stringify(
@@ -13596,6 +13601,7 @@ function keyEstimationStage12() {
                     2
                 )
             );
+*/
         }
 
         const y = 172 + i * 42;
