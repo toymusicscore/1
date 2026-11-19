@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp203
+demp204
 </title>
 <style>
 
@@ -13728,6 +13728,14 @@ console.log("First graph point", relativeKeyGraphItems
             }
         }
     }
+
+    console.log("Graph data check", {
+    segmentCount: segments.length,
+    graphItemCount: relativeKeyGraphItems.length,
+    pointCounts: relativeKeyGraphItems.map(item =>
+        item.trend.points.length
+    )
+});
 
     // Draw relative major/minor key graphs.
     // Draw one continuous relative major/minor graph.
