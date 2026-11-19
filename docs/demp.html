@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp200
+demp201
 </title>
 <style>
 
@@ -13535,6 +13535,18 @@ function keyEstimationStage12() {
     estimatedMeasureLabelTypes = [];
 
     const segments = stage12BuildSegments();
+
+    console.log("Initial MIDI notes", scoreData
+    .slice()
+    .sort((a, b) => Number(a.start) - Number(b.start))
+    .slice(0, 5)
+    .map(note => ({
+        start: note.start,
+        duration: note.duration,
+        pitch: note.pitch
+    }))
+);
+
     const maxTick = scoreData.reduce((max, note) =>
         Math.max(max, Number(note.start) || 0), 0);
 
