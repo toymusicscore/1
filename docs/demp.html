@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp221
+demp222
 </title>
 <style>
 
@@ -13973,11 +13973,6 @@ for (const item of graphPoints) {
         // Segment boundary lines
         // --------------------------------
         for (const segment of segments) {
-console.log("Segment boundary", {
-    startTick: segment.startTick,
-    previousTick: previousPoint?.tick,
-    boundaryTick
-});
             if (segment.startTick <= 0) continue;
 
             // Find the previous graph point.
@@ -13996,6 +13991,11 @@ console.log("Segment boundary", {
             const boundaryTick = previousPoint
                 ? (previousPoint.tick + segment.startTick) / 2
                 : segment.startTick;
+console.log("Segment boundary", {
+    startTick: segment.startTick,
+    previousTick: previousPoint?.tick,
+    boundaryTick
+});
 
             const x = xForTick(boundaryTick);
 
