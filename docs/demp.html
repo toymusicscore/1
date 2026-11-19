@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp208
+demp209
 </title>
 <style>
 
@@ -13697,6 +13697,15 @@ function keyEstimationStage12() {
     graphPoints.sort((a, b) =>
         a.point.tick - b.point.tick
     );
+
+console.log("Graph tick positions", graphPoints
+    .slice(0, 12)
+    .map(item => ({
+        tick: item.point.tick,
+        beat: item.point.beatNumber,
+        noteCount: item.point.noteCount
+    }))
+);
 
     if (graphPoints.length > 0) {
         const timelineEndTick = Math.max(
