@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp214
+demp215
 </title>
 <style>
 
@@ -13684,15 +13684,6 @@ function keyEstimationStage12() {
         a.point.tick - b.point.tick
     );
 
-    console.log(
-    "Graph point gaps",
-    graphPoints.slice(1).map((item, i) => ({
-        from: graphPoints[i].point.tick,
-        to: item.point.tick,
-        gap: item.point.tick - graphPoints[i].point.tick
-    }))
-);
-
 // Check whether multiple trends overlap at the same tick.
 const tickGroups = new Map();
 
@@ -13710,27 +13701,16 @@ for (const item of graphPoints) {
     });
 }
 
-console.log(
-    "Overlapping graph trends",
-    Array.from(tickGroups.entries())
-        .filter(([tick, items]) => items.length > 1)
-);
-
-console.log("Graph tick positions", graphPoints
-    .slice(0, 12)
-    .map(item => ({
-        tick: item.point.tick,
-        beat: item.point.beatNumber,
-        noteCount: item.point.noteCount
-    }))
-);
-
     if (graphPoints.length > 0) {
         const timelineEndTick = Math.max(
             maxTick,
             ...segments.map(segment => segment.endTick)
         );
-
+console.log("Timeline check", {
+    maxTick,
+    timelineEndTick,
+    firstPointTick: graphPoints[0]?.point.tick
+});
         const totalTicks = Math.max(1, timelineEndTick);
 
         const xForTick = tick =>
@@ -13810,15 +13790,6 @@ for (const item of graphPoints) {
                     pc: (trend.majorRoot + 7) % 12
                 }
             ];
-console.log("Major bar check", {
-    tick: point.tick,
-    majorName: trend.majorName,
-    minorName: trend.minorName,
-    tonic: point.majorTonicValue,
-    fifth: point.majorFifthValue,
-    tonicColor: col[trend.majorRoot],
-    fifthColor: col[(trend.majorRoot + 7) % 12]
-});
             for (const s of majorSeries) {
                 const h = s.value / 100 * halfHeight;
 
@@ -13849,15 +13820,6 @@ console.log("Major bar check", {
                     pc: (trend.minorRoot + 7) % 12
                 }
             ];
-console.log("Minor bar check", {
-    tick: point.tick,
-    majorName: trend.majorName,
-    minorName: trend.minorName,
-    tonic: point.minorTonicValue,
-    fifth: point.minorFifthValue,
-    tonicColor: col[trend.minorRoot],
-    fifthColor: col[(trend.minorRoot + 7) % 12]
-});
             for (const s of minorSeries) {
                 const h = s.value / 100 * halfHeight;
 
