@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp224
+demp225
 </title>
 <style>
 
@@ -14001,6 +14001,13 @@ for (const item of graphPoints) {
             ctx.lineWidth = 2;
             ctx.setLineDash([5, 3]);
 
+            // Upper graph
+            ctx.beginPath();
+            ctx.moveTo(x, centerY - halfHeight);
+            ctx.lineTo(x, centerY + halfHeight);
+            ctx.stroke();
+
+            // Lower graph
             ctx.beginPath();
             // Start below the Difference title.
             ctx.moveTo(x, diffTitleY + 8);
