@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp198
+demp199
 </title>
 <style>
 
@@ -12702,7 +12702,7 @@ function stage12BuildSegments() {
                 ? oldSegment.groups[startIndex].tick
                 : triggerGroup.tick;
         }
-
+/*
 console.log("Segment Split Check", {
     startIndex,
     boundaryTick,
@@ -12722,7 +12722,7 @@ console.log("Segment Split Check", {
         })),
     candidateCount: candidates.length
 });
-
+*/
         // Split the old segment at the selected boundary.
         const oldGroups = oldSegment.groups.filter(group =>
             group.tick < boundaryTick
@@ -12770,6 +12770,7 @@ console.log("Segment Split Check", {
 
         newSegment.startTick = boundaryTick;
         newSegment.modulationTick = boundaryTick;
+        /*
 console.log("Start Trigger Check", {
     startIndex,
     groupCount: oldSegment.groups.length,
@@ -12780,6 +12781,7 @@ console.log("Start Trigger Check", {
     startTriggerTick: savedStartTriggerGroup?.tick,
     candidateCount: candidates.length
 });
+*/
 
 // Store the actual start trigger.
 if (savedStartTriggerGroup) {
@@ -12804,7 +12806,7 @@ if (savedStartTriggerGroup) {
     newSegment.startTrigger = oldSegment.startTrigger;
     newSegment.startTriggerTick = oldSegment.startTriggerTick;
 }
-
+/*
 console.log("Start Trigger Result", {
     tick: newSegment.startTriggerTick,
     notes: newSegment.startTrigger
@@ -12820,6 +12822,7 @@ console.log("Start Trigger Group Detail", {
     })),
     savedNotes: newSegment.startTrigger
 });
+*/
         return newSegment;
     }
 
