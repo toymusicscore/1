@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp212
+demp213
 </title>
 <style>
 
@@ -13689,6 +13689,16 @@ function keyEstimationStage12() {
     graphPoints.sort((a, b) =>
         a.point.tick - b.point.tick
     );
+
+    console.log(
+    "Graph point gaps",
+    graphPoints.slice(1).map((item, i) => ({
+        from: graphPoints[i].point.tick,
+        to: item.point.tick,
+        gap: item.point.tick - graphPoints[i].point.tick
+    }))
+);
+
 // Check whether multiple trends overlap at the same tick.
 const tickGroups = new Map();
 
