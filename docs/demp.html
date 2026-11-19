@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp206
+demp207
 </title>
 <style>
 
@@ -13314,6 +13314,7 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
             if (!beatMap.has(beatIndex)) {
                 beatMap.set(beatIndex, {
                     beatIndex,
+                    firstTick: group.tick,
                     noteCount: 0,
                     majorTonicCount: 0,
                     majorFifthCount: 0,
@@ -13323,6 +13324,11 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
             }
 
             const beat = beatMap.get(beatIndex);
+
+            beat.firstTick = Math.min(
+                beat.firstTick,
+                group.tick
+            );
 
             for (const note of group.notes || []) {
                 const pc =
@@ -13379,7 +13385,7 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
             points.push({
                 beatIndex: beat.beatIndex,
                 beatNumber: beat.beatIndex + 1,
-                tick: beat.beatIndex * ticksPerQuarterNote,
+                tick: beat.firstTick,
 
                 majorTonicValue,
                 majorFifthValue,
