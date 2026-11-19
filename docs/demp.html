@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp193
+demp194
 </title>
 <style>
 
@@ -13057,37 +13057,6 @@ if (segmentIndex + 1 === 22) {
                 ...backwardGroups
             ];
 
-// Diagnose which onset groups reject each candidate.
-console.log("Backward Candidate Fit Check", {
-    segment: segmentIndex + 1,
-
-    groups: expandedGroups.map((group, index) => ({
-        index,
-        tick: group.tick,
-        pitchClasses: group.pitchClasses,
-
-        notes: group.notes.map(note => ({
-            midi: Number(note.midi),
-            pitchClass: getPitchClass(note),
-            track: note.track
-        }))
-    })),
-
-    candidates: originalCandidates.map(candidate => ({
-        root: candidate.root,
-        mode: candidate.mode,
-        type: candidate.type,
-
-        rejectedGroups: expandedGroups
-            .filter(group =>
-                !groupFitsCandidate(candidate, group)
-            )
-            .map(group => ({
-                tick: group.tick,
-                pitchClasses: group.pitchClasses
-            }))
-    }))
-});
 
 const expandedCandidates =
     evaluateBackwardGroups(
@@ -13095,73 +13064,39 @@ const expandedCandidates =
         originalCandidates
     );
 
-// Debug: inspect individual pitch-class matching.
 if (segmentIndex + 1 === 16) {
-    console.log("Backward Pitch Class Analysis", {
+    console.log("Backward Expansion Details", {
         segment: segmentIndex + 1,
         addedTick: precedingGroup.tick,
 
-        notes: precedingGroup.notes.map(note => ({
-            midi: note.midi,
-            pitchClass: getPitchClass(note),
-            track: note.track
+        previousCandidates: target.candidates.map(c => ({
+            root: c.root,
+            mode: c.mode,
+            type: c.type
         })),
 
-        pitchClassMatches: [
-            ...new Set(precedingGroup.notes.map(getPitchClass))
-        ].map(pitchClass => ({
-            pitchClass,
-            matchingCandidates: originalCandidates
-                .filter(candidate =>
-                    candidate.pitchClassSet.has(pitchClass)
-                )
-                .map(candidate => ({
-                    root: candidate.root,
-                    mode: candidate.mode,
-                    type: candidate.type
-                }))
+        addedPitchClasses: precedingGroup.pitchClasses,
+
+        remainingCandidates: expandedCandidates.map(c => ({
+            root: c.root,
+            mode: c.mode,
+            type: c.type
         }))
     });
 }
 
-console.warn("### BACKWARD DETAILS ###", {
-    segment: segmentIndex + 1,
-    addedTick: precedingGroup.tick,
+if (segmentIndex + 1 === 16) {
+    console.log("Backward Expansion Final", {
+        segment: segmentIndex + 1,
+        candidates: target.candidates.map(c => ({
+            root: c.root,
+            mode: c.mode,
+            type: c.type
+        }))
+    });
+}
 
-    previousCount: target.candidates.length,
-
-    addedPitchClasses: precedingGroup.pitchClasses,
-
-    addedMidiNotes: precedingGroup.notes.map(note => ({
-        midi: note.midi,
-        pitchClass: getPitchClass(note),
-        track: note.track
-    })),
-
-    addedNotes: precedingGroup.notes,
-
-    remainingCount: expandedCandidates.length
-});
-            console.log("Backward Expansion Details", {
-                segment: segmentIndex + 1,
-                addedTick: precedingGroup.tick,
-
-                previousCandidates: target.candidates.map(c => ({
-                    root: c.root,
-                    mode: c.mode,
-                    type: c.type
-                })),
-
-                addedNotes: precedingGroup.notes,
-
-                remainingCandidates: expandedCandidates.map(c => ({
-                    root: c.root,
-                    mode: c.mode,
-                    type: c.type
-                }))
-            });
-
-
+/*
             if (expandedCandidates.length === 0) {
                 console.log("Backward Expansion Stopped", {
                     segment: segmentIndex + 1,
@@ -13178,6 +13113,7 @@ console.warn("### BACKWARD DETAILS ###", {
                 // Keep the candidates from the previous valid step.
                 break;
             }
+*/
 
             // Update candidates only.
             target.candidates = expandedCandidates;
@@ -13185,7 +13121,7 @@ console.warn("### BACKWARD DETAILS ###", {
 
             backwardGroups = expandedGroups;
             firstGroupIndex--;
-
+/*
             console.log("Backward Expansion Step", {
                 segment: segmentIndex + 1,
                 addedTick: precedingGroup.tick,
@@ -13208,9 +13144,10 @@ console.warn("### BACKWARD DETAILS ###", {
                 });
                 break;
             }
+                */
         }
     }
-
+/*
     console.log("Backward Segment Expansion", segments.map(
         (segment, index) => ({
             segment: index + 1,
@@ -13226,14 +13163,15 @@ console.warn("### BACKWARD DETAILS ###", {
             }))
         })
     ));
-
+*/
+/*
     console.log("Final Segment Triggers", segments.map((segment, index) => ({
     segment: index + 1,
     startTick: segment.startTick,
     startTriggerTick: segment.startTriggerTick,
     startTrigger: segment.startTrigger
 })));
-
+*/
     return segments;
 }
 
