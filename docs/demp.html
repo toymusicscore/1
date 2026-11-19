@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp219
+demp220
 </title>
 <style>
 
@@ -13972,7 +13972,11 @@ for (const item of graphPoints) {
         // --------------------------------
         // Segment boundary lines
         // --------------------------------
-
+console.log("Segment boundary", {
+    startTick: segment.startTick,
+    previousTick: previousPoint?.tick,
+    boundaryTick
+});
         for (const segment of segments) {
             if (segment.startTick <= 0) continue;
 
