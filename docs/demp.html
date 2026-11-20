@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp236
+demp237
 </title>
 <style>
 
@@ -2533,6 +2533,7 @@ let motifGroups = [];
 let estimatedKey = null;
 let estimatedLabelType = "sharp";
 let estimatedMeasureKeys = [];
+let estimatedKeySegments = [];
 
 //========================================
 // Initialize
@@ -13541,6 +13542,7 @@ const keyMap = new Map();
 function keyEstimationStage12() {
 
     estimatedMeasureKeys = [];
+    estimatedKeySegments = [];
 
     const segments = stage12BuildSegments();
     const maxTick = scoreData.reduce((max, note) =>
@@ -13647,19 +13649,17 @@ function keyEstimationStage12() {
         // Keep the existing piano-roll note-label support aligned with the new
         // segment result, without using measure boundaries for Stage 1 detection.
         if (result.selected) {
-            const firstMeasure = Math.floor(segment.startTick / ticksPerMeasure);
-            const lastMeasure = Math.floor(Math.max(segment.startTick, segment.endTick - 1) / ticksPerMeasure);
             const minorType = result.selected.mode === "minor" && result.selected.types.length === 1
                 ? result.selected.types[0]
                 : null;
-            const keyName = result.selected.name;
-            for (let measure = firstMeasure; measure <= lastMeasure; measure++) {
-                estimatedMeasureKeys[measure] = {
-                    estKey: keyName,
-                    estScaleType: minorType,
-                    rootPc: result.selected.root
-                };
-            }
+
+            estimatedKeySegments.push({
+                startTick: segment.startTick,
+                endTick: segment.endTick,
+                estKey: result.selected.name,
+                estScaleType: minorType,
+                rootPc: result.selected.root
+            });
         }
     }
 
