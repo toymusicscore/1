@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp233
+demp234
 </title>
 <style>
 
@@ -13728,24 +13728,15 @@ console.log("Timeline check", {
             graphTop
         );
 
+
         // --------------------------------
         // Legend: pitch-class colors
         // --------------------------------
 
-        const legendPitchClasses = [
-            ...new Set(
-                graphPoints.flatMap(item => {
-                    const trend = item.trend;
-
-                    return [
-                        trend.majorRoot,
-                        (trend.majorRoot + 7) % 12,
-                        trend.minorRoot,
-                        (trend.minorRoot + 7) % 12
-                    ];
-                })
-            )
-        ].sort((a, b) => a - b);
+        const legendPitchClasses = Array.from(
+            { length: 12 },
+            (_, pc) => pc
+        );
 
         const legendY = graphTop + 28;
 
