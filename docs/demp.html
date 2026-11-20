@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp227
+demp228
 </title>
 <style>
 
@@ -13884,7 +13884,7 @@ for (const item of graphPoints) {
 
         // --------------------------------
         // Lower graph: difference bars
-        // Difference = minor - major
+        // Difference = major - minor
         // --------------------------------
 
         const diffTitleY = chartTop + chartHeight + 38;
@@ -13935,8 +13935,9 @@ for (const item of graphPoints) {
             const h =
                 Math.abs(value) / 100 * diffHalfHeight;
 
-            // Positive: minor tonic color.
-            // Negative: major tonic color.
+            // Positive: major tonic color.
+            // Negative: minor tonic color.
+
             ctx.fillStyle = value > 0
                 ? col[trend.majorRoot]
                 : col[trend.minorRoot];
