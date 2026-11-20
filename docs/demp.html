@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp239
+demp240
 </title>
 <style>
 
@@ -4278,19 +4278,6 @@ function getMelodicMinorLabel(
 }
 
 
-function getKeyLabelType(keyName) {
-    if (flatKeys.includes(keyName)) {
-        return "flat";
-    }
-
-    if (sharpKeys.includes(keyName)) {
-        return "sharp";
-    }
-
-    // Default
-    return "sharp";
-}
-
 function getLabel(midi, n_id, songId, startTick){
 
     const measureIndex = Math.floor(startTick / ticksPerMeasure);
@@ -4303,7 +4290,7 @@ function getLabel(midi, n_id, songId, startTick){
     const estimatedKey = estimatedSegment?.estKey;
 
     const labelType = estimatedKey
-        ? getKeyLabelType(estimatedKey)
+        ? getAutoLabelType(estimatedKey)
         : "sharp";
 
     let nl = "";
