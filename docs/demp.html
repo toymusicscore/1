@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp225
+demp226
 </title>
 <style>
 
@@ -13972,8 +13972,8 @@ for (const item of graphPoints) {
         // --------------------------------
         // Segment boundary lines
         // --------------------------------
-        for (const segment of segments) {
-            if (segment.startTick <= 0) continue;
+        for (let i = 1; i < segments.length; i++) {
+            const segment = segments[i];
 
             // Find the previous graph point.
             const previousPoint = graphPoints
@@ -14009,9 +14009,7 @@ for (const item of graphPoints) {
 
             // Lower graph
             ctx.beginPath();
-            // Start below the Difference title.
             ctx.moveTo(x, diffTitleY + 8);
-            // Stop above the Beat / Bar labels.
             ctx.lineTo(x, diffBottom);
             ctx.stroke();
 
