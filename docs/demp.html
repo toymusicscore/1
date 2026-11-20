@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp228
+demp229
 </title>
 <style>
 
@@ -13888,7 +13888,7 @@ for (const item of graphPoints) {
         // --------------------------------
 
         const diffTitleY = chartTop + chartHeight + 38;
-        const diffTop = diffTitleY + 12;
+        const diffTop = diffTitleY + 28;
         const diffHeight = 90;
         const diffCenterY = diffTop + diffHeight / 2;
         const diffHalfHeight = diffHeight / 2;
@@ -13899,9 +13899,17 @@ for (const item of graphPoints) {
         ctx.font = "11px Arial";
 
         ctx.fillText(
-            "Difference: major - minor (percentage points)",
+            "Difference: (major tonic + fifth) - (minor tonic + fifth) (percentage points)",
             12,
             diffTitleY
+        );
+
+        ctx.font = "10px Arial";
+
+        ctx.fillText(
+            "Bar color: tonic pitch class of the major side (+) or minor side (-).",
+            12,
+            diffTitleY + 15
         );
 
         for (let v = -100; v <= 100; v += 50) {
