@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp241
+demp242
 </title>
 <style>
 
@@ -4327,22 +4327,16 @@ function getLabel(midi, n_id, songId, startTick){
             : engs1[midi % 12]);
 
     }else if (practiceSettings.noteTextType === 3){
-        nl = engs1[midi % 12];
-
-    }else if (practiceSettings.noteTextType === 4){
-        nl = engf1[midi % 12];
-
-    }else if (practiceSettings.noteTextType === 5){
         nl = (midi % 12).toString(12);
 
-    }else if (practiceSettings.noteTextType === 6){
+    }else if (practiceSettings.noteTextType === 4){
         nl = Math.floor((midi - 12) / 12)
            + (midi % 12).toString(12);
 
-    }else if (practiceSettings.noteTextType === 7){
+    }else if (practiceSettings.noteTextType === 5){
         nl = midi;
 
-    }else if (practiceSettings.noteTextType === 8){
+    }else if (practiceSettings.noteTextType === 6){
         nl = n_id;
 
     }else if (practiceSettings.noteTextType === 11){
