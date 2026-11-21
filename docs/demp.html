@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp240
+demp241
 </title>
 <style>
 
@@ -4200,7 +4200,11 @@ function midiToFreq(midi){
 //
 // Drawing Pianoroll
 //
+
 function getAutoLabelType(keyName) {
+
+    // Remove minor scale type suffix: (N), (H), or (M)
+    const baseKeyName = keyName.replace(/\([NHM]\)$/, "");
 
     const flatKeys = [
         "FM",
@@ -4238,14 +4242,13 @@ function getAutoLabelType(keyName) {
         "A#m"
     ];
 
-    if (flatKeys.includes(keyName)) return "flat";
+    if (flatKeys.includes(baseKeyName)) return "flat";
 
-    if (sharpKeys.includes(keyName)) return "sharp";
+    if (sharpKeys.includes(baseKeyName)) return "sharp";
 
-    // C major / A minor など
+    // Default
     return "sharp";
 }
-
 
 function getMelodicMinorLabel(
     midi,
