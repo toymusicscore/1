@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp243
+demp244
 </title>
 <style>
 
@@ -4296,11 +4296,9 @@ if (measureIndex === 20) {
     console.log("Key label check:", estimatedKey, getAutoLabelType(estimatedKey));
 }
 
-    const labelType = estimatedKey
-        ? getAutoLabelType(estimatedKey)
-        : "sharp";
-
-    let nl = "";
+    const labelType = estimatedSegment?.labelType ??
+        (estimatedKey ? getAutoLabelType(estimatedKey) : "sharp");
+        let nl = "";
 
     if (practiceSettings.noteTextType === 0){
         nl = "";
@@ -13640,19 +13638,33 @@ function keyEstimationStage12() {
         ctx.lineTo(1790, y + 13);
         ctx.stroke();
 
-        // Keep the existing piano-roll note-label support aligned with the new
-        // segment result, without using measure boundaries for Stage 1 detection.
-        if (result.selected) {
-            const minorType = result.selected.mode === "minor" && result.selected.types.length === 1
-                ? result.selected.types[0]
-                : null;
+// Store key-label information for each segment.
+const candidateLabelTypes = result.keyCandidates.map(item =>
+    getAutoLabelType(item.name)
+);
+
+const uniqueLabelTypes = [...new Set(candidateLabelTypes)];
+
+const labelType = result.selected
+    ? getAutoLabelType(result.selected.name)
+    : uniqueLabelTypes.length === 1
+        ? uniqueLabelTypes[0]
+        : null;
+
+        if (labelType) {
+            const minorType = result.selected &&
+                result.selected.mode === "minor" &&
+                result.selected.types.length === 1
+                    ? result.selected.types[0]
+                    : null;
 
             estimatedKeySegments.push({
                 startTick: segment.startTick,
                 endTick: segment.endTick,
-                estKey: result.selected.name,
+                estKey: result.selected?.name ?? null,
                 estScaleType: minorType,
-                rootPc: result.selected.root
+                rootPc: result.selected?.root ?? null,
+                labelType
             });
         }
     }
