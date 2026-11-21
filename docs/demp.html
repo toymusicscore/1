@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp246
+demp247
 </title>
 <style>
 
@@ -4202,6 +4202,8 @@ function midiToFreq(midi){
 //
 
 function getAutoLabelType(keyName) {
+
+    if (typeof keyName !== "string") return "sharp";
 
     // Remove minor scale type suffix: (N), (H), or (M)
     const baseKeyName = keyName.replace(/\([NHM]\)$/, "");
