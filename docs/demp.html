@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp248
+demp249
 </title>
 <style>
 
@@ -13780,8 +13780,15 @@ console.log("Timeline check", {
 
             ctx.fillStyle = "black";
 
+            const sharpName = engs1[pc];
+            const flatName = engf1[pc];
+
+            const legendText = sharpName === flatName
+                ? sharpName
+                : sharpName + ", " + flatName;
+
             ctx.fillText(
-                engs1[pc] + "," + engf1[pc],
+                legendText,
                 legendX + 24,
                 legendY
             );
