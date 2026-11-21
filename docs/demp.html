@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp242
+demp243
 </title>
 <style>
 
@@ -4291,6 +4291,10 @@ function getLabel(midi, n_id, songId, startTick){
     );
 
     const estimatedKey = estimatedSegment?.estKey;
+
+if (measureIndex === 20) {
+    console.log("Key label check:", estimatedKey, getAutoLabelType(estimatedKey));
+}
 
     const labelType = estimatedKey
         ? getAutoLabelType(estimatedKey)
