@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp262
+demp263
 </title>
 <style>
 
@@ -12719,182 +12719,15 @@ if (group.tick >= 27648 && group.tick <= 28416) {
     }
 
     function createNewSegment(oldSegment, triggerGroup) {
-        const triggerCandidates = allCandidates.filter(candidate =>
-            groupFitsCandidate(candidate, triggerGroup)
-        );
 
-        if (triggerCandidates.length === 0) {
-            return startSegment(triggerGroup);
-        }
+    // The new segment starts with the entire cause onset group.
+    const newSegment = startSegment(triggerGroup);
 
-        let candidates = triggerCandidates;
-        let startIndex = oldSegment.groups.length;
+    // Use the exact onset time as the segment boundary.
+    newSegment.startTick = triggerGroup.tick;
+    newSegment.modulationTick = triggerGroup.tick;
+    newSegment.startTriggerTick = triggerGroup.tick;
 
-        // Find the earliest compatible suffix of the old segment.
-        for (let i = oldSegment.groups.length - 1; i >= 0; i--) {
-            const group = oldSegment.groups[i];
-            const groupIndex = onsetGroups.indexOf(group);
-
-            const nextCandidates = candidates.filter(candidate =>
-                groupFitsCandidate(candidate, group)
-            );
-
-            if (nextCandidates.length === 0) {
-                break;
-            }
-
-            candidates = nextCandidates;
-            startIndex = i;
-        }
-
-        // The last group outside the new scale determines
-        // the beginning of the transition interval.
-        let startTriggerGroup = null;
-
-        if (startIndex > 0) {
-            startTriggerGroup = oldSegment.groups[startIndex - 1];
-        }
-
-        const transitionStartTick = startTriggerGroup
-            ? startTriggerGroup.tick
-            : triggerGroup.tick;
-
-        // Save the start trigger before splitting the old segment.
-        const savedStartTriggerGroup = startTriggerGroup;
-
-        // Select the latest beat boundary between the two triggers.
-        let boundaryTick = findBeatBoundary(
-            transitionStartTick,
-            triggerGroup.tick
-        );
-
-        // If no beat boundary exists, use the first compatible onset.
-        if (boundaryTick === null) {
-            boundaryTick = startIndex < oldSegment.groups.length
-                ? oldSegment.groups[startIndex].tick
-                : triggerGroup.tick;
-        }
-/*
-console.log("Segment Split Check", {
-    startIndex,
-    boundaryTick,
-    savedStartTriggerTick: savedStartTriggerGroup?.tick,
-    savedStartTriggerNotes: savedStartTriggerGroup?.notes?.map(note => ({
-        midi: note.midi,
-        track: note.track
-    })),
-    newGroupTicks: oldSegment.groups
-        .filter(group => group.tick >= boundaryTick)
-        .map(group => ({
-            tick: group.tick,
-            notes: group.notes.map(note => ({
-                midi: note.midi,
-                track: note.track
-            }))
-        })),
-    candidateCount: candidates.length
-});
-*/
-        // Split the old segment at the selected boundary.
-        const oldGroups = oldSegment.groups.filter(group =>
-            group.tick < boundaryTick
-        );
-
-        const newGroups = oldSegment.groups.filter(group =>
-            group.tick >= boundaryTick
-        );
-
-        if (oldGroups.length === 0) {
-            oldSegment.groups = [];
-        }
-
-        newGroups.push(triggerGroup);
-
-        // Rebuild the old segment data without duplicated notes.
-        if (oldGroups.length > 0) {
-            const rebuiltOld = createSegment(
-                oldGroups,
-                oldSegment.candidates
-            );
-
-            const originalStartTick = oldSegment.startTick;
-            const endTrigger = oldSegment.endTrigger;
-            const endTriggerTick = oldSegment.endTriggerTick;
-
-            const originalStartTrigger = oldSegment.startTrigger;
-            const originalStartTriggerTick = oldSegment.startTriggerTick;
-            const originalModulationTick = oldSegment.modulationTick;
-
-            Object.assign(oldSegment, rebuiltOld);
-
-            oldSegment.startTrigger = originalStartTrigger;
-            oldSegment.startTriggerTick = originalStartTriggerTick;
-            oldSegment.modulationTick = originalModulationTick;
-
-            oldSegment.startTick = originalStartTick;
-            oldSegment.endTick = boundaryTick;
-            oldSegment.endTrigger = endTrigger;
-            oldSegment.endTriggerTick = endTriggerTick;
-        }
-
-        // Create the new segment using only notes at or after the boundary.
-        const newSegment = createSegment(newGroups, candidates);
-
-        newSegment.startTick = boundaryTick;
-        newSegment.modulationTick = boundaryTick;
-        /*
-console.log("Start Trigger Check", {
-    startIndex,
-    groupCount: oldSegment.groups.length,
-    firstGroupTick: oldSegment.groups[0]?.tick,
-    lastGroupTick: oldSegment.groups[oldSegment.groups.length - 1]?.tick,
-    triggerTick: triggerGroup.tick,
-    boundaryTick,
-    startTriggerTick: savedStartTriggerGroup?.tick,
-    candidateCount: candidates.length
-});
-*/
-
-// Store the actual start trigger.
-if (savedStartTriggerGroup) {
-    newSegment.startTriggerTick = savedStartTriggerGroup.tick;
-
-    newSegment.startTrigger = savedStartTriggerGroup.notes
-        .filter(note => {
-            const pitchClass = Number(note.midi) % 12;
-
-            return !candidates.some(candidate =>
-                candidate.pitchClassSet.has(pitchClass)
-            );
-        })
-        .map(note => ({
-            midi: Number(note.midi),
-            track: note.track,
-            channel: note.channel
-        }));
-
-} else if (startIndex === 0) {
-    // Inherit the original segment's start trigger.
-    newSegment.startTrigger = oldSegment.startTrigger;
-    newSegment.startTriggerTick = oldSegment.startTriggerTick;
-}
-/*
-console.log("Start Trigger Result", {
-    tick: newSegment.startTriggerTick,
-    notes: newSegment.startTrigger
-});
-
-console.log("Start Trigger Group Detail", {
-    startIndex,
-    triggerTick: savedStartTriggerGroup?.tick,
-    triggerNotes: savedStartTriggerGroup?.notes?.map(note => ({
-        midi: note.midi,
-        track: note.track,
-        channel: note.channel
-    })),
-    savedNotes: newSegment.startTrigger
-});
-*/
         return newSegment;
     }
 
