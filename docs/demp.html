@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp250
+demp251
 </title>
 <style>
 
@@ -12338,6 +12338,7 @@ function trackChannelInfo_bk(){
 	});
 }
 
+
 function showKeyEstimation() {
     practiceSettings.viewSelect = 1;
     showSelectedView();
@@ -12844,6 +12845,62 @@ console.log("Start Trigger Group Detail", {
         return newSegment;
     }
 
+    // When a complete onset group eliminates every candidate, inspect
+    // the notes in that group one at a time to identify the old segment's
+    // candidate. Stop immediately when exactly one candidate remains.
+    function resolveOldCandidateFromOnsetGroup(
+        candidates,
+        currentGroups,
+        group,
+        groups,
+        groupIndex
+    ) {
+        let remainingCandidates = candidates.slice();
+
+        for (const note of group.notes) {
+            const notePitchClass = getPitchClass(note);
+            const noteGroup = {
+                tick: group.tick,
+                notes: [note],
+                pitchClasses: [notePitchClass]
+            };
+
+            remainingCandidates = remainingCandidates.filter(candidate =>
+                groupFitsCandidate(candidate, noteGroup) ||
+                (
+                    isMelodicMinorDescendingException(
+                        candidate,
+                        noteGroup,
+                        groups,
+                        groupIndex
+                    ) &&
+                    hasMelodicMinorEvidenceInCandidateRun(
+                        candidate,
+                        currentGroups,
+                        group,
+                        groups,
+                        groupIndex
+                    )
+                )
+            );
+
+            // The first point at which one candidate remains determines
+            // the old segment candidate; later simultaneous notes are
+            // deliberately not used for this determination.
+            if (remainingCandidates.length === 1) {
+                return remainingCandidates[0];
+            }
+
+            // If all candidates disappear before a unique candidate is
+            // reached, forward individual-note refinement has failed.
+            if (remainingCandidates.length === 0) {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
     for (const group of onsetGroups) {
         if (!current) {
             current = startSegment(group);
@@ -12872,6 +12929,31 @@ console.log("Start Trigger Group Detail", {
         );
 
         if (current.unresolved || nextCandidates.length === 0) {
+            // Individual-note refinement is needed only when multiple
+            // candidates survived before this onset group was evaluated.
+            if (
+                !current.unresolved &&
+                current.candidates.length > 1 &&
+                nextCandidates.length === 0
+            ) {
+                const resolvedCandidate =
+                    resolveOldCandidateFromOnsetGroup(
+                        current.candidates,
+                        current.groups,
+                        group,
+                        onsetGroups,
+                        groupIndex
+                    );
+
+                if (resolvedCandidate) {
+                    // Preserve the identified candidate for the old
+                    // segment before closing it and creating the new one.
+                    current.candidates = [resolvedCandidate];
+                }
+                // If unresolved, retain the pre-trigger candidates.
+                // The reverse-refinement stage can then handle ambiguity.
+            }
+
             closeSegment(current, group);
 
             const oldSegment = current;
@@ -13593,7 +13675,7 @@ function keyEstimationStage12() {
         const y = 172 + i * 42;
         const startBar = segment.startTick / ticksPerMeasure + 1;
         const endBar = segment.endTick / ticksPerMeasure + 1;
-        const barText = startBar.toFixed(2) + "–" + endBar.toFixed(2);
+        const barText = startBar.toFixed(2) + "窶�" + endBar.toFixed(2);
 
         ctx.font = "12px Arial";
         ctx.fillStyle = "black";
@@ -13622,23 +13704,25 @@ function keyEstimationStage12() {
             } else if (result.keyCandidates.length === 0) {
             scoreText = "No key candidate";
             } else {
-            scoreText = result.keyCandidates.slice(0, 7).map(item =>
-                item.name + " " + item.tonicCount + "+" + item.fifthCount + "=" + item.score
-            ).join(" | ");
-            if (result.keyCandidates.length > 7) scoreText += " | …";
-            if (result.selected) {
-                scoreText += "  → " + result.selected.name;
-            } else if (result.tied) {
-                scoreText += "  → Tie / hold";
-            }
-        }
-        ctx.fillText(scoreText, 1000, y, 675);
+                scoreText = result.keyCandidates.slice(0, 7).map(item =>
+                    item.name + " " + item.tonicCount + "+" + item.fifthCount + "=" + item.score
+                ).join(" | ");
 
-        ctx.strokeStyle = "#dddddd";
-        ctx.beginPath();
-        ctx.moveTo(10, y + 13);
-        ctx.lineTo(1790, y + 13);
-        ctx.stroke();
+                if (result.keyCandidates.length > 7) scoreText += " | ...";
+                if (result.selected) {
+                    scoreText += "  -> " + result.selected.name;
+                } else if (result.tied) {
+                    scoreText += "  -> Tie / hold";
+                }
+                    }
+                
+                ctx.fillText(scoreText, 1000, y, 675);
+
+                ctx.strokeStyle = "#dddddd";
+                ctx.beginPath();
+                ctx.moveTo(10, y + 13);
+                ctx.lineTo(1790, y + 13);
+                ctx.stroke();
 
 // Store key-label information for each segment.
 const candidateLabelTypes = result.keyCandidates.map(item =>
