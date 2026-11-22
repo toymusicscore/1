@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp254
+demp255
 </title>
 <style>
 
@@ -13082,22 +13082,7 @@ console.log("Start Trigger Group Detail", {
         for (const pc of group.pitchClasses) {
             current.pitchClasses.add(pc);
         }
-
         for (const note of group.notes) {
-                        if (STAGE12_DEBUG) {
-                console.log("[STAGE1 FORWARD NOTE BEFORE]", {
-                    tick: group.tick,
-                    note: {
-                        midi: Number(note.midi),
-                        pitch: stage12NoteNames[getPitchClass(note)],
-                        track: note.track
-                    },
-                    candidateCount: remainingCandidates.length,
-                    candidates:
-                        stage12FormatCandidates(remainingCandidates)
-                });
-            }
-
             current.pcCounts[getPitchClass(note)]++;
         }
     }
