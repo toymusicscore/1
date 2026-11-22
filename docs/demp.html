@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp257
+demp258
 </title>
 <style>
 
@@ -9164,7 +9164,7 @@ function lineScore(tick){
 	szk = szx-2*mx;
 	ctx.lineWidth=1;
 	let scoreViewData;
-	
+	let handColorText = workingColor.text[1];
 	const view = getViewInfo();
 
 	for(let l=0;l<Number(view.kn);l++){
@@ -9252,6 +9252,7 @@ function lineScore(tick){
 			workingColor.hand[
 				HAND_COLOR.SCORE_NOT_ASSIGNED
 			];
+        handColorText = workingColor.text[1];
 
         if (
             track == practiceSettings.handsTrackChannel.right.track &&
