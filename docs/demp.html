@@ -12663,6 +12663,14 @@ function stage12BuildSegments() {
         const candidates = allCandidates.filter(candidate =>
             groupFitsCandidate(candidate, group)
         );
+        
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 START]", {
+                group: stage12FormatGroup(group),
+                candidateCount: candidates.length,
+                candidates: stage12FormatCandidates(candidates)
+            });
+        }
 
         return createSegment([group], candidates);
     }
