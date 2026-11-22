@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp277
+demp278
 </title>
 <style>
 
@@ -13399,6 +13399,54 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
     const trends = [];
 
     // Create relative major/minor pairs from either surviving candidate.
+
+    // Create only pairs whose major and minor candidates both survive.
+    const pairMap = new Map();
+
+    for (const candidate of keyCandidates) {
+        let majorRoot;
+        let minorRoot;
+
+        if (candidate.mode === "major") {
+            majorRoot = candidate.root;
+            minorRoot = (majorRoot + 9) % 12;
+        } else if (candidate.mode === "minor") {
+            minorRoot = candidate.root;
+            majorRoot = (minorRoot + 3) % 12;
+        } else {
+            continue;
+        }
+
+        const pairId = majorRoot + ":" + minorRoot;
+
+        if (!pairMap.has(pairId)) {
+            pairMap.set(pairId, {
+                majorRoot,
+                minorRoot,
+                hasMajor: false,
+                hasMinor: false
+            });
+        }
+
+        const pair = pairMap.get(pairId);
+
+        if (candidate.mode === "major") {
+            pair.hasMajor = true;
+        } else {
+            pair.hasMinor = true;
+        }
+    }
+
+    const pairs = [...pairMap.values()].filter(pair =>
+        pair.hasMajor && pair.hasMinor
+    );
+
+    const pairCount = pairs.length;
+
+    for (let pairIndex = 0; pairIndex < pairCount; pairIndex++) {
+        const pair = pairs[pairIndex];
+
+    /*    
     // The relative major is always based on the natural-minor relationship.
     const pairMap = new Map();
 
@@ -13427,6 +13475,7 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
     }
 
     for (const pair of pairMap.values()) {
+    */
         const majorTonic = pair.majorRoot;
         const majorFifth = (pair.majorRoot + 7) % 12;
 
@@ -13534,6 +13583,9 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
         trends.push({
             majorName: stage12KeyName(pair.majorRoot, "major"),
             minorName: stage12KeyName(pair.minorRoot, "minor"),
+
+            pairIndex,
+            pairCount,
 
             // Pitch classes for graph colors.
             majorRoot: pair.majorRoot,
@@ -13821,6 +13873,13 @@ const labelType = result.selected
         a.point.tick - b.point.tick
     );
 
+    const maxPairCount = Math.max(
+        1,
+        ...relativeKeyGraphItems.map(item =>
+            item.trend.pairCount
+        )
+    );
+
 // Check whether multiple trends overlap at the same tick.
 const tickGroups = new Map();
 
@@ -13860,6 +13919,15 @@ console.log("Timeline check", {
                 plotWidth * ticksPerQuarterNote / totalTicks * 0.6
             )
         );
+        const pairBarWidth = barWidth / maxPairCount;
+
+        function xForTrend(item) {
+            return xForTick(item.point.tick) +
+                (
+                    item.trend.pairIndex -
+                    (item.trend.pairCount - 1) / 2
+                ) * pairBarWidth;
+        }
 
         ctx.fillStyle = "black";
         ctx.textAlign = "left";
@@ -13960,7 +14028,7 @@ for (const item of graphPoints) {
     const point = item.point;
     const trend = item.trend;
 
-    const x = xForTick(point.tick);
+    const x = xForTrend(item);
 
             // Major tonic and fifth: positive.
             let positiveY = centerY;
@@ -13984,7 +14052,7 @@ for (const item of graphPoints) {
                     ctx.fillRect(
                         x - barWidth / 2,
                         positiveY - h,
-                        barWidth,
+                        pairBarWidth * 0.85,
                         h
                     );
                 }
@@ -14014,7 +14082,7 @@ for (const item of graphPoints) {
                     ctx.fillRect(
                         x - barWidth / 2,
                         negativeY,
-                        barWidth,
+                        pairBarWidth * 0.85,
                         h
                     );
                 }
@@ -14076,7 +14144,7 @@ for (const item of graphPoints) {
                 const point = item.point;
                 const trend = item.trend;
 
-                const x = xForTick(point.tick);
+                const x = xForTrend(item);
                 const value = point.difference;
                 
             if (value === 0) continue;
@@ -14095,14 +14163,14 @@ for (const item of graphPoints) {
                 ctx.fillRect(
                     x - barWidth / 2,
                     diffCenterY - h,
-                    barWidth,
+                    pairBarWidth * 0.85,
                     h
                 );
             } else {
                 ctx.fillRect(
                     x - barWidth / 2,
                     diffCenterY,
-                    barWidth,
+                    pairBarWidth * 0.85,
                     h
                 );
             }
