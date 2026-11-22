@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp263
+demp264
 </title>
 <style>
 
@@ -12676,9 +12676,15 @@ function stage12BuildSegments() {
                 candidates: stage12FormatCandidates(candidates)
             });
         }
+
 if (group.tick >= 27648 && group.tick <= 28416) {
     console.log("[SEGMENT 12 START CHECK]", {
         tick: group.tick,
+        notes: group.notes.map(note => ({
+            midi: Number(note.midi),
+            pitch: stage12NoteNames[getPitchClass(note)],
+            track: note.track
+        })),
         candidates: candidates.map(c => ({
             root: c.root,
             mode: c.mode,
