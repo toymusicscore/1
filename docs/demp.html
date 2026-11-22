@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp271
+demp272
 </title>
 <style>
 
@@ -12742,14 +12742,6 @@ if (group.tick >= 27648 && group.tick <= 28416) {
     // candidate. Stop immediately when exactly one candidate remains.
         // Resolve the old segment candidate by checking
     // each note in the triggering onset group.
-    console.log("[STAGE1 CAUSE GROUP]", {
-    tick: group.tick,
-    notes: group.notes.map(note => ({
-        midi: Number(note.midi),
-        pitch: stage12NoteNames[getPitchClass(note)],
-        track: note.track
-    }))
-});
     function resolveOldCandidateFromOnsetGroup(
         candidates,
         currentGroups,
@@ -12758,7 +12750,14 @@ if (group.tick >= 27648 && group.tick <= 28416) {
         groupIndex
     ) {
         let remainingCandidates = candidates.slice();
-
+console.log("[STAGE1 CAUSE GROUP]", {
+    tick: group.tick,
+    notes: group.notes.map(note => ({
+        midi: Number(note.midi),
+        pitch: stage12NoteNames[getPitchClass(note)],
+        track: note.track
+    }))
+});
         if (STAGE12_DEBUG) {
             console.log("[STAGE1 FORWARD START]", {
                 tick: group.tick,
