@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp256
+demp257
 </title>
 <style>
 
@@ -9253,24 +9253,26 @@ function lineScore(tick){
 				HAND_COLOR.SCORE_NOT_ASSIGNED
 			];
 
-		if(track == practiceSettings.handsTrackChannel.right.track
-		 && channel == practiceSettings.handsTrackChannel.right.channel){
-			handColor =
-				workingColor.hand[
-					HAND_COLOR.SCORE_RIGHT
-				];
-			handColorText =
-				workingColor.hand[
-					HAND_COLOR.SCORE_RIGHT_TEXT
-				];
-		}
-		else if(track == practiceSettings.handsTrackChannel.left.track
-		 && channel == practiceSettings.handsTrackChannel.left.channel){
-			handColorText =
-				workingColor.hand[
-					HAND_COLOR.SCORE_LEFT_TEXT
-				];
-		}
+        if (
+            track == practiceSettings.handsTrackChannel.right.track &&
+            channel == practiceSettings.handsTrackChannel.right.channel
+        ) {
+            handColor =
+                workingColor.hand[HAND_COLOR.SCORE_RIGHT];
+
+            handColorText =
+                workingColor.hand[HAND_COLOR.SCORE_RIGHT_TEXT];
+        }
+        else if (
+            track == practiceSettings.handsTrackChannel.left.track &&
+            channel == practiceSettings.handsTrackChannel.left.channel
+        ) {
+            handColor =
+                workingColor.hand[HAND_COLOR.SCORE_LEFT];
+
+            handColorText =
+                workingColor.hand[HAND_COLOR.SCORE_LEFT_TEXT];
+        }
 		if (dp >=0 && dt < measuresPerScreen*3/4){
 			const x0 = (midi-view.midi_min)*view.kw+mx;
 			const x1 = (midi-view.midi_min+0.5)*view.kw+mx;
