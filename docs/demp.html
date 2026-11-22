@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp253
+demp254
 </title>
 <style>
 
@@ -12887,6 +12887,8 @@ console.log("Start Trigger Group Detail", {
     // When a complete onset group eliminates every candidate, inspect
     // the notes in that group one at a time to identify the old segment's
     // candidate. Stop immediately when exactly one candidate remains.
+        // Resolve the old segment candidate by checking
+    // each note in the triggering onset group.
     function resolveOldCandidateFromOnsetGroup(
         candidates,
         currentGroups,
@@ -12896,13 +12898,23 @@ console.log("Start Trigger Group Detail", {
     ) {
         let remainingCandidates = candidates.slice();
 
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 FORWARD START]", {
+                tick: group.tick,
+                candidates: stage12FormatCandidates(remainingCandidates)
+            });
+        }
+
         for (const note of group.notes) {
             const notePitchClass = getPitchClass(note);
+
             const noteGroup = {
                 tick: group.tick,
                 notes: [note],
                 pitchClasses: [notePitchClass]
             };
+
+            const beforeCandidates = remainingCandidates.slice();
 
             remainingCandidates = remainingCandidates.filter(candidate =>
                 groupFitsCandidate(candidate, noteGroup) ||
@@ -12922,18 +12934,19 @@ console.log("Start Trigger Group Detail", {
                     )
                 )
             );
+
             if (STAGE12_DEBUG) {
-                console.log("[STAGE1 FORWARD NOTE AFTER]", {
+                console.log("[STAGE1 FORWARD NOTE]", {
                     tick: group.tick,
                     midi: Number(note.midi),
                     pitch: stage12NoteNames[notePitchClass],
-                    candidateCount: remainingCandidates.length,
-                    candidates:
-                        stage12FormatCandidates(remainingCandidates)
+                    before: stage12FormatCandidates(beforeCandidates),
+                    after: stage12FormatCandidates(remainingCandidates)
                 });
             }
 
-                            if (STAGE12_DEBUG) {
+            if (remainingCandidates.length === 1) {
+                if (STAGE12_DEBUG) {
                     console.log("[STAGE1 FORWARD RESOLVED]", {
                         tick: group.tick,
                         selected:
@@ -12941,27 +12954,32 @@ console.log("Start Trigger Group Detail", {
                     });
                 }
 
-            // The first point at which one candidate remains determines
-            // the old segment candidate; later simultaneous notes are
-            // deliberately not used for this determination.
-            if (remainingCandidates.length === 1) {
                 return remainingCandidates[0];
             }
+
+            if (remainingCandidates.length === 0) {
                 if (STAGE12_DEBUG) {
                     console.log("[STAGE1 FORWARD FAILED]", {
                         tick: group.tick,
                         reason: "No candidates remain"
                     });
                 }
-            // If all candidates disappear before a unique candidate is
-            // reached, forward individual-note refinement has failed.
-            if (remainingCandidates.length === 0) {
+
                 return null;
             }
         }
 
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 FORWARD UNRESOLVED]", {
+                tick: group.tick,
+                candidates:
+                    stage12FormatCandidates(remainingCandidates)
+            });
+        }
+
         return null;
     }
+
 
     for (const group of onsetGroups) {
         if (!current) {
@@ -13429,7 +13447,7 @@ if (segmentIndex + 1 === 16) {
             })
         ));
     }
-    
+
     return segments;
 }
 
