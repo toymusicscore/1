@@ -12663,7 +12663,7 @@ function stage12BuildSegments() {
         const candidates = allCandidates.filter(candidate =>
             groupFitsCandidate(candidate, group)
         );
-        
+
         if (STAGE12_DEBUG) {
             console.log("[STAGE1 START]", {
                 group: stage12FormatGroup(group),
@@ -12922,6 +12922,24 @@ console.log("Start Trigger Group Detail", {
                     )
                 )
             );
+            if (STAGE12_DEBUG) {
+                console.log("[STAGE1 FORWARD NOTE AFTER]", {
+                    tick: group.tick,
+                    midi: Number(note.midi),
+                    pitch: stage12NoteNames[notePitchClass],
+                    candidateCount: remainingCandidates.length,
+                    candidates:
+                        stage12FormatCandidates(remainingCandidates)
+                });
+            }
+
+                            if (STAGE12_DEBUG) {
+                    console.log("[STAGE1 FORWARD RESOLVED]", {
+                        tick: group.tick,
+                        selected:
+                            stage12FormatCandidates(remainingCandidates)
+                    });
+                }
 
             // The first point at which one candidate remains determines
             // the old segment candidate; later simultaneous notes are
@@ -12929,7 +12947,12 @@ console.log("Start Trigger Group Detail", {
             if (remainingCandidates.length === 1) {
                 return remainingCandidates[0];
             }
-
+                if (STAGE12_DEBUG) {
+                    console.log("[STAGE1 FORWARD FAILED]", {
+                        tick: group.tick,
+                        reason: "No candidates remain"
+                    });
+                }
             // If all candidates disappear before a unique candidate is
             // reached, forward individual-note refinement has failed.
             if (remainingCandidates.length === 0) {
@@ -12947,6 +12970,16 @@ console.log("Start Trigger Group Detail", {
         }
 
         const groupIndex = onsetGroups.indexOf(group);
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 FILTER BEFORE]", {
+                groupIndex,
+                currentStartTick: current.startTick,
+                currentCandidateCount: current.candidates.length,
+                currentCandidates:
+                    stage12FormatCandidates(current.candidates),
+                group: stage12FormatGroup(group)
+            });
+        }
 
         const nextCandidates = current.candidates.filter(candidate =>
             groupFitsCandidate(candidate, group) ||
@@ -12966,6 +12999,21 @@ console.log("Start Trigger Group Detail", {
                 )
             )
         );
+
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 FILTER AFTER]", {
+                groupIndex,
+                tick: group.tick,
+                beforeCount: current.candidates.length,
+                afterCount: nextCandidates.length,
+                remainingCandidates:
+                    stage12FormatCandidates(nextCandidates),
+                eliminated:
+                    current.candidates
+                        .filter(c => !nextCandidates.includes(c))
+                        .map(c => stage12FormatCandidates([c])[0])
+            });
+        }
 
         if (current.unresolved || nextCandidates.length === 0) {
             // Individual-note refinement is needed only when multiple
@@ -13018,6 +13066,20 @@ console.log("Start Trigger Group Detail", {
         }
 
         for (const note of group.notes) {
+                        if (STAGE12_DEBUG) {
+                console.log("[STAGE1 FORWARD NOTE BEFORE]", {
+                    tick: group.tick,
+                    note: {
+                        midi: Number(note.midi),
+                        pitch: stage12NoteNames[getPitchClass(note)],
+                        track: note.track
+                    },
+                    candidateCount: remainingCandidates.length,
+                    candidates:
+                        stage12FormatCandidates(remainingCandidates)
+                });
+            }
+
             current.pcCounts[getPitchClass(note)]++;
         }
     }
@@ -13188,6 +13250,15 @@ if (segmentIndex + 1 === 22) {
             candidateCount: originalCandidates.length
         });
 */
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 BACKWARD START]", {
+                segment: segmentIndex + 1,
+                startTick: target.startTick,
+                candidates:
+                    stage12FormatCandidates(target.candidates)
+            });
+        }
+
         // Add one preceding onset group at a time.
         while (
             firstGroupIndex > 0 &&
@@ -13209,6 +13280,18 @@ const expandedCandidates =
         expandedGroups,
         originalCandidates
     );
+            if (STAGE12_DEBUG) {
+                console.log("[STAGE1 BACKWARD STEP]", {
+                    segment: segmentIndex + 1,
+                    addedGroup: stage12FormatGroup(precedingGroup),
+                    beforeCount: previousCandidates.length,
+                    beforeCandidates:
+                        stage12FormatCandidates(previousCandidates),
+                    afterCount: expandedCandidates.length,
+                    afterCandidates:
+                        stage12FormatCandidates(expandedCandidates)
+                });
+            }
 
 if (segmentIndex + 1 === 16) {
     const previousSignature = previousCandidates
@@ -13329,6 +13412,24 @@ if (segmentIndex + 1 === 16) {
     startTrigger: segment.startTrigger
 })));
 */
+    if (STAGE12_DEBUG) {
+        console.log("[STAGE1 FINAL SEGMENTS]", segments.map(
+            (segment, index) => ({
+                segment: index + 1,
+                startTick: segment.startTick,
+                endTick: segment.endTick,
+                onsetGroupCount: segment.onsetGroupCount,
+                noteCount: segment.noteCount,
+                candidateCount: segment.candidates.length,
+                candidates:
+                    stage12FormatCandidates(segment.candidates),
+                startTriggerTick: segment.startTriggerTick,
+                endTriggerTick: segment.endTriggerTick,
+                modulationTick: segment.modulationTick
+            })
+        ));
+    }
+    
     return segments;
 }
 
