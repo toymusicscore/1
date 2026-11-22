@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp274
+demp275
 </title>
 <style>
 
@@ -12394,7 +12394,7 @@ function stage12BuildSegments() {
     const notesByTick = new Map();
 
     // Stage 1 debug logging
-    const STAGE12_DEBUG = true;
+    const STAGE12_DEBUG = false;
 
     const stage12NoteNames = [
         "C", "C#", "D", "D#", "E", "F",
@@ -12750,14 +12750,16 @@ if (group.tick >= 27648 && group.tick <= 28416) {
         groupIndex
     ) {
         let remainingCandidates = candidates.slice();
-console.log("[STAGE1 CAUSE GROUP]", {
-    tick: group.tick,
-    notes: group.notes.map(note => ({
-        midi: Number(note.midi),
-        pitch: stage12NoteNames[getPitchClass(note)],
-        track: note.track
-    }))
-});
+if (group.tick === 480) {
+    console.log("[SEGMENT 1 CAUSE]", {
+        tick: group.tick,
+        notes: group.notes.map(note => ({
+            midi: Number(note.midi),
+            pitch: stage12NoteNames[getPitchClass(note)],
+            track: note.track
+        }))
+    });
+}
         if (STAGE12_DEBUG) {
             console.log("[STAGE1 FORWARD START]", {
                 tick: group.tick,
@@ -12901,17 +12903,6 @@ console.log("[STAGE1 CAUSE GROUP]", {
                 current.candidates.length > 1 &&
                 nextCandidates.length === 0
             ) {
-console.log("[STAGE1 FORWARD CALL]", {
-    segmentNumber: segments.length + 1,
-    currentStartTick: current.startTick,
-    groupTick: group.tick,
-    groupNotes: group.notes.map(note => ({
-        midi: Number(note.midi),
-        pitch: stage12NoteNames[getPitchClass(note)],
-        track: note.track
-    })),
-    candidates: stage12FormatCandidates(current.candidates)
-});
                 const resolvedCandidate =
                     resolveOldCandidateFromOnsetGroup(
                         current.candidates,
