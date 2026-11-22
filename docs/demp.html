@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp278
+demp279
 </title>
 <style>
 
@@ -12979,344 +12979,160 @@ if (group.tick >= 27648 && group.tick <= 28416) {
         segments.push(current);
     }
 
+    // Resolve ambiguous candidates by scanning backward
+    // from the onset group that caused the new segment.
+    // Only the previous segment's candidates are updated.
+    // Segment boundaries and evaluation data remain unchanged.
 
-    // Re-evaluate ambiguous segments by expanding backward.
-    // Previous segments must remain completely unchanged.
+    function resolveOldCandidateBackward(
+        oldCandidates,
+        causeGroup,
+        onsetGroups,
+        causeGroupIndex,
+        oldSegment
+    ) {
+        let candidates = oldCandidates.slice();
 
-    // Re-evaluate ambiguous segments by expanding backward.
-    // Only candidate results are updated. Segment data remains unchanged.
+        // Process the cause onset group first,
+        // then proceed backward toward the beginning of the song.
+        for (
+            let groupIndex = causeGroupIndex;
+            groupIndex >= 0 && candidates.length > 1;
+            groupIndex--
+        ) {
+            const group = onsetGroups[groupIndex];
 
-function evaluateBackwardGroups(groups, candidatePool) {
-    if (groups.length === 0) return [];
+            // Evaluate every note individually and sequentially.
+            for (const note of group.notes) {
+                if (
+                    candidates.length <= 1 ||
+                    isRelativeKeyPair(candidates)
+                ) {
+                    break;
+                }
 
-    // Major, Natural Minor, and Harmonic Minor:
-    // Evaluate each pitch class independently.
-    let candidates = candidatePool.filter(candidate =>
-        candidate.mode !== "minor" || candidate.type !== "M"
-    );
+                const pitchClass = getPitchClass(note);
 
-    for (const group of groups) {
-        const pitchClasses = [
-            ...new Set(group.notes.map(getPitchClass))
-        ];
+                const noteGroup = {
+                    tick: group.tick,
+                    notes: [note],
+                    pitchClasses: [pitchClass]
+                };
 
-        let bestCandidates = candidates;
-        let bestCount = candidates.length;
+                const matchingCandidates = candidates.filter(
+                    candidate =>
+                        groupFitsCandidate(candidate, noteGroup) ||
+                        (
+                            isMelodicMinorDescendingException(
+                                candidate,
+                                noteGroup,
+                                onsetGroups,
+                                groupIndex
+                            ) &&
+                            hasMelodicMinorEvidenceInCandidateRun(
+                                candidate,
+                                oldSegment.groups,
+                                noteGroup,
+                                onsetGroups,
+                                groupIndex
+                            )
+                        )
+                );
 
-        for (const pitchClass of pitchClasses) {
+                // Ignore a note that matches no current candidate.
+                // Do not allow one note to eliminate every candidate.
+                if (matchingCandidates.length > 0) {
+                    candidates = matchingCandidates;
+                }
 
-            const matchingCandidates = candidates.filter(candidate =>
-                candidate.pitchClassSet.has(pitchClass)
-            );
-
-            // Ignore pitch classes that match no candidates.
-            if (matchingCandidates.length === 0) {
-                continue;
+                if (STAGE12_DEBUG) {
+                    console.log("[STAGE1 BACKWARD NOTE]", {
+                        tick: group.tick,
+                        midi: Number(note.midi),
+                        pitch: stage12NoteNames[pitchClass],
+                        remaining:
+                            stage12FormatCandidates(candidates)
+                    });
+                }
             }
 
-            // Select the pitch class that narrows candidates most.
-            if (matchingCandidates.length < bestCount) {
-                bestCandidates = matchingCandidates;
-                bestCount = matchingCandidates.length;
+            if (STAGE12_DEBUG) {
+                console.log("[STAGE1 BACKWARD GROUP]", {
+                    tick: group.tick,
+                    remaining:
+                        stage12FormatCandidates(candidates)
+                });
             }
         }
 
-        candidates = bestCandidates;
+        return candidates;
     }
 
-    // Keep the existing Melodic Minor evaluation unchanged.
-    const melodicMinorCandidates = candidatePool.filter(candidate => {
-        if (candidate.mode !== "minor" || candidate.type !== "M") {
-            return false;
-        }
+    // Apply backward refinement to the previous segment,
+    // using the next segment's first onset group as the cause.
+    for (
+        let segmentIndex = 1;
+        segmentIndex < segments.length;
+        segmentIndex++
+    ) {
+        const oldSegment = segments[segmentIndex - 1];
+        const newSegment = segments[segmentIndex];
 
-        const raised6th = (candidate.root + 9) % 12;
-        const raised7th = (candidate.root + 11) % 12;
-
-        const tracks = [...new Set(
-            groups.flatMap(group =>
-                group.notes.map(note => note.track)
-            )
-        )];
-
-        return tracks.some(track => {
-            const handGroups = groups
-                .map(group => {
-                    const notes = group.notes.filter(
-                        note => note.track === track
-                    );
-
-                    return {
-                        ...group,
-                        notes,
-                        pitchClasses: [
-                            ...new Set(notes.map(getPitchClass))
-                        ]
-                    };
-                })
-                .filter(group => group.notes.length > 0);
-
-            if (handGroups.length === 0) {
-                return false;
-            }
-
-            const hasRaised6th = handGroups.some(group =>
-                group.pitchClasses.includes(raised6th)
-            );
-
-            const hasRaised7th = handGroups.some(group =>
-                group.pitchClasses.includes(raised7th)
-            );
-
-            if (!hasRaised6th || !hasRaised7th) {
-                return false;
-            }
-
-            return handGroups.every((group, index) =>
-                groupFitsCandidate(candidate, group) ||
-                isMelodicMinorDescendingException(
-                    candidate,
-                    group,
-                    handGroups,
-                    index
-                )
-            );
-        });
-    });
-
-    return [
-        ...candidates,
-        ...melodicMinorCandidates
-    ];
-}
-
-
-    // Expand ambiguous segments backward for candidate refinement.
-    for (let segmentIndex = 1;
-         segmentIndex < segments.length;
-         segmentIndex++) {
-
-        const target = segments[segmentIndex];
-if (segmentIndex + 1 === 12) {
-    console.log("[SEGMENT 12 ENTRY]", {
-        startTick: target.startTick,
-        startTriggerTick: target.startTriggerTick,
-        candidateCount: target.candidates.length,
-        candidates: target.candidates.map(c => ({
-            root: c.root,
-            mode: c.mode,
-            type: c.type,
-            pitchClasses: [...c.pitchClassSet].sort((a, b) => a - b)
-        }))
-    });
-}
         if (
-            !target.groups ||
-            target.groups.length === 0 ||
-            target.candidates.length <= 1
+            !oldSegment.groups ||
+            oldSegment.groups.length === 0 ||
+            !newSegment.groups ||
+            newSegment.groups.length === 0 ||
+            oldSegment.candidates.length <= 1 ||
+            isRelativeKeyPair(oldSegment.candidates)
         ) {
             continue;
         }
-/*
-if (segmentIndex + 1 === 22) {
-    console.log("Backward Segment 22 Start Trigger Check", {
-        startTick: target.startTick,
-        startTriggerTick: target.startTriggerTick,
-        startTrigger: target.startTrigger,
-        startGroup: target.groups.find(
-            group => group.tick === target.startTriggerTick
-        )
-    });
-}
-*/
-        let firstGroupIndex =
-            onsetGroups.indexOf(target.groups[0]);
 
-        if (firstGroupIndex <= 0) continue;
+        const causeGroup = newSegment.groups[0];
+        const causeGroupIndex = onsetGroups.indexOf(causeGroup);
 
-        const originalCandidates = target.candidates.slice();
-        let backwardGroups = target.groups.slice();
-        if (segmentIndex + 1 === 12) {
-    console.log("[SEGMENT 12 CANDIDATES BEFORE BACKWARD]", {
-        candidates: originalCandidates.map(c => ({
-            root: c.root,
-            mode: c.mode,
-            type: c.type,
-            pitchClasses: [...c.pitchClassSet].sort((a, b) => a - b)
-        }))
-    });
-}
+        if (causeGroupIndex < 0) {
+            continue;
+        }
 
-/*
-        console.log("Backward Expansion Start", {
-            segment: segmentIndex + 1,
-            startTick: target.startTick,
-            endTick: target.endTick,
-            candidateCount: originalCandidates.length
-        });
-*/
+        const originalCandidates = oldSegment.candidates.slice();
+
         if (STAGE12_DEBUG) {
             console.log("[STAGE1 BACKWARD START]", {
-                segment: segmentIndex + 1,
-                startTick: target.startTick,
+                oldSegment: segmentIndex,
+                startTick: oldSegment.startTick,
+                causeTick: causeGroup.tick,
                 candidates:
-                    stage12FormatCandidates(target.candidates)
+                    stage12FormatCandidates(originalCandidates)
             });
         }
 
-        // Add one preceding onset group at a time.
-        while (
-            firstGroupIndex > 0 &&
-            target.candidates.length > 1 &&
-            !isRelativeKeyPair(target.candidates)
-        ) {
-            const precedingGroup =
-                onsetGroups[firstGroupIndex - 1];
+        const refinedCandidates = resolveOldCandidateBackward(
+            originalCandidates,
+            causeGroup,
+            onsetGroups,
+            causeGroupIndex,
+            oldSegment
+        );
 
-const expandedGroups = [
-    precedingGroup,
-    ...backwardGroups
-];
+        // Update candidates only.
+        // Do not modify segment boundaries, groups, counts,
+        // triggers, or evaluation data.
+        oldSegment.candidates = refinedCandidates;
 
-const previousCandidates = target.candidates.slice();
-
-const expandedCandidates =
-    evaluateBackwardGroups(
-        expandedGroups,
-        originalCandidates
-    );
-            if (STAGE12_DEBUG) {
-                console.log("[STAGE1 BACKWARD STEP]", {
-                    segment: segmentIndex + 1,
-                    addedGroup: stage12FormatGroup(precedingGroup),
-                    beforeCount: previousCandidates.length,
-                    beforeCandidates:
-                        stage12FormatCandidates(previousCandidates),
-                    afterCount: expandedCandidates.length,
-                    afterCandidates:
-                        stage12FormatCandidates(expandedCandidates)
-                });
-            }
-
-if (segmentIndex + 1 === 16) {
-    const previousSignature = previousCandidates
-        .map(c => `${c.root}:${c.mode}:${c.type}`)
-        .sort()
-        .join("|");
-
-    const newSignature = expandedCandidates
-        .map(c => `${c.root}:${c.mode}:${c.type}`)
-        .sort()
-        .join("|");
-
-    if (previousSignature !== newSignature) {
-        console.log("Backward Expansion Changed", {
-            segment: segmentIndex + 1,
-            addedTick: precedingGroup.tick,
-            addedPitchClasses: precedingGroup.pitchClasses,
-            previousCandidates: previousCandidates.map(c => ({
-                root: c.root,
-                mode: c.mode,
-                type: c.type
-            })),
-            remainingCandidates: expandedCandidates.map(c => ({
-                root: c.root,
-                mode: c.mode,
-                type: c.type
-            }))
-        });
-    }
-}
-
-
-/*
-if (segmentIndex + 1 === 16) {
-    console.log("Backward Expansion Final", {
-        segment: segmentIndex + 1,
-        candidates: target.candidates.map(c => ({
-            root: c.root,
-            mode: c.mode,
-            type: c.type
-        }))
-    });
-}
-*/
-/*
-            if (expandedCandidates.length === 0) {
-                console.log("Backward Expansion Stopped", {
-                    segment: segmentIndex + 1,
-                    tick: precedingGroup.tick,
-                    reason: "No valid candidates",
-                    retainedCandidates: target.candidates.map(c => ({
-                        root: c.root,
-                        mode: c.mode,
-                        type: c.type
-                    }))
-                });
-
-                // Reject this backward expansion.
-                // Keep the candidates from the previous valid step.
-                break;
-            }
-*/
-
-            // Update candidates only.
-            target.candidates = expandedCandidates;
-            target.unresolved = false;
-
-            backwardGroups = expandedGroups;
-            firstGroupIndex--;
-/*
-            console.log("Backward Expansion Step", {
-                segment: segmentIndex + 1,
-                addedTick: precedingGroup.tick,
-                originalStartTick: target.startTick,
-                originalEndTick: target.endTick,
-                candidateCount: target.candidates.length,
-                candidates: target.candidates.map(c => ({
-                    root: c.root,
-                    mode: c.mode,
-                    type: c.type
-                }))
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 BACKWARD RESULT]", {
+                oldSegment: segmentIndex,
+                causeTick: causeGroup.tick,
+                before:
+                    stage12FormatCandidates(originalCandidates),
+                after:
+                    stage12FormatCandidates(refinedCandidates)
             });
-
-            if (target.candidates.length === 1) {
-                console.log("Backward Expansion Completed", {
-                    segment: segmentIndex + 1,
-                    selected: target.candidates[0],
-                    startTick: target.startTick,
-                    endTick: target.endTick
-                });
-                break;
-            }
-                */
         }
     }
-/*
-    console.log("Backward Segment Expansion", segments.map(
-        (segment, index) => ({
-            segment: index + 1,
-            startTick: segment.startTick,
-            endTick: segment.endTick,
-            onsetGroupCount: segment.onsetGroupCount,
-            noteCount: segment.noteCount,
-            candidateCount: segment.candidates.length,
-            candidates: segment.candidates.map(c => ({
-                root: c.root,
-                mode: c.mode,
-                type: c.type
-            }))
-        })
-    ));
-*/
-/*
-    console.log("Final Segment Triggers", segments.map((segment, index) => ({
-    segment: index + 1,
-    startTick: segment.startTick,
-    startTriggerTick: segment.startTriggerTick,
-    startTrigger: segment.startTrigger
-})));
-*/
+
     if (STAGE12_DEBUG) {
         console.log("[STAGE1 FINAL SEGMENTS]", segments.map(
             (segment, index) => ({
