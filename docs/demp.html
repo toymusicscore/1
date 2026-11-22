@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp276
+demp277
 </title>
 <style>
 
@@ -12753,42 +12753,39 @@ if (group.tick >= 27648 && group.tick <= 28416) {
         // Resolve the old segment candidate by checking
     // each note in the triggering onset group.
     function resolveOldCandidateFromOnsetGroup(
-        candidates,
-        currentGroups,
-        group,
-        groups,
-        groupIndex
-    ) {
-        let remainingCandidates = candidates.slice();
-if (group.tick === 480) {
-    console.log("[SEGMENT 1 CAUSE]", {
-        tick: group.tick,
-        notes: group.notes.map(note => ({
-            midi: Number(note.midi),
-            pitch: stage12NoteNames[getPitchClass(note)],
-            track: note.track
-        }))
-    });
-}
-        if (STAGE12_DEBUG) {
-            console.log("[STAGE1 FORWARD START]", {
-                tick: group.tick,
-                candidates: stage12FormatCandidates(remainingCandidates)
-            });
-        }
+    candidates,
+    currentGroups,
+    group,
+    groups,
+    groupIndex
+) {
+    // Every note is evaluated independently against the same
+    // original candidate set.
+    const originalCandidates = candidates.slice();
 
-        for (const note of group.notes) {
-            const notePitchClass = getPitchClass(note);
+    // Collect candidates uniquely identified by individual notes.
+    const resolvedCandidates = [];
 
-            const noteGroup = {
-                tick: group.tick,
-                notes: [note],
-                pitchClasses: [notePitchClass]
-            };
+    if (STAGE12_DEBUG) {
+        console.log("[STAGE1 FORWARD START]", {
+            tick: group.tick,
+            candidates:
+                stage12FormatCandidates(originalCandidates)
+        });
+    }
 
-            const beforeCandidates = remainingCandidates.slice();
+    for (const note of group.notes) {
+        const notePitchClass = getPitchClass(note);
 
-            remainingCandidates = remainingCandidates.filter(candidate =>
+        const noteGroup = {
+            tick: group.tick,
+            notes: [note],
+            pitchClasses: [notePitchClass]
+        };
+
+        // Always start from the original candidate set.
+        const matchingCandidates = originalCandidates.filter(
+            candidate =>
                 groupFitsCandidate(candidate, noteGroup) ||
                 (
                     isMelodicMinorDescendingException(
@@ -12805,52 +12802,62 @@ if (group.tick === 480) {
                         groupIndex
                     )
                 )
-            );
-
-            if (STAGE12_DEBUG) {
-                console.log("[STAGE1 FORWARD NOTE]", {
-                    tick: group.tick,
-                    midi: Number(note.midi),
-                    pitch: stage12NoteNames[notePitchClass],
-                    before: stage12FormatCandidates(beforeCandidates),
-                    after: stage12FormatCandidates(remainingCandidates)
-                });
-            }
-
-            if (remainingCandidates.length === 1) {
-                if (STAGE12_DEBUG) {
-                    console.log("[STAGE1 FORWARD RESOLVED]", {
-                        tick: group.tick,
-                        selected:
-                            stage12FormatCandidates(remainingCandidates)
-                    });
-                }
-
-                return remainingCandidates[0];
-            }
-
-            if (remainingCandidates.length === 0) {
-                if (STAGE12_DEBUG) {
-                    console.log("[STAGE1 FORWARD FAILED]", {
-                        tick: group.tick,
-                        reason: "No candidates remain"
-                    });
-                }
-
-                return null;
-            }
-        }
+        );
 
         if (STAGE12_DEBUG) {
-            console.log("[STAGE1 FORWARD UNRESOLVED]", {
+            console.log("[STAGE1 FORWARD NOTE]", {
                 tick: group.tick,
-                candidates:
-                    stage12FormatCandidates(remainingCandidates)
+                midi: Number(note.midi),
+                pitch: stage12NoteNames[notePitchClass],
+                before:
+                    stage12FormatCandidates(originalCandidates),
+                after:
+                    stage12FormatCandidates(matchingCandidates)
             });
         }
 
-        return null;
+        // Record a uniquely identified candidate.
+        if (matchingCandidates.length === 1) {
+            resolvedCandidates.push(matchingCandidates[0]);
+        }
     }
+
+    // Remove duplicate candidate references.
+    const uniqueResolvedCandidates = [
+        ...new Map(
+            resolvedCandidates.map(candidate => [
+                `${candidate.root}_${candidate.mode}_${candidate.type}`,
+                candidate
+            ])
+        ).values()
+    ];
+
+    // Resolve only when all unique results agree.
+    if (uniqueResolvedCandidates.length === 1) {
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 FORWARD RESOLVED]", {
+                tick: group.tick,
+                selected:
+                    stage12FormatCandidates(uniqueResolvedCandidates)
+            });
+        }
+
+        return uniqueResolvedCandidates[0];
+    }
+
+    if (STAGE12_DEBUG) {
+        console.log("[STAGE1 FORWARD UNRESOLVED]", {
+            tick: group.tick,
+            uniqueResults:
+                stage12FormatCandidates(uniqueResolvedCandidates),
+            reason: uniqueResolvedCandidates.length > 1
+                ? "Conflicting individual-note results"
+                : "No individual note uniquely identifies a candidate"
+        });
+    }
+
+    return null;
+}
 
 
     for (const group of onsetGroups) {
