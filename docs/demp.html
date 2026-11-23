@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp299
+demp300
 </title>
 <style>
 
@@ -13796,12 +13796,6 @@ const labelType = result.selected
         a.point.tick - b.point.tick
     );
 
-    const maxPairCount = Math.max(
-        1,
-        ...relativeKeyGraphItems.map(item =>
-            item.trend.pairCount
-        )
-    );
 
 // Check whether multiple trends overlap at the same tick.
 const tickGroups = new Map();
@@ -13840,33 +13834,37 @@ const totalBeats = Math.max(
 
 const beatWidth = plotWidth / totalBeats;
 
-// Position the center of each beat on the timeline.
-const xForTick = tick => {
-    const beatIndex = tick / ticksPerGraphBeat;
-    return left + beatIndex * beatWidth;
-};
+// Position of each beat on the timeline.
+const xForTick = tick =>
+    left + tick / ticksPerGraphBeat * beatWidth;
 
-// Divide each beat evenly among the relative-key pairs.
-const pairBarWidth = beatWidth / maxPairCount;
+// Group all graph items by their actual beat.
+// This includes items from different segments.
+const beatGroups = new Map();
 
-function xForTrend(item) {
-    const pairOffset =
-        (maxPairCount - item.trend.pairCount) / 2
-        + item.trend.pairIndex;
+for (const item of graphPoints) {
+    const beatIndex = Math.floor(
+        item.point.tick / ticksPerGraphBeat
+    );
 
-    return xForTick(item.point.tick)
-        + (pairOffset + 0.5) * pairBarWidth;
+    if (!beatGroups.has(beatIndex)) {
+        beatGroups.set(beatIndex, []);
+    }
+
+    beatGroups.get(beatIndex).push(item);
 }
 
-const barWidth = pairBarWidth * 0.85;
+// Assign a separate horizontal slot to every item in each beat.
+for (const [beatIndex, items] of beatGroups) {
+    const slotWidth = beatWidth / items.length;
 
-function xForTrend(item) {
-    const pairOffset =
-        (maxPairCount - item.trend.pairCount) / 2
-        + item.trend.pairIndex;
+    items.forEach((item, slotIndex) => {
+        item.graphX =
+            left + beatIndex * beatWidth
+            + (slotIndex + 0.5) * slotWidth;
 
-    return xForTick(item.point.tick)
-        + pairOffset * pairBarWidth;
+        item.graphBarWidth = slotWidth * 0.85;
+    });
 }
 
 console.log("NEW X FUNCTION", xForTrend(graphPoints[0]));
@@ -13997,7 +13995,7 @@ console.log("GRAPH X CHECK",
         for (const item of graphPoints) {
             const point = item.point;
             const trend = item.trend;
-            const x = xForTrend(item);
+            const x = item.graphX;
 
             // Major tonic and fifth: positive.
             const majorSeries = [
@@ -14023,7 +14021,7 @@ console.log("GRAPH X CHECK",
                 ctx.fillRect(
                     x,
                     centerY - h,
-                    pairBarWidth,
+                    item.graphBarWidth,
                     h
                 );
             }
@@ -14054,7 +14052,7 @@ console.log("GRAPH X CHECK",
                 ctx.fillRect(
                     x,
                     negativeY,
-                    pairBarWidth,
+                    item.graphBarWidth,
                     h
                 );
 
@@ -14135,14 +14133,14 @@ console.log("GRAPH X CHECK",
                 ctx.fillRect(
                     x,
                     diffCenterY - h,
-                    pairBarWidth,
+                    item.graphBarWidth,
                     h
                 );
             } else {
                 ctx.fillRect(
                     x,
                     diffCenterY,
-                    pairBarWidth,
+                    item.graphBarWidth,
                     h
                 );
             }
