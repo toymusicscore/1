@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp288
+demp289
 </title>
 <style>
 
@@ -13209,10 +13209,19 @@ function stage12FormatEndTrigger(segment) {
 
 const STAGE12_RELATIVE_KEY_WINDOW_GROUPS = 8;
 
-// Analyze tonic and fifth proportions of relative major/minor keys per onset group.
-function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
+
+// Analyze tonic and fifth proportions by beat or measure.
+function stage12AnalyzeRelativeKeyTrends(
+    segment,
+    keyCandidates,
+    aggregationUnit = "beat"
+) {
     const groups = segment.groups || [];
     const trends = [];
+
+    const intervalTicks = aggregationUnit === "bar"
+        ? ticksPerMeasure
+        : ticksPerQuarterNote * 4 / timeSignatureDenominator;
 
     // Create only pairs whose major and minor candidates both survive.
     const pairMap = new Map();
@@ -13257,10 +13266,37 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
 
     const pairCount = pairs.length;
 
-    // Sort onset groups by their actual onset ticks.
-    const sortedGroups = [...groups].sort(
-        (a, b) => a.tick - b.tick
-    );
+    // Aggregate onset groups within each interval.
+    // Segment boundaries always take priority over interval boundaries.
+    const intervalMap = new Map();
+
+    for (const group of groups) {
+        const intervalIndex = Math.floor(
+            group.tick / intervalTicks
+        );
+
+        if (!intervalMap.has(intervalIndex)) {
+            intervalMap.set(intervalIndex, {
+                intervalIndex,
+                tick: Math.max(
+                    intervalIndex * intervalTicks,
+                    segment.startTick
+                ),
+                noteCount: 0,
+                notes: []
+            });
+        }
+
+        const interval = intervalMap.get(intervalIndex);
+
+        for (const note of group.notes || []) {
+            interval.notes.push(note);
+            interval.noteCount++;
+        }
+    }
+
+    const intervals = [...intervalMap.values()]
+        .sort((a, b) => a.intervalIndex - b.intervalIndex);
 
     for (let pairIndex = 0; pairIndex < pairCount; pairIndex++) {
         const pair = pairs[pairIndex];
@@ -13273,41 +13309,25 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
 
         const points = [];
 
-        for (let groupIndex = 0; groupIndex < sortedGroups.length; groupIndex++) {
-            const group = sortedGroups[groupIndex];
-
-            let noteCount = 0;
+        for (const interval of intervals) {
             let majorTonicCount = 0;
             let majorFifthCount = 0;
             let minorTonicCount = 0;
             let minorFifthCount = 0;
 
-            for (const note of group.notes || []) {
+            for (const note of interval.notes) {
                 const pc =
                     ((Number(note.midi) % 12) + 12) % 12;
 
-                noteCount++;
-
-                if (pc === majorTonic) {
-                    majorTonicCount++;
-                }
-
-                if (pc === majorFifth) {
-                    majorFifthCount++;
-                }
-
-                if (pc === minorTonic) {
-                    minorTonicCount++;
-                }
-
-                if (pc === minorFifth) {
-                    minorFifthCount++;
-                }
+                if (pc === majorTonic) majorTonicCount++;
+                if (pc === majorFifth) majorFifthCount++;
+                if (pc === minorTonic) minorTonicCount++;
+                if (pc === minorFifth) minorFifthCount++;
             }
 
-            if (noteCount === 0) continue;
+            if (interval.noteCount === 0) continue;
 
-            const denominator = noteCount;
+            const denominator = interval.noteCount;
 
             const majorTonicValue =
                 majorTonicCount / denominator * 100;
@@ -13328,14 +13348,9 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
                 minorTonicValue + minorFifthValue;
 
             points.push({
-                onsetGroupIndex: groupIndex,
-                onsetGroupNumber: groupIndex + 1,
-
-                // Keep these aliases temporarily for graph compatibility.
-                beatIndex: groupIndex,
-                beatNumber: groupIndex + 1,
-
-                tick: group.tick,
+                intervalIndex: interval.intervalIndex,
+                intervalNumber: interval.intervalIndex + 1,
+                tick: interval.tick,
 
                 majorTonicValue,
                 majorFifthValue,
@@ -13364,7 +13379,6 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
             pairIndex,
             pairCount,
 
-            // Pitch classes for graph colors.
             majorRoot: pair.majorRoot,
             minorRoot: pair.minorRoot,
 
