@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp280
+demp281
 </title>
 <style>
 
@@ -13746,6 +13746,17 @@ console.log("Timeline check", {
                 - barWidth / 2
                 + pairOffset * pairBarWidth;
         }
+
+        console.log("GRAPH PAIR CHECK",
+    relativeKeyGraphItems.map(item => ({
+        segment: item.segment,
+        major: item.trend.majorName,
+        minor: item.trend.minorName,
+        pairIndex: item.trend.pairIndex,
+        pairCount: item.trend.pairCount,
+        firstTick: item.trend.points[0]?.tick
+    }))
+);
 
         ctx.fillStyle = "black";
         ctx.textAlign = "left";
