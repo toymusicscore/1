@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp304
+demp305
 </title>
 <style>
 
@@ -13376,36 +13376,67 @@ function stage12AnalyzeRelativeKeyTrends(
 
     // Aggregate onset groups within each interval.
     // Segment boundaries always take priority over interval boundaries.
-    const intervalMap = new Map();
+    // Aggregate all notes by beat or measure.
+// If a segment boundary occurs inside an interval,
+// assign the entire interval to the later segment.
+const intervalMap = new Map();
 
-    for (const group of groups) {
-        const intervalIndex = Math.floor(
-            group.tick / intervalTicks
+const maxNoteTick = scoreData.reduce(
+    (max, note) =>
+        Math.max(max, Number(note.start) || 0),
+    0
+);
+
+const isLastSegment =
+    segment.endTick >= maxNoteTick;
+
+for (const note of scoreData) {
+    const noteTick = Number(note.start) || 0;
+
+    const intervalIndex = Math.floor(
+        noteTick / intervalTicks
+    );
+
+    const intervalStart =
+        intervalIndex * intervalTicks;
+
+    const intervalEnd =
+        intervalStart + intervalTicks;
+
+    // The interval belongs to the segment that
+    // contains its ending position.
+    const belongsToSegment =
+        intervalEnd > segment.startTick &&
+        (
+            intervalEnd <= segment.endTick ||
+            (
+                isLastSegment &&
+                intervalStart <= maxNoteTick
+            )
         );
 
-        if (!intervalMap.has(intervalIndex)) {
-            intervalMap.set(intervalIndex, {
-                intervalIndex,
-                tick: Math.max(
-                    intervalIndex * intervalTicks,
-                    segment.startTick
-                ),
-                noteCount: 0,
-                notes: []
-            });
-        }
+    if (!belongsToSegment) continue;
 
-        const interval = intervalMap.get(intervalIndex);
-
-        for (const note of group.notes || []) {
-            interval.notes.push(note);
-            interval.noteCount++;
-        }
+    if (!intervalMap.has(intervalIndex)) {
+        intervalMap.set(intervalIndex, {
+            intervalIndex,
+            tick: intervalStart,
+            noteCount: 0,
+            notes: []
+        });
     }
 
-    const intervals = [...intervalMap.values()]
-        .sort((a, b) => a.intervalIndex - b.intervalIndex);
-console.log("[GRAPH INTERVAL CHECK]", {
+    const interval = intervalMap.get(intervalIndex);
+
+    interval.notes.push(note);
+    interval.noteCount++;
+}
+
+const intervals = [...intervalMap.values()]
+    .sort((a, b) => a.intervalIndex - b.intervalIndex);
+
+
+    console.log("[GRAPH INTERVAL CHECK]", {
     segmentStart: segment.startTick,
     segmentEnd: segment.endTick,
     aggregationUnit,
