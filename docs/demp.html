@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp279
+demp280
 </title>
 <style>
 
@@ -13738,11 +13738,13 @@ console.log("Timeline check", {
         const pairBarWidth = barWidth / maxPairCount;
 
         function xForTrend(item) {
-            return xForTick(item.point.tick) +
-                (
-                    item.trend.pairIndex -
-                    (item.trend.pairCount - 1) / 2
-                ) * pairBarWidth;
+            const pairOffset =
+                (maxPairCount - item.trend.pairCount) / 2
+                + item.trend.pairIndex;
+
+            return xForTick(item.point.tick)
+                - barWidth / 2
+                + pairOffset * pairBarWidth;
         }
 
         ctx.fillStyle = "black";
@@ -13866,7 +13868,7 @@ for (const item of graphPoints) {
                     ctx.fillStyle = col[s.pc];
 
                     ctx.fillRect(
-                        x - barWidth / 2,
+                        x,
                         positiveY - h,
                         pairBarWidth * 0.85,
                         h
@@ -13896,7 +13898,7 @@ for (const item of graphPoints) {
                     ctx.fillStyle = col[s.pc];
 
                     ctx.fillRect(
-                        x - barWidth / 2,
+                        x,
                         negativeY,
                         pairBarWidth * 0.85,
                         h
@@ -13977,14 +13979,14 @@ for (const item of graphPoints) {
 
             if (value > 0) {
                 ctx.fillRect(
-                    x - barWidth / 2,
+                    x,
                     diffCenterY - h,
                     pairBarWidth * 0.85,
                     h
                 );
             } else {
                 ctx.fillRect(
-                    x - barWidth / 2,
+                    x,
                     diffCenterY,
                     pairBarWidth * 0.85,
                     h
