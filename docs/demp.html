@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp295
+demp296
 </title>
 <style>
 
@@ -13154,6 +13154,104 @@ if (group.tick >= 27648 && group.tick <= 28416) {
     return segments;
 }
 
+
+function stage12RefineCandidates(segments) {
+    const allGroups = segments
+        .flatMap(segment => segment.groups || [])
+        .sort((a, b) => a.tick - b.tick);
+
+    function getPitchClass(note) {
+        return ((Number(note.midi) % 12) + 12) % 12;
+    }
+
+    function isTriggerNote(note, trigger) {
+        return (
+            Number(note.midi) === Number(trigger.midi) &&
+            note.track === trigger.track &&
+            note.channel === trigger.channel
+        );
+    }
+
+    function groupFitsCandidate(candidate, group) {
+        return group.pitchClasses.every(pc =>
+            candidate.pitchClassSet.has(pc)
+        );
+    }
+
+    return segments.map((segment, segmentIndex) => {
+        const originalCandidates = segment.candidates.slice();
+
+        // No following segment or no end trigger: keep Stage 1 result.
+        if (
+            originalCandidates.length <= 1 ||
+            !segment.endTriggerTick ||
+            !segment.endTrigger ||
+            segmentIndex >= segments.length - 1
+        ) {
+            return originalCandidates;
+        }
+
+        const causeGroupIndex = allGroups.findIndex(
+            group => group.tick === segment.endTriggerTick
+        );
+
+        if (causeGroupIndex < 0) {
+            return originalCandidates;
+        }
+
+        let candidates = originalCandidates.slice();
+
+        // Start with the cause onset group.
+        // Temporarily exclude only the trigger notes.
+        for (
+            let groupIndex = causeGroupIndex;
+            groupIndex < allGroups.length;
+            groupIndex++
+        ) {
+            const originalGroup = allGroups[groupIndex];
+
+            const notes = groupIndex === causeGroupIndex
+                ? originalGroup.notes.filter(note =>
+                    !segment.endTrigger.some(trigger =>
+                        isTriggerNote(note, trigger)
+                    )
+                )
+                : originalGroup.notes;
+
+            // The cause group may contain only the excluded notes.
+            if (notes.length === 0) {
+                continue;
+            }
+
+            const group = {
+                tick: originalGroup.tick,
+                notes,
+                pitchClasses: [
+                    ...new Set(notes.map(getPitchClass))
+                ]
+            };
+
+            const matchingCandidates = candidates.filter(
+                candidate => groupFitsCandidate(candidate, group)
+            );
+
+            // Do not use an event that eliminates every candidate.
+            if (matchingCandidates.length === 0) {
+                break;
+            }
+
+            candidates = matchingCandidates;
+
+            // One candidate is sufficient. Stop immediately.
+            if (candidates.length === 1) {
+                break;
+            }
+        }
+
+        return candidates;
+    });
+}
+
 function stage12FormatStartTrigger(segment) {
     if (!segment.startTrigger || segment.startTrigger.length === 0) {
         return "Start of song";
@@ -13402,7 +13500,10 @@ console.log("[GRAPH INTERVAL CHECK]", {
     return trends;
 }
 
-function stage12EvaluateSegment(segment) {
+function stage12EvaluateSegment(
+    segment,
+    candidates = segment.candidates
+) {
     /*
 console.log("Segment 9 Evaluation", {
     startTick: segment.startTick,
@@ -13417,7 +13518,7 @@ candidates: segment.candidates.map(c => ({
 */
 const keyMap = new Map();
 
-    for (const scale of segment.candidates) {
+    for (const scale of candidates) {
         const id = scale.mode + ":" + scale.root;
 
         if (!keyMap.has(id)) {
@@ -13520,6 +13621,9 @@ function keyEstimationStage12() {
     estimatedKeySegments = [];
 
     const segments = stage12BuildSegments();
+    const stage2Candidates =
+    stage12RefineCandidates(segments);
+
     const maxTick = scoreData.reduce((max, note) =>
         Math.max(max, Number(note.start) || 0), 0);
     const ticksPerGraphBeat =
@@ -13562,7 +13666,10 @@ function keyEstimationStage12() {
 
     for (let i = 0; i < segments.length; i++) {
         const segment = segments[i];
-        const result = stage12EvaluateSegment(segment);
+        const result = stage12EvaluateSegment(
+            segment,
+            stage2Candidates[index]
+        );
 
         // Display beat-by-beat relative-key analysis.
         for (const trend of result.relativeKeyTrends) {
