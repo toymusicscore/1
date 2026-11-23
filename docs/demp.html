@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp292
+demp293
 </title>
 <style>
 
@@ -14095,13 +14095,8 @@ for (const item of graphPoints) {
                     null
                 );
 
-            // Place the boundary halfway between the two points.
-            const boundaryTick =
-                !previousPoint || previousPoint.tick === 0
-                    ? segment.startTick
-                    : (previousPoint.tick + segment.startTick) / 2;
-
-            const x = xForTick(boundaryTick);
+            // Place the boundary at the new segment's start.
+            const x = xForTick(segment.startTick);
 
             ctx.save();
 
