@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp301
+demp302
 </title>
 <style>
 
@@ -13878,20 +13878,6 @@ console.log("GRAPH PAIR CHECK",
     }))
 );
 
-console.log("GRAPH X CHECK",
-    graphPoints
-        .filter(item => item.segment === 1)
-        .slice(0, 12)
-        .map(item => ({
-            pair: item.trend.majorName + "/" + item.trend.minorName,
-            tick: item.point.tick,
-            pairIndex: item.trend.pairIndex,
-            x: item.graphX,
-            barWidth,
-            pairBarWidth
-        }))
-);
-
         ctx.fillStyle = "black";
         ctx.textAlign = "left";
         ctx.font = "bold 14px Arial";
@@ -14113,7 +14099,7 @@ console.log("GRAPH X CHECK",
                 const point = item.point;
                 const trend = item.trend;
 
-                const x = xForTrend(item);
+                const x = item.graphX;
                 const value = point.difference;
                 
             if (value === 0) continue;
