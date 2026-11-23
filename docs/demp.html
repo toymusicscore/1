@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp302
+demp303
 </title>
 <style>
 
@@ -13840,18 +13840,33 @@ const xForTick = tick =>
 
 // Group all graph items by their actual beat.
 // This includes items from different segments.
-const beatGroups = new Map();
+// Group graph items by their actual tick.
+const tickGroups = new Map();
 
 for (const item of graphPoints) {
-    const beatIndex = Math.floor(
-        item.point.tick / ticksPerGraphBeat
-    );
+    const tick = item.point.tick;
 
-    if (!beatGroups.has(beatIndex)) {
-        beatGroups.set(beatIndex, []);
+    if (!tickGroups.has(tick)) {
+        tickGroups.set(tick, []);
     }
 
-    beatGroups.get(beatIndex).push(item);
+    tickGroups.get(tick).push(item);
+}
+
+// Keep the actual time position.
+// Offset only items sharing exactly the same tick.
+for (const [tick, items] of tickGroups) {
+    const baseX = xForTick(tick);
+    const slotWidth = beatWidth / Math.max(1, items.length);
+
+    items.forEach((item, index) => {
+        item.graphX =
+            baseX
+            + (index - (items.length - 1) / 2)
+            * slotWidth;
+
+        item.graphBarWidth = slotWidth * 0.85;
+    });
 }
 
 // Assign a separate horizontal slot to every item in each beat.
