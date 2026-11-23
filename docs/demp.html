@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp289
+demp290
 </title>
 <style>
 
@@ -13297,7 +13297,20 @@ function stage12AnalyzeRelativeKeyTrends(
 
     const intervals = [...intervalMap.values()]
         .sort((a, b) => a.intervalIndex - b.intervalIndex);
-
+console.log("[GRAPH INTERVAL CHECK]", {
+    segmentStart: segment.startTick,
+    segmentEnd: segment.endTick,
+    aggregationUnit,
+    intervals: intervals.map(interval => ({
+        tick: interval.tick,
+        intervalIndex: interval.intervalIndex,
+        noteCount: interval.noteCount,
+        notes: interval.notes.map(note => ({
+            midi: Number(note.midi),
+            pitchClass: ((Number(note.midi) % 12) + 12) % 12
+        }))
+    }))
+});
     for (let pairIndex = 0; pairIndex < pairCount; pairIndex++) {
         const pair = pairs[pairIndex];
 
