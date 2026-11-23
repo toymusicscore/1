@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp284
+demp285
 </title>
 <style>
 
@@ -13737,15 +13737,15 @@ console.log("Timeline check", {
         );
         const pairBarWidth = barWidth / maxPairCount;
 
-        function xForTrend(item) {
-            const pairOffset =
-                (maxPairCount - item.trend.pairCount) / 2
-                + item.trend.pairIndex;
+function xForTrend(item) {
+    const pairOffset =
+        (maxPairCount - item.trend.pairCount) / 2
+        + item.trend.pairIndex;
 
-            return xForTick(item.point.tick)
-                - barWidth / 2
-                + pairOffset * pairBarWidth;
-        }
+    return xForTick(item.point.tick)
+        + pairOffset * pairBarWidth;
+}
+
 console.log("NEW X FUNCTION", xForTrend(graphPoints[0]));
         console.log("GRAPH PAIR CHECK",
     relativeKeyGraphItems.map(item => ({
