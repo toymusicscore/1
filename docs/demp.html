@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp300
+demp301
 </title>
 <style>
 
@@ -13867,8 +13867,7 @@ for (const [beatIndex, items] of beatGroups) {
     });
 }
 
-console.log("NEW X FUNCTION", xForTrend(graphPoints[0]));
-        console.log("GRAPH PAIR CHECK",
+console.log("GRAPH PAIR CHECK",
     relativeKeyGraphItems.map(item => ({
         segment: item.segment,
         major: item.trend.majorName,
@@ -13887,7 +13886,7 @@ console.log("GRAPH X CHECK",
             pair: item.trend.majorName + "/" + item.trend.minorName,
             tick: item.point.tick,
             pairIndex: item.trend.pairIndex,
-            x: xForTrend(item),
+            x: item.graphX,
             barWidth,
             pairBarWidth
         }))
