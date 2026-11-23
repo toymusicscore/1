@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp291
+demp292
 </title>
 <style>
 
@@ -14028,16 +14028,24 @@ for (const item of graphPoints) {
             const x = xForTick(tick);
 
             if (x < left || x > right) continue;
-
+/*
             // Beat number.
             ctx.fillText(
                 String(beatIndex + 1),
                 x,
                 beatLabelY
             );
-
+*/
             // Bar number at the beginning of each measure.
             if (tick % ticksPerMeasure === 0) {
+
+                // Beat number.
+                ctx.fillText(
+                    String(beatIndex + 1),
+                    x,
+                    beatLabelY
+                );
+
                 const barNumber =
                     Math.floor(tick / ticksPerMeasure) + 1;
 
