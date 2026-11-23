@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp297
+demp298
 </title>
 <style>
 
@@ -12984,89 +12984,113 @@ if (group.tick >= 27648 && group.tick <= 28416) {
     // Only the previous segment's candidates are updated.
     // Segment boundaries and evaluation data remain unchanged.
 
-    function resolveOldCandidateBackward(
-        oldCandidates,
-        causeGroup,
-        onsetGroups,
-        causeGroupIndex,
-        oldSegment
+function resolveOldCandidateBackward(
+    oldCandidates,
+    causeGroup,
+    onsetGroups,
+    causeGroupIndex,
+    oldSegment
+) {
+    let candidates = oldCandidates.slice();
+
+    // Process the cause onset group first,
+    // then proceed backward toward the beginning of the song.
+    for (
+        let groupIndex = causeGroupIndex;
+        groupIndex >= 0 && candidates.length > 1;
+        groupIndex--
     ) {
-        let candidates = oldCandidates.slice();
+        const group = onsetGroups[groupIndex];
 
-        // Process the cause onset group first,
-        // then proceed backward toward the beginning of the song.
-        for (
-            let groupIndex = causeGroupIndex;
-            groupIndex >= 0 && candidates.length > 1;
-            groupIndex--
-        ) {
-            const group = onsetGroups[groupIndex];
+        if (isRelativeKeyPair(candidates)) {
+            break;
+        }
 
-            // Evaluate every note individually and sequentially.
-            for (const note of group.notes) {
-                if (
-                    candidates.length <= 1 ||
-                    isRelativeKeyPair(candidates)
-                ) {
-                    break;
-                }
+        // Keep the same candidate set for every note
+        // in this simultaneous onset group.
+        const originalCandidates = candidates.slice();
+        const resolvedCandidates = [];
 
-                const pitchClass = getPitchClass(note);
+        // Evaluate every note independently.
+        for (const note of group.notes) {
+            const pitchClass = getPitchClass(note);
 
-                const noteGroup = {
-                    tick: group.tick,
-                    notes: [note],
-                    pitchClasses: [pitchClass]
-                };
+            const noteGroup = {
+                tick: group.tick,
+                notes: [note],
+                pitchClasses: [pitchClass]
+            };
 
-                const matchingCandidates = candidates.filter(
-                    candidate =>
-                        groupFitsCandidate(candidate, noteGroup) ||
-                        (
-                            isMelodicMinorDescendingException(
-                                candidate,
-                                noteGroup,
-                                onsetGroups,
-                                groupIndex
-                            ) &&
-                            hasMelodicMinorEvidenceInCandidateRun(
-                                candidate,
-                                oldSegment.groups,
-                                noteGroup,
-                                onsetGroups,
-                                groupIndex
-                            )
+            const matchingCandidates = originalCandidates.filter(
+                candidate =>
+                    groupFitsCandidate(candidate, noteGroup) ||
+                    (
+                        isMelodicMinorDescendingException(
+                            candidate,
+                            noteGroup,
+                            onsetGroups,
+                            groupIndex
+                        ) &&
+                        hasMelodicMinorEvidenceInCandidateRun(
+                            candidate,
+                            oldSegment.groups,
+                            noteGroup,
+                            onsetGroups,
+                            groupIndex
                         )
-                );
+                    )
+            );
 
-                // Ignore a note that matches no current candidate.
-                // Do not allow one note to eliminate every candidate.
-                if (matchingCandidates.length > 0) {
-                    candidates = matchingCandidates;
-                }
-
-                if (STAGE12_DEBUG) {
-                    console.log("[STAGE1 BACKWARD NOTE]", {
-                        tick: group.tick,
-                        midi: Number(note.midi),
-                        pitch: stage12NoteNames[pitchClass],
-                        remaining:
-                            stage12FormatCandidates(candidates)
-                    });
-                }
+            // Collect notes that independently identify
+            // exactly one candidate.
+            if (matchingCandidates.length === 1) {
+                resolvedCandidates.push(matchingCandidates[0]);
             }
 
             if (STAGE12_DEBUG) {
-                console.log("[STAGE1 BACKWARD GROUP]", {
+                console.log("[STAGE1 BACKWARD NOTE]", {
                     tick: group.tick,
+                    midi: Number(note.midi),
+                    pitch: stage12NoteNames[pitchClass],
                     remaining:
-                        stage12FormatCandidates(candidates)
+                        stage12FormatCandidates(matchingCandidates)
                 });
             }
         }
 
-        return candidates;
+        // Resolve only when all single-candidate results
+        // identify the same candidate.
+        const uniqueResolvedCandidates = [
+            ...new Set(resolvedCandidates)
+        ];
+
+        if (uniqueResolvedCandidates.length === 1) {
+            candidates = [uniqueResolvedCandidates[0]];
+        }
+
+        // If there are conflicting single-candidate results,
+        // or no single-candidate result, keep the original
+        // candidate set and continue backward.
+
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 BACKWARD GROUP]", {
+                tick: group.tick,
+                singleCandidateResults:
+                    stage12FormatCandidates(resolvedCandidates),
+                decision:
+                    uniqueResolvedCandidates.length === 1
+                        ? "RESOLVED"
+                        : uniqueResolvedCandidates.length > 1
+                            ? "CONFLICT - CONTINUE"
+                            : "UNRESOLVED - CONTINUE",
+                remaining:
+                    stage12FormatCandidates(candidates)
+            });
+        }
     }
+
+    return candidates;
+}
 
     // Apply backward refinement to the previous segment,
     // using the next segment's first onset group as the cause.
