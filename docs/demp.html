@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp285
+demp287
 </title>
 <style>
 
@@ -13300,12 +13300,13 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
 
         // Aggregate onset groups into quarter-note beats.
         const beatMap = new Map();
+        const ticksPerGraphBeat =
+            ticksPerQuarterNote * 4 / timeSignatureDenominator;
 
         for (const group of groups) {
             const beatIndex = Math.floor(
-                group.tick / ticksPerQuarterNote
+                group.tick / ticksPerGraphBeat
             );
-
             if (!beatMap.has(beatIndex)) {
                 beatMap.set(beatIndex, {
                     beatIndex,
@@ -13374,7 +13375,7 @@ function stage12AnalyzeRelativeKeyTrends(segment, keyCandidates) {
             points.push({
                 beatIndex: beat.beatIndex,
                 beatNumber: beat.beatIndex + 1,
-                tick: beat.beatIndex * ticksPerQuarterNote,
+                tick: beat.beatIndex * ticksPerGraphBeat,
 
                 majorTonicValue,
                 majorFifthValue,
@@ -13536,6 +13537,8 @@ function keyEstimationStage12() {
     const segments = stage12BuildSegments();
     const maxTick = scoreData.reduce((max, note) =>
         Math.max(max, Number(note.start) || 0), 0);
+    const ticksPerGraphBeat =
+        ticksPerQuarterNote * 4 / timeSignatureDenominator;
 
     canvas.width = 1800;
     // Extra space accommodates the explanatory lines above the results table.
@@ -13732,9 +13735,10 @@ console.log("Timeline check", {
             2,
             Math.min(
                 16,
-                plotWidth * ticksPerQuarterNote / totalTicks * 0.6
+                plotWidth * ticksPerGraphBeat / totalTicks * 0.6
             )
         );
+
         const pairBarWidth = barWidth / maxPairCount;
 
 function xForTrend(item) {
@@ -14031,11 +14035,11 @@ for (const item of graphPoints) {
         ctx.fillStyle = "black";
 
         const lastBeatIndex = Math.floor(
-            totalTicks / ticksPerQuarterNote
+            totalTicks / ticksPerGraphBeat
         );
 
         for (let beatIndex = 0; beatIndex <= lastBeatIndex; beatIndex++) {
-            const tick = beatIndex * ticksPerQuarterNote;
+            const tick = beatIndex * ticksPerGraphBeat;
             const x = xForTick(tick);
 
             if (x < left || x > right) continue;
