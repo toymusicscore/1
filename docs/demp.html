@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp281
+demp282
 </title>
 <style>
 
@@ -13756,6 +13756,20 @@ console.log("Timeline check", {
         pairCount: item.trend.pairCount,
         firstTick: item.trend.points[0]?.tick
     }))
+);
+
+console.log("GRAPH X CHECK",
+    graphPoints
+        .filter(item => item.segment === 1)
+        .slice(0, 12)
+        .map(item => ({
+            pair: item.trend.majorName + "/" + item.trend.minorName,
+            tick: item.point.tick,
+            pairIndex: item.trend.pairIndex,
+            x: xForTrend(item),
+            barWidth,
+            pairBarWidth
+        }))
 );
 
         ctx.fillStyle = "black";
