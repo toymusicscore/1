@@ -13006,12 +13006,12 @@ function resolveOldCandidateBackward(
             break;
         }
 
-        // Keep the same candidate set for every note
-        // in this simultaneous onset group.
+        // Use the same original candidate set
+        // for every note in this onset group.
         const originalCandidates = candidates.slice();
-        const resolvedCandidates = [];
+        let resolvedCandidate = null;
 
-        // Evaluate every note independently.
+        // Evaluate notes independently in their existing order.
         for (const note of group.notes) {
             const pitchClass = getPitchClass(note);
 
@@ -13041,12 +13041,6 @@ function resolveOldCandidateBackward(
                     )
             );
 
-            // Collect notes that independently identify
-            // exactly one candidate.
-            if (matchingCandidates.length === 1) {
-                resolvedCandidates.push(matchingCandidates[0]);
-            }
-
             if (STAGE12_DEBUG) {
                 console.log("[STAGE1 BACKWARD NOTE]", {
                     tick: group.tick,
@@ -13056,33 +13050,26 @@ function resolveOldCandidateBackward(
                         stage12FormatCandidates(matchingCandidates)
                 });
             }
+
+            // Adopt the first note that identifies
+            // exactly one candidate.
+            if (matchingCandidates.length === 1) {
+                resolvedCandidate = matchingCandidates[0];
+                break;
+            }
         }
 
-        // Resolve only when all single-candidate results
-        // identify the same candidate.
-        const uniqueResolvedCandidates = [
-            ...new Set(resolvedCandidates)
-        ];
-
-        if (uniqueResolvedCandidates.length === 1) {
-            candidates = [uniqueResolvedCandidates[0]];
+        if (resolvedCandidate !== null) {
+            candidates = [resolvedCandidate];
         }
-
-        // If there are conflicting single-candidate results,
-        // or no single-candidate result, keep the original
-        // candidate set and continue backward.
 
         if (STAGE12_DEBUG) {
             console.log("[STAGE1 BACKWARD GROUP]", {
                 tick: group.tick,
-                singleCandidateResults:
-                    stage12FormatCandidates(resolvedCandidates),
                 decision:
-                    uniqueResolvedCandidates.length === 1
+                    resolvedCandidate !== null
                         ? "RESOLVED"
-                        : uniqueResolvedCandidates.length > 1
-                            ? "CONFLICT - CONTINUE"
-                            : "UNRESOLVED - CONTINUE",
+                        : "UNRESOLVED - CONTINUE",
                 remaining:
                     stage12FormatCandidates(candidates)
             });
@@ -13091,6 +13078,7 @@ function resolveOldCandidateBackward(
 
     return candidates;
 }
+
 
     // Apply backward refinement to the previous segment,
     // using the next segment's first onset group as the cause.
