@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp293
+demp294
 </title>
 <style>
 
@@ -13855,16 +13855,17 @@ console.log("GRAPH X CHECK",
             ctx.fillText(String(v), left - 8, y + 4);
         }
 
-        // Draw each beat as a diverging stacked bar.
-for (const item of graphPoints) {
-    const point = item.point;
-    const trend = item.trend;
 
-    const x = xForTrend(item);
+        // Draw each beat as a diverging stacked bar.
+        // The same pitch class at the same tick is drawn only once.
+        const drawnPitchClasses = new Set();
+
+        for (const item of graphPoints) {
+            const point = item.point;
+            const trend = item.trend;
+            const x = xForTrend(item);
 
             // Major tonic and fifth: positive.
-            let positiveY = centerY;
-
             const majorSeries = [
                 {
                     value: point.majorTonicValue,
@@ -13875,26 +13876,25 @@ for (const item of graphPoints) {
                     pc: (trend.majorRoot + 7) % 12
                 }
             ];
+
             for (const s of majorSeries) {
+                const key = item.segment + ":" + point.tick + ":major:" + s.pc;
+
+                if (s.value <= 0 || drawnPitchClasses.has(key)) continue;
+                drawnPitchClasses.add(key);
+
                 const h = s.value / 100 * halfHeight;
 
-                if (h > 0) {
-                    ctx.fillStyle = col[s.pc];
-
-                    ctx.fillRect(
-                        x,
-                        positiveY - h,
-                        pairBarWidth * 0.85,
-                        h
-                    );
-                }
-
-                positiveY -= h;
+                ctx.fillStyle = col[s.pc];
+                ctx.fillRect(
+                    x,
+                    centerY - h,
+                    pairBarWidth * 0.85,
+                    h
+                );
             }
 
             // Minor tonic and fifth: negative.
-            let negativeY = centerY;
-
             const minorSeries = [
                 {
                     value: point.minorTonicValue,
@@ -13905,24 +13905,28 @@ for (const item of graphPoints) {
                     pc: (trend.minorRoot + 7) % 12
                 }
             ];
+
             for (const s of minorSeries) {
+                const key = item.segment + ":" + point.tick + ":minor:" + s.pc;
+
+                if (s.value <= 0 || drawnPitchClasses.has(key)) continue;
+                drawnPitchClasses.add(key);
+
                 const h = s.value / 100 * halfHeight;
 
-                if (h > 0) {
-                    ctx.fillStyle = col[s.pc];
-
-                    ctx.fillRect(
-                        x,
-                        negativeY,
-                        pairBarWidth * 0.85,
-                        h
-                    );
-                }
+                ctx.fillStyle = col[s.pc];
+                ctx.fillRect(
+                    x,
+                    negativeY,
+                    pairBarWidth * 0.85,
+                    h
+                );
 
                 negativeY += h;
             }
         }
 
+        
         // --------------------------------
         // Lower graph: difference bars
         // Difference = major - minor
