@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp305
+demp306
 </title>
 <style>
 
@@ -4254,11 +4254,11 @@ function getAutoLabelType(keyName) {
 
 function getMelodicMinorLabel(
     midi,
-    measureIndex,
+    estimatedSegment,
     sharpNames,
     flatNames
 ) {
-    const info = estimatedMeasureKeys[measureIndex];
+    const info = estimatedSegment;
 
     if (
         !info ||
@@ -4281,7 +4281,6 @@ function getMelodicMinorLabel(
 
     return null;
 }
-
 
 function getLabel(midi, n_id, songId, startTick){
 
@@ -4307,7 +4306,7 @@ if (measureIndex === 20) {
     } else if (practiceSettings.noteTextType === 1) {
     const specialLabel = getMelodicMinorLabel(
         midi,
-        measureIndex,
+        estimatedSegment,
         drms1,
         drmf1
     );
@@ -4320,11 +4319,10 @@ if (measureIndex === 20) {
 } else if (practiceSettings.noteTextType === 2) {
     const specialLabel = getMelodicMinorLabel(
         midi,
-        measureIndex,
+        estimatedSegment,
         engs1,
         engf1
     );
-
     nl = specialLabel ??
         (labelType === "flat"
             ? engf1[midi % 12]
