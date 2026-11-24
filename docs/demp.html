@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp325
+demp326
 </title>
 <style>
 
@@ -12833,7 +12833,7 @@ function resolveOldCandidateFromOnsetGroup(
         if (matchingCandidates.length > 0) {
             refinedCandidates = matchingCandidates;
         }
-        if (candidates.length === 1) {
+        if (refinedCandidates.length === 1) {
             break;
         }
         if (STAGE12_DEBUG) {
@@ -13155,7 +13155,9 @@ function resolveOldCandidateBackward(
             if (matchingCandidates.length > 0) {
                 candidates = matchingCandidates;
             }
-
+            if (candidates.length === 1) {
+                break;
+            }
             if (STAGE12_DEBUG) {
                 console.log("[STAGE1 BACKWARD NOTE]", {
                     tick: group.tick,
