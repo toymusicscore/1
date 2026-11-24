@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp306
+demp307
 </title>
 <style>
 
@@ -12750,6 +12750,94 @@ if (group.tick >= 27648 && group.tick <= 28416) {
     // candidate. Stop immediately when exactly one candidate remains.
         // Resolve the old segment candidate by checking
     // each note in the triggering onset group.
+
+function resolveOldCandidateFromOnsetGroup(
+    candidates,
+    currentGroups,
+    group,
+    groups,
+    groupIndex
+) {
+    // Start with the candidates before the cause onset group.
+    let refinedCandidates = candidates.slice();
+
+    if (STAGE12_DEBUG) {
+        console.log("[STAGE1 FORWARD START]", {
+            tick: group.tick,
+            candidates:
+                stage12FormatCandidates(refinedCandidates)
+        });
+    }
+
+    // Evaluate each note cumulatively in the existing note order.
+    for (const note of group.notes) {
+        const pitchClass = getPitchClass(note);
+
+        const noteGroup = {
+            tick: group.tick,
+            notes: [note],
+            pitchClasses: [pitchClass]
+        };
+
+        const matchingCandidates = refinedCandidates.filter(
+            candidate =>
+                groupFitsCandidate(candidate, noteGroup) ||
+                (
+                    isMelodicMinorDescendingException(
+                        candidate,
+                        noteGroup,
+                        groups,
+                        groupIndex
+                    ) &&
+                    hasMelodicMinorEvidenceInCandidateRun(
+                        candidate,
+                        currentGroups,
+                        group,
+                        groups,
+                        groupIndex
+                    )
+                )
+        );
+
+        // Update only when at least one candidate remains.
+        // If all candidates are eliminated, ignore this note.
+        if (matchingCandidates.length > 0) {
+            refinedCandidates = matchingCandidates;
+        }
+
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 FORWARD NOTE]", {
+                tick: group.tick,
+                midi: Number(note.midi),
+                pitch: stage12NoteNames[pitchClass],
+                before:
+                    stage12FormatCandidates(
+                        refinedCandidates.length > 0
+                            ? candidates.filter(c =>
+                                refinedCandidates.includes(c)
+                            )
+                            : candidates
+                    ),
+                matching:
+                    stage12FormatCandidates(matchingCandidates),
+                after:
+                    stage12FormatCandidates(refinedCandidates)
+            });
+        }
+    }
+
+    if (STAGE12_DEBUG) {
+        console.log("[STAGE1 FORWARD RESULT]", {
+            tick: group.tick,
+            candidates:
+                stage12FormatCandidates(refinedCandidates)
+        });
+    }
+
+    return refinedCandidates;
+}
+
+/*
     function resolveOldCandidateFromOnsetGroup(
     candidates,
     currentGroups,
@@ -12856,7 +12944,7 @@ if (group.tick >= 27648 && group.tick <= 28416) {
 
     return null;
 }
-
+*/
 
     for (const group of onsetGroups) {
         if (!current) {
