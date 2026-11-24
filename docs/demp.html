@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp315
+demp316
 </title>
 <style>
 
@@ -13371,7 +13371,29 @@ function stage12RefineCandidates(segments) {
     function getPitchClass(note) {
         return ((Number(note.midi) % 12) + 12) % 12;
     }
+function isTriggerNote(note, trigger) {
+    const result =
+        Number(note.midi) === Number(trigger.midi) &&
+        Number(note.track) === Number(trigger.track) &&
+        Number(note.channel) === Number(trigger.channel);
 
+    if (Number(note.midi) === Number(trigger.midi)) {
+        console.log("[TRIGGER MATCH DEBUG]", {
+            noteMidi: note.midi,
+            noteTrack: note.track,
+            noteChannel: note.channel,
+            triggerMidi: trigger.midi,
+            triggerTrack: trigger.track,
+            triggerChannel: trigger.channel,
+            noteTrackType: typeof note.track,
+            noteChannelType: typeof note.channel,
+            result
+        });
+    }
+
+    return result;
+}
+/*
     function isTriggerNote(note, trigger) {
         return (
             Number(note.midi) === Number(trigger.midi) &&
@@ -13379,7 +13401,7 @@ function stage12RefineCandidates(segments) {
             note.channel === trigger.channel
         );
     }
-
+*/
 function groupFitsCandidate(candidate, group) {
     if (
         !candidate ||
