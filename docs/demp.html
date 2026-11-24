@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp310
+demp311
 </title>
 <style>
 
@@ -12704,6 +12704,11 @@ if (group.tick >= 27648 && group.tick <= 28416) {
     }
 
     function closeSegment(segment, group, candidatesBeforeCause) {
+    console.log("[CLOSE SEGMENT CHECK]", {
+        tick: group.tick,
+        candidatesBeforeCause
+    });
+
     segment.endTick = group.tick;
     segment.endTriggerTick = group.tick;
 
