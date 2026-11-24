@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp323
+demp324
 </title>
 <style>
 
@@ -12542,9 +12542,9 @@ function stage12BuildSegments() {
     function hasMelodicMinorEvidenceInCandidateRun(
         candidate,
         currentGroups,
-        group,
+        noteGroup,
         groups,
-        index
+        groupIndex
     ) {
         if (
             candidate.mode !== "minor" ||
@@ -13440,14 +13440,17 @@ function groupFitsCandidate(candidate, group) {
         !candidate ||
         !(candidate.pitchClassSet instanceof Set)
     ) {
-        console.error("[INVALID SCALE CANDIDATE]", {
-            candidate,
-            group: stage12FormatGroup(group),
-            candidateType: typeof candidate,
-            candidateKeys: candidate
-                ? Object.keys(candidate)
-                : null
-        });
+console.error("[INVALID SCALE CANDIDATE]", {
+    candidate,
+    group: {
+        tick: group?.tick,
+        pitchClasses: group?.pitchClasses
+    },
+    candidateType: typeof candidate,
+    candidateKeys: candidate
+        ? Object.keys(candidate)
+        : null
+});
         console.trace("[groupFitsCandidate CALL STACK]");
         throw new Error("Invalid scale candidate");
     }
