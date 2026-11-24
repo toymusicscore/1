@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp309
+demp310
 </title>
 <style>
 
@@ -12703,7 +12703,29 @@ if (group.tick >= 27648 && group.tick <= 28416) {
         return createSegment([group], candidates);
     }
 
-    function closeSegment(segment, group) {
+    function closeSegment(segment, group, candidatesBeforeCause) {
+    segment.endTick = group.tick;
+    segment.endTriggerTick = group.tick;
+
+    // Identify every note that is outside all candidates
+    // that existed immediately before the cause onset group.
+    segment.endTrigger = candidatesBeforeCause.length > 0
+        ? group.notes.filter(note => {
+            const pc = getPitchClass(note);
+
+            return candidatesBeforeCause.every(candidate =>
+                !candidate.pitchClassSet.has(pc)
+            );
+        }).map(note => ({
+            midi: Number(note.midi),
+            track: note.track,
+            channel: note.channel
+        }))
+        : [];
+}
+
+/*
+function closeSegment(segment, group) {
         segment.endTick = group.tick;
         segment.endTriggerTick = group.tick;
 
@@ -12719,6 +12741,8 @@ if (group.tick >= 27648 && group.tick <= 28416) {
             channel: note.channel
         }));
     }
+*/
+
 
     // Find the latest quarter-note boundary in the interval.
     function findBeatBoundary(startTick, endTick) {
