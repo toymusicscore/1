@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp326
+demp327
 </title>
 <style>
 
@@ -13409,10 +13409,18 @@ console.log(
         return ((Number(note.midi) % 12) + 12) % 12;
     }
 function isTriggerNote(note, trigger) {
+    const sameTrack =
+        note.track == null && trigger.track == null ||
+        Number(note.track) === Number(trigger.track);
+
+    const sameChannel =
+        note.channel == null && trigger.channel == null ||
+        Number(note.channel) === Number(trigger.channel);
+
     const result =
         Number(note.midi) === Number(trigger.midi) &&
-        Number(note.track) === Number(trigger.track) &&
-        Number(note.channel) === Number(trigger.channel);
+        sameTrack &&
+        sameChannel;
 
     if (Number(note.midi) === Number(trigger.midi)) {
         console.log("[TRIGGER MATCH DEBUG]", {
