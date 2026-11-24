@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp307
+demp308
 </title>
 <style>
 
@@ -13006,7 +13006,7 @@ function resolveOldCandidateFromOnsetGroup(
                 current.candidates.length > 1 &&
                 nextCandidates.length === 0
             ) {
-                const resolvedCandidate =
+                const refinedCandidates =
                     resolveOldCandidateFromOnsetGroup(
                         current.candidates,
                         current.groups,
@@ -13015,11 +13015,7 @@ function resolveOldCandidateFromOnsetGroup(
                         groupIndex
                     );
 
-                if (resolvedCandidate) {
-                    // Preserve the identified candidate for the old
-                    // segment before closing it and creating the new one.
-                    current.candidates = [resolvedCandidate];
-                }
+                current.candidates = refinedCandidates;
                 // If unresolved, retain the pre-trigger candidates.
                 // The reverse-refinement stage can then handle ambiguity.
             }
@@ -13070,6 +13066,90 @@ function resolveOldCandidateFromOnsetGroup(
     // Only the previous segment's candidates are updated.
     // Segment boundaries and evaluation data remain unchanged.
 
+function resolveOldCandidateBackward(
+    oldCandidates,
+    causeGroup,
+    onsetGroups,
+    causeGroupIndex,
+    oldSegment
+) {
+    let candidates = oldCandidates.slice();
+
+    // Process onset groups backward.
+    for (
+        let groupIndex = causeGroupIndex;
+        groupIndex >= 0 && candidates.length > 1;
+        groupIndex--
+    ) {
+        const group = onsetGroups[groupIndex];
+
+        if (isRelativeKeyPair(candidates)) {
+            break;
+        }
+
+        // Evaluate each note cumulatively.
+        // A note that eliminates all candidates is ignored.
+        for (const note of group.notes) {
+            const pitchClass = getPitchClass(note);
+
+            const noteGroup = {
+                tick: group.tick,
+                notes: [note],
+                pitchClasses: [pitchClass]
+            };
+
+            const matchingCandidates = candidates.filter(
+                candidate =>
+                    groupFitsCandidate(candidate, noteGroup) ||
+                    (
+                        isMelodicMinorDescendingException(
+                            candidate,
+                            noteGroup,
+                            onsetGroups,
+                            groupIndex
+                        ) &&
+                        hasMelodicMinorEvidenceInCandidateRun(
+                            candidate,
+                            oldSegment.groups,
+                            noteGroup,
+                            onsetGroups,
+                            groupIndex
+                        )
+                    )
+            );
+
+            // Keep the previous candidates if this note
+            // would eliminate all of them.
+            if (matchingCandidates.length > 0) {
+                candidates = matchingCandidates;
+            }
+
+            if (STAGE12_DEBUG) {
+                console.log("[STAGE1 BACKWARD NOTE]", {
+                    tick: group.tick,
+                    midi: Number(note.midi),
+                    pitch: stage12NoteNames[pitchClass],
+                    matching:
+                        stage12FormatCandidates(matchingCandidates),
+                    remaining:
+                        stage12FormatCandidates(candidates)
+                });
+            }
+        }
+
+        if (STAGE12_DEBUG) {
+            console.log("[STAGE1 BACKWARD GROUP]", {
+                tick: group.tick,
+                remaining:
+                    stage12FormatCandidates(candidates)
+            });
+        }
+    }
+
+    return candidates;
+}
+
+/*
 function resolveOldCandidateBackward(
     oldCandidates,
     causeGroup,
@@ -13164,7 +13244,7 @@ function resolveOldCandidateBackward(
 
     return candidates;
 }
-
+*/
 
     // Apply backward refinement to the previous segment,
     // using the next segment's first onset group as the cause.
