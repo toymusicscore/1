@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp312
+demp314
 </title>
 <style>
 
@@ -13298,7 +13298,16 @@ function resolveOldCandidateBackward(
         }
 
         const causeGroup = newSegment.groups[0];
-        const causeGroupIndex = onsetGroups.indexOf(causeGroup);
+        const causeGroupIndex = allGroups.findIndex(group =>
+    group.tick === segment.endTriggerTick &&
+    group.notes.some(note =>
+        segment.endTrigger.some(trigger =>
+            isTriggerNote(note, trigger)
+        )
+    )
+);
+
+//        const causeGroupIndex = onsetGroups.indexOf(causeGroup);
 
         if (causeGroupIndex < 0) {
             continue;
