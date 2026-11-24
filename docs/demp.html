@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp318
+demp319
 </title>
 <style>
 
@@ -13386,6 +13386,19 @@ console.log(
                 }))
             }))
     })).filter(segment => segment.groups.length > 0)
+);
+console.log(
+    "[STAGE3 ALL GROUPS AT 9024]",
+    allGroups
+        .filter(group => group.tick === 9024)
+        .map((group, index) => ({
+            index,
+            notes: group.notes.map(note => ({
+                midi: note.midi,
+                track: note.track,
+                channel: note.channel
+            }))
+        }))
 );
 
     function getPitchClass(note) {
