@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp322
+demp323
 </title>
 <style>
 
@@ -13631,8 +13631,9 @@ function stage12AnalyzeRelativeKeyTrends(
     const intervalTicks = aggregationUnit === "bar"
         ? ticksPerMeasure
         : ticksPerQuarterNote * 4 / timeSignatureDenominator;
-
-    // Create only pairs whose major and minor candidates both survive.
+// Create relative-key pairs for major and minor candidates.
+// Harmonic and melodic minor candidates do not require
+// the corresponding major candidate to survive.
     const pairMap = new Map();
 
     for (const candidate of keyCandidates) {
