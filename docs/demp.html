@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp328
+demp329
 </title>
 <style>
 
@@ -12448,16 +12448,6 @@ function stage12BuildSegments() {
     }
 
     function isMelodicMinorDescendingException(candidate, group, groups, index) {
-        const hasOtherOutOfScaleNote = group.pitchClasses.some(
-            pc =>
-                !candidate.pitchClassSet.has(pc) &&
-                !targetPcs.includes(pc)
-            );
-
-        if (hasOtherOutOfScaleNote) {
-            return false;
-        }
-
         if (
             candidate.mode !== "minor" ||
             candidate.type !== "M"
@@ -12470,6 +12460,16 @@ function stage12BuildSegments() {
             (candidate.root + 8) % 12,
             (candidate.root + 10) % 12
         ];
+
+        const hasOtherOutOfScaleNote = group.pitchClasses.some(
+            pc =>
+                !candidate.pitchClassSet.has(pc) &&
+                !targetPcs.includes(pc)
+            );
+
+        if (hasOtherOutOfScaleNote) {
+            return false;
+        }
 
         const targetNotes = group.notes.filter(note =>
             targetPcs.includes(getPitchClass(note))
