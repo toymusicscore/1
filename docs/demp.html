@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp316
+demp317
 </title>
 <style>
 
@@ -13364,9 +13364,11 @@ function resolveOldCandidateBackward(
 
 
 function stage12RefineCandidates(segments) {
-    const allGroups = segments
-        .flatMap(segment => segment.groups || [])
-        .sort((a, b) => a.tick - b.tick);
+    const allGroups = [
+        ...new Set(
+            segments.flatMap(segment => segment.groups || [])
+        )
+    ].sort((a, b) => a.tick - b.tick);
 
     function getPitchClass(note) {
         return ((Number(note.midi) % 12) + 12) % 12;
