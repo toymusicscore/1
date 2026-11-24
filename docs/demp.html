@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp317
+demp318
 </title>
 <style>
 
@@ -13369,6 +13369,24 @@ function stage12RefineCandidates(segments) {
             segments.flatMap(segment => segment.groups || [])
         )
     ].sort((a, b) => a.tick - b.tick);
+console.log(
+    "[STAGE3 GROUP SOURCE]",
+    segments.map((segment, segmentIndex) => ({
+        segmentIndex,
+        startTick: segment.startTick,
+        endTick: segment.endTick,
+        groups: (segment.groups || [])
+            .filter(group => group.tick === 9024)
+            .map(group => ({
+                tick: group.tick,
+                notes: group.notes.map(note => ({
+                    midi: note.midi,
+                    track: note.track,
+                    channel: note.channel
+                }))
+            }))
+    })).filter(segment => segment.groups.length > 0)
+);
 
     function getPitchClass(note) {
         return ((Number(note.midi) % 12) + 12) % 12;
