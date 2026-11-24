@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp324
+demp325
 </title>
 <style>
 
@@ -12558,13 +12558,13 @@ function stage12BuildSegments() {
 
         // Include the groups already accepted in the current segment
         // and the group currently being evaluated.
-        const candidateRunGroups = [
-            ...currentGroups,
-            group
-        ];
+            const candidateRunGroups = [
+                    ...currentGroups,
+                    noteGroup
+                ];
 
-        // Look ahead while the candidate remains compatible.
-        for (let i = index + 1; i < groups.length; i++) {
+                // Look ahead while the candidate remains compatible.
+                for (let i = groupIndex + 1; i < groups.length; i++) {
             const futureGroup = groups[i];
 
             const fits =
@@ -12818,13 +12818,13 @@ function resolveOldCandidateFromOnsetGroup(
                         groups,
                         groupIndex
                     ) &&
-                    hasMelodicMinorEvidenceInCandidateRun(
-                        candidate,
-                        currentGroups,
-                        group,
-                        groups,
-                        groupIndex
-                    )
+                        hasMelodicMinorEvidenceInCandidateRun(
+                            candidate,
+                            currentGroups,
+                            noteGroup,
+                            groups,
+                            groupIndex
+                        )
                 )
         );
 
@@ -12833,7 +12833,9 @@ function resolveOldCandidateFromOnsetGroup(
         if (matchingCandidates.length > 0) {
             refinedCandidates = matchingCandidates;
         }
-
+        if (candidates.length === 1) {
+            break;
+        }
         if (STAGE12_DEBUG) {
             console.log("[STAGE1 FORWARD NOTE]", {
                 tick: group.tick,
