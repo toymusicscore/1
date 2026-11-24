@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp311
+demp312
 </title>
 <style>
 
@@ -13451,14 +13451,14 @@ function groupFitsCandidate(candidate, group) {
 console.log("[STAGE3 TRIGGER CHECK]", {
     tick: segment.endTriggerTick,
     endTrigger: segment.endTrigger,
-    causeGroupNotes: originalGroup.notes.map(note => ({
-        midi: Number(note.midi),
-        pitch: stage12NoteNames[getPitchClass(note)]
-    })),
-    remainingNotes: notes.map(note => ({
-        midi: Number(note.midi),
-        pitch: stage12NoteNames[getPitchClass(note)]
-    }))
+causeGroupNotes: originalGroup.notes.map(note => ({
+    midi: Number(note.midi),
+    pitch: getPitchClass(note)
+})),
+remainingNotes: notes.map(note => ({
+    midi: Number(note.midi),
+    pitch: getPitchClass(note)
+}))
 });
             // The cause group may contain only the excluded notes.
             if (notes.length === 0) {
