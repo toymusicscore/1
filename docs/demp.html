@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp333
+demp334
 </title>
 <style>
 
@@ -13290,6 +13290,49 @@ function resolveOldCandidateBackward(
 }
 */
 
+// Apply backward refinement to the previous segment,
+// starting from that segment's first onset group.
+for (
+    let segmentIndex = 1;
+    segmentIndex < segments.length;
+    segmentIndex++
+) {
+    const oldSegment = segments[segmentIndex - 1];
+    const newSegment = segments[segmentIndex];
+
+    if (
+        !oldSegment.groups ||
+        oldSegment.groups.length === 0 ||
+        !newSegment.groups ||
+        newSegment.groups.length === 0 ||
+        oldSegment.candidates.length <= 1 ||
+        isRelativeKeyPair(oldSegment.candidates)
+    ) {
+        continue;
+    }
+
+    // Start from the first onset group of the old segment.
+    const causeGroup = oldSegment.groups[0];
+    const causeGroupIndex = onsetGroups.indexOf(causeGroup);
+
+    if (causeGroupIndex < 0) {
+        continue;
+    }
+
+    const originalCandidates = oldSegment.candidates.slice();
+
+    const refinedCandidates = resolveOldCandidateBackward(
+        originalCandidates,
+        causeGroup,
+        onsetGroups,
+        causeGroupIndex,
+        oldSegment
+    );
+
+    // Update candidates only.
+    oldSegment.candidates = refinedCandidates;
+}
+/*
     // Apply backward refinement to the previous segment,
     // using the next segment's first onset group as the cause.
     for (
@@ -13342,6 +13385,7 @@ if (STAGE12_DEBUG) {
             });
         }
 
+
         const refinedCandidates = resolveOldCandidateBackward(
             originalCandidates,
             causeGroup,
@@ -13366,6 +13410,7 @@ if (STAGE12_DEBUG) {
             });
         }
     }
+
 // Apply backward refinement to the final segment.
 // Search backward across its starting boundary.
 if (segments.length > 0) {
@@ -13416,6 +13461,7 @@ if (segments.length > 0) {
         }
     }
 }
+*/
     if (STAGE12_DEBUG) {
         console.log("[STAGE1 FINAL SEGMENTS]", segments.map(
             (segment, index) => ({
