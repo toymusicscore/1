@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp334
+demp335
 </title>
 <style>
 
@@ -13289,7 +13289,46 @@ function resolveOldCandidateBackward(
     return candidates;
 }
 */
+// Apply backward refinement to all segments.
+for (
+    let segmentIndex = 0;
+    segmentIndex < segments.length;
+    segmentIndex++
+) {
+    const oldSegment = segments[segmentIndex];
 
+    if (
+        !oldSegment.groups ||
+        oldSegment.groups.length === 0 ||
+        !oldSegment.candidates ||
+        oldSegment.candidates.length <= 1 ||
+        isRelativeKeyPair(oldSegment.candidates)
+    ) {
+        continue;
+    }
+
+    // Start from the first onset group of the current segment.
+    const causeGroup = oldSegment.groups[0];
+    const causeGroupIndex = onsetGroups.indexOf(causeGroup);
+
+    if (causeGroupIndex < 0) {
+        continue;
+    }
+
+    // Use the candidates remaining after forward refinement.
+    const originalCandidates = oldSegment.candidates.slice();
+
+    const refinedCandidates = resolveOldCandidateBackward(
+        originalCandidates,
+        causeGroup,
+        onsetGroups,
+        causeGroupIndex,
+        oldSegment
+    );
+
+    oldSegment.candidates = refinedCandidates;
+}
+/*
 // Apply backward refinement to the previous segment,
 // starting from that segment's first onset group.
 for (
@@ -13332,7 +13371,7 @@ for (
     // Update candidates only.
     oldSegment.candidates = refinedCandidates;
 }
-/*
+
     // Apply backward refinement to the previous segment,
     // using the next segment's first onset group as the cause.
     for (
