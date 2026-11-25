@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp329
+demp330
 </title>
 <style>
 
@@ -13165,9 +13165,6 @@ function resolveOldCandidateBackward(
             if (matchingCandidates.length > 0) {
                 candidates = matchingCandidates;
             }
-            if (candidates.length === 1) {
-                break;
-            }
             if (STAGE12_DEBUG) {
                 console.log("[STAGE1 BACKWARD NOTE]", {
                     tick: group.tick,
@@ -13178,6 +13175,9 @@ function resolveOldCandidateBackward(
                     remaining:
                         stage12FormatCandidates(candidates)
                 });
+            }
+            if (candidates.length === 1) {
+                break;
             }
         }
 
