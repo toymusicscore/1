@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp331
+demp332
 </title>
 <style>
 
@@ -13308,6 +13308,18 @@ function resolveOldCandidateBackward(
             oldSegment.candidates.length <= 1 ||
             isRelativeKeyPair(oldSegment.candidates)
         ) {
+if (STAGE12_DEBUG) {
+    console.log("[STAGE1 BACKWARD SKIP CHECK]", {
+        segment: segmentIndex,
+        oldCandidateCount: oldSegment.candidates.length,
+        oldCandidates:
+            stage12FormatCandidates(oldSegment.candidates),
+        oldGroupCount: oldSegment.groups?.length,
+        newGroupCount: newSegment.groups?.length,
+        isRelativePair:
+            isRelativeKeyPair(oldSegment.candidates)
+    });
+}
             continue;
         }
 
