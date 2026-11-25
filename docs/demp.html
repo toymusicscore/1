@@ -5,7 +5,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 <title>
-demp332
+demp333
 </title>
 <style>
 
@@ -13366,7 +13366,56 @@ if (STAGE12_DEBUG) {
             });
         }
     }
+// Apply backward refinement to the final segment.
+// Search backward across its starting boundary.
+if (segments.length > 0) {
+    const finalSegment = segments[segments.length - 1];
 
+    if (
+        finalSegment.groups &&
+        finalSegment.groups.length > 0 &&
+        finalSegment.candidates.length > 1 &&
+        !isRelativeKeyPair(finalSegment.candidates)
+    ) {
+        const causeGroup = finalSegment.groups[0];
+        const causeGroupIndex = onsetGroups.indexOf(causeGroup);
+
+        if (causeGroupIndex >= 0) {
+            const originalCandidates =
+                finalSegment.candidates.slice();
+
+            if (STAGE12_DEBUG) {
+                console.log("[STAGE1 BACKWARD FINAL START]", {
+                    startTick: finalSegment.startTick,
+                    causeTick: causeGroup.tick,
+                    candidates:
+                        stage12FormatCandidates(originalCandidates)
+                });
+            }
+
+            const refinedCandidates = resolveOldCandidateBackward(
+                originalCandidates,
+                causeGroup,
+                onsetGroups,
+                causeGroupIndex,
+                finalSegment
+            );
+
+            finalSegment.candidates = refinedCandidates;
+
+            if (STAGE12_DEBUG) {
+                console.log("[STAGE1 BACKWARD FINAL RESULT]", {
+                    startTick: finalSegment.startTick,
+                    causeTick: causeGroup.tick,
+                    before:
+                        stage12FormatCandidates(originalCandidates),
+                    after:
+                        stage12FormatCandidates(refinedCandidates)
+                });
+            }
+        }
+    }
+}
     if (STAGE12_DEBUG) {
         console.log("[STAGE1 FINAL SEGMENTS]", segments.map(
             (segment, index) => ({
